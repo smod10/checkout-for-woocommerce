@@ -9,12 +9,12 @@ class ComposerStaticInite889e7e93e58d400ebf14bc8985ab8de
     public static $prefixLengthsPsr4 = array (
         'O' => 
         array (
-            'Objectiv\\Plugins\\Midas\\' => 23,
+            'Objectiv\\Plugins\\Checkout\\' => 26,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Objectiv\\Plugins\\Midas\\' => 
+        'Objectiv\\Plugins\\Checkout\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),

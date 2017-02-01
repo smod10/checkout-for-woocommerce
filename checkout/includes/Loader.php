@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Midas;
+namespace Objectiv\Plugins\Checkout;
 
 /**
  * Register all actions and filters for the plugin
@@ -8,7 +8,7 @@ namespace Objectiv\Plugins\Midas;
  * @link       brandont.me
  * @since      0.1.0
  *
- * @package    Objectiv\Plugins\Midas
+ * @package    Objectiv\Plugins\Checkout
  */
 
 /**
@@ -18,7 +18,7 @@ namespace Objectiv\Plugins\Midas;
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Objectiv\Plugins\Midas
+ * @package    Objectiv\Plugins\Checkout
  * @author     Brandon Tassone <brandontassone@gmail.com>
  */
 

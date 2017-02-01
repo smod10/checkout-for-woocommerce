@@ -1,5 +1,5 @@
 {
-    "name": "objective/midas",
+    "name": "objective/checkout",
     "description": "A full WooCommerce Cart Rewrite",
     "type": "wordpress-plugin",
     "authors": [
@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Objectiv\\Plugins\\Midas\\": "includes/"
+            "Objectiv\\Plugins\\Checkout\\": "includes/"
         }
     },
     "require": {}

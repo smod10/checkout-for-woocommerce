@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Midas;
+namespace Objectiv\Plugins\Checkout;
 
 class Deactivator {
 	public static function deactivate() {

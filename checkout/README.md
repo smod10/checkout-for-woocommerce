@@ -1,4 +1,4 @@
-# Project Midas
+# Project Checkout
 
 ### Development installation instructions
 

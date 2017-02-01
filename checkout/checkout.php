@@ -10,10 +10,10 @@
  *
  * @link              brandont.me
  * @since             0.1.0
- * @package           Midas
+ * @package           Objectiv\Plugins\Checkout
  *
  * @wordpress-plugin
- * Plugin Name:       Midas
+ * Plugin Name:       Checkout
  * Plugin URI:        https://cgd.io/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
@@ -21,7 +21,7 @@
  * Author URI:        https://cgd.io/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       midas
+ * Text Domain:       checkout
  * Domain Path:       /languages
  */
 
@@ -32,25 +32,25 @@ if ( ! defined( 'WPINC' ) ) {
 
 require_once "vendor/autoload.php";
 
-use Objectiv\Plugins\Midas\Main as Main;
-use Objectiv\Plugins\Midas\Activator as Activator;
-use Objectiv\Plugins\Midas\Deactivator as Deactivator;
+use Objectiv\Plugins\Checkout\Main as Main;
+use Objectiv\Plugins\Checkout\Activator as Activator;
+use Objectiv\Plugins\Checkout\Deactivator as Deactivator;
 
 /*
  * Require the autoloader once and load in the main class.
- * Minimum base namespace for project is Objectiv\Plugins\Midas
+ * Minimum base namespace for project is Objectiv\Plugins\Checkout
  */
 
-function activate_midas() {
+function activate_checkout() {
     Activator::activate();
 }
 
-function deactivate_midas() {
+function deactivate_checkout() {
     Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, '\activate_midas' );
-register_deactivation_hook( __FILE__, '\deactivate_midas' );
+register_activation_hook( __FILE__, '\activate_checkout' );
+register_deactivation_hook( __FILE__, '\deactivate_checkout' );
 
 /**
  * Begins execution of the plugin.
@@ -61,10 +61,10 @@ register_deactivation_hook( __FILE__, '\deactivate_midas' );
  *
  * @since    1.0.0
  */
-function run_midas() {
+function run_checkout() {
 
 	$plugin = new Main();
 	$plugin->run();
 
 }
-run_midas();
+run_checkout();

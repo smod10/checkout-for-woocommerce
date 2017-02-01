@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Midas;
+namespace Objectiv\Plugins\Checkout;
 
 class Main {
 	protected $loader;
@@ -8,7 +8,7 @@ class Main {
 	protected $version;
 
 	public function __construct() {
-		$this->plugin_name = "Midas";
+		$this->plugin_name = "Checkout";
 		$this->version = "1.0.0";
 
 		$this->loader = new Loader();
@@ -35,7 +35,7 @@ class Main {
 	}
 
 	private function define_admin_hooks() {
-		// Midas admin wrap stuff goes here.
+		// Checkout admin wrap stuff goes here.
 	}
 
 	private function define_public_hooks() {

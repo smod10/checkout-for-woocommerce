@@ -48,6 +48,9 @@ function deactivate_midas() {
 	Deactivator::deactivate();
 }
 
+register_activation_hook( __FILE__, 'activate_midas' );
+register_deactivation_hook( __FILE__, 'deactivate_midas' );
+
 /**
  * Begins execution of the plugin.
  *

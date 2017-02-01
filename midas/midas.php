@@ -9,7 +9,7 @@
  * that starts the plugin.
  *
  * @link              brandont.me
- * @since             1.0.0
+ * @since             0.1.0
  * @package           Midas
  *
  * @wordpress-plugin
@@ -32,13 +32,13 @@ if ( ! defined( 'WPINC' ) ) {
 
 /*
  * Require the autoloader once and load in the main class.
- * Minimum base namespace for project is Objective\Plugins\Midas
+ * Minimum base namespace for project is Objectiv\Plugins\Midas
  */
 require_once "vendor/autoload.php";
 
-use Objective\Plugins\Midas\Main;
-use Objective\Plugins\Midas\Activator;
-use Objective\Plugins\Midas\Deactivator;
+use Objectiv\Plugins\Midas\Main;
+use Objectiv\Plugins\Midas\Activator;
+use Objectiv\Plugins\Midas\Deactivator;
 
 function activate_midas() {
 	Activator::activate();

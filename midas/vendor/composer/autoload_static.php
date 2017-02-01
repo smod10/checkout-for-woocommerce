@@ -9,7 +9,7 @@ class ComposerStaticInit4b31b90007df56d1b9c579a5b53e9cc5
     public static $prefixLengthsPsr4 = array (
         'O' => 
         array (
-            'Objective\\Plugins\\' => 18,
+            'Objectiv\\Plugins\\' => 17,
         ),
         'M' => 
         array (
@@ -18,7 +18,7 @@ class ComposerStaticInit4b31b90007df56d1b9c579a5b53e9cc5
     );
 
     public static $prefixDirsPsr4 = array (
-        'Objective\\Plugins\\' => 
+        'Objectiv\\Plugins\\' => 
         array (
             0 => __DIR__ . '/../..' . '/',
         ),

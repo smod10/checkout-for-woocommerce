@@ -6,6 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Objective\\Plugins\\' => array($baseDir . '/'),
+    'Objectiv\\Plugins\\' => array($baseDir . '/'),
     'Midas\\' => array($baseDir . '/includes'),
 );

@@ -1,6 +1,6 @@
 <?php
 
-namespace Objective\Plugins\Midas;
+namespace Objectiv\Plugins\Midas;
 
 class Deactivator {
 	public static function deactivate() {

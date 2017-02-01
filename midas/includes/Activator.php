@@ -1,6 +1,6 @@
 <?php
 
-namespace Objective\Plugins\Midas;
+namespace Objectiv\Plugins\Midas;
 
 class Activator {
 	public static function activate() {

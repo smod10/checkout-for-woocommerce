@@ -1,6 +1,6 @@
 <?php
 
-namespace Objective\Plugins\Midas;
+namespace Objectiv\Plugins\Midas;
 
 /**
  * Register all actions and filters for the plugin
@@ -8,7 +8,7 @@ namespace Objective\Plugins\Midas;
  * @link       brandont.me
  * @since      0.1.0
  *
- * @package    Objective\Plugins\Midas
+ * @package    Objectiv\Plugins\Midas
  */
 
 /**
@@ -18,7 +18,7 @@ namespace Objective\Plugins\Midas;
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Objective\Plugins\Midas
+ * @package    Objectiv\Plugins\Midas
  * @author     Brandon Tassone <brandontassone@gmail.com>
  */
 class Loader {

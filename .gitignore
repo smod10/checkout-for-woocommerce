@@ -1,5 +1,10 @@
+# Exclude EVERYTHING. This way we don't accidently commit any other plugins
 *
+
+# Include EVERYTHING in the midas folder
 !/midas
 !/midas/**/*
-!midas/README.md
 !.gitignore
+
+# Now we can start singling out files we actually want to exclude in the midas project
+composer.phar

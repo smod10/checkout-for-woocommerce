@@ -1,0 +1,12 @@
+{
+    "name": "objective/midas",
+    "description": "A full WooCommerce Cart Rewrite",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "Brandon Tassone",
+            "email": "brandontassone@gmail.com"
+        }
+    ],
+    "require": {}
+}

@@ -1,5 +1,5 @@
 *
 !/midas
 !/midas/**/*
-!README.md
+!midas/README.md
 !.gitignore

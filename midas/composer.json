@@ -10,8 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Midas\\": "includes/",
-            "Objectiv\\Plugins\\": ""
+            "Objectiv\\Plugins\\Midas\\": "includes/"
         }
     },
     "require": {}

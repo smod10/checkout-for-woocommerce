@@ -30,26 +30,27 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+require_once "vendor/autoload.php";
+
+use Objectiv\Plugins\Midas\Main as Main;
+use Objectiv\Plugins\Midas\Activator as Activator;
+use Objectiv\Plugins\Midas\Deactivator as Deactivator;
+
 /*
  * Require the autoloader once and load in the main class.
  * Minimum base namespace for project is Objectiv\Plugins\Midas
  */
-require_once "vendor/autoload.php";
-
-use Objectiv\Plugins\Midas\Main;
-use Objectiv\Plugins\Midas\Activator;
-use Objectiv\Plugins\Midas\Deactivator;
 
 function activate_midas() {
-	Activator::activate();
+    Activator::activate();
 }
 
 function deactivate_midas() {
-	Deactivator::deactivate();
+    Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_midas' );
-register_deactivation_hook( __FILE__, 'deactivate_midas' );
+register_activation_hook( __FILE__, '\activate_midas' );
+register_deactivation_hook( __FILE__, '\deactivate_midas' );
 
 /**
  * Begins execution of the plugin.

@@ -21,6 +21,7 @@ namespace Objectiv\Plugins\Midas;
  * @package    Objectiv\Plugins\Midas
  * @author     Brandon Tassone <brandontassone@gmail.com>
  */
+
 class Loader {
 	/**
 	 * The array of actions registered with WordPress.

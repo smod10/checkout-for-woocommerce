@@ -36,15 +36,18 @@ use Objectiv\Plugins\Checkout\Main as Main;
 use Objectiv\Plugins\Checkout\Activator as Activator;
 use Objectiv\Plugins\Checkout\Deactivator as Deactivator;
 
-/*
- * Require the autoloader once and load in the main class.
- * Minimum base namespace for project is Objectiv\Plugins\Checkout
+/**
+ * The code that runs during plugin activation.
+ * This action is documented in includes/class-midas-activator.php
  */
-
 function activate_checkout() {
     Activator::activate();
 }
 
+/**
+ * The code that runs during plugin deactivation.
+ * This action is documented in includes/class-midas-deactivator.php
+ */
 function deactivate_checkout() {
     Deactivator::deactivate();
 }

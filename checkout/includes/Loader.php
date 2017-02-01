@@ -5,7 +5,7 @@ namespace Objectiv\Plugins\Checkout;
 /**
  * Register all actions and filters for the plugin
  *
- * @link       brandont.me
+ * @link       cgd.io
  * @since      0.1.0
  *
  * @package    Objectiv\Plugins\Checkout

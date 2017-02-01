@@ -8,5 +8,11 @@
             "email": "brandontassone@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Midas\\": "includes/",
+            "Objective\\Plugins\\": ""
+        }
+    },
     "require": {}
 }

@@ -1,3 +1,9 @@
 # Project Midas
 
-Gotta love PHPStorm Git control. Fixed weird issue
+### Development installation instructions
+
+* Instructions go here
+
+### Normal use installation instructions
+
+* Normal use instructions go here

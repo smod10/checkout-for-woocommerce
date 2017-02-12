@@ -7,6 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInite889e7e93e58d400ebf14bc8985ab8de
 {
     public static $files = array (
+        '6bc45d0537e6858fd179bdbc31d62c79' => __DIR__ . '/..' . '/raveren/kint/Kint.class.php',
         '37ce5fb7241fdbffe61d46aa1870bafe' => __DIR__ . '/../..' . '/constants.php',
     );
 

@@ -24,10 +24,14 @@ namespace Objectiv\Plugins\Checkout;
 
 class Redirect
 {
+    /**
+     * If is_checkout and exists and it is the checkout section we redirect to the template section.
+     *
+     * @since    0.1.0
+     * @access   public
+     */
     public function checkout_redirect(){
         if( function_exists('is_checkout') && is_checkout() ) {
-            echo "Checkout Redirect";
-            throw new \Exception("Test");
             exit;
         }
     }

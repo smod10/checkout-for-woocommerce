@@ -110,6 +110,9 @@ class Main {
         $whoops = new \Whoops\Run;
         $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
         $whoops->register();
+
+        // Enable Kint
+        \Kint::enabled(true);
     }
 
     /**

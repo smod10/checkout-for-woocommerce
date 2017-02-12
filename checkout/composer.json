@@ -11,7 +11,10 @@
     "autoload": {
         "psr-4": {
             "Objectiv\\Plugins\\Checkout\\": "includes/"
-        }
+        },
+        "files": ["constants.php"]
     },
-    "require": {}
+    "require": {
+        "filp/whoops": "^2.1"
+    }
 }

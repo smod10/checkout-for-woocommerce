@@ -6,7 +6,15 @@ namespace Composer\Autoload;
 
 class ComposerStaticInite889e7e93e58d400ebf14bc8985ab8de
 {
+    public static $files = array (
+        '37ce5fb7241fdbffe61d46aa1870bafe' => __DIR__ . '/../..' . '/constants.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'W' => 
+        array (
+            'Whoops\\' => 7,
+        ),
         'O' => 
         array (
             'Objectiv\\Plugins\\Checkout\\' => 26,
@@ -14,6 +22,10 @@ class ComposerStaticInite889e7e93e58d400ebf14bc8985ab8de
     );
 
     public static $prefixDirsPsr4 = array (
+        'Whoops\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
+        ),
         'Objectiv\\Plugins\\Checkout\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',

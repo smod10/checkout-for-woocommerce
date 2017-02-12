@@ -40,6 +40,15 @@ class Main {
 	protected $loader;
 
     /**
+     * The redirect class handles the theme redirects in relation to the woocommerce checkout system
+     *
+     * @since    0.1.0
+     * @access   protected
+     * @var      Redirect    $redirect    Maintains and registers all the redirects
+     */
+    protected $redirect;
+
+    /**
      * The unique identifier of this plugin.
      *
      * @since    0.1.0
@@ -71,11 +80,47 @@ class Main {
 		$this->version = "0.1.0";
 
 		$this->loader = new Loader();
+		$this->redirect = new Redirect();
 
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->enable_redirects();
+		$this->check_flags();
 	}
+
+    /**
+     * When run checks to see if the flag is defined and its value (inversely). If found to be active, it runs the
+     * function
+     *
+     * @since    0.1.0
+     * @access   private
+     */
+	private function check_flags() {
+        (!defined('CO_DEV_MODE') || !CO_DEV_MODE) ?: $this->enable_dev_mode();
+    }
+
+    /**
+     * Enables libraries and functions for the specific task of aiding in development
+     *
+     * @since    0.1.0
+     * @access   private
+     */
+	private function enable_dev_mode() {
+        $whoops = new \Whoops\Run;
+        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+        $whoops->register();
+    }
+
+    /**
+     * Enables the redirects that reroute certain portions of the woocommerce framework
+     *
+     * @since    0.1.0
+     * @access   protected
+     */
+	protected function enable_redirects() {
+	    $this->loader->add_action('template_redirect', $this->redirect, 'checkout_redirect');
+    }
 
     /**
      * The reference to the class that orchestrates the hooks with the plugin.
@@ -125,7 +170,7 @@ class Main {
      * @access   private
      */
 	private function define_admin_hooks() {
-		// Checkout admin wrap stuff goes here.
+
 	}
 
     /**
@@ -136,7 +181,7 @@ class Main {
      * @access   private
      */
 	private function define_public_hooks() {
-		// Public facing template goes here.
+
 	}
 
     /**

@@ -13,7 +13,7 @@
  * @package           Objectiv\Plugins\Checkout
  *
  * @wordpress-plugin
- * Plugin Name:       Checkout
+ * Plugin Name:       Checkout for Woocommerce
  * Plugin URI:        https://cgd.io/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0

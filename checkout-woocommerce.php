@@ -36,6 +36,9 @@ use Objectiv\Plugins\Checkout\Main as Main;
 use Objectiv\Plugins\Checkout\Activator as Activator;
 use Objectiv\Plugins\Checkout\Deactivator as Deactivator;
 
+// Kint disabled by default. Enable by enabling developer mode (see docs)
+Kint::enabled(false);
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-midas-activator.php

@@ -76,17 +76,26 @@ class Main {
      * @since    0.1.0
      */
 	public function __construct() {
+	    // Program Details
 		$this->plugin_name = "Checkout";
 		$this->version = "0.1.0";
 
+		// Instantiate program objects
 		$this->loader = new Loader();
 		$this->redirect = new Redirect();
 
+        // Enable program flags
+        $this->check_flags();
+
+		// Set up localization
 		$this->set_locale();
+
+		// Pull in backend admin and public resources
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+
+		// Enable the checkout redirects
 		$this->enable_redirects();
-		$this->check_flags();
 	}
 
     /**
@@ -103,10 +112,14 @@ class Main {
     /**
      * Enables libraries and functions for the specific task of aiding in development
      *
+     * Whoops - Pretty Errors
+     * Kint - Pretty Debug
+     *
      * @since    0.1.0
      * @access   private
      */
 	private function enable_dev_mode() {
+	    // Enable Whoops
         $whoops = new \Whoops\Run;
         $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
         $whoops->register();

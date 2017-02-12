@@ -1,10 +1,2 @@
-# Exclude EVERYTHING. This way we don't accidently commit any other plugins
-*
-
-# Include EVERYTHING in the checkout folder
-!/checkout
-!/checkout/**/*
-!.gitignore
-
 # Now we can start singling out files we actually want to exclude in the checkout project
 composer.phar

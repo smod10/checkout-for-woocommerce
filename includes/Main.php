@@ -135,6 +135,10 @@ class Main {
         $this->template_manager = new TemplateManager($this->plugin_directory_path);
     }
 
+
+    /**
+     * Handles general purpose Wordpress actions.
+     */
     protected function load_actions() {
         $this->loader->add_action('admin_notices', Activator::class, 'activate_admin_notice');
     }

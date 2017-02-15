@@ -37,7 +37,7 @@ class Main {
      * @access   protected
      * @var      Loader    $loader    Maintains and registers all hooks for the plugin.
      */
-	protected $loader;
+    protected $loader;
 
     /**
      * The redirect class handles the theme redirects in relation to the woocommerce checkout system
@@ -64,7 +64,7 @@ class Main {
      * @access   protected
      * @var      string    $plugin_name    The string used to uniquely identify this plugin.
      */
-	protected $plugin_name;
+    protected $plugin_name;
 
     /**
      * The plugin folder name/main file combined in a string (useful for deactivating the plugin amongst other things)
@@ -73,7 +73,7 @@ class Main {
      * @access   protected
      * @var      string    $plugin_main_file    The plugin folder and main file name concatenated
      */
-	protected $plugin_main_file;
+    protected $plugin_main_file;
 
     /**
      * The plugin directory path
@@ -91,7 +91,7 @@ class Main {
      * @access   protected
      * @var      string    $version    The current version of the plugin.
      */
-	protected $version;
+    protected $version;
 
     /**
      * Define the core functionality of the plugin.
@@ -105,37 +105,37 @@ class Main {
      *
      * @since    0.1.0
      */
-	public function __construct($plugin_directory_path, $plugin_main_file) {
-	    // Program Details
-		$this->plugin_name = "Checkout for Woocommerce";
-		$this->version = "0.1.0";
-		$this->plugin_directory_path = $plugin_directory_path;
-		$this->plugin_main_file = $plugin_main_file;
+    public function __construct($plugin_directory_path, $plugin_main_file) {
+        // Program Details
+        $this->plugin_name = "Checkout for Woocommerce";
+        $this->version = "0.1.0";
+        $this->plugin_directory_path = $plugin_directory_path;
+        $this->plugin_main_file = $plugin_main_file;
 
         // Enable program flags
         $this->check_flags();
 
-		// Instantiate program objects
-		$this->loader = new Loader();
+        // Instantiate program objects
+        $this->loader = new Loader();
 
-		// Set up localization
-		$this->set_locale();
+        // Set up localization
+        $this->set_locale();
 
         // Load the plugin actions
         $this->load_actions();
 
-		// Pull in backend admin and public resources
-		$this->define_admin_hooks();
-		$this->define_public_hooks();
+        // Pull in backend admin and public resources
+        $this->define_admin_hooks();
+        $this->define_public_hooks();
 
-		// Enable the checkout redirects
-		$this->enable_redirects();
+        // Enable the checkout redirects
+        $this->enable_redirects();
 
-		// Create the template manager
+        // Create the template manager
         $this->template_manager = new TemplateManager($this->plugin_directory_path);
-	}
+    }
 
-	protected function load_actions() {
+    protected function load_actions() {
         $this->loader->add_action('admin_notices', Activator::class, 'activate_admin_notice');
     }
 
@@ -146,7 +146,7 @@ class Main {
      * @since    0.1.0
      * @access   private
      */
-	private function check_flags() {
+    private function check_flags() {
         (!defined('CO_DEV_MODE') || !CO_DEV_MODE) ?: $this->enable_dev_mode();
     }
 
@@ -159,8 +159,8 @@ class Main {
      * @since    0.1.0
      * @access   private
      */
-	private function enable_dev_mode() {
-	    // Enable Whoops
+    private function enable_dev_mode() {
+        // Enable Whoops
         $whoops = new \Whoops\Run;
         $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
         $whoops->register();
@@ -175,10 +175,10 @@ class Main {
      * @since    0.1.0
      * @access   protected
      */
-	protected function enable_redirects() {
+    protected function enable_redirects() {
         $this->redirect = new Redirect();
 
-	    $this->loader->add_action('template_redirect', $this->redirect, 'checkout');
+        $this->loader->add_action('template_redirect', $this->redirect, 'checkout');
     }
 
     /**
@@ -188,7 +188,7 @@ class Main {
      * @return    string    Returns the concatenated folder name with the main file name in one strong
      */
     public function get_plugin_full_path_main_file() {
-	    return $this->plugin_directory_path . "/" . $this->plugin_main_file;
+        return $this->plugin_directory_path . "/" . $this->plugin_main_file;
     }
 
     /**
@@ -225,9 +225,9 @@ class Main {
      * @since     0.1.0
      * @return    Loader    Orchestrates the hooks of the plugin.
      */
-	public function get_loader() {
-		return $this->loader;
-	}
+    public function get_loader() {
+        return $this->loader;
+    }
 
     /**
      * The name of the plugin used to uniquely identify it within the context of
@@ -236,9 +236,9 @@ class Main {
      * @since     0.1.0
      * @return    string    The name of the plugin.
      */
-	public function get_plugin_name() {
-		return $this->plugin_name;
-	}
+    public function get_plugin_name() {
+        return $this->plugin_name;
+    }
 
     /**
      * Retrieve the version number of the plugin.
@@ -246,18 +246,18 @@ class Main {
      * @since     0.1.0
      * @return    string    The version number of the plugin.
      */
-	public function get_version() {
-		return $this->version;
-	}
+    public function get_version() {
+        return $this->version;
+    }
 
     /**
      * Run the loader to execute all of the hooks with WordPress.
      *
      * @since    0.1.0
      */
-	public function run() {
-		$this->loader->run();
-	}
+    public function run() {
+        $this->loader->run();
+    }
 
     /**
      * Register all of the hooks related to the admin area functionality
@@ -266,9 +266,9 @@ class Main {
      * @since    0.1.0
      * @access   private
      */
-	private function define_admin_hooks() {
+    private function define_admin_hooks() {
 
-	}
+    }
 
     /**
      * Register all of the hooks related to the public-facing functionality
@@ -277,9 +277,9 @@ class Main {
      * @since    0.1.0
      * @access   private
      */
-	private function define_public_hooks() {
+    private function define_public_hooks() {
 
-	}
+    }
 
     /**
      * Define the locale for this plugin for internationalization.
@@ -290,9 +290,9 @@ class Main {
      * @since    0.1.0
      * @access   private
      */
-	private function set_locale() {
-		$plugin_i18n = new i18n();
+    private function set_locale() {
+        $plugin_i18n = new i18n();
 
-		$this->loader->add_action('init', $plugin_i18n, 'load_plugin_textdomain');
-	}
+        $this->loader->add_action('init', $plugin_i18n, 'load_plugin_textdomain');
+    }
 }

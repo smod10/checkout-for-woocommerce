@@ -30,7 +30,7 @@ class Redirect
      * @since    0.1.0
      * @access   public
      */
-    public function checkout_redirect(){
+    public function checkout(){
         if( function_exists('is_checkout') && is_checkout() ) {
             exit;
         }

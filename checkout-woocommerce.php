@@ -21,7 +21,7 @@
  * Author URI:        https://cgd.io/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       checkout
+ * Text Domain:       checkout-woocommerce
  * Domain Path:       /languages
  */
 
@@ -69,8 +69,10 @@ register_deactivation_hook( __FILE__, '\deactivate_checkout' );
  */
 function run_checkout() {
 
-	$plugin = new Main();
-	$plugin->run();
+    global $CFW;
+
+    $CFW = new Main(plugin_dir_path( __FILE__ ), basename(__FILE__));
+    $CFW->run();
 
 }
 run_checkout();

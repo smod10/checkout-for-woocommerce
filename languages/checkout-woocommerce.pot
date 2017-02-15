@@ -1,0 +1,7 @@
+#: Activator.php:78
+msgid "Checkout for Woocommerce"
+msgstr ""
+
+#: Activator.php:51
+msgid "Activation failed: Please activate Woocommerce in order to use Checkout for Woocommerce"
+msgstr ""

@@ -58,6 +58,24 @@ class Main {
 	protected $plugin_name;
 
     /**
+     * The plugin folder name/main file combined in a string (useful for deactivating the plugin amongst other things)
+     *
+     * @since    0.1.0
+     * @access   protected
+     * @var      string    $plugin_main_file    The plugin folder and main file name concatenated
+     */
+	protected $plugin_main_file;
+
+    /**
+     * The plugin directory path
+     *
+     * @since    0.1.0
+     * @access   protected
+     * @var      string    $version    The plugin directory path
+     */
+    protected $plugin_directory_path;
+
+    /**
      * The current version of the plugin.
      *
      * @since    0.1.0
@@ -73,22 +91,31 @@ class Main {
      * Load the dependencies, define the locale, and set the hooks for the admin area and
      * the public-facing side of the site.
      *
+     * @param   string      $plugin_directory_path      The plugin directory path
+     * @param   string      $plugin_main_file           The plugin main file name (including extension)
+     *
      * @since    0.1.0
      */
-	public function __construct() {
+	public function __construct($plugin_directory_path, $plugin_main_file) {
 	    // Program Details
-		$this->plugin_name = "Checkout";
+		$this->plugin_name = "Checkout for Woocommerce";
 		$this->version = "0.1.0";
+		$this->plugin_directory_path = $plugin_directory_path;
+		$this->plugin_main_file = $plugin_main_file;
 
 		// Instantiate program objects
 		$this->loader = new Loader();
 		$this->redirect = new Redirect();
+		$this->template_manager = new TemplateManager($this->plugin_directory_path);
 
         // Enable program flags
         $this->check_flags();
 
 		// Set up localization
 		$this->set_locale();
+
+        // Load the plugin actions
+        $this->load_actions();
 
 		// Pull in backend admin and public resources
 		$this->define_admin_hooks();
@@ -97,6 +124,10 @@ class Main {
 		// Enable the checkout redirects
 		$this->enable_redirects();
 	}
+
+	protected function load_actions() {
+        $this->loader->add_action('admin_notices', Activator::class, 'activate_admin_notice');
+    }
 
     /**
      * When run checks to see if the flag is defined and its value (inversely). If found to be active, it runs the
@@ -135,7 +166,37 @@ class Main {
      * @access   protected
      */
 	protected function enable_redirects() {
-	    $this->loader->add_action('template_redirect', $this->redirect, 'checkout_redirect');
+	    $this->loader->add_action('template_redirect', $this->redirect, 'checkout');
+    }
+
+    /**
+     * Returns the concatenated folder name with the main file name in one strong
+     *
+     * @since     0.1.0
+     * @return    string    Returns the concatenated folder name with the main file name in one strong
+     */
+    public function get_plugin_full_path_main_file() {
+	    return $this->plugin_directory_path . "/" . $this->plugin_main_file;
+    }
+
+    /**
+     * Returns the main plugin file name including extension
+     *
+     * @since     0.1.0
+     * @return    string    Returns the main plugin file name including extension
+     */
+    public function get_plugin_main_file() {
+        return $this->plugin_main_file;
+    }
+
+    /**
+     * Gets the plugin directory path
+     *
+     * @return string
+     */
+    public function get_plugin_directory_path()
+    {
+        return $this->plugin_directory_path;
     }
 
     /**
@@ -212,6 +273,6 @@ class Main {
 	private function set_locale() {
 		$plugin_i18n = new i18n();
 
-		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
+		$this->loader->add_action('init', $plugin_i18n, 'load_plugin_textdomain');
 	}
 }

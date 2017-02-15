@@ -98,6 +98,13 @@ class TemplateManager {
         $this->templates = array();
     }
 
+    /**
+     * Takes an array of callbacks and an array of parameters with the associated template keys to associate the
+     * information
+     *
+     * @param $callbacks
+     * @param $parameters
+     */
     public function create_templates($callbacks, $parameters) {
         foreach($this->get_template_information() as $template_name => $template_path) {
             $this->templates[$template_name] = new Template($template_path, $callbacks[$template_name], $parameters[$template_name]);
@@ -105,6 +112,11 @@ class TemplateManager {
         }
     }
 
+    /**
+     * Returns the templates
+     *
+     * @return array
+     */
     public function get_templates() {
         return $this->templates;
     }

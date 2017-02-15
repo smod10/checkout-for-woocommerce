@@ -10,29 +10,54 @@ namespace Objectiv\Plugins\Checkout;
 
 
 /**
- * Class Template
+ * The template handles showing the view and running the associated call back to handle custom functionality.
  *
- * @package Objectiv\Plugins\Checkout
+ * @link       brandont.me
+ * @since      0.1.0
+ *
+ * @package    Objectiv\Plugins\Checkout
  */
+
+/**
+ * Longer description for the above goes here.
+ *
+ * @since      0.1.0
+ * @package    Objectiv\Plugins\Checkout
+ * @author     Brandon Tassone <brandontassone@gmail.com>
+ */
+
 class Template {
 
     /**
-     * @var
+     * The template path
+     *
+     * @since    0.1.0
+     * @access   protected
+     * @var      string    $path    The template path
      */
     protected $path;
 
     /**
-     * @var
+     * The template callback
+     *
+     * @since    0.1.0
+     * @access   protected
+     * @var      string    $callback    The template callback
      */
     protected $callback;
 
     /**
-     * @var
+     * The template parameters
+     *
+     * @since    0.1.0
+     * @access   protected
+     * @var      string    $parameters    The template parameters
      */
     protected $parameters;
 
     /**
      * Template constructor.
+     *
      * @param $path
      * @param $callback
      * @param $parameters

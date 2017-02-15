@@ -3,7 +3,7 @@
 namespace Objectiv\Plugins\Checkout;
 
 /**
- * Description goes here
+ * The template manager is responsible for the template paths
  *
  * @link       brandont.me
  * @since      0.1.0
@@ -12,7 +12,9 @@ namespace Objectiv\Plugins\Checkout;
  */
 
 /**
- * Description goes here
+ * The template manager gathers the relevant path information for the sub folder files. The theme paths are deduced from
+ * built in wordpress functions and the plugin path is passed in from the Main class on creation. The relevant path info
+ * is pulled in from get_template_information. It is an array of Key Value pairs in the form of sub folder => file path
  *
  * @since      0.1.0
  * @package    Objectiv\Plugins\Checkout
@@ -64,7 +66,7 @@ class TemplateManager {
      *
      * @since    0.1.0
      * @access   protected
-     * @var      string    $theme_template_directory_path    The array of sub folder and file information.
+     * @var      array    $theme_template_directory_path    The array of sub folder and file information.
      */
     protected $template_sub_folders_and_files;
 
@@ -88,6 +90,25 @@ class TemplateManager {
             "content"   => "content.php",
             "footer"    => "footer.php"
         );
+    }
+
+    /**
+     * Determines where each sub folder file is actually located. Theme template files take precedence over plugin
+     * template files returned in the array.
+     *
+     * @return array
+     */
+    public function get_template_information() {
+        $template_information = array();
+
+        foreach($this->template_sub_folders_and_files as $sub_folder => $sub_folder_file) {
+            $plugin_template_test = $this->plugin_template_directory_path . "/" . $sub_folder . "/" . $sub_folder_file;
+            $theme_template_test = $this->theme_template_directory_path . "/" . $sub_folder . "/" . $sub_folder_file;
+
+            $template_information[$sub_folder] = file_exists($theme_template_test) ? $theme_template_test : $plugin_template_test;
+        }
+
+        return $template_information;
     }
 
     /**

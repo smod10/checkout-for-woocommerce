@@ -49,6 +49,15 @@ class Main {
     protected $redirect;
 
     /**
+     * The redirect class handles the theme redirects in relation to the woocommerce checkout system
+     *
+     * @since    0.1.0
+     * @access   protected
+     * @var      TemplateManager    $template_manager    Handles all template related functionality.
+     */
+    protected $template_manager;
+
+    /**
      * The unique identifier of this plugin.
      *
      * @since    0.1.0
@@ -106,7 +115,6 @@ class Main {
 		// Instantiate program objects
 		$this->loader = new Loader();
 		$this->redirect = new Redirect();
-		$this->template_manager = new TemplateManager($this->plugin_directory_path);
 
         // Enable program flags
         $this->check_flags();
@@ -123,6 +131,10 @@ class Main {
 
 		// Enable the checkout redirects
 		$this->enable_redirects();
+
+		// Create the template manager
+        $this->template_manager = new TemplateManager($this->plugin_directory_path);
+        d($this->template_manager->get_template_information());
 	}
 
 	protected function load_actions() {

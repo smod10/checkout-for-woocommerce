@@ -8,4 +8,5 @@
  * Dev Mode - CO_DEV_MODE - false
  */
 
+// Dev Mode
 define( 'CO_DEV_MODE', true );

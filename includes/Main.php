@@ -192,6 +192,14 @@ class Main {
     }
 
     /**
+     * @return TemplateManager
+     */
+    public function get_template_manager()
+    {
+        return $this->template_manager;
+    }
+
+    /**
      * Returns the main plugin file name including extension
      *
      * @since     0.1.0

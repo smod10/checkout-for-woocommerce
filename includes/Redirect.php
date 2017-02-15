@@ -31,7 +31,18 @@ class Redirect
      * @access   public
      */
     public function checkout(){
+        global $CFW;
+
         if( function_exists('is_checkout') && is_checkout() ) {
+            $CFW->get_template_manager()->create_templates(array(
+                "header"        => function($parameters){return $parameters;},
+                "content"       => function($parameters){return $parameters;},
+                "footer"        => function($parameters){return $parameters;}
+            ), array(
+                "header"        => "",
+                "content"       => "",
+                "footer"        => ""
+            ));
             exit;
         }
     }

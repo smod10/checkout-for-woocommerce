@@ -71,6 +71,11 @@ class TemplateManager {
     protected $template_sub_folders_and_files;
 
     /**
+     * @var     array       $templates      Array of Templates
+     */
+    protected $templates;
+
+    /**
      * TemplateManager constructor.
      *
      * @param   string      $plugin_directory_path      The base directory path to the plugin
@@ -90,6 +95,18 @@ class TemplateManager {
             "content"   => "content.php",
             "footer"    => "footer.php"
         );
+        $this->templates = array();
+    }
+
+    public function create_templates($callbacks, $parameters) {
+        foreach($this->get_template_information() as $template_name => $template_path) {
+            $this->templates[$template_name] = new Template($template_path, $callbacks[$template_name], $parameters[$template_name]);
+            $this->templates[$template_name]->view();
+        }
+    }
+
+    public function get_templates() {
+        return $this->templates;
     }
 
     /**

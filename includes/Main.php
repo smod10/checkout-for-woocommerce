@@ -112,12 +112,11 @@ class Main {
 		$this->plugin_directory_path = $plugin_directory_path;
 		$this->plugin_main_file = $plugin_main_file;
 
-		// Instantiate program objects
-		$this->loader = new Loader();
-		$this->redirect = new Redirect();
-
         // Enable program flags
         $this->check_flags();
+
+		// Instantiate program objects
+		$this->loader = new Loader();
 
 		// Set up localization
 		$this->set_locale();
@@ -134,7 +133,6 @@ class Main {
 
 		// Create the template manager
         $this->template_manager = new TemplateManager($this->plugin_directory_path);
-        d($this->template_manager->get_template_information());
 	}
 
 	protected function load_actions() {
@@ -178,6 +176,8 @@ class Main {
      * @access   protected
      */
 	protected function enable_redirects() {
+        $this->redirect = new Redirect();
+
 	    $this->loader->add_action('template_redirect', $this->redirect, 'checkout');
     }
 

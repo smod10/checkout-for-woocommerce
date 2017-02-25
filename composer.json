@@ -15,7 +15,7 @@
         "files": ["constants.php"]
     },
     "require": {
-        "filp/whoops": "^2.1",
-        "raveren/kint": "^1.0"
+        "filp/whoops": "1.1.10",
+        "raveren/kint": "1.0.10"
     }
 }

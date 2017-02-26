@@ -1,3 +1,3 @@
-<?php
-
-echo "<h1>Plugin Template Folder Footer</h1>";
+<footer id="cfw-footer">
+    <h1>Footer</h1>
+</footer>

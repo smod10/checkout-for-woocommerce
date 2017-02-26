@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "AAAA,IAAK;EACH,UAAU,EAAE,IAAI",
-"sources": ["../../../../../../../../../../Users/brandontassone/Documents/Repositories/checkout-for-woocommerce/sources/front/front.scss"],
+"mappings": "AAAA,WAAY;EACV,UAAU,EAAE,GAAG;;ACDjB,YAAa;EACX,UAAU,EAAE,IAAI;;ACDlB,WAAY;EACV,UAAU,EAAE,KAAK",
+"sources": ["../../../../../../../../../../Users/brandontassone/Documents/Repositories/checkout-for-woocommerce/sources/front/template/header.scss","../../../../../../../../../../Users/brandontassone/Documents/Repositories/checkout-for-woocommerce/sources/front/template/content.scss","../../../../../../../../../../Users/brandontassone/Documents/Repositories/checkout-for-woocommerce/sources/front/template/footer.scss"],
 "names": [],
 "file": "front.css"
 }

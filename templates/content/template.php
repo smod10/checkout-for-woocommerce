@@ -1,3 +1,3 @@
-<?php
-
-echo "<h1>Plugin Template Folder Content</h1>";
+<content id="cfw-content">
+    <h1>Content</h1>
+</content>

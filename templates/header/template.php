@@ -1,3 +1,3 @@
-<?php
-
-echo "<h1>Plugin Template Folder Header</h1>";
+<header id="cfw-header">
+    <h1>Header</h1>
+</header>

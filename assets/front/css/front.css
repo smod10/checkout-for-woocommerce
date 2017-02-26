@@ -1,4 +1,10 @@
-body {
+#cfw-header {
+  background: red; }
+
+#cfw-content {
   background: blue; }
+
+#cfw-footer {
+  background: green; }
 
 /*# sourceMappingURL=front.css.map */

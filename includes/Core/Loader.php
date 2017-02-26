@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout;
+namespace Objectiv\Plugins\Checkout\Core;
 
 /**
  * Register all actions and filters for the plugin
@@ -8,7 +8,7 @@ namespace Objectiv\Plugins\Checkout;
  * @link       cgd.io
  * @since      0.1.0
  *
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Core
  */
 
 /**
@@ -18,7 +18,7 @@ namespace Objectiv\Plugins\Checkout;
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Core
  * @author     Brandon Tassone <brandontassone@gmail.com>
  */
 
@@ -47,10 +47,8 @@ class Loader {
 	 * @since    0.1.0
 	 */
 	public function __construct() {
-
 		$this->actions = array();
 		$this->filters = array();
-
 	}
 
 	/**

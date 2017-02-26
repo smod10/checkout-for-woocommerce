@@ -2,6 +2,14 @@
 
 namespace Objectiv\Plugins\Checkout;
 
+use Objectiv\Plugins\Checkout\Base\Singleton;
+use Objectiv\Plugins\Checkout\Core\Loader;
+use Objectiv\Plugins\Checkout\Core\Redirect;
+use Objectiv\Plugins\Checkout\Utilities\Activator;
+use Objectiv\Plugins\Checkout\Language\i18n;
+use Objectiv\Plugins\Checkout\Managers\PathManager;
+use Objectiv\Plugins\Checkout\Managers\TemplateManager;
+
 /**
  * The file that defines the core plugin class
  *

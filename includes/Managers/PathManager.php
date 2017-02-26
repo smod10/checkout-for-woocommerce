@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout;
+namespace Objectiv\Plugins\Checkout\Managers;
 
 /**
  * Manages plugin related path information
@@ -8,7 +8,7 @@ namespace Objectiv\Plugins\Checkout;
  * @link       cgd.io
  * @since      0.1.0
  *
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Managers
  */
 
 
@@ -19,9 +19,10 @@ namespace Objectiv\Plugins\Checkout;
  *
  * This class is mainly used in the template manager and other classes related to plugin setup and file management
  *
- * @package Objectiv\Plugins\Checkout
+ * @package Objectiv\Plugins\Checkout\Managers
  * @author Brandon Tassone
  */
+
 class PathManager {
 	/**
 	 * @var string The base path to the plugin

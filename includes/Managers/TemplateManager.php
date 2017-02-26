@@ -1,6 +1,9 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout;
+namespace Objectiv\Plugins\Checkout\Managers;
+
+use Objectiv\Plugins\Checkout\Main;
+use Objectiv\Plugins\Checkout\Core\Template;
 
 /**
  * The template manager is responsible for the template paths
@@ -8,7 +11,7 @@ namespace Objectiv\Plugins\Checkout;
  * @link       cgd.io
  * @since      0.1.0
  *
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Managers
  */
 
 /**
@@ -17,7 +20,7 @@ namespace Objectiv\Plugins\Checkout;
  * is pulled in from get_template_information. It is an array of Key Value pairs in the form of sub folder => file path
  *
  * @since      0.1.0
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Managers
  * @author     Brandon Tassone <brandontassone@gmail.com>
  */
 
@@ -81,7 +84,7 @@ class TemplateManager {
     public function __construct() {
         // Set the template directory name and join it with the plugin path
         $this->plugin_template_directory_name = "templates";
-        $this->plugin_template_directory_path = Main::i()->get_path_manager()->get_base() . $this->plugin_template_directory_name;
+        $this->plugin_template_directory_path = Main::instance()->get_path_manager()->get_base() . $this->plugin_template_directory_name;
 
         // Set the theme template directory name and join it with the theme path
         $this->theme_template_directory_name = "checkout";
@@ -122,15 +125,6 @@ class TemplateManager {
     }
 
     /**
-     * Returns the templates
-     *
-     * @return array
-     */
-    public function get_templates() {
-        return $this->templates;
-    }
-
-    /**
      * Determines where each sub folder file is actually located. Theme template files take precedence over plugin
      * template files returned in the array.
      *
@@ -153,6 +147,13 @@ class TemplateManager {
         }
         return $template_information;
     }
+
+	/**
+	 * @return array
+	 */
+	public function get_templates() {
+		return $this->templates;
+	}
 
     /**
      * @return string

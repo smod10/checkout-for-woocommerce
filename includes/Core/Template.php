@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: brandon
- * Date: 2/15/17
- * Time: 3:41 AM
- */
 
-namespace Objectiv\Plugins\Checkout;
-
+namespace Objectiv\Plugins\Checkout\Core;
 
 /**
  * Template handler for associated template piece
@@ -15,7 +8,7 @@ namespace Objectiv\Plugins\Checkout;
  * @link       cgd.io
  * @since      0.1.0
  *
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Core
  */
 
 /**
@@ -23,7 +16,7 @@ namespace Objectiv\Plugins\Checkout;
  * content)
  *
  * @since      0.1.0
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Core
  * @author     Brandon Tassone <brandontassone@gmail.com>
  */
 

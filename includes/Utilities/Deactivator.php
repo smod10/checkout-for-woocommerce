@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout;
+namespace Objectiv\Plugins\Checkout\Utilities;
 
 /**
  * Fired during plugin deactivation
@@ -8,7 +8,7 @@ namespace Objectiv\Plugins\Checkout;
  * @link       cgd.io
  * @since      0.1.0
  *
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Utilities
  */
 
 /**
@@ -17,7 +17,7 @@ namespace Objectiv\Plugins\Checkout;
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      0.1.0
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Utilities
  * @author     Brandon Tassone <brandontassone@gmail.com>
  */
 

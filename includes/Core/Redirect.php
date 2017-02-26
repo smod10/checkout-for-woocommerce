@@ -1,6 +1,8 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout;
+namespace Objectiv\Plugins\Checkout\Core;
+
+use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 
 /**
  * Handles all redirects for the checkout theme overhaul
@@ -8,7 +10,7 @@ namespace Objectiv\Plugins\Checkout;
  * @link       cgd.io
  * @since      0.1.0
  *
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Core
  */
 
 /**
@@ -17,10 +19,9 @@ namespace Objectiv\Plugins\Checkout;
  * Currently the class only handles redirection for the checkout page. Future redirect functionality would go here.
  *
  * @since      0.1.0
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Core
  * @author     Brandon Tassone <brandontassone@gmail.com>
  */
-
 
 class Redirect
 {

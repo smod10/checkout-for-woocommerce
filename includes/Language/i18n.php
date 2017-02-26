@@ -1,6 +1,8 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout;
+namespace Objectiv\Plugins\Checkout\Language;
+
+use Objectiv\Plugins\Checkout\Main;
 
 /**
  * Define the internationalization functionality
@@ -11,7 +13,7 @@ namespace Objectiv\Plugins\Checkout;
  * @link       cgd.io
  * @since      0.1.0
  *
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Language
  */
 
 /**
@@ -21,9 +23,10 @@ namespace Objectiv\Plugins\Checkout;
  * so that it is ready for translation.
  *
  * @since      0.1.0
- * @package    Objectiv\Plugins\Checkout
+ * @package    Objectiv\Plugins\Checkout\Language
  * @author     Brandon Tassone <brandontassone@gmail.com>
  */
+
 class i18n {
 
     /**
@@ -35,7 +38,7 @@ class i18n {
         load_plugin_textdomain(
             'checkout-woocommerce',
             false,
-            dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages'
+	        dirname( plugin_basename( Main::instance()->get_path_manager()->get_path_main_file() ) ) . '/languages'
         );
     }
 }

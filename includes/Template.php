@@ -10,16 +10,17 @@ namespace Objectiv\Plugins\Checkout;
 
 
 /**
- * The template handles showing the view and running the associated call back to handle custom functionality.
+ * Template handler for associated template piece
  *
- * @link       brandont.me
+ * @link       cgd.io
  * @since      0.1.0
  *
  * @package    Objectiv\Plugins\Checkout
  */
 
 /**
- * Longer description for the above goes here.
+ * Template handler for associated template piece. Typically there should only be 3 of these in total (header, footer,
+ * content)
  *
  * @since      0.1.0
  * @package    Objectiv\Plugins\Checkout
@@ -51,7 +52,7 @@ class Template {
      *
      * @since    0.1.0
      * @access   protected
-     * @var      string    $parameters    The template parameters
+     * @var      array    $parameters    The template parameters
      */
     protected $parameters;
 
@@ -96,11 +97,8 @@ class Template {
      * @return mixed
      */
     public function view() {
-        $parameters = $this->parameters;
-        $path = $this->path;
+	    $output = call_user_func_array($this->callback, $this->parameters);
 
-        $parameters = call_user_func($this->callback, $parameters);
-
-        require_once $path;
+        require_once $this->path;
     }
 }

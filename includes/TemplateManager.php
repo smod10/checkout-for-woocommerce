@@ -5,7 +5,7 @@ namespace Objectiv\Plugins\Checkout;
 /**
  * The template manager is responsible for the template paths
  *
- * @link       brandont.me
+ * @link       cgd.io
  * @since      0.1.0
  *
  * @package    Objectiv\Plugins\Checkout
@@ -66,9 +66,9 @@ class TemplateManager {
      *
      * @since    0.1.0
      * @access   protected
-     * @var      array    $theme_template_directory_path    The array of sub folder and file information.
+     * @var      array    $template_sub_folders    The array of sub folder and file information.
      */
-    protected $template_sub_folders_and_files;
+    protected $template_sub_folders;
 
     /**
      * @var     array       $templates      Array of Templates
@@ -77,39 +77,48 @@ class TemplateManager {
 
     /**
      * TemplateManager constructor.
-     *
-     * @param   string      $plugin_directory_path      The base directory path to the plugin
      */
-    public function __construct($plugin_directory_path) {
+    public function __construct() {
         // Set the template directory name and join it with the plugin path
         $this->plugin_template_directory_name = "templates";
-        $this->plugin_template_directory_path = $plugin_directory_path . $this->plugin_template_directory_name;
+        $this->plugin_template_directory_path = Main::i()->get_path_manager()->get_base() . $this->plugin_template_directory_name;
 
         // Set the theme template directory name and join it with the theme path
-        $this->theme_template_directory_name = "cfw-templates";
+        $this->theme_template_directory_name = "checkout";
         $this->theme_template_directory_path = get_template_directory() . "/" . $this->theme_template_directory_name;
 
         // Set the sub folder information that will be looked for regardless of the base folder
-        $this->template_sub_folders_and_files = array(
-            "header"    => "header.php",
-            "content"   => "content.php",
-            "footer"    => "footer.php"
-        );
+        $this->template_sub_folders = array("header", "content", "footer");
         $this->templates = array();
+
+        // Generate the template objects
+        $this->create_templates();
     }
 
     /**
-     * Takes an array of callbacks and an array of parameters with the associated template keys to associate the
-     * information
-     *
-     * @param $callbacks
-     * @param $parameters
+     * Generates the template objects based on the order listed in the template_sub_folders array.
      */
-    public function create_templates($callbacks, $parameters) {
-        foreach($this->get_template_information() as $template_name => $template_path) {
-            $this->templates[$template_name] = new Template($template_path, $callbacks[$template_name], $parameters[$template_name]);
-            $this->templates[$template_name]->view();
+    public function create_templates() {
+        foreach($this->get_template_information() as $template_name => $template_path_info) {
+        	$template_path = $template_path_info["template"];
+        	$template_function_path = $template_path_info["function"];
+
+        	$template_file_info = require_once $template_function_path;
+
+        	$template_parameters = $template_file_info["parameters"];
+        	$template_callback = $template_file_info["callback"];
+
+        	$this->templates[$template_name] = new Template($template_path, $template_callback, $template_parameters);
         }
+    }
+
+	/**
+	 * Iterate over each template in the array and run the view method
+	 */
+    public function load_templates() {
+    	foreach($this->templates as $template) {
+    		$template->view();
+	    }
     }
 
     /**
@@ -130,22 +139,27 @@ class TemplateManager {
     public function get_template_information() {
         $template_information = array();
 
-        foreach($this->template_sub_folders_and_files as $sub_folder => $sub_folder_file) {
-            $plugin_template_test = $this->plugin_template_directory_path . "/" . $sub_folder . "/" . $sub_folder_file;
-            $theme_template_test = $this->theme_template_directory_path . "/" . $sub_folder . "/" . $sub_folder_file;
+        foreach($this->template_sub_folders as $sub_folder) {
 
-            $template_information[$sub_folder] = file_exists($theme_template_test) ? $theme_template_test : $plugin_template_test;
+        	// Set up the possible paths
+            $plugin_template_test = $this->plugin_template_directory_path . "/" . $sub_folder . "/template.php";
+            $theme_template_test = $this->theme_template_directory_path . "/" . $sub_folder . "/template.php";
+
+            // Add the appropriate paths to the template information array.
+            $template_information[$sub_folder] = array(
+            	"template" => file_exists($theme_template_test) ? $theme_template_test : $plugin_template_test,
+                "function" => $this->plugin_template_directory_path . "/" . $sub_folder . "/function.php"
+            );
         }
-
         return $template_information;
     }
 
     /**
      * @return string
      */
-    public function get_template_sub_folders_and_files()
+    public function get_template_sub_folders()
     {
-        return $this->template_sub_folders_and_files;
+        return $this->template_sub_folders;
     }
 
     /**

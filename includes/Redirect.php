@@ -5,7 +5,7 @@ namespace Objectiv\Plugins\Checkout;
 /**
  * Handles all redirects for the checkout theme overhaul
  *
- * @link       brandont.me
+ * @link       cgd.io
  * @since      0.1.0
  *
  * @package    Objectiv\Plugins\Checkout
@@ -27,22 +27,14 @@ class Redirect
     /**
      * If is_checkout and exists and it is the checkout section we redirect to the template section.
      *
-     * @param   TemplateManager     $tm
+     * @param   TemplateManager     $template_manager
      * @since   0.1.0
      * @access  public
      */
-    public function checkout($tm){
+    public function checkout($template_manager){
         if( function_exists('is_checkout') && is_checkout() ) {
-            $tm->create_templates(array(
-                "header"        => function($parameters){return $parameters;},
-                "content"       => function($parameters){return $parameters;},
-                "footer"        => function($parameters){return $parameters;}
-            ), array(
-                "header"        => "",
-                "content"       => "",
-                "footer"        => ""
-            ));
-            exit;
+        	$template_manager->load_templates();
+	        exit;
         }
     }
 }

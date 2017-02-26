@@ -35,6 +35,7 @@ require_once "vendor/autoload.php";
 use Objectiv\Plugins\Checkout\Main as Main;
 use Objectiv\Plugins\Checkout\Activator as Activator;
 use Objectiv\Plugins\Checkout\Deactivator as Deactivator;
+use Objectiv\Plugins\Checkout\PathManager as PathManager;
 
 // Kint disabled by default. Enable by enabling developer mode (see docs)
 Kint::enabled(false);
@@ -69,10 +70,10 @@ register_deactivation_hook( __FILE__, '\deactivate_checkout' );
  */
 function run_checkout() {
 
-    global $CFW;
-
-    $CFW = new Main(plugin_dir_path( __FILE__ ), basename(__FILE__));
-    $CFW->run();
+    $main = Main::i();
+    $pm = new PathManager(plugin_dir_path( __FILE__ ), basename(__FILE__));
+	$main->setup($pm);
+	$main->run();
 
 }
 run_checkout();

@@ -62,9 +62,10 @@ class Activator {
      * Method to be run on unsuccessful plugin activation. The function that generates the error admin notice for plugin
      * activation
      *
+     * @param    $path_manager  PathManager
      * @since    0.1.0
      */
-	public static function activate_admin_notice($plugin_path) {
+	public static function activate_admin_notice($path_manager) {
 
 	    $activation_error = get_option(self::$anotice_op_name);
 
@@ -84,7 +85,7 @@ class Activator {
             delete_option(self::$anotice_op_name);
 
 	        // Deactivate the plugin
-            deactivate_plugins($plugin_path);
+            deactivate_plugins($path_manager->get_path_main_file());
         }
     }
 }

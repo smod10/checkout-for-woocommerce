@@ -8,7 +8,7 @@ namespace Objectiv\Plugins\Checkout;
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       brandont.me
+ * @link       cgd.io
  * @since      0.1.0
  *
  * @package    Objectiv\Plugins\Checkout
@@ -28,7 +28,7 @@ namespace Objectiv\Plugins\Checkout;
  * @author     Brandon Tassone <brandontassone@gmail.com>
  */
 
-class Main {
+class Main extends Singleton {
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
      * the plugin.
@@ -66,23 +66,12 @@ class Main {
      */
     protected $plugin_name;
 
-    /**
-     * The plugin folder name/main file combined in a string (useful for deactivating the plugin amongst other things)
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      string    $plugin_main_file    The plugin folder and main file name concatenated
-     */
-    protected $plugin_main_file;
-
-    /**
-     * The plugin directory path
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      string    $version    The plugin directory path
-     */
-    protected $plugin_directory_path;
+	/**
+	 * @since   0.1.0
+	 * @access  protected
+	 * @var     PathManager     $path_manager       Handles the path information for the plugin
+	 */
+    protected $path_manager;
 
     /**
      * The current version of the plugin.
@@ -93,55 +82,47 @@ class Main {
      */
     protected $version;
 
-    /**
-     * Define the core functionality of the plugin.
-     *
-     * Set the plugin name and the plugin version that can be used throughout the plugin.
-     * Load the dependencies, define the locale, and set the hooks for the admin area and
-     * the public-facing side of the site.
-     *
-     * @param   string      $plugin_directory_path      The plugin directory path
-     * @param   string      $plugin_main_file           The plugin main file name (including extension)
-     *
-     * @since    0.1.0
-     */
-    public function __construct($plugin_directory_path, $plugin_main_file) {
-        // Program Details
-        $this->plugin_name = "Checkout for Woocommerce";
-        $this->version = "0.1.0";
-        $this->plugin_directory_path = $plugin_directory_path;
-        $this->plugin_main_file = $plugin_main_file;
 
-        // Enable program flags
-        $this->check_flags();
+	/**
+	 * Takes place of the constructor for the main class. Calls this to setup the plugin.
+	 *
+	 * @param $path_manager PathManager Plugin related path information
+	 */
+	public function setup($path_manager) {
+	    // Program Details
+	    $this->plugin_name = "Checkout for Woocommerce";
+	    $this->version = "0.1.0";
+	    $this->path_manager = $path_manager;
 
-        // Instantiate program objects
-        $this->loader = new Loader();
+	    // Enable program flags
+	    $this->check_flags();
 
-        // Set up localization
-        $this->set_locale();
+	    // Instantiate program objects
+	    $this->loader = new Loader();
 
-        // Load the plugin actions
-        $this->load_actions();
+		// Create the template manager
+		$this->template_manager = new TemplateManager();
 
-        // Pull in backend admin and public resources
-        $this->define_admin_hooks();
-        $this->define_public_hooks();
+	    // Set up localization
+	    $this->set_locale();
 
-        // Enable the checkout redirects
-        $this->enable_redirects();
+	    // Load the plugin actions
+	    $this->load_actions();
 
-        // Create the template manager
-        $this->template_manager = new TemplateManager($this->plugin_directory_path);
+	    // Pull in backend admin and public resources
+	    $this->define_admin_hooks();
+	    $this->define_public_hooks();
+
+	    // Enable the checkout redirects
+	    $this->enable_redirects();
     }
-
 
     /**
      * Handles general purpose Wordpress actions.
      */
     protected function load_actions() {
         $this->loader->add_action('admin_notices', function(){
-        	Activator::activate_admin_notice($this->get_plugin_full_path_main_file());
+        	Activator::activate_admin_notice($this->path_manager);
         });
     }
 
@@ -189,42 +170,23 @@ class Main {
         });
     }
 
-    /**
-     * Returns the concatenated folder name with the main file name in one strong
-     *
-     * @since     0.1.0
-     * @return    string    Returns the concatenated folder name with the main file name in one strong
-     */
-    public function get_plugin_full_path_main_file() {
-        return $this->plugin_directory_path . "/" . $this->plugin_main_file;
+	/**
+	 * Returns the path manager
+	 *
+	 * @return PathManager
+	 */
+	public function get_path_manager() {
+    	return $this->path_manager;
     }
 
     /**
+     * Returns the template manager
+     *
      * @return TemplateManager
      */
     public function get_template_manager()
     {
         return $this->template_manager;
-    }
-
-    /**
-     * Returns the main plugin file name including extension
-     *
-     * @since     0.1.0
-     * @return    string    Returns the main plugin file name including extension
-     */
-    public function get_plugin_main_file() {
-        return $this->plugin_main_file;
-    }
-
-    /**
-     * Gets the plugin directory path
-     *
-     * @return string
-     */
-    public function get_plugin_directory_path()
-    {
-        return $this->plugin_directory_path;
     }
 
     /**

@@ -29,16 +29,16 @@ use Objectiv\Plugins\Checkout\Main;
 
 class i18n {
 
-    /**
-     * Load the plugin text domain for translation.
-     *
-     * @since    0.1.0
-     */
-    public function load_plugin_textdomain() {
-        load_plugin_textdomain(
-            'checkout-woocommerce',
-            false,
-	        dirname( plugin_basename( Main::instance()->get_path_manager()->get_path_main_file() ) ) . '/languages'
-        );
-    }
+	/**
+	 * Load the plugin text domain for translation.
+	 *
+	 * @since    0.1.0
+	 */
+	public function load_plugin_textdomain() {
+		load_plugin_textdomain(
+			'checkout-woocommerce',
+			false,
+			dirname( plugin_basename( Main::instance()->get_path_manager()->get_path_main_file() ) ) . '/languages'
+		);
+	}
 }

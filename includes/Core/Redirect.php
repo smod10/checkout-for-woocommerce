@@ -25,17 +25,17 @@ use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 
 class Redirect
 {
-    /**
-     * If is_checkout and exists and it is the checkout section we redirect to the template section.
-     *
-     * @param   TemplateManager     $template_manager
-     * @since   0.1.0
-     * @access  public
-     */
-    public function checkout($template_manager){
-        if( function_exists('is_checkout') && is_checkout() ) {
-        	$template_manager->load_templates();
-	        exit;
-        }
-    }
+	/**
+	 * If is_checkout and exists and it is the checkout section we redirect to the template section.
+	 *
+	 * @param   TemplateManager     $template_manager
+	 * @since   0.1.0
+	 * @access  public
+	 */
+	public function checkout($template_manager){
+		if( function_exists('is_checkout') && is_checkout() ) {
+			$template_manager->load_templates();
+			exit;
+		}
+	}
 }

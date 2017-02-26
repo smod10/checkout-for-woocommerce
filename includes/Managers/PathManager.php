@@ -28,6 +28,7 @@ class PathManager {
 	 * @var string The base path to the plugin
 	 */
 	private $base = '';
+
 	/**
 	 * @var string The main file name that initiates the plugin
 	 */

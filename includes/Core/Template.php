@@ -22,76 +22,76 @@ namespace Objectiv\Plugins\Checkout\Core;
 
 class Template {
 
-    /**
-     * The template path
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      string    $path    The template path
-     */
-    protected $path;
+	/**
+	 * The template path
+	 *
+	 * @since    0.1.0
+	 * @access   protected
+	 * @var      string    $path    The template path
+	 */
+	protected $path;
 
-    /**
-     * The template callback
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      string    $callback    The template callback
-     */
-    protected $callback;
+	/**
+	 * The template callback
+	 *
+	 * @since    0.1.0
+	 * @access   protected
+	 * @var      string    $callback    The template callback
+	 */
+	protected $callback;
 
-    /**
-     * The template parameters
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      array    $parameters    The template parameters
-     */
-    protected $parameters;
+	/**
+	 * The template parameters
+	 *
+	 * @since    0.1.0
+	 * @access   protected
+	 * @var      array    $parameters    The template parameters
+	 */
+	protected $parameters;
 
-    /**
-     * Template constructor.
-     *
-     * @param $path
-     * @param $callback
-     * @param $parameters
-     */
-    public function __construct($path, $callback, $parameters) {
-        $this->path = $path;
-        $this->callback = $callback;
-        $this->parameters = $parameters;
-    }
+	/**
+	 * Template constructor.
+	 *
+	 * @param $path
+	 * @param $callback
+	 * @param $parameters
+	 */
+	public function __construct($path, $callback, $parameters) {
+		$this->path = $path;
+		$this->callback = $callback;
+		$this->parameters = $parameters;
+	}
 
-    /**
-     * @return mixed
-     */
-    public function get_path()
-    {
-        return $this->path;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function get_path()
+	{
+		return $this->path;
+	}
 
-    /**
-     * @return mixed
-     */
-    public function get_callback()
-    {
-        return $this->callback;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function get_callback()
+	{
+		return $this->callback;
+	}
 
-    /**
-     * @return mixed
-     */
-    public function get_parameters()
-    {
-        return $this->parameters;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function get_parameters()
+	{
+		return $this->parameters;
+	}
 
-    /**
-     * @return mixed
-     */
-    public function view() {
-	    $output = call_user_func_array($this->callback, $this->parameters);
+	/**
+	 * @return mixed
+	 */
+	public function view() {
+		$output = call_user_func_array($this->callback, $this->parameters);
 
-        require_once $this->path;
-    }
+		require_once $this->path;
+	}
 }

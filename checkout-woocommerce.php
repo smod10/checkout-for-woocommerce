@@ -45,7 +45,7 @@ Kint::enabled(false);
  * This action is documented in includes/class-midas-activator.php
  */
 function activate_checkout() {
-    Activator::activate();
+	Activator::activate();
 }
 
 /**
@@ -53,7 +53,7 @@ function activate_checkout() {
  * This action is documented in includes/class-midas-deactivator.php
  */
 function deactivate_checkout() {
-    Deactivator::deactivate();
+	Deactivator::deactivate();
 }
 
 register_activation_hook( __FILE__, '\activate_checkout' );
@@ -70,8 +70,8 @@ register_deactivation_hook( __FILE__, '\deactivate_checkout' );
  */
 function run_checkout() {
 
-    $main = Main::instance();
-    $pm = new PathManager(plugin_dir_path( __FILE__ ), basename(__FILE__));
+	$main = Main::instance();
+	$pm = new PathManager(plugin_dir_path( __FILE__ ), basename(__FILE__));
 	$main->setup($pm);
 	$main->run();
 

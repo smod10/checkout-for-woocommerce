@@ -140,7 +140,9 @@ class Main {
      * Handles general purpose Wordpress actions.
      */
     protected function load_actions() {
-        $this->loader->add_action('admin_notices', '\Objectiv\Plugins\Checkout\Activator', 'activate_admin_notice');
+        $this->loader->add_action('admin_notices', function(){
+        	Activator::activate_admin_notice($this->get_plugin_full_path_main_file());
+        });
     }
 
     /**
@@ -182,7 +184,9 @@ class Main {
     protected function enable_redirects() {
         $this->redirect = new Redirect();
 
-        $this->loader->add_action('template_redirect', $this->redirect, 'checkout');
+        $this->loader->add_action('template_redirect', function(){
+        	$this->redirect->checkout($this->template_manager);
+        });
     }
 
     /**
@@ -297,6 +301,6 @@ class Main {
     private function set_locale() {
         $plugin_i18n = new i18n();
 
-        $this->loader->add_action('init', $plugin_i18n, 'load_plugin_textdomain');
+        $this->loader->add_action('init', array($plugin_i18n, 'load_plugin_textdomain'));
     }
 }

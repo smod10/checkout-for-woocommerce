@@ -64,9 +64,7 @@ class Activator {
      *
      * @since    0.1.0
      */
-	public static function activate_admin_notice() {
-
-	    global $CFW;
+	public static function activate_admin_notice($plugin_path) {
 
 	    $activation_error = get_option(self::$anotice_op_name);
 
@@ -86,7 +84,7 @@ class Activator {
             delete_option(self::$anotice_op_name);
 
 	        // Deactivate the plugin
-            deactivate_plugins($CFW->get_plugin_full_path_main_file());
+            deactivate_plugins($plugin_path);
         }
     }
 }

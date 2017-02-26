@@ -27,14 +27,13 @@ class Redirect
     /**
      * If is_checkout and exists and it is the checkout section we redirect to the template section.
      *
-     * @since    0.1.0
-     * @access   public
+     * @param   TemplateManager     $tm
+     * @since   0.1.0
+     * @access  public
      */
-    public function checkout(){
-        global $CFW;
-
+    public function checkout($tm){
         if( function_exists('is_checkout') && is_checkout() ) {
-            $CFW->get_template_manager()->create_templates(array(
+            $tm->create_templates(array(
                 "header"        => function($parameters){return $parameters;},
                 "content"       => function($parameters){return $parameters;},
                 "footer"        => function($parameters){return $parameters;}

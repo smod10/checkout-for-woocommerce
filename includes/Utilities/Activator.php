@@ -7,10 +7,10 @@ use Objectiv\Plugins\Checkout\Managers\PathManager;
 /**
  * Fired during plugin activation
  *
- * @link       cgd.io
- * @since      0.1.0
+ * @link cgd.io
+ * @since 0.1.0
  *
- * @package    Objectiv\Plugins\Checkout\Utilities
+ * @package Objectiv\Plugins\Checkout\Utilities
  */
 
 /**
@@ -18,9 +18,9 @@ use Objectiv\Plugins\Checkout\Managers\PathManager;
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      0.1.0
- * @package    Objectiv\Plugins\Checkout\Utilities
- * @author     Brandon Tassone <brandontassone@gmail.com>
+ * @since 0.1.0
+ * @package Objectiv\Plugins\Checkout\Utilities
+ * @author Brandon Tassone <brandontassone@gmail.com>
  */
 
 class Activator {
@@ -29,9 +29,9 @@ class Activator {
 	 * The admin notice option flag the admin notice function uses to determine if an admin notice needs to be displayed
 	 * for a plugin activation error
 	 *
-	 * @since    0.1.0
-	 * @access   public static
-	 * @var      string    $anotice_op_name    Plugin activation flag option name
+	 * @since 0.1.0
+	 * @access public
+	 * @var string $anotice_op_name Plugin activation flag option name
 	 */
 	public static $anotice_op_name = 'checkout-woocommerce_activation';
 
@@ -40,7 +40,8 @@ class Activator {
 	 *
 	 * Place the plugin dependncy checks in relevantly named functions
 	 *
-	 * @since    0.1.0
+	 * @since 0.1.0
+	 * @access public
 	 */
 	public static function activate() {
 		// If no check fails, activate the plugin
@@ -64,8 +65,9 @@ class Activator {
 	 * Method to be run on unsuccessful plugin activation. The function that generates the error admin notice for plugin
 	 * activation
 	 *
-	 * @param    $path_manager  PathManager
-	 * @since    0.1.0
+	 * @since 0.1.0
+	 * @access public
+	 * @param PathManager $path_manager
 	 */
 	public static function activate_admin_notice($path_manager) {
 

@@ -5,12 +5,11 @@ namespace Objectiv\Plugins\Checkout\Managers;
 /**
  * Manages plugin related path information
  *
- * @link       cgd.io
- * @since      0.1.0
+ * @link cgd.io
+ * @since 0.1.0
  *
- * @package    Objectiv\Plugins\Checkout\Managers
+ * @package Objectiv\Plugins\Checkout\Managers
  */
-
 
 /**
  * Class PathManager
@@ -25,30 +24,84 @@ namespace Objectiv\Plugins\Checkout\Managers;
 
 class PathManager {
 	/**
+	 * @since 0.1.0
+	 * @access private
 	 * @var string The base path to the plugin
 	 */
-	private $base = '';
+	private $base;
 
 	/**
+	 * @since 0.1.0
+	 * @access private
+	 * @var string The assets path
+	 */
+	private $assets;
+
+	/**
+	 * @since 0.1.0
+	 * @access private
+	 * @var string The plugin template path
+	 */
+	private $plugin_template;
+
+	/**
+	 * @since 0.1.0
+	 * @access private
+	 * @var string The theme template path
+	 */
+	private $theme_template;
+
+	/**
+	 * @since 0.1.0
+	 * @access private
 	 * @var string The main file name that initiates the plugin
 	 */
-	private $main_file = '';
+	private $main_file;
 
 	/**
 	 * PathManager constructor.
 	 *
+	 * @since 0.1.0
+	 * @access public
 	 * @param string $base The plugin base path
 	 * @param string $main_file The main plugin file
 	 */
 	public function __construct($base, $main_file) {
 		$this->base = $base;
 		$this->main_file = $main_file;
+
+		$this->plugin_template = $this->base . "/templates";
+		$this->theme_template = get_template_directory() . "/checkout";
+		$this->assets = $this->base . "/assets";
+	}
+
+	/**
+	 * Piece together and return the asset sub folder paths
+	 *
+	 * @access public
+	 * @param array $sub_folders List of the folder names to append to the main asset directory
+	 * @return array
+	 */
+	public function get_asset_information($sub_folders) {
+		return [];
+	}
+
+	/**
+	 * Get the path to the assets folder
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return string
+	 */
+	public function get_assets_path() {
+		return $this->assets;
 	}
 
 	/**
 	 * Return the base plugin path
 	 *
 	 * @since 0.1.0
+	 * @access public
 	 * @return string
 	 */
 	public function get_base() {
@@ -59,6 +112,7 @@ class PathManager {
 	 * Return the main file name
 	 *
 	 * @since 0.1.0
+	 * @access public
 	 * @return string
 	 */
 	public function get_main_file() {
@@ -69,9 +123,61 @@ class PathManager {
 	 * Returns the concatenated folder name with the main file name in one strong
 	 *
 	 * @since 0.1.0
-	 * @return string    Returns the concatenated folder name with the main file name in one strong
+	 * @access public
+	 * @return string Returns the concatenated folder name with the main file name in one strong
 	 */
 	public function get_path_main_file() {
 		return $this->base . "/" . $this->main_file;
+	}
+
+	/**
+	 * @since 0.1.0
+	 * @access public
+	 * @return string The plugin template path
+	 */
+	public function get_plugin_template() {
+		return $this->plugin_template;
+	}
+
+	/**
+	 * Determines where each sub folder file is actually located. Theme template files take precedence over plugin
+	 * template files returned in the array.
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @param array $sub_folders List of folder names within the template directories to look for template files.
+	 * @return array
+	 */
+	public function get_template_information($sub_folders) {
+		$template_information = array();
+
+		foreach($sub_folders as $sub_folder) {
+
+			// Set up the possible paths
+			$plugin_template_path = $this->plugin_template . "/" . $sub_folder . "/template.php";
+			$theme_template_path = $this->theme_template . "/" . $sub_folder . "/template.php";
+
+			// Get the plugin function files that work for the corresponding templates
+			$plugin_template_function_path = $this->plugin_template . "/" . $sub_folder . "/function.php";
+
+			// Get the template path we want (user overloaded, or base)
+			$template_path = file_exists($theme_template_path) ? $theme_template_path : $plugin_template_path;
+
+			// Add the appropriate paths to the template information array.
+			$template_information[$sub_folder] = array(
+				"template" => $template_path,
+				"function" => $plugin_template_function_path
+			);
+		}
+		return $template_information;
+	}
+
+	/**
+	 * @since 0.1.0
+	 * @access public
+	 * @return string The theme template path
+	 */
+	public function get_theme_template() {
+		return $this->theme_template;
 	}
 }

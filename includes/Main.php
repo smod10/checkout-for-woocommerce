@@ -16,10 +16,10 @@ use Objectiv\Plugins\Checkout\Managers\TemplateManager;
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       cgd.io
- * @since      0.1.0
+ * @link cgd.io
+ * @since 0.1.0
  *
- * @package    Objectiv\Plugins\Checkout
+ * @package Objectiv\Plugins\Checkout
  */
 
 /**
@@ -31,69 +31,158 @@ use Objectiv\Plugins\Checkout\Managers\TemplateManager;
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      0.1.0
- * @package    Objectiv\Plugins\Checkout
- * @author     Brandon Tassone <brandontassone@gmail.com>
+ * @since 0.1.0
+ * @package Objectiv\Plugins\Checkout
+ * @author Brandon Tassone <brandontassone@gmail.com>
  */
 
 class Main extends Singleton {
+
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @since 0.1.0
+	 * @access private
+	 * @var Loader $loader Maintains and registers all hooks for the plugin.
 	 */
-	protected $loader;
+	private $loader;
 
 	/**
 	 * The redirect class handles the theme redirects in relation to the woocommerce checkout system
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      Redirect    $redirect    Maintains and registers all the redirects
+	 * @since 0.1.0
+	 * @access private
+	 * @var Redirect $redirect Maintains and registers all the redirects
 	 */
-	protected $redirect;
+	private $redirect;
 
 	/**
 	 * The redirect class handles the theme redirects in relation to the woocommerce checkout system
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      TemplateManager    $template_manager    Handles all template related functionality.
+	 * @since 0.1.0
+	 * @access private
+	 * @var TemplateManager $template_manager Handles all template related functionality.
 	 */
-	protected $template_manager;
+	private $template_manager;
+
+	/**
+	 * @since 0.1.0
+	 * @access private
+	 * @var PathManager $path_manager Handles the path information for the plugin
+	 */
+	private $path_manager;
+
+	/**
+	 * Language class dealing with translating the various parts of the plugin
+	 *
+	 * @since 0.1.0
+	 * @access private
+	 * @var i18n The language class
+	 */
+	private $i18n;
 
 	/**
 	 * The unique identifier of this plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @since 0.1.0
+	 * @access private
+	 * @var string $plugin_name The string used to uniquely identify this plugin.
 	 */
-	protected $plugin_name;
-
-	/**
-	 * @since   0.1.0
-	 * @access  protected
-	 * @var     PathManager     $path_manager       Handles the path information for the plugin
-	 */
-	protected $path_manager;
+	private $plugin_name;
 
 	/**
 	 * The current version of the plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @since 0.1.0
+	 * @access private
+	 * @var string $version The current version of the plugin.
 	 */
-	protected $version;
+	private $version;
 
+	/**
+	 * Returns the i18n language class
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return i18n
+	 */
+	public function get_i18n() {
+		return $this->i18n;
+	}
+
+	/**
+	 * The reference to the class that orchestrates the hooks with the plugin.
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return Loader Orchestrates the hooks of the plugin.
+	 */
+	public function get_loader() {
+		return $this->loader;
+	}
+
+	/**
+	 * Returns the path manager
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return PathManager
+	 */
+	public function get_path_manager() {
+		return $this->path_manager;
+	}
+
+	/**
+	 * The name of the plugin used to uniquely identify it within the context of
+	 * WordPress and to define internationalization functionality.
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return string The name of the plugin.
+	 */
+	public function get_plugin_name() {
+		return $this->plugin_name;
+	}
+
+	/**
+	 * Returns the template manager
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return TemplateManager
+	 */
+	public function get_template_manager()
+	{
+		return $this->template_manager;
+	}
+
+	/**
+	 * Retrieve the version number of the plugin.
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return string The version number of the plugin.
+	 */
+	public function get_version() {
+		return $this->version;
+	}
+
+	/**
+	 * Run the loader to execute all of the hooks with WordPress.
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 */
+	public function run() {
+		$this->loader->run();
+	}
 
 	/**
 	 * Takes place of the constructor for the main class. Calls this to setup the plugin.
 	 *
+	 * @since 0.1.0
+	 * @access public
 	 * @param $path_manager PathManager Plugin related path information
 	 */
 	public function setup($path_manager) {
@@ -109,7 +198,7 @@ class Main extends Singleton {
 		$this->loader = new Loader();
 
 		// Create the template manager
-		$this->template_manager = new TemplateManager();
+		$this->template_manager = new TemplateManager($this->path_manager);
 
 		// Set up localization
 		$this->set_locale();
@@ -126,23 +215,36 @@ class Main extends Singleton {
 	}
 
 	/**
-	 * Handles general purpose Wordpress actions.
-	 */
-	protected function load_actions() {
-		$this->loader->add_action('admin_notices', function(){
-			Activator::activate_admin_notice($this->path_manager);
-		});
-	}
-
-	/**
 	 * When run checks to see if the flag is defined and its value (inversely). If found to be active, it runs the
 	 * function
 	 *
-	 * @since    0.1.0
-	 * @access   private
+	 * @since 0.1.0
+	 * @access private
 	 */
 	private function check_flags() {
 		(!defined('CO_DEV_MODE') || !CO_DEV_MODE) ?: $this->enable_dev_mode();
+	}
+
+	/**
+	 * Register all of the hooks related to the admin area functionality
+	 * of the plugin.
+	 *
+	 * @since 0.1.0
+	 * @access private
+	 */
+	private function define_admin_hooks() {
+
+	}
+
+	/**
+	 * Register all of the hooks related to the public-facing functionality
+	 * of the plugin.
+	 *
+	 * @since 0.1.0
+	 * @access private
+	 */
+	private function define_public_hooks() {
+
 	}
 
 	/**
@@ -151,8 +253,8 @@ class Main extends Singleton {
 	 * Whoops - Pretty Errors
 	 * Kint - Pretty Debug
 	 *
-	 * @since    0.1.0
-	 * @access   private
+	 * @since 0.1.0
+	 * @access private
 	 */
 	private function enable_dev_mode() {
 		// Enable Whoops
@@ -167,96 +269,25 @@ class Main extends Singleton {
 	/**
 	 * Enables the redirects that reroute certain portions of the woocommerce framework
 	 *
-	 * @since    0.1.0
-	 * @access   protected
+	 * @since 0.1.0
+	 * @access private
 	 */
-	protected function enable_redirects() {
+	private function enable_redirects() {
 		$this->redirect = new Redirect();
 
-		$this->loader->add_action('template_redirect', function(){
+		$this->loader->add_action('template_redirect', function() {
 			$this->redirect->checkout($this->template_manager);
 		});
 	}
 
 	/**
-	 * Returns the path manager
+	 * Handles general purpose Wordpress actions.
 	 *
-	 * @return PathManager
+	 * @since 0.1.0
+	 * @access private
 	 */
-	public function get_path_manager() {
-		return $this->path_manager;
-	}
-
-	/**
-	 * Returns the template manager
-	 *
-	 * @return TemplateManager
-	 */
-	public function get_template_manager()
-	{
-		return $this->template_manager;
-	}
-
-	/**
-	 * The reference to the class that orchestrates the hooks with the plugin.
-	 *
-	 * @since     0.1.0
-	 * @return    Loader    Orchestrates the hooks of the plugin.
-	 */
-	public function get_loader() {
-		return $this->loader;
-	}
-
-	/**
-	 * The name of the plugin used to uniquely identify it within the context of
-	 * WordPress and to define internationalization functionality.
-	 *
-	 * @since     0.1.0
-	 * @return    string    The name of the plugin.
-	 */
-	public function get_plugin_name() {
-		return $this->plugin_name;
-	}
-
-	/**
-	 * Retrieve the version number of the plugin.
-	 *
-	 * @since     0.1.0
-	 * @return    string    The version number of the plugin.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
-	 * Run the loader to execute all of the hooks with WordPress.
-	 *
-	 * @since    0.1.0
-	 */
-	public function run() {
-		$this->loader->run();
-	}
-
-	/**
-	 * Register all of the hooks related to the admin area functionality
-	 * of the plugin.
-	 *
-	 * @since    0.1.0
-	 * @access   private
-	 */
-	private function define_admin_hooks() {
-
-	}
-
-	/**
-	 * Register all of the hooks related to the public-facing functionality
-	 * of the plugin.
-	 *
-	 * @since    0.1.0
-	 * @access   private
-	 */
-	private function define_public_hooks() {
-
+	private function load_actions() {
+		$this->loader->add_action('admin_notices', function(){ Activator::activate_admin_notice($this->path_manager); });
 	}
 
 	/**
@@ -265,12 +296,14 @@ class Main extends Singleton {
 	 * Uses the i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
-	 * @since    0.1.0
-	 * @access   private
+	 * @since 0.1.0
+	 * @access private
 	 */
 	private function set_locale() {
-		$plugin_i18n = new i18n();
+		$this->i18n = new i18n();
 
-		$this->loader->add_action('init', array($plugin_i18n, 'load_plugin_textdomain'));
+		$this->loader->add_action('init', function(){
+			$this->i18n->load_plugin_textdomain($this->path_manager);
+		});
 	}
 }

@@ -5,19 +5,19 @@ namespace Objectiv\Plugins\Checkout\Core;
 /**
  * Template handler for associated template piece
  *
- * @link       cgd.io
- * @since      0.1.0
+ * @link cgd.io
+ * @since 0.1.0
  *
- * @package    Objectiv\Plugins\Checkout\Core
+ * @package Objectiv\Plugins\Checkout\Core
  */
 
 /**
  * Template handler for associated template piece. Typically there should only be 3 of these in total (header, footer,
  * content)
  *
- * @since      0.1.0
- * @package    Objectiv\Plugins\Checkout\Core
- * @author     Brandon Tassone <brandontassone@gmail.com>
+ * @since 0.1.0
+ * @package Objectiv\Plugins\Checkout\Core
+ * @author Brandon Tassone <brandontassone@gmail.com>
  */
 
 class Template {
@@ -25,33 +25,35 @@ class Template {
 	/**
 	 * The template path
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      string    $path    The template path
+	 * @since 0.1.0
+	 * @access protected
+	 * @var string $path The template path
 	 */
 	protected $path;
 
 	/**
 	 * The template callback
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      string    $callback    The template callback
+	 * @since 0.1.0
+	 * @access protected
+	 * @var string $callback The template callback
 	 */
 	protected $callback;
 
 	/**
 	 * The template parameters
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      array    $parameters    The template parameters
+	 * @since 0.1.0
+	 * @access protected
+	 * @var array $parameters The template parameters
 	 */
 	protected $parameters;
 
 	/**
 	 * Template constructor.
 	 *
+	 * @since 0.1.0
+	 * @access public
 	 * @param $path
 	 * @param $callback
 	 * @param $parameters
@@ -63,14 +65,10 @@ class Template {
 	}
 
 	/**
-	 * @return mixed
-	 */
-	public function get_path()
-	{
-		return $this->path;
-	}
-
-	/**
+	 * Return the callback for the template
+	 *
+	 * @since 0.1.0
+	 * @access public
 	 * @return mixed
 	 */
 	public function get_callback()
@@ -79,6 +77,10 @@ class Template {
 	}
 
 	/**
+	 * Get the parameters for the template
+	 *
+	 * @since 0.1.0
+	 * @access public
 	 * @return mixed
 	 */
 	public function get_parameters()
@@ -87,6 +89,21 @@ class Template {
 	}
 
 	/**
+	 * Return the template path
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return mixed
+	 */
+	public function get_path()
+	{
+		return $this->path;
+	}
+
+	/**
+	 * Call the template and its relevant callback
+	 * @since 0.1.0
+	 * @access public
 	 * @return mixed
 	 */
 	public function view() {

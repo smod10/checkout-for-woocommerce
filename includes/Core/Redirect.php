@@ -7,10 +7,10 @@ use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 /**
  * Handles all redirects for the checkout theme overhaul
  *
- * @link       cgd.io
- * @since      0.1.0
+ * @link cgd.io
+ * @since 0.1.0
  *
- * @package    Objectiv\Plugins\Checkout\Core
+ * @package Objectiv\Plugins\Checkout\Core
  */
 
 /**
@@ -18,9 +18,9 @@ use Objectiv\Plugins\Checkout\Managers\TemplateManager;
  *
  * Currently the class only handles redirection for the checkout page. Future redirect functionality would go here.
  *
- * @since      0.1.0
- * @package    Objectiv\Plugins\Checkout\Core
- * @author     Brandon Tassone <brandontassone@gmail.com>
+ * @since 0.1.0
+ * @package Objectiv\Plugins\Checkout\Core
+ * @author Brandon Tassone <brandontassone@gmail.com>
  */
 
 class Redirect
@@ -28,9 +28,9 @@ class Redirect
 	/**
 	 * If is_checkout and exists and it is the checkout section we redirect to the template section.
 	 *
-	 * @param   TemplateManager     $template_manager
-	 * @since   0.1.0
-	 * @access  public
+	 * @since 0.1.0
+	 * @access public
+	 * @param TemplateManager $template_manager
 	 */
 	public function checkout($template_manager){
 		if( function_exists('is_checkout') && is_checkout() ) {

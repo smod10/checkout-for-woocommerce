@@ -1,5 +1,6 @@
 #cfw-header {
-  background: red; }
+  background: #222;
+  min-height: 150px; }
 
 #cfw-content {
   background: blue; }

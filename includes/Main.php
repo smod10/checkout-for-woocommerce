@@ -9,6 +9,7 @@ use Objectiv\Plugins\Checkout\Utilities\Activator;
 use Objectiv\Plugins\Checkout\Language\i18n;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
+use Objectiv\Plugins\Checkout\Managers\AssetManager;
 
 /**
  * The file that defines the core plugin class
@@ -65,6 +66,13 @@ class Main extends Singleton {
 	 * @var TemplateManager $template_manager Handles all template related functionality.
 	 */
 	private $template_manager;
+
+	/**
+	 * @since 0.1.0
+	 * @access private
+	 * @var AssetManager $asset_manager Handles the assets and asset registration
+	 */
+	private $asset_manager;
 
 	/**
 	 * @since 0.1.0
@@ -197,18 +205,19 @@ class Main extends Singleton {
 		// Instantiate program objects
 		$this->loader = new Loader();
 
-		// Create the template manager
-		$this->template_manager = new TemplateManager($this->path_manager);
-
 		// Set up localization
 		$this->set_locale();
 
+		// Create the template manager
+		$this->template_manager = new TemplateManager($this->path_manager);
+		$this->template_manager->create_templates($path_manager);
+
+		// Create the asset manager and register the assets
+		$this->asset_manager = new AssetManager($this->path_manager);
+		$this->asset_manager->register_assets($path_manager, $this->plugin_name, $this->version);
+
 		// Load the plugin actions
 		$this->load_actions();
-
-		// Pull in backend admin and public resources
-		$this->define_admin_hooks();
-		$this->define_public_hooks();
 
 		// Enable the checkout redirects
 		$this->enable_redirects();
@@ -223,28 +232,6 @@ class Main extends Singleton {
 	 */
 	private function check_flags() {
 		(!defined('CO_DEV_MODE') || !CO_DEV_MODE) ?: $this->enable_dev_mode();
-	}
-
-	/**
-	 * Register all of the hooks related to the admin area functionality
-	 * of the plugin.
-	 *
-	 * @since 0.1.0
-	 * @access private
-	 */
-	private function define_admin_hooks() {
-
-	}
-
-	/**
-	 * Register all of the hooks related to the public-facing functionality
-	 * of the plugin.
-	 *
-	 * @since 0.1.0
-	 * @access private
-	 */
-	private function define_public_hooks() {
-
 	}
 
 	/**
@@ -275,8 +262,8 @@ class Main extends Singleton {
 	private function enable_redirects() {
 		$this->redirect = new Redirect();
 
-		$this->loader->add_action('template_redirect', function() {
-			$this->redirect->checkout($this->template_manager);
+		$this->loader->add_filter('template_include', function($wp_template) {
+			$this->redirect->checkout($this->template_manager, $wp_template);
 		});
 	}
 
@@ -288,6 +275,23 @@ class Main extends Singleton {
 	 */
 	private function load_actions() {
 		$this->loader->add_action('admin_notices', function(){ Activator::activate_admin_notice($this->path_manager); });
+
+		$this->register_admin_assets();
+		$this->register_front_assets();
+	}
+
+	private function register_admin_assets() {
+		$admin_assets = $this->asset_manager->get_assets()['admin'];
+
+		$this->loader->add_action( 'admin_enqueue_scripts', array($admin_assets, 'enqueue_styles') );
+		$this->loader->add_action( 'admin_enqueue_scripts', array($admin_assets, 'enqueue_scripts') );
+	}
+
+	private function register_front_assets() {
+		$front_assets = $this->asset_manager->get_assets()['front'];
+
+		$this->loader->add_action( 'wp_enqueue_scripts', array($front_assets, 'enqueue_styles') );
+		$this->loader->add_action( 'wp_enqueue_scripts', array($front_assets, 'enqueue_scripts') );
 	}
 
 	/**

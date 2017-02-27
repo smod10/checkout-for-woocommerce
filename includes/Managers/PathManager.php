@@ -76,17 +76,6 @@ class PathManager {
 	}
 
 	/**
-	 * Piece together and return the asset sub folder paths
-	 *
-	 * @access public
-	 * @param array $sub_folders List of the folder names to append to the main asset directory
-	 * @return array
-	 */
-	public function get_asset_information($sub_folders) {
-		return [];
-	}
-
-	/**
 	 * Get the path to the assets folder
 	 *
 	 * @since 0.1.0

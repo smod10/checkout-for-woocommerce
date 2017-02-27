@@ -54,9 +54,6 @@ class TemplateManager {
 		// Set the sub folder information that will be looked for regardless of the base folder
 		$this->template_sub_folders = array("header", "content", "footer");
 		$this->templates = array();
-
-		// Generate the template objects
-		$this->create_templates($path_manager);
 	}
 
 	/**

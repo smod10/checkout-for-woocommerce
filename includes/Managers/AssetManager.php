@@ -2,6 +2,9 @@
 
 namespace Objectiv\Plugins\Checkout\Managers;
 
+use Objectiv\Plugins\Checkout\Main;
+use Objectiv\Plugins\Checkout\Core\Assets;
+
 /**
  * Manages the admin and front end assets (css, images, js)
  *
@@ -22,15 +25,6 @@ namespace Objectiv\Plugins\Checkout\Managers;
 class AssetManager {
 
 	/**
-	 * Contains the folder names that go under front and admin folders
-	 *
-	 * @since 0.1.0
-	 * @access private
-	 * @var array $sub_folders
-	 */
-	private $sub_folders;
-
-	/**
 	 * The relevant registered assets (most likely the images)
 	 *
 	 * @since 0.1.0
@@ -40,6 +34,15 @@ class AssetManager {
 	private $assets;
 
 	/**
+	 * The type of assets that can be hooked
+	 *
+	 * @since 0.1.0
+	 * @access private
+	 * @var array $asset_types admin | front
+	 */
+	private $asset_types;
+
+	/**
 	 * AssetManager constructor.
 	 *
 	 * @since 0.1.0
@@ -47,10 +50,8 @@ class AssetManager {
 	 * @param PathManager $path_manager
 	 */
 	public function __construct($path_manager) {
-		$this->sub_folders = array("css", "js", "images");
+		$this->asset_types = array("admin", "front");
 		$this->assets = array();
-
-		$this->register_assets($path_manager);
 	}
 
 	/**
@@ -60,19 +61,11 @@ class AssetManager {
 	 * @access public
 	 * @param PathManager $path_manager
 	 */
-	public function register_assets($path_manager) {
-		// TODO: Implementation goes here
-	}
-
-	/**
-	 * Return the asset sub folders array
-	 *
-	 * @since 0.1.0
-	 * @access public
-	 * @return array
-	 */
-	public function get_sub_folders() {
-		return $this->sub_folders;
+	public function register_assets($path_manager, $plugin_name, $version) {
+		foreach($this->asset_types as $asset_type) {
+			$asset_type_base_path = "{$path_manager->get_assets_path()}/{$asset_type}";
+			$this->assets[$asset_type] = new Assets($plugin_name, $version, $asset_type, $asset_type_base_path);
+		}
 	}
 
 	/**
@@ -84,5 +77,16 @@ class AssetManager {
 	 */
 	public function get_assets() {
 		return $this->assets;
+	}
+
+	/**
+	 * Return the asset types
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return array
+	 */
+	public function get_asset_types() {
+		return $this->asset_types;
 	}
 }

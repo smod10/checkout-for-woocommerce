@@ -31,11 +31,15 @@ class Redirect
 	 * @since 0.1.0
 	 * @access public
 	 * @param TemplateManager $template_manager
+	 * @param string $wp_template
+	 * @return string
 	 */
-	public function checkout($template_manager){
+	public function checkout($template_manager, $wp_template){
+		d($wp_template);
 		if( function_exists('is_checkout') && is_checkout() ) {
 			$template_manager->load_templates();
-			exit;
 		}
+
+		return $wp_template;
 	}
 }

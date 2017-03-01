@@ -208,6 +208,8 @@ class Main extends Singleton {
 		// Load the plugin actions
 		$this->load_actions();
 
+		$this->load_filters();
+
 		// Enable the checkout redirects
 		$this->enable_redirects();
 	}
@@ -289,5 +291,16 @@ class Main extends Singleton {
 		$this->loader->add_action('init', function(){ $this->i18n->load_plugin_textdomain($this->path_manager); });
 		$this->loader->add_action('admin_notices', function(){ Activator::activate_admin_notice($this->path_manager); });
 		$this->loader->add_action('admin_enqueue_scripts', function(){ $this->assets_manager->load_assets('admin'); });
+	}
+
+	/**
+	 * Filters in this plugin allow you to augment a lot of the default functionality present. Anything mission critical
+	 * that needs to be augmented will probably have a filter attached
+	 *
+	 * @since 0.1.0
+	 * @access private
+	 */
+	private function load_filters() {
+
 	}
 }

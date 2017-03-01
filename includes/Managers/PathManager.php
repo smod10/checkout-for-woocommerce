@@ -146,16 +146,12 @@ class PathManager {
 			$plugin_template_path = $this->plugin_template . "/" . $sub_folder . "/template.php";
 			$theme_template_path = $this->theme_template . "/" . $sub_folder . "/template.php";
 
-			// Get the plugin function files that work for the corresponding templates
-			$plugin_template_function_path = $this->plugin_template . "/" . $sub_folder . "/function.php";
-
 			// Get the template path we want (user overloaded, or base)
 			$template_path = file_exists($theme_template_path) ? $theme_template_path : $plugin_template_path;
 
 			// Add the appropriate paths to the template information array.
 			$template_information[$sub_folder] = array(
-				"template" => $template_path,
-				"function" => $plugin_template_function_path
+				"template" => $template_path
 			);
 		}
 		return $template_information;

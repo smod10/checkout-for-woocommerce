@@ -12,7 +12,7 @@ namespace Objectiv\Plugins\Checkout\Core;
  * @author Brandon Tassone <brandontassone@gmail.com>
  */
 
-class Template {
+abstract class Template {
 
 	/**
 	 * The template path
@@ -47,13 +47,9 @@ class Template {
 	 * @since 0.1.0
 	 * @access public
 	 * @param $path
-	 * @param $callback
-	 * @param $parameters
 	 */
-	public function __construct($path, $callback, $parameters) {
+	public function __construct($path) {
 		$this->path = $path;
-		$this->callback = $callback;
-		$this->parameters = $parameters;
 	}
 
 	/**
@@ -93,14 +89,10 @@ class Template {
 	}
 
 	/**
-	 * Call the template and its relevant callback
+	 * Call the template and its relevant callback. Override this
 	 * @since 0.1.0
 	 * @access public
 	 * @return mixed
 	 */
-	public function view() {
-		$output = call_user_func_array($this->callback, $this->parameters);
-
-		require_once $this->path;
-	}
+	abstract public function view();
 }

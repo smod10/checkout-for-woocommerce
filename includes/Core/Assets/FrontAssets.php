@@ -39,6 +39,8 @@ class FrontAssets extends Assets {
 	public function load() {
 		foreach($this->get_asset_files() as $folder => $files) {
 			foreach($files as $file) {
+
+				// Asset path (assets/base_path/folder/file)
 				$path = "{$this->get_base_path()}/$folder/$file";
 
 				switch($folder) {

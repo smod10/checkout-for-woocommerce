@@ -43,7 +43,11 @@ class TemplateManager {
 	 */
 	public function __construct() {
 		// Set the sub folder information that will be looked for regardless of the base folder
-		$this->template_sub_folders = array("header", "content", "footer");
+		$this->template_sub_folders = array(
+			"header"    => 'Objectiv\Plugins\Checkout\Core\Templates\HeaderTemplate',
+			"content"   => 'Objectiv\Plugins\Checkout\Core\Templates\ContentTemplate',
+			"footer"    => 'Objectiv\Plugins\Checkout\Core\Templates\FooterTemplate'
+		);
 		$this->templates = array();
 	}
 
@@ -55,16 +59,11 @@ class TemplateManager {
 	 * @param PathManager $path_manager
 	 */
 	public function create_templates($path_manager) {
-		foreach($path_manager->get_template_information($this->template_sub_folders) as $template_name => $template_path_info) {
+		foreach($path_manager->get_template_information(array_keys($this->template_sub_folders)) as $template_name => $template_path_info) {
 			$template_path = $template_path_info["template"];
-			$template_function_path = $template_path_info["function"];
+			$class = $this->template_sub_folders[$template_name];
 
-			$template_file_info = require_once $template_function_path;
-
-			$template_parameters = $template_file_info["parameters"];
-			$template_callback = $template_file_info["callback"];
-
-			$this->templates[$template_name] = new Template($template_path, $template_callback, $template_parameters);
+			$this->templates[$template_name] = new $class($template_path);
 		}
 	}
 

@@ -2,7 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout\Managers;
 
-use Objectiv\Plugins\Checkout\Core\Assets;
+use Objectiv\Plugins\Checkout\Base\Assets;
 
 /**
  * Handles the requiring and the passing back and forth of assets on the front end and in the back end on the admin side

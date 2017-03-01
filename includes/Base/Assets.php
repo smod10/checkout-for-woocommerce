@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Core;
+namespace Objectiv\Plugins\Checkout\Base;
 
 /**
  * Abstract base class with some baked in limited functionality. Front and Admin asset classes are extended from this

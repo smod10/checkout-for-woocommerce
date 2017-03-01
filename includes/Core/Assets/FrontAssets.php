@@ -2,7 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout\Core\Assets;
 
-use Objectiv\Plugins\Checkout\Core\Assets;
+use Objectiv\Plugins\Checkout\Base\Assets;
 
 /**
  * FrontAssets is a child class specifically used for implementing the logic side of the Assets abstract class. The two

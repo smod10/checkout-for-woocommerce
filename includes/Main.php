@@ -273,8 +273,8 @@ class Main extends Singleton {
 	private function enable_redirects() {
 		$this->redirect = new Redirect();
 
-		$this->loader->add_action('template_redirect', function($wp_template) {
-			return $this->redirect->checkout($this->template_manager, $this->assets_manager, $wp_template);
+		$this->loader->add_action('template_redirect', function() {
+			return $this->redirect->checkout($this->template_manager, $this->assets_manager);
 		});
 	}
 

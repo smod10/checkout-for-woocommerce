@@ -9,19 +9,7 @@ use Objectiv\Plugins\Checkout\Utilities\Activator;
 use Objectiv\Plugins\Checkout\Language\i18n;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
-use Objectiv\Plugins\Checkout\Managers\AssetManager;
-
-/**
- * The file that defines the core plugin class
- *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area.
- *
- * @link cgd.io
- * @since 0.1.0
- *
- * @package Objectiv\Plugins\Checkout
- */
+use Objectiv\Plugins\Checkout\Managers\AssetsManager;
 
 /**
  * The core plugin class.
@@ -32,6 +20,7 @@ use Objectiv\Plugins\Checkout\Managers\AssetManager;
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
+ * @link cgd.io
  * @since 0.1.0
  * @package Objectiv\Plugins\Checkout
  * @author Brandon Tassone <brandontassone@gmail.com>
@@ -70,9 +59,9 @@ class Main extends Singleton {
 	/**
 	 * @since 0.1.0
 	 * @access private
-	 * @var AssetManager $asset_manager Handles the assets and asset registration
+	 * @var AssetsManager $assets_manager Handles the assets and asset registration
 	 */
-	private $asset_manager;
+	private $assets_manager;
 
 	/**
 	 * @since 0.1.0
@@ -107,6 +96,17 @@ class Main extends Singleton {
 	 * @var string $version The current version of the plugin.
 	 */
 	private $version;
+
+	/**
+	 * Returns the AssetsManager object for the plugin
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return AssetsManager
+	 */
+	public function get_assets_manager() {
+		return $this->assets_manager;
+	}
 
 	/**
 	 * Returns the i18n language class
@@ -202,19 +202,8 @@ class Main extends Singleton {
 		// Enable program flags
 		$this->check_flags();
 
-		// Instantiate program objects
-		$this->loader = new Loader();
-
-		// Set up localization
-		$this->set_locale();
-
-		// Create the template manager
-		$this->template_manager = new TemplateManager($this->path_manager);
-		$this->template_manager->create_templates($path_manager);
-
-		// Create the asset manager and register the assets
-		$this->asset_manager = new AssetManager($this->path_manager);
-		$this->asset_manager->register_assets($path_manager, $this->plugin_name, $this->version);
+		// Create and setup the plugins main objects
+		$this->create_main_objects();
 
 		// Load the plugin actions
 		$this->load_actions();
@@ -232,6 +221,28 @@ class Main extends Singleton {
 	 */
 	private function check_flags() {
 		(!defined('CO_DEV_MODE') || !CO_DEV_MODE) ?: $this->enable_dev_mode();
+	}
+
+	/**
+	 * Creates the main objects used in this plugins setup and processing
+	 *
+	 * @since 0.1.0
+	 * @access private
+	 */
+	private function create_main_objects() {
+		// Create the loader for actions and filters
+		$this->loader = new Loader();
+
+		// Set up localization
+		$this->i18n = new i18n();
+
+		// Create the template manager
+		$this->template_manager = new TemplateManager();
+		$this->template_manager->create_templates($this->path_manager);
+
+		// Create the asset manager and register the assets
+		$this->assets_manager = new AssetsManager();
+		$this->assets_manager->register_assets($this->path_manager, $this->plugin_name, $this->version);
 	}
 
 	/**
@@ -263,7 +274,7 @@ class Main extends Singleton {
 		$this->redirect = new Redirect();
 
 		$this->loader->add_filter('template_include', function($wp_template) {
-			$this->redirect->checkout($this->template_manager, $wp_template);
+			return $this->redirect->checkout($this->template_manager, $this->assets_manager, $wp_template);
 		});
 	}
 
@@ -274,40 +285,9 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function load_actions() {
+		// Try to list actions in order of their actual chain execution
+		$this->loader->add_action('init', function(){ $this->i18n->load_plugin_textdomain($this->path_manager); });
 		$this->loader->add_action('admin_notices', function(){ Activator::activate_admin_notice($this->path_manager); });
-
-		$this->register_admin_assets();
-		$this->register_front_assets();
-	}
-
-	private function register_admin_assets() {
-		$admin_assets = $this->asset_manager->get_assets()['admin'];
-
-		$this->loader->add_action( 'admin_enqueue_scripts', array($admin_assets, 'enqueue_styles') );
-		$this->loader->add_action( 'admin_enqueue_scripts', array($admin_assets, 'enqueue_scripts') );
-	}
-
-	private function register_front_assets() {
-		$front_assets = $this->asset_manager->get_assets()['front'];
-
-		$this->loader->add_action( 'wp_enqueue_scripts', array($front_assets, 'enqueue_styles') );
-		$this->loader->add_action( 'wp_enqueue_scripts', array($front_assets, 'enqueue_scripts') );
-	}
-
-	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the i18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since 0.1.0
-	 * @access private
-	 */
-	private function set_locale() {
-		$this->i18n = new i18n();
-
-		$this->loader->add_action('init', function(){
-			$this->i18n->load_plugin_textdomain($this->path_manager);
-		});
+		$this->loader->add_action('admin_enqueue_scripts', function(){ $this->assets_manager->load_assets('admin'); });
 	}
 }

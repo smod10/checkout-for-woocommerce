@@ -5,19 +5,11 @@ namespace Objectiv\Plugins\Checkout\Utilities;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 
 /**
- * Fired during plugin activation
- *
- * @link cgd.io
- * @since 0.1.0
- *
- * @package Objectiv\Plugins\Checkout\Utilities
- */
-
-/**
  * Fired during plugin activation.
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
+ * @link cgd.io
  * @since 0.1.0
  * @package Objectiv\Plugins\Checkout\Utilities
  * @author Brandon Tassone <brandontassone@gmail.com>

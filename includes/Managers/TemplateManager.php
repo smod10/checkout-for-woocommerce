@@ -5,19 +5,11 @@ namespace Objectiv\Plugins\Checkout\Managers;
 use Objectiv\Plugins\Checkout\Core\Template;
 
 /**
- * The template manager is responsible for the template paths
- *
- * @link cgd.io
- * @since 0.1.0
- *
- * @package Objectiv\Plugins\Checkout\Managers
- */
-
-/**
  * The template manager gathers the relevant path information for the sub folder files. The theme paths are deduced from
- * built in wordpress functions and the plugin path is passed in from the Main class on creation. The relevant path info
+ * built in WordPress functions and the plugin path is passed in from the Main class on creation. The relevant path info
  * is pulled in from get_template_information. It is an array of Key Value pairs in the form of sub folder => file path
  *
+ * @link cgd.io
  * @since 0.1.0
  * @package Objectiv\Plugins\Checkout\Managers
  * @author Brandon Tassone <brandontassone@gmail.com>
@@ -48,9 +40,8 @@ class TemplateManager {
 	 *
 	 * @since 0.1.0
 	 * @access public
-	 * @param PathManager $path_manager
 	 */
-	public function __construct($path_manager) {
+	public function __construct() {
 		// Set the sub folder information that will be looked for regardless of the base folder
 		$this->template_sub_folders = array("header", "content", "footer");
 		$this->templates = array();

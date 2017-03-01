@@ -71,7 +71,7 @@ register_deactivation_hook( __FILE__, '\deactivate_checkout' );
 function run_checkout() {
 
 	$main = Main::instance();
-	$pm = new PathManager(plugin_dir_path( __FILE__ ), basename(__FILE__));
+	$pm = new PathManager(plugin_dir_path( __FILE__ ), plugin_dir_url( __FILE__ ), basename(__FILE__));
 	$main->setup($pm);
 	$main->run();
 

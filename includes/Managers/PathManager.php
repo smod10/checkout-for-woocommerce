@@ -3,23 +3,14 @@
 namespace Objectiv\Plugins\Checkout\Managers;
 
 /**
- * Manages plugin related path information
- *
- * @link cgd.io
- * @since 0.1.0
- *
- * @package Objectiv\Plugins\Checkout\Managers
- */
-
-/**
- * Class PathManager
- *
  * Manages plugin related path information.
  *
  * This class is mainly used in the template manager and other classes related to plugin setup and file management
  *
+ * @link cgd.io
+ * @since 0.1.0
  * @package Objectiv\Plugins\Checkout\Managers
- * @author Brandon Tassone
+ * @author Brandon Tassone <brandontassone@gmail.com>
  */
 
 class PathManager {
@@ -29,6 +20,13 @@ class PathManager {
 	 * @var string The base path to the plugin
 	 */
 	private $base;
+
+	/**
+	 * @since 0.1.0
+	 * @access private
+	 * @var string The url base path to the plugin
+	 */
+	private $url_base;
 
 	/**
 	 * @since 0.1.0
@@ -64,15 +62,17 @@ class PathManager {
 	 * @since 0.1.0
 	 * @access public
 	 * @param string $base The plugin base path
+	 * @param string $url_base The plugin url base path
 	 * @param string $main_file The main plugin file
 	 */
-	public function __construct($base, $main_file) {
+	public function __construct($base, $url_base, $main_file) {
 		$this->base = $base;
+		$this->url_base = $url_base;
 		$this->main_file = $main_file;
 
-		$this->plugin_template = $this->base . "/templates";
+		$this->plugin_template = $this->base . "templates";
+		$this->assets = $this->url_base . "assets";
 		$this->theme_template = get_template_directory() . "/checkout";
-		$this->assets = $this->base . "/assets";
 	}
 
 	/**
@@ -162,11 +162,24 @@ class PathManager {
 	}
 
 	/**
+	 * Returns the value of the theme_template variable
+	 *
 	 * @since 0.1.0
 	 * @access public
 	 * @return string The theme template path
 	 */
 	public function get_theme_template() {
 		return $this->theme_template;
+	}
+
+	/**
+	 * Returns the value of variable url_base
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return string The url base path
+	 */
+	public function get_url_base() {
+		return $this->url_base;
 	}
 }

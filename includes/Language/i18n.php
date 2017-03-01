@@ -5,23 +5,12 @@ namespace Objectiv\Plugins\Checkout\Language;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 
 /**
- * Define the internationalization functionality
- *
- * Loads and defines the internationalization files for this plugin
- * so that it is ready for translation.
- *
- * @link cgd.io
- * @since 0.1.0
- *
- * @package Objectiv\Plugins\Checkout\Language
- */
-
-/**
  * Define the internationalization functionality.
  *
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
+ * @link cgd.io
  * @since 0.1.0
  * @package Objectiv\Plugins\Checkout\Language
  * @author Brandon Tassone <brandontassone@gmail.com>

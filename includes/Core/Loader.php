@@ -3,21 +3,13 @@
 namespace Objectiv\Plugins\Checkout\Core;
 
 /**
- * Register all actions and filters for the plugin
+ * Register all actions and filters for the plugin.
+ *
+ * Maintain a list of all hooks that are registered throughout the plugin, and register them with the WordPress API.
+ * Call the run function to execute the list of actions and filters.
  *
  * @link cgd.io
  * @since 0.1.0
- *
- * @package Objectiv\Plugins\Checkout\Core
- */
-
-/**
- * Register all actions and filters for the plugin.
- *
- * Maintain a list of all hooks that are registered throughout
- * the plugin, and register them with the WordPress API. Call the
- * run function to execute the list of actions and filters.
- *
  * @package Objectiv\Plugins\Checkout\Core
  * @author Brandon Tassone <brandontassone@gmail.com>
  */

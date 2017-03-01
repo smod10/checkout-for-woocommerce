@@ -3,18 +3,10 @@
 namespace Objectiv\Plugins\Checkout\Core;
 
 /**
- * Template handler for associated template piece
- *
- * @link cgd.io
- * @since 0.1.0
- *
- * @package Objectiv\Plugins\Checkout\Core
- */
-
-/**
  * Template handler for associated template piece. Typically there should only be 3 of these in total (header, footer,
  * content)
  *
+ * @link cgd.io
  * @since 0.1.0
  * @package Objectiv\Plugins\Checkout\Core
  * @author Brandon Tassone <brandontassone@gmail.com>

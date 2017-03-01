@@ -2,7 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout;
 
-use Objectiv\Plugins\Checkout\Base\Singleton;
+use Objectiv\Plugins\Checkout\Core\Base\Singleton;
 use Objectiv\Plugins\Checkout\Core\Loader;
 use Objectiv\Plugins\Checkout\Core\Redirect;
 use Objectiv\Plugins\Checkout\Utilities\Activator;

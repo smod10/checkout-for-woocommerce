@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Base;
+namespace Objectiv\Plugins\Checkout\Core\Base;
 
 /**
  * Abstract base class with some baked in limited functionality. Front and Admin asset classes are extended from this
@@ -9,7 +9,7 @@ namespace Objectiv\Plugins\Checkout\Base;
  * @link cgd.io
  * @since 0.1.0
  *
- * @package Objectiv\Plugins\Checkout\Core
+ * @package Objectiv\Plugins\Checkout\Core\Base
  * @author Brandon Tassone <brandontassone@gmail.com>
  */
 

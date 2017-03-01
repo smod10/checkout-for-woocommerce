@@ -2,8 +2,6 @@
 
 namespace Objectiv\Plugins\Checkout\Managers;
 
-use Objectiv\Plugins\Checkout\Core\Template;
-
 /**
  * The template manager gathers the relevant path information for the sub folder files. The theme paths are deduced from
  * built in WordPress functions and the plugin path is passed in from the Main class on creation. The relevant path info
@@ -72,10 +70,11 @@ class TemplateManager {
 	 *
 	 * @since 0.1.0
 	 * @access public
+	 * @param array $global_parameters
 	 */
-	public function load_templates() {
+	public function load_templates($global_parameters) {
 		foreach($this->templates as $template) {
-			$template->view();
+			$template->view($global_parameters);
 		}
 	}
 

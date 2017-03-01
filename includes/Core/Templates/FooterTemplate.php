@@ -2,7 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout\Core\Templates;
 
-use Objectiv\Plugins\Checkout\Core\Template;
+use Objectiv\Plugins\Checkout\Core\Base\Template;
 
 /**
  * FooterTemplate child class. Specifically created to handle a class specific implementation of the view method
@@ -25,10 +25,13 @@ class FooterTemplate extends Template {
 
 	/**
 	 * Handles filtering the parameters and loading the template for the FooterTemplate class
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @param array $global_parameters
 	 */
-	public function view() {
-		$parameters = apply_filters('checkout-woocommerce_template_global_params', array());
-		$parameters = apply_filters('checkout-woocommerce_template_footer_params', $parameters);
+	public function view($global_parameters) {
+		$parameters = apply_filters('checkout-woocommerce_template_footer_params', $global_parameters);
 
 		require_once $this->get_path();
 	}

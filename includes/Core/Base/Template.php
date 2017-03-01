@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Core;
+namespace Objectiv\Plugins\Checkout\Core\Base;
 
 /**
  * Template handler for associated template piece. Typically there should only be 3 of these in total (header, footer,
@@ -24,15 +24,6 @@ abstract class Template {
 	protected $path;
 
 	/**
-	 * The template callback
-	 *
-	 * @since 0.1.0
-	 * @access protected
-	 * @var string $callback The template callback
-	 */
-	protected $callback;
-
-	/**
 	 * The template parameters
 	 *
 	 * @since 0.1.0
@@ -50,18 +41,6 @@ abstract class Template {
 	 */
 	public function __construct($path) {
 		$this->path = $path;
-	}
-
-	/**
-	 * Return the callback for the template
-	 *
-	 * @since 0.1.0
-	 * @access public
-	 * @return mixed
-	 */
-	public function get_callback()
-	{
-		return $this->callback;
 	}
 
 	/**
@@ -92,7 +71,7 @@ abstract class Template {
 	 * Call the template and its relevant callback. Override this
 	 * @since 0.1.0
 	 * @access public
-	 * @return mixed
+	 * @param array $global_parameters
 	 */
-	abstract public function view();
+	abstract public function view($global_parameters);
 }

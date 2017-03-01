@@ -29,8 +29,12 @@ class Redirect
 	 */
 	public function checkout($template_manager, $assets_manager){
 		if( function_exists('is_checkout') && is_checkout() ) {
+			// Allow global parameters accessible by the templates
+			$global_template_parameters = apply_filters('checkout-woocommerce_template_global_params', array(\WooCommerce::instance()));
+
+			// Load the front end assets, then load the templates
 			$assets_manager->load_assets('front');
-			$template_manager->load_templates();
+			$template_manager->load_templates($global_template_parameters);
 			exit;
 		}
 	}

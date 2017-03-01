@@ -25,16 +25,13 @@ class Redirect
 	 * @access public
 	 * @param TemplateManager $template_manager
 	 * @param AssetsManager $assets_manager
-	 * @param string $wp_template
 	 * @return string
 	 */
-	public function checkout($template_manager, $assets_manager, $wp_template){
+	public function checkout($template_manager, $assets_manager){
 		if( function_exists('is_checkout') && is_checkout() ) {
 			$assets_manager->load_assets('front');
 			$template_manager->load_templates();
 			exit;
 		}
-
-		return $wp_template;
 	}
 }

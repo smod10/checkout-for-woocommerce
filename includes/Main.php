@@ -208,6 +208,7 @@ class Main extends Singleton {
 		// Load the plugin actions
 		$this->load_actions();
 
+		// Load the plugin filters
 		$this->load_filters();
 
 		// Enable the checkout redirects

@@ -1,0 +1,23 @@
+{
+  "name": "checkout-for-woocommerce",
+  "authors": [
+    "Brandon Tassone <brandontassone@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize-css": "^5.0.0",
+    "easytabs": "^3.2.0",
+    "garlicjs": "^1.3.0"
+  }
+}

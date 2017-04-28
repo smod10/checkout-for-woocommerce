@@ -2,14 +2,18 @@
 
 namespace Objectiv\Plugins\Checkout;
 
-use Objectiv\Plugins\Checkout\Core\Base\Singleton;
-use Objectiv\Plugins\Checkout\Core\Loader;
-use Objectiv\Plugins\Checkout\Core\Redirect;
-use Objectiv\Plugins\Checkout\Utilities\Activator;
 use Objectiv\Plugins\Checkout\Language\i18n;
+use Objectiv\Plugins\Checkout\Utilities\Activator;
+use Objectiv\Plugins\Checkout\Utilities\Deactivator;
+use Objectiv\Plugins\Checkout\Core\Base\Singleton;
+use Objectiv\Plugins\Checkout\Core\Redirect;
+use Objectiv\Plugins\Checkout\Core\Loader;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 use Objectiv\Plugins\Checkout\Managers\AssetsManager;
+
+use \Whoops\Run;
+use \Whoops\Handler\PrettyPageHandler;
 
 /**
  * The core plugin class.
@@ -39,16 +43,7 @@ class Main extends Singleton {
 	private $loader;
 
 	/**
-	 * The redirect class handles the theme redirects in relation to the woocommerce checkout system
-	 *
-	 * @since 0.1.0
-	 * @access private
-	 * @var Redirect $redirect Maintains and registers all the redirects
-	 */
-	private $redirect;
-
-	/**
-	 * The redirect class handles the theme redirects in relation to the woocommerce checkout system
+	 * Template related functionality manager
 	 *
 	 * @since 0.1.0
 	 * @access private
@@ -96,6 +91,15 @@ class Main extends Singleton {
 	 * @var string $version The current version of the plugin.
 	 */
 	private $version;
+
+	/**
+	 * Main constructor.
+	 */
+	public function __construct() {
+		// Program Details
+		$this->plugin_name = "Checkout for Woocommerce";
+		$this->version = "0.1.0";
+	}
 
 	/**
 	 * Returns the AssetsManager object for the plugin
@@ -180,39 +184,17 @@ class Main extends Singleton {
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
 	 * @since 0.1.0
-	 * @access public
+	 * @param string $file The file path to the main plugin file
 	 */
-	public function run() {
-		$this->loader->run();
-	}
-
-	/**
-	 * Takes place of the constructor for the main class. Calls this to setup the plugin.
-	 *
-	 * @since 0.1.0
-	 * @access public
-	 * @param $path_manager PathManager Plugin related path information
-	 */
-	public function setup($path_manager) {
-		// Program Details
-		$this->plugin_name = "Checkout for Woocommerce";
-		$this->version = "0.1.0";
-		$this->path_manager = $path_manager;
-
+	public function run($file) {
 		// Enable program flags
 		$this->check_flags();
 
 		// Create and setup the plugins main objects
-		$this->create_main_objects();
+		$this->create_main_objects($file);
 
-		// Load the plugin actions
-		$this->load_actions();
-
-		// Load the plugin filters
-		$this->load_filters();
-
-		// Enable the checkout redirects
-		$this->enable_redirects();
+		// Adds the plugins hooks
+		$this->add_plugin_hooks();
 	}
 
 	/**
@@ -227,28 +209,6 @@ class Main extends Singleton {
 	}
 
 	/**
-	 * Creates the main objects used in this plugins setup and processing
-	 *
-	 * @since 0.1.0
-	 * @access private
-	 */
-	private function create_main_objects() {
-		// Create the loader for actions and filters
-		$this->loader = new Loader();
-
-		// Set up localization
-		$this->i18n = new i18n();
-
-		// Create the template manager
-		$this->template_manager = new TemplateManager();
-		$this->template_manager->create_templates($this->path_manager);
-
-		// Create the asset manager and register the assets
-		$this->assets_manager = new AssetsManager();
-		$this->assets_manager->register_assets($this->path_manager, $this->plugin_name, $this->version);
-	}
-
-	/**
 	 * Enables libraries and functions for the specific task of aiding in development
 	 *
 	 * Whoops - Pretty Errors
@@ -259,8 +219,8 @@ class Main extends Singleton {
 	 */
 	private function enable_dev_mode() {
 		// Enable Whoops
-		$whoops = new \Whoops\Run;
-		$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+		$whoops = new Run();
+		$whoops->pushHandler(new PrettyPageHandler());
 		$whoops->register();
 
 		// Enable Kint
@@ -268,17 +228,45 @@ class Main extends Singleton {
 	}
 
 	/**
-	 * Enables the redirects that reroute certain portions of the woocommerce framework
+	 * Creates the main objects used in this plugins setup and processing
+	 *
+	 * Note: Realistically the only function that would be needed for testing.
 	 *
 	 * @since 0.1.0
 	 * @access private
+	 * @param string $file The file path to the main plugin file
 	 */
-	private function enable_redirects() {
-		$this->redirect = new Redirect();
+	private function create_main_objects($file) {
 
-		$this->loader->add_action('template_redirect', function() {
-			return $this->redirect->checkout($this->template_manager, $this->assets_manager);
-		});
+		// Create the loader for actions and filters
+		$this->loader = new Loader();
+
+		// Set up localization
+		$this->i18n = new i18n();
+
+		// The path manager for the plugin
+		$this->path_manager = new PathManager(plugin_dir_path($file), plugin_dir_url($file), basename($file));
+
+		// Create the template manager
+		$this->template_manager = new TemplateManager();
+
+		// Create the asset manager and register the assets
+		$this->assets_manager = new AssetsManager($this->path_manager);
+	}
+
+	/**
+	 * Add the actions and hooks used by the plugin (filtered through the Loader class) then run register them with
+	 * WordPress
+	 */
+	public function add_plugin_hooks() {
+		// Load the plugin actions
+		$this->load_actions();
+
+		// Load the plugin filters
+		$this->load_filters();
+
+		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
+		$this->loader->run();
 	}
 
 	/**
@@ -288,10 +276,25 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function load_actions() {
-		// Try to list actions in order of their actual chain execution
-		$this->loader->add_action('init', function(){ $this->i18n->load_plugin_textdomain($this->path_manager); });
-		$this->loader->add_action('admin_notices', function(){ Activator::activate_admin_notice($this->path_manager); });
-		$this->loader->add_action('admin_enqueue_scripts', function(){ $this->assets_manager->load_assets('admin'); });
+		// Add the Language class
+		$this->loader->add_action('init', function(){
+			$this->i18n->load_plugin_textdomain($this->path_manager);
+		});
+
+		// Handle the Activation notices
+		$this->loader->add_action('admin_notices', function(){
+			Activator::activate_admin_notice($this->path_manager);
+		});
+
+		// Add the admin assets
+		$this->loader->add_action('admin_enqueue_scripts', function(){
+			$this->assets_manager->load_assets($this->version, 'admin');
+		});
+
+		// Setup the Checkout redirect
+		$this->loader->add_action('template_redirect', function(){
+			Redirect::checkout($this->path_manager, $this->template_manager, $this->assets_manager, $this->version);
+		});
 	}
 
 	/**
@@ -302,6 +305,22 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function load_filters() {
+		// Filters go here...
+	}
 
+	/**
+	 * The code that runs during plugin activation.
+	 * This action is documented in includes/class-midas-activator.php
+	 */
+	public static function activation() {
+		Activator::activate();
+	}
+
+	/**
+	 * The code that runs during plugin deactivation.
+	 * This action is documented in includes/class-midas-deactivator.php
+	 */
+	public static function deactivation() {
+		Deactivator::deactivate();
 	}
 }

@@ -25,39 +25,34 @@
  * Domain Path:       /languages
  */
 
-// If this file is called directly, abort.
+/**
+ * If this file is called directly, abort.
+ */
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+/**
+ * Auto-loader (composer)
+ */
 require_once "vendor/autoload.php";
 
 use Objectiv\Plugins\Checkout\Main;
-use Objectiv\Plugins\Checkout\Utilities\Activator;
-use Objectiv\Plugins\Checkout\Utilities\Deactivator;
-use Objectiv\Plugins\Checkout\Managers\PathManager;
 
-// Kint disabled by default. Enable by enabling developer mode (see docs)
+/**
+ * Kint disabled by default. Enable by enabling developer mode (see docs)
+ */
 Kint::enabled(false);
 
 /**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-midas-activator.php
+ * Activation hook
  */
-function activate_checkout() {
-	Activator::activate();
-}
+register_activation_hook( __FILE__, array('Objectiv\Plugins\Checkout\Main', 'activation') );
 
 /**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-midas-deactivator.php
+ * Deactivation hook
  */
-function deactivate_checkout() {
-	Deactivator::deactivate();
-}
-
-register_activation_hook( __FILE__, '\activate_checkout' );
-register_deactivation_hook( __FILE__, '\deactivate_checkout' );
+register_deactivation_hook( __FILE__, array('Objectiv\Plugins\Checkout\Main', 'deactivation') );
 
 /**
  * Begins execution of the plugin.
@@ -68,12 +63,12 @@ register_deactivation_hook( __FILE__, '\deactivate_checkout' );
  *
  * @since    1.0.0
  */
-function run_checkout() {
+function cfw_plugin_init() {
 
-	$main = Main::instance();
-	$pm = new PathManager(plugin_dir_path( __FILE__ ), plugin_dir_url( __FILE__ ), basename(__FILE__));
-	$main->setup($pm);
-	$main->run();
+	global $cfw;
+
+	$cfw = Main::instance();
+	$cfw->run(__FILE__);
 
 }
-run_checkout();
+cfw_plugin_init();

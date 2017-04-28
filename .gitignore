@@ -1,2 +1,3 @@
 # Now we can start singling out files we actually want to exclude in the checkout project
 composer.phar
+bower_components

@@ -1,0 +1,39 @@
+@import "../bourbon/bourbon";
+@import "../neat/neat";
+
+$columns: 12;
+$grid: (
+  columns: 12,
+  gutter: 20px,
+  media: 1200px,
+  direction: ltr
+);
+$grid-sg: (
+  columns: 12,
+  gutter: 1.75%,
+  media: 1200px,
+  direction: ltr
+);
+.cfw-container {
+  @include grid-container;
+}
+
+.cfw-collapse {
+  @include grid-collapse;
+}
+
+@for $i from 1 through $columns {
+  .cfw-column-#{$i} {
+    @include grid-column($i, $grid);
+  }
+}
+
+.cfw-sg-container {
+  @include grid-collapse($grid-sg);
+
+  @for $i from 1 through $columns {
+    .cfw-column-#{$i} {
+      @include grid-column($i, $grid-sg);
+    }
+  }
+}

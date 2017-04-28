@@ -1,0 +1,87 @@
+@font-face {
+	font-family: 'Akrobat';
+	src: url('Akrobat-Thin.eot');
+	src: url('Akrobat-Thin.eot?#iefix') format('embedded-opentype'),
+	url('Akrobat-Thin.woff') format('woff'),
+	url('Akrobat-Thin.ttf') format('truetype'),
+	url('Akrobat-Thin.svg#Akrobat-Thin') format('svg');
+	font-weight: 100;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat';
+	src: url('Akrobat-ExtraBold.eot');
+	src: url('Akrobat-ExtraBold.eot?#iefix') format('embedded-opentype'),
+	url('Akrobat-ExtraBold.woff') format('woff'),
+	url('Akrobat-ExtraBold.ttf') format('truetype'),
+	url('Akrobat-ExtraBold.svg#Akrobat-ExtraBold') format('svg');
+	font-weight: 800;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat';
+	src: url('Akrobat-Bold.eot');
+	src: url('Akrobat-Bold.eot?#iefix') format('embedded-opentype'),
+	url('Akrobat-Bold.woff') format('woff'),
+	url('Akrobat-Bold.ttf') format('truetype'),
+	url('Akrobat-Bold.svg#Akrobat-Bold') format('svg');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat';
+	src: url('Akrobat-ExtraLight.eot');
+	src: url('Akrobat-ExtraLight.eot?#iefix') format('embedded-opentype'),
+	url('Akrobat-ExtraLight.woff') format('woff'),
+	url('Akrobat-ExtraLight.ttf') format('truetype'),
+	url('Akrobat-ExtraLight.svg#Akrobat-ExtraLight') format('svg');
+	font-weight: 200;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat';
+	src: url('Akrobat-Regular.eot');
+	src: url('Akrobat-Regular.eot?#iefix') format('embedded-opentype'),
+	url('Akrobat-Regular.woff') format('woff'),
+	url('Akrobat-Regular.ttf') format('truetype'),
+	url('Akrobat-Regular.svg#Akrobat-Regular') format('svg');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat';
+	src: url('Akrobat-Black.eot');
+	src: url('Akrobat-Black.eot?#iefix') format('embedded-opentype'),
+	url('Akrobat-Black.woff') format('woff'),
+	url('Akrobat-Black.ttf') format('truetype'),
+	url('Akrobat-Black.svg#Akrobat-Black') format('svg');
+	font-weight: 900;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat';
+	src: url('Akrobat-Light.eot');
+	src: url('Akrobat-Light.eot?#iefix') format('embedded-opentype'),
+	url('Akrobat-Light.woff') format('woff'),
+	url('Akrobat-Light.ttf') format('truetype'),
+	url('Akrobat-Light.svg#Akrobat-Light') format('svg');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat';
+	src: url('Akrobat-SemiBold.eot');
+	src: url('Akrobat-SemiBold.eot?#iefix') format('embedded-opentype'),
+	url('Akrobat-SemiBold.woff') format('woff'),
+	url('Akrobat-SemiBold.ttf') format('truetype'),
+	url('Akrobat-SemiBold.svg#Akrobat-SemiBold') format('svg');
+	font-weight: 600;
+	font-style: normal;
+}

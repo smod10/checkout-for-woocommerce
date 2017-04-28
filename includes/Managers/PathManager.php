@@ -129,6 +129,28 @@ class PathManager {
 	}
 
 	/**
+	 * Returns the value of the theme_template variable
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return string The theme template path
+	 */
+	public function get_theme_template() {
+		return $this->theme_template;
+	}
+
+	/**
+	 * Returns the value of variable url_base
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return string The url base path
+	 */
+	public function get_url_base() {
+		return $this->url_base;
+	}
+
+	/**
 	 * Determines where each sub folder file is actually located. Theme template files take precedence over plugin
 	 * template files returned in the array.
 	 *
@@ -150,32 +172,8 @@ class PathManager {
 			$template_path = file_exists($theme_template_path) ? $theme_template_path : $plugin_template_path;
 
 			// Add the appropriate paths to the template information array.
-			$template_information[$sub_folder] = array(
-				"template" => $template_path
-			);
+			$template_information[$sub_folder] = $template_path;
 		}
 		return $template_information;
-	}
-
-	/**
-	 * Returns the value of the theme_template variable
-	 *
-	 * @since 0.1.0
-	 * @access public
-	 * @return string The theme template path
-	 */
-	public function get_theme_template() {
-		return $this->theme_template;
-	}
-
-	/**
-	 * Returns the value of variable url_base
-	 *
-	 * @since 0.1.0
-	 * @access public
-	 * @return string The url base path
-	 */
-	public function get_url_base() {
-		return $this->url_base;
 	}
 }

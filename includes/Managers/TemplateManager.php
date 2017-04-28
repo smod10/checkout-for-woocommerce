@@ -2,6 +2,8 @@
 
 namespace Objectiv\Plugins\Checkout\Managers;
 
+use Objectiv\Plugins\Checkout\Core\Template;
+
 /**
  * The template manager gathers the relevant path information for the sub folder files. The theme paths are deduced from
  * built in WordPress functions and the plugin path is passed in from the Main class on creation. The relevant path info
@@ -24,14 +26,14 @@ class TemplateManager {
 	 * @access private
 	 * @var array $template_sub_folders The array of sub folder and file information.
 	 */
-	private $template_sub_folders;
+	private $template_sub_folders = array();
 
 	/**
 	 * @since 0.1.0
 	 * @access private
 	 * @var array $templates Array of Templates
 	 */
-	private $templates;
+	private $templates = array();
 
 	/**
 	 * TemplateManager constructor.
@@ -41,40 +43,39 @@ class TemplateManager {
 	 */
 	public function __construct() {
 		// Set the sub folder information that will be looked for regardless of the base folder
-		$this->template_sub_folders = array(
-			"header"    => 'Objectiv\Plugins\Checkout\Core\Templates\HeaderTemplate',
-			"content"   => 'Objectiv\Plugins\Checkout\Core\Templates\ContentTemplate',
-			"footer"    => 'Objectiv\Plugins\Checkout\Core\Templates\FooterTemplate'
-		);
-		$this->templates = array();
-	}
-
-	/**
-	 * Generates the template objects based on the order listed in the template_sub_folders array.
-	 *
-	 * @since 0.1.0
-	 * @access public
-	 * @param PathManager $path_manager
-	 */
-	public function create_templates($path_manager) {
-		foreach($path_manager->get_template_information(array_keys($this->template_sub_folders)) as $template_name => $template_path_info) {
-			$template_path = $template_path_info["template"];
-			$class = $this->template_sub_folders[$template_name];
-
-			$this->templates[$template_name] = new $class($template_path);
-		}
+		$this->template_sub_folders = array( "header", "content", "footer" );
 	}
 
 	/**
 	 * Iterate over each template in the array and run the view method
 	 *
 	 * @since 0.1.0
-	 * @access public
+	 * @param array $template_info
 	 * @param array $global_parameters
 	 */
-	public function load_templates($global_parameters) {
-		foreach($this->templates as $template) {
-			$template->view($global_parameters);
+	public function load_templates($template_info, $global_parameters) {
+
+		foreach($template_info as $template_name => $template_path) {
+			// Filter template level variables
+			$parameters["template"] = apply_filters("cfw_template_{$template_name}_params", array());
+
+			// Assign the global parameters
+			$parameters["global"] = $global_parameters;
+
+			// Create new template
+			$template = new Template($template_name, $template_path, $parameters);
+
+			// Before the template is actually spat out
+			do_action("cfw_template_load_before_{$template_name}");
+
+			// Pass the parameters to the view
+			$template->view();
+
+			// After the template has been echoed out
+			do_action("cfw_template_load_after_{$template_name}");
+
+			// Store the template
+			$this->templates[$template_name] = $template;
 		}
 	}
 
@@ -83,7 +84,7 @@ class TemplateManager {
 	 *
 	 * @since 0.1.0
 	 * @access public
-	 * @return string
+	 * @return array
 	 */
 	public function get_template_sub_folders()
 	{

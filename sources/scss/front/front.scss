@@ -1,0 +1,79 @@
+// Import bourbon
+@import "../resources/bourbon/bourbon";
+@import "../resources/neat/neat";
+
+@import "../resources/grid/grid";
+
+// Reset
+@import "../../../assets/global/bower/normalize-css/normalize.css";
+
+// Fonts
+//@import "../fonts/akrobat/fonts.css";
+//@import "../fonts/proxima-nova/fonts.css";
+
+// General Styles
+$font-family: "Roboto", sans-serif;
+$main-bg: #ffffff;
+$header-bg: #222;
+$footer-bg: #eaeaea;
+$wrap-width: 1140px + map-get($grid, gutter) * 2;
+
+body {
+  background: $main-bg;
+  font-family: $font-family;
+  display: flex;
+  color: #666;
+  flex-direction: column;
+  width: 100%;
+}
+
+.wrap {
+  max-width: $wrap-width;
+  margin: auto;
+}
+
+.cfw-small {
+  font-size: 0.875em;
+  color: #737375;
+  //font-size: 14px;
+}
+
+.cfw-logo {
+  padding: 1em 0;
+
+  .logo {
+    background: $main-bg;
+    width: 120px;
+    display: inline-block;
+    height: 90px;
+    position: relative;
+
+    &:after {
+      content: "CFW";
+      position: absolute;
+      color: $header-bg;
+      font-weight: 900;
+      font-size: 2.25em;
+      font-family: $font-family;
+      letter-spacing: 0.15em;
+      text-indent: 0.15em;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+.cfw-link {
+  color: #e9a81d;
+  text-decoration: none;
+}
+
+.cfw-module-title {
+  margin: 0;
+}
+
+// Import parts
+@import "template/header";
+@import "template/content";
+@import "template/footer";

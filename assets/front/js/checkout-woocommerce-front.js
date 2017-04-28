@@ -7,27 +7,65 @@ function CFW_Main(tabContainer, tabContainerBreadcrumb, tabContainerSections) {
 CFW_Main.prototype.setup = function() {
 	// Setup easy tabs
 	this._tabContainer.easytabs();
-	this.setupInputListeners();
+
+	var callbacks = [
+		this.initializeInputLabels.bind(this),
+		this.addKeyUpListenersToInputs.bind(this)
+	];
+
+	this.setupInputListeners(callbacks);
 	this.setupAnimationListeners();
 };
 
-CFW_Main.prototype.addRemoveLabelClass = function(parent, label_class){
+CFW_Main.prototype.initializeInputLabels = function(input_wrap, label_class, type, inputs) {
+	inputs.each(function(index, input){
 
-	if(this.value !== "" && !parent.hasClass(label_class)) {
-		parent.addClass(label_class);
-	}
+		var parent = $(input_wrap);
 
-	if(this.value === "" && parent.hasClass(label_class)) {
-		parent.removeClass(label_class);
-	}
+		$(window).on("load", function(){
+			if(input.value !== "" && !parent.hasClass(label_class)) {
+				parent.addClass(label_class);
+				console.log("..");
+			}
+
+			if(input.value === "" && parent.hasClass(label_class)) {
+				parent.removeClass(label_class);
+				console.log("...");
+			}
+		});
+	});
 };
 
-CFW_Main.prototype.setupInputListeners = function() {
+CFW_Main.prototype.addKeyUpListenersToInputs = function(input_wrap, label_class, type, inputs) {
+	inputs.each(function(index, input){
+
+		// self.addRemoveLabelClass(parent, label_class);
+		input.addEventListener("keyup", function(){
+			var parent = $(input_wrap);
+
+			if(this.value !== "" && !parent.hasClass(label_class)) {
+				parent.addClass(label_class);
+			}
+
+			if(this.value === "" && parent.hasClass(label_class)) {
+				parent.removeClass(label_class);
+			}
+		});
+	});
+};
+
+CFW_Main.prototype.getInputWraps = function() {
 	var ci = this._tabContainerSections.customer_info;
-	var types = ["text", "password"];
 	var ci_input_wraps = ci.find('.cfw-input-wrap.cfw-text-input, .cfw-input-wrap.cfw-password-input');
+
+	return ci_input_wraps;
+};
+
+CFW_Main.prototype.setupInputListeners = function(callbacks) {
+
+	var types = ["text", "password"];
+	var ci_input_wraps = this.getInputWraps();
 	var label_class = "cfw-floating-label";
-	var self = this;
 
 	ci_input_wraps.each(function(index, input_wrap) {
 
@@ -35,14 +73,8 @@ CFW_Main.prototype.setupInputListeners = function() {
 
 			var inputs = $(input_wrap).find('input[type="' + type + '"]');
 
-			inputs.each(function(index, input){
-				var parent = $(input_wrap);
-
-				self.addRemoveLabelClass(parent, label_class);
-
-				input.addEventListener("keyup", function(){
-					self.addRemoveLabelClass(parent, label_class);
-				});
+			callbacks.forEach(function(cb) {
+				cb(input_wrap, label_class, type, inputs);
 			});
 		});
 	})

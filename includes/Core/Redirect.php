@@ -92,6 +92,8 @@ class Redirect {
 	public static function middle($classes = array()) {
 		?>
         <script type="text/javascript">
+            var main = null;
+
 			$(document).ready(function(){
 				var tabContainer = $("#cfw-tab-container");
 				var tabContainerBreadcrumb = $("#cfw-breadcrumb");
@@ -101,7 +103,7 @@ class Redirect {
 					payment_method: $("#cfw-payment-method")
 				};
 
-				var main = new CFW_Main( tabContainer, tabContainerBreadcrumb, tabContainerSections );
+				main = new CFW_Main( tabContainer, tabContainerBreadcrumb, tabContainerSections );
 				main.setup();
 			});
         </script>

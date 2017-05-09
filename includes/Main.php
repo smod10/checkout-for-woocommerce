@@ -13,6 +13,7 @@ use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 use Objectiv\Plugins\Checkout\Managers\AssetsManager;
 use Objectiv\Plugins\Checkout\Managers\AjaxManager;
 use Objectiv\Plugins\Checkout\Ajax\AccountExistsAjax;
+use Objectiv\Plugins\Checkout\Ajax\LogInAjax;
 
 use \Whoops\Run;
 use \Whoops\Handler\PrettyPageHandler;
@@ -297,7 +298,8 @@ class Main extends Singleton {
 		$this->assets_manager = new AssetsManager($this->path_manager);
 
 		$this->ajax_manager = new AjaxManager(array(
-			new AccountExistsAjax("account_exists")
+			new AccountExistsAjax("account_exists"),
+			new LogInAjax("login")
 		), $this->loader);
 	}
 

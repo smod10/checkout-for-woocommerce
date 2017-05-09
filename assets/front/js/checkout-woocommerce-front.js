@@ -312,7 +312,34 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
     ], AccountExistsAction.prototype, "response", null);
     exports.AccountExistsAction = AccountExistsAction;
 });
-define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction"], function (require, exports, Element_4, AccountExistsAction_1) {
+define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep"], function (require, exports, Action_2, ResponsePrep_2) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var LoginAction = (function (_super) {
+        __extends(LoginAction, _super);
+        function LoginAction(id, ajaxInfo, email, password) {
+            var _this = this;
+            var data = {
+                action: id,
+                security: ajaxInfo.nonce,
+                email: email,
+                password: password
+            };
+            _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            return _this;
+        }
+        LoginAction.prototype.response = function (resp) {
+            if (resp.logged_in) {
+                location.reload();
+            }
+        };
+        return LoginAction;
+    }(Action_2.Action));
+    __decorate([
+        ResponsePrep_2.ResponsePrep
+    ], LoginAction.prototype, "response", null);
+    exports.LoginAction = LoginAction;
+});
+define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction"], function (require, exports, Element_4, AccountExistsAction_1, LoginAction_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
@@ -325,9 +352,22 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
         TabContainer.prototype.setAccountCheckListener = function (ajaxInfo) {
             var customer_info = this.tabContainerSectionBy("name", "customer_info");
             var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
-            var email_input = email_input_wrap.input.jel;
-            var onLoadAea = new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input.val());
-            email_input.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input.val()); });
+            if (email_input_wrap) {
+                var email_input_1 = email_input_wrap.input.jel;
+                var onLoadAea = new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val());
+                email_input_1.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val()); });
+            }
+        };
+        TabContainer.prototype.setLogInListener = function (ajaxInfo) {
+            var customer_info = this.tabContainerSectionBy("name", "customer_info");
+            var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
+            if (email_input_wrap) {
+                var email_input_2 = email_input_wrap.input.jel;
+                var password_input_wrap = customer_info.getInputLabelWrapById("cfw-password-wrap");
+                var password_input_1 = password_input_wrap.input.jel;
+                var login_btn = $("#cfw-login-btn");
+                login_btn.on("click", function () { return new LoginAction_1.LoginAction("login", ajaxInfo, email_input_2.val(), password_input_1.val()); });
+            }
         };
         TabContainer.prototype.easyTabs = function () {
             this.jel.easytabs();
@@ -366,6 +406,7 @@ define("Main", ["require", "exports"], function (require, exports) {
             this.tabContainer = tabContainer;
             this.ajaxInfo = ajaxInfo;
             this.tabContainer.setAccountCheckListener(this.ajaxInfo);
+            this.tabContainer.setLogInListener(this.ajaxInfo);
         }
         Main.prototype.setup = function () {
             this.tabContainer.easyTabs();

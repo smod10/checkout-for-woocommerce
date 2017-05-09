@@ -7,3 +7,6 @@ export type AjaxInfo = { admin_url: URL, nonce: string };
 
 export type AccountExistsResponse = { account_exists: boolean };
 export type AccountExistsData = { action: string, security: string, email: string };
+
+export type LogInResponse = { logged_in: boolean, message: string };
+export type LogInData = { action: string, security: string, email: string, password: string };

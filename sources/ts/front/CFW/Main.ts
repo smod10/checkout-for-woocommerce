@@ -14,6 +14,7 @@ export class Main {
 		this.ajaxInfo = ajaxInfo;
 
 		this.tabContainer.setAccountCheckListener(this.ajaxInfo);
+		this.tabContainer.setLogInListener(this.ajaxInfo);
 	}
 
 	setup() {

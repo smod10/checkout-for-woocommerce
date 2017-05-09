@@ -29,6 +29,7 @@
                         <div id="cfw-login-details" class="cfw-module">
                             <h3 class="cfw-module-title">Customer Information</h3>
 
+                            <?php if(!is_user_logged_in()): ?>
                             <div class="cfw-have-acc-text cfw-small">
                                 <span>
                                     <?php echo __('Already have an account with us?', 'checkout-woocommerce'); ?>
@@ -44,7 +45,7 @@
                                     <input type="text" name="cfw-email" id="cfw-email" autocomplete="email" size="30" title="Email" placeholder="Email" class="required" value="">
                                 </div>
                                 <div id="cfw-login-slide">
-                                    <div class="cfw-input-wrap cfw-password-input">
+                                    <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
                                         <label class="cfw-input-label" for="cfw-email">Password</label>
                                         <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" size="30" title="Password" placeholder="Password" class="required">
                                     </div>
@@ -57,6 +58,11 @@
                                     <label class="cfw-small" for="cfw-acc-register-chk">Create a <?php echo get_bloginfo('name'); ?> shopping account.</label>
                                 </div>
                             </div>
+                            <?php else: ?>
+                            <div class="cfw-have-acc-text cfw-small">
+                                Welcome back <strong><?php echo wp_get_current_user()->display_name; ?></strong>
+                            </div>
+                            <?php endif; ?>
                         </div>
 
                         <div id="cfw-billing-details" class="cfw-module">

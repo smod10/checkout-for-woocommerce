@@ -38,7 +38,6 @@ export class InputLabelWrap extends Element {
         // Note: Length is divided by 2 because of ENUM implementation. Read TS docs
         for(let i = 0; i < lt.length / 2; i++) {
             let type = lt[i].toLowerCase();
-
             let tjel = this.jel.find('input[type="' + type + '"]');
 
             if(tjel.length > 0) {

@@ -3,6 +3,8 @@
 		"module": "AMD",
 		"removeComments": true,
 		"target": "es5",
+		"noEmitOnError": true,
+		"noImplicitUseStrict": true,
 		"experimentalDecorators": true,
 		"preserveConstEnums": true,
 		"outFile": "checkout-woocommerce-front.js",

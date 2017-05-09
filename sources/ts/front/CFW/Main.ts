@@ -1,13 +1,19 @@
 /// <reference path="../../../../typings/index.d.ts" />
+/// <reference path="Definitions/ArrayFind.d.ts" />
 
-import { TabContainer } from "./Elements/TabContainer";
+import { TabContainer } 			from "./Elements/TabContainer";
+import { AjaxInfo }					from "./Types/Types";
 
 export class Main {
 
 	private _tabContainer: TabContainer;
+	private _ajaxInfo: AjaxInfo;
 
-	constructor(tabContainer: TabContainer) {
+	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo) {
 		this.tabContainer = tabContainer;
+		this.ajaxInfo = ajaxInfo;
+
+		this.tabContainer.setAccountCheckListener(this.ajaxInfo);
 	}
 
 	setup() {
@@ -25,7 +31,16 @@ export class Main {
 	get tabContainer() {
 		return this._tabContainer;
 	}
+
 	set tabContainer(value: TabContainer) {
 		this._tabContainer = value;
+	}
+
+	get ajaxInfo(): AjaxInfo {
+		return this._ajaxInfo;
+	}
+
+	set ajaxInfo(value: AjaxInfo) {
+		this._ajaxInfo = value;
 	}
 }

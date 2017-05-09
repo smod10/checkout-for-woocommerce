@@ -5,35 +5,36 @@ import { InputLabelType }           from "../Types/Types";
 
 export class TabContainerSection extends Element {
     private _name: string = "";
-    private _inputLabelWrapClass: string = "";
-    private _inputLabelTypes: Array<InputLabelType> = [];
     private _inputLabelWraps: Array<InputLabelWrap> = [];
+
+    private static _inputLabelWrapClass: string = "cfw-input-wrap";
+    private static _inputLabelTypes: Array<InputLabelType> = [
+        { type: LabelType.TEXT, cssClass: "cfw-text-input" },
+        { type: LabelType.PASSWORD, cssClass: "cfw-password-input"}
+    ];
 
     constructor(
         jel: JQuery,
-        name: string,
-        inputLabelWrapClass: string = "cfw-input-wrap",
-        inputLabelTypes: Array<InputLabelType> = [
-            { type: LabelType.TEXT, cssClass: "cfw-text-input" },
-            { type: LabelType.PASSWORD, cssClass: "cfw-password-input"}
-        ]
+        name: string
     ) {
         super(jel);
 
         this.name = name;
-        this.inputLabelWrapClass = inputLabelWrapClass;
-        this.inputLabelTypes = inputLabelTypes;
 
         this.setInputLabelWraps();
+    }
+
+    getInputLabelWrapById(id: string): InputLabelWrap {
+        return <InputLabelWrap>this.inputLabelWraps.find((inputLabelWrap) => inputLabelWrap.jel.attr("id") == id);
     }
 
     getInputLabelWrapSelector(): string {
         let selector: string = "";
 
-        this.inputLabelTypes.forEach((labelType, index) => {
-            selector += "." + this.inputLabelWrapClass + "." + labelType.cssClass;
+        TabContainerSection.inputLabelTypes.forEach((labelType, index) => {
+            selector += "." + TabContainerSection.inputLabelWrapClass + "." + labelType.cssClass;
 
-            if(index+1 != this.inputLabelTypes.length) {
+            if(index+1 != TabContainerSection.inputLabelTypes.length) {
                 selector += ", ";
             }
         });
@@ -68,19 +69,19 @@ export class TabContainerSection extends Element {
         this._inputLabelWraps = value;
     }
 
-    get inputLabelTypes(): Array<InputLabelType> {
-        return this._inputLabelTypes;
+    static get inputLabelTypes(): Array<InputLabelType> {
+        return TabContainerSection._inputLabelTypes;
     }
 
-    set inputLabelTypes(value: Array<InputLabelType>) {
-        this._inputLabelTypes = value;
+    static set inputLabelTypes(value: Array<InputLabelType>) {
+        TabContainerSection._inputLabelTypes = value;
     }
 
-    get inputLabelWrapClass(): string {
-        return this._inputLabelWrapClass;
+    static get inputLabelWrapClass(): string {
+        return TabContainerSection._inputLabelWrapClass;
     }
 
-    set inputLabelWrapClass(value: string) {
-        this._inputLabelWrapClass = value;
+    static set inputLabelWrapClass(value: string) {
+        TabContainerSection._inputLabelWrapClass = value;
     }
 }

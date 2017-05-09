@@ -39,9 +39,9 @@
                             </div>
 
                             <div class="cfw-input-container">
-                                <div class="cfw-input-wrap cfw-text-input">
+                                <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
                                     <label class="cfw-input-label" for="cfw-email">Email</label>
-                                    <input type="text" name="cfw-email" id="cfw-email" autocomplete="email" size="30" title="Email" placeholder="Email" class="required">
+                                    <input type="text" name="cfw-email" id="cfw-email" autocomplete="email" size="30" title="Email" placeholder="Email" class="required" value="">
                                 </div>
                                 <div id="cfw-login-slide">
                                     <div class="cfw-input-wrap cfw-password-input">

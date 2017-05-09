@@ -4,6 +4,7 @@ namespace Objectiv\Plugins\Checkout\Core;
 use Objectiv\Plugins\Checkout\Managers\AssetsManager;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
+use Objectiv\Plugins\Checkout\Main;
 
 class Redirect {
 	/**
@@ -116,8 +117,12 @@ class Redirect {
 					        new TabContainerSection($("#cfw-payment-method"), "payment_method")
 				        ];
 				        var tabContainer = new TabContainer($("#cfw-tab-container"), tabContainerBreadcrumb, tabContainerSections);
+                        var ajaxInfo = {
+                            admin_url: new URL('<?php echo admin_url('admin-ajax.php'); ?>'),
+                            nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
+                        };
 
-				        var main = new Main( tabContainer );
+				        var main = new Main( tabContainer, ajaxInfo );
 				        main.setup();
 			        });
             }

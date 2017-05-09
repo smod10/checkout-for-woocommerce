@@ -11,6 +11,8 @@ use Objectiv\Plugins\Checkout\Core\Loader;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 use Objectiv\Plugins\Checkout\Managers\AssetsManager;
+use Objectiv\Plugins\Checkout\Managers\AjaxManager;
+use Objectiv\Plugins\Checkout\Ajax\AccountExistsAjax;
 
 use \Whoops\Run;
 use \Whoops\Handler\PrettyPageHandler;
@@ -64,6 +66,27 @@ class Main extends Singleton {
 	 * @var PathManager $path_manager Handles the path information for the plugin
 	 */
 	private $path_manager;
+
+	/**
+	 * @since 0.1.0
+	 * @access private
+	 * @var AjaxManager $ajax_manager
+	 */
+	private $ajax_manager;
+
+	/**
+	 * @since 0.1.0
+	 * @access private;
+	 * @var
+	 */
+	private $nonce;
+
+	/**
+	 * @since 0.1.0
+	 * @access private;
+	 * @var
+	 */
+	private $nonce_seed;
 
 	/**
 	 * Language class dealing with translating the various parts of the plugin
@@ -146,6 +169,15 @@ class Main extends Singleton {
 	}
 
 	/**
+	 * @since 0.1.0
+	 * @access public
+	 * @return AjaxManager
+	 */
+	public function get_ajax_manager() {
+		return $this->ajax_manager;
+	}
+
+	/**
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
@@ -178,6 +210,17 @@ class Main extends Singleton {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function get_nonce() {
+		return $this->nonce;
+	}
+
+	public function get_nonce_seed() {
+		return $this->nonce_seed;
 	}
 
 	/**
@@ -252,6 +295,10 @@ class Main extends Singleton {
 
 		// Create the asset manager and register the assets
 		$this->assets_manager = new AssetsManager($this->path_manager);
+
+		$this->ajax_manager = new AjaxManager(array(
+			new AccountExistsAjax("account_exists")
+		), $this->loader);
 	}
 
 	/**
@@ -279,6 +326,8 @@ class Main extends Singleton {
 		// Add the Language class
 		$this->loader->add_action('init', function(){
 			$this->i18n->load_plugin_textdomain($this->path_manager);
+			$this->nonce = wp_create_nonce($this->nonce_seed);
+			echo $this->nonce_seed;
 		});
 
 		// Handle the Activation notices

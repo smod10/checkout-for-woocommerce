@@ -55,6 +55,7 @@ class AssetsManager {
 		$admin = "$assets_path/admin";
 		$front = "$assets_path/front";
 		$bower = "$assets_path/global/bower";
+		$js = "$assets_path/global/js";
 
 		$this->asset_types = array(
 			"admin"         => (object) array(
@@ -103,6 +104,10 @@ class AssetsManager {
 						),
 						(object) array(
 							"path" => "$bower/garlicjs/dist/garlic.min.js",
+							"attrs" => array()
+						),
+						(object) array(
+							"path" => "$js/ArrayFindPoly.js",
 							"attrs" => array()
 						)
 					)

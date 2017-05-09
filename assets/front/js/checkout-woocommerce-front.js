@@ -8,8 +8,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 define("Elements/Element", ["require", "exports"], function (require, exports) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Element = (function () {
         function Element(jel) {
@@ -30,7 +35,6 @@ define("Elements/Element", ["require", "exports"], function (require, exports) {
     exports.Element = Element;
 });
 define("Elements/TabContainerBreadcrumb", ["require", "exports", "Elements/Element"], function (require, exports, Element_1) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainerBreadcrumb = (function (_super) {
         __extends(TabContainerBreadcrumb, _super);
@@ -42,7 +46,6 @@ define("Elements/TabContainerBreadcrumb", ["require", "exports", "Elements/Eleme
     exports.TabContainerBreadcrumb = TabContainerBreadcrumb;
 });
 define("Enums/LabelType", ["require", "exports"], function (require, exports) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var LabelType;
     (function (LabelType) {
@@ -51,11 +54,9 @@ define("Enums/LabelType", ["require", "exports"], function (require, exports) {
     })(LabelType = exports.LabelType || (exports.LabelType = {}));
 });
 define("Types/Types", ["require", "exports"], function (require, exports) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
 });
 define("Elements/InputLabelWrap", ["require", "exports", "Elements/Element", "Enums/LabelType"], function (require, exports, Element_2, LabelType_1) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var InputLabelWrap = (function (_super) {
         __extends(InputLabelWrap, _super);
@@ -137,33 +138,25 @@ define("Elements/InputLabelWrap", ["require", "exports", "Elements/Element", "En
     exports.InputLabelWrap = InputLabelWrap;
 });
 define("Elements/TabContainerSection", ["require", "exports", "Elements/Element", "Elements/InputLabelWrap", "Enums/LabelType"], function (require, exports, Element_3, InputLabelWrap_1, LabelType_2) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainerSection = (function (_super) {
         __extends(TabContainerSection, _super);
-        function TabContainerSection(jel, name, inputLabelWrapClass, inputLabelTypes) {
-            if (inputLabelWrapClass === void 0) { inputLabelWrapClass = "cfw-input-wrap"; }
-            if (inputLabelTypes === void 0) { inputLabelTypes = [
-                { type: LabelType_2.LabelType.TEXT, cssClass: "cfw-text-input" },
-                { type: LabelType_2.LabelType.PASSWORD, cssClass: "cfw-password-input" }
-            ]; }
+        function TabContainerSection(jel, name) {
             var _this = _super.call(this, jel) || this;
             _this._name = "";
-            _this._inputLabelWrapClass = "";
-            _this._inputLabelTypes = [];
             _this._inputLabelWraps = [];
             _this.name = name;
-            _this.inputLabelWrapClass = inputLabelWrapClass;
-            _this.inputLabelTypes = inputLabelTypes;
             _this.setInputLabelWraps();
             return _this;
         }
+        TabContainerSection.prototype.getInputLabelWrapById = function (id) {
+            return this.inputLabelWraps.find(function (inputLabelWrap) { return inputLabelWrap.jel.attr("id") == id; });
+        };
         TabContainerSection.prototype.getInputLabelWrapSelector = function () {
-            var _this = this;
             var selector = "";
-            this.inputLabelTypes.forEach(function (labelType, index) {
-                selector += "." + _this.inputLabelWrapClass + "." + labelType.cssClass;
-                if (index + 1 != _this.inputLabelTypes.length) {
+            TabContainerSection.inputLabelTypes.forEach(function (labelType, index) {
+                selector += "." + TabContainerSection.inputLabelWrapClass + "." + labelType.cssClass;
+                if (index + 1 != TabContainerSection.inputLabelTypes.length) {
                     selector += ", ";
                 }
             });
@@ -197,32 +190,129 @@ define("Elements/TabContainerSection", ["require", "exports", "Elements/Element"
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(TabContainerSection.prototype, "inputLabelTypes", {
+        Object.defineProperty(TabContainerSection, "inputLabelTypes", {
             get: function () {
-                return this._inputLabelTypes;
+                return TabContainerSection._inputLabelTypes;
             },
             set: function (value) {
-                this._inputLabelTypes = value;
+                TabContainerSection._inputLabelTypes = value;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(TabContainerSection.prototype, "inputLabelWrapClass", {
+        Object.defineProperty(TabContainerSection, "inputLabelWrapClass", {
             get: function () {
-                return this._inputLabelWrapClass;
+                return TabContainerSection._inputLabelWrapClass;
             },
             set: function (value) {
-                this._inputLabelWrapClass = value;
+                TabContainerSection._inputLabelWrapClass = value;
             },
             enumerable: true,
             configurable: true
         });
         return TabContainerSection;
     }(Element_3.Element));
+    TabContainerSection._inputLabelWrapClass = "cfw-input-wrap";
+    TabContainerSection._inputLabelTypes = [
+        { type: LabelType_2.LabelType.TEXT, cssClass: "cfw-text-input" },
+        { type: LabelType_2.LabelType.PASSWORD, cssClass: "cfw-password-input" }
+    ];
     exports.TabContainerSection = TabContainerSection;
 });
-define("Elements/TabContainer", ["require", "exports", "Elements/Element"], function (require, exports, Element_4) {
-    "use strict";
+define("Actions/Action", ["require", "exports"], function (require, exports) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Action = (function () {
+        function Action(id, url, data) {
+            this.id = id;
+            this.url = url;
+            this.data = data;
+            this.load();
+        }
+        Action.prototype.load = function () {
+            $.post(this.url.href, this.data, this.response);
+        };
+        Object.defineProperty(Action.prototype, "id", {
+            get: function () {
+                return this._id;
+            },
+            set: function (value) {
+                this._id = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Action.prototype, "url", {
+            get: function () {
+                return this._url;
+            },
+            set: function (value) {
+                this._url = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Action.prototype, "data", {
+            get: function () {
+                return this._data;
+            },
+            set: function (value) {
+                this._data = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Action;
+    }());
+    exports.Action = Action;
+});
+define("Decorators/ResponsePrep", ["require", "exports"], function (require, exports) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    function ResponsePrep(target, propertyKey, descriptor) {
+        if (descriptor === undefined) {
+            descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
+        }
+        var originalMethod = descriptor.value;
+        descriptor.value = function () {
+            arguments[0] = JSON.parse(arguments[0]);
+            return originalMethod.apply(this, arguments);
+        };
+        return descriptor;
+    }
+    exports.ResponsePrep = ResponsePrep;
+});
+define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep"], function (require, exports, Action_1, ResponsePrep_1) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var AccountExistsAction = (function (_super) {
+        __extends(AccountExistsAction, _super);
+        function AccountExistsAction(id, ajaxInfo, email) {
+            var _this = this;
+            var data = {
+                action: id,
+                security: ajaxInfo.nonce,
+                email: email
+            };
+            _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            return _this;
+        }
+        AccountExistsAction.prototype.response = function (resp) {
+            if (resp.account_exists) {
+                $("#cfw-login-slide").slideDown(300);
+                $("#cfw-login-slide input[type='password']").focus();
+                $("#cfw-acc-register-chk").attr('checked', null);
+            }
+            else {
+                $("#cfw-login-slide").slideUp(300);
+                $("#cfw-acc-register-chk").attr('checked', '');
+            }
+        };
+        return AccountExistsAction;
+    }(Action_1.Action));
+    __decorate([
+        ResponsePrep_1.ResponsePrep
+    ], AccountExistsAction.prototype, "response", null);
+    exports.AccountExistsAction = AccountExistsAction;
+});
+define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction"], function (require, exports, Element_4, AccountExistsAction_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
@@ -232,8 +322,18 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element"], func
             _this.tabContainerSections = tabContainerSections;
             return _this;
         }
+        TabContainer.prototype.setAccountCheckListener = function (ajaxInfo) {
+            var customer_info = this.tabContainerSectionBy("name", "customer_info");
+            var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
+            var email_input = email_input_wrap.input.jel;
+            var onLoadAea = new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input.val());
+            email_input.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input.val()); });
+        };
         TabContainer.prototype.easyTabs = function () {
             this.jel.easytabs();
+        };
+        TabContainer.prototype.tabContainerSectionBy = function (by, value) {
+            return this.tabContainerSections.find(function (tabContainerSection) { return tabContainerSection[by] == value; });
         };
         Object.defineProperty(TabContainer.prototype, "tabContainerBreadcrumb", {
             get: function () {
@@ -260,11 +360,12 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element"], func
     exports.TabContainer = TabContainer;
 });
 define("Main", ["require", "exports"], function (require, exports) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Main = (function () {
-        function Main(tabContainer) {
+        function Main(tabContainer, ajaxInfo) {
             this.tabContainer = tabContainer;
+            this.ajaxInfo = ajaxInfo;
+            this.tabContainer.setAccountCheckListener(this.ajaxInfo);
         }
         Main.prototype.setup = function () {
             this.tabContainer.easyTabs();
@@ -281,6 +382,16 @@ define("Main", ["require", "exports"], function (require, exports) {
             },
             set: function (value) {
                 this._tabContainer = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Main.prototype, "ajaxInfo", {
+            get: function () {
+                return this._ajaxInfo;
+            },
+            set: function (value) {
+                this._ajaxInfo = value;
             },
             enumerable: true,
             configurable: true

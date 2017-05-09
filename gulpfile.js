@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
+var gutil = require('gulp-util');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var cssnano = require('gulp-cssnano');
@@ -70,7 +71,7 @@ gulp.task('sass:front:prod', function() {
 gulp.task('typescript:front:dev', function() {
 	return gulp.src('sources/ts/front/CFW/Main.ts')
 		.pipe(sourcemaps.init())
-		.pipe(tsProjectDev())
+		.pipe(tsProjectDev(ts.reporter.longReporter()))
 		.pipe(sourcemaps.write("."))
 		.pipe(gulp.dest('assets/front/js'))
 		.pipe(notify({ message: "[typescript:front:dev completed]", onLast: true }))

@@ -50,7 +50,7 @@ class Loader {
 	 * @since 0.1.0
 	 * @access public
 	 * @param string $hook The name of the WordPress action that is being registered.
-	 * @param string $callback The callback to be called
+	 * @param string | array $callback The callback to be called
 	 * @param int $priority Optional. he priority at which the function should be fired. Default is 10.
 	 * @param int $accepted_args Optional. The number of arguments that should be passed to the $callback. Default is 1.
 	 */
@@ -64,7 +64,7 @@ class Loader {
 	 * @since 0.1.0
 	 * @access public
 	 * @param string $hook The name of the WordPress filter that is being registered.
-	 * @param string $callback The callback to called
+	 * @param $callback The callback to called
 	 * @param int $priority Optional. he priority at which the function should be fired. Default is 10.
 	 * @param int $accepted_args Optional. The number of arguments that should be passed to the $callback. Default is 1
 	 */

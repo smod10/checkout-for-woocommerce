@@ -91,24 +91,39 @@ class Redirect {
 	 */
 	public static function middle($classes = array()) {
 		?>
-        <script type="text/javascript">
-            var main = null;
+        <script>
+	        requirejs.config({
+		        baseUrl : '<?php echo get_site_url(); ?>' + '/wp-content/plugins/checkout-woocommerce/assets/front/js/',
+		        bundles: {
+			        'checkout-woocommerce-front': ['Main', 'Elements/TabContainer', 'Elements/TabContainerBreadcrumb', 'Elements/TabContainerSection']
+		        }
+	        });
 
-			$(document).ready(function(){
-				var tabContainer = $("#cfw-tab-container");
-				var tabContainerBreadcrumb = $("#cfw-breadcrumb");
-				var tabContainerSections = {
-					customer_info: $("#cfw-customer-info"),
-					shipping_method: $("#cfw-shipping-method"),
-					payment_method: $("#cfw-payment-method")
-				};
+	        function init() {
+		        require(['Main', 'Elements/TabContainer', 'Elements/TabContainerBreadcrumb', 'Elements/TabContainerSection'],
+			        function(Main, TabContainer, TabContainerBreadcrumb, TabContainerSection){
 
-				main = new CFW_Main( tabContainer, tabContainerBreadcrumb, tabContainerSections );
-				main.setup();
-			});
+				        // Require wraps objects for some reason in bundles
+				        Main = Main.Main;
+				        TabContainer = TabContainer.TabContainer;
+				        TabContainerBreadcrumb = TabContainerBreadcrumb.TabContainerBreadcrumb;
+				        TabContainerSection = TabContainerSection.TabContainerSection;
+
+				        var tabContainerBreadcrumb = new TabContainerBreadcrumb($("#cfw-breadcrumb"));
+				        var tabContainerSections = [
+					        new TabContainerSection($("#cfw-customer-info"), "customer_info"),
+					        new TabContainerSection($("#cfw-shipping-method"), "shipping_method"),
+					        new TabContainerSection($("#cfw-payment-method"), "payment_method")
+				        ];
+				        var tabContainer = new TabContainer($("#cfw-tab-container"), tabContainerBreadcrumb, tabContainerSections);
+
+				        var main = new Main( tabContainer );
+				        main.setup();
+			        });
+            }
         </script>
 		</head>
-		<body class="<?php echo implode(" ", $classes); ?>">
+		<body class="<?php echo implode(" ", $classes); ?>" onload="init()">
 		<?php
 	}
 

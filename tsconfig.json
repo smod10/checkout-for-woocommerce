@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"module": "AMD",
+		"removeComments": true,
+		"target": "es5",
+		"experimentalDecorators": true,
+		"preserveConstEnums": true,
+		"outFile": "checkout-woocommerce-front.js",
+		"sourceMap": true,
+		"allowJs": true
+	},
+	"include": [
+		"sources/ts/front/**/*"
+	],
+	"exclude": []
+}

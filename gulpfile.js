@@ -7,8 +7,11 @@ var rename = require('gulp-rename');
 var notify = require('gulp-notify');
 var autop = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
-var babel = require('gulp-babel');
+var ts = require('gulp-typescript');
 var del = require('del');
+
+var tsProjectDev = ts.createProject('tsconfig.json');
+var tsProjectProd = ts.createProject('tsconfig.json');
 
 /**
  * Handles the file generation for SASS files in a development environment.
@@ -55,6 +58,44 @@ gulp.task('sass:front:prod', function() {
 });
 
 /**
+ * Handles the file generation for TypeScript files in a development environment.
+ *
+ * Build order:
+ * - Source maps
+ * - tsProjectDev
+ * - Writes the source map in the same directory as the compiled js file
+ * - Push the files to the destination
+ * - Notify of task completion
+ */
+gulp.task('typescript:front:dev', function() {
+	return gulp.src('sources/ts/front/CFW/Main.ts')
+		.pipe(sourcemaps.init())
+		.pipe(tsProjectDev())
+		.pipe(sourcemaps.write("."))
+		.pipe(gulp.dest('assets/front/js'))
+		.pipe(notify({ message: "[typescript:front:dev completed]", onLast: true }))
+});
+
+/**
+ * Handles the file generation for TypeScript files in a production environment.
+ *
+ * Build order:
+ * - tsProjectProd
+ * - Uglify
+ * - Renames the out file to checkout-woocommerce-front.min.js
+ * - Push the files to the destination
+ * - Notify of task completion
+ */
+gulp.task('typescript:front:prod', function() {
+	return gulp.src('sources/ts/front/CFW/Main.ts')
+		.pipe(tsProjectProd())
+		.pipe(uglify())
+		.pipe(rename("checkout-woocommerce-front.min.js"))
+		.pipe(gulp.dest('assets/front/js'))
+		.pipe(notify({ message: "[typescript:front:prod completed]", onLast: true }))
+});
+
+/**
  * Cleans the directories specified of files.
  */
 gulp.task('clean', function() {
@@ -74,11 +115,15 @@ gulp.task('watch', function() {
 		'sources/scss/front/**/*.scss',
 		'sources/scss/resources/grid/*.scss'
 	], ['sass:front:dev']);
+
+	gulp.watch([
+		'sources/ts/front/**/*.ts'
+	], ['typescript:front:dev'])
 });
 
 /**
  *
  */
 gulp.task('default', ['clean'], function() {
-	gulp.start('sass:front:dev', 'sass:front:prod');
+	gulp.start('sass:front:dev', 'sass:front:prod', 'typescript:front:dev', 'typescript:front:prod');
 });

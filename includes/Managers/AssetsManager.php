@@ -50,10 +50,6 @@ class AssetsManager {
 	 */
 	public function __construct($pm) {
 		$this->path_manager = $pm;
-//		$this->asset_types = array(
-//			"admin"     => 'load_enqueue',
-//			"front"     => 'load_echo'
-//		);
 		$assets_path = $this->path_manager->get_assets_path();
 
 		$admin = "$assets_path/admin";
@@ -98,15 +94,15 @@ class AssetsManager {
 							"attrs" => array()
 						),
 						(object) array(
+							"path" => "$bower/requirejs/require.js",
+							"attrs" => array()
+						),
+						(object) array(
 							"path" => "$bower/easytabs/lib/jquery.easytabs.min.js",
 							"attrs" => array()
 						),
 						(object) array(
 							"path" => "$bower/garlicjs/dist/garlic.min.js",
-							"attrs" => array()
-						),
-						(object) array(
-							"path" => "$front/js/checkout-woocommerce-front.js",
 							"attrs" => array()
 						)
 					)

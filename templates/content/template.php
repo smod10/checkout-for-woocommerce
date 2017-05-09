@@ -41,7 +41,7 @@
                             <div class="cfw-input-container">
                                 <div class="cfw-input-wrap cfw-text-input">
                                     <label class="cfw-input-label" for="cfw-email">Email</label>
-                                    <input type="text" name="cfw-email" id="cfw-email" autocomplete="email" size="30" title="Email" placeholder="Email" class="required garlic-auto-save">
+                                    <input type="text" name="cfw-email" id="cfw-email" autocomplete="email" size="30" title="Email" placeholder="Email" class="required">
                                 </div>
                                 <div id="cfw-login-slide">
                                     <div class="cfw-input-wrap cfw-password-input">
@@ -67,13 +67,13 @@
                                     <div class="cfw-column-6">
                                         <div class="cfw-input-wrap cfw-text-input">
                                             <label class="cfw-input-label" for="cfw-first-name">First name</label>
-                                            <input type="text" name="cfw-first-name" id="cfw-first-name" autocomplete="given-name" size="30" title="First name" placeholder="First name" class="required garlic-auto-save">
+                                            <input type="text" name="cfw-first-name" id="cfw-first-name" autocomplete="given-name" size="30" title="First name" placeholder="First name" class="required">
                                         </div>
                                     </div>
                                     <div class="cfw-column-6">
                                         <div class="cfw-input-wrap cfw-text-input">
                                             <label class="cfw-input-label" for="cfw-last-name">Last name</label>
-                                            <input type="text" name="cfw-last-name" id="cfw-last-name" autocomplete="family-name" size="30" title="Last name" placeholder="Last name" class="required garlic-auto-save">
+                                            <input type="text" name="cfw-last-name" id="cfw-last-name" autocomplete="family-name" size="30" title="Last name" placeholder="Last name" class="required">
                                         </div>
                                     </div>
                                 </div>
@@ -81,13 +81,13 @@
                                     <div class="cfw-column-8">
                                         <div class="cfw-input-wrap cfw-text-input">
                                             <label class="cfw-input-label" for="cfw-address1">Address</label>
-                                            <input type="text" name="cfw-address1" id="cfw-address1" autocomplete="billing address-line1" size="30" title="Address" placeholder="Address" class="required garlic-auto-save">
+                                            <input type="text" name="cfw-address1" id="cfw-address1" autocomplete="billing address-line1" size="30" title="Address" placeholder="Address" class="required">
                                         </div>
                                     </div>
                                     <div class="cfw-column-4">
                                         <div class="cfw-input-wrap cfw-text-input">
                                             <label class="cfw-input-label" for="cfw-address2">Apt, suite, etc. (optional)</label>
-                                            <input type="text" name="cfw-address2" id="cfw-address2" autocomplete="billing address-line2" size="30" title="Apt, suite, etc. (optional)" placeholder="Apt, suite, etc. (optional)" class="required garlic-auto-save">
+                                            <input type="text" name="cfw-address2" id="cfw-address2" autocomplete="billing address-line2" size="30" title="Apt, suite, etc. (optional)" placeholder="Apt, suite, etc. (optional)" class="required">
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@
                                     <div class="cfw-column-12">
                                         <div class="cfw-input-wrap cfw-text-input">
                                             <label class="cfw-input-label" for="cfw-city">City</label>
-                                            <input type="text" name="cfw-city" id="cfw-city" autocomplete="billing address-level2" size="30" title="City" placeholder="City" class="required garlic-auto-save">
+                                            <input type="text" name="cfw-city" id="cfw-city" autocomplete="billing address-level2" size="30" title="City" placeholder="City" class="required">
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@
                                     <div class="cfw-column-12">
                                         <div class="cfw-input-wrap cfw-text-input">
                                             <label class="cfw-input-label" for="cfw-phone">Phone (required by UPS)</label>
-                                            <input type="text" name="cfw-phone" id="cfw-phone" autocomplete="billing tel" size="30" title="Phone (required by UPS)" placeholder="Phone (required by UPS)" class="required garlic-auto-save">
+                                            <input type="text" name="cfw-phone" id="cfw-phone" autocomplete="billing tel" size="30" title="Phone (required by UPS)" placeholder="Phone (required by UPS)" class="required">
                                         </div>
                                     </div>
                                 </div>

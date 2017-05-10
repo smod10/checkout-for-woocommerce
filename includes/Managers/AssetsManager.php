@@ -57,19 +57,21 @@ class AssetsManager {
 		$bower = "$assets_path/global/bower";
 		$js = "$assets_path/global/js";
 
+		$min = (!CO_DEV_MODE) ? "min." : "";
+
 		$this->asset_types = array(
 			"admin"         => (object) array(
 				"func"      => 'load_enqueue',
 				"files"     => array(
 					"css"   => array(
 						(object) array(
-							"path" => "$admin/css/checkout-woocommerce-admin.css",
+							"path" => "$admin/css/checkout-woocommerce-admin.{$min}css",
 							"attrs" => array()
 						)
 					),
 					"js"    => array(
 						(object) array(
-							"path" => "$admin/js/checkout-woocommerce-admin.js",
+							"path" => "$admin/js/checkout-woocommerce-admin.{$min}js",
 							"attrs" => array()
 						)
 					)
@@ -81,7 +83,7 @@ class AssetsManager {
 				"files"     => array(
 					"css"   => array(
 						(object) array(
-							"path" => "$front/css/checkout-woocommerce-front.css",
+							"path" => "$front/css/checkout-woocommerce-front.{$min}css",
 							"attrs" => array()
 						)
 					),

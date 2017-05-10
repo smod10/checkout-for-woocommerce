@@ -53,6 +53,13 @@ define("Enums/LabelType", ["require", "exports"], function (require, exports) {
         LabelType[LabelType["PASSWORD"] = 1] = "PASSWORD";
     })(LabelType = exports.LabelType || (exports.LabelType = {}));
 });
+define("Enums/AlertType", ["require", "exports"], function (require, exports) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var AlertType;
+    (function (AlertType) {
+        AlertType[AlertType["LoginFailBadAccInfo"] = 0] = "LoginFailBadAccInfo";
+    })(AlertType = exports.AlertType || (exports.AlertType = {}));
+});
 define("Types/Types", ["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
 });
@@ -312,7 +319,73 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
     ], AccountExistsAction.prototype, "response", null);
     exports.AccountExistsAction = AccountExistsAction;
 });
-define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction"], function (require, exports, Element_4, AccountExistsAction_1) {
+define("Elements/Alert", ["require", "exports", "Elements/Element"], function (require, exports, Element_4) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Alert = (function (_super) {
+        __extends(Alert, _super);
+        function Alert(alertContainer, alertInfo) {
+            var _this = _super.call(this, alertContainer) || this;
+            _this.alertInfo = alertInfo;
+            return _this;
+        }
+        Alert.prototype.addAlert = function () {
+            this.jel.find(".message").text(this.alertInfo.message);
+            this.jel.addClass(this.alertInfo.cssClass);
+            this.jel.slideDown(300);
+        };
+        Object.defineProperty(Alert.prototype, "alertInfo", {
+            get: function () {
+                return this._alertInfo;
+            },
+            set: function (value) {
+                this._alertInfo = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Alert;
+    }(Element_4.Element));
+    exports.Alert = Alert;
+});
+define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements/Alert", "Decorators/ResponsePrep", "Enums/AlertType"], function (require, exports, Action_2, Alert_1, ResponsePrep_2, AlertType_1) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var LoginAction = (function (_super) {
+        __extends(LoginAction, _super);
+        function LoginAction(id, ajaxInfo, email, password) {
+            var _this = this;
+            var data = {
+                action: id,
+                security: ajaxInfo.nonce,
+                email: email,
+                password: password
+            };
+            _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            return _this;
+        }
+        LoginAction.prototype.response = function (resp) {
+            console.log(resp);
+            if (resp.logged_in) {
+                location.reload();
+            }
+            else {
+                var alertInfo = {
+                    type: AlertType_1.AlertType.LoginFailBadAccInfo,
+                    message: "Incorrect username or password",
+                    cssClass: "cfw-alert-danger"
+                };
+                var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
+                alert_1.addAlert();
+                console.log(alert_1);
+            }
+        };
+        return LoginAction;
+    }(Action_2.Action));
+    __decorate([
+        ResponsePrep_2.ResponsePrep
+    ], LoginAction.prototype, "response", null);
+    exports.LoginAction = LoginAction;
+});
+define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction"], function (require, exports, Element_5, AccountExistsAction_1, LoginAction_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
@@ -325,9 +398,22 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
         TabContainer.prototype.setAccountCheckListener = function (ajaxInfo) {
             var customer_info = this.tabContainerSectionBy("name", "customer_info");
             var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
-            var email_input = email_input_wrap.input.jel;
-            var onLoadAea = new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input.val());
-            email_input.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input.val()); });
+            if (email_input_wrap) {
+                var email_input_1 = email_input_wrap.input.jel;
+                var onLoadAea = new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val());
+                email_input_1.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val()); });
+            }
+        };
+        TabContainer.prototype.setLogInListener = function (ajaxInfo) {
+            var customer_info = this.tabContainerSectionBy("name", "customer_info");
+            var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
+            if (email_input_wrap) {
+                var email_input_2 = email_input_wrap.input.jel;
+                var password_input_wrap = customer_info.getInputLabelWrapById("cfw-password-wrap");
+                var password_input_1 = password_input_wrap.input.jel;
+                var login_btn = $("#cfw-login-btn");
+                login_btn.on("click", function () { return new LoginAction_1.LoginAction("login", ajaxInfo, email_input_2.val(), password_input_1.val()); });
+            }
         };
         TabContainer.prototype.easyTabs = function () {
             this.jel.easytabs();
@@ -356,7 +442,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             configurable: true
         });
         return TabContainer;
-    }(Element_4.Element));
+    }(Element_5.Element));
     exports.TabContainer = TabContainer;
 });
 define("Main", ["require", "exports"], function (require, exports) {
@@ -366,6 +452,7 @@ define("Main", ["require", "exports"], function (require, exports) {
             this.tabContainer = tabContainer;
             this.ajaxInfo = ajaxInfo;
             this.tabContainer.setAccountCheckListener(this.ajaxInfo);
+            this.tabContainer.setLogInListener(this.ajaxInfo);
         }
         Main.prototype.setup = function () {
             this.tabContainer.easyTabs();

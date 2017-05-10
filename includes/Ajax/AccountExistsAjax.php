@@ -3,7 +3,6 @@
 namespace Objectiv\Plugins\Checkout\Ajax;
 
 use Objectiv\Plugins\Checkout\Core\Base\Ajax;
-use Objectiv\Plugins\Checkout\Main;
 
 class AccountExistsAjax extends Ajax {
 	public function __construct( $id ) {

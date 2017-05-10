@@ -8,6 +8,9 @@ import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 import { AlertType }                    from "../Enums/AlertType";
 
 export class LoginAction extends Action {
+
+    private static _loginLocked: boolean;
+
     constructor(id: string, ajaxInfo: AjaxInfo, email: string, password: string) {
         let data: LogInData = {
             action: id,
@@ -16,12 +19,16 @@ export class LoginAction extends Action {
             password: password
         };
 
-        super(id, ajaxInfo.admin_url, data);
+        if(!LoginAction.loginLocked) {
+            super(id, ajaxInfo.admin_url, data);
+        }
     }
 
     @ResponsePrep
     public response(resp: LogInResponse) {
-        console.log(resp);
+
+        console.log("Response coming back test");
+
         if(resp.logged_in) {
             location.reload();
         } else {
@@ -30,10 +37,19 @@ export class LoginAction extends Action {
                 message: "Incorrect username or password",
                 cssClass: "cfw-alert-danger"
             };
+
             let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
             alert.addAlert();
 
-            console.log(alert);
+            LoginAction.loginLocked = true;
         }
+    }
+
+    static get loginLocked(): boolean {
+        return this._loginLocked;
+    }
+
+    static set loginLocked(value: boolean) {
+        this._loginLocked = value;
     }
 }

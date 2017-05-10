@@ -359,11 +359,13 @@ define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements
                 email: email,
                 password: password
             };
-            _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            if (!LoginAction.loginLocked) {
+                _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            }
             return _this;
         }
         LoginAction.prototype.response = function (resp) {
-            console.log(resp);
+            console.log("Response coming back test");
             if (resp.logged_in) {
                 location.reload();
             }
@@ -375,9 +377,19 @@ define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements
                 };
                 var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
                 alert_1.addAlert();
-                console.log(alert_1);
+                LoginAction.loginLocked = true;
             }
         };
+        Object.defineProperty(LoginAction, "loginLocked", {
+            get: function () {
+                return this._loginLocked;
+            },
+            set: function (value) {
+                this._loginLocked = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return LoginAction;
     }(Action_2.Action));
     __decorate([
@@ -411,6 +423,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 var email_input_2 = email_input_wrap.input.jel;
                 var password_input_wrap = customer_info.getInputLabelWrapById("cfw-password-wrap");
                 var password_input_1 = password_input_wrap.input.jel;
+                password_input_1.on("keyup", function () { return LoginAction_1.LoginAction.loginLocked = false; });
                 var login_btn = $("#cfw-login-btn");
                 login_btn.on("click", function () { return new LoginAction_1.LoginAction("login", ajaxInfo, email_input_2.val(), password_input_1.val()); });
             }

@@ -53,6 +53,13 @@ define("Enums/LabelType", ["require", "exports"], function (require, exports) {
         LabelType[LabelType["PASSWORD"] = 1] = "PASSWORD";
     })(LabelType = exports.LabelType || (exports.LabelType = {}));
 });
+define("Enums/AlertType", ["require", "exports"], function (require, exports) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var AlertType;
+    (function (AlertType) {
+        AlertType[AlertType["LoginFailBadAccInfo"] = 0] = "LoginFailBadAccInfo";
+    })(AlertType = exports.AlertType || (exports.AlertType = {}));
+});
 define("Types/Types", ["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
 });
@@ -312,7 +319,35 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
     ], AccountExistsAction.prototype, "response", null);
     exports.AccountExistsAction = AccountExistsAction;
 });
-define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep"], function (require, exports, Action_2, ResponsePrep_2) {
+define("Elements/Alert", ["require", "exports", "Elements/Element"], function (require, exports, Element_4) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Alert = (function (_super) {
+        __extends(Alert, _super);
+        function Alert(alertContainer, alertInfo) {
+            var _this = _super.call(this, alertContainer) || this;
+            _this.alertInfo = alertInfo;
+            return _this;
+        }
+        Alert.prototype.addAlert = function () {
+            this.jel.find(".message").text(this.alertInfo.message);
+            this.jel.addClass(this.alertInfo.cssClass);
+            this.jel.slideDown(300);
+        };
+        Object.defineProperty(Alert.prototype, "alertInfo", {
+            get: function () {
+                return this._alertInfo;
+            },
+            set: function (value) {
+                this._alertInfo = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Alert;
+    }(Element_4.Element));
+    exports.Alert = Alert;
+});
+define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements/Alert", "Decorators/ResponsePrep", "Enums/AlertType"], function (require, exports, Action_2, Alert_1, ResponsePrep_2, AlertType_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var LoginAction = (function (_super) {
         __extends(LoginAction, _super);
@@ -328,8 +363,19 @@ define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Decorato
             return _this;
         }
         LoginAction.prototype.response = function (resp) {
+            console.log(resp);
             if (resp.logged_in) {
                 location.reload();
+            }
+            else {
+                var alertInfo = {
+                    type: AlertType_1.AlertType.LoginFailBadAccInfo,
+                    message: "Incorrect username or password",
+                    cssClass: "cfw-alert-danger"
+                };
+                var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
+                alert_1.addAlert();
+                console.log(alert_1);
             }
         };
         return LoginAction;
@@ -339,7 +385,7 @@ define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Decorato
     ], LoginAction.prototype, "response", null);
     exports.LoginAction = LoginAction;
 });
-define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction"], function (require, exports, Element_4, AccountExistsAction_1, LoginAction_1) {
+define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction"], function (require, exports, Element_5, AccountExistsAction_1, LoginAction_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
@@ -396,7 +442,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             configurable: true
         });
         return TabContainer;
-    }(Element_4.Element));
+    }(Element_5.Element));
     exports.TabContainer = TabContainer;
 });
 define("Main", ["require", "exports"], function (require, exports) {

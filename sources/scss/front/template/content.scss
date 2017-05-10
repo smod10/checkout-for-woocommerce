@@ -59,6 +59,24 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   }
 }
 
+.cfw-alert {
+  padding: 15px;
+  margin-bottom: 1em;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  display: none;
+
+  .message {
+    line-height: 1.625;
+  }
+}
+
+.cfw-alert-danger {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+
 .cfw-input-wrap-row {
   margin-bottom: $wrap-row-bot-margin;
 

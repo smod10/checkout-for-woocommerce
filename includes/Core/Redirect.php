@@ -91,12 +91,13 @@ class Redirect {
 	 * @param $classes
 	 */
 	public static function middle($classes = array()) {
+	    $min = (!CO_DEV_MODE) ? ".min" : "";
 		?>
         <script>
 	        requirejs.config({
 		        baseUrl : '<?php echo get_site_url(); ?>' + '/wp-content/plugins/checkout-woocommerce/assets/front/js/',
 		        bundles: {
-			        'checkout-woocommerce-front': ['Main', 'Elements/TabContainer', 'Elements/TabContainerBreadcrumb', 'Elements/TabContainerSection']
+			        'checkout-woocommerce-front<?php echo $min; ?>': ['Main', 'Elements/TabContainer', 'Elements/TabContainerBreadcrumb', 'Elements/TabContainerSection']
 		        }
 	        });
 

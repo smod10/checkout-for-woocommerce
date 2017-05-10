@@ -5,6 +5,15 @@
 ?>
 <main id="cfw-content">
     <div class="wrap">
+
+        <div class="cfw-container">
+            <div class="cfw-column-12">
+                <div id="cfw-alert-container" class="cfw-alert">
+                    <div class="message"></div>
+                </div>
+            </div>
+        </div>
+
         <div id="cfw-main-container" class="cfw-container">
 
             <!-- Easy Tab Container -->
@@ -47,7 +56,7 @@
                                 <div id="cfw-login-slide">
                                     <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
                                         <label class="cfw-input-label" for="cfw-email">Password</label>
-                                        <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" size="30" title="Password" placeholder="Password" class="required">
+                                        <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password" class="required">
                                     </div>
                                     <div class="cfw-input-wrap cfw-button-input">
                                         <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="Login" />

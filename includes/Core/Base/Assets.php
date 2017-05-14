@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Core;
+namespace Objectiv\Plugins\Checkout\Core\Base;
 
 use Objectiv\Plugins\Checkout\Core\Base\Tracked;
 
@@ -15,7 +15,7 @@ use Objectiv\Plugins\Checkout\Core\Base\Tracked;
  * @author Brandon Tassone <brandontassone@gmail.com>
  */
 
-class Assets extends Tracked {
+abstract class Assets extends Tracked {
 
 	/**
 	 * Asset file list in sub_folder => file pattern
@@ -67,39 +67,8 @@ class Assets extends Tracked {
 	}
 
 	/**
+	 * @since 0.1.0
 	 * @param $version
 	 */
-	public function load_echo($version) {
-
-		foreach($this->get_asset_files() as $folder => $files) {
-			foreach($files as $file_info) {
-
-				$attrs = "";
-
-				foreach($file_info->attrs as $key => $value) {
-					$attrs .= " $key=\"$value\"";
-				}
-
-				switch($folder) {
-					case 'css':
-						$out = "<link rel='stylesheet' href='$file_info->path?ver=$version' type='text/css' media='all' $attrs />";
-						break;
-					case 'js':
-						$out = "<script type='text/javascript' src='$file_info->path?ver=$version' $attrs></script>";
-						break;
-					default:
-						$out = "";
-				}
-
-				echo $out;
-			}
-		}
-	}
-
-	/**
-	 * @param $version
-	 */
-	public function load_enqueue($version) {
-		// TODO: Admin assets go here
-	}
+	abstract public function load($version);
 }

@@ -2,6 +2,8 @@
 
 namespace Objectiv\Plugins\Checkout;
 
+use Objectiv\Plugins\Checkout\Assets\AdminAssets;
+use Objectiv\Plugins\Checkout\Assets\FrontAssets;
 use Objectiv\Plugins\Checkout\Language\i18n;
 use Objectiv\Plugins\Checkout\Utilities\Activator;
 use Objectiv\Plugins\Checkout\Utilities\Deactivator;
@@ -74,20 +76,6 @@ class Main extends Singleton {
 	 * @var AjaxManager $ajax_manager
 	 */
 	private $ajax_manager;
-
-	/**
-	 * @since 0.1.0
-	 * @access private;
-	 * @var
-	 */
-	private $nonce;
-
-	/**
-	 * @since 0.1.0
-	 * @access private;
-	 * @var
-	 */
-	private $nonce_seed;
 
 	/**
 	 * Language class dealing with translating the various parts of the plugin
@@ -214,17 +202,6 @@ class Main extends Singleton {
 	}
 
 	/**
-	 * @return mixed
-	 */
-	public function get_nonce() {
-		return $this->nonce;
-	}
-
-	public function get_nonce_seed() {
-		return $this->nonce_seed;
-	}
-
-	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
 	 * @since 0.1.0
@@ -236,6 +213,8 @@ class Main extends Singleton {
 
 		// Create and setup the plugins main objects
 		$this->create_main_objects($file);
+
+		$this->configure_objects();
 
 		// Adds the plugins hooks
 		$this->add_plugin_hooks();
@@ -295,12 +274,85 @@ class Main extends Singleton {
 		$this->template_manager = new TemplateManager();
 
 		// Create the asset manager and register the assets
-		$this->assets_manager = new AssetsManager($this->path_manager);
+		$this->assets_manager = new AssetsManager($this->get_assets());
 
-		$this->ajax_manager = new AjaxManager(array(
+		// Create the ajax manager
+		$this->ajax_manager = new AjaxManager($this->get_ajax_actions(), $this->loader);
+	}
+
+	/**
+	 * @since 0.1.0
+	 * @access private
+	 */
+	private function configure_objects() {
+		$this->ajax_manager->load_all();
+	}
+
+	public function get_ajax_actions() {
+		return array(
 			new AccountExistsAjax("account_exists"),
 			new LogInAjax("login")
-		), $this->loader);
+		);
+	}
+
+	public function get_assets() {
+		$admin = "{$this->path_manager->get_assets_path()}/admin";
+		$front = "{$this->path_manager->get_assets_path()}/front";
+		$bower = "{$this->path_manager->get_assets_path()}/global/bower";
+		$js = "{$this->path_manager->get_assets_path()}/global/js";
+
+		$min = (!CO_DEV_MODE) ? ".min" : "";
+
+		return array(
+			new FrontAssets("front_assets", array(
+				"css" => array(
+					(object) array(
+						"path" => "$front/css/checkout-woocommerce-front{$min}.css",
+						"attrs" => array()
+					)
+				),
+				"js" => array(
+					(object) array(
+						"path" => "$bower/easytabs/vendor/jquery-1.7.1.min.js",
+						"attrs" => array()
+					),
+					(object) array(
+						"path" => "$bower/easytabs/vendor/jquery.hashchange.min.js",
+						"attrs" => array()
+					),
+					(object) array(
+						"path" => "$bower/requirejs/require.js",
+						"attrs" => array()
+					),
+					(object) array(
+						"path" => "$bower/easytabs/lib/jquery.easytabs.min.js",
+						"attrs" => array()
+					),
+					(object) array(
+						"path" => "$bower/garlicjs/dist/garlic.min.js",
+						"attrs" => array()
+					),
+					(object) array(
+						"path" => "$js/ArrayFindPoly.js",
+						"attrs" => array()
+					)
+				)
+			)),
+			new AdminAssets("admin_assets", array(
+				"css" => array(
+					(object) array(
+						"path" => "$admin/css/checkout-woocommerce-admin{$min}.css",
+						"attrs" => array()
+					)
+				),
+				"js" => array(
+					(object) array(
+						"path" => "$admin/js/checkout-woocommerce-admin{$min}.js",
+						"attrs" => array()
+					)
+				)
+			))
+		);
 	}
 
 	/**
@@ -328,8 +380,6 @@ class Main extends Singleton {
 		// Add the Language class
 		$this->loader->add_action('init', function(){
 			$this->i18n->load_plugin_textdomain($this->path_manager);
-			$this->nonce = wp_create_nonce($this->nonce_seed);
-			echo $this->nonce_seed;
 		});
 
 		// Handle the Activation notices
@@ -339,7 +389,7 @@ class Main extends Singleton {
 
 		// Add the admin assets
 		$this->loader->add_action('admin_enqueue_scripts', function(){
-			$this->assets_manager->load_assets($this->version, 'admin');
+			$this->assets_manager->load_assets($this->version, 'admin_assets');
 		});
 
 		// Setup the Checkout redirect

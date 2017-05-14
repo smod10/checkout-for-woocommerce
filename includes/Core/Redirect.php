@@ -4,7 +4,6 @@ namespace Objectiv\Plugins\Checkout\Core;
 use Objectiv\Plugins\Checkout\Managers\AssetsManager;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
-use Objectiv\Plugins\Checkout\Main;
 
 class Redirect {
 	/**
@@ -24,7 +23,7 @@ class Redirect {
             $global_template_parameters["cart"]         = WC()->cart;          // Cart Object
 
 			// Output the contents of the <head></head> section
-			self::head($pm, $am, $version, ['cfw']);
+			self::head($am, $version, ['cfw']);
 
 			// Output the contents of the <body></body> section
 			self::body($pm, $tm, $global_template_parameters);
@@ -37,38 +36,8 @@ class Redirect {
 		}
 	}
 
-	/**
-	 * @param PathManager $pm
-	 * @param AssetsManager $am
-	 * @param string $version
-     * @param array $classes
-	 */
-	public static function head($pm, $am, $version, $classes) {
-
-	    ?>
-        <!DOCTYPE html>
-        <head>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,500,500i,700,900" rel="stylesheet">
-		<?php
-
-		// Fire off an action before the default loading of styles and scripts
-		do_action('cfw_assets_before_assets');
-
-		// Load the front end assets
-		$am->load_assets($version, "front");
-
-		// Fire off an action after the default loading of styles and scripts
-		do_action('cfw_assets_after_assets');
-
-		self::init_block((!CO_DEV_MODE) ? ".min" : "");
-		?>
-        </head>
-        <body class="<?php echo implode(" ", $classes); ?>" onload="init()">
-		<?php
-	}
-
 	public static function init_block($env_extension) {
-        ?>
+		?>
         <script>
 			requirejs.config({
 				baseUrl : '<?php echo get_site_url(); ?>' + '/wp-content/plugins/checkout-woocommerce/assets/front/js/',
@@ -110,8 +79,37 @@ class Redirect {
 					});
 			}
         </script>
-        <?php
-    }
+		<?php
+	}
+
+	/**
+	 * @param AssetsManager $am
+	 * @param string $version
+     * @param array $classes
+	 */
+	public static function head($am, $version, $classes) {
+
+	    ?>
+        <!DOCTYPE html>
+        <head>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,500,500i,700,900" rel="stylesheet">
+		<?php
+
+		// Fire off an action before the default loading of styles and scripts
+		do_action('cfw_assets_before_assets');
+
+		// Load the front end assets
+		$am->load_assets($version, "front_assets", apply_filters('cfw_front_assets_additional', array()), apply_filters('cfw_front_assets_replace', false));
+
+		// Fire off an action after the default loading of styles and scripts
+		do_action('cfw_assets_after_assets');
+
+		self::init_block((!CO_DEV_MODE) ? ".min" : "");
+		?>
+        </head>
+        <body class="<?php echo implode(" ", $classes); ?>" onload="init()">
+		<?php
+	}
 
 	/**
 	 * @param PathManager $pm

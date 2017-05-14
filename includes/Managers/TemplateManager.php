@@ -40,10 +40,11 @@ class TemplateManager {
 	 *
 	 * @since 0.1.0
 	 * @access public
+	 * @param array $template_sub_folders
 	 */
-	public function __construct() {
+	public function __construct($template_sub_folders = array( "header", "content", "footer" )) {
 		// Set the sub folder information that will be looked for regardless of the base folder
-		$this->template_sub_folders = array( "header", "content", "footer" );
+		$this->template_sub_folders = $template_sub_folders;
 	}
 
 	/**

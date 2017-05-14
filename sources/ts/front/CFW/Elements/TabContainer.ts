@@ -25,9 +25,11 @@ export class TabContainer extends Element {
         if(email_input_wrap) {
             let email_input: JQuery = email_input_wrap.input.jel;
 
-            let onLoadAea = new AccountExistsAction("account_exists", ajaxInfo, email_input.val());
+            // Handles page onload use case
+            new AccountExistsAction("account_exists", ajaxInfo, email_input.val()).load();
 
-            email_input.on("keyup", () => new AccountExistsAction("account_exists", ajaxInfo, email_input.val()));
+            // Add check to keyup event
+            email_input.on("keyup", () => new AccountExistsAction("account_exists", ajaxInfo, email_input.val()).load() );
         }
     }
 
@@ -45,7 +47,7 @@ export class TabContainer extends Element {
             let login_btn: JQuery = $("#cfw-login-btn");
 
             // Fire the login action on click
-            login_btn.on("click", () => new LoginAction("login", ajaxInfo, email_input.val(), password_input.val()));
+            login_btn.on("click", () => new LoginAction("login", ajaxInfo, email_input.val(), password_input.val()).load() );
         }
     }
 

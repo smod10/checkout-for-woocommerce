@@ -8,8 +8,6 @@ export abstract class Action {
         this.id = id;
         this.url = url;
         this.data = data;
-
-        this.load();
     }
 
     load() {

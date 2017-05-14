@@ -233,7 +233,6 @@ define("Actions/Action", ["require", "exports"], function (require, exports) {
             this.id = id;
             this.url = url;
             this.data = data;
-            this.load();
         }
         Action.prototype.load = function () {
             $.post(this.url.href, this.data, this.response);
@@ -398,8 +397,8 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
             if (email_input_wrap) {
                 var email_input_1 = email_input_wrap.input.jel;
-                var onLoadAea = new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val());
-                email_input_1.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val()); });
+                new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val()).load();
+                email_input_1.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val()).load(); });
             }
         };
         TabContainer.prototype.setLogInListener = function (ajaxInfo) {
@@ -410,7 +409,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 var password_input_wrap = customer_info.getInputLabelWrapById("cfw-password-wrap");
                 var password_input_1 = password_input_wrap.input.jel;
                 var login_btn = $("#cfw-login-btn");
-                login_btn.on("click", function () { return new LoginAction_1.LoginAction("login", ajaxInfo, email_input_2.val(), password_input_1.val()); });
+                login_btn.on("click", function () { return new LoginAction_1.LoginAction("login", ajaxInfo, email_input_2.val(), password_input_1.val()).load(); });
             }
         };
         TabContainer.prototype.easyTabs = function () {

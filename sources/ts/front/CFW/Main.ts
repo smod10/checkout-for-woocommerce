@@ -12,15 +12,14 @@ export class Main {
 	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo) {
 		this.tabContainer = tabContainer;
 		this.ajaxInfo = ajaxInfo;
-
-		this.tabContainer.setAccountCheckListener(this.ajaxInfo);
-		this.tabContainer.setLogInListener(this.ajaxInfo);
 	}
 
 	setup() {
 		// Setup easy tabs
 		this.tabContainer.easyTabs();
 		this.setupAnimationListeners();
+		this.tabContainer.setAccountCheckListener(this.ajaxInfo);
+		this.tabContainer.setLogInListener(this.ajaxInfo);
 	}
 
 	setupAnimationListeners() {

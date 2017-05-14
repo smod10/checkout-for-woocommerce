@@ -111,13 +111,19 @@ class Redirect {
 				        TabContainerBreadcrumb = TabContainerBreadcrumb.TabContainerBreadcrumb;
 				        TabContainerSection = TabContainerSection.TabContainerSection;
 
-				        var tabContainerBreadcrumb = new TabContainerBreadcrumb($("#cfw-breadcrumb"));
+				        var breadCrumbEl = $('<?php echo apply_filters('cfw_template_breadcrumb_el', "#cfw-breadcrumb"); ?>');
+				        var customerInfoEl = $('<?php echo apply_filters('cfw_template_customer_info_el', "#cfw-customer-info"); ?>');
+				        var shippingMethodEl = $('<?php echo apply_filters('cfw_template_shipping_method_el', "#cfw-shipping-method"); ?>');
+				        var paymentMethodEl = $('<?php echo apply_filters('cfw_template_payment_method_el', "#cfw-payment-method"); ?>');
+				        var tabContainerEl = $('<?php echo apply_filters('cfw_template_tab_container_el', "#cfw-tab-container"); ?>');
+
+				        var tabContainerBreadcrumb = new TabContainerBreadcrumb(breadCrumbEl);
 				        var tabContainerSections = [
-					        new TabContainerSection($("#cfw-customer-info"), "customer_info"),
-					        new TabContainerSection($("#cfw-shipping-method"), "shipping_method"),
-					        new TabContainerSection($("#cfw-payment-method"), "payment_method")
+					        new TabContainerSection(customerInfoEl, "customer_info"),
+					        new TabContainerSection(shippingMethodEl, "shipping_method"),
+					        new TabContainerSection(paymentMethodEl, "payment_method")
 				        ];
-				        var tabContainer = new TabContainer($("#cfw-tab-container"), tabContainerBreadcrumb, tabContainerSections);
+				        var tabContainer = new TabContainer(tabContainerEl, tabContainerBreadcrumb, tabContainerSections);
                         var ajaxInfo = {
                             admin_url: new URL('<?php echo admin_url('admin-ajax.php'); ?>'),
                             nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'

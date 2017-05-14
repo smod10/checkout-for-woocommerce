@@ -448,12 +448,12 @@ define("Main", ["require", "exports"], function (require, exports) {
         function Main(tabContainer, ajaxInfo) {
             this.tabContainer = tabContainer;
             this.ajaxInfo = ajaxInfo;
-            this.tabContainer.setAccountCheckListener(this.ajaxInfo);
-            this.tabContainer.setLogInListener(this.ajaxInfo);
         }
         Main.prototype.setup = function () {
             this.tabContainer.easyTabs();
             this.setupAnimationListeners();
+            this.tabContainer.setAccountCheckListener(this.ajaxInfo);
+            this.tabContainer.setLogInListener(this.ajaxInfo);
         };
         Main.prototype.setupAnimationListeners = function () {
             $("#cfw-ci-login").on("click", function () {

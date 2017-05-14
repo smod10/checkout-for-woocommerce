@@ -329,7 +329,7 @@ define("Elements/Alert", ["require", "exports", "Elements/Element"], function (r
             return _this;
         }
         Alert.prototype.addAlert = function () {
-            this.jel.find(".message").text(this.alertInfo.message);
+            this.jel.find(".message").html(this.alertInfo.message);
             this.jel.addClass(this.alertInfo.cssClass);
             this.jel.slideDown(300);
         };
@@ -359,37 +359,23 @@ define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements
                 email: email,
                 password: password
             };
-            if (!LoginAction.loginLocked) {
-                _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
-            }
+            _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
             return _this;
         }
         LoginAction.prototype.response = function (resp) {
-            console.log("Response coming back test");
             if (resp.logged_in) {
                 location.reload();
             }
             else {
                 var alertInfo = {
                     type: AlertType_1.AlertType.LoginFailBadAccInfo,
-                    message: "Incorrect username or password",
+                    message: resp.message,
                     cssClass: "cfw-alert-danger"
                 };
                 var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
                 alert_1.addAlert();
-                LoginAction.loginLocked = true;
             }
         };
-        Object.defineProperty(LoginAction, "loginLocked", {
-            get: function () {
-                return this._loginLocked;
-            },
-            set: function (value) {
-                this._loginLocked = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
         return LoginAction;
     }(Action_2.Action));
     __decorate([
@@ -423,7 +409,6 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 var email_input_2 = email_input_wrap.input.jel;
                 var password_input_wrap = customer_info.getInputLabelWrapById("cfw-password-wrap");
                 var password_input_1 = password_input_wrap.input.jel;
-                password_input_1.on("keyup", function () { return LoginAction_1.LoginAction.loginLocked = false; });
                 var login_btn = $("#cfw-login-btn");
                 login_btn.on("click", function () { return new LoginAction_1.LoginAction("login", ajaxInfo, email_input_2.val(), password_input_1.val()); });
             }

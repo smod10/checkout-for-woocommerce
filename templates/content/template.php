@@ -77,6 +77,10 @@
                         <div id="cfw-billing-details" class="cfw-module">
                             <h3 class="cfw-module-title">Billing Address</h3>
 
+	                        <?php foreach ( $checkout->get_checkout_fields( 'billing' ) as $key => $field ) : ?>
+		                        <?php woocommerce_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
+	                        <?php endforeach; ?>
+
                             <div class="cfw-billing-container">
                                 <div class="cfw-sg-container cfw-input-wrap-row">
                                     <div class="cfw-column-6">

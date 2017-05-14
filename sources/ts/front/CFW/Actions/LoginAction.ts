@@ -19,37 +19,23 @@ export class LoginAction extends Action {
             password: password
         };
 
-        if(!LoginAction.loginLocked) {
-            super(id, ajaxInfo.admin_url, data);
-        }
+        super(id, ajaxInfo.admin_url, data);
     }
 
     @ResponsePrep
     public response(resp: LogInResponse) {
-
-        console.log("Response coming back test");
 
         if(resp.logged_in) {
             location.reload();
         } else {
             let alertInfo: AlertInfo = {
                 type: AlertType.LoginFailBadAccInfo,
-                message: "Incorrect username or password",
+                message: resp.message,
                 cssClass: "cfw-alert-danger"
             };
 
             let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
             alert.addAlert();
-
-            LoginAction.loginLocked = true;
         }
-    }
-
-    static get loginLocked(): boolean {
-        return this._loginLocked;
-    }
-
-    static set loginLocked(value: boolean) {
-        this._loginLocked = value;
     }
 }

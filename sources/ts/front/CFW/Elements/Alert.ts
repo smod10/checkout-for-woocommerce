@@ -13,7 +13,7 @@ export class Alert extends Element {
     }
 
     addAlert() {
-        this.jel.find(".message").text(this.alertInfo.message);
+        this.jel.find(".message").html(this.alertInfo.message);
         this.jel.addClass(this.alertInfo.cssClass);
         this.jel.slideDown(300);
     }

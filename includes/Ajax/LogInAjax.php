@@ -18,12 +18,18 @@ class LogInAjax extends Ajax {
 		$info['remember'] = true;
 
 		$user = wp_signon($info, false);
+		$alt_message = "Login error";
+
+//		if(function_exists('wp_limit_login_auth_signon')) {
+//			$user = wp_limit_login_auth_signon($user, $info['user_login'], $info['user_password']);
+//			$alt_message = "Too many login attempts. Please try again in " . get_option('limit_login_attepts_delay_time') . " minutes";
+//		}
 
 		$out = array();
 
 		if(is_wp_error($user)) {
 			$out["logged_in"] = false;
-			$out["message"] = "Wrong username or password";
+			$out["message"] = ($user->get_error_message()) ?: $alt_message;
 		} else {
 			$out["logged_in"] = true;
 			$out["message"] = "Login successful";

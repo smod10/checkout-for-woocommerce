@@ -42,10 +42,9 @@ export class TabContainer extends Element {
             let password_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-password-wrap");
             let password_input: JQuery = password_input_wrap.input.jel;
 
-            password_input.on("keyup", () => LoginAction.loginLocked = false );
-
             let login_btn: JQuery = $("#cfw-login-btn");
 
+            // Fire the login action on click
             login_btn.on("click", () => new LoginAction("login", ajaxInfo, email_input.val(), password_input.val()));
         }
     }

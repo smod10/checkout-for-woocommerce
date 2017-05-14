@@ -67,10 +67,13 @@ class AssetsManager {
 
 			// If type isn't set, load them all. If type is set load just the type
 			if(!$type || $asset->get_id() == $type) {
+
+				// If we are replacing the asset in question don't load it
 				if(!$replace) {
 					$asset->load( $version );
 				}
 
+				// If there are additional assets to load go ahead and iterate / load them now
 				if(count($additional) > 0) {
 					foreach($additional as $add) {
 						$add->load($version);

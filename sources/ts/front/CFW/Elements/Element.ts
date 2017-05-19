@@ -1,5 +1,6 @@
 export class Element {
-    private _jel: JQuery;
+
+    protected _jel: JQuery;
 
     constructor(jel: JQuery) {
         this.jel = jel;

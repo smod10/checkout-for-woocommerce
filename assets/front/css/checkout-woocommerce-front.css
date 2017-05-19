@@ -296,14 +296,15 @@ body {
 
 .cfw-input-wrap {
   position: relative; }
-  .cfw-input-wrap.cfw-floating-label input[type="text"], .cfw-input-wrap.cfw-floating-label input[type="password"] {
-    padding: 1.7em 0.8em 0.38em 0.8em; }
+  .cfw-input-wrap.cfw-floating-label input[type="text"], .cfw-input-wrap.cfw-floating-label input[type="password"], .cfw-input-wrap.cfw-floating-label select {
+    padding: 1.6em 0.8em 0.28em 0.8em; }
   .cfw-input-wrap.cfw-floating-label .cfw-input-label {
     opacity: 1; }
-  .cfw-input-wrap > input[type="text"], .cfw-input-wrap > input[type="password"] {
+  .cfw-input-wrap > input[type="text"], .cfw-input-wrap > input[type="password"], .cfw-input-wrap select {
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
+    background: #fff;
     transition: all .2s ease;
     color: #333;
     padding: .94em .8em;
@@ -314,13 +315,13 @@ body {
     line-height: normal;
     border-radius: 4px;
     box-shadow: 0 0 0 1px #ddd; }
-    .cfw-input-wrap > input[type="text"]::-webkit-input-placeholder, .cfw-input-wrap > input[type="password"]::-webkit-input-placeholder {
+    .cfw-input-wrap > input[type="text"]::-webkit-input-placeholder, .cfw-input-wrap > input[type="password"]::-webkit-input-placeholder, .cfw-input-wrap select::-webkit-input-placeholder {
       color: #ccc; }
-    .cfw-input-wrap > input[type="text"]:-ms-input-placeholder, .cfw-input-wrap > input[type="password"]:-ms-input-placeholder {
+    .cfw-input-wrap > input[type="text"]:-ms-input-placeholder, .cfw-input-wrap > input[type="password"]:-ms-input-placeholder, .cfw-input-wrap select:-ms-input-placeholder {
       color: #ccc; }
-    .cfw-input-wrap > input[type="text"]::placeholder, .cfw-input-wrap > input[type="password"]::placeholder {
+    .cfw-input-wrap > input[type="text"]::placeholder, .cfw-input-wrap > input[type="password"]::placeholder, .cfw-input-wrap select::placeholder {
       color: #ccc; }
-    .cfw-input-wrap > input[type="text"]:focus, .cfw-input-wrap > input[type="password"]:focus {
+    .cfw-input-wrap > input[type="text"]:focus, .cfw-input-wrap > input[type="password"]:focus, .cfw-input-wrap select:focus {
       outline: 0;
       box-shadow: 0 0 0 2px #c7c7c7; }
 

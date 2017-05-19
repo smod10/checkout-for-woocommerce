@@ -4,7 +4,7 @@ namespace Objectiv\Plugins\Checkout\Core\Base;
 
 use Objectiv\Plugins\Checkout\Core\Loader;
 
-abstract class Ajax extends Tracked {
+abstract class Action extends Tracked {
 
 	public function __construct( $id ) {
 		parent::__construct( $id );

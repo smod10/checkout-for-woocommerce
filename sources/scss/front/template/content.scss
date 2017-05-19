@@ -145,8 +145,8 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   position: relative;
 
   &.cfw-floating-label {
-    input[type="text"], input[type="password"] {
-      padding: 1.7em 0.8em 0.38em 0.8em;
+    input[type="text"], input[type="password"], select {
+      padding: 1.6em 0.8em 0.28em 0.8em;
     }
 
     .cfw-input-label {
@@ -154,8 +154,9 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
     }
   }
 
-  & > input[type="text"], & > input[type="password"] {
+  & > input[type="text"], & > input[type="password"], select {
     appearance: none;
+    background: #fff;
     transition: all .2s ease;
     color: #333;
     padding: .94em .8em;

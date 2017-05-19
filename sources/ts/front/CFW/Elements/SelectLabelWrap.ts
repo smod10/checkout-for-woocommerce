@@ -2,35 +2,38 @@ import { Element }              from "Element";
 import { LabelType }            from "../Enums/LabelType";
 import { FormElement }          from "./FormElement";
 
-export class InputLabelWrap extends FormElement {
+export class SelectLabelWrap extends FormElement {
 
-    private _input: Element;
+    private _select: Element;
 
     constructor(jel: JQuery) {
         super(jel);
 
-        this.setInputAndLabel();
+        this.setSelectAndLabel();
 
         this.eventCallbacks = [
+            { eventName: "change", func: function(){
+                this.wrapClassSwap(this.select.jel.val());
+            }.bind(this), target: null },
             { eventName: "keyup", func: function(){
-                this.wrapClassSwap(this.input.jel.val());
+                this.wrapClassSwap(this.select.jel.val());
             }.bind(this), target: null }
         ];
 
         this.registerEventCallbacks();
 
-        this.wrapClassSwap(this.input.jel.val());
+        this.wrapClassSwap(this.select.jel.val());
     }
 
     registerEventCallbacks(): void {
-        if(this.input) {
+        if(this.select) {
             this.eventCallbacks.forEach((eventCb) => {
                 let eventName: any = eventCb.eventName;
                 let cb: Function = eventCb.func;
                 let target: JQuery = eventCb.target;
 
                 if(!target) {
-                    target = this.input.jel;
+                    target = this.select.jel;
                 }
 
                 target.on(eventName, cb);
@@ -38,7 +41,7 @@ export class InputLabelWrap extends FormElement {
         }
     }
 
-    setInputAndLabel() {
+    setSelectAndLabel(): void {
         let lt = $.map(LabelType, function(value, index) {
             return [value];
         });
@@ -46,19 +49,19 @@ export class InputLabelWrap extends FormElement {
         // Note: Length is divided by 2 because of ENUM implementation. Read TS docs
         for(let i = 0; i < lt.length / 2; i++) {
             let type = lt[i].toLowerCase();
-            let tjel = this.jel.find('input[type="' + type + '"]');
+            let tjel = this.jel.find('select');
 
             if(tjel.length > 0) {
-                this.input = new Element(tjel);
+                this.select = new Element(tjel);
             }
         }
     }
 
-    get input(): Element {
-        return this._input;
+    get select(): Element {
+        return this._select;
     }
 
-    set input(value: Element) {
-        this._input = value;
+    set select(value: Element) {
+        this._select = value;
     }
 }

@@ -12,7 +12,7 @@
         "psr-4": {
             "Objectiv\\Plugins\\Checkout\\": "includes/"
         },
-        "files": ["constants.php"]
+        "files": ["constants.php", "functions.php"]
     },
     "require": {
         "filp/whoops": "1.1.10",

@@ -1,6 +1,7 @@
 <?php
 namespace Objectiv\Plugins\Checkout\Core;
 
+use Objectiv\Plugins\Checkout\Core\Form;
 use Objectiv\Plugins\Checkout\Managers\AssetsManager;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
@@ -119,6 +120,8 @@ class Redirect {
 	public static function body($pm, $tm, $gtp) {
 		// Fire off an action before we load the template pieces
 		do_action('cfw_template_before_load');
+
+		$form = new Form();
 
 		// Load the template pieces
 		$tm->load_templates($pm->get_template_information($tm->get_template_sub_folders()), $gtp);

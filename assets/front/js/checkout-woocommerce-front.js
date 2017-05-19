@@ -51,6 +51,7 @@ define("Enums/LabelType", ["require", "exports"], function (require, exports) {
     (function (LabelType) {
         LabelType[LabelType["TEXT"] = 0] = "TEXT";
         LabelType[LabelType["PASSWORD"] = 1] = "PASSWORD";
+        LabelType[LabelType["SELECT"] = 2] = "SELECT";
     })(LabelType = exports.LabelType || (exports.LabelType = {}));
 });
 define("Enums/AlertType", ["require", "exports"], function (require, exports) {
@@ -63,30 +64,79 @@ define("Enums/AlertType", ["require", "exports"], function (require, exports) {
 define("Types/Types", ["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
 });
-define("Elements/InputLabelWrap", ["require", "exports", "Elements/Element", "Enums/LabelType"], function (require, exports, Element_2, LabelType_1) {
+define("Elements/FormElement", ["require", "exports", "Elements/Element"], function (require, exports, Element_2) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FormElement = (function (_super) {
+        __extends(FormElement, _super);
+        function FormElement(jel) {
+            var _this = _super.call(this, jel) || this;
+            _this._eventCallbacks = [];
+            return _this;
+        }
+        FormElement.prototype.wrapClassSwap = function (value) {
+            if (value !== "" && !this.jel.hasClass(FormElement.labelClass)) {
+                this.jel.addClass(FormElement.labelClass);
+            }
+            if (value === "" && this.jel.hasClass(FormElement.labelClass)) {
+                this.jel.removeClass(FormElement.labelClass);
+            }
+        };
+        Object.defineProperty(FormElement, "labelClass", {
+            get: function () {
+                return FormElement._labelClass;
+            },
+            set: function (value) {
+                FormElement._labelClass = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormElement.prototype, "eventCallbacks", {
+            get: function () {
+                return this._eventCallbacks;
+            },
+            set: function (value) {
+                this._eventCallbacks = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return FormElement;
+    }(Element_2.Element));
+    FormElement._labelClass = "cfw-floating-label";
+    exports.FormElement = FormElement;
+});
+define("Elements/InputLabelWrap", ["require", "exports", "Elements/Element", "Enums/LabelType", "Elements/FormElement"], function (require, exports, Element_3, LabelType_1, FormElement_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var InputLabelWrap = (function (_super) {
         __extends(InputLabelWrap, _super);
-        function InputLabelWrap(jel, eventCallbacks) {
-            if (eventCallbacks === void 0) { eventCallbacks = []; }
+        function InputLabelWrap(jel) {
             var _this = _super.call(this, jel) || this;
-            _this.eventCallbacks = [
-                { eventName: "keyup", func: _this.wrapClassSwap.bind(_this), target: null }
-            ];
             _this.setInputAndLabel();
-            _this.wrapClassSwap();
+            _this.eventCallbacks = [
+                { eventName: "keyup", func: function () {
+                        this.wrapClassSwap(this.input.jel.val());
+                    }.bind(_this), target: null }
+            ];
+            _this.registerEventCallbacks();
+            _this.wrapClassSwap(_this.input.jel.val());
             return _this;
         }
-        InputLabelWrap.prototype.wrapClassSwap = function () {
-            if (this.input.jel.val() !== "" && !this.jel.hasClass(InputLabelWrap.labelClass)) {
-                this.jel.addClass(InputLabelWrap.labelClass);
-            }
-            if (this.input.jel.val() === "" && this.jel.hasClass(InputLabelWrap.labelClass)) {
-                this.jel.removeClass(InputLabelWrap.labelClass);
+        InputLabelWrap.prototype.registerEventCallbacks = function () {
+            var _this = this;
+            if (this.input) {
+                this.eventCallbacks.forEach(function (eventCb) {
+                    var eventName = eventCb.eventName;
+                    var cb = eventCb.func;
+                    var target = eventCb.target;
+                    if (!target) {
+                        target = _this.input.jel;
+                    }
+                    target.on(eventName, cb);
+                });
             }
         };
         InputLabelWrap.prototype.setInputAndLabel = function () {
-            var _this = this;
             var lt = $.map(LabelType_1.LabelType, function (value, index) {
                 return [value];
             });
@@ -94,31 +144,10 @@ define("Elements/InputLabelWrap", ["require", "exports", "Elements/Element", "En
                 var type = lt[i].toLowerCase();
                 var tjel = this.jel.find('input[type="' + type + '"]');
                 if (tjel.length > 0) {
-                    this.input = new Element_2.Element(tjel);
-                }
-                if (this.input) {
-                    this.eventCallbacks.forEach(function (eventCb) {
-                        var eventName = eventCb.eventName;
-                        var cb = eventCb.func;
-                        var target = eventCb.target;
-                        if (!target) {
-                            target = _this.input.jel;
-                        }
-                        target.on(eventName, cb);
-                    });
+                    this.input = new Element_3.Element(tjel);
                 }
             }
         };
-        Object.defineProperty(InputLabelWrap, "labelClass", {
-            get: function () {
-                return InputLabelWrap._labelClass;
-            },
-            set: function (value) {
-                InputLabelWrap._labelClass = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(InputLabelWrap.prototype, "input", {
             get: function () {
                 return this._input;
@@ -129,22 +158,70 @@ define("Elements/InputLabelWrap", ["require", "exports", "Elements/Element", "En
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(InputLabelWrap.prototype, "eventCallbacks", {
+        return InputLabelWrap;
+    }(FormElement_1.FormElement));
+    exports.InputLabelWrap = InputLabelWrap;
+});
+define("Elements/SelectLabelWrap", ["require", "exports", "Elements/Element", "Enums/LabelType", "Elements/FormElement"], function (require, exports, Element_4, LabelType_2, FormElement_2) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SelectLabelWrap = (function (_super) {
+        __extends(SelectLabelWrap, _super);
+        function SelectLabelWrap(jel) {
+            var _this = _super.call(this, jel) || this;
+            _this.setSelectAndLabel();
+            _this.eventCallbacks = [
+                { eventName: "change", func: function () {
+                        this.wrapClassSwap(this.select.jel.val());
+                    }.bind(_this), target: null },
+                { eventName: "keyup", func: function () {
+                        this.wrapClassSwap(this.select.jel.val());
+                    }.bind(_this), target: null }
+            ];
+            _this.registerEventCallbacks();
+            _this.wrapClassSwap(_this.select.jel.val());
+            return _this;
+        }
+        SelectLabelWrap.prototype.registerEventCallbacks = function () {
+            var _this = this;
+            if (this.select) {
+                this.eventCallbacks.forEach(function (eventCb) {
+                    var eventName = eventCb.eventName;
+                    var cb = eventCb.func;
+                    var target = eventCb.target;
+                    if (!target) {
+                        target = _this.select.jel;
+                    }
+                    target.on(eventName, cb);
+                });
+            }
+        };
+        SelectLabelWrap.prototype.setSelectAndLabel = function () {
+            var lt = $.map(LabelType_2.LabelType, function (value, index) {
+                return [value];
+            });
+            for (var i = 0; i < lt.length / 2; i++) {
+                var type = lt[i].toLowerCase();
+                var tjel = this.jel.find('select');
+                if (tjel.length > 0) {
+                    this.select = new Element_4.Element(tjel);
+                }
+            }
+        };
+        Object.defineProperty(SelectLabelWrap.prototype, "select", {
             get: function () {
-                return this._eventCallbacks;
+                return this._select;
             },
             set: function (value) {
-                this._eventCallbacks = value;
+                this._select = value;
             },
             enumerable: true,
             configurable: true
         });
-        return InputLabelWrap;
-    }(Element_2.Element));
-    InputLabelWrap._labelClass = "cfw-floating-label";
-    exports.InputLabelWrap = InputLabelWrap;
+        return SelectLabelWrap;
+    }(FormElement_2.FormElement));
+    exports.SelectLabelWrap = SelectLabelWrap;
 });
-define("Elements/TabContainerSection", ["require", "exports", "Elements/Element", "Elements/InputLabelWrap", "Enums/LabelType"], function (require, exports, Element_3, InputLabelWrap_1, LabelType_2) {
+define("Elements/TabContainerSection", ["require", "exports", "Elements/Element", "Elements/InputLabelWrap", "Enums/LabelType", "Elements/SelectLabelWrap"], function (require, exports, Element_5, InputLabelWrap_1, LabelType_3, SelectLabelWrap_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainerSection = (function (_super) {
         __extends(TabContainerSection, _super);
@@ -152,14 +229,15 @@ define("Elements/TabContainerSection", ["require", "exports", "Elements/Element"
             var _this = _super.call(this, jel) || this;
             _this._name = "";
             _this._inputLabelWraps = [];
+            _this._selectLabelWraps = [];
             _this.name = name;
-            _this.setInputLabelWraps();
+            _this.setWraps();
             return _this;
         }
         TabContainerSection.prototype.getInputLabelWrapById = function (id) {
             return this.inputLabelWraps.find(function (inputLabelWrap) { return inputLabelWrap.jel.attr("id") == id; });
         };
-        TabContainerSection.prototype.getInputLabelWrapSelector = function () {
+        TabContainerSection.prototype.getWrapSelector = function () {
             var selector = "";
             TabContainerSection.inputLabelTypes.forEach(function (labelType, index) {
                 selector += "." + TabContainerSection.inputLabelWrapClass + "." + labelType.cssClass;
@@ -169,13 +247,20 @@ define("Elements/TabContainerSection", ["require", "exports", "Elements/Element"
             });
             return selector;
         };
-        TabContainerSection.prototype.setInputLabelWraps = function () {
+        TabContainerSection.prototype.setWraps = function () {
             var inputLabelWraps = [];
-            var jInputLabelWraps = this.jel.find(this.getInputLabelWrapSelector());
-            jInputLabelWraps.each(function (index, wrap) {
-                inputLabelWraps.push(new InputLabelWrap_1.InputLabelWrap($(wrap)));
+            var selectLabelWraps = [];
+            var jLabelWrap = this.jel.find(this.getWrapSelector());
+            jLabelWrap.each(function (index, wrap) {
+                if ($(wrap).hasClass("cfw-select-input")) {
+                    selectLabelWraps.push(new SelectLabelWrap_1.SelectLabelWrap($(wrap)));
+                }
+                else {
+                    inputLabelWraps.push(new InputLabelWrap_1.InputLabelWrap($(wrap)));
+                }
             });
             this.inputLabelWraps = inputLabelWraps;
+            this.selectLabelWraps = selectLabelWraps;
         };
         Object.defineProperty(TabContainerSection.prototype, "name", {
             get: function () {
@@ -193,6 +278,16 @@ define("Elements/TabContainerSection", ["require", "exports", "Elements/Element"
             },
             set: function (value) {
                 this._inputLabelWraps = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TabContainerSection.prototype, "selectLabelWraps", {
+            get: function () {
+                return this._selectLabelWraps;
+            },
+            set: function (value) {
+                this._selectLabelWraps = value;
             },
             enumerable: true,
             configurable: true
@@ -218,11 +313,12 @@ define("Elements/TabContainerSection", ["require", "exports", "Elements/Element"
             configurable: true
         });
         return TabContainerSection;
-    }(Element_3.Element));
+    }(Element_5.Element));
     TabContainerSection._inputLabelWrapClass = "cfw-input-wrap";
     TabContainerSection._inputLabelTypes = [
-        { type: LabelType_2.LabelType.TEXT, cssClass: "cfw-text-input" },
-        { type: LabelType_2.LabelType.PASSWORD, cssClass: "cfw-password-input" }
+        { type: LabelType_3.LabelType.TEXT, cssClass: "cfw-text-input" },
+        { type: LabelType_3.LabelType.PASSWORD, cssClass: "cfw-password-input" },
+        { type: LabelType_3.LabelType.SELECT, cssClass: "cfw-select-input" }
     ];
     exports.TabContainerSection = TabContainerSection;
 });
@@ -318,7 +414,7 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
     ], AccountExistsAction.prototype, "response", null);
     exports.AccountExistsAction = AccountExistsAction;
 });
-define("Elements/Alert", ["require", "exports", "Elements/Element"], function (require, exports, Element_4) {
+define("Elements/Alert", ["require", "exports", "Elements/Element"], function (require, exports, Element_6) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var Alert = (function (_super) {
         __extends(Alert, _super);
@@ -343,7 +439,7 @@ define("Elements/Alert", ["require", "exports", "Elements/Element"], function (r
             configurable: true
         });
         return Alert;
-    }(Element_4.Element));
+    }(Element_6.Element));
     exports.Alert = Alert;
 });
 define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements/Alert", "Decorators/ResponsePrep", "Enums/AlertType"], function (require, exports, Action_2, Alert_1, ResponsePrep_2, AlertType_1) {
@@ -382,7 +478,7 @@ define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements
     ], LoginAction.prototype, "response", null);
     exports.LoginAction = LoginAction;
 });
-define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction"], function (require, exports, Element_5, AccountExistsAction_1, LoginAction_1) {
+define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction"], function (require, exports, Element_7, AccountExistsAction_1, LoginAction_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
@@ -439,7 +535,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             configurable: true
         });
         return TabContainer;
-    }(Element_5.Element));
+    }(Element_7.Element));
     exports.TabContainer = TabContainer;
 });
 define("Main", ["require", "exports"], function (require, exports) {

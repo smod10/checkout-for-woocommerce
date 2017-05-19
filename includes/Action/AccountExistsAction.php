@@ -1,10 +1,10 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Ajax;
+namespace Objectiv\Plugins\Checkout\Action;
 
-use Objectiv\Plugins\Checkout\Core\Base\Ajax;
+use Objectiv\Plugins\Checkout\Core\Base\Action;
 
-class AccountExistsAjax extends Ajax {
+class AccountExistsAction extends Action {
 	public function __construct( $id ) {
 		parent::__construct( $id );
 	}

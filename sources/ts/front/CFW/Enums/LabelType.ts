@@ -1,4 +1,5 @@
 export enum LabelType {
     TEXT,
-    PASSWORD
+    PASSWORD,
+    SELECT
 }

@@ -14,8 +14,8 @@ use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 use Objectiv\Plugins\Checkout\Managers\AssetsManager;
 use Objectiv\Plugins\Checkout\Managers\AjaxManager;
-use Objectiv\Plugins\Checkout\Ajax\AccountExistsAjax;
-use Objectiv\Plugins\Checkout\Ajax\LogInAjax;
+use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
+use Objectiv\Plugins\Checkout\Action\LogInAction;
 
 use \Whoops\Run;
 use \Whoops\Handler\PrettyPageHandler;
@@ -290,8 +290,8 @@ class Main extends Singleton {
 
 	public function get_ajax_actions() {
 		return array(
-			new AccountExistsAjax("account_exists"),
-			new LogInAjax("login")
+			new AccountExistsAction("account_exists"),
+			new LogInAction("login")
 		);
 	}
 

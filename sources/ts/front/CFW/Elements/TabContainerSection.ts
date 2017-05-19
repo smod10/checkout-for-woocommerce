@@ -2,15 +2,18 @@ import { Element }                  from "Element";
 import { InputLabelWrap }           from "InputLabelWrap";
 import { LabelType }                from "../Enums/LabelType";
 import { InputLabelType }           from "../Types/Types";
+import { SelectLabelWrap }          from "./SelectLabelWrap";
 
 export class TabContainerSection extends Element {
     private _name: string = "";
     private _inputLabelWraps: Array<InputLabelWrap> = [];
+    private _selectLabelWraps: Array<SelectLabelWrap> = [];
 
     private static _inputLabelWrapClass: string = "cfw-input-wrap";
     private static _inputLabelTypes: Array<InputLabelType> = [
         { type: LabelType.TEXT, cssClass: "cfw-text-input" },
-        { type: LabelType.PASSWORD, cssClass: "cfw-password-input"}
+        { type: LabelType.PASSWORD, cssClass: "cfw-password-input"},
+        { type: LabelType.SELECT, cssClass: "cfw-select-input"}
     ];
 
     constructor(
@@ -21,14 +24,14 @@ export class TabContainerSection extends Element {
 
         this.name = name;
 
-        this.setInputLabelWraps();
+        this.setWraps();
     }
 
     getInputLabelWrapById(id: string): InputLabelWrap {
         return <InputLabelWrap>this.inputLabelWraps.find((inputLabelWrap) => inputLabelWrap.jel.attr("id") == id);
     }
 
-    getInputLabelWrapSelector(): string {
+    getWrapSelector(): string {
         let selector: string = "";
 
         TabContainerSection.inputLabelTypes.forEach((labelType, index) => {
@@ -42,15 +45,23 @@ export class TabContainerSection extends Element {
         return selector;
     }
 
-    setInputLabelWraps(): void {
+    setWraps(): void {
         let inputLabelWraps: Array<InputLabelWrap> = [];
-        let jInputLabelWraps: JQuery = this.jel.find(this.getInputLabelWrapSelector());
+        let selectLabelWraps: Array<SelectLabelWrap> = [];
 
-        jInputLabelWraps.each((index, wrap) => {
-            inputLabelWraps.push( new InputLabelWrap( $(wrap) ) );
+        let jLabelWrap: JQuery = this.jel.find(this.getWrapSelector());
+
+        jLabelWrap.each((index, wrap) => {
+            if($(wrap).hasClass("cfw-select-input")) {
+                selectLabelWraps.push( new SelectLabelWrap( $(wrap) ) );
+            } else {
+                inputLabelWraps.push( new InputLabelWrap( $(wrap) ) );
+            }
+
         });
 
         this.inputLabelWraps = inputLabelWraps;
+        this.selectLabelWraps = selectLabelWraps;
     }
 
     get name(): string {
@@ -67,6 +78,14 @@ export class TabContainerSection extends Element {
 
     set inputLabelWraps(value: Array<InputLabelWrap>) {
         this._inputLabelWraps = value;
+    }
+
+    get selectLabelWraps(): Array<SelectLabelWrap> {
+        return this._selectLabelWraps;
+    }
+
+    set selectLabelWraps(value: Array<SelectLabelWrap>) {
+        this._selectLabelWraps = value;
     }
 
     static get inputLabelTypes(): Array<InputLabelType> {

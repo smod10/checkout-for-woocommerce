@@ -9,6 +9,7 @@ class ComposerStaticInit503b2a89bf128e268aec901181e135ac
     public static $files = array (
         '6bc45d0537e6858fd179bdbc31d62c79' => __DIR__ . '/..' . '/raveren/kint/Kint.class.php',
         '37ce5fb7241fdbffe61d46aa1870bafe' => __DIR__ . '/../..' . '/constants.php',
+        '9cc500c3b9273af0df5f5ccca650f34b' => __DIR__ . '/../..' . '/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (

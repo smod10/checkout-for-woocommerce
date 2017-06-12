@@ -141,6 +141,19 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   font-size: 0.85em;
 }
 
+.cfw-select-input:after {
+  content: '';
+  background: url('data:image/svg+xml;utf8,<svg height="512px" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256"/></svg>') no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: 8px;
+  top: 50%;
+  transform: translateY(calc(-50% + 2px)) rotate(90deg);
+}
+
 .cfw-input-wrap {
   position: relative;
 
@@ -179,8 +192,20 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   }
 }
 
-#cfw-billing-action {
+#cfw-shipping-info-action {
   justify-content: flex-end;
+}
+
+#cfw-shipping-details-fields {
+  label {
+    width: 100px;
+    display: table-cell;
+    font-weight: 700;
+  }
+
+  span {
+    display: table-cell;
+  }
 }
 
 .cfw-prev-tab {

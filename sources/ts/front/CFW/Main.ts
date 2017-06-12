@@ -20,6 +20,8 @@ export class Main {
 		this.setupAnimationListeners();
 		this.tabContainer.setAccountCheckListener(this.ajaxInfo);
 		this.tabContainer.setLogInListener(this.ajaxInfo);
+		this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo);
+		this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo);
 	}
 
 	setupAnimationListeners() {

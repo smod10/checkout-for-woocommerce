@@ -21,7 +21,8 @@ class Redirect {
 			// Template conveniences items
 			$global_template_parameters["woo"]          = \WooCommerce::instance();         // WooCommerce Instance
 			$global_template_parameters["checkout"]     = WC()->checkout();                 // Checkout Object
-            $global_template_parameters["cart"]         = WC()->cart;          // Cart Object
+            $global_template_parameters["cart"]         = WC()->cart;                       // Cart Object
+            $global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
 
 			// Output the contents of the <head></head> section
 			self::head($am, $version, ['cfw']);

@@ -2,6 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout;
 
+use Objectiv\Plugins\Checkout\Action\UpdateShippingFieldsAction;
 use Objectiv\Plugins\Checkout\Assets\AdminAssets;
 use Objectiv\Plugins\Checkout\Assets\FrontAssets;
 use Objectiv\Plugins\Checkout\Language\i18n;
@@ -291,7 +292,8 @@ class Main extends Singleton {
 	public function get_ajax_actions() {
 		return array(
 			new AccountExistsAction("account_exists"),
-			new LogInAction("login")
+			new LogInAction("login"),
+			new UpdateShippingFieldsAction("update_shipping_fields")
 		);
 	}
 

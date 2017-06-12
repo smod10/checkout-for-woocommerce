@@ -10,6 +10,7 @@ class Form {
 			return array(
 				'first_name' => array(
 					'label'        => __( 'First name', 'checkout-woocommerce' ),
+					'placeholder'  => esc_attr__('First name', 'checkout-woocommerce'),
 					'required'     => true,
 					'class'        => array(),
 					'autocomplete' => 'given-name',
@@ -22,6 +23,7 @@ class Form {
 				),
 				'last_name' => array(
 					'label'        => __( 'Last name', 'checkout-woocommerce' ),
+					'placeholder'  => esc_attr__('Last name', 'checkout-woocommerce'),
 					'required'     => true,
 					'class'        => array(),
 					'autocomplete' => 'family-name',
@@ -44,7 +46,8 @@ class Form {
 					'end'          => false
 				),
 				'address_2' => array(
-					'placeholder'  => esc_attr__( 'Apartment, suite, unit etc. (optional)', 'checkout-woocommerce' ),
+					'label'        => __('Apartment, suite, unit etc.', 'checkout-woocommerce'),
+					'placeholder'  => esc_attr__( 'Apartment, suite, unit etc.', 'checkout-woocommerce' ),
 					'class'        => array( 'address-field' ),
 					'required'     => false,
 					'autocomplete' => 'address-line2',
@@ -56,6 +59,7 @@ class Form {
 				),
 				'company' => array(
 					'label'        => __( 'Company name', 'checkout-woocommerce' ),
+					'placeholder'  => esc_attr__('Company name', 'checkout-woocommerce'),
 					'class'        => array( ),
 					'autocomplete' => 'organization',
 					'priority'     => 30,
@@ -74,10 +78,12 @@ class Form {
 					'wrap'         => $this->input_wrap('select', 4, 40),
 					'label_class'  => 'cfw-input-label',
 					'start'        => true,
-					'end'          => false
+					'end'          => false,
+					'is_select'    => true
 				),
 				'postcode' => array(
 					'label'        => __( 'Postcode / ZIP', 'checkout-woocommerce' ),
+					'placeholder'  => esc_attr__('Postcode / ZIP', 'checkout-woocommerce'),
 					'required'     => true,
 					'class'        => array( 'address-field' ),
 					'validate'     => array( 'postcode' ),
@@ -99,10 +105,12 @@ class Form {
 					'wrap'         => $this->input_wrap('select', 4, 50),
 					'label_class'  => 'cfw-input-label',
 					'start'        => false,
-					'end'          => true
+					'end'          => true,
+					'is_select'    => true
 				),
 				'city' => array(
 					'label'        => __( 'Town / City', 'checkout-woocommerce' ),
+					'placeholder'  => esc_attr__('Town / City', 'checkout-woocommerce'),
 					'required'     => true,
 					'class'        => array( 'address-field' ),
 					'autocomplete' => 'address-level2',

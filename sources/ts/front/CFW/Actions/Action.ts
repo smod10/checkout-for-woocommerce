@@ -11,7 +11,7 @@ export abstract class Action {
     }
 
     load() {
-        $.post(this.url.href, this.data, this.response);
+        $.post(this.url.href, this.data, this.response.bind(this));
     }
 
     abstract response(resp: Object);

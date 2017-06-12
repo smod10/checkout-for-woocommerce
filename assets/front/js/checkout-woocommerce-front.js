@@ -64,7 +64,7 @@ define("Enums/AlertType", ["require", "exports"], function (require, exports) {
 define("Types/Types", ["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
 });
-define("Elements/FormElement", ["require", "exports", "Elements/Element"], function (require, exports, Element_2) {
+define("Elements/FormElement", ["require", "exports", "Elements/Element", "Enums/LabelType"], function (require, exports, Element_2, LabelType_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var FormElement = (function (_super) {
         __extends(FormElement, _super);
@@ -73,12 +73,49 @@ define("Elements/FormElement", ["require", "exports", "Elements/Element"], funct
             _this._eventCallbacks = [];
             return _this;
         }
+        FormElement.getLabelTypes = function () {
+            return $.map(LabelType_1.LabelType, function (value, index) {
+                return [value];
+            });
+        };
+        FormElement.prototype.regAndWrap = function () {
+            this.registerEventCallbacks();
+            this.wrapClassSwap(this.holder.jel.val());
+        };
+        FormElement.prototype.setHolderAndLabel = function (tjel, useType) {
+            if (useType === void 0) { useType = false; }
+            var lt = FormElement.getLabelTypes();
+            for (var i = 0; i < lt.length / 2; i++) {
+                var jqTjel = tjel;
+                if (useType && typeof tjel === 'string') {
+                    var type = lt[i].toLowerCase();
+                    jqTjel = this.jel.find(tjel.replace("%s", type));
+                }
+                if (jqTjel.length > 0) {
+                    this.holder = new Element_2.Element(jqTjel);
+                }
+            }
+        };
         FormElement.prototype.wrapClassSwap = function (value) {
             if (value !== "" && !this.jel.hasClass(FormElement.labelClass)) {
                 this.jel.addClass(FormElement.labelClass);
             }
             if (value === "" && this.jel.hasClass(FormElement.labelClass)) {
                 this.jel.removeClass(FormElement.labelClass);
+            }
+        };
+        FormElement.prototype.registerEventCallbacks = function () {
+            var _this = this;
+            if (this.holder) {
+                this.eventCallbacks.forEach(function (eventCb) {
+                    var eventName = eventCb.eventName;
+                    var cb = eventCb.func;
+                    var target = eventCb.target;
+                    if (!target) {
+                        target = _this.holder.jel;
+                    }
+                    target.on(eventName, cb);
+                });
             }
         };
         Object.defineProperty(FormElement, "labelClass", {
@@ -101,127 +138,73 @@ define("Elements/FormElement", ["require", "exports", "Elements/Element"], funct
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(FormElement.prototype, "moduleContainer", {
+            get: function () {
+                return this._moduleContainer;
+            },
+            set: function (value) {
+                this._moduleContainer = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormElement.prototype, "holder", {
+            get: function () {
+                return this._holder;
+            },
+            set: function (value) {
+                this._holder = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return FormElement;
     }(Element_2.Element));
     FormElement._labelClass = "cfw-floating-label";
     exports.FormElement = FormElement;
 });
-define("Elements/InputLabelWrap", ["require", "exports", "Elements/Element", "Enums/LabelType", "Elements/FormElement"], function (require, exports, Element_3, LabelType_1, FormElement_1) {
+define("Elements/InputLabelWrap", ["require", "exports", "Elements/FormElement"], function (require, exports, FormElement_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var InputLabelWrap = (function (_super) {
         __extends(InputLabelWrap, _super);
         function InputLabelWrap(jel) {
             var _this = _super.call(this, jel) || this;
-            _this.setInputAndLabel();
+            _this.setHolderAndLabel('input[type="%s"]', true);
             _this.eventCallbacks = [
                 { eventName: "keyup", func: function () {
-                        this.wrapClassSwap(this.input.jel.val());
+                        this.wrapClassSwap(this.holder.jel.val());
                     }.bind(_this), target: null }
             ];
-            _this.registerEventCallbacks();
-            _this.wrapClassSwap(_this.input.jel.val());
+            _this.regAndWrap();
             return _this;
         }
-        InputLabelWrap.prototype.registerEventCallbacks = function () {
-            var _this = this;
-            if (this.input) {
-                this.eventCallbacks.forEach(function (eventCb) {
-                    var eventName = eventCb.eventName;
-                    var cb = eventCb.func;
-                    var target = eventCb.target;
-                    if (!target) {
-                        target = _this.input.jel;
-                    }
-                    target.on(eventName, cb);
-                });
-            }
-        };
-        InputLabelWrap.prototype.setInputAndLabel = function () {
-            var lt = $.map(LabelType_1.LabelType, function (value, index) {
-                return [value];
-            });
-            for (var i = 0; i < lt.length / 2; i++) {
-                var type = lt[i].toLowerCase();
-                var tjel = this.jel.find('input[type="' + type + '"]');
-                if (tjel.length > 0) {
-                    this.input = new Element_3.Element(tjel);
-                }
-            }
-        };
-        Object.defineProperty(InputLabelWrap.prototype, "input", {
-            get: function () {
-                return this._input;
-            },
-            set: function (value) {
-                this._input = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
         return InputLabelWrap;
     }(FormElement_1.FormElement));
     exports.InputLabelWrap = InputLabelWrap;
 });
-define("Elements/SelectLabelWrap", ["require", "exports", "Elements/Element", "Enums/LabelType", "Elements/FormElement"], function (require, exports, Element_4, LabelType_2, FormElement_2) {
+define("Elements/SelectLabelWrap", ["require", "exports", "Elements/FormElement"], function (require, exports, FormElement_2) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var SelectLabelWrap = (function (_super) {
         __extends(SelectLabelWrap, _super);
         function SelectLabelWrap(jel) {
             var _this = _super.call(this, jel) || this;
-            _this.setSelectAndLabel();
+            _this.setHolderAndLabel(_this.jel.find('select'));
             _this.eventCallbacks = [
                 { eventName: "change", func: function () {
-                        this.wrapClassSwap(this.select.jel.val());
+                        this.wrapClassSwap(this.holder.jel.val());
                     }.bind(_this), target: null },
                 { eventName: "keyup", func: function () {
-                        this.wrapClassSwap(this.select.jel.val());
+                        this.wrapClassSwap(this.holder.jel.val());
                     }.bind(_this), target: null }
             ];
-            _this.registerEventCallbacks();
-            _this.wrapClassSwap(_this.select.jel.val());
+            _this.regAndWrap();
             return _this;
         }
-        SelectLabelWrap.prototype.registerEventCallbacks = function () {
-            var _this = this;
-            if (this.select) {
-                this.eventCallbacks.forEach(function (eventCb) {
-                    var eventName = eventCb.eventName;
-                    var cb = eventCb.func;
-                    var target = eventCb.target;
-                    if (!target) {
-                        target = _this.select.jel;
-                    }
-                    target.on(eventName, cb);
-                });
-            }
-        };
-        SelectLabelWrap.prototype.setSelectAndLabel = function () {
-            var lt = $.map(LabelType_2.LabelType, function (value, index) {
-                return [value];
-            });
-            for (var i = 0; i < lt.length / 2; i++) {
-                var type = lt[i].toLowerCase();
-                var tjel = this.jel.find('select');
-                if (tjel.length > 0) {
-                    this.select = new Element_4.Element(tjel);
-                }
-            }
-        };
-        Object.defineProperty(SelectLabelWrap.prototype, "select", {
-            get: function () {
-                return this._select;
-            },
-            set: function (value) {
-                this._select = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
         return SelectLabelWrap;
     }(FormElement_2.FormElement));
     exports.SelectLabelWrap = SelectLabelWrap;
 });
-define("Elements/TabContainerSection", ["require", "exports", "Elements/Element", "Elements/InputLabelWrap", "Enums/LabelType", "Elements/SelectLabelWrap"], function (require, exports, Element_5, InputLabelWrap_1, LabelType_3, SelectLabelWrap_1) {
+define("Elements/TabContainerSection", ["require", "exports", "Elements/Element", "Elements/InputLabelWrap", "Enums/LabelType", "Elements/SelectLabelWrap"], function (require, exports, Element_3, InputLabelWrap_1, LabelType_2, SelectLabelWrap_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainerSection = (function (_super) {
         __extends(TabContainerSection, _super);
@@ -252,15 +235,36 @@ define("Elements/TabContainerSection", ["require", "exports", "Elements/Element"
             var selectLabelWraps = [];
             var jLabelWrap = this.jel.find(this.getWrapSelector());
             jLabelWrap.each(function (index, wrap) {
+                var moduleContainer = $(wrap).parents(".cfw-module");
                 if ($(wrap).hasClass("cfw-select-input")) {
-                    selectLabelWraps.push(new SelectLabelWrap_1.SelectLabelWrap($(wrap)));
+                    var slw = new SelectLabelWrap_1.SelectLabelWrap($(wrap));
+                    slw.moduleContainer = moduleContainer;
+                    selectLabelWraps.push(slw);
                 }
                 else {
-                    inputLabelWraps.push(new InputLabelWrap_1.InputLabelWrap($(wrap)));
+                    var ilw = new InputLabelWrap_1.InputLabelWrap($(wrap));
+                    ilw.moduleContainer = moduleContainer;
+                    inputLabelWraps.push(ilw);
                 }
             });
             this.inputLabelWraps = inputLabelWraps;
             this.selectLabelWraps = selectLabelWraps;
+        };
+        TabContainerSection.prototype.getFormElementsByModule = function (moduleId) {
+            var wraps = [];
+            this.inputLabelWraps.forEach(function (ilw) {
+                var mc = ilw.moduleContainer;
+                if (mc.attr('id') == moduleId) {
+                    wraps.push(ilw);
+                }
+            });
+            this.selectLabelWraps.forEach(function (slw) {
+                var mc = slw.moduleContainer;
+                if (mc.attr('id') == moduleId) {
+                    wraps.push(slw);
+                }
+            });
+            return wraps;
         };
         Object.defineProperty(TabContainerSection.prototype, "name", {
             get: function () {
@@ -313,12 +317,12 @@ define("Elements/TabContainerSection", ["require", "exports", "Elements/Element"
             configurable: true
         });
         return TabContainerSection;
-    }(Element_5.Element));
+    }(Element_3.Element));
     TabContainerSection._inputLabelWrapClass = "cfw-input-wrap";
     TabContainerSection._inputLabelTypes = [
-        { type: LabelType_3.LabelType.TEXT, cssClass: "cfw-text-input" },
-        { type: LabelType_3.LabelType.PASSWORD, cssClass: "cfw-password-input" },
-        { type: LabelType_3.LabelType.SELECT, cssClass: "cfw-select-input" }
+        { type: LabelType_2.LabelType.TEXT, cssClass: "cfw-text-input" },
+        { type: LabelType_2.LabelType.PASSWORD, cssClass: "cfw-password-input" },
+        { type: LabelType_2.LabelType.SELECT, cssClass: "cfw-select-input" }
     ];
     exports.TabContainerSection = TabContainerSection;
 });
@@ -331,7 +335,7 @@ define("Actions/Action", ["require", "exports"], function (require, exports) {
             this.data = data;
         }
         Action.prototype.load = function () {
-            $.post(this.url.href, this.data, this.response);
+            $.post(this.url.href, this.data, this.response.bind(this));
         };
         Object.defineProperty(Action.prototype, "id", {
             get: function () {
@@ -414,7 +418,7 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
     ], AccountExistsAction.prototype, "response", null);
     exports.AccountExistsAction = AccountExistsAction;
 });
-define("Elements/Alert", ["require", "exports", "Elements/Element"], function (require, exports, Element_6) {
+define("Elements/Alert", ["require", "exports", "Elements/Element"], function (require, exports, Element_4) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var Alert = (function (_super) {
         __extends(Alert, _super);
@@ -439,7 +443,7 @@ define("Elements/Alert", ["require", "exports", "Elements/Element"], function (r
             configurable: true
         });
         return Alert;
-    }(Element_6.Element));
+    }(Element_4.Element));
     exports.Alert = Alert;
 });
 define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements/Alert", "Decorators/ResponsePrep", "Enums/AlertType"], function (require, exports, Action_2, Alert_1, ResponsePrep_2, AlertType_1) {
@@ -478,7 +482,65 @@ define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements
     ], LoginAction.prototype, "response", null);
     exports.LoginAction = LoginAction;
 });
-define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction"], function (require, exports, Element_7, AccountExistsAction_1, LoginAction_1) {
+define("Actions/UpdateShippingFieldsAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep"], function (require, exports, Action_3, ResponsePrep_3) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var UpdateShippingFieldsAction = (function (_super) {
+        __extends(UpdateShippingFieldsAction, _super);
+        function UpdateShippingFieldsAction(id, ajaxInfo, shipping_fields_info, shipping_details_fields) {
+            var _this = this;
+            var data = {
+                action: id,
+                security: ajaxInfo.nonce,
+                shipping_fields_info: shipping_fields_info
+            };
+            _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            _this.shipping_details_fields = shipping_details_fields;
+            return _this;
+        }
+        UpdateShippingFieldsAction.prototype.response = function (resp) {
+            var _this = this;
+            if (!resp.error) {
+                var ufi_arr_1 = [];
+                if (resp.updated_fields_info) {
+                    console.log(resp);
+                    Object.keys(resp.updated_fields_info).forEach(function (key) {
+                        ufi_arr_1.push(resp.updated_fields_info[key]);
+                    });
+                    ufi_arr_1.sort();
+                    ufi_arr_1.forEach(function (ufi) {
+                        var ft = ufi.field_type;
+                        var fv = ufi.field_value;
+                        _this.shipping_details_fields.forEach(function (field) {
+                            if (field.attr("field_type") == ft) {
+                                field.children(".field_value").text(fv);
+                            }
+                        });
+                    });
+                    $("#cfw-cart-shipping-total .amount").html(resp.new_shipping_total);
+                }
+                else {
+                    console.log(resp);
+                }
+            }
+        };
+        Object.defineProperty(UpdateShippingFieldsAction.prototype, "shipping_details_fields", {
+            get: function () {
+                return this._shipping_details_fields;
+            },
+            set: function (value) {
+                this._shipping_details_fields = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return UpdateShippingFieldsAction;
+    }(Action_3.Action));
+    __decorate([
+        ResponsePrep_3.ResponsePrep
+    ], UpdateShippingFieldsAction.prototype, "response", null);
+    exports.UpdateShippingFieldsAction = UpdateShippingFieldsAction;
+});
+define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction", "Actions/UpdateShippingFieldsAction"], function (require, exports, Element_5, AccountExistsAction_1, LoginAction_1, UpdateShippingFieldsAction_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
@@ -492,7 +554,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             var customer_info = this.tabContainerSectionBy("name", "customer_info");
             var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
             if (email_input_wrap) {
-                var email_input_1 = email_input_wrap.input.jel;
+                var email_input_1 = email_input_wrap.holder.jel;
                 new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val()).load();
                 email_input_1.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val()).load(); });
             }
@@ -501,12 +563,57 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             var customer_info = this.tabContainerSectionBy("name", "customer_info");
             var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
             if (email_input_wrap) {
-                var email_input_2 = email_input_wrap.input.jel;
+                var email_input_2 = email_input_wrap.holder.jel;
                 var password_input_wrap = customer_info.getInputLabelWrapById("cfw-password-wrap");
-                var password_input_1 = password_input_wrap.input.jel;
+                var password_input_1 = password_input_wrap.holder.jel;
                 var login_btn = $("#cfw-login-btn");
                 login_btn.on("click", function () { return new LoginAction_1.LoginAction("login", ajaxInfo, email_input_2.val(), password_input_1.val()).load(); });
             }
+        };
+        TabContainer.prototype.setUpdateShippingFieldsListener = function (ajaxInfo) {
+            var customer_info = this.tabContainerSectionBy("name", "customer_info");
+            var form_elements = customer_info.getFormElementsByModule('cfw-shipping-info');
+            var on = "change";
+            var usfri = this.getUpdateShippingRequiredItems();
+            var registerUpdateShippingFieldsActionOnChange = function (fe, action, ajaxInfo, shipping_details_fields, on) {
+                fe.holder.jel.on(on, function (event) {
+                    TabContainer.genericUpdateShippingFieldsActionProcess(fe, event.target.value, ajaxInfo, action, shipping_details_fields).load();
+                });
+            };
+            form_elements.forEach(function (fe) {
+                registerUpdateShippingFieldsActionOnChange(fe, usfri.action, ajaxInfo, usfri.shipping_details_fields, on);
+            });
+        };
+        TabContainer.prototype.setUpdateAllShippingFieldsListener = function (ajaxInfo) {
+            var customer_info = this.tabContainerSectionBy("name", "customer_info");
+            var form_elements = customer_info.getFormElementsByModule('cfw-shipping-info');
+            var continue_button = customer_info.jel.find("#cfw-shipping-info-action");
+            var shipping_payment_bc = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
+            var usfri = this.getUpdateShippingRequiredItems();
+            var updateAllProcess = function (event) {
+                form_elements.forEach(function (fe) {
+                    TabContainer.genericUpdateShippingFieldsActionProcess(fe, fe.holder.jel.val(), ajaxInfo, usfri.action, usfri.shipping_details_fields).load();
+                });
+            };
+            continue_button.on("click", updateAllProcess.bind(this));
+            shipping_payment_bc.on("click", updateAllProcess.bind(this));
+        };
+        TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields) {
+            var type = fe.holder.jel.attr("field_key");
+            var cdi = { field_type: type, field_value: value };
+            console.log(fe, value, ajaxInfo, action, shipping_details_fields);
+            return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields);
+        };
+        TabContainer.prototype.getUpdateShippingRequiredItems = function () {
+            var customer_info = this.tabContainerSectionBy("name", "customer_info");
+            var sdf_jquery_results = $("#cfw-shipping-details-fields .cfw-shipping-details-field");
+            var shipping_details_fields = [];
+            var action = "update_shipping_fields";
+            sdf_jquery_results.each(function (index, val) { shipping_details_fields.push($(val)); });
+            return {
+                action: action,
+                shipping_details_fields: shipping_details_fields
+            };
         };
         TabContainer.prototype.easyTabs = function () {
             this.jel.easytabs();
@@ -535,7 +642,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             configurable: true
         });
         return TabContainer;
-    }(Element_7.Element));
+    }(Element_5.Element));
     exports.TabContainer = TabContainer;
 });
 define("Main", ["require", "exports"], function (require, exports) {
@@ -550,6 +657,8 @@ define("Main", ["require", "exports"], function (require, exports) {
             this.setupAnimationListeners();
             this.tabContainer.setAccountCheckListener(this.ajaxInfo);
             this.tabContainer.setLogInListener(this.ajaxInfo);
+            this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo);
+            this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo);
         };
         Main.prototype.setupAnimationListeners = function () {
             $("#cfw-ci-login").on("click", function () {

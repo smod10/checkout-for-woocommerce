@@ -1,5 +1,4 @@
 import { Element }              from "Element";
-import { AlertType }            from "../Enums/AlertType";
 import { AlertInfo }            from "../Types/Types";
 
 export class Alert extends Element {

@@ -294,6 +294,19 @@ body {
   color: #9e9e9e;
   font-size: 0.85em; }
 
+.cfw-select-input:after {
+  content: '';
+  background: url('data:image/svg+xml;utf8,<svg height="512px" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256"/></svg>') no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: 8px;
+  top: 50%;
+  -webkit-transform: translateY(calc(-50% + 2px)) rotate(90deg);
+          transform: translateY(calc(-50% + 2px)) rotate(90deg); }
+
 .cfw-input-wrap {
   position: relative; }
   .cfw-input-wrap.cfw-floating-label input[type="text"], .cfw-input-wrap.cfw-floating-label input[type="password"], .cfw-input-wrap.cfw-floating-label select {
@@ -325,10 +338,18 @@ body {
       outline: 0;
       box-shadow: 0 0 0 2px #c7c7c7; }
 
-#cfw-billing-action {
+#cfw-shipping-info-action {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end; }
+
+#cfw-shipping-details-fields label {
+  width: 100px;
+  display: table-cell;
+  font-weight: 700; }
+
+#cfw-shipping-details-fields span {
+  display: table-cell; }
 
 .cfw-prev-tab {
   transition: all .2s ease;

@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div id="cfw-main-container" class="cfw-container">
+        <div id="cfw-main-container" class="cfw-container" customer="<?php echo $customer->get_id(); ?>">
 
             <!-- Easy Tab Container -->
             <div id="cfw-tab-container" class="cfw-left-column cfw-column-7 tab-container">
@@ -35,6 +35,7 @@
 
                     <!-- Customer Info Panel -->
                     <div id="cfw-customer-info">
+
                         <div id="cfw-login-details" class="cfw-module">
                             <h3 class="cfw-module-title">Customer Information</h3>
 
@@ -48,7 +49,7 @@
                                 </a>
                             </div>
 
-                            <div class="cfw-input-container">
+                            <div id="" class="cfw-input-container">
                                 <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
                                     <label class="cfw-input-label" for="cfw-email">Email</label>
                                     <input type="text" name="cfw-email" id="cfw-email" autocomplete="email" size="30" title="Email" placeholder="Email" class="required" value="">
@@ -74,31 +75,33 @@
                             <?php endif; ?>
                         </div>
 
-                        <div id="cfw-billing-details" class="cfw-module">
-                            <h3 class="cfw-module-title">Billing Address</h3>
+                        <div id="cfw-shipping-info" class="cfw-module">
+                            <h3 class="cfw-module-title">Shipping Address</h3>
 
-                            <div class="cfw-billing-container">
-	                        <?php foreach ( $checkout->get_checkout_fields( 'billing' ) as $key => $field ) : ?>
+                            <div class="cfw-shipping-info-container">
+	                        <?php foreach ( $checkout->get_checkout_fields( 'shipping' ) as $key => $field ) : ?>
                                 <?php //d($key, $field); ?>
 		                        <?php cfw_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
 	                        <?php endforeach; ?>
                             </div>
                         </div>
 
-                        <div id="cfw-billing-action" class="cfw-bottom-controls">
+                        <div id="cfw-shipping-info-action" class="cfw-bottom-controls">
                             <a href="#cfw-shipping-method" class="cfw-primary-btn cfw-next-tab">Continue to shipping method</a>
                         </div>
                     </div>
 
                     <!-- Shipping Method Panel -->
                     <div id="cfw-shipping-method">
+
                         <div id="cfw-shipping-details" class="cfw-module">
                             <h3 class="cfw-module-title">Shipping address</h3>
 
-                            <div>
+                            <div id="cfw-shipping-details-fields">
 	                            <?php foreach ( $checkout->get_checkout_fields( 'shipping' ) as $key => $field ) : ?>
-		                            <?php //d($key, $field); ?>
-		                            <?php cfw_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
+                                    <?php
+                                        echo "<div field_type='" . cfw_strip_key_type($key) ."' class='cfw-shipping-details-field'><label class='field_type'>" . cfw_strip_key_type_and_capitalize($key) . ": </label><span class='field_value'>{$checkout->get_value($key)}</span></div>"
+                                    ?>
 	                            <?php endforeach; ?>
                             </div>
                         </div>
@@ -106,38 +109,9 @@
                         <div id="cfw-shipping-method" class="cfw-module">
                             <h3 class="cfw-module-title">Shipping method</h3>
                             <div>
-                                <?php if ( 1 < count( $available_methods ) ) : ?>
-                                    <ul id="shipping_method">
-                                        <?php foreach ( $available_methods as $method ) : ?>
-                                            <li>
-                                                <?php
-                                                printf( '<input type="radio" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" %4$s />
-                                                    <label for="shipping_method_%1$d_%2$s">%5$s</label>',
-                                                    $index, sanitize_title( $method->id ), esc_attr( $method->id ), checked( $method->id, $chosen_method, false ), wc_cart_totals_shipping_method_label( $method ) );
-                                                do_action( 'woocommerce_after_shipping_rate', $method, $index );
-                                                ?>
-                                            </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                <?php elseif ( 1 === count( $available_methods ) ) :  ?>
-                                    <?php
-                                    $method = current( $available_methods );
-                                    printf( '%3$s <input type="hidden" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d" value="%2$s" class="shipping_method" />', $index, esc_attr( $method->id ), wc_cart_totals_shipping_method_label( $method ) );
-                                    do_action( 'woocommerce_after_shipping_rate', $method, $index );
-                                    ?>
-                                <?php elseif ( ! WC()->customer->has_calculated_shipping() ) : ?>
-                                    <?php echo wpautop( __( 'Shipping costs will be calculated once you have provided your address.', 'woocommerce' ) ); ?>
-                                <?php else : ?>
-                                    <?php echo apply_filters( is_cart() ? 'woocommerce_cart_no_shipping_available_html' : 'woocommerce_no_shipping_available_html', wpautop( __( 'There are no shipping methods available. Please double check your address, or contact us if you need any help.', 'woocommerce' ) ) ); ?>
-                                <?php endif; ?>
+                                <?php
 
-                                <?php if ( $show_package_details ) : ?>
-                                    <?php echo '<p class="woocommerce-shipping-contents"><small>' . esc_html( $package_details ) . '</small></p>'; ?>
-                                <?php endif; ?>
-
-                                <?php if ( ! empty( $show_shipping_calculator ) ) : ?>
-                                    <?php woocommerce_shipping_calculator(); ?>
-                                <?php endif; ?>
+                                ?>
                             </div>
                         </div>
 
@@ -153,6 +127,7 @@
 
                     <!-- Payment Method Panel -->
                     <div id="cfw-payment-method">
+
                         <div id="cfw-billing-methods" class="cfw-module">
                             <h3 class="cfw-module-title">Payment method</h3>
                             <div>
@@ -261,7 +236,7 @@
                             <span class="type">Subtotal</span>
                             <span class="amount"><?php echo $cart->get_cart_subtotal(); ?></span>
                         </div>
-                        <div class="cfw-flex-row cfw-flex-justify">
+                        <div id="cfw-cart-shipping-total" class="cfw-flex-row cfw-flex-justify">
                             <span class="type">Shipping</span>
                             <span class="amount"><?php echo $cart->get_cart_shipping_total(); ?></span>
                         </div>

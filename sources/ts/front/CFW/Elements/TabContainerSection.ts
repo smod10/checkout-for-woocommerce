@@ -3,6 +3,7 @@ import { InputLabelWrap }           from "InputLabelWrap";
 import { LabelType }                from "../Enums/LabelType";
 import { InputLabelType }           from "../Types/Types";
 import { SelectLabelWrap }          from "./SelectLabelWrap";
+import {FormElement} from "./FormElement";
 
 export class TabContainerSection extends Element {
     private _name: string = "";
@@ -52,16 +53,55 @@ export class TabContainerSection extends Element {
         let jLabelWrap: JQuery = this.jel.find(this.getWrapSelector());
 
         jLabelWrap.each((index, wrap) => {
+            let moduleContainer: JQuery = $(wrap).parents(".cfw-module");
+
             if($(wrap).hasClass("cfw-select-input")) {
-                selectLabelWraps.push( new SelectLabelWrap( $(wrap) ) );
+                let slw: SelectLabelWrap = new SelectLabelWrap( $(wrap) );
+                slw.moduleContainer = moduleContainer;
+
+                selectLabelWraps.push( slw );
             } else {
-                inputLabelWraps.push( new InputLabelWrap( $(wrap) ) );
+                let ilw: InputLabelWrap = new InputLabelWrap( $(wrap) );
+                ilw.moduleContainer = moduleContainer;
+
+                inputLabelWraps.push( ilw );
             }
 
         });
 
         this.inputLabelWraps = inputLabelWraps;
         this.selectLabelWraps = selectLabelWraps;
+    }
+
+    /**
+     * Modules are sections within tab container sections. They are the direct containers of the input / select wraps.
+     * The purpose of this method is to allow the developer to get all the input wraps via a cfw-module class, rather
+     * than having to do deep dives to figure out what input wrap belongs to where. Makes it easier to add actions to
+     * input wraps / inputs
+     *
+     * @param moduleId
+     * @returns {Array<FormElement>}
+     */
+    getFormElementsByModule(moduleId: string): Array<FormElement> {
+        let wraps: Array<FormElement> = [];
+
+        this.inputLabelWraps.forEach((ilw: InputLabelWrap) => {
+            let mc: JQuery = ilw.moduleContainer;
+
+            if(mc.attr('id') == moduleId) {
+                wraps.push(ilw);
+            }
+        });
+
+        this.selectLabelWraps.forEach((slw: SelectLabelWrap) => {
+            let mc: JQuery = slw.moduleContainer;
+
+            if(mc.attr('id') == moduleId) {
+                wraps.push(slw);
+            }
+        });
+
+        return wraps;
     }
 
     get name(): string {

@@ -4,16 +4,34 @@
 import { TabContainer } 			from "./Elements/TabContainer";
 import { AjaxInfo }					from "./Types/Types";
 
+/**
+ *
+ */
 export class Main {
 
+	/**
+	 *
+	 */
 	private _tabContainer: TabContainer;
+
+	/**
+	 *
+	 */
 	private _ajaxInfo: AjaxInfo;
 
+	/**
+	 *
+	 * @param tabContainer
+	 * @param ajaxInfo
+	 */
 	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo) {
 		this.tabContainer = tabContainer;
 		this.ajaxInfo = ajaxInfo;
 	}
 
+	/**
+	 *
+	 */
 	setup() {
 		// Setup easy tabs
 		this.tabContainer.easyTabs();
@@ -24,24 +42,43 @@ export class Main {
 		this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo);
 	}
 
+	/**
+	 *
+	 */
 	setupAnimationListeners() {
 		$("#cfw-ci-login").on("click", function(){
 			$("#cfw-login-slide").slideDown(300);
 		});
 	}
 
+	/**
+	 *
+	 * @returns {TabContainer}
+	 */
 	get tabContainer() {
 		return this._tabContainer;
 	}
 
+	/**
+	 *
+	 * @param value
+	 */
 	set tabContainer(value: TabContainer) {
 		this._tabContainer = value;
 	}
 
+	/**
+	 *
+	 * @returns {AjaxInfo}
+	 */
 	get ajaxInfo(): AjaxInfo {
 		return this._ajaxInfo;
 	}
 
+	/**
+	 * 
+	 * @param value
+	 */
 	set ajaxInfo(value: AjaxInfo) {
 		this._ajaxInfo = value;
 	}

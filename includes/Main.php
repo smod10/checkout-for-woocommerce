@@ -289,6 +289,9 @@ class Main extends Singleton {
 		$this->ajax_manager->load_all();
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_ajax_actions() {
 		return array(
 			new AccountExistsAction("account_exists"),

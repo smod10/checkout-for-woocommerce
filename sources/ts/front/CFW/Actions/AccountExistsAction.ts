@@ -4,6 +4,9 @@ import { AccountExistsData }            from "../Types/Types";
 import { AjaxInfo }                     from "../Types/Types";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 
+/**
+ *
+ */
 export class AccountExistsAction extends Action {
     constructor(id: string, ajaxInfo: AjaxInfo, email: string) {
         let data: AccountExistsData = {
@@ -15,6 +18,10 @@ export class AccountExistsAction extends Action {
         super(id, ajaxInfo.admin_url, data);
     }
 
+    /**
+     *
+     * @param resp
+     */
     @ResponsePrep
     public response(resp: AccountExistsResponse) {
         if(resp.account_exists) {

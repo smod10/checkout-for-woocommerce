@@ -4,8 +4,18 @@ namespace Objectiv\Plugins\Checkout\Assets;
 
 use Objectiv\Plugins\Checkout\Core\Base\Assets;
 
+/**
+ * Class FrontAssets
+ * @package Objectiv\Plugins\Checkout\Assets
+ */
 class FrontAssets extends Assets {
 
+	/**
+	 * FrontAssets constructor.
+	 *
+	 * @param string $id
+	 * @param array $asset_files
+	 */
 	public function __construct( $id, array $asset_files = array() ) {
 		parent::__construct( $id, $asset_files );
 	}

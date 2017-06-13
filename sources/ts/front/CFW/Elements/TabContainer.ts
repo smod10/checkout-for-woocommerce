@@ -15,7 +15,14 @@ import { UpdateShippingFieldsAction }       from "../Actions/UpdateShippingField
  */
 export class TabContainer extends Element {
 
+    /**
+     *
+     */
     private _tabContainerBreadcrumb: TabContainerBreadcrumb;
+
+    /**
+     *
+     */
     private _tabContainerSections: Array<TabContainerSection>;
 
     /**

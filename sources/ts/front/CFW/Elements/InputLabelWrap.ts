@@ -1,7 +1,14 @@
 import { FormElement }          from "./FormElement";
 
+/**
+ *
+ */
 export class InputLabelWrap extends FormElement {
 
+    /**
+     *
+     * @param jel
+     */
     constructor(jel: JQuery) {
         super(jel);
 

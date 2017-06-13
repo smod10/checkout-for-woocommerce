@@ -2,28 +2,67 @@ import { Element }              from "Element";
 import { LabelType }            from "../Enums/LabelType";
 import { EventCallback }        from "../Types/Types";
 
+/**
+ *
+ */
 export class FormElement extends Element {
+
+    /**
+     *
+     * @type {string}
+     * @private
+     */
     protected static _labelClass: string = "cfw-floating-label";
+
+    /**
+     *
+     * @type {Array}
+     * @private
+     */
     protected _eventCallbacks: Array<EventCallback> = [];
+
+    /**
+     *
+     */
     private _moduleContainer: JQuery;
+
+    /**
+     *
+     */
     private _holder: Element;
 
+    /**
+     *
+     * @param jel
+     */
     constructor(jel: JQuery) {
         super(jel);
     }
 
+    /**
+     *
+     * @returns {any}
+     */
     static getLabelTypes(): Array<any> {
         return $.map(LabelType, function(value, index) {
             return [value];
         });
     }
 
+    /**
+     *
+     */
     regAndWrap(): void {
         this.registerEventCallbacks();
 
         this.wrapClassSwap(this.holder.jel.val());
     }
 
+    /**
+     *
+     * @param tjel
+     * @param useType
+     */
     setHolderAndLabel(tjel: JQuery | string, useType: boolean = false) {
         let lt = FormElement.getLabelTypes();
 
@@ -43,6 +82,10 @@ export class FormElement extends Element {
         }
     }
 
+    /**
+     *
+     * @param value
+     */
     wrapClassSwap(value: string) {
         if(value !== "" && !this.jel.hasClass(FormElement.labelClass)) {
             this.jel.addClass(FormElement.labelClass);
@@ -53,6 +96,9 @@ export class FormElement extends Element {
         }
     }
 
+    /**
+     *
+     */
     registerEventCallbacks(): void {
         if(this.holder) {
             this.eventCallbacks.forEach((eventCb) => {
@@ -69,34 +115,66 @@ export class FormElement extends Element {
         }
     }
 
+    /**
+     *
+     * @returns {string}
+     */
     static get labelClass(): string {
         return FormElement._labelClass;
     }
 
+    /**
+     *
+     * @param value
+     */
     static set labelClass(value: string) {
         FormElement._labelClass = value;
     }
 
+    /**
+     *
+     * @returns {Array<EventCallback>}
+     */
     get eventCallbacks(): Array<EventCallback> {
         return this._eventCallbacks;
     }
 
+    /**
+     *
+     * @param value
+     */
     set eventCallbacks(value: Array<EventCallback>) {
         this._eventCallbacks = value;
     }
 
+    /**
+     *
+     * @returns {JQuery}
+     */
     get moduleContainer(): JQuery {
         return this._moduleContainer;
     }
 
+    /**
+     *
+     * @param value
+     */
     set moduleContainer(value: JQuery) {
         this._moduleContainer = value;
     }
 
+    /**
+     *
+     * @returns {Element}
+     */
     get holder(): Element {
         return this._holder;
     }
 
+    /**
+     *
+     * @param value
+     */
     set holder(value: Element) {
         this._holder = value;
     }

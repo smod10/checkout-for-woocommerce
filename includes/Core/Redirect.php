@@ -38,6 +38,9 @@ class Redirect {
 		}
 	}
 
+	/**
+	 * @param $env_extension
+	 */
 	public static function init_block($env_extension) {
 		?>
 		<script>

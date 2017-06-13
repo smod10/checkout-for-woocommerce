@@ -4,11 +4,24 @@ namespace Objectiv\Plugins\Checkout\Action;
 
 use Objectiv\Plugins\Checkout\Core\Base\Action;
 
+/**
+ * Class LogInAction
+ * @package Objectiv\Plugins\Checkout\Action
+ */
 class LogInAction extends Action {
+
+	/**
+	 * LogInAction constructor.
+	 *
+	 * @param $id
+	 */
 	public function __construct( $id ) {
 		parent::__construct( $id );
 	}
 
+	/**
+	 *
+	 */
 	public function action() {
 		check_ajax_referer("some-seed-word", "security");
 

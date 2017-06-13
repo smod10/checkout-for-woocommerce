@@ -5,10 +5,23 @@ import { UpdateShippingFieldsResponse }             from "../Types/Types";
 import { CustomerDataInfo }                         from "../Types/Types";
 import { ResponsePrep }                             from "../Decorators/ResponsePrep";
 
+/**
+ *
+ */
 export class UpdateShippingFieldsAction extends Action {
 
+    /**
+     *
+     */
     private _shipping_details_fields: Array<JQuery>;
 
+    /**
+     *
+     * @param id
+     * @param ajaxInfo
+     * @param shipping_fields_info
+     * @param shipping_details_fields
+     */
     constructor(id:string, ajaxInfo: AjaxInfo, shipping_fields_info: Array<CustomerDataInfo>, shipping_details_fields: Array<JQuery>) {
         let data: UpdateShippingFieldsData = {
             action: id,
@@ -21,6 +34,10 @@ export class UpdateShippingFieldsAction extends Action {
         this.shipping_details_fields = shipping_details_fields;
     }
 
+    /**
+     *
+     * @param resp
+     */
     @ResponsePrep
     public response(resp: UpdateShippingFieldsResponse) {
         if(!resp.error) {

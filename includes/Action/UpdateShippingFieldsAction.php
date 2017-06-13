@@ -4,11 +4,23 @@ namespace Objectiv\Plugins\Checkout\Action;
 
 use Objectiv\Plugins\Checkout\Core\Base\Action;
 
+/**
+ * Class UpdateShippingFieldsAction
+ * @package Objectiv\Plugins\Checkout\Action
+ */
 class UpdateShippingFieldsAction extends Action {
+	/**
+	 * UpdateShippingFieldsAction constructor.
+	 *
+	 * @param $id
+	 */
 	public function __construct($id) {
 		parent::__construct($id);
 	}
 
+	/**
+	 *
+	 */
 	public function action() {
 		check_ajax_referer("some-seed-word", "security");
 

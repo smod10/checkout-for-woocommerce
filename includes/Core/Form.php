@@ -2,9 +2,20 @@
 
 namespace Objectiv\Plugins\Checkout\Core;
 
+/**
+ * Class Form
+ * @package Objectiv\Plugins\Checkout\Core
+ */
 class Form {
+
+	/**
+	 * @var true|void
+	 */
 	public $base_fields;
 
+	/**
+	 * Form constructor.
+	 */
 	public function __construct() {
 		$this->base_fields = add_filter('woocommerce_default_address_fields', function($defaults) {
 			return array(
@@ -124,6 +135,13 @@ class Form {
 		});
 	}
 
+	/**
+	 * @param $type
+	 * @param $col
+	 * @param $priority
+	 *
+	 * @return object
+	 */
 	public function input_wrap($type, $col, $priority) {
 
 		$inner_start = "";

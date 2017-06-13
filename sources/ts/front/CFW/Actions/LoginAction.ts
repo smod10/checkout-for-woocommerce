@@ -7,10 +7,23 @@ import { Alert }                        from "../Elements/Alert";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 import { AlertType }                    from "../Enums/AlertType";
 
+/**
+ *
+ */
 export class LoginAction extends Action {
 
+    /**
+     *
+     */
     private static _loginLocked: boolean;
 
+    /**
+     *
+     * @param id
+     * @param ajaxInfo
+     * @param email
+     * @param password
+     */
     constructor(id: string, ajaxInfo: AjaxInfo, email: string, password: string) {
         let data: LogInData = {
             action: id,
@@ -22,6 +35,10 @@ export class LoginAction extends Action {
         super(id, ajaxInfo.admin_url, data);
     }
 
+    /**
+     *
+     * @param resp
+     */
     @ResponsePrep
     public response(resp: LogInResponse) {
 

@@ -21,8 +21,8 @@ class Redirect {
 			// Template conveniences items
 			$global_template_parameters["woo"]          = \WooCommerce::instance();         // WooCommerce Instance
 			$global_template_parameters["checkout"]     = WC()->checkout();                 // Checkout Object
-            $global_template_parameters["cart"]         = WC()->cart;                       // Cart Object
-            $global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
+			$global_template_parameters["cart"]         = WC()->cart;                       // Cart Object
+			$global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
 
 			// Output the contents of the <head></head> section
 			self::head($am, $version, ['cfw']);
@@ -40,7 +40,7 @@ class Redirect {
 
 	public static function init_block($env_extension) {
 		?>
-        <script>
+		<script>
 			requirejs.config({
 				baseUrl : '<?php echo get_site_url(); ?>' + '/wp-content/plugins/checkout-woocommerce/assets/front/js/',
 				bundles: {
@@ -80,21 +80,21 @@ class Redirect {
 						main.setup();
 					});
 			}
-        </script>
+		</script>
 		<?php
 	}
 
 	/**
 	 * @param AssetsManager $am
 	 * @param string $version
-     * @param array $classes
+	 * @param array $classes
 	 */
 	public static function head($am, $version, $classes) {
 
-	    ?>
-        <!DOCTYPE html>
-        <head>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,500,500i,700,900" rel="stylesheet">
+		?>
+		<!DOCTYPE html>
+		<head>
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,500,500i,700,900" rel="stylesheet">
 		<?php
 
 		// Fire off an action before the default loading of styles and scripts
@@ -108,8 +108,8 @@ class Redirect {
 
 		self::init_block((!CO_DEV_MODE) ? ".min" : "");
 		?>
-        </head>
-        <body class="<?php echo implode(" ", $classes); ?>" onload="init()">
+		</head>
+		<body class="<?php echo implode(" ", $classes); ?>" onload="init()">
 		<?php
 	}
 

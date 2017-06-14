@@ -25,7 +25,7 @@ class Redirect {
 			$global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
 
 			// Output the contents of the <head></head> section
-			self::head($am, $version, ['cfw']);
+			self::head($pm, $am, $version, ['cfw']);
 
 			// Output the contents of the <body></body> section
 			self::body($pm, $tm, $global_template_parameters);
@@ -40,12 +40,13 @@ class Redirect {
 
 	/**
 	 * @param $env_extension
+     * @param PathManager $pm
 	 */
-	public static function init_block($env_extension) {
+	public static function init_block($env_extension, $pm) {
 		?>
 		<script>
 			requirejs.config({
-				baseUrl : '<?php echo get_site_url(); ?>' + '/wp-content/plugins/checkout-woocommerce/assets/front/js/',
+				baseUrl : '<?php echo $pm->get_url_base(); ?>' + 'assets/front/js/',
 				bundles: {
 					'checkout-woocommerce-front<?php echo $env_extension; ?>': ['Main', 'Elements/TabContainer', 'Elements/TabContainerBreadcrumb', 'Elements/TabContainerSection']
 				}
@@ -88,11 +89,12 @@ class Redirect {
 	}
 
 	/**
+     * @param PathManager $pm
 	 * @param AssetsManager $am
 	 * @param string $version
 	 * @param array $classes
 	 */
-	public static function head($am, $version, $classes) {
+	public static function head($pm, $am, $version, $classes) {
 
 		?>
 		<!DOCTYPE html>
@@ -109,7 +111,7 @@ class Redirect {
 		// Fire off an action after the default loading of styles and scripts
 		do_action('cfw_assets_after_assets');
 
-		self::init_block((!CO_DEV_MODE) ? ".min" : "");
+		self::init_block((!CO_DEV_MODE) ? ".min" : "", $pm);
 		?>
 		</head>
 		<body class="<?php echo implode(" ", $classes); ?>" onload="init()">

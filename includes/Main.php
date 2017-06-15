@@ -111,7 +111,7 @@ class Main extends Singleton {
 	 *
 	 * @since 0.1.0
 	 * @access private
-	 * @var /Settings $settings The settings object.
+	 * @var SettingsManager $settings The settings object.
 	 */
 	private $settings_manager;
 
@@ -468,11 +468,14 @@ class Main extends Singleton {
 	public static function activation() {
 		Activator::activate();
 
+		// Get main
+		$main = Main::instance();
+
 		// Init settings
-		$this->settings_manager->add_setting('enable', 'yes');
+		$main->settings_manager->add_setting('enable', 'yes');
 
 		// Updater license status cron
-		$this->updater->set_license_check_cron();
+		$main->updater->set_license_check_cron();
 	}
 
 	/**
@@ -482,7 +485,10 @@ class Main extends Singleton {
 	public static function deactivation() {
 		Deactivator::deactivate();
 
+		// Get main
+		$main = Main::instance();
+
 		// Remove cron for license update check
-		$this->updater->unset_license_check_cron();
+		$main->updater->unset_license_check_cron();
 	}
 }

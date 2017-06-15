@@ -116,6 +116,15 @@ class Main extends Singleton {
 	private $settings_manager;
 
 	/**
+	 * Updater class for handling licenses
+	 *
+	 * @since 0.1.0
+	 * @access private
+	 * @var \CGD_EDDSL_Magic $updater The updater object.
+	 */
+	private $updater;
+
+	/**
 	 * Main constructor.
 	 */
 	public function __construct() {
@@ -224,6 +233,17 @@ class Main extends Singleton {
 	}
 
 	/**
+	 * Get the updater object
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return \CGD_EDDSL_Magic The updater object
+	 */
+	public function get_updater() {
+		return $this->updater;
+	}
+
+	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
 	 * @since 0.1.0
@@ -303,6 +323,9 @@ class Main extends Singleton {
 
 		// The settings manager for the plugin
 		$this->settings_manager = new SettingsManager();
+
+		// License updater
+		$this->updater = new \CGD_EDDSL_Magic("_cfw_licensing", false, $this->path_manager->get_url_base(), $this->get_version(), CFW_NAME, "Objectiv", $this->path_manager->get_main_file(), $theme = false);
 	}
 
 	/**
@@ -447,6 +470,9 @@ class Main extends Singleton {
 
 		// Init settings
 		$this->settings_manager->add_setting('enable', 'yes');
+
+		// Updater license status cron
+		$this->updater->set_license_check_cron();
 	}
 
 	/**
@@ -455,5 +481,8 @@ class Main extends Singleton {
 	 */
 	public static function deactivation() {
 		Deactivator::deactivate();
+
+		// Remove cron for license update check
+		$this->updater->unset_license_check_cron();
 	}
 }

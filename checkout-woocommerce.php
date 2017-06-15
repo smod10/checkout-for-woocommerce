@@ -32,6 +32,9 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+define('CFW_NAME', 'Checkout for WooCommerce');
+define('CFW_UPDATE_URL', 'https://www.getcheckout.co');
+
 /**
  * Auto-loader (composer)
  */

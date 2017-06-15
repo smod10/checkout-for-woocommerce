@@ -50,6 +50,8 @@ class Admin {
 
 				<?php submit_button('Save'); ?>
 			</form>
+
+            <?php $this->plugin_instance->get_updater()->admin_page(); ?>
 		</div>
 		<?php
 	}

@@ -112,6 +112,9 @@ class Redirect {
 		do_action('cfw_assets_after_assets');
 
 		self::init_block((!CO_DEV_MODE) ? ".min" : "", $path_manager);
+
+		// Render title tag
+		_wp_render_title_tag();
 		?>
 		</head>
 		<body class="<?php echo implode(" ", $classes); ?>" onload="init()">

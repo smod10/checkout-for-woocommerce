@@ -72,3 +72,14 @@ function cfw_plugin_init() {
 
 }
 cfw_plugin_init();
+
+/*----------------------------------------------------------------------------*
+ * Dashboard and Administrative Functionality
+ *----------------------------------------------------------------------------*/
+
+if ( is_admin() && ! wp_doing_ajax() ) {
+	global $cfw_admin, $cfw;
+
+	$cfw_admin = new \Objectiv\Plugins\Checkout\Core\Admin( $cfw );
+	$cfw_admin->start();
+}

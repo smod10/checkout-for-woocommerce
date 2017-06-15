@@ -4,6 +4,7 @@ namespace Objectiv\Plugins\Checkout;
 
 use Objectiv\Plugins\Checkout\Assets\AdminAssets;
 use Objectiv\Plugins\Checkout\Assets\FrontAssets;
+use Objectiv\Plugins\Checkout\Core\SettingsManager;
 use Objectiv\Plugins\Checkout\Language\i18n;
 use Objectiv\Plugins\Checkout\Utilities\Activator;
 use Objectiv\Plugins\Checkout\Utilities\Deactivator;
@@ -106,6 +107,15 @@ class Main extends Singleton {
 	private $version;
 
 	/**
+	 * Settings class for accessing user defined settings.
+	 *
+	 * @since 0.1.0
+	 * @access private
+	 * @var /Settings $settings The settings object.
+	 */
+	private $settings_manager;
+
+	/**
 	 * Main constructor.
 	 */
 	public function __construct() {
@@ -203,6 +213,17 @@ class Main extends Singleton {
 	}
 
 	/**
+	 * Get the settings manager
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return SettingsManager The settings manager object
+	 */
+	public function get_settings_manager() {
+		return $this->settings_manager;
+	}
+
+	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
 	 * @since 0.1.0
@@ -279,6 +300,9 @@ class Main extends Singleton {
 
 		// Create the ajax manager
 		$this->ajax_manager = new AjaxManager($this->get_ajax_actions(), $this->loader);
+
+		// The settings manager for the plugin
+		$this->settings_manager = new SettingsManager();
 	}
 
 	/**

@@ -8,17 +8,17 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              brandont.me
+ * @link              getcheckout.co
  * @since             0.1.0
  * @package           Objectiv\Plugins\Checkout
  *
  * @wordpress-plugin
- * Plugin Name:       Checkout for Woocommerce
- * Plugin URI:        https://cgd.io/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Plugin Name:       Checkout for WooCommerce
+ * Plugin URI:        https://getcheckout.co/
+ * Description:       Beautiful, conversion optimized checkout template for WooCommerce.
  * Version:           1.0.0
  * Author:            Brandon Tassone
- * Author URI:        https://cgd.io/
+ * Author URI:        https://objectiv.co
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       checkout-woocommerce
@@ -45,16 +45,6 @@ use Objectiv\Plugins\Checkout\Main;
 Kint::enabled(false);
 
 /**
- * Activation hook
- */
-register_activation_hook( __FILE__, array('Objectiv\Plugins\Checkout\Main', 'activation') );
-
-/**
- * Deactivation hook
- */
-register_deactivation_hook( __FILE__, array('Objectiv\Plugins\Checkout\Main', 'deactivation') );
-
-/**
  * Begins execution of the plugin.
  *
  * Since everything within the plugin is registered via hooks,
@@ -72,6 +62,19 @@ function cfw_plugin_init() {
 
 }
 cfw_plugin_init();
+
+// Use the global instance
+global $cfw;
+
+/**
+ * Activation hook
+ */
+register_activation_hook( __FILE__, array($cfw, 'activation') );
+
+/**
+ * Deactivation hook
+ */
+register_deactivation_hook( __FILE__, array($cfw, 'deactivation') );
 
 /*----------------------------------------------------------------------------*
  * Dashboard and Administrative Functionality

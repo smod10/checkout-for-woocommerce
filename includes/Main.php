@@ -120,7 +120,7 @@ class Main extends Singleton {
 	 */
 	public function __construct() {
 		// Program Details
-		$this->plugin_name = "Checkout for Woocommerce";
+		$this->plugin_name = "Checkout for WooCommerce";
 		$this->version = "0.1.0";
 	}
 
@@ -444,6 +444,9 @@ class Main extends Singleton {
 	 */
 	public static function activation() {
 		Activator::activate();
+
+		// Init settings
+		$this->settings_manager->add_setting('enable', 'yes');
 	}
 
 	/**

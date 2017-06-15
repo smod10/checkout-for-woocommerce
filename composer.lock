@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6c81aa1762a4176371a58b4d0456e20a",
-    "content-hash": "4549410ace2e77f0e1dc2bee314a3aec",
+    "hash": "75b4d3bb1931bca5ebfd79cc80c4716e",
+    "content-hash": "34ea2d5b3553bcccca9418573daad4ac",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -118,6 +118,42 @@
                 "zf2"
             ],
             "time": "2015-06-29 05:42:04"
+        },
+        {
+            "name": "objectivco/cgd_eddsl_magic",
+            "version": "0.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Objectivco/CGD_EDDSL_Magic.git",
+                "reference": "37de6ccf1e3e28a50f19baf5b1a295b1ad2375d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Objectivco/CGD_EDDSL_Magic/zipball/37de6ccf1e3e28a50f19baf5b1a295b1ad2375d7",
+                "reference": "37de6ccf1e3e28a50f19baf5b1a295b1ad2375d7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/CGD_EDDSL_Magic.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Clifton Griffin",
+                    "email": "clif@objectiv.co"
+                }
+            ],
+            "description": "A drop-in class that magically manages Easy Digital Downloads Software Licensing for plugins and themes.",
+            "time": "2017-04-11 19:33:20"
         },
         {
             "name": "objectivco/wordpress-simple-settings",

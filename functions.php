@@ -260,4 +260,16 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 		return implode(" ", $key_temp);
 	}
+
+	function cfw_get_shipping_checkout_fields($checkout) {
+		foreach ( $checkout->get_checkout_fields( 'shipping' ) as $key => $field ) {
+			cfw_form_field( $key, $field, $checkout->get_value( $key ) );
+		}
+	}
+
+	function cfw_get_shipping_details($checkout) {
+		foreach ( $checkout->get_checkout_fields( 'shipping' ) as $key => $field ) {
+			echo "<div field_type='" . cfw_strip_key_type($key) ."' class='cfw-shipping-details-field'><label class='field_type'>" . cfw_strip_key_type_and_capitalize($key) . ": </label><span class='field_value'>{$checkout->get_value($key)}</span></div>";
+		}
+	}
 }

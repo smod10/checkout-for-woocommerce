@@ -37,7 +37,7 @@
                         </li>
                     </ul>
 
-                    <form data-persist="garlic" method="POST">
+                    <form id="cfw-checkout-form" data-persist="garlic" method="POST">
 
                         <!-- Customer Info Panel -->
                         <div id="cfw-customer-info">
@@ -85,10 +85,7 @@
                                 <h3 class="cfw-module-title">Shipping Address</h3>
 
                                 <div class="cfw-shipping-info-container">
-                                <?php foreach ( $checkout->get_checkout_fields( 'shipping' ) as $key => $field ) : ?>
-                                    <?php //d($key, $field); ?>
-                                    <?php cfw_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
-                                <?php endforeach; ?>
+                                    <?php cfw_get_shipping_checkout_fields($checkout); ?>
                                 </div>
                             </div>
 
@@ -104,28 +101,18 @@
                                 <h3 class="cfw-module-title">Shipping address</h3>
 
                                 <div id="cfw-shipping-details-fields">
-                                    <?php foreach ( $checkout->get_checkout_fields( 'shipping' ) as $key => $field ) : ?>
-                                        <?php
-                                            echo "<div field_type='" . cfw_strip_key_type($key) ."' class='cfw-shipping-details-field'><label class='field_type'>" . cfw_strip_key_type_and_capitalize($key) . ": </label><span class='field_value'>{$checkout->get_value($key)}</span></div>"
-                                        ?>
-                                    <?php endforeach; ?>
+                                    <?php cfw_get_shipping_details($checkout); ?>
                                 </div>
                             </div>
 
-                        <div id="cfw-shipping-method" class="cfw-module">
-                            <h3 class="cfw-module-title">Shipping method</h3>
-                            <div>
-	                            <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
-
-		                            <?php do_action( 'woocommerce_review_order_before_shipping' ); ?>
-
-		                            <?php wc_cart_totals_shipping_html(); ?>
-
-		                            <?php do_action( 'woocommerce_review_order_after_shipping' ); ?>
-
-	                            <?php endif; ?>
-                            </div>
-                        </div>
+	                        <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
+                                <div id="cfw-shipping-method" class="cfw-module">
+                                    <h3 class="cfw-module-title">Shipping method</h3>
+                                    <div>
+                                        <?php wc_cart_totals_shipping_html(); ?>
+                                    </div>
+                                </div>
+	                        <?php endif; ?>
 
                             <div id="cfw-shipping-action" class="cfw-bottom-controls">
                                 <div>

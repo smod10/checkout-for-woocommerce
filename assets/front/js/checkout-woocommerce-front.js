@@ -390,7 +390,7 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
     Object.defineProperty(exports, "__esModule", { value: true });
     var AccountExistsAction = (function (_super) {
         __extends(AccountExistsAction, _super);
-        function AccountExistsAction(id, ajaxInfo, email) {
+        function AccountExistsAction(id, ajaxInfo, email, ezTabContainer) {
             var _this = this;
             var data = {
                 action: id,
@@ -398,19 +398,38 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
                 email: email
             };
             _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            _this.ezTabContainer = ezTabContainer;
             return _this;
         }
         AccountExistsAction.prototype.response = function (resp) {
             if (resp.account_exists) {
+                this.ezTabContainer.bind('easytabs:after', function () {
+                    if (resp.account_exists) {
+                        $("#cfw-login-slide").slideDown(300);
+                        $("#cfw-login-slide input[type='password']").focus();
+                        $("#cfw-acc-register-chk").attr('checked', null);
+                    }
+                });
                 $("#cfw-login-slide").slideDown(300);
                 $("#cfw-login-slide input[type='password']").focus();
                 $("#cfw-acc-register-chk").attr('checked', null);
+                this.ezTabContainer.easytabs('select', '#cfw-customer-info');
             }
             else {
                 $("#cfw-login-slide").slideUp(300);
                 $("#cfw-acc-register-chk").attr('checked', '');
             }
         };
+        Object.defineProperty(AccountExistsAction.prototype, "ezTabContainer", {
+            get: function () {
+                return this._ezTabContainer;
+            },
+            set: function (value) {
+                this._ezTabContainer = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return AccountExistsAction;
     }(Action_1.Action));
     __decorate([
@@ -551,13 +570,14 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             return _this;
         }
         TabContainer.prototype.setAccountCheckListener = function (ajaxInfo) {
+            var _this = this;
             var customer_info = this.tabContainerSectionBy("name", "customer_info");
             var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
             if (email_input_wrap) {
                 var email_input_1 = email_input_wrap.holder.jel;
-                new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val()).load();
-                email_input_1.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val()).load(); });
-                var onLoadAccCheck = new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val());
+                new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val(), this.jel).load();
+                email_input_1.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val(), _this.jel).load(); });
+                var onLoadAccCheck = new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val(), this.jel);
                 onLoadAccCheck.load();
             }
         };
@@ -599,7 +619,17 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             };
             continue_button.on("click", updateAllProcess.bind(this));
             shipping_payment_bc.on("click", updateAllProcess.bind(this));
-            updateAllProcess({});
+        };
+        TabContainer.prototype.setShippingFieldsOnLoad = function () {
+            var customer_info = this.tabContainerSectionBy("name", "customer_info");
+            var form_elements = customer_info.getFormElementsByModule('cfw-shipping-info');
+            var staticShippingFields = this.getUpdateShippingRequiredItems();
+            form_elements.forEach(function (formElement) {
+                var feFieldKey = formElement.holder.jel.attr("field_key");
+                var feFieldValue = formElement.holder.jel.val();
+                var match = staticShippingFields.shipping_details_fields.find(function (sdf) { return sdf.attr("field_type") == feFieldKey; });
+                match.children(".field_value").text(feFieldValue);
+            });
         };
         TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields) {
             var type = fe.holder.jel.attr("field_key");
@@ -608,7 +638,6 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields);
         };
         TabContainer.prototype.getUpdateShippingRequiredItems = function () {
-            var customer_info = this.tabContainerSectionBy("name", "customer_info");
             var sdf_jquery_results = $("#cfw-shipping-details-fields .cfw-shipping-details-field");
             var shipping_details_fields = [];
             var action = "update_shipping_fields";
@@ -662,6 +691,7 @@ define("Main", ["require", "exports"], function (require, exports) {
             this.tabContainer.setLogInListener(this.ajaxInfo);
             this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo);
             this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo);
+            this.tabContainer.setShippingFieldsOnLoad();
         };
         Main.prototype.setupAnimationListeners = function () {
             $("#cfw-ci-login").on("click", function () {

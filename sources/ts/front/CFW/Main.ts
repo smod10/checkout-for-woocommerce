@@ -44,6 +44,9 @@ export class Main {
 		this.tabContainer.setLogInListener(this.ajaxInfo);
 		this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo);
 		this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo);
+
+		// Handles the shipping fields on load if the user happens to land on the shipping method page.
+		this.tabContainer.setShippingFieldsOnLoad();
 	}
 
 	/**

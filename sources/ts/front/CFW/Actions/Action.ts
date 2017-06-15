@@ -1,22 +1,28 @@
+/**
+ * Base class for our ajax handling. Child classes will extend this and override the response function and implement their
+ * own custom solutions for the php side of actions
+ */
 export abstract class Action {
 
     /**
-     *
+     * @type {string}
+     * @private
      */
     private _id: string;
 
     /**
-     *
+     * @type {URL}
+     * @private
      */
     private _url: URL;
 
     /**
-     *
+     * @type {Object}
+     * @private
      */
     private _data: Object;
 
     /**
-     *
      * @param id
      * @param url
      * @param data
@@ -28,20 +34,19 @@ export abstract class Action {
     }
 
     /**
-     *
+     * Fire ze ajax
      */
     load(): void {
         $.post(this.url.href, this.data, this.response.bind(this));
     }
 
     /**
-     *
+     * Our ajax response handler. Overridden in child classes
      * @param resp
      */
     abstract response(resp: Object);
 
     /**
-     *
      * @returns {string}
      */
     get id(): string {
@@ -49,7 +54,6 @@ export abstract class Action {
     }
 
     /**
-     *
      * @param value
      */
     set id(value: string) {
@@ -57,7 +61,6 @@ export abstract class Action {
     }
 
     /**
-     *
      * @returns {URL}
      */
     get url(): URL {
@@ -65,7 +68,6 @@ export abstract class Action {
     }
 
     /**
-     *
      * @param value
      */
     set url(value: URL) {
@@ -73,7 +75,6 @@ export abstract class Action {
     }
 
     /**
-     *
      * @returns {Object}
      */
     get data(): Object {
@@ -81,7 +82,6 @@ export abstract class Action {
     }
 
     /**
-     *
      * @param value
      */
     set data(value: Object) {

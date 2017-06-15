@@ -50,13 +50,13 @@ export class TabContainer extends Element {
             let email_input: JQuery = email_input_wrap.holder.jel;
 
             // Handles page onload use case
-            new AccountExistsAction("account_exists", ajaxInfo, email_input.val()).load();
+            new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel).load();
 
             // Add check to keyup event
-            email_input.on("keyup", () => new AccountExistsAction("account_exists", ajaxInfo, email_input.val()).load() );
+            email_input.on("keyup", () => new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel).load() );
 
             // On page load check
-            let onLoadAccCheck: AccountExistsAction = new AccountExistsAction("account_exists", ajaxInfo, email_input.val());
+            let onLoadAccCheck: AccountExistsAction = new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel);
             onLoadAccCheck.load();
         }
     }
@@ -91,7 +91,6 @@ export class TabContainer extends Element {
         let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
         let form_elements: Array<FormElement> = customer_info.getFormElementsByModule('cfw-shipping-info');
         let on: string = "change";
-
         let usfri: UpdateShippingFieldsRI = this.getUpdateShippingRequiredItems();
         let registerUpdateShippingFieldsActionOnChange: Function = function(fe: FormElement, action: string, ajaxInfo: AjaxInfo, shipping_details_fields: Array<JQuery>, on: string) {
             fe.holder.jel.on(on, function(event: any) {
@@ -124,9 +123,24 @@ export class TabContainer extends Element {
 
         continue_button.on("click", updateAllProcess.bind(this));
         shipping_payment_bc.on("click", updateAllProcess.bind(this));
+    }
 
-        // Since we run the init call for the checkout on body load we can assume everything is already loaded. Just call the update function
-        updateAllProcess({});
+    /**
+     *
+     */
+    setShippingFieldsOnLoad(): void {
+        let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
+        let form_elements: Array<FormElement> = customer_info.getFormElementsByModule('cfw-shipping-info');
+        let staticShippingFields: UpdateShippingFieldsRI = this.getUpdateShippingRequiredItems();
+
+        form_elements.forEach((formElement: FormElement) => {
+            let feFieldKey: string = formElement.holder.jel.attr("field_key");
+            let feFieldValue: string = formElement.holder.jel.val();
+
+            let match: JQuery = staticShippingFields.shipping_details_fields.find((sdf: JQuery) => sdf.attr("field_type") == feFieldKey);
+
+            match.children(".field_value").text(feFieldValue);
+        })
     }
 
     /**
@@ -151,7 +165,6 @@ export class TabContainer extends Element {
      * @returns {UpdateShippingFieldsRI}
      */
     getUpdateShippingRequiredItems(): UpdateShippingFieldsRI {
-        let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
         let sdf_jquery_results: JQuery = $("#cfw-shipping-details-fields .cfw-shipping-details-field");
         let shipping_details_fields: Array<JQuery> = [];
         let action: string = "update_shipping_fields";

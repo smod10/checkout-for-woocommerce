@@ -2,7 +2,6 @@
 
 namespace Objectiv\Plugins\Checkout;
 
-use Objectiv\Plugins\Checkout\Action\UpdateShippingFieldsAction;
 use Objectiv\Plugins\Checkout\Assets\AdminAssets;
 use Objectiv\Plugins\Checkout\Assets\FrontAssets;
 use Objectiv\Plugins\Checkout\Language\i18n;
@@ -17,6 +16,7 @@ use Objectiv\Plugins\Checkout\Managers\AssetsManager;
 use Objectiv\Plugins\Checkout\Managers\AjaxManager;
 use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
+use Objectiv\Plugins\Checkout\Action\UpdateShippingFieldsAction;
 
 use \Whoops\Run;
 use \Whoops\Handler\PrettyPageHandler;

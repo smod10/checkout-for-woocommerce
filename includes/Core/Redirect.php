@@ -1,6 +1,7 @@
 <?php
 namespace Objectiv\Plugins\Checkout\Core;
 
+use Objectiv\Plugins\Checkout\Managers\SettingsManager;
 use Objectiv\Plugins\Checkout\Managers\AssetsManager;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;

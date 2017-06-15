@@ -332,4 +332,52 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		<?php
 		}
 	}
+
+	function cfw_get_payment_methods_html() {
+        $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
+        if ( WC()->cart->needs_payment() ) {
+            ?><ul class="wc_payment_methods payment_methods methods"><?php
+                if ( ! empty( $available_gateways ) ) {
+                    foreach ( $available_gateways as $gateway ) {
+                        wc_get_template( 'checkout/payment-method.php', array( 'gateway' => $gateway ) );
+                    }
+                } else {
+                    echo '<li class="woocommerce-notice woocommerce-notice--info woocommerce-info">' . apply_filters( 'woocommerce_no_available_payment_methods_message', __( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) ) . '</li>';
+                }
+            ?></ul><?php
+        }
+    }
+
+    function cfw_get_checkout_cart_html() {
+	    $cart = WC()->cart;
+
+        foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {
+	        $_product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
+	        if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_checkout_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
+		        $item_data = $cart_item['data'];
+
+		        $item_thumb_url = wp_get_attachment_url( $item_data->get_image_id() );
+		        $item_quantity  = $cart_item['quantity'];
+		        $item_title     = $item_data->get_title();
+		        $item_url       = get_permalink( $cart_item['product_id'] );
+		        $item_subtotal  = $cart->get_product_subtotal( $_product, $cart_item['quantity'] );
+
+		        ?>
+                <div class="cfw-cart-row cfw-container cfw-collapse">
+                    <div class="cfw-cart-item-image cfw-cart-item-col cfw-column-2">
+                        <img src="<?php echo $item_thumb_url; ?>"/>
+                    </div>
+                    <div class="cfw-cart-item-title-quantity cfw-cart-item-col cfw-column-7">
+                        <a href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
+                        <strong><?php echo $item_quantity; ?></strong>
+                    </div>
+                    <div class="cfw-cart-item-subtotal cfw-cart-item-col cfw-column-3">
+				        <?php echo $item_subtotal; ?>
+                    </div>
+                </div>
+		        <?php
+	        }
+        }
+    }
 }

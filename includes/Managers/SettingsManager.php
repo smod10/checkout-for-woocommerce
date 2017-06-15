@@ -9,7 +9,7 @@
  */
 
 
-namespace Objectiv\Plugins\Checkout\Core;
+namespace Objectiv\Plugins\Checkout\Managers;
 
 
 class SettingsManager extends \WordPress_SimpleSettings {

@@ -423,7 +423,7 @@ class Main extends Singleton {
 
 		// Setup the Checkout redirect
 		$this->loader->add_action('template_redirect', function(){
-			Redirect::checkout($this->path_manager, $this->template_manager, $this->assets_manager, $this->version);
+			Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->assets_manager, $this->version);
 		});
 	}
 

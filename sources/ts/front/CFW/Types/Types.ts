@@ -17,5 +17,8 @@ export type UpdateShippingFieldsResponse = { error: boolean, updated_fields_info
 export type UpdateShippingFieldsData = { action: string, security: string, shipping_fields_info: Array<CustomerDataInfo> };
 export type UpdateShippingFieldsRI = {action: string, shipping_details_fields: Array<JQuery>};
 
+export type UpdateShippingMethodData = {action: string, security: string, shipping_method: any};
+export type UpdateShippingMethodResponse = { new_shipping_total: any };
+
 export type CustomerDataInfo = { field_type: string, field_value: any };
 

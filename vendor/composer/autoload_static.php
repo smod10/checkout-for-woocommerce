@@ -67,6 +67,7 @@ class ComposerStaticInit503b2a89bf128e268aec901181e135ac
     );
 
     public static $classMap = array (
+        'CGD_EDDSL_Magic' => __DIR__ . '/..' . '/objectivco/cgd_eddsl_magic/src/CGD_EDDSL_Magic.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',

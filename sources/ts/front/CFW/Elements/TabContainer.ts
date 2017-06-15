@@ -9,6 +9,7 @@ import { AccountExistsAction }              from "../Actions/AccountExistsAction
 import { LoginAction }                      from "../Actions/LoginAction";
 import { FormElement }                      from "./FormElement";
 import { UpdateShippingFieldsAction }       from "../Actions/UpdateShippingFieldsAction";
+import {UpdateShippingMethodAction} from "../Actions/UpdateShippingMethodAction";
 
 /**
  *
@@ -123,6 +124,25 @@ export class TabContainer extends Element {
 
         continue_button.on("click", updateAllProcess.bind(this));
         shipping_payment_bc.on("click", updateAllProcess.bind(this));
+    }
+
+    /**
+     *
+     * @param ajaxInfo
+     */
+    setShippingPaymentUpdate(ajaxInfo: AjaxInfo): void {
+        let shipping_method: TabContainerSection = this.tabContainerSectionBy("name", "shipping_method");
+        let updateShippingMethod: Function = function(event: any) {
+            let shipMethodVal = event.target.value;
+
+            console.log(event.target.value);
+
+            new UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal).load();
+        };
+
+        shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each((index, el) => {
+            $(el).on("click", updateShippingMethod.bind(this));
+        });
     }
 
     /**

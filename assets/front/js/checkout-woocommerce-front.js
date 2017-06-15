@@ -559,7 +559,33 @@ define("Actions/UpdateShippingFieldsAction", ["require", "exports", "Actions/Act
     ], UpdateShippingFieldsAction.prototype, "response", null);
     exports.UpdateShippingFieldsAction = UpdateShippingFieldsAction;
 });
-define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction", "Actions/UpdateShippingFieldsAction"], function (require, exports, Element_5, AccountExistsAction_1, LoginAction_1, UpdateShippingFieldsAction_1) {
+define("Actions/UpdateShippingMethodAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep"], function (require, exports, Action_4, ResponsePrep_4) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var UpdateShippingMethodAction = (function (_super) {
+        __extends(UpdateShippingMethodAction, _super);
+        function UpdateShippingMethodAction(id, ajaxInfo, shipping_method) {
+            var _this = this;
+            var data = {
+                action: id,
+                security: ajaxInfo.nonce,
+                shipping_method: [shipping_method]
+            };
+            _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            return _this;
+        }
+        UpdateShippingMethodAction.prototype.response = function (resp) {
+            if (resp.new_shipping_total) {
+                $("#cfw-cart-shipping-total .amount").html(resp.new_shipping_total);
+            }
+        };
+        return UpdateShippingMethodAction;
+    }(Action_4.Action));
+    __decorate([
+        ResponsePrep_4.ResponsePrep
+    ], UpdateShippingMethodAction.prototype, "response", null);
+    exports.UpdateShippingMethodAction = UpdateShippingMethodAction;
+});
+define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction", "Actions/UpdateShippingFieldsAction", "Actions/UpdateShippingMethodAction"], function (require, exports, Element_5, AccountExistsAction_1, LoginAction_1, UpdateShippingFieldsAction_1, UpdateShippingMethodAction_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
@@ -619,6 +645,18 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             };
             continue_button.on("click", updateAllProcess.bind(this));
             shipping_payment_bc.on("click", updateAllProcess.bind(this));
+        };
+        TabContainer.prototype.setShippingPaymentUpdate = function (ajaxInfo) {
+            var _this = this;
+            var shipping_method = this.tabContainerSectionBy("name", "shipping_method");
+            var updateShippingMethod = function (event) {
+                var shipMethodVal = event.target.value;
+                console.log(event.target.value);
+                new UpdateShippingMethodAction_1.UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal).load();
+            };
+            shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each(function (index, el) {
+                $(el).on("click", updateShippingMethod.bind(_this));
+            });
         };
         TabContainer.prototype.setShippingFieldsOnLoad = function () {
             var customer_info = this.tabContainerSectionBy("name", "customer_info");
@@ -691,6 +729,7 @@ define("Main", ["require", "exports"], function (require, exports) {
             this.tabContainer.setLogInListener(this.ajaxInfo);
             this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo);
             this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo);
+            this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo);
             this.tabContainer.setShippingFieldsOnLoad();
         };
         Main.prototype.setupAnimationListeners = function () {

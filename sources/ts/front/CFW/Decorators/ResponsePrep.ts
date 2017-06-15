@@ -2,9 +2,9 @@
  * First argument of success response is the data object. What we do since on the PHP side it's prepped as a json object
  * we intercept the argument and parse the JSON. On the overloaded function side we specify the object type.
  *
- * @param target
- * @param propertyKey
- * @param descriptor
+ * @param target {Object}
+ * @param propertyKey {string}
+ * @param descriptor {PropertyDescriptor}
  * @returns {PropertyDescriptor}
  * @constructor
  */

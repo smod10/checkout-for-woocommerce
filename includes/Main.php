@@ -18,6 +18,7 @@ use Objectiv\Plugins\Checkout\Managers\AjaxManager;
 use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
 use Objectiv\Plugins\Checkout\Action\UpdateShippingFieldsAction;
+use Objectiv\Plugins\Checkout\Action\UpdateShippingMethodAction;
 
 use \Whoops\Run;
 use \Whoops\Handler\PrettyPageHandler;
@@ -343,7 +344,8 @@ class Main extends Singleton {
 		return array(
 			new AccountExistsAction("account_exists"),
 			new LogInAction("login"),
-			new UpdateShippingFieldsAction("update_shipping_fields")
+			new UpdateShippingFieldsAction("update_shipping_fields"),
+			new UpdateShippingMethodAction("update_shipping_method")
 		);
 	}
 

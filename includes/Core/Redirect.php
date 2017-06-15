@@ -13,18 +13,13 @@ class Redirect {
 	 * @param AssetsManager $assets_manager
 	 * @param $version
 	 */
-	public static function checkout($path_manager, $template_manager, $assets_manager, $version) {
-		if( function_exists('is_checkout') && is_checkout() ) {
+	public static function checkout($settings_manager, $path_manager, $template_manager, $assets_manager, $version) {
+		if ( $settings_manager->get_setting('enable') == 'yes' && function_exists('is_checkout') && is_checkout() ) {
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());
 
 			// Show non-cart errors
-//			wc_print_notices();
-
-			// Check cart has contents
-			if ( WC()->cart->is_empty() ) {
-				return;
-			}
+			// wc_print_notices();
 
 			// Check cart contents for errors
 			do_action( 'woocommerce_check_cart_items' );

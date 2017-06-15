@@ -1,6 +1,6 @@
 {
     "name": "objective/checkout",
-    "description": "A full WooCommerce Cart Rewrite",
+    "description": "A full WooCommerce Checkout Rewrite",
     "type": "wordpress-plugin",
     "authors": [
         {

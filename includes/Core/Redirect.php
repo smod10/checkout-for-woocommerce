@@ -1,13 +1,13 @@
 <?php
 namespace Objectiv\Plugins\Checkout\Core;
 
-use Objectiv\Plugins\Checkout\Core\Form;
 use Objectiv\Plugins\Checkout\Managers\AssetsManager;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 
 class Redirect {
 	/**
+     * @param SettingsManager $settings_manager
 	 * @param PathManager $path_manager
 	 * @param TemplateManager $template_manager
 	 * @param AssetsManager $assets_manager

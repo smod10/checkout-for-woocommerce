@@ -103,13 +103,18 @@
                                 <div id="cfw-shipping-details-fields">
                                     <?php cfw_get_shipping_details($checkout); ?>
                                 </div>
+
+                                <div>
+                                    <a href="#cfw-customer-info" class="cfw-link">Edit shipping address</a>
+                                </div>
                             </div>
 
 	                        <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
                                 <div id="cfw-shipping-method" class="cfw-module">
                                     <h3 class="cfw-module-title">Shipping method</h3>
+                                    <span>Select a shipping method:</span>
                                     <div>
-                                        <?php wc_cart_totals_shipping_html(); ?>
+                                        <?php cfw_cart_totals_shipping_html(); ?>
                                     </div>
                                 </div>
 	                        <?php endif; ?>

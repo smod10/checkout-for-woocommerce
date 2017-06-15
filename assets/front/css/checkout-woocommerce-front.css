@@ -234,6 +234,42 @@ body {
       background-size: 15px 15px;
       padding-left: 15px; }
 
+.cfw-shipping-methods-list {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 10px;
+  line-height: 1;
+  overflow: visible;
+  margin-left: 0;
+  padding-left: 0; }
+  .cfw-shipping-methods-list li {
+    list-style-type: none !important;
+    text-indent: 0;
+    clear: both;
+    display: block;
+    padding: 4px 0;
+    margin: 0; }
+    .cfw-shipping-methods-list li:last-child label {
+      border: none; }
+  .cfw-shipping-methods-list label {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    float: none;
+    border-radius: 4px;
+    padding: 8px;
+    clear: both; }
+  .cfw-shipping-methods-list input[type="radio"] {
+    margin: 0 6px 5px 0;
+    width: auto;
+    box-sizing: border-box;
+    padding: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 3px #eee inset;
+    color: #999;
+    font-size: 16px;
+    line-height: normal; }
+
 .cfw-alert {
   padding: 15px;
   margin-bottom: 1em;
@@ -343,13 +379,14 @@ body {
       -ms-flex-pack: end;
           justify-content: flex-end; }
 
-#cfw-shipping-details-fields label {
-  width: 100px;
-  display: table-cell;
-  font-weight: 700; }
-
-#cfw-shipping-details-fields span {
-  display: table-cell; }
+#cfw-shipping-details-fields {
+  margin-bottom: 15px; }
+  #cfw-shipping-details-fields label {
+    width: 100px;
+    display: table-cell;
+    font-weight: 700; }
+  #cfw-shipping-details-fields span {
+    display: table-cell; }
 
 .cfw-prev-tab {
   transition: all .2s ease;

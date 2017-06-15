@@ -54,6 +54,10 @@ export class TabContainer extends Element {
 
             // Add check to keyup event
             email_input.on("keyup", () => new AccountExistsAction("account_exists", ajaxInfo, email_input.val()).load() );
+
+            // On page load check
+            let onLoadAccCheck: AccountExistsAction = new AccountExistsAction("account_exists", ajaxInfo, email_input.val());
+            onLoadAccCheck.load();
         }
     }
 
@@ -120,6 +124,9 @@ export class TabContainer extends Element {
 
         continue_button.on("click", updateAllProcess.bind(this));
         shipping_payment_bc.on("click", updateAllProcess.bind(this));
+
+        // Since we run the init call for the checkout on body load we can assume everything is already loaded. Just call the update function
+        updateAllProcess({});
     }
 
     /**

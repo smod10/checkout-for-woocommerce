@@ -557,6 +557,8 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 var email_input_1 = email_input_wrap.holder.jel;
                 new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val()).load();
                 email_input_1.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val()).load(); });
+                var onLoadAccCheck = new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val());
+                onLoadAccCheck.load();
             }
         };
         TabContainer.prototype.setLogInListener = function (ajaxInfo) {
@@ -597,6 +599,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             };
             continue_button.on("click", updateAllProcess.bind(this));
             shipping_payment_bc.on("click", updateAllProcess.bind(this));
+            updateAllProcess({});
         };
         TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields) {
             var type = fe.holder.jel.attr("field_key");

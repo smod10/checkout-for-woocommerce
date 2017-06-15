@@ -35,7 +35,11 @@ export class Main {
 	setup() {
 		// Setup easy tabs
 		this.tabContainer.easyTabs();
+
+		// Setup animation listeners
 		this.setupAnimationListeners();
+
+		// Set up event handlers
 		this.tabContainer.setAccountCheckListener(this.ajaxInfo);
 		this.tabContainer.setLogInListener(this.ajaxInfo);
 		this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo);

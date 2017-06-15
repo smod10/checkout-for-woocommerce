@@ -18,6 +18,20 @@ class Redirect {
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());
 
+			// Show non-cart errors
+//			wc_print_notices();
+
+			// Check cart has contents
+			if ( WC()->cart->is_empty() ) {
+				return;
+			}
+
+			// Check cart contents for errors
+			do_action( 'woocommerce_check_cart_items' );
+
+			// Calc totals
+			WC()->cart->calculate_totals();
+
 			// Template conveniences items
 			$global_template_parameters["woo"]          = \WooCommerce::instance();         // WooCommerce Instance
 			$global_template_parameters["checkout"]     = WC()->checkout();                 // Checkout Object

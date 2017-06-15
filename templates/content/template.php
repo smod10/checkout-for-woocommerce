@@ -112,14 +112,20 @@
                                 </div>
                             </div>
 
-                            <div id="cfw-shipping-method" class="cfw-module">
-                                <h3 class="cfw-module-title">Shipping method</h3>
-                                <div>
-                                    <?php
+                        <div id="cfw-shipping-method" class="cfw-module">
+                            <h3 class="cfw-module-title">Shipping method</h3>
+                            <div>
+	                            <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
 
-                                    ?>
-                                </div>
+		                            <?php do_action( 'woocommerce_review_order_before_shipping' ); ?>
+
+		                            <?php wc_cart_totals_shipping_html(); ?>
+
+		                            <?php do_action( 'woocommerce_review_order_after_shipping' ); ?>
+
+	                            <?php endif; ?>
                             </div>
+                        </div>
 
                             <div id="cfw-shipping-action" class="cfw-bottom-controls">
                                 <div>

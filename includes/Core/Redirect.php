@@ -8,12 +8,12 @@ use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 
 class Redirect {
 	/**
-	 * @param PathManager $pm
-	 * @param TemplateManager $tm
-	 * @param AssetsManager $am
+	 * @param PathManager $path_manager
+	 * @param TemplateManager $template_manager
+	 * @param AssetsManager $assets_manager
 	 * @param $version
 	 */
-	public static function checkout($pm, $tm, $am, $version) {
+	public static function checkout($path_manager, $template_manager, $assets_manager, $version) {
 		if( function_exists('is_checkout') && is_checkout() ) {
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());
@@ -25,10 +25,10 @@ class Redirect {
 			$global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
 
 			// Output the contents of the <head></head> section
-			self::head($pm, $am, $version, ['cfw']);
+			self::head($path_manager, $assets_manager, $version, ['cfw']);
 
 			// Output the contents of the <body></body> section
-			self::body($pm, $tm, $global_template_parameters);
+			self::body($path_manager, $template_manager, $global_template_parameters);
 
 			// Output a closing </body> and closing </html> tag
 			self::footer();
@@ -40,13 +40,13 @@ class Redirect {
 
 	/**
 	 * @param $env_extension
-     * @param PathManager $pm
+     * @param PathManager $path_manager
 	 */
-	public static function init_block($env_extension, $pm) {
+	public static function init_block($env_extension, $path_manager) {
 		?>
 		<script>
 			requirejs.config({
-				baseUrl : '<?php echo $pm->get_url_base(); ?>' + 'assets/front/js/',
+				baseUrl : '<?php echo $path_manager->get_url_base(); ?>' + 'assets/front/js/',
 				bundles: {
 					'checkout-woocommerce-front<?php echo $env_extension; ?>': ['Main', 'Elements/TabContainer', 'Elements/TabContainerBreadcrumb', 'Elements/TabContainerSection']
 				}
@@ -89,12 +89,12 @@ class Redirect {
 	}
 
 	/**
-     * @param PathManager $pm
-	 * @param AssetsManager $am
+     * @param PathManager $path_manager
+	 * @param AssetsManager $assets_manager
 	 * @param string $version
 	 * @param array $classes
 	 */
-	public static function head($pm, $am, $version, $classes) {
+	public static function head($path_manager, $assets_manager, $version, $classes) {
 
 		?>
 		<!DOCTYPE html>
@@ -106,12 +106,12 @@ class Redirect {
 		do_action('cfw_assets_before_assets');
 
 		// Load the front end assets
-		$am->load_assets($version, "front_assets", apply_filters('cfw_front_assets_additional', array()), apply_filters('cfw_front_assets_replace', false));
+		$assets_manager->load_assets($version, "front_assets", apply_filters('cfw_front_assets_additional', array()), apply_filters('cfw_front_assets_replace', false));
 
 		// Fire off an action after the default loading of styles and scripts
 		do_action('cfw_assets_after_assets');
 
-		self::init_block((!CO_DEV_MODE) ? ".min" : "", $pm);
+		self::init_block((!CO_DEV_MODE) ? ".min" : "", $path_manager);
 		?>
 		</head>
 		<body class="<?php echo implode(" ", $classes); ?>" onload="init()">
@@ -119,11 +119,11 @@ class Redirect {
 	}
 
 	/**
-	 * @param PathManager $pm
-	 * @param TemplateManager $tm
-	 * @param array $gtp
+	 * @param PathManager $path_manager
+	 * @param TemplateManager $template_manager
+	 * @param array $global_template_parameters
 	 */
-	public static function body($pm, $tm, $gtp) {
+	public static function body($path_manager, $template_manager, $global_template_parameters) {
 		// Fire off an action before we load the template pieces
 		do_action('cfw_template_before_load');
 
@@ -131,7 +131,7 @@ class Redirect {
 		$form = new Form();
 
 		// Load the template pieces
-		$tm->load_templates( $pm->get_template_information( $tm->get_template_sub_folders() ), $gtp );
+		$template_manager->load_templates( $path_manager->get_template_information( $template_manager->get_template_sub_folders() ), $global_template_parameters );
 
 		// Fire off an action after we load the template pieces
 		do_action('cfw_template_after_load', array(Template::get_i()) );

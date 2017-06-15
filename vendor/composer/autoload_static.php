@@ -512,6 +512,7 @@ class ComposerStaticInit503b2a89bf128e268aec901181e135ac
         'Whoops\\Module' => __DIR__ . '/..' . '/filp/whoops/src/deprecated/Zend/Module.php',
         'Whoops\\Provider\\Zend\\ExceptionStrategy' => __DIR__ . '/..' . '/filp/whoops/src/deprecated/Zend/ExceptionStrategy.php',
         'Whoops\\Provider\\Zend\\RouteNotFoundStrategy' => __DIR__ . '/..' . '/filp/whoops/src/deprecated/Zend/RouteNotFoundStrategy.php',
+        'WordPress_SimpleSettings' => __DIR__ . '/..' . '/objectivco/wordpress-simple-settings/src/wordpress-simple-settings.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -18,6 +18,11 @@ class Admin {
 
 	public function start() {
 		add_action('admin_menu', array($this, 'admin_menu'), 100 );
+
+		// Key Nag
+		add_action('admin_menu', array($this, 'add_key_nag'), 11);
+
+
 	}
 
 	function admin_menu() {
@@ -54,5 +59,35 @@ class Admin {
             <?php $this->plugin_instance->get_updater()->admin_page(); ?>
 		</div>
 		<?php
+	}
+
+	function add_key_nag() {
+		global $pagenow;
+
+		if( $pagenow == 'plugins.php' ) {
+			add_action( 'after_plugin_row_' . $this->plugin_instance->get_path_manager()->get_base(), array($this, 'after_plugin_row_message'), 10, 2 );
+		}
+	}
+
+	function after_plugin_row_message() {
+		$key_status = $this->plugin_instance->get_updater()->get_field_value('key_status');
+
+		if ( empty($key_status) ) return;
+
+		if ( $key_status != "valid" ) {
+			$current = get_site_transient( 'update_plugins' );
+			if ( isset( $current->response[ plugin_basename(__FILE__) ] ) ) return;
+
+			if ( is_network_admin() || ! is_multisite() ) {
+				$wp_list_table = _get_list_table('WP_Plugins_List_Table');
+				echo '<tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message">';
+				echo $this->keynag();
+				echo '</div></td></tr>';
+			}
+		}
+	}
+
+	function keynag() {
+		return "<span style='color:red'>You're missing out on important updates because your license key is missing, invalid, or expired.</span>";
 	}
 }

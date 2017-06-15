@@ -67,6 +67,7 @@ class ComposerStaticInit503b2a89bf128e268aec901181e135ac
     );
 
     public static $classMap = array (
+        'CGD_EDDSL_Magic' => __DIR__ . '/..' . '/objectivco/cgd_eddsl_magic/src/CGD_EDDSL_Magic.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
@@ -512,6 +513,7 @@ class ComposerStaticInit503b2a89bf128e268aec901181e135ac
         'Whoops\\Module' => __DIR__ . '/..' . '/filp/whoops/src/deprecated/Zend/Module.php',
         'Whoops\\Provider\\Zend\\ExceptionStrategy' => __DIR__ . '/..' . '/filp/whoops/src/deprecated/Zend/ExceptionStrategy.php',
         'Whoops\\Provider\\Zend\\RouteNotFoundStrategy' => __DIR__ . '/..' . '/filp/whoops/src/deprecated/Zend/RouteNotFoundStrategy.php',
+        'WordPress_SimpleSettings' => __DIR__ . '/..' . '/objectivco/wordpress-simple-settings/src/wordpress-simple-settings.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

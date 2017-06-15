@@ -40,15 +40,15 @@ class Activator {
 		$activation = array();
 
 		// Message is translated on the notice side
-		if(!is_plugin_active('woocommerce/woocommerce.php')) {
+		if( ! is_plugin_active('woocommerce/woocommerce.php') ) {
 			$activation[] = array(
 				"success"           => false,
 				"class"             => "notice error",
-				"message"           => "Activation failed: Please activate Woocommerce in order to use Checkout for Woocommerce",
+				"message"           => "Activation failed: Please activate WooCommerce in order to use Checkout for Woocommerce",
 			);
 		}
 
-		if(!empty($activation)) {
+		if( ! empty($activation) ) {
 			add_option(self::$anotice_op_name, $activation);
 		}
 	}

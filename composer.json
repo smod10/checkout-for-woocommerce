@@ -16,6 +16,8 @@
     },
     "require": {
         "filp/whoops": "1.1.10",
-        "raveren/kint": "1.0.10"
+        "raveren/kint": "1.0.10",
+        "objectivco/wordpress-simple-settings": "^0.3.0",
+        "objectivco/cgd_eddsl_magic": "^0.3.2"
     }
 }

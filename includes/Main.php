@@ -4,6 +4,7 @@ namespace Objectiv\Plugins\Checkout;
 
 use Objectiv\Plugins\Checkout\Assets\AdminAssets;
 use Objectiv\Plugins\Checkout\Assets\FrontAssets;
+use Objectiv\Plugins\Checkout\Core\SettingsManager;
 use Objectiv\Plugins\Checkout\Language\i18n;
 use Objectiv\Plugins\Checkout\Utilities\Activator;
 use Objectiv\Plugins\Checkout\Utilities\Deactivator;
@@ -106,11 +107,29 @@ class Main extends Singleton {
 	private $version;
 
 	/**
+	 * Settings class for accessing user defined settings.
+	 *
+	 * @since 0.1.0
+	 * @access private
+	 * @var /Settings $settings The settings object.
+	 */
+	private $settings_manager;
+
+	/**
+	 * Updater class for handling licenses
+	 *
+	 * @since 0.1.0
+	 * @access private
+	 * @var \CGD_EDDSL_Magic $updater The updater object.
+	 */
+	private $updater;
+
+	/**
 	 * Main constructor.
 	 */
 	public function __construct() {
 		// Program Details
-		$this->plugin_name = "Checkout for Woocommerce";
+		$this->plugin_name = "Checkout for WooCommerce";
 		$this->version = "0.1.0";
 	}
 
@@ -203,6 +222,28 @@ class Main extends Singleton {
 	}
 
 	/**
+	 * Get the settings manager
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return SettingsManager The settings manager object
+	 */
+	public function get_settings_manager() {
+		return $this->settings_manager;
+	}
+
+	/**
+	 * Get the updater object
+	 *
+	 * @since 0.1.0
+	 * @access public
+	 * @return \CGD_EDDSL_Magic The updater object
+	 */
+	public function get_updater() {
+		return $this->updater;
+	}
+
+	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
 	 * @since 0.1.0
@@ -279,6 +320,12 @@ class Main extends Singleton {
 
 		// Create the ajax manager
 		$this->ajax_manager = new AjaxManager($this->get_ajax_actions(), $this->loader);
+
+		// The settings manager for the plugin
+		$this->settings_manager = new SettingsManager();
+
+		// License updater
+		$this->updater = new \CGD_EDDSL_Magic("_cfw_licensing", false, $this->path_manager->get_url_base(), $this->get_version(), CFW_NAME, "Objectiv", $this->path_manager->get_main_file(), $theme = false);
 	}
 
 	/**
@@ -399,7 +446,7 @@ class Main extends Singleton {
 
 		// Setup the Checkout redirect
 		$this->loader->add_action('template_redirect', function(){
-			Redirect::checkout($this->path_manager, $this->template_manager, $this->assets_manager, $this->version);
+			Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->assets_manager, $this->version);
 		});
 	}
 
@@ -420,6 +467,12 @@ class Main extends Singleton {
 	 */
 	public static function activation() {
 		Activator::activate();
+
+		// Init settings
+		$this->settings_manager->add_setting('enable', 'yes');
+
+		// Updater license status cron
+		$this->updater->set_license_check_cron();
 	}
 
 	/**
@@ -428,5 +481,8 @@ class Main extends Singleton {
 	 */
 	public static function deactivation() {
 		Deactivator::deactivate();
+
+		// Remove cron for license update check
+		$this->updater->unset_license_check_cron();
 	}
 }

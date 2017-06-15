@@ -127,10 +127,11 @@ class Redirect {
 		// Fire off an action before we load the template pieces
 		do_action('cfw_template_before_load');
 
+		// Required to render form fields
 		$form = new Form();
 
 		// Load the template pieces
-		$tm->load_templates($pm->get_template_information($tm->get_template_sub_folders()), $gtp);
+		$tm->load_templates( $pm->get_template_information( $tm->get_template_sub_folders() ), $gtp );
 
 		// Fire off an action after we load the template pieces
 		do_action('cfw_template_after_load', array(Template::get_i()) );

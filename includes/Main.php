@@ -257,6 +257,7 @@ class Main extends Singleton {
 		// Create and setup the plugins main objects
 		$this->create_main_objects($file);
 
+		// Loads all the ajax handlers on the php side
 		$this->configure_objects();
 
 		// Adds the plugins hooks

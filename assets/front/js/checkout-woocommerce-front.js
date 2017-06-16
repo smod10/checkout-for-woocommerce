@@ -521,7 +521,6 @@ define("Actions/UpdateShippingFieldsAction", ["require", "exports", "Actions/Act
             if (!resp.error) {
                 var ufi_arr_1 = [];
                 if (resp.updated_fields_info) {
-                    console.log(resp);
                     Object.keys(resp.updated_fields_info).forEach(function (key) {
                         ufi_arr_1.push(resp.updated_fields_info[key]);
                     });
@@ -651,7 +650,6 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             var shipping_method = this.tabContainerSectionBy("name", "shipping_method");
             var updateShippingMethod = function (event) {
                 var shipMethodVal = event.target.value;
-                console.log(event.target.value);
                 new UpdateShippingMethodAction_1.UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal).load();
             };
             shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each(function (index, el) {
@@ -672,7 +670,6 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
         TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields) {
             var type = fe.holder.jel.attr("field_key");
             var cdi = { field_type: type, field_value: value };
-            console.log(fe, value, ajaxInfo, action, shipping_details_fields);
             return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields);
         };
         TabContainer.prototype.getUpdateShippingRequiredItems = function () {

@@ -135,8 +135,6 @@ export class TabContainer extends Element {
         let updateShippingMethod: Function = function(event: any) {
             let shipMethodVal = event.target.value;
 
-            console.log(event.target.value);
-
             new UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal).load();
         };
 
@@ -174,8 +172,6 @@ export class TabContainer extends Element {
     static genericUpdateShippingFieldsActionProcess(fe: FormElement, value: any, ajaxInfo: AjaxInfo, action: string, shipping_details_fields: Array<JQuery>): UpdateShippingFieldsAction {
         let type = fe.holder.jel.attr("field_key");
         let cdi: CustomerDataInfo = {field_type: type, field_value: value};
-
-        console.log(fe, value, ajaxInfo, action, shipping_details_fields);
 
         return new UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields);
     }

@@ -44,7 +44,6 @@ export class UpdateShippingFieldsAction extends Action {
             let ufi_arr: Array<CustomerDataInfo> = [];
 
             if(resp.updated_fields_info) {
-                console.log(resp);
                 Object.keys(resp.updated_fields_info).forEach((key) => {
                     ufi_arr.push(<CustomerDataInfo>resp.updated_fields_info[key]);
                 });

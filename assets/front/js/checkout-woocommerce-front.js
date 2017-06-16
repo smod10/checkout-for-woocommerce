@@ -605,7 +605,9 @@ define("Actions/UpdateShippingFieldsAction", ["require", "exports", "Actions/Act
                             }
                         });
                     });
-                    $("#shipping_method").html("");
+                    if (updated_shipping_methods_1.length > 0) {
+                        $("#shipping_method").html("");
+                    }
                     updated_shipping_methods_1.forEach(function (ship_method) {
                         var item = $("<li>" + ship_method + "</li>");
                         $("#shipping_method").append(item);

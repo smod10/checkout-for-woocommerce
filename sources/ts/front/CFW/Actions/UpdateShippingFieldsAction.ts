@@ -90,7 +90,9 @@ export class UpdateShippingFieldsAction extends Action {
                     });
                 });
 
-                $("#shipping_method").html("");
+                if(updated_shipping_methods.length > 0) {
+                    $("#shipping_method").html("");
+                }
 
                 // Update shipping methods
                 updated_shipping_methods.forEach((ship_method: string) => {

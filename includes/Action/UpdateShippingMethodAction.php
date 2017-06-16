@@ -18,8 +18,6 @@ class UpdateShippingMethodAction extends Action {
 	public function action() {
 		check_ajax_referer("some-seed-word", "security");
 
-		$shipping_method = $_POST['shipping_method'];
-
 		wc_maybe_define_constant( 'WOOCOMMERCE_CART', true );
 
 		$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
@@ -31,10 +29,16 @@ class UpdateShippingMethodAction extends Action {
 		}
 
 		WC()->session->set( 'chosen_shipping_methods', $chosen_shipping_methods );
-		WC()->cart->calculate_shipping();
+
+		WC()->cart->calculate_totals();
 
 		$this->out(array(
-			"new_shipping_total" => WC()->cart->get_cart_shipping_total()
+			"new_totals" => array(
+				"new_subtotal" => WC()->cart->get_cart_subtotal(),
+				"new_shipping_total" => WC()->cart->get_cart_shipping_total(),
+				"new_taxes_total" => WC()->cart->get_cart_tax(),
+				"new_total" => WC()->cart->get_total()
+			)
 		));
 	}
 }

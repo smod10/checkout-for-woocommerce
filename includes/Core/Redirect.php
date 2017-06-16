@@ -55,28 +55,41 @@ class Redirect {
 	public static function init_block($env_extension, $path_manager) {
 		?>
 		<script>
+            var required = [
+	            'Main',
+	            'Elements/TabContainer',
+	            'Elements/TabContainerBreadcrumb',
+	            'Elements/TabContainerSection',
+	            'Elements/Cart'
+            ];
 			requirejs.config({
 				baseUrl : '<?php echo $path_manager->get_url_base(); ?>' + 'assets/front/js/',
 				bundles: {
-					'checkout-woocommerce-front<?php echo $env_extension; ?>': ['Main', 'Elements/TabContainer', 'Elements/TabContainerBreadcrumb', 'Elements/TabContainerSection']
+					'checkout-woocommerce-front<?php echo $env_extension; ?>': required
 				}
 			});
 
 			function init() {
-				require(['Main', 'Elements/TabContainer', 'Elements/TabContainerBreadcrumb', 'Elements/TabContainerSection'],
-					function(Main, TabContainer, TabContainerBreadcrumb, TabContainerSection){
+				require(required,
+                    function(Main, TabContainer, TabContainerBreadcrumb, TabContainerSection, Cart){
 
 						// Require wraps objects for some reason in bundles
 						Main = Main.Main;
 						TabContainer = TabContainer.TabContainer;
 						TabContainerBreadcrumb = TabContainerBreadcrumb.TabContainerBreadcrumb;
 						TabContainerSection = TabContainerSection.TabContainerSection;
+						Cart = Cart.Cart;
 
 						var breadCrumbEl = $('<?php echo apply_filters('cfw_template_breadcrumb_el', '#cfw-breadcrumb'); ?>');
 						var customerInfoEl = $('<?php echo apply_filters('cfw_template_customer_info_el', '#cfw-customer-info'); ?>');
 						var shippingMethodEl = $('<?php echo apply_filters('cfw_template_shipping_method_el', '#cfw-shipping-method'); ?>');
 						var paymentMethodEl = $('<?php echo apply_filters('cfw_template_payment_method_el', '#cfw-payment-method'); ?>');
 						var tabContainerEl = $('<?php echo apply_filters('cfw_template_tab_container_el', '#cfw-tab-container'); ?>');
+						var cartContainer = $('<?php echo apply_filters('cfw_template_cart_el', "#cfw-totals-list"); ?>');
+						var cartSubtotal = $('<?php echo apply_filters('cfw_template_cart_subtotal_el', '#cfw-cart-subtotal'); ?>');
+						var cartShipping = $('<?php echo apply_filters('cfw_template_cart_shipping_el', '#cfw-cart-shipping-total'); ?>');
+						var cartTaxes = $('<?php echo apply_filters('cfw_template_cart_taxes_el', '#cfw-cart-taxes'); ?>');
+						var cartTotal = $('<?php echo apply_filters('cfw_template_cart_total_el','#cfw-cart-total'); ?>');
 
 						var tabContainerBreadcrumb = new TabContainerBreadcrumb(breadCrumbEl);
 						var tabContainerSections = [
@@ -90,7 +103,9 @@ class Redirect {
 							nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
 						};
 
-						var main = new Main( tabContainer, ajaxInfo );
+						var cart = new Cart(cartContainer, cartSubtotal, cartShipping, cartTaxes, cartTotal);
+
+						var main = new Main( tabContainer, ajaxInfo, cart );
 						main.setup();
 					});
 			}

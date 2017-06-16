@@ -10,6 +10,7 @@ import { LoginAction }                      from "../Actions/LoginAction";
 import { FormElement }                      from "./FormElement";
 import { UpdateShippingFieldsAction }       from "../Actions/UpdateShippingFieldsAction";
 import {UpdateShippingMethodAction} from "../Actions/UpdateShippingMethodAction";
+import {Cart} from "./Cart";
 
 /**
  *
@@ -87,39 +88,41 @@ export class TabContainer extends Element {
      * Handles on change events from the shipping input
      *
      * @param ajaxInfo
+     * @param cart
      */
-    setUpdateShippingFieldsListener(ajaxInfo: AjaxInfo) {
+    setUpdateShippingFieldsListener(ajaxInfo: AjaxInfo, cart: Cart) {
         let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
         let form_elements: Array<FormElement> = customer_info.getFormElementsByModule('cfw-shipping-info');
         let on: string = "change";
         let usfri: UpdateShippingFieldsRI = this.getUpdateShippingRequiredItems();
+        let tc: TabContainer = this;
+
         let registerUpdateShippingFieldsActionOnChange: Function = function(fe: FormElement, action: string, ajaxInfo: AjaxInfo, shipping_details_fields: Array<JQuery>, on: string) {
-            fe.holder.jel.on(on, function(event: any) {
-                TabContainer.genericUpdateShippingFieldsActionProcess(fe, event.target.value, ajaxInfo, action, shipping_details_fields).load();
-            });
+            fe.holder.jel.on(on, (event: any) => TabContainer.genericUpdateShippingFieldsActionProcess(fe, event.target.value,
+                ajaxInfo, action, shipping_details_fields, cart, tc).load());
         };
 
-        form_elements.forEach((fe: FormElement) => {
-            registerUpdateShippingFieldsActionOnChange(fe, usfri.action, ajaxInfo, usfri.shipping_details_fields, on);
-        })
+        form_elements.forEach((fe: FormElement) => registerUpdateShippingFieldsActionOnChange(fe, usfri.action, ajaxInfo,
+            usfri.shipping_details_fields, on));
     }
 
     /**
      * Handles updating all the fields on a breadcrumb click or a move to the next section button
      *
      * @param ajaxInfo
+     * @param cart
      */
-    setUpdateAllShippingFieldsListener(ajaxInfo: AjaxInfo) {
+    setUpdateAllShippingFieldsListener(ajaxInfo: AjaxInfo, cart: Cart) {
         let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
         let form_elements: Array<FormElement> = customer_info.getFormElementsByModule('cfw-shipping-info');
         let continue_button: JQuery = customer_info.jel.find("#cfw-shipping-info-action");
         let shipping_payment_bc: JQuery = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
         let usfri: UpdateShippingFieldsRI = this.getUpdateShippingRequiredItems();
+        let tc: TabContainer = this;
 
         let updateAllProcess: Function = function(event: any) {
-            form_elements.forEach((fe: FormElement) => {
-                TabContainer.genericUpdateShippingFieldsActionProcess(fe, fe.holder.jel.val(), ajaxInfo, usfri.action, usfri.shipping_details_fields).load();
-            });
+            form_elements.forEach((fe: FormElement) => TabContainer.genericUpdateShippingFieldsActionProcess(fe, fe.holder.jel.val(),
+                ajaxInfo, usfri.action, usfri.shipping_details_fields, cart, tc).load());
         };
 
         continue_button.on("click", updateAllProcess.bind(this));
@@ -129,13 +132,14 @@ export class TabContainer extends Element {
     /**
      *
      * @param ajaxInfo
+     * @param cart
      */
-    setShippingPaymentUpdate(ajaxInfo: AjaxInfo): void {
+    setShippingPaymentUpdate(ajaxInfo: AjaxInfo, cart: Cart): void {
         let shipping_method: TabContainerSection = this.tabContainerSectionBy("name", "shipping_method");
         let updateShippingMethod: Function = function(event: any) {
             let shipMethodVal = event.target.value;
 
-            new UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal).load();
+            new UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal, cart).load();
         };
 
         shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each((index, el) => {
@@ -162,18 +166,20 @@ export class TabContainer extends Element {
     }
 
     /**
-     *
      * @param fe
      * @param value
      * @param ajaxInfo
      * @param action
      * @param shipping_details_fields
+     * @param cart
+     * @param tabContainer
      */
-    static genericUpdateShippingFieldsActionProcess(fe: FormElement, value: any, ajaxInfo: AjaxInfo, action: string, shipping_details_fields: Array<JQuery>): UpdateShippingFieldsAction {
+    static genericUpdateShippingFieldsActionProcess(fe: FormElement, value: any, ajaxInfo: AjaxInfo, action: string,
+                                                    shipping_details_fields: Array<JQuery>, cart: Cart, tabContainer: TabContainer): UpdateShippingFieldsAction {
         let type = fe.holder.jel.attr("field_key");
         let cdi: CustomerDataInfo = {field_type: type, field_value: value};
 
-        return new UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields);
+        return new UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer);
     }
 
     /**

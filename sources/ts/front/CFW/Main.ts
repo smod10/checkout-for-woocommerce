@@ -3,6 +3,7 @@
 
 import { TabContainer } 			from "./Elements/TabContainer";
 import { AjaxInfo }					from "./Types/Types";
+import { Cart } 					from "./Elements/Cart";
 
 /**
  *
@@ -16,6 +17,11 @@ export class Main {
 	private _tabContainer: TabContainer;
 
 	/**
+	 *
+	 */
+	private _cart: Cart;
+
+	/**
 	 * @type {AjaxInfo}
 	 * @private
 	 */
@@ -25,10 +31,12 @@ export class Main {
 	 *
 	 * @param tabContainer
 	 * @param ajaxInfo
+	 * @param cart
 	 */
-	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo) {
+	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart) {
 		this.tabContainer = tabContainer;
 		this.ajaxInfo = ajaxInfo;
+		this.cart = cart;
 	}
 
 	/**
@@ -45,9 +53,9 @@ export class Main {
 		// Set up event handlers
 		this.tabContainer.setAccountCheckListener(this.ajaxInfo);
 		this.tabContainer.setLogInListener(this.ajaxInfo);
-		this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo);
-		this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo);
-		this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo);
+		this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
+		this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo, this.cart);
+		this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
@@ -92,5 +100,21 @@ export class Main {
 	 */
 	set ajaxInfo(value: AjaxInfo) {
 		this._ajaxInfo = value;
+	}
+
+	/**
+	 *
+	 * @returns {Cart}
+	 */
+	get cart(): Cart {
+		return this._cart;
+	}
+
+	/**
+	 *
+	 * @param value
+	 */
+	set cart(value: Cart) {
+		this._cart = value;
 	}
 }

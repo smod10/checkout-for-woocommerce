@@ -195,7 +195,7 @@
 
                     <div id="cfw-totals-list" class="cfw-module">
                         <div class="cfw-totals-normal">
-                            <div class="cfw-flex-row cfw-flex-justify">
+                            <div id="cfw-cart-subtotal" class="cfw-flex-row cfw-flex-justify">
                                 <span class="type">Subtotal</span>
                                 <span class="amount"><?php echo $cart->get_cart_subtotal(); ?></span>
                             </div>
@@ -204,14 +204,14 @@
                                 <span class="amount"><?php echo $cart->get_cart_shipping_total(); ?></span>
                             </div>
                             <?php if($cart->get_cart_tax() != ""): ?>
-                            <div class="cfw-flex-row cfw-flex-justify">
+                            <div id="cfw-cart-taxes" class="cfw-flex-row cfw-flex-justify">
                                 <span class="type">Taxes</span>
                                 <span class="amount"><?php echo $cart->get_cart_tax(); ?></span>
                             </div>
                             <?php endif; ?>
                         </div>
                         <div class="cfw-totals-total">
-                            <div class="cfw-flex-row cfw-flex-justify">
+                            <div id="cfw-cart-total" class="cfw-flex-row cfw-flex-justify">
                                 <span class="type">Total</span>
                                 <span class="amount"><?php echo $cart->get_total(); ?></span>
                             </div>

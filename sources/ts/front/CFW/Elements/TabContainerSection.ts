@@ -93,6 +93,22 @@ export class TabContainerSection extends Element {
     }
 
     /**
+     * Gets all the inputs for a tab section
+     *
+     * @param query
+     * @returns {Array<Element>}
+     */
+    getInputsFromSection(query: string = ""): Array<Element> {
+        let out: Array<Element> = [];
+
+        this.jel.find(`input${query}`).each((index, elem) => {
+            out.push(new Element($(elem)));
+        });
+
+        return out;
+    }
+
+    /**
      *
      */
     setWraps(): void {

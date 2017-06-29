@@ -130,6 +130,42 @@ export class TabContainer extends Element {
     }
 
     /**
+     * Handles the payment method revealing and registering the click events.
+     */
+    setPaymentMethodReveal() {
+        // The payment radio buttons to register the click events too
+        let payment_radio_buttons: Array<Element> = this
+            .tabContainerSectionBy("name", "payment_method")
+            .getInputsFromSection('[type="radio"][name="payment_method"]');
+
+        // Handles sliding down the containers that aren't supposed to be open, and opens the one that is.
+        let slideUpAndDownContainers = (prb: Element) => {
+            // Filter out the current radio button
+            // Slide up the other buttons
+            payment_radio_buttons
+                .filter((filterItem: Element) => filterItem != prb)
+                .forEach((other: Element) => other.jel.siblings(".payment_box").slideUp(300));
+
+            // Slide down our button
+            prb.jel.siblings(".payment_box").slideDown(300);
+        };
+
+        // Register the slide up and down container on click
+        payment_radio_buttons
+            .forEach((prb: Element) => {
+                // On payment radio button click....
+                prb.jel.on('click', () => {
+                    slideUpAndDownContainers(prb);
+                });
+
+                // Fire it once for page load if selected
+                if(prb.jel.is(":checked")) {
+                    slideUpAndDownContainers(prb);
+                }
+            });
+    }
+
+    /**
      *
      * @param ajaxInfo
      * @param cart

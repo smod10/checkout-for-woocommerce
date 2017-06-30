@@ -18,6 +18,10 @@ $header-bg: #222;
 $footer-bg: #eaeaea;
 $wrap-width: 1140px + map-get($grid, gutter) * 2;
 
+p {
+  margin: 0;
+}
+
 body {
   background: $main-bg;
   font-family: $font-family;

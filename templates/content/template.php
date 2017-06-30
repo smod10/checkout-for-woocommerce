@@ -142,6 +142,32 @@
                                 </div>
                             </div>
 
+                            <div id="cfw-shipping-same-billing" class="cfw-module">
+                                <ul class="cfw-radio-reveal-group">
+                                    <li class="cfw-radio-reveal-li cfw-no-reveal">
+                                        <div class="cfw-radio-reveal-title-wrap">
+                                            <label class="cfw-radio-reveal-title-wrap cfw-radio-reveal-label">
+                                                <input type="radio" name="shipping_same" id="shipping_same_as_billing" checked="checked" value="true" />
+                                                <span class="cfw-radio-reveal-title">Shipping same as billing address</span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="cfw-radio-reveal-li">
+                                        <div class="cfw-radio-reveal-title-wrap">
+                                            <label class="cfw-radio-reveal-label">
+                                                <input type="radio" name="shipping_same" id="shipping_dif_from_billing" value="false" />
+                                                <span class="cfw-radio-reveal-title">Use a different billing address</span>
+                                            </label>
+                                        </div>
+                                        <div class="cfw-radio-reveal-content-wrap" style="display: none">
+                                            <div class="cfw-radio-reveal-content">
+                                                <?php cfw_get_billing_checkout_fields($checkout); ?>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
                             <div id="cfw-payment-action" class="cfw-bottom-controls">
                                 <div>
                                     <a href="#cfw-shipping-method" class="cfw-prev-tab" rel="0">« Return to shipping information</a>
@@ -152,6 +178,7 @@
                             </div>
                         </div>
 
+	                    <?php wp_nonce_field( 'woocommerce-process_checkout' ); ?>
                     </form>
                 </div>
 

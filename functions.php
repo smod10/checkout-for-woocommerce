@@ -267,6 +267,12 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		}
 	}
 
+	function cfw_get_billing_checkout_fields($checkout) {
+		foreach ( $checkout->get_checkout_fields( 'billing' ) as $key => $field ) {
+			cfw_form_field( $key, $field, $checkout->get_value( $key ) );
+		}
+	}
+
 	function cfw_get_shipping_details($checkout) {
 		foreach ( $checkout->get_checkout_fields( 'shipping' ) as $key => $field ) {
 			echo "<div field_type='" . cfw_strip_key_type($key) ."' class='cfw-shipping-details-field'><label class='field_type'>" . cfw_strip_key_type_and_capitalize($key) . ": </label><span class='field_value'>{$checkout->get_value($key)}</span></div>";
@@ -336,10 +342,30 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	function cfw_get_payment_methods_html() {
         $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
         if ( WC()->cart->needs_payment() ) {
-            ?><ul class="wc_payment_methods payment_methods methods"><?php
+            ?><ul class="wc_payment_methods payment_methods methods cfw-radio-reveal-group"><?php
                 if ( ! empty( $available_gateways ) ) {
                     foreach ( $available_gateways as $gateway ) {
-                        wc_get_template( 'checkout/payment-method.php', array( 'gateway' => $gateway ) );
+                        ?>
+                        <li class="wc_payment_method payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-li">
+                            <div class="payment_method_title_wrap cfw-radio-reveal-title-wrap">
+                                <label class="payment_method_label cfw-radio-reveal-label" for="payment_method_<?php echo $gateway->id; ?>">
+                                    <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php checked( $gateway->chosen, true ); ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
+                                    <span class="payment_method_title cfw-radio-reveal-title"><?php echo $gateway->get_title(); ?></span>
+                                </label>
+
+                                <span class="payment_method_icons">
+                                    <?php echo $gateway->get_icon(); ?>
+                                </span>
+                            </div>
+		                    <?php if ( $gateway->has_fields() || $gateway->get_description() ) : ?>
+                                <div class="payment_box_wrap cfw-radio-reveal-content-wrap" <?php if ( ! $gateway->chosen ) : ?>style="display:none;"<?php endif; ?>>
+                                    <div class="payment_box payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-content">
+                                        <?php $gateway->payment_fields(); ?>
+                                    </div>
+                                </div>
+		                    <?php endif; ?>
+                        </li>
+                        <?php
                     }
                 } else {
                     echo '<li class="woocommerce-notice woocommerce-notice--info woocommerce-info">' . apply_filters( 'woocommerce_no_available_payment_methods_message', __( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) ) . '</li>';

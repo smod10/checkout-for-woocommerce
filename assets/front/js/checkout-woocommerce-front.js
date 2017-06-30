@@ -230,6 +230,14 @@ define("Elements/TabContainerSection", ["require", "exports", "Elements/Element"
             });
             return selector;
         };
+        TabContainerSection.prototype.getInputsFromSection = function (query) {
+            if (query === void 0) { query = ""; }
+            var out = [];
+            this.jel.find("input" + query).each(function (index, elem) {
+                out.push(new Element_3.Element($(elem)));
+            });
+            return out;
+        };
         TabContainerSection.prototype.setWraps = function () {
             var inputLabelWraps = [];
             var selectLabelWraps = [];
@@ -759,6 +767,33 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             continue_button.on("click", updateAllProcess.bind(this));
             shipping_payment_bc.on("click", updateAllProcess.bind(this));
         };
+        TabContainer.prototype.setUpPaymentTabRadioButtons = function () {
+            var payment_radio_buttons = this
+                .tabContainerSectionBy("name", "payment_method")
+                .getInputsFromSection('[type="radio"][name="payment_method"]');
+            var shipping_same_radio_buttons = this
+                .tabContainerSectionBy("name", "payment_method")
+                .getInputsFromSection('[type="radio"][name="shipping_same"]');
+            this.setRevealOnRadioButtonGroup(payment_radio_buttons);
+            this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons);
+        };
+        TabContainer.prototype.setRevealOnRadioButtonGroup = function (radio_buttons) {
+            var slideUpAndDownContainers = function (rb) {
+                radio_buttons
+                    .filter(function (filterItem) { return filterItem != rb; })
+                    .forEach(function (other) { return other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300); });
+                rb.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideDown(300);
+            };
+            radio_buttons
+                .forEach(function (rb) {
+                rb.jel.on('click', function () {
+                    slideUpAndDownContainers(rb);
+                });
+                if (rb.jel.is(":checked")) {
+                    slideUpAndDownContainers(rb);
+                }
+            });
+        };
         TabContainer.prototype.setShippingPaymentUpdate = function (ajaxInfo, cart) {
             var _this = this;
             var shipping_method = this.tabContainerSectionBy("name", "shipping_method");
@@ -842,6 +877,7 @@ define("Main", ["require", "exports"], function (require, exports) {
             this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
             this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo, this.cart);
             this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
+            this.tabContainer.setUpPaymentTabRadioButtons();
             this.tabContainer.setShippingFieldsOnLoad();
         };
         Main.prototype.setupAnimationListeners = function () {

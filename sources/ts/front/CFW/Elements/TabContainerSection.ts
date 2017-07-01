@@ -61,8 +61,6 @@ export class TabContainerSection extends Element {
         super(jel);
 
         this.name = name;
-
-        this.setWraps();
     }
 
     /**

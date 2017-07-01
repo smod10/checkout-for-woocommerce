@@ -69,28 +69,6 @@ class Redirect {
 				}
 			});
 
-            function setUpCreditCardFields() {
-	            var form_wraps = $("#wc-stripe-cc-form .form-row");
-
-	            $("#wc-stripe-cc-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-	            $("#wc-stripe-cc-form").find(".clear").remove();
-
-	            form_wraps.each(function(index, elem) {
-		            $(elem).addClass("cfw-input-wrap");
-		            $(elem).addClass("cfw-text-input");
-		            $(elem).find("label").addClass("cfw-input-label");
-		            $(elem).find("input").css("width", "100%");
-
-		            if($(elem).hasClass("form-row-wide")) {
-			            $(elem).wrap("<div class='cfw-column-6'></div>")
-		            }
-
-		            if($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
-			            $(elem).wrap("<div class='cfw-column-3'></div>")
-		            }
-	            });
-            }
-
 			function init() {
 				require(required,
                     function(Main, TabContainer, TabContainerBreadcrumb, TabContainerSection, Cart){
@@ -101,8 +79,6 @@ class Redirect {
 						TabContainerBreadcrumb = TabContainerBreadcrumb.TabContainerBreadcrumb;
 						TabContainerSection = TabContainerSection.TabContainerSection;
 						Cart = Cart.Cart;
-
-	                    setUpCreditCardFields();
 
 						var breadCrumbEl = $('<?php echo apply_filters('cfw_template_breadcrumb_el', '#cfw-breadcrumb'); ?>');
 						var customerInfoEl = $('<?php echo apply_filters('cfw_template_customer_info_el', '#cfw-customer-info'); ?>');

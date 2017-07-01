@@ -4,6 +4,7 @@
 import { TabContainer } 			from "./Elements/TabContainer";
 import { AjaxInfo }					from "./Types/Types";
 import { Cart } 					from "./Elements/Cart";
+import {TabContainerSection} from "./Elements/TabContainerSection";
 
 /**
  *
@@ -49,6 +50,17 @@ export class Main {
 
 		// Setup animation listeners
 		this.setupAnimationListeners();
+
+		// Set up credit card fields if there. Needs to happen before wrap
+		this.tabContainer.setUpCreditCardFields();
+
+		/**
+		 * NOTE: If you are doing any DOM manipulation (adding and removing classes specifically). Do it before the setWraps
+		 * call on the tab container sections. Once this is called all the setup of the different areas will have completed and
+		 * wont be run again until next page load
+		 */
+		// Loop through and set up the wraps on the tab container sections
+		this.tabContainer.tabContainerSections.forEach((tcs: TabContainerSection) => tcs.setWraps());
 
 		// Set up event handlers
 		this.tabContainer.setAccountCheckListener(this.ajaxInfo);

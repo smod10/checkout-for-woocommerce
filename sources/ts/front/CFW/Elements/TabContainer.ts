@@ -129,6 +129,40 @@ export class TabContainer extends Element {
         shipping_payment_bc.on("click", updateAllProcess.bind(this));
     }
 
+    setUpCreditCardRadioReveal() {
+        let stripe_container: JQuery = $(".payment_method_stripe");
+
+        if(stripe_container.length > 0) {
+            let stripe_options = stripe_container.find('input[type="radio"][name="wc-stripe-payment-token"]');
+            stripe_options.each((index: number, elem: HTMLElement) => {
+                if($(elem).attr("id") == "wc-stripe-payment-token-new") {
+                    $(elem).on('click', () => {
+                        $("#wc-stripe-cc-form").slideDown(300);
+                        $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
+                        $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
+                    });
+
+                    if($(elem).is(":checked")) {
+                        $("#wc-stripe-cc-form").slideDown(300);
+                        $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
+                        $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
+                    }
+                } else {
+                    $(elem).on('click', () => {
+                        $("#wc-stripe-cc-form").slideUp(300);
+                        $(".woocommerce-SavedPaymentMethods-saveNew").slideUp(300);
+                        $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
+
+                    });
+
+                    if($(elem).is(":checked")) {
+                        $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
+                    }
+                }
+            })
+        }
+    }
+
     setUpPaymentTabRadioButtons() {
         // The payment radio buttons to register the click events too
         let payment_radio_buttons: Array<Element> = this
@@ -141,7 +175,6 @@ export class TabContainer extends Element {
 
         this.setRevealOnRadioButtonGroup(payment_radio_buttons);
         this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons);
-
     }
 
     /**

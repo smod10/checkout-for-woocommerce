@@ -131,7 +131,6 @@ export class TabContainerSection extends Element {
 
                 inputLabelWraps.push( ilw );
             }
-
         });
 
         this.inputLabelWraps = inputLabelWraps;

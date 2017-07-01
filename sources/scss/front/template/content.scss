@@ -99,6 +99,31 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
       &:last-child { margin-bottom: 0; }
     }
+
+    #wc-stripe-cc-form, .woocommerce-SavedPaymentMethods-saveNew {
+      display: none;
+    }
+
+    fieldset {
+      margin-left: 0;
+      margin-right: 0;
+      margin-top: 0;
+      padding: 0;
+      border: none;
+    }
+
+    ul {
+      padding: 0;
+      margin-left: 0;
+      margin-right: 0;
+      list-style-type: none;
+
+      li {
+        margin-bottom: 8px;
+
+        &:last-child { margin-bottom: 0; }
+      }
+    }
   }
 }
 
@@ -273,11 +298,15 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   transform: translateY(calc(-50% + 2px)) rotate(90deg);
 }
 
+.kill-bottom-margin {
+  margin-bottom: 0 !important;
+}
+
 .cfw-input-wrap {
   position: relative;
 
   &.cfw-floating-label {
-    input[type="text"], input[type="password"], select {
+    input[type="text"], input[type="tel"], input[type="password"], select {
       padding: 1.6em 0.8em 0.28em 0.8em;
     }
 
@@ -286,7 +315,11 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
     }
   }
 
-  & > input[type="text"], & > input[type="password"], select {
+  & > input[type="text"],
+  & > input[type="tel"],
+  & > input[type="number"],
+  & > input[type="password"],
+  select {
     appearance: none;
     background: #fff;
     transition: all .2s ease;

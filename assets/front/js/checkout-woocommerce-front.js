@@ -50,8 +50,9 @@ define("Enums/LabelType", ["require", "exports"], function (require, exports) {
     var LabelType;
     (function (LabelType) {
         LabelType[LabelType["TEXT"] = 0] = "TEXT";
-        LabelType[LabelType["PASSWORD"] = 1] = "PASSWORD";
-        LabelType[LabelType["SELECT"] = 2] = "SELECT";
+        LabelType[LabelType["TEL"] = 1] = "TEL";
+        LabelType[LabelType["PASSWORD"] = 2] = "PASSWORD";
+        LabelType[LabelType["SELECT"] = 3] = "SELECT";
     })(LabelType = exports.LabelType || (exports.LabelType = {}));
 });
 define("Enums/AlertType", ["require", "exports"], function (require, exports) {
@@ -214,7 +215,6 @@ define("Elements/TabContainerSection", ["require", "exports", "Elements/Element"
             _this._inputLabelWraps = [];
             _this._selectLabelWraps = [];
             _this.name = name;
-            _this.setWraps();
             return _this;
         }
         TabContainerSection.prototype.getInputLabelWrapById = function (id) {
@@ -767,6 +767,53 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             continue_button.on("click", updateAllProcess.bind(this));
             shipping_payment_bc.on("click", updateAllProcess.bind(this));
         };
+        TabContainer.prototype.setUpCreditCardRadioReveal = function () {
+            var stripe_container = $(".payment_method_stripe");
+            if (stripe_container.length > 0) {
+                var stripe_options = stripe_container.find('input[type="radio"][name="wc-stripe-payment-token"]');
+                stripe_options.each(function (index, elem) {
+                    if ($(elem).attr("id") == "wc-stripe-payment-token-new") {
+                        $(elem).on('click', function () {
+                            $("#wc-stripe-cc-form").slideDown(300);
+                            $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
+                            $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
+                        });
+                        if ($(elem).is(":checked")) {
+                            $("#wc-stripe-cc-form").slideDown(300);
+                            $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
+                            $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
+                        }
+                    }
+                    else {
+                        $(elem).on('click', function () {
+                            $("#wc-stripe-cc-form").slideUp(300);
+                            $(".woocommerce-SavedPaymentMethods-saveNew").slideUp(300);
+                            $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
+                        });
+                        if ($(elem).is(":checked")) {
+                            $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
+                        }
+                    }
+                });
+            }
+        };
+        TabContainer.prototype.setUpCreditCardFields = function () {
+            var form_wraps = $("#wc-stripe-cc-form .form-row");
+            $("#wc-stripe-cc-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+            $("#wc-stripe-cc-form").find(".clear").remove();
+            form_wraps.each(function (index, elem) {
+                $(elem).addClass("cfw-input-wrap");
+                $(elem).addClass("cfw-text-input");
+                $(elem).find("label").addClass("cfw-input-label");
+                $(elem).find("input").css("width", "100%");
+                if ($(elem).hasClass("form-row-wide")) {
+                    $(elem).wrap("<div class='cfw-column-6'></div>");
+                }
+                if ($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
+                    $(elem).wrap("<div class='cfw-column-3'></div>");
+                }
+            });
+        };
         TabContainer.prototype.setUpPaymentTabRadioButtons = function () {
             var payment_radio_buttons = this
                 .tabContainerSectionBy("name", "payment_method")
@@ -872,12 +919,15 @@ define("Main", ["require", "exports"], function (require, exports) {
         Main.prototype.setup = function () {
             this.tabContainer.easyTabs();
             this.setupAnimationListeners();
+            this.tabContainer.setUpCreditCardFields();
+            this.tabContainer.tabContainerSections.forEach(function (tcs) { return tcs.setWraps(); });
             this.tabContainer.setAccountCheckListener(this.ajaxInfo);
             this.tabContainer.setLogInListener(this.ajaxInfo);
             this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
             this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo, this.cart);
             this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
             this.tabContainer.setUpPaymentTabRadioButtons();
+            this.tabContainer.setUpCreditCardRadioReveal();
             this.tabContainer.setShippingFieldsOnLoad();
         };
         Main.prototype.setupAnimationListeners = function () {

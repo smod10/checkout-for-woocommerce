@@ -277,6 +277,26 @@ body {
   #cfw-billing-methods #stripe-payment-data > *:last-child, #cfw-shipping-same-billing #stripe-payment-data > *:last-child {
     margin-bottom: 0; }
 
+#cfw-billing-methods #stripe-payment-data #wc-stripe-cc-form, #cfw-billing-methods #stripe-payment-data .woocommerce-SavedPaymentMethods-saveNew, #cfw-shipping-same-billing #stripe-payment-data #wc-stripe-cc-form, #cfw-shipping-same-billing #stripe-payment-data .woocommerce-SavedPaymentMethods-saveNew {
+  display: none; }
+
+#cfw-billing-methods #stripe-payment-data fieldset, #cfw-shipping-same-billing #stripe-payment-data fieldset {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  padding: 0;
+  border: none; }
+
+#cfw-billing-methods #stripe-payment-data ul, #cfw-shipping-same-billing #stripe-payment-data ul {
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+  list-style-type: none; }
+  #cfw-billing-methods #stripe-payment-data ul li, #cfw-shipping-same-billing #stripe-payment-data ul li {
+    margin-bottom: 8px; }
+    #cfw-billing-methods #stripe-payment-data ul li:last-child, #cfw-shipping-same-billing #stripe-payment-data ul li:last-child {
+      margin-bottom: 0; }
+
 #cfw-breadcrumb {
   list-style-type: none;
   margin: 0 0 1.5em 0;
@@ -417,13 +437,20 @@ body {
   -webkit-transform: translateY(calc(-50% + 2px)) rotate(90deg);
           transform: translateY(calc(-50% + 2px)) rotate(90deg); }
 
+.kill-bottom-margin {
+  margin-bottom: 0 !important; }
+
 .cfw-input-wrap {
   position: relative; }
-  .cfw-input-wrap.cfw-floating-label input[type="text"], .cfw-input-wrap.cfw-floating-label input[type="password"], .cfw-input-wrap.cfw-floating-label select {
+  .cfw-input-wrap.cfw-floating-label input[type="text"], .cfw-input-wrap.cfw-floating-label input[type="tel"], .cfw-input-wrap.cfw-floating-label input[type="password"], .cfw-input-wrap.cfw-floating-label select {
     padding: 1.6em 0.8em 0.28em 0.8em; }
   .cfw-input-wrap.cfw-floating-label .cfw-input-label {
     opacity: 1; }
-  .cfw-input-wrap > input[type="text"], .cfw-input-wrap > input[type="password"], .cfw-input-wrap select {
+  .cfw-input-wrap > input[type="text"],
+  .cfw-input-wrap > input[type="tel"],
+  .cfw-input-wrap > input[type="number"],
+  .cfw-input-wrap > input[type="password"],
+  .cfw-input-wrap select {
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
@@ -438,13 +465,29 @@ body {
     line-height: normal;
     border-radius: 4px;
     box-shadow: 0 0 0 1px #ddd; }
-    .cfw-input-wrap > input[type="text"]::-webkit-input-placeholder, .cfw-input-wrap > input[type="password"]::-webkit-input-placeholder, .cfw-input-wrap select::-webkit-input-placeholder {
+    .cfw-input-wrap > input[type="text"]::-webkit-input-placeholder,
+    .cfw-input-wrap > input[type="tel"]::-webkit-input-placeholder,
+    .cfw-input-wrap > input[type="number"]::-webkit-input-placeholder,
+    .cfw-input-wrap > input[type="password"]::-webkit-input-placeholder,
+    .cfw-input-wrap select::-webkit-input-placeholder {
       color: #ccc; }
-    .cfw-input-wrap > input[type="text"]:-ms-input-placeholder, .cfw-input-wrap > input[type="password"]:-ms-input-placeholder, .cfw-input-wrap select:-ms-input-placeholder {
+    .cfw-input-wrap > input[type="text"]:-ms-input-placeholder,
+    .cfw-input-wrap > input[type="tel"]:-ms-input-placeholder,
+    .cfw-input-wrap > input[type="number"]:-ms-input-placeholder,
+    .cfw-input-wrap > input[type="password"]:-ms-input-placeholder,
+    .cfw-input-wrap select:-ms-input-placeholder {
       color: #ccc; }
-    .cfw-input-wrap > input[type="text"]::placeholder, .cfw-input-wrap > input[type="password"]::placeholder, .cfw-input-wrap select::placeholder {
+    .cfw-input-wrap > input[type="text"]::placeholder,
+    .cfw-input-wrap > input[type="tel"]::placeholder,
+    .cfw-input-wrap > input[type="number"]::placeholder,
+    .cfw-input-wrap > input[type="password"]::placeholder,
+    .cfw-input-wrap select::placeholder {
       color: #ccc; }
-    .cfw-input-wrap > input[type="text"]:focus, .cfw-input-wrap > input[type="password"]:focus, .cfw-input-wrap select:focus {
+    .cfw-input-wrap > input[type="text"]:focus,
+    .cfw-input-wrap > input[type="tel"]:focus,
+    .cfw-input-wrap > input[type="number"]:focus,
+    .cfw-input-wrap > input[type="password"]:focus,
+    .cfw-input-wrap select:focus {
       outline: 0;
       box-shadow: 0 0 0 2px #c7c7c7; }
 

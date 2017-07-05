@@ -28,6 +28,9 @@ class Redirect {
 			// Calc totals
 			WC()->cart->calculate_totals();
 
+			// TODO: Find a way to ignore all CSS files
+			//wp_head();
+
 			// Template conveniences items
 			$global_template_parameters["woo"]          = \WooCommerce::instance();         // WooCommerce Instance
 			$global_template_parameters["checkout"]     = WC()->checkout();                 // Checkout Object

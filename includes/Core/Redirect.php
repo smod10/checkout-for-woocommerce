@@ -189,8 +189,6 @@ class Redirect {
 			    wp_deregister_script( $handle );
 		    }
         }
-
-		d($wp_scripts->queue);
     }
 	/**
 	 * @param PathManager $path_manager

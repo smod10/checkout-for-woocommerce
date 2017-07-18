@@ -341,6 +341,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 	function cfw_get_payment_methods_html() {
         $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
+
         if ( WC()->cart->needs_payment() ) {
             ?><ul class="wc_payment_methods payment_methods methods cfw-radio-reveal-group"><?php
                 if ( ! empty( $available_gateways ) ) {

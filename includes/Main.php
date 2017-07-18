@@ -2,8 +2,6 @@
 
 namespace Objectiv\Plugins\Checkout;
 
-use Objectiv\Plugins\Checkout\Assets\AdminAssets;
-use Objectiv\Plugins\Checkout\Assets\FrontAssets;
 use Objectiv\Plugins\Checkout\Language\i18n;
 use Objectiv\Plugins\Checkout\Utilities\Activator;
 use Objectiv\Plugins\Checkout\Utilities\Deactivator;
@@ -13,7 +11,6 @@ use Objectiv\Plugins\Checkout\Core\Loader;
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
-use Objectiv\Plugins\Checkout\Managers\AssetsManager;
 use Objectiv\Plugins\Checkout\Managers\AjaxManager;
 use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
@@ -58,13 +55,6 @@ class Main extends Singleton {
 	 * @var TemplateManager $template_manager Handles all template related functionality.
 	 */
 	private $template_manager;
-
-	/**
-	 * @since 0.1.0
-	 * @access private
-	 * @var AssetsManager $assets_manager Handles the assets and asset registration
-	 */
-	private $assets_manager;
 
 	/**
 	 * @since 0.1.0
@@ -132,17 +122,6 @@ class Main extends Singleton {
 		// Program Details
 		$this->plugin_name = "Checkout for WooCommerce";
 		$this->version = "0.1.0";
-	}
-
-	/**
-	 * Returns the AssetsManager object for the plugin
-	 *
-	 * @since 0.1.0
-	 * @access public
-	 * @return AssetsManager
-	 */
-	public function get_assets_manager() {
-		return $this->assets_manager;
 	}
 
 	/**
@@ -317,9 +296,6 @@ class Main extends Singleton {
 		// Create the template manager
 		$this->template_manager = new TemplateManager();
 
-		// Create the asset manager and register the assets
-		$this->assets_manager = new AssetsManager($this->get_assets());
-
 		// Create the ajax manager
 		$this->ajax_manager = new AjaxManager($this->get_ajax_actions(), $this->loader);
 
@@ -350,7 +326,7 @@ class Main extends Singleton {
 		);
 	}
 
-	public function get_assets() {
+	public function set_assets() {
 		$admin = "{$this->path_manager->get_assets_path()}/admin";
 		$front = "{$this->path_manager->get_assets_path()}/front";
 		$bower = "{$this->path_manager->get_assets_path()}/global/bower";
@@ -358,56 +334,15 @@ class Main extends Singleton {
 
 		$min = (!CO_DEV_MODE) ? ".min" : "";
 
-		return array(
-			new FrontAssets("front_assets", array(
-				"css" => array(
-					(object) array(
-						"path" => "$front/css/checkout-woocommerce-front{$min}.css",
-						"attrs" => array()
-					)
-				),
-				"js" => array(
-					(object) array(
-						"path" => "$bower/easytabs/vendor/jquery-1.7.1.min.js",
-						"attrs" => array()
-					),
-					(object) array(
-						"path" => "$bower/easytabs/vendor/jquery.hashchange.min.js",
-						"attrs" => array()
-					),
-					(object) array(
-						"path" => "$bower/requirejs/require.js",
-						"attrs" => array()
-					),
-					(object) array(
-						"path" => "$bower/easytabs/lib/jquery.easytabs.min.js",
-						"attrs" => array()
-					),
-					(object) array(
-						"path" => "$bower/garlicjs/dist/garlic.min.js",
-						"attrs" => array()
-					),
-					(object) array(
-						"path" => "$js/ArrayFindPoly.js",
-						"attrs" => array()
-					)
-				)
-			)),
-			new AdminAssets("admin_assets", array(
-				"css" => array(
-					(object) array(
-						"path" => "$admin/css/checkout-woocommerce-admin{$min}.css",
-						"attrs" => array()
-					)
-				),
-				"js" => array(
-					(object) array(
-						"path" => "$admin/js/checkout-woocommerce-admin{$min}.js",
-						"attrs" => array()
-					)
-				)
-			))
-		);
+		wp_enqueue_style('cfw_front_css', "${front}/css/checkout-woocommerce-front${min}.css", array(), $this->get_version());
+
+		wp_enqueue_script('jquery');
+		wp_enqueue_script('cfw_front_js_hash_change', "${bower}/easytabs/vendor/jquery.hashchange.min.js", array('jquery'));
+		wp_enqueue_script('cfw_front_js_easy_tabs', "${bower}/easytabs/lib/jquery.easytabs.min.js", array('jquery'));
+		wp_enqueue_script('cfw_front_js_garlic', "${bower}/garlicjs/dist/garlic.min.js", array('jquery'));
+		wp_enqueue_script('cfw_front_js_array_find_poly', "${js}/ArrayFindPoly.js", array('jquery'), $this->get_version());
+
+//		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array(), $this->get_version(), true);
 	}
 
 	/**
@@ -432,6 +367,8 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function load_actions() {
+		$this->loader->add_action('wp_enqueue_scripts', array($this, 'set_assets'));
+
 		// Add the Language class
 		$this->loader->add_action('init', function(){
 			$this->i18n->load_plugin_textdomain($this->path_manager);
@@ -442,14 +379,9 @@ class Main extends Singleton {
 			Activator::activate_admin_notice($this->path_manager);
 		});
 
-		// Add the admin assets
-		$this->loader->add_action('admin_enqueue_scripts', function(){
-			$this->assets_manager->load_assets($this->version, 'admin_assets');
-		});
-
 		// Setup the Checkout redirect
 		$this->loader->add_action('template_redirect', function(){
-			Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->assets_manager, $this->version);
+			Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
 		});
 	}
 

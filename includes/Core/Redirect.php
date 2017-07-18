@@ -55,12 +55,14 @@ class Redirect {
 		wp_enqueue_scripts();
 		self::remove_scripts();
 		print_head_scripts();
-		wp_print_styles(array('cfw_front_css', 'admin-bar'));
+
+		$bower = "{$path_manager->get_assets_path()}/global/bower";
+		$js = "{$path_manager->get_assets_path()}/global/js";
 		?>
         <script>
 	        window.$ = jQuery;
         </script>
-        <script src="/wp-content/plugins/checkout-woocommerce/assets/global/bower/requirejs/require.js"></script>
+        <script src="<?php echo $bower; ?>/requirejs/require.js"></script>
 		<script>
             window.requiredFiles = [
 	            'Main',
@@ -103,7 +105,7 @@ class Redirect {
             requirejs.config({
 	            baseUrl : window.siteBase + 'assets/front/js/',
 	            bundles: {
-		            'checkout-woocommerce-front': window.requiredFiles
+		            'checkout-woocommerce-front<?php echo $env_extension; ?>': window.requiredFiles
 	            }
             });
 
@@ -145,6 +147,8 @@ class Redirect {
             }
 		</script>
 		<?php
+
+		wp_print_styles(array('cfw_front_css', 'admin-bar'));
 	}
 
 	/**
@@ -214,13 +218,6 @@ class Redirect {
 	 * @since 0.1.0
 	 */
 	public static function footer($path_manager) {
-		$bower = "{$path_manager->get_assets_path()}/global/bower";
-		$js = "{$path_manager->get_assets_path()}/global/js";
-	    ?>
-
-<!--        <script src="/wp-content/plugins/checkout-woocommerce/assets/global/bower/jquery/dist/jquery.js"></script>-->
-        <?php
-
 		print_footer_scripts();
 		?>
 		</body>

@@ -2,3 +2,13 @@
   background: $header-bg;
   box-shadow: 0 2px 1px rgba(0,0,0,.2);
 }
+
+@media(max-width: 767px) {
+  #cfw-logo-container {
+    text-align: center;
+  }
+
+  #cfw-logo {
+    display: inline-block;
+  }
+}

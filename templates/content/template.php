@@ -183,7 +183,7 @@
                 </div>
 
                 <!-- Cart / Sidebar Column -->
-                <div class="cfw-right-column cfw-column-5">
+                <div id="cfw-cart-details" class="cfw-right-column cfw-column-5">
                     <div id="cfw-cart-list" class="cfw-module">
                         <?php cfw_get_checkout_cart_html(); ?>
                     </div>

@@ -383,6 +383,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
     border: 1px solid #d79915;
     font-size: 14px;
     font-size: 1.25rem;
+    box-sizing: border-box;
     font-weight: 400;
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
@@ -477,4 +478,65 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   border-left: 1px solid #ddd;
   padding: 30px;
   box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+  #cfw-cart-details {
+    order: 0;
+    border-left: none;
+    padding-left: 0;
+  }
+
+  #cfw-tab-container {
+    order: 1;
+  }
+
+  #cfw-cart-details, #cfw-tab-container {
+    padding-left: 0;
+    padding-right: 0;
+    width: 90%;
+    margin: auto;
+  }
+
+  #cfw-breadcrumb {
+    display: none;
+  }
+
+  .cfw .cfw-input-wrap-row {
+    & > div {
+      width: 100%;
+      float: none;
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom: 1em;
+    }
+
+    &:last-child {
+      & > div {
+        margin-bottom: 0;
+      }
+    }
+
+    margin: 0;
+    width: 100%;
+  }
+
+  .cfw .wc-credit-card-form .cfw-input-wrap-row {
+    & > div {
+      margin-bottom: 1em;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .cfw-bottom-controls {
+    flex-direction: column;
+
+    .cfw-primary-btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
 }

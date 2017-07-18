@@ -179,6 +179,12 @@ body {
   background: #222;
   box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2); }
 
+@media (max-width: 767px) {
+  #cfw-logo-container {
+    text-align: center; }
+  #cfw-logo {
+    display: inline-block; } }
+
 #cfw-content .wrap {
   padding: 2em 0; }
 
@@ -528,6 +534,7 @@ body {
     border: 1px solid #d79915;
     font-size: 14px;
     font-size: 1.25rem;
+    box-sizing: border-box;
     font-weight: 400;
     transition: all .3s ease-in-out;
     padding: 19px 15px; }
@@ -610,6 +617,48 @@ body {
   border-left: 1px solid #ddd;
   padding: 30px;
   box-sizing: border-box; }
+
+@media (max-width: 767px) {
+  #cfw-cart-details {
+    -webkit-box-ordinal-group: 1;
+        -ms-flex-order: 0;
+            order: 0;
+    border-left: none;
+    padding-left: 0; }
+  #cfw-tab-container {
+    -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+            order: 1; }
+  #cfw-cart-details, #cfw-tab-container {
+    padding-left: 0;
+    padding-right: 0;
+    width: 90%;
+    margin: auto; }
+  #cfw-breadcrumb {
+    display: none; }
+  .cfw .cfw-input-wrap-row {
+    margin: 0;
+    width: 100%; }
+    .cfw .cfw-input-wrap-row > div {
+      width: 100%;
+      float: none;
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom: 1em; }
+    .cfw .cfw-input-wrap-row:last-child > div {
+      margin-bottom: 0; }
+  .cfw .wc-credit-card-form .cfw-input-wrap-row > div {
+    margin-bottom: 1em; }
+    .cfw .wc-credit-card-form .cfw-input-wrap-row > div:last-child {
+      margin-bottom: 0; }
+  .cfw-bottom-controls {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column; }
+    .cfw-bottom-controls .cfw-primary-btn {
+      width: 100%;
+      text-align: center; } }
 
 #cfw-footer {
   text-align: center;

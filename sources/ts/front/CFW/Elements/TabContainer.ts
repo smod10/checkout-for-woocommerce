@@ -267,6 +267,13 @@ export class TabContainer extends Element {
         })
     }
 
+    setUpMobileCartDetailsReveal(): void {
+        let showCartDetails: Element = new Element($("#cfw-show-cart-details"))
+        showCartDetails.jel.on('click', () => {
+            $("#cfw-cart-details-collapse-wrap").slideToggle(300).parent().toggleClass("active")
+        })
+    }
+
     /**
      * @param fe
      * @param value

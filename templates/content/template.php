@@ -184,63 +184,79 @@
 
                 <!-- Cart / Sidebar Column -->
                 <div id="cfw-cart-details" class="cfw-right-column cfw-column-5">
-                    <div id="cfw-cart-list" class="cfw-module">
-                        <?php cfw_get_checkout_cart_html(); ?>
-                    </div>
-
-                    <div id="cfw-deductors-list" class="cfw-module">
-                        <div class="cfw-sg-container cfw-gc-row cfw-input-wrap-row">
-                            <div class="cfw-column-8">
-                                <div class="cfw-input-wrap cfw-text-input">
-                                    <input type="text" name="cfw-gift-card" id="cfw-gift-card" size="30" title="Enter Gift Card" placeholder="Enter Gift Card" class="required">
-                                </div>
-                            </div>
-                            <div class="cfw-column-4">
-                                <div class="cfw-input-wrap cfw-button-input">
-                                    <input type="button" name="cfw-gift-card-btn" id="cfw-gift-card-btn" class="cfw-def-action-btn" value="Apply" />
-                                </div>
+                    <div id="cfw-cart-details-review-bar" class="cfw-sg-container">
+                        <div class="cfw-column-6">
+                            <div id="cfw-show-cart-details">
+                                <a href="javascript:;" class="cfw-link">Show order summary</a>
+                                <svg id="cfw-cart-details-arrow" height="512px" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 "/></svg>
                             </div>
                         </div>
-                        <div class="cfw-sg-container cfw-promo-row cfw-input-wrap-row">
-                            <div class="cfw-column-8">
-                                <div class="cfw-input-wrap cfw-text-input">
-                                    <input type="text" name="cfw-promo-code" id="cfw-promo-code" size="30" title="Enter Promo Code" placeholder="Enter Promo Code" class="required">
-                                </div>
-                            </div>
-                            <div class="cfw-column-4">
-                                <div class="cfw-input-wrap cfw-button-input">
-                                    <input type="button" name="cfw-promo-code-btn" id="cfw-promo-code-btn" class="cfw-def-action-btn" value="Apply" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cfw-sg-container cfw-extra-desc-row cfw-input-wrap-row">
-                            <div class="cfw-column-12">
-                                <span>Have a catalog source code? Enter it here for free ground shipping.</span>
-                            </div>
+                        <div class="cfw-column-6">
+                            <span class="total">
+                                <?php echo $cart->get_total(); ?>
+                            </span>
                         </div>
                     </div>
 
-                    <div id="cfw-totals-list" class="cfw-module">
-                        <div class="cfw-totals-normal">
-                            <div id="cfw-cart-subtotal" class="cfw-flex-row cfw-flex-justify">
-                                <span class="type">Subtotal</span>
-                                <span class="amount"><?php echo $cart->get_cart_subtotal(); ?></span>
-                            </div>
-                            <div id="cfw-cart-shipping-total" class="cfw-flex-row cfw-flex-justify">
-                                <span class="type">Shipping</span>
-                                <span class="amount"><?php echo $cart->get_cart_shipping_total(); ?></span>
-                            </div>
-                            <?php if($cart->get_cart_tax() != ""): ?>
-                            <div id="cfw-cart-taxes" class="cfw-flex-row cfw-flex-justify">
-                                <span class="type">Taxes</span>
-                                <span class="amount"><?php echo $cart->get_cart_tax(); ?></span>
-                            </div>
-                            <?php endif; ?>
+                    <div id="cfw-cart-details-collapse-wrap">
+                        <div id="cfw-cart-list" class="cfw-module">
+                            <?php cfw_get_checkout_cart_html(); ?>
                         </div>
-                        <div class="cfw-totals-total">
-                            <div id="cfw-cart-total" class="cfw-flex-row cfw-flex-justify">
-                                <span class="type">Total</span>
-                                <span class="amount"><?php echo $cart->get_total(); ?></span>
+
+                        <div id="cfw-deductors-list" class="cfw-module">
+                            <div class="cfw-sg-container cfw-gc-row cfw-input-wrap-row">
+                                <div class="cfw-column-8">
+                                    <div class="cfw-input-wrap cfw-text-input">
+                                        <input type="text" name="cfw-gift-card" id="cfw-gift-card" size="30" title="Enter Gift Card" placeholder="Enter Gift Card" class="required">
+                                    </div>
+                                </div>
+                                <div class="cfw-column-4">
+                                    <div class="cfw-input-wrap cfw-button-input">
+                                        <input type="button" name="cfw-gift-card-btn" id="cfw-gift-card-btn" class="cfw-def-action-btn" value="Apply" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cfw-sg-container cfw-promo-row cfw-input-wrap-row">
+                                <div class="cfw-column-8">
+                                    <div class="cfw-input-wrap cfw-text-input">
+                                        <input type="text" name="cfw-promo-code" id="cfw-promo-code" size="30" title="Enter Promo Code" placeholder="Enter Promo Code" class="required">
+                                    </div>
+                                </div>
+                                <div class="cfw-column-4">
+                                    <div class="cfw-input-wrap cfw-button-input">
+                                        <input type="button" name="cfw-promo-code-btn" id="cfw-promo-code-btn" class="cfw-def-action-btn" value="Apply" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cfw-sg-container cfw-extra-desc-row cfw-input-wrap-row">
+                                <div class="cfw-column-12">
+                                    <span>Have a catalog source code? Enter it here for free ground shipping.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="cfw-totals-list" class="cfw-module">
+                            <div class="cfw-totals-normal">
+                                <div id="cfw-cart-subtotal" class="cfw-flex-row cfw-flex-justify">
+                                    <span class="type">Subtotal</span>
+                                    <span class="amount"><?php echo $cart->get_cart_subtotal(); ?></span>
+                                </div>
+                                <div id="cfw-cart-shipping-total" class="cfw-flex-row cfw-flex-justify">
+                                    <span class="type">Shipping</span>
+                                    <span class="amount"><?php echo $cart->get_cart_shipping_total(); ?></span>
+                                </div>
+                                <?php if($cart->get_cart_tax() != ""): ?>
+                                <div id="cfw-cart-taxes" class="cfw-flex-row cfw-flex-justify">
+                                    <span class="type">Taxes</span>
+                                    <span class="amount"><?php echo $cart->get_cart_tax(); ?></span>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="cfw-totals-total">
+                                <div id="cfw-cart-total" class="cfw-flex-row cfw-flex-justify">
+                                    <span class="type">Total</span>
+                                    <span class="amount"><?php echo $cart->get_total(); ?></span>
+                                </div>
                             </div>
                         </div>
                     </div>

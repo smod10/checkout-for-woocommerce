@@ -500,7 +500,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
       }
 
       #cfw-cart-details-arrow {
-        transform: rotate(90deg);
+        transform: rotate(-90deg);
       }
     }
   }
@@ -540,7 +540,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
   #cfw-cart-details-arrow {
     transition: all .2s linear;
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
     width: 20px;
     height: 20px;
     cursor: pointer;

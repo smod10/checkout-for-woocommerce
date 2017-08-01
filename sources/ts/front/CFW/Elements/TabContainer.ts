@@ -11,6 +11,7 @@ import { FormElement }                      from "./FormElement";
 import { UpdateShippingFieldsAction }       from "../Actions/UpdateShippingFieldsAction";
 import {UpdateShippingMethodAction} from "../Actions/UpdateShippingMethodAction";
 import {Cart} from "./Cart";
+import {CompleteOrderAction} from "../Actions/CompleteOrderAction";
 
 /**
  *
@@ -281,6 +282,13 @@ export class TabContainer extends Element {
                 $("#cfw-cart-details-collapse-wrap").css('display', 'none');
             }
         })
+    }
+
+    setCompleteOrder(ajaxInfo: AjaxInfo, cart: Cart): void {
+        let completeOrderButton: Element = new Element($("#cfw-complete-order-button"));
+        completeOrderButton.jel.on('click', () => {
+            new CompleteOrderAction('complete_order', ajaxInfo).load();
+        });
     }
 
     /**

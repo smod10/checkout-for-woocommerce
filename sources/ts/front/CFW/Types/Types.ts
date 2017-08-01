@@ -22,4 +22,7 @@ export type UpdateShippingMethodResponse = { new_totals: UpdateCartTotalsData };
 
 export type UpdateCartTotalsData = { new_subtotal: any, new_shipping_total: any, new_taxes_total: any, new_total: any };
 
+export type CompleteOrderData = { action: string, security: string };
+export type CompleteOrderResponse = { response: any }
+
 export type CustomerDataInfo = { field_type: string, field_value: any };

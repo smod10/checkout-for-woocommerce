@@ -2,6 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout;
 
+use Objectiv\Plugins\Checkout\Action\CompleteOrderAction;
 use Objectiv\Plugins\Checkout\Language\i18n;
 use Objectiv\Plugins\Checkout\Utilities\Activator;
 use Objectiv\Plugins\Checkout\Utilities\Deactivator;
@@ -322,7 +323,8 @@ class Main extends Singleton {
 			new AccountExistsAction("account_exists"),
 			new LogInAction("login"),
 			new UpdateShippingFieldsAction("update_shipping_fields"),
-			new UpdateShippingMethodAction("update_shipping_method")
+			new UpdateShippingMethodAction("update_shipping_method"),
+			new CompleteOrderAction("complete_order")
 		);
 	}
 

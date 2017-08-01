@@ -71,6 +71,7 @@ export class Main {
 		this.tabContainer.setUpPaymentTabRadioButtons();
 		this.tabContainer.setUpCreditCardRadioReveal();
 		this.tabContainer.setUpMobileCartDetailsReveal();
+		this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();

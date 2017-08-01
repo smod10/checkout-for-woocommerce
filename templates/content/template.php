@@ -173,7 +173,7 @@
                                     <a href="#cfw-shipping-method" class="cfw-prev-tab" rel="0">« Return to shipping information</a>
                                 </div>
                                 <div>
-                                    <a href="#" class="cfw-primary-btn cfw-next-tab" style="text-transform: uppercase;">Complete Order</a>
+                                    <a id="cfw-complete-order-button" href="#" class="cfw-primary-btn cfw-next-tab" style="text-transform: uppercase;">Complete Order</a>
                                 </div>
                             </div>
                         </div>

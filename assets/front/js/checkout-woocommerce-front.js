@@ -863,6 +863,21 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 match.children(".field_value").text(feFieldValue);
             });
         };
+        TabContainer.prototype.setUpMobileCartDetailsReveal = function () {
+            var showCartDetails = new Element_6.Element($("#cfw-show-cart-details"));
+            showCartDetails.jel.on('click', function () {
+                $("#cfw-cart-details-collapse-wrap").slideToggle(300).parent().toggleClass("active");
+            });
+            $(window).on('resize', function () {
+                if (window.innerWidth >= 767) {
+                    $("#cfw-cart-details-collapse-wrap").css('display', 'block');
+                    $("#cfw-cart-details").removeClass('active');
+                }
+                else {
+                    $("#cfw-cart-details-collapse-wrap").css('display', 'none');
+                }
+            });
+        };
         TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields, cart, tabContainer) {
             var type = fe.holder.jel.attr("field_key");
             var cdi = { field_type: type, field_value: value };
@@ -928,6 +943,7 @@ define("Main", ["require", "exports"], function (require, exports) {
             this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
             this.tabContainer.setUpPaymentTabRadioButtons();
             this.tabContainer.setUpCreditCardRadioReveal();
+            this.tabContainer.setUpMobileCartDetailsReveal();
             this.tabContainer.setShippingFieldsOnLoad();
         };
         Main.prototype.setupAnimationListeners = function () {

@@ -303,6 +303,9 @@ body {
     #cfw-billing-methods #stripe-payment-data ul li:last-child, #cfw-shipping-same-billing #stripe-payment-data ul li:last-child {
       margin-bottom: 0; }
 
+#cfw-cart-details-collapse-wrap {
+  display: block; }
+
 #cfw-breadcrumb {
   list-style-type: none;
   margin: 0 0 1.5em 0;
@@ -634,20 +637,20 @@ body {
     #cfw-cart-details.active #cfw-cart-details-review-bar {
       margin-bottom: 30px; }
     #cfw-cart-details.active #cfw-cart-details-arrow {
-      -webkit-transform: rotate(90deg);
-              transform: rotate(90deg); }
+      -webkit-transform: rotate(-90deg);
+              transform: rotate(-90deg); }
   #cfw-cart-details-review-bar {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     margin-bottom: 0; }
-    #cfw-cart-details-review-bar .cfw-column-6:last-child {
+    #cfw-cart-details-review-bar > div:last-child {
       text-align: right; }
-    #cfw-cart-details-review-bar .cfw-column-6:first-child {
+    #cfw-cart-details-review-bar > div:first-child {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex; }
-      #cfw-cart-details-review-bar .cfw-column-6:first-child:hover #cfw-cart-details-arrow, #cfw-cart-details-review-bar .cfw-column-6:first-child:hover a {
+      #cfw-cart-details-review-bar > div:first-child:hover #cfw-cart-details-arrow, #cfw-cart-details-review-bar > div:first-child:hover a {
         fill: #d79915;
         color: #d79915; }
     #cfw-cart-details-review-bar a {
@@ -661,8 +664,8 @@ body {
     display: flex; }
   #cfw-cart-details-arrow {
     transition: all .2s linear;
-    -webkit-transform: rotate(-90deg);
-            transform: rotate(-90deg);
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
     width: 20px;
     height: 20px;
     cursor: pointer;
@@ -704,6 +707,13 @@ body {
     .cfw-bottom-controls .cfw-primary-btn {
       width: 100%;
       text-align: center; } }
+
+@media (max-width: 445px) {
+  #cfw-cart-details-review-bar {
+    font-size: 0.875em; }
+  #cfw-cart-details-arrow {
+    width: 18px;
+    height: 18px; } }
 
 #cfw-footer {
   text-align: center;

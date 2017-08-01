@@ -18,6 +18,9 @@ export class CompleteOrderAction extends Action {
             security: ajaxInfo.nonce
         };
 
+        $("form.woocommerce-checkout").trigger('checkout_place_order_stripe');
+        $("form.woocommerce-checkout").on('submit', (event) => event.preventDefault());
+
         super(id, ajaxInfo.admin_url, data);
     }
 

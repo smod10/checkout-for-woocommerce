@@ -37,7 +37,7 @@
                         </li>
                     </ul>
 
-                    <form id="cfw-checkout-form" data-persist="garlic" method="POST">
+                    <form id="cfw-checkout-form" class="woocommerce-checkout" data-persist="garlic" method="POST">
 
                         <!-- Customer Info Panel -->
                         <div id="cfw-customer-info">
@@ -173,7 +173,7 @@
                                     <a href="#cfw-shipping-method" class="cfw-prev-tab" rel="0">« Return to shipping information</a>
                                 </div>
                                 <div>
-                                    <a id="cfw-complete-order-button" href="#" class="cfw-primary-btn cfw-next-tab" style="text-transform: uppercase;">Complete Order</a>
+                                    <a id="cfw-complete-order-button" href="javascript:;" class="cfw-primary-btn cfw-next-tab" style="text-transform: uppercase;">Complete Order</a>
                                 </div>
                             </div>
                         </div>

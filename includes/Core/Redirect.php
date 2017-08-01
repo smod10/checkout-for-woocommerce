@@ -59,12 +59,11 @@ class Redirect {
 		$bower = "{$path_manager->get_assets_path()}/global/bower";
 		$js = "{$path_manager->get_assets_path()}/global/js";
 		?>
-        <script>
-
-        </script>
         <script src="<?php echo $bower; ?>/requirejs/require.js"></script>
 		<script>
 			window.$ = jQuery;
+			$.fn.block = function(item) {};
+			$.fn.unblock = function(item) {};
             window.requiredFiles = [
 	            'Main',
 	            'Elements/TabContainer',

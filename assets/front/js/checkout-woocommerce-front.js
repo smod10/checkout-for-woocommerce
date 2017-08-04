@@ -159,9 +159,9 @@ define("Elements/FormElement", ["require", "exports", "Elements/Element", "Enums
             enumerable: true,
             configurable: true
         });
+        FormElement._labelClass = "cfw-floating-label";
         return FormElement;
     }(Element_2.Element));
-    FormElement._labelClass = "cfw-floating-label";
     exports.FormElement = FormElement;
 });
 define("Elements/InputLabelWrap", ["require", "exports", "Elements/FormElement"], function (require, exports, FormElement_1) {
@@ -324,14 +324,14 @@ define("Elements/TabContainerSection", ["require", "exports", "Elements/Element"
             enumerable: true,
             configurable: true
         });
+        TabContainerSection._inputLabelWrapClass = "cfw-input-wrap";
+        TabContainerSection._inputLabelTypes = [
+            { type: LabelType_2.LabelType.TEXT, cssClass: "cfw-text-input" },
+            { type: LabelType_2.LabelType.PASSWORD, cssClass: "cfw-password-input" },
+            { type: LabelType_2.LabelType.SELECT, cssClass: "cfw-select-input" }
+        ];
         return TabContainerSection;
     }(Element_3.Element));
-    TabContainerSection._inputLabelWrapClass = "cfw-input-wrap";
-    TabContainerSection._inputLabelTypes = [
-        { type: LabelType_2.LabelType.TEXT, cssClass: "cfw-text-input" },
-        { type: LabelType_2.LabelType.PASSWORD, cssClass: "cfw-password-input" },
-        { type: LabelType_2.LabelType.SELECT, cssClass: "cfw-select-input" }
-    ];
     exports.TabContainerSection = TabContainerSection;
 });
 define("Actions/Action", ["require", "exports"], function (require, exports) {
@@ -438,11 +438,11 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
             enumerable: true,
             configurable: true
         });
+        __decorate([
+            ResponsePrep_1.ResponsePrep
+        ], AccountExistsAction.prototype, "response", null);
         return AccountExistsAction;
     }(Action_1.Action));
-    __decorate([
-        ResponsePrep_1.ResponsePrep
-    ], AccountExistsAction.prototype, "response", null);
     exports.AccountExistsAction = AccountExistsAction;
 });
 define("Elements/Alert", ["require", "exports", "Elements/Element"], function (require, exports, Element_4) {
@@ -502,11 +502,11 @@ define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements
                 alert_1.addAlert();
             }
         };
+        __decorate([
+            ResponsePrep_2.ResponsePrep
+        ], LoginAction.prototype, "response", null);
         return LoginAction;
     }(Action_2.Action));
-    __decorate([
-        ResponsePrep_2.ResponsePrep
-    ], LoginAction.prototype, "response", null);
     exports.LoginAction = LoginAction;
 });
 define("Elements/Cart", ["require", "exports", "Elements/Element"], function (require, exports, Element_5) {
@@ -665,11 +665,11 @@ define("Actions/UpdateShippingFieldsAction", ["require", "exports", "Actions/Act
             enumerable: true,
             configurable: true
         });
+        __decorate([
+            ResponsePrep_3.ResponsePrep
+        ], UpdateShippingFieldsAction.prototype, "response", null);
         return UpdateShippingFieldsAction;
     }(Action_3.Action));
-    __decorate([
-        ResponsePrep_3.ResponsePrep
-    ], UpdateShippingFieldsAction.prototype, "response", null);
     exports.UpdateShippingFieldsAction = UpdateShippingFieldsAction;
 });
 define("Actions/UpdateShippingMethodAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep", "Elements/Cart"], function (require, exports, Action_4, ResponsePrep_4, Cart_2) {
@@ -703,14 +703,155 @@ define("Actions/UpdateShippingMethodAction", ["require", "exports", "Actions/Act
             enumerable: true,
             configurable: true
         });
+        __decorate([
+            ResponsePrep_4.ResponsePrep
+        ], UpdateShippingMethodAction.prototype, "response", null);
         return UpdateShippingMethodAction;
     }(Action_4.Action));
-    __decorate([
-        ResponsePrep_4.ResponsePrep
-    ], UpdateShippingMethodAction.prototype, "response", null);
     exports.UpdateShippingMethodAction = UpdateShippingMethodAction;
 });
-define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction", "Actions/UpdateShippingFieldsAction", "Actions/UpdateShippingMethodAction"], function (require, exports, Element_6, AccountExistsAction_1, LoginAction_1, UpdateShippingFieldsAction_1, UpdateShippingMethodAction_1) {
+define("Services/StripeService", ["require", "exports"], function (require, exports) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var StripeService = (function () {
+        function StripeService() {
+        }
+        StripeService.setupStripeMessageListener = function (callbacks) {
+            window.addEventListener("message", function (event) { return StripeService.stripeMessageListener(event, callbacks); }, { once: true });
+        };
+        StripeService.stripeMessageListener = function (event, callbacks) {
+            var origin = event.origin;
+            if (this.serviceUrls.find(function (serviceUrl) { return origin == serviceUrl; })) {
+                if (typeof event.data == "string") {
+                    var stripeResponse = StripeService.parseStripeMessage(event.data);
+                    switch (stripeResponse.code) {
+                        case 200:
+                            callbacks.success(stripeResponse.resp);
+                            break;
+                        case 400:
+                            callbacks.noData(stripeResponse.resp);
+                            break;
+                        case 402:
+                            callbacks.badData(stripeResponse.resp);
+                            break;
+                    }
+                }
+            }
+        };
+        StripeService.triggerStripe = function () {
+            var checkoutForm = $("form.woocommerce-checkout");
+            checkoutForm.trigger('checkout_place_order_stripe');
+            checkoutForm.on('submit', function (event) { return event.preventDefault(); });
+        };
+        StripeService.parseStripeMessage = function (message) {
+            var matchResults = message.match('default\\d{0,}(?:(?!{).)*');
+            var out = null;
+            if (matchResults.length > 0) {
+                var match = matchResults[0];
+                var dataString = message.substr(match.length, message.length);
+                out = JSON.parse(dataString);
+            }
+            return out;
+        };
+        StripeService.hasStripe = function () {
+            return $("#payment_method_stripe:checked").length > 0;
+        };
+        StripeService.hasNewPayment = function () {
+            return $("#wc-stripe-payment-token-new:checked").length > 0;
+        };
+        Object.defineProperty(StripeService, "serviceUrls", {
+            get: function () {
+                return this._serviceUrls;
+            },
+            set: function (value) {
+                this._serviceUrls = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        StripeService._serviceUrls = ["https://js.stripe.com"];
+        return StripeService;
+    }());
+    exports.StripeService = StripeService;
+});
+define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep", "Services/StripeService"], function (require, exports, Action_5, ResponsePrep_5, StripeService_1) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CompleteOrderAction = (function (_super) {
+        __extends(CompleteOrderAction, _super);
+        function CompleteOrderAction(id, ajaxInfo) {
+            var _this = this;
+            var data = {
+                action: id,
+                security: ajaxInfo.nonce
+            };
+            _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            _this.stripeServiceCallbacks = {
+                success: function (response) {
+                    _this.stripeResponse = response;
+                    _this.needsStripeToken = false;
+                    _this.load();
+                },
+                noData: function (response) { return console.log("Stripe has no data to go off of. Try putting some in"); },
+                badData: function (response) { return console.log("Stripe has had bad or invalid data entered"); }
+            };
+            _this.setup();
+            return _this;
+        }
+        CompleteOrderAction.prototype.setup = function () {
+            if (StripeService_1.StripeService.hasStripe() && StripeService_1.StripeService.hasNewPayment()) {
+                this.needsStripeToken = true;
+                StripeService_1.StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);
+                StripeService_1.StripeService.triggerStripe();
+            }
+            else {
+                this.needsStripeToken = false;
+            }
+        };
+        CompleteOrderAction.prototype.load = function () {
+            if (!this.needsStripeToken) {
+                _super.prototype.load.call(this);
+            }
+        };
+        Object.defineProperty(CompleteOrderAction.prototype, "needsStripeToken", {
+            get: function () {
+                return this._needsStripeToken;
+            },
+            set: function (value) {
+                this._needsStripeToken = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CompleteOrderAction.prototype, "stripeServiceCallbacks", {
+            get: function () {
+                return this._stripeServiceCallbacks;
+            },
+            set: function (value) {
+                this._stripeServiceCallbacks = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CompleteOrderAction.prototype, "stripeResponse", {
+            get: function () {
+                return this._stripeResponse;
+            },
+            set: function (value) {
+                this._stripeResponse = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        CompleteOrderAction.prototype.response = function (resp) {
+            console.log(resp);
+        };
+        __decorate([
+            ResponsePrep_5.ResponsePrep
+        ], CompleteOrderAction.prototype, "response", null);
+        return CompleteOrderAction;
+    }(Action_5.Action));
+    exports.CompleteOrderAction = CompleteOrderAction;
+});
+define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction", "Actions/UpdateShippingFieldsAction", "Actions/UpdateShippingMethodAction", "Actions/CompleteOrderAction"], function (require, exports, Element_6, AccountExistsAction_1, LoginAction_1, UpdateShippingFieldsAction_1, UpdateShippingMethodAction_1, CompleteOrderAction_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
@@ -878,6 +1019,12 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 }
             });
         };
+        TabContainer.prototype.setCompleteOrder = function (ajaxInfo, cart) {
+            var completeOrderButton = new Element_6.Element($("#cfw-complete-order-button"));
+            completeOrderButton.jel.on('click', function () {
+                new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo).load();
+            });
+        };
         TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields, cart, tabContainer) {
             var type = fe.holder.jel.attr("field_key");
             var cdi = { field_type: type, field_value: value };
@@ -944,6 +1091,7 @@ define("Main", ["require", "exports"], function (require, exports) {
             this.tabContainer.setUpPaymentTabRadioButtons();
             this.tabContainer.setUpCreditCardRadioReveal();
             this.tabContainer.setUpMobileCartDetailsReveal();
+            this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
             this.tabContainer.setShippingFieldsOnLoad();
         };
         Main.prototype.setupAnimationListeners = function () {

@@ -25,4 +25,55 @@ export type UpdateCartTotalsData = { new_subtotal: any, new_shipping_total: any,
 export type CompleteOrderData = { action: string, security: string };
 export type CompleteOrderResponse = { response: any }
 
+export type StripeServiceCallbacks = { success: Function, noData: Function, badData: Function };
+
+export type StripeResponse = {
+    code: 400 | 402 | 200,
+    resp: StripeValidResponse | StripeNoDataResponse | StripeBadDataResponse,
+    requestId: number
+}
+
+export type StripeValidResponse = {
+    card: StripeCard,
+    client_ip: string,
+    created: number,
+    id: string,
+    livemode: boolean,
+    object: string,
+    type: string,
+    used: boolean
+}
+
+export type StripeCard = {
+    address_city: string,
+    address_country: string,
+    address_line1: string,
+    address_line1_check: string,
+    address_line2: string,
+    address_state: string,
+    address_zip: string,
+    address_zip_check: string,
+    brand: string,
+    country: string,
+    cvc_check: string,
+    dynamic_last4: any,
+    exp_month: number,
+    exp_year: number,
+    funding: string,
+    id: string,
+    last4: string,
+    metadata: any,
+    name: string,
+    object: "card",
+    tokenization_method: any
+}
+
+export type StripeNoDataResponse = {
+
+}
+
+export type StripeBadDataResponse = {
+
+}
+
 export type CustomerDataInfo = { field_type: string, field_value: any };

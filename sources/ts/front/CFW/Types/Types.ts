@@ -22,8 +22,37 @@ export type UpdateShippingMethodResponse = { new_totals: UpdateCartTotalsData };
 
 export type UpdateCartTotalsData = { new_subtotal: any, new_shipping_total: any, new_taxes_total: any, new_total: any };
 
-export type CompleteOrderData = { action: string, security: string };
-export type CompleteOrderResponse = { response: any }
+export type CompleteOrderResponse = { response: any };
+
+export type CompleteOrderCheckoutData = {
+    billing_first_name: string,
+    billing_last_name: string,
+    billing_company: string,
+    billing_country: string,
+    billing_address_1: string,
+    billing_address_2: string,
+    billing_city: string,
+    billing_state: string,
+    billing_postcode: string,
+    billing_phone: number,
+    billing_email: string,
+    ship_to_different_address: number,
+    shipping_first_name: string,
+    shipping_last_name: string,
+    shipping_company: string,
+    shipping_country: string,
+    shipping_address_1: string,
+    shipping_address_2: string,
+    shipping_city: string,
+    shipping_state: string,
+    shipping_postcode: number,
+    order_comments: string,
+    "shipping_method[0]": string,
+    payment_method: string,
+    "wc-stripe-payment-token": string,
+    _wpnonce: string,
+    _wp_http_referer: string
+}
 
 export type StripeServiceCallbacks = { success: Function, noData: Function, badData: Function };
 

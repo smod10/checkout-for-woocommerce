@@ -4,7 +4,7 @@
 import { TabContainer } 			from "./Elements/TabContainer";
 import { AjaxInfo }					from "./Types/Types";
 import { Cart } 					from "./Elements/Cart";
-import {TabContainerSection} from "./Elements/TabContainerSection";
+import { TabContainerSection } 		from "./Elements/TabContainerSection";
 
 /**
  *

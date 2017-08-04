@@ -1,7 +1,7 @@
 import { Action }                               from "./Action";
 import { AjaxInfo }                             from "../Types/Types";
-import { CompleteOrderData }                    from "../Types/Types";
 import { CompleteOrderResponse }                from "../Types/Types";
+import { CompleteOrderCheckoutData }            from "../Types/Types";
 import { StripeNoDataResponse }                 from "../Types/Types";
 import { StripeBadDataResponse }                from "../Types/Types";
 import { StripeValidResponse }                  from "../Types/Types";
@@ -30,7 +30,7 @@ export class CompleteOrderAction extends Action {
     /**
      * Current stripe response data
      *
-     * {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse}
+     * @type {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse}
      * @private
      */
     private _stripeResponse: StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse;
@@ -39,11 +39,41 @@ export class CompleteOrderAction extends Action {
      *
      * @param id
      * @param ajaxInfo
+     * @param checkoutData
      */
-    constructor(id: string, ajaxInfo: AjaxInfo) {
-        let data: CompleteOrderData = {
+    constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: CompleteOrderCheckoutData) {
+
+        // We do a normal object here becuase to make a new type just to add two different options seems silly.
+        let data: {} = {
             action: id,
-            security: ajaxInfo.nonce
+            security: ajaxInfo.nonce,
+            billing_first_name: checkoutData.billing_first_name,
+            billing_last_name: checkoutData.billing_last_name,
+            billing_company: checkoutData.billing_company,
+            billing_country: checkoutData.billing_country,
+            billing_address_1: checkoutData.billing_address_1,
+            billing_address_2: checkoutData.billing_address_2,
+            billing_city: checkoutData.billing_city,
+            billing_state: checkoutData.billing_state,
+            billing_postcode: checkoutData.billing_postcode,
+            billing_phone: checkoutData.billing_phone,
+            billing_email: checkoutData.billing_email,
+            ship_to_different_address: checkoutData.ship_to_different_address,
+            shipping_first_name: checkoutData.shipping_first_name,
+            shipping_last_name: checkoutData.shipping_last_name,
+            shipping_company: checkoutData.shipping_company,
+            shipping_country: checkoutData.shipping_country,
+            shipping_address_1: checkoutData.shipping_address_1,
+            shipping_address_2: checkoutData.shipping_address_2,
+            shipping_city: checkoutData.shipping_city,
+            shipping_state: checkoutData.shipping_state,
+            shipping_postcode: checkoutData.shipping_postcode,
+            order_comments: checkoutData.order_comments,
+            "shipping_method[0]": checkoutData["shipping_method[0]"],
+            payment_method: checkoutData.payment_method,
+            "wc-stripe-payment-token": checkoutData["wc-stripe-payment-token"],
+            _wpnonce: checkoutData._wpnonce,
+            _wp_http_referer: checkoutData._wp_http_referer,
         };
 
         super(id, ajaxInfo.admin_url, data);
@@ -51,6 +81,7 @@ export class CompleteOrderAction extends Action {
         this.stripeServiceCallbacks = {
             success: (response: StripeValidResponse) => {
                 this.stripeResponse = response;
+                this.addStripeTokenToData(response.id);
                 this.needsStripeToken = false;
                 this.load();
             },
@@ -59,6 +90,17 @@ export class CompleteOrderAction extends Action {
         };
 
         this.setup();
+    }
+
+    /**
+     * Provided a Stripe Token was given add it to the data that will be sent with the request
+     *
+     * @param {string} stripeToken
+     */
+    addStripeTokenToData(stripeToken: string): void {
+        if(stripeToken) {
+            this.data["stripe_token"] = stripeToken;
+        }
     }
 
     /**

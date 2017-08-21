@@ -51,8 +51,9 @@ define("Enums/LabelType", ["require", "exports"], function (require, exports) {
     (function (LabelType) {
         LabelType[LabelType["TEXT"] = 0] = "TEXT";
         LabelType[LabelType["TEL"] = 1] = "TEL";
-        LabelType[LabelType["PASSWORD"] = 2] = "PASSWORD";
-        LabelType[LabelType["SELECT"] = 3] = "SELECT";
+        LabelType[LabelType["EMAIL"] = 2] = "EMAIL";
+        LabelType[LabelType["PASSWORD"] = 3] = "PASSWORD";
+        LabelType[LabelType["SELECT"] = 4] = "SELECT";
     })(LabelType = exports.LabelType || (exports.LabelType = {}));
 });
 define("Enums/AlertType", ["require", "exports"], function (require, exports) {
@@ -394,6 +395,48 @@ define("Decorators/ResponsePrep", ["require", "exports"], function (require, exp
     }
     exports.ResponsePrep = ResponsePrep;
 });
+define("Elements/Alert", ["require", "exports", "Elements/Element"], function (require, exports, Element_4) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Alert = (function (_super) {
+        __extends(Alert, _super);
+        function Alert(alertContainer, alertInfo) {
+            var _this = _super.call(this, alertContainer) || this;
+            _this.alertInfo = alertInfo;
+            return _this;
+        }
+        Alert.prototype.addAlert = function () {
+            if (Alert.previousClass) {
+                this.jel.removeClass(Alert.previousClass);
+            }
+            this.jel.find(".message").html(this.alertInfo.message);
+            this.jel.addClass(this.alertInfo.cssClass);
+            this.jel.slideDown(300);
+            Alert.previousClass = this.alertInfo.cssClass;
+        };
+        Object.defineProperty(Alert.prototype, "alertInfo", {
+            get: function () {
+                return this._alertInfo;
+            },
+            set: function (value) {
+                this._alertInfo = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Alert, "previousClass", {
+            get: function () {
+                return this._previousClass;
+            },
+            set: function (value) {
+                this._previousClass = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Alert;
+    }(Element_4.Element));
+    exports.Alert = Alert;
+});
 define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep"], function (require, exports, Action_1, ResponsePrep_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var AccountExistsAction = (function (_super) {
@@ -410,22 +453,36 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
             return _this;
         }
         AccountExistsAction.prototype.response = function (resp) {
-            if (resp.account_exists) {
-                this.ezTabContainer.bind('easytabs:after', function () {
-                    if (resp.account_exists) {
-                        $("#cfw-login-slide").slideDown(300);
-                        $("#cfw-login-slide input[type='password']").focus();
-                        $("#cfw-acc-register-chk").attr('checked', null);
-                    }
-                });
+            var accontExistsActions = function () {
                 $("#cfw-login-slide").slideDown(300);
                 $("#cfw-login-slide input[type='password']").focus();
                 $("#cfw-acc-register-chk").attr('checked', null);
+                $("#cfw-login-btn").css('display', 'block');
+            };
+            if (resp.account_exists) {
+                this.ezTabContainer.bind('easytabs:after', function () {
+                    if (resp.account_exists) {
+                        accontExistsActions();
+                    }
+                });
+                accontExistsActions();
                 this.ezTabContainer.easytabs('select', '#cfw-customer-info');
             }
             else {
-                $("#cfw-login-slide").slideUp(300);
-                $("#cfw-acc-register-chk").attr('checked', '');
+                if ($("#cfw-acc-register-chk:checked").length > 0) {
+                    $("#cfw-login-slide").slideDown(300);
+                    $("#cfw-login-btn").css('display', 'none');
+                }
+                else {
+                    if ($("#cfw-acc-register-chk").length > 0) {
+                        $("#cfw-login-slide").slideUp(300);
+                    }
+                    else {
+                        $("#cfw-login-slide").css('display', 'block');
+                        $("#cfw-login-btn").css('display', 'none');
+                    }
+                    $("#cfw-login-slide input[type='password']").val('');
+                }
             }
         };
         Object.defineProperty(AccountExistsAction.prototype, "ezTabContainer", {
@@ -445,35 +502,7 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
     }(Action_1.Action));
     exports.AccountExistsAction = AccountExistsAction;
 });
-define("Elements/Alert", ["require", "exports", "Elements/Element"], function (require, exports, Element_4) {
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Alert = (function (_super) {
-        __extends(Alert, _super);
-        function Alert(alertContainer, alertInfo) {
-            var _this = _super.call(this, alertContainer) || this;
-            _this.alertInfo = alertInfo;
-            return _this;
-        }
-        Alert.prototype.addAlert = function () {
-            this.jel.find(".message").html(this.alertInfo.message);
-            this.jel.addClass(this.alertInfo.cssClass);
-            this.jel.slideDown(300);
-        };
-        Object.defineProperty(Alert.prototype, "alertInfo", {
-            get: function () {
-                return this._alertInfo;
-            },
-            set: function (value) {
-                this._alertInfo = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Alert;
-    }(Element_4.Element));
-    exports.Alert = Alert;
-});
-define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements/Alert", "Decorators/ResponsePrep", "Enums/AlertType"], function (require, exports, Action_2, Alert_1, ResponsePrep_2, AlertType_1) {
+define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements/Alert", "Decorators/ResponsePrep"], function (require, exports, Action_2, Alert_1, ResponsePrep_2) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var LoginAction = (function (_super) {
         __extends(LoginAction, _super);
@@ -494,7 +523,7 @@ define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements
             }
             else {
                 var alertInfo = {
-                    type: AlertType_1.AlertType.LoginFailBadAccInfo,
+                    type: "LoginFailBadAccInfo",
                     message: resp.message,
                     cssClass: "cfw-alert-danger"
                 };
@@ -513,12 +542,13 @@ define("Elements/Cart", ["require", "exports", "Elements/Element"], function (re
     Object.defineProperty(exports, "__esModule", { value: true });
     var Cart = (function (_super) {
         __extends(Cart, _super);
-        function Cart(cartContainer, subTotal, shipping, taxes, total) {
+        function Cart(cartContainer, subTotal, shipping, taxes, total, coupons) {
             var _this = _super.call(this, cartContainer) || this;
             _this.subTotal = new Element_5.Element(subTotal);
             _this.shipping = new Element_5.Element(shipping);
             _this.taxes = new Element_5.Element(taxes);
             _this.total = new Element_5.Element(total);
+            _this.coupons = new Element_5.Element(coupons);
             return _this;
         }
         Cart.outputValues = function (cart, values) {
@@ -526,6 +556,20 @@ define("Elements/Cart", ["require", "exports", "Elements/Element"], function (re
             Cart.outputValue(cart.shipping, values.new_shipping_total);
             Cart.outputValue(cart.taxes, values.new_taxes_total);
             Cart.outputValue(cart.total, values.new_total);
+        };
+        Cart.outputCoupons = function (cartLineItem, coupons) {
+            cartLineItem.jel.html("");
+            if (cartLineItem.jel.length > 0) {
+                coupons.forEach(function (coupon) {
+                    console.log("Coupon Loop", coupon);
+                    var wrap = $('<div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">');
+                    var type = $('<span class="type"></span>').html(coupon.label);
+                    var amount = $('<span class="amount"></span>').html(coupon.amount);
+                    wrap.append(type);
+                    wrap.append(amount);
+                    cartLineItem.jel.append(wrap);
+                });
+            }
         };
         Cart.outputValue = function (cartLineItem, value, childClass) {
             if (childClass === void 0) { childClass = ".amount"; }
@@ -569,6 +613,16 @@ define("Elements/Cart", ["require", "exports", "Elements/Element"], function (re
             },
             set: function (value) {
                 this._total = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Cart.prototype, "coupons", {
+            get: function () {
+                return this._coupons;
+            },
+            set: function (value) {
+                this._coupons = value;
             },
             enumerable: true,
             configurable: true
@@ -689,7 +743,6 @@ define("Actions/UpdateShippingMethodAction", ["require", "exports", "Actions/Act
         }
         UpdateShippingMethodAction.prototype.response = function (resp) {
             if (resp.new_totals) {
-                console.log(resp);
                 Cart_2.Cart.outputValues(this.cart, resp.new_totals);
             }
         };
@@ -773,20 +826,57 @@ define("Services/StripeService", ["require", "exports"], function (require, expo
     }());
     exports.StripeService = StripeService;
 });
-define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep", "Services/StripeService"], function (require, exports, Action_5, ResponsePrep_5, StripeService_1) {
+define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "Services/StripeService", "Elements/Alert"], function (require, exports, Action_5, StripeService_1, Alert_2) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var CompleteOrderAction = (function (_super) {
         __extends(CompleteOrderAction, _super);
-        function CompleteOrderAction(id, ajaxInfo) {
+        function CompleteOrderAction(id, ajaxInfo, checkoutData) {
             var _this = this;
             var data = {
                 action: id,
-                security: ajaxInfo.nonce
+                security: ajaxInfo.nonce,
+                billing_first_name: checkoutData.billing_first_name,
+                billing_last_name: checkoutData.billing_last_name,
+                billing_company: checkoutData.billing_company,
+                billing_country: checkoutData.billing_country,
+                billing_address_1: checkoutData.billing_address_1,
+                billing_address_2: checkoutData.billing_address_2,
+                billing_city: checkoutData.billing_city,
+                billing_state: checkoutData.billing_state,
+                billing_postcode: checkoutData.billing_postcode,
+                billing_phone: checkoutData.billing_phone,
+                billing_email: checkoutData.billing_email,
+                ship_to_different_address: checkoutData.ship_to_different_address,
+                shipping_first_name: checkoutData.shipping_first_name,
+                shipping_last_name: checkoutData.shipping_last_name,
+                shipping_company: checkoutData.shipping_company,
+                shipping_country: checkoutData.shipping_country,
+                shipping_address_1: checkoutData.shipping_address_1,
+                shipping_address_2: checkoutData.shipping_address_2,
+                shipping_city: checkoutData.shipping_city,
+                shipping_state: checkoutData.shipping_state,
+                shipping_postcode: checkoutData.shipping_postcode,
+                order_comments: checkoutData.order_comments,
+                "shipping_method[0]": checkoutData["shipping_method[0]"],
+                payment_method: checkoutData.payment_method,
+                "wc-stripe-payment-token": checkoutData["wc-stripe-payment-token"],
+                _wpnonce: checkoutData._wpnonce,
+                _wp_http_referer: checkoutData._wp_http_referer,
             };
+            if (checkoutData.account_password) {
+                data["account_password"] = checkoutData.account_password;
+            }
+            if (checkoutData.createaccount) {
+                data["createaccount"] = checkoutData.createaccount;
+            }
+            if (checkoutData["wc-stripe-new-payment-method"]) {
+                data["wc-stripe-new-payment-method"] = checkoutData["wc-stripe-new-payment-method"];
+            }
             _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
             _this.stripeServiceCallbacks = {
                 success: function (response) {
                     _this.stripeResponse = response;
+                    _this.addStripeTokenToData(response.id);
                     _this.needsStripeToken = false;
                     _this.load();
                 },
@@ -796,6 +886,14 @@ define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "
             _this.setup();
             return _this;
         }
+        CompleteOrderAction.prototype.addStripeTokenToData = function (stripeToken) {
+            if (stripeToken) {
+                this.data["stripe_token"] = stripeToken;
+                if (!this.data["payment_method"]) {
+                    this.data["payment_method"] = "stripe";
+                }
+            }
+        };
         CompleteOrderAction.prototype.setup = function () {
             if (StripeService_1.StripeService.hasStripe() && StripeService_1.StripeService.hasNewPayment()) {
                 this.needsStripeToken = true;
@@ -804,6 +902,7 @@ define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "
             }
             else {
                 this.needsStripeToken = false;
+                this.load();
             }
         };
         CompleteOrderAction.prototype.load = function () {
@@ -842,16 +941,84 @@ define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "
             configurable: true
         });
         CompleteOrderAction.prototype.response = function (resp) {
-            console.log(resp);
+            if (resp.result === "success") {
+                window.location.href = resp.redirect;
+            }
+            if (resp.result === "failure") {
+                var alertInfo = {
+                    type: "AccPassRequiredField",
+                    message: resp.messages,
+                    cssClass: "cfw-alert-danger"
+                };
+                var alert_2 = new Alert_2.Alert($("#cfw-alert-container"), alertInfo);
+                alert_2.addAlert();
+            }
         };
-        __decorate([
-            ResponsePrep_5.ResponsePrep
-        ], CompleteOrderAction.prototype, "response", null);
         return CompleteOrderAction;
     }(Action_5.Action));
     exports.CompleteOrderAction = CompleteOrderAction;
 });
-define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction", "Actions/UpdateShippingFieldsAction", "Actions/UpdateShippingMethodAction", "Actions/CompleteOrderAction"], function (require, exports, Element_6, AccountExistsAction_1, LoginAction_1, UpdateShippingFieldsAction_1, UpdateShippingMethodAction_1, CompleteOrderAction_1) {
+define("Actions/ApplyCouponAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep", "Elements/Cart", "Elements/Alert"], function (require, exports, Action_6, ResponsePrep_5, Cart_3, Alert_3) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ApplyCouponAction = (function (_super) {
+        __extends(ApplyCouponAction, _super);
+        function ApplyCouponAction(id, ajaxInfo, code, cart) {
+            var _this = this;
+            var data = {
+                action: id,
+                security: ajaxInfo.nonce,
+                coupon_code: code
+            };
+            _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            _this.cart = cart;
+            return _this;
+        }
+        ApplyCouponAction.prototype.response = function (resp) {
+            var alertInfo;
+            if (resp.new_totals) {
+                Cart_3.Cart.outputValues(this.cart, resp.new_totals);
+            }
+            if (resp.coupons) {
+                var coupons = $.map(resp.coupons, function (value, index) {
+                    return [value];
+                });
+                Cart_3.Cart.outputCoupons(this.cart.coupons, coupons);
+            }
+            if (resp.message.success) {
+                alertInfo = {
+                    type: "ApplyCouponSuccess",
+                    message: resp.message.success[0],
+                    cssClass: "cfw-alert-success"
+                };
+            }
+            if (resp.message.error) {
+                alertInfo = {
+                    type: "ApplyCouponError",
+                    message: resp.message.error[0],
+                    cssClass: "cfw-alert-danger"
+                };
+            }
+            var alert = new Alert_3.Alert($("#cfw-alert-container"), alertInfo);
+            alert.addAlert();
+        };
+        Object.defineProperty(ApplyCouponAction.prototype, "cart", {
+            get: function () {
+                return this._cart;
+            },
+            set: function (value) {
+                this._cart = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        __decorate([
+            ResponsePrep_5.ResponsePrep
+        ], ApplyCouponAction.prototype, "response", null);
+        return ApplyCouponAction;
+    }(Action_6.Action));
+    exports.ApplyCouponAction = ApplyCouponAction;
+});
+define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction", "Actions/UpdateShippingFieldsAction", "Actions/UpdateShippingMethodAction", "Actions/CompleteOrderAction", "Elements/Alert", "Actions/ApplyCouponAction"], function (require, exports, Element_6, AccountExistsAction_1, LoginAction_1, UpdateShippingFieldsAction_1, UpdateShippingMethodAction_1, CompleteOrderAction_1, Alert_4, ApplyCouponAction_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
@@ -867,8 +1034,12 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
             if (email_input_wrap) {
                 var email_input_1 = email_input_wrap.holder.jel;
+                var reg_email = $("#cfw-acc-register-chk");
                 new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val(), this.jel).load();
-                email_input_1.on("keyup", function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val(), _this.jel).load(); });
+                var handler = function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val(), _this.jel).load(); };
+                email_input_1.on("keyup", handler);
+                email_input_1.on("change", handler);
+                reg_email.on('change', handler);
                 var onLoadAccCheck = new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val(), this.jel);
                 onLoadAccCheck.load();
             }
@@ -963,14 +1134,39 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 .tabContainerSectionBy("name", "payment_method")
                 .getInputsFromSection('[type="radio"][name="shipping_same"]');
             this.setRevealOnRadioButtonGroup(payment_radio_buttons);
-            this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons);
+            this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons, true);
         };
-        TabContainer.prototype.setRevealOnRadioButtonGroup = function (radio_buttons) {
+        TabContainer.prototype.setRevealOnRadioButtonGroup = function (radio_buttons, remove_add_required) {
+            if (remove_add_required === void 0) { remove_add_required = false; }
             var slideUpAndDownContainers = function (rb) {
                 radio_buttons
                     .filter(function (filterItem) { return filterItem != rb; })
                     .forEach(function (other) { return other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300); });
                 rb.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideDown(300);
+                var input_wraps = $("#cfw-billing-fields-container").find(".cfw-input-wrap");
+                if (remove_add_required) {
+                    input_wraps.each(function (index, elem) {
+                        var input = $(elem).find("input");
+                        var select = $(elem).find("select");
+                        var items = [input, select];
+                        items.forEach(function (item) {
+                            if (item.length > 0) {
+                                if (rb.jel.val() == 1) {
+                                    if (item[0].hasAttribute("cfw-required-placeholder")) {
+                                        item[0].setAttribute("required", "");
+                                        item[0].removeAttribute("cfw-required-placeholder");
+                                    }
+                                }
+                                else {
+                                    if (item[0].hasAttribute("required")) {
+                                        item[0].setAttribute("cfw-required-placeholder", "");
+                                    }
+                                    item[0].removeAttribute("required");
+                                }
+                            }
+                        });
+                    });
+                }
             };
             radio_buttons
                 .forEach(function (rb) {
@@ -1019,10 +1215,107 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 }
             });
         };
+        TabContainer.prototype.getOrderDetails = function () {
+            var ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
+            var payment_method = $('[name="payment_method"]:checked').val();
+            var account_password = $('#cfw-password').val();
+            var billing_email = $("#cfw-email").val();
+            var billing_first_name = $("#billing_first_name").val();
+            var billing_last_name = $("#billing_last_name").val();
+            var billing_company = $("#billing_company").val();
+            var billing_country = $("#billing_country").val();
+            var billing_address_1 = $("#billing_address_1").val();
+            var billing_address_2 = $("#billing_address_2").val();
+            var billing_city = $("#billing_city").val();
+            var billing_state = $("#billing_state").val();
+            var billing_postcode = $("#billing_postcode").val();
+            var shipping_first_name = $("#shipping_first_name").val();
+            var shipping_last_name = $("#shipping_last_name").val();
+            var shipping_company = $("#shipping_company").val();
+            var shipping_country = $("#shipping_country").val();
+            var shipping_address_1 = $("#shipping_address_1").val();
+            var shipping_address_2 = $("#shipping_address_2").val();
+            var shipping_city = $("#shipping_city").val();
+            var shipping_state = $("#shipping_state").val();
+            var shipping_postcode = $("#shipping_postcode").val();
+            var shipping_method = $("[name='shipping_method[0]']:checked").val();
+            var _wpnonce = $("#_wpnonce").val();
+            var _wp_http_referer = $("[name='_wp_http_referer']").val();
+            var wc_stripe_payment_token = $("[name='wc-stripe-payment-token']").val();
+            if (ship_to_different_address === 0) {
+                billing_first_name = shipping_first_name;
+                billing_last_name = shipping_last_name;
+                billing_company = shipping_company;
+                billing_country = shipping_country;
+                billing_address_1 = shipping_address_1;
+                billing_address_2 = shipping_address_2;
+                billing_city = shipping_city;
+                billing_state = shipping_state;
+                billing_postcode = shipping_postcode;
+            }
+            var completeOrderCheckoutData = {
+                billing_first_name: billing_first_name,
+                billing_last_name: billing_last_name,
+                billing_company: billing_company,
+                billing_country: billing_country,
+                billing_address_1: billing_address_1,
+                billing_address_2: billing_address_2,
+                billing_city: billing_city,
+                billing_state: billing_state,
+                billing_postcode: billing_postcode,
+                billing_phone: 0,
+                billing_email: billing_email,
+                ship_to_different_address: ship_to_different_address,
+                shipping_first_name: shipping_first_name,
+                shipping_last_name: shipping_last_name,
+                shipping_company: shipping_company,
+                shipping_country: shipping_country,
+                shipping_address_1: shipping_address_1,
+                shipping_address_2: shipping_address_2,
+                shipping_city: shipping_city,
+                shipping_state: shipping_state,
+                shipping_postcode: shipping_postcode,
+                order_comments: '',
+                "shipping_method[0]": shipping_method,
+                payment_method: payment_method,
+                "wc-stripe-payment-token": wc_stripe_payment_token,
+                _wpnonce: _wpnonce,
+                _wp_http_referer: _wp_http_referer
+            };
+            if (account_password && account_password.length > 0) {
+                completeOrderCheckoutData["account_password"] = account_password;
+            }
+            if ($("#cfw-acc-register-chk:checked").length > 0) {
+                completeOrderCheckoutData["createaccount"] = 1;
+            }
+            if ($("#wc-stripe-new-payment-method:checked").length > 0) {
+                completeOrderCheckoutData["wc-stripe-new-payment-method"] = true;
+            }
+            return completeOrderCheckoutData;
+        };
         TabContainer.prototype.setCompleteOrder = function (ajaxInfo, cart) {
+            var _this = this;
             var completeOrderButton = new Element_6.Element($("#cfw-complete-order-button"));
             completeOrderButton.jel.on('click', function () {
-                new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo).load();
+                if ($("#cfw-checkout-form").parsley().validate()) {
+                    if ($("#cfw-acc-register-chk:checked").length > 0 && $("#cfw-password").val() == '') {
+                        var alertInfo = {
+                            type: "CreateAccNoPassword",
+                            message: "Cannot create an account with a blank password",
+                            cssClass: "cfw-alert-danger"
+                        };
+                        var alert_3 = new Alert_4.Alert($("#cfw-alert-container"), alertInfo);
+                        alert_3.addAlert();
+                    }
+                    else {
+                        new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, _this.getOrderDetails());
+                    }
+                }
+            });
+        };
+        TabContainer.prototype.setApplyCouponListener = function (ajaxInfo, cart) {
+            $("#cfw-promo-code-btn").on('click', function () {
+                new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart).load();
             });
         };
         TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields, cart, tabContainer) {
@@ -1073,10 +1366,12 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
 define("Main", ["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var Main = (function () {
-        function Main(tabContainer, ajaxInfo, cart) {
+        function Main(tabContainer, ajaxInfo, cart, settings) {
             this.tabContainer = tabContainer;
             this.ajaxInfo = ajaxInfo;
             this.cart = cart;
+            this.settings = settings;
+            Main.instance = this;
         }
         Main.prototype.setup = function () {
             this.tabContainer.easyTabs();
@@ -1092,11 +1387,19 @@ define("Main", ["require", "exports"], function (require, exports) {
             this.tabContainer.setUpCreditCardRadioReveal();
             this.tabContainer.setUpMobileCartDetailsReveal();
             this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
+            this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
             this.tabContainer.setShippingFieldsOnLoad();
+            this.setupParsley();
         };
         Main.prototype.setupAnimationListeners = function () {
             $("#cfw-ci-login").on("click", function () {
                 $("#cfw-login-slide").slideDown(300);
+            });
+        };
+        Main.prototype.setupParsley = function () {
+            $('#cfw-tab-container')
+                .bind('easytabs:before', function () {
+                return $("#cfw-checkout-form").parsley().validate();
             });
         };
         Object.defineProperty(Main.prototype, "tabContainer", {
@@ -1125,6 +1428,28 @@ define("Main", ["require", "exports"], function (require, exports) {
             },
             set: function (value) {
                 this._cart = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Main.prototype, "settings", {
+            get: function () {
+                return this._settings;
+            },
+            set: function (value) {
+                this._settings = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Main, "instance", {
+            get: function () {
+                return Main._instance;
+            },
+            set: function (value) {
+                if (!Main._instance) {
+                    Main._instance = value;
+                }
             },
             enumerable: true,
             configurable: true

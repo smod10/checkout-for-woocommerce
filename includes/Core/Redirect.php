@@ -83,6 +83,7 @@ class Redirect {
             var cartShippingId = '#<?php echo apply_filters('cfw_template_cart_shipping_el', 'cfw-cart-shipping-total'); ?>';
             var cartTaxesId = '#<?php echo apply_filters('cfw_template_cart_taxes_el', 'cfw-cart-taxes'); ?>';
             var cartTotalId = '#<?php echo apply_filters('cfw_template_cart_total_el','cfw-cart-total'); ?>';
+            var cartCoupons = '#<?php echo apply_filters('cfw_template_cart_coupons_el', 'cfw-cart-coupons'); ?>';
 
             window.cfwElements = {
 	            breadCrumbElId: breadCrumbElId,
@@ -94,7 +95,8 @@ class Redirect {
 	            cartSubtotalId: cartSubtotalId,
 	            cartShippingId: cartShippingId,
 	            cartTaxesId: cartTaxesId,
-	            cartTotalId: cartTotalId
+	            cartTotalId: cartTotalId,
+                cartCouponsId: cartCoupons
             };
 
             window.ajaxInfo = {
@@ -130,6 +132,7 @@ class Redirect {
 			            var cartShipping = $(cfwElements.cartShippingId);
 			            var cartTaxes = $(cfwElements.cartTaxesId);
 			            var cartTotal = $(cfwElements.cartTotalId);
+			            var cartCoupons = $(cfwElements.cartCouponsId);
 
 			            var tabContainerBreadcrumb = new TabContainerBreadcrumb(breadCrumbEl);
 			            var tabContainerSections = [
@@ -139,9 +142,12 @@ class Redirect {
 			            ];
 			            var tabContainer = new TabContainer(tabContainerEl, tabContainerBreadcrumb, tabContainerSections);
 
-			            var cart = new Cart(cartContainer, cartSubtotal, cartShipping, cartTaxes, cartTotal);
+			            var cart = new Cart(cartContainer, cartSubtotal, cartShipping, cartTaxes, cartTotal, cartCoupons);
+			            var settings = {
+                            isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>
+                        };
 
-			            var main = new Main( tabContainer, ajaxInfo, cart );
+			            var main = new Main( tabContainer, ajaxInfo, cart, settings );
 			            main.setup();
 		            });
             }
@@ -182,6 +188,7 @@ class Redirect {
             'cfw_front_js_hash_change',
             'cfw_front_js_easy_tabs',
             'cfw_front_js_garlic',
+			'cfw_front_js_parsley',
             'cfw_front_js_array_find_poly',
             'stripe',
             'woocommerce_stripe'

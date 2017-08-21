@@ -28,16 +28,30 @@ export class Main {
 	 */
 	private _ajaxInfo: AjaxInfo;
 
+    /**
+	 *
+     */
+	private _settings: any;
+
+    /**
+	 *
+     */
+	private static _instance: Main;
+
 	/**
 	 *
 	 * @param tabContainer
 	 * @param ajaxInfo
 	 * @param cart
+	 * @param settings
 	 */
-	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart) {
+	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
 		this.tabContainer = tabContainer;
 		this.ajaxInfo = ajaxInfo;
 		this.cart = cart;
+		this.settings = settings;
+
+		Main.instance = this;
 	}
 
 	/**
@@ -72,10 +86,13 @@ export class Main {
 		this.tabContainer.setUpCreditCardRadioReveal();
 		this.tabContainer.setUpMobileCartDetailsReveal();
 		this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
+		this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
-	}
+
+		this.setupParsley();
+    }
 
 	/**
 	 * Sets up animation listeners
@@ -84,6 +101,13 @@ export class Main {
 		$("#cfw-ci-login").on("click", function(){
 			$("#cfw-login-slide").slideDown(300);
 		});
+	}
+
+	setupParsley() {
+        $('#cfw-tab-container')
+            .bind('easytabs:before', function() {
+                return $("#cfw-checkout-form").parsley().validate();
+            })
 	}
 
 	/**
@@ -133,4 +157,22 @@ export class Main {
 	set cart(value: Cart) {
 		this._cart = value;
 	}
+
+    get settings(): any {
+        return this._settings;
+    }
+
+    set settings(value: any) {
+        this._settings = value;
+    }
+
+    static get instance(): Main {
+        return Main._instance;
+    }
+
+    static set instance(value: Main) {
+		if(!Main._instance) {
+            Main._instance = value;
+        }
+    }
 }

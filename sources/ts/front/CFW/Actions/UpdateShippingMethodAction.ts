@@ -37,7 +37,6 @@ export class UpdateShippingMethodAction extends Action {
     @ResponsePrep
     public response(resp: UpdateShippingMethodResponse) {
         if(resp.new_totals) {
-            console.log(resp);
             Cart.outputValues(this.cart, resp.new_totals);
         }
     }

@@ -14,11 +14,44 @@
             </div>
         </div>
 
+        <?php
+            function urlParamCheck() {
+	            $url_parts = array_slice(explode("/", $_SERVER['REQUEST_URI']), 1);
+	            $process = $url_parts[0];
+	            $sub_process = $url_parts[1];
+	            $order_id = $url_parts[2];
+	            $out = (object)array("process" => $process, "sub_process" => $sub_process, "order_id" => $order_id);
+
+	            return $out;
+            }
+
+            function isOrderReceived($pParams) {
+                return $pParams->process == "checkout" && $pParams->sub_process == get_option( 'woocommerce_checkout_order_received_endpoint');
+            }
+
+            function getThankYou($order_id) {
+	            $order = wc_get_order($order_id);
+	            wc_get_template( 'checkout/thankyou.php', array( 'order' => $order ) );
+            }
+
+            $pParams = urlParamCheck();
+            $isOrderReceived = isOrderReceived($pParams);
+        ?>
+
 	    <?php if ( WC()->cart->is_empty() ): ?>
 
-		    <?php wc_get_template( 'cart/cart-empty.php' ); ?>
+            <?php
+                if($isOrderReceived) {
+	                getThankYou($pParams->order_id);
+                } else {
+	                wc_get_template( 'cart/cart-empty.php' );
+                }
+            ?>
 
-	    <?php else: ?>
+	    <?php elseif($isOrderReceived):
+            WC()->cart->empty_cart();
+		    getThankYou($pParams->order_id);
+        else: ?>
 
             <div id="cfw-main-container" class="cfw-container" customer="<?php echo $customer->get_id(); ?>">
 
@@ -37,7 +70,7 @@
                         </li>
                     </ul>
 
-                    <form id="cfw-checkout-form" class="woocommerce-checkout" data-persist="garlic" method="POST">
+                    <form id="cfw-checkout-form" class="woocommerce-checkout" data-persist="garlic" method="POST" data-parsley-validate="">
 
                         <!-- Customer Info Panel -->
                         <div id="cfw-customer-info">
@@ -51,14 +84,17 @@
                                         <?php echo __('Already have an account with us?', 'checkout-woocommerce'); ?>
                                     </span>
                                     <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
-                                        <?php echo __('Log in', 'checkout-woocommerce'); ?>
+                                        <?php echo __('Log in.', 'checkout-woocommerce'); ?>
                                     </a>
+                                    <span>
+                                        <?php echo __('Otherwise the information provided here will be used to create an account on checkout', 'checkout-woocommerce'); ?>
+                                    </span>
                                 </div>
 
                                 <div id="" class="cfw-input-container">
                                     <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
                                         <label class="cfw-input-label" for="cfw-email">Email</label>
-                                        <input type="text" name="cfw-email" id="cfw-email" autocomplete="email" size="30" title="Email" placeholder="Email" class="required" value="">
+                                        <input type="email" name="cfw-email" id="cfw-email" autocomplete="email" size="30" title="Email" placeholder="Email" class="required" value="" required="" data-parsley-trigger="keyup">
                                     </div>
                                     <div id="cfw-login-slide">
                                         <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
@@ -69,10 +105,12 @@
                                             <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="Login" />
                                         </div>
                                     </div>
+                                    <?php if(!WC()->checkout->is_registration_required()): ?>
                                     <div class="cfw-input-wrap cfw-check-input">
                                         <input type="checkbox" id="cfw-acc-register-chk" name="cfw-acc-register-chk" />
                                         <label class="cfw-small" for="cfw-acc-register-chk">Create a <?php echo get_bloginfo('name'); ?> shopping account.</label>
                                     </div>
+                                    <?php endif; ?>
                                 </div>
                                 <?php else: ?>
                                 <div class="cfw-have-acc-text cfw-small">
@@ -84,7 +122,7 @@
                             <div id="cfw-shipping-info" class="cfw-module">
                                 <h3 class="cfw-module-title">Shipping Address</h3>
 
-                                <div class="cfw-shipping-info-container">
+                                <div class="cfw-shipping-info-container cfw-parsley-shipping-details">
                                     <?php cfw_get_shipping_checkout_fields($checkout); ?>
                                 </div>
                             </div>
@@ -147,20 +185,20 @@
                                     <li class="cfw-radio-reveal-li cfw-no-reveal">
                                         <div class="cfw-radio-reveal-title-wrap">
                                             <label class="cfw-radio-reveal-title-wrap cfw-radio-reveal-label">
-                                                <input type="radio" name="shipping_same" id="shipping_same_as_billing" checked="checked" value="true" />
-                                                <span class="cfw-radio-reveal-title">Shipping same as billing address</span>
+                                                <input type="radio" name="shipping_same" id="shipping_same_as_billing" checked="checked" value="0" />
+                                                <span class="cfw-radio-reveal-title">Same as shipping address</span>
                                             </label>
                                         </div>
                                     </li>
                                     <li class="cfw-radio-reveal-li">
                                         <div class="cfw-radio-reveal-title-wrap">
                                             <label class="cfw-radio-reveal-label">
-                                                <input type="radio" name="shipping_same" id="shipping_dif_from_billing" value="false" />
+                                                <input type="radio" name="shipping_same" id="shipping_dif_from_billing" value="1" />
                                                 <span class="cfw-radio-reveal-title">Use a different billing address</span>
                                             </label>
                                         </div>
                                         <div class="cfw-radio-reveal-content-wrap" style="display: none">
-                                            <div class="cfw-radio-reveal-content">
+                                            <div id="cfw-billing-fields-container" class="cfw-radio-reveal-content">
                                                 <?php cfw_get_billing_checkout_fields($checkout); ?>
                                             </div>
                                         </div>
@@ -173,7 +211,7 @@
                                     <a href="#cfw-shipping-method" class="cfw-prev-tab" rel="0">« Return to shipping information</a>
                                 </div>
                                 <div>
-                                    <a id="cfw-complete-order-button" href="javascript:;" class="cfw-primary-btn cfw-next-tab" style="text-transform: uppercase;">Complete Order</a>
+                                    <a id="cfw-complete-order-button" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate" style="text-transform: uppercase;">Complete Order</a>
                                 </div>
                             </div>
                         </div>
@@ -204,18 +242,7 @@
                         </div>
 
                         <div id="cfw-deductors-list" class="cfw-module">
-                            <div class="cfw-sg-container cfw-gc-row cfw-input-wrap-row">
-                                <div class="cfw-column-8">
-                                    <div class="cfw-input-wrap cfw-text-input">
-                                        <input type="text" name="cfw-gift-card" id="cfw-gift-card" size="30" title="Enter Gift Card" placeholder="Enter Gift Card" class="required">
-                                    </div>
-                                </div>
-                                <div class="cfw-column-4">
-                                    <div class="cfw-input-wrap cfw-button-input">
-                                        <input type="button" name="cfw-gift-card-btn" id="cfw-gift-card-btn" class="cfw-def-action-btn" value="Apply" />
-                                    </div>
-                                </div>
-                            </div>
+                            <?php if(wc_coupons_enabled()): ?>
                             <div class="cfw-sg-container cfw-promo-row cfw-input-wrap-row">
                                 <div class="cfw-column-8">
                                     <div class="cfw-input-wrap cfw-text-input">
@@ -228,11 +255,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="cfw-sg-container cfw-extra-desc-row cfw-input-wrap-row">
-                                <div class="cfw-column-12">
-                                    <span>Have a catalog source code? Enter it here for free ground shipping.</span>
-                                </div>
-                            </div>
+                            <?php endif; ?>
                         </div>
 
                         <div id="cfw-totals-list" class="cfw-module">
@@ -240,6 +263,14 @@
                                 <div id="cfw-cart-subtotal" class="cfw-flex-row cfw-flex-justify">
                                     <span class="type">Subtotal</span>
                                     <span class="amount"><?php echo $cart->get_cart_subtotal(); ?></span>
+                                </div>
+                                <div id="cfw-cart-coupons">
+	                            <?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
+                                    <div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">
+                                        <span class="type"><?php wc_cart_totals_coupon_label( $coupon ); ?></span>
+                                        <span class="amount"><?php wc_cart_totals_coupon_html( $coupon ); ?></span>
+                                    </div>
+	                            <?php endforeach; ?>
                                 </div>
                                 <div id="cfw-cart-shipping-total" class="cfw-flex-row cfw-flex-justify">
                                     <span class="type">Shipping</span>

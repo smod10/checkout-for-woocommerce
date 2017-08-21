@@ -22,6 +22,12 @@ export class Cart extends Element {
     private _taxes: Element;
 
     /**
+     * @type Array<Element>
+     * @private
+     */
+    private _coupons: Element;
+
+    /**
      * @type {Element}
      * @private
      */
@@ -33,14 +39,16 @@ export class Cart extends Element {
      * @param shipping
      * @param taxes
      * @param total
+     * @param coupons
      */
-    constructor(cartContainer: JQuery, subTotal: JQuery, shipping: JQuery, taxes: JQuery, total: JQuery) {
+    constructor(cartContainer: JQuery, subTotal: JQuery, shipping: JQuery, taxes: JQuery, total: JQuery, coupons: JQuery) {
         super(cartContainer);
 
         this.subTotal = new Element(subTotal);
         this.shipping = new Element(shipping);
         this.taxes = new Element(taxes);
         this.total = new Element(total);
+        this.coupons = new Element(coupons);
     }
 
     /**
@@ -52,6 +60,24 @@ export class Cart extends Element {
         Cart.outputValue(cart.shipping, values.new_shipping_total);
         Cart.outputValue(cart.taxes, values.new_taxes_total);
         Cart.outputValue(cart.total, values.new_total);
+    }
+
+    static outputCoupons(cartLineItem: Element, coupons: any) {
+        cartLineItem.jel.html("");
+
+        if(cartLineItem.jel.length > 0) {
+            coupons.forEach((coupon: any) => {
+                console.log("Coupon Loop", coupon);
+                let wrap = $('<div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">');
+                let type = $('<span class="type"></span>').html(coupon.label);
+                let amount = $('<span class="amount"></span>').html(coupon.amount);
+
+                wrap.append(type);
+                wrap.append(amount);
+
+                cartLineItem.jel.append(wrap);
+            })
+        }
     }
 
     /**
@@ -120,5 +146,13 @@ export class Cart extends Element {
      */
     set total(value: Element) {
         this._total = value;
+    }
+
+    get coupons(): Element {
+        return this._coupons;
+    }
+
+    set coupons(value: Element) {
+        this._coupons = value;
     }
 }

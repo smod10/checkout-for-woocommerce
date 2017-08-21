@@ -1,13 +1,12 @@
 import { Action }                               from "./Action";
 import { AjaxInfo }                             from "../Types/Types";
-import { CompleteOrderResponse }                from "../Types/Types";
-import { CompleteOrderCheckoutData }            from "../Types/Types";
 import { StripeNoDataResponse }                 from "../Types/Types";
 import { StripeBadDataResponse }                from "../Types/Types";
 import { StripeValidResponse }                  from "../Types/Types";
 import { StripeServiceCallbacks }               from "../Types/Types"
-import { ResponsePrep }                         from "../Decorators/ResponsePrep";
 import { StripeService }                        from "../Services/StripeService";
+import { AlertInfo }                            from "../Elements/Alert";
+import { Alert }                                from "../Elements/Alert";
 
 export class CompleteOrderAction extends Action {
 
@@ -41,7 +40,7 @@ export class CompleteOrderAction extends Action {
      * @param ajaxInfo
      * @param checkoutData
      */
-    constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: CompleteOrderCheckoutData) {
+    constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: any) {
 
         // We do a normal object here becuase to make a new type just to add two different options seems silly.
         let data: {} = {
@@ -76,6 +75,18 @@ export class CompleteOrderAction extends Action {
             _wp_http_referer: checkoutData._wp_http_referer,
         };
 
+        if(checkoutData.account_password) {
+            data["account_password"] = checkoutData.account_password;
+        }
+
+        if(checkoutData.createaccount) {
+            data["createaccount"] = checkoutData.createaccount;
+        }
+
+        if(checkoutData["wc-stripe-new-payment-method"]) {
+            data["wc-stripe-new-payment-method"] = checkoutData["wc-stripe-new-payment-method"];
+        }
+
         super(id, ajaxInfo.admin_url, data);
 
         this.stripeServiceCallbacks = {
@@ -100,6 +111,10 @@ export class CompleteOrderAction extends Action {
     addStripeTokenToData(stripeToken: string): void {
         if(stripeToken) {
             this.data["stripe_token"] = stripeToken;
+
+            if(!this.data["payment_method"]) {
+                this.data["payment_method"] = "stripe";
+            }
         }
     }
 
@@ -114,6 +129,7 @@ export class CompleteOrderAction extends Action {
             StripeService.triggerStripe();
         } else {
             this.needsStripeToken = false;
+            this.load();
         }
     }
 
@@ -172,8 +188,20 @@ export class CompleteOrderAction extends Action {
      *
      * @param resp
      */
-    @ResponsePrep
-    public response(resp: CompleteOrderResponse) {
-        console.log(resp);
+    public response(resp: any) {
+        if(resp.result === "success") {
+            window.location.href = resp.redirect;
+        }
+
+        if(resp.result === "failure") {
+            let alertInfo: AlertInfo = {
+                type: "AccPassRequiredField",
+                message: resp.messages,
+                cssClass: "cfw-alert-danger"
+            };
+
+            let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+            alert.addAlert();
+        }
     }
 }

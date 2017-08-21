@@ -5,7 +5,6 @@ export type EventCallback = { eventName: string, func: Function, target: JQuery 
 export type InputLabelType = { type: LabelType, cssClass: string };
 
 export type AjaxInfo = { admin_url: URL, nonce: string };
-export type AlertInfo = { type: AlertType, message: string, cssClass: string };
 
 export type AccountExistsResponse = { account_exists: boolean };
 export type AccountExistsData = { action: string, security: string, email: string };
@@ -20,7 +19,7 @@ export type UpdateShippingFieldsRI = {action: string, shipping_details_fields: A
 export type UpdateShippingMethodData = {action: string, security: string, shipping_method: any};
 export type UpdateShippingMethodResponse = { new_totals: UpdateCartTotalsData };
 
-export type UpdateCartTotalsData = { new_subtotal: any, new_shipping_total: any, new_taxes_total: any, new_total: any };
+export type UpdateCartTotalsData = { new_subtotal: any, new_shipping_total: any, new_taxes_total: any, new_total: any, coupons: any | undefined };
 
 export type CompleteOrderResponse = { response: any };
 

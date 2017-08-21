@@ -2,8 +2,7 @@ import { Action }                       from "./Action";
 import { LogInResponse }                from "../Types/Types";
 import { LogInData }                    from "../Types/Types";
 import { AjaxInfo }                     from "../Types/Types";
-import { AlertInfo }                    from "../Types/Types";
-import { Alert }                        from "../Elements/Alert";
+import { Alert, AlertInfo }             from "../Elements/Alert";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 import { AlertType }                    from "../Enums/AlertType";
 
@@ -46,7 +45,7 @@ export class LoginAction extends Action {
             location.reload();
         } else {
             let alertInfo: AlertInfo = {
-                type: AlertType.LoginFailBadAccInfo,
+                type: "LoginFailBadAccInfo",
                 message: resp.message,
                 cssClass: "cfw-alert-danger"
             };

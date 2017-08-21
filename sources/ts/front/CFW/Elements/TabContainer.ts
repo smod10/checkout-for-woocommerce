@@ -9,9 +9,13 @@ import { AccountExistsAction }              from "../Actions/AccountExistsAction
 import { LoginAction }                      from "../Actions/LoginAction";
 import { FormElement }                      from "./FormElement";
 import { UpdateShippingFieldsAction }       from "../Actions/UpdateShippingFieldsAction";
-import {UpdateShippingMethodAction} from "../Actions/UpdateShippingMethodAction";
-import {Cart} from "./Cart";
-import {CompleteOrderAction} from "../Actions/CompleteOrderAction";
+import { UpdateShippingMethodAction }       from "../Actions/UpdateShippingMethodAction";
+import { Cart }                             from "./Cart";
+import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
+import { CompleteOrderCheckoutData }        from "../Types/Types";
+import { Main }                             from "../Main";
+import { Alert, AlertInfo }                 from "../Elements/Alert";
+import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 
 /**
  *
@@ -50,13 +54,19 @@ export class TabContainer extends Element {
         let email_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
 
         if(email_input_wrap) {
+
             let email_input: JQuery = email_input_wrap.holder.jel;
+            let reg_email: JQuery = $("#cfw-acc-register-chk");
 
             // Handles page onload use case
             new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel).load();
 
+            let handler = () => new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel).load();
+
             // Add check to keyup event
-            email_input.on("keyup", () => new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel).load() );
+            email_input.on("keyup", handler);
+            email_input.on("change", handler);
+            reg_email.on('change', handler);
 
             // On page load check
             let onLoadAccCheck: AccountExistsAction = new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel);
@@ -197,13 +207,13 @@ export class TabContainer extends Element {
             .getInputsFromSection('[type="radio"][name="shipping_same"]');
 
         this.setRevealOnRadioButtonGroup(payment_radio_buttons);
-        this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons);
+        this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons, true);
     }
 
     /**
      * Handles the payment method revealing and registering the click events.
      */
-    setRevealOnRadioButtonGroup(radio_buttons: Array<Element>) {
+    setRevealOnRadioButtonGroup(radio_buttons: Array<Element>, remove_add_required: boolean = false) {
 
         // Handles sliding down the containers that aren't supposed to be open, and opens the one that is.
         let slideUpAndDownContainers = (rb: Element) => {
@@ -215,6 +225,32 @@ export class TabContainer extends Element {
 
             // Slide down our button
             rb.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideDown(300);
+
+            let input_wraps = $("#cfw-billing-fields-container").find(".cfw-input-wrap");
+
+            if(remove_add_required) {
+                input_wraps.each((index, elem) => {
+                    let input: JQuery = $(elem).find("input");
+                    let select: JQuery = $(elem).find("select");
+                    let items = [input, select];
+
+                    items.forEach((item) => {
+                        if(item.length > 0) {
+                            if(rb.jel.val() == 1) {
+                                if(item[0].hasAttribute("cfw-required-placeholder")) {
+                                    item[0].setAttribute("required", "");
+                                    item[0].removeAttribute("cfw-required-placeholder");
+                                }
+                            } else {
+                                if(item[0].hasAttribute("required")) {
+                                    item[0].setAttribute("cfw-required-placeholder", "");
+                                }
+                                item[0].removeAttribute("required");
+                            }
+                        }
+                    })
+                });
+            }
         };
 
         // Register the slide up and down container on click
@@ -284,11 +320,119 @@ export class TabContainer extends Element {
         })
     }
 
+    getOrderDetails() {
+        let ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
+        let payment_method = $('[name="payment_method"]:checked').val();
+        let account_password = $('#cfw-password').val();
+        let billing_email = $("#cfw-email").val();
+
+        let billing_first_name = $("#billing_first_name").val();
+        let billing_last_name = $("#billing_last_name").val();
+        let billing_company = $("#billing_company").val();
+        let billing_country = $("#billing_country").val();
+        let billing_address_1 = $("#billing_address_1").val();
+        let billing_address_2 = $("#billing_address_2").val();
+        let billing_city = $("#billing_city").val();
+        let billing_state = $("#billing_state").val();
+        let billing_postcode = $("#billing_postcode").val();
+
+        let shipping_first_name = $("#shipping_first_name").val();
+        let shipping_last_name = $("#shipping_last_name").val();
+        let shipping_company = $("#shipping_company").val();
+        let shipping_country = $("#shipping_country").val();
+        let shipping_address_1 = $("#shipping_address_1").val();
+        let shipping_address_2 = $("#shipping_address_2").val();
+        let shipping_city = $("#shipping_city").val();
+        let shipping_state = $("#shipping_state").val();
+        let shipping_postcode = $("#shipping_postcode").val();
+        let shipping_method = $("[name='shipping_method[0]']:checked").val();
+
+        let _wpnonce = $("#_wpnonce").val();
+        let _wp_http_referer = $("[name='_wp_http_referer']").val();
+        let wc_stripe_payment_token = $("[name='wc-stripe-payment-token']").val();
+
+        if(ship_to_different_address === 0) {
+            billing_first_name = shipping_first_name;
+            billing_last_name = shipping_last_name;
+            billing_company = shipping_company;
+            billing_country = shipping_country;
+            billing_address_1 = shipping_address_1;
+            billing_address_2 = shipping_address_2;
+            billing_city = shipping_city;
+            billing_state = shipping_state;
+            billing_postcode = shipping_postcode;
+        }
+
+        let completeOrderCheckoutData = {
+            billing_first_name: billing_first_name,
+            billing_last_name: billing_last_name,
+            billing_company: billing_company,
+            billing_country: billing_country,
+            billing_address_1: billing_address_1,
+            billing_address_2: billing_address_2,
+            billing_city: billing_city,
+            billing_state: billing_state,
+            billing_postcode: billing_postcode,
+            billing_phone: 0,
+            billing_email: billing_email,
+            ship_to_different_address: ship_to_different_address,
+            shipping_first_name: shipping_first_name,
+            shipping_last_name: shipping_last_name,
+            shipping_company: shipping_company,
+            shipping_country: shipping_country,
+            shipping_address_1: shipping_address_1,
+            shipping_address_2: shipping_address_2,
+            shipping_city: shipping_city,
+            shipping_state: shipping_state,
+            shipping_postcode: shipping_postcode,
+            order_comments: '',
+            "shipping_method[0]": shipping_method,
+            payment_method: payment_method,
+            "wc-stripe-payment-token": wc_stripe_payment_token,
+            _wpnonce: _wpnonce,
+            _wp_http_referer: _wp_http_referer
+        };
+
+        if(account_password && account_password.length > 0) {
+            completeOrderCheckoutData["account_password"] = account_password;
+        }
+
+        if($("#cfw-acc-register-chk:checked").length > 0) {
+            completeOrderCheckoutData["createaccount"] = 1;
+        }
+
+        if($("#wc-stripe-new-payment-method:checked").length > 0) {
+            completeOrderCheckoutData["wc-stripe-new-payment-method"] = true;
+        }
+
+        return completeOrderCheckoutData;
+    }
+
     setCompleteOrder(ajaxInfo: AjaxInfo, cart: Cart): void {
         let completeOrderButton: Element = new Element($("#cfw-complete-order-button"));
+
         completeOrderButton.jel.on('click', () => {
-            new CompleteOrderAction('complete_order', ajaxInfo).load();
+            if($("#cfw-checkout-form").parsley().validate()) {
+                if ($("#cfw-acc-register-chk:checked").length > 0 && $("#cfw-password").val() == '') {
+                    let alertInfo: AlertInfo = {
+                        type: "CreateAccNoPassword",
+                        message: "Cannot create an account with a blank password",
+                        cssClass: "cfw-alert-danger"
+                    };
+
+                    let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+                    alert.addAlert();
+                } else {
+                    new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
+                }
+            }
         });
+    }
+
+    setApplyCouponListener(ajaxInfo: AjaxInfo, cart: Cart) {
+        $("#cfw-promo-code-btn").on('click', () => {
+            new ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart).load();
+        })
     }
 
     /**

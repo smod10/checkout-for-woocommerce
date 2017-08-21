@@ -1,0 +1,68 @@
+<?php
+
+namespace Objectiv\Plugins\Checkout\Action;
+
+use Objectiv\Plugins\Checkout\Core\Base\Action;
+
+class ApplyCouponAction extends Action {
+	public function __construct( $id ) {
+		parent::__construct( $id );
+	}
+
+	public function action() {
+		check_ajax_referer("some-seed-word", "security");
+
+		wc_maybe_define_constant( 'WOOCOMMERCE_CART', true );
+
+		if ( ! empty( $_POST['coupon_code'] ) ) {
+			WC()->cart->add_discount( sanitize_text_field( $_POST['coupon_code'] ) );
+			WC()->cart->calculate_totals();
+
+			$discount_amounts = array();
+
+			foreach(WC()->cart->get_coupons() as $code => $coupon) {
+				ob_start();
+				wc_cart_totals_coupon_html($coupon);
+				$coupon_html = ob_get_contents();
+				ob_clean();
+				wc_cart_totals_coupon_label( $coupon );
+				$coupon_label_html = ob_get_contents();
+				ob_end_clean();
+
+				array_push($discount_amounts, array(
+					"label" => $coupon_label_html,
+					"amount" => $coupon_html,
+					"code" => $code
+				));
+			}
+
+			$all_notices  = WC()->session->get( 'wc_notices', array() );
+			$notice_types = apply_filters( 'woocommerce_notice_types', array( 'error', 'success', 'notice' ) );
+			$message = [];
+
+			foreach ( $notice_types as $notice_type ) {
+				if ( wc_notice_count( $notice_type ) > 0 ) {
+					$message = array($notice_type => $all_notices[ $notice_type ]);
+				}
+			}
+
+			wc_clear_notices();
+
+			$this->out(array(
+				"new_totals" => array(
+					"new_subtotal" => WC()->cart->get_cart_subtotal(),
+					"new_shipping_total" => WC()->cart->get_cart_shipping_total(),
+					"new_taxes_total" => WC()->cart->get_cart_tax(),
+					"new_total" => WC()->cart->get_total(),
+				),
+				"coupons" => $discount_amounts,
+				"message" => $message
+			));
+		} else {
+			$this->out(array(
+				"failure" => true,
+				"message" => "Please provide a coupon code"
+			));
+		}
+	}
+}

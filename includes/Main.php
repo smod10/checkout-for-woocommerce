@@ -2,6 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout;
 
+use Objectiv\Plugins\Checkout\Action\ApplyCouponAction;
 use Objectiv\Plugins\Checkout\Action\CompleteOrderAction;
 use Objectiv\Plugins\Checkout\Language\i18n;
 use Objectiv\Plugins\Checkout\Utilities\Activator;
@@ -324,7 +325,8 @@ class Main extends Singleton {
 			new LogInAction("login"),
 			new UpdateShippingFieldsAction("update_shipping_fields"),
 			new UpdateShippingMethodAction("update_shipping_method"),
-			new CompleteOrderAction("complete_order")
+			new CompleteOrderAction("complete_order"),
+			new ApplyCouponAction("apply_coupon")
 		);
 	}
 
@@ -342,6 +344,7 @@ class Main extends Singleton {
 		wp_enqueue_script('cfw_front_js_hash_change', "${bower}/easytabs/vendor/jquery.hashchange.min.js", array('jquery'));
 		wp_enqueue_script('cfw_front_js_easy_tabs', "${bower}/easytabs/lib/jquery.easytabs.min.js", array('jquery'));
 		wp_enqueue_script('cfw_front_js_garlic', "${bower}/garlicjs/dist/garlic.min.js", array('jquery'));
+		wp_enqueue_script('cfw_front_js_parsley', "${bower}/parsleyjs/dist/parsley.js", array('jquery'));
 		wp_enqueue_script('cfw_front_js_array_find_poly', "${js}/ArrayFindPoly.js", array('jquery'), $this->get_version());
 
 //		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array(), $this->get_version(), true);

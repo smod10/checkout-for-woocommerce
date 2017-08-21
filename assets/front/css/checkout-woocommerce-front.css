@@ -122,6 +122,10 @@
     float: left;
     margin-left: 10px; }
 
+/**
+  The following styles have to do with the personal taperMonkey scripts I use. They allow for certain debugging without
+  cluttering the code base
+ */
 p {
   margin: 0; }
 
@@ -381,11 +385,18 @@ body {
   display: none; }
   .cfw-alert .message {
     line-height: 1.625; }
+  .cfw-alert ul {
+    margin: 0; }
 
 .cfw-alert-danger {
   background-color: #f2dede;
   border-color: #ebccd1;
   color: #a94442; }
+
+.cfw-alert-success {
+  background-color: #6dd645;
+  border-color: #4b9a3b;
+  color: #fff; }
 
 .cfw-input-wrap-row {
   margin-bottom: 12.5px; }
@@ -399,8 +410,14 @@ body {
 #cfw-deductors-list .cfw-input-wrap-row {
   margin-bottom: 1.25em; }
 
-#cfw-deductors-list .cfw-input-wrap > input[type="text"], #cfw-deductors-list .cfw-input-wrap > input[type="password"] {
+#cfw-deductors-list .cfw-input-wrap > input[type="text"], #cfw-deductors-list .cfw-input-wrap > input[type="email"], #cfw-deductors-list .cfw-input-wrap > input[type="password"] {
   font-size: 14px; }
+
+.parsley-errors-list {
+  display: none; }
+
+.parsley-error {
+  background: #ffdddd !important; }
 
 #cfw-cart-details-review-bar {
   display: none; }
@@ -418,6 +435,9 @@ body {
   border-bottom: 2px solid #333;
   font-weight: 700;
   color: #000; }
+
+#cfw-cart-coupons .cfw-flex-row:last-child {
+  border-bottom: #eee 1px solid !important; }
 
 .cfw-flex-row {
   display: -webkit-box;
@@ -454,11 +474,12 @@ body {
 
 .cfw-input-wrap {
   position: relative; }
-  .cfw-input-wrap.cfw-floating-label input[type="text"], .cfw-input-wrap.cfw-floating-label input[type="tel"], .cfw-input-wrap.cfw-floating-label input[type="password"], .cfw-input-wrap.cfw-floating-label select {
+  .cfw-input-wrap.cfw-floating-label input[type="text"], .cfw-input-wrap.cfw-floating-label input[type="email"], .cfw-input-wrap.cfw-floating-label input[type="tel"], .cfw-input-wrap.cfw-floating-label input[type="password"], .cfw-input-wrap.cfw-floating-label select {
     padding: 1.6em 0.8em 0.28em 0.8em; }
   .cfw-input-wrap.cfw-floating-label .cfw-input-label {
     opacity: 1; }
   .cfw-input-wrap > input[type="text"],
+  .cfw-input-wrap > input[type="email"],
   .cfw-input-wrap > input[type="tel"],
   .cfw-input-wrap > input[type="number"],
   .cfw-input-wrap > input[type="password"],
@@ -478,24 +499,28 @@ body {
     border-radius: 4px;
     box-shadow: 0 0 0 1px #ddd; }
     .cfw-input-wrap > input[type="text"]::-webkit-input-placeholder,
+    .cfw-input-wrap > input[type="email"]::-webkit-input-placeholder,
     .cfw-input-wrap > input[type="tel"]::-webkit-input-placeholder,
     .cfw-input-wrap > input[type="number"]::-webkit-input-placeholder,
     .cfw-input-wrap > input[type="password"]::-webkit-input-placeholder,
     .cfw-input-wrap select::-webkit-input-placeholder {
       color: #ccc; }
     .cfw-input-wrap > input[type="text"]:-ms-input-placeholder,
+    .cfw-input-wrap > input[type="email"]:-ms-input-placeholder,
     .cfw-input-wrap > input[type="tel"]:-ms-input-placeholder,
     .cfw-input-wrap > input[type="number"]:-ms-input-placeholder,
     .cfw-input-wrap > input[type="password"]:-ms-input-placeholder,
     .cfw-input-wrap select:-ms-input-placeholder {
       color: #ccc; }
     .cfw-input-wrap > input[type="text"]::placeholder,
+    .cfw-input-wrap > input[type="email"]::placeholder,
     .cfw-input-wrap > input[type="tel"]::placeholder,
     .cfw-input-wrap > input[type="number"]::placeholder,
     .cfw-input-wrap > input[type="password"]::placeholder,
     .cfw-input-wrap select::placeholder {
       color: #ccc; }
     .cfw-input-wrap > input[type="text"]:focus,
+    .cfw-input-wrap > input[type="email"]:focus,
     .cfw-input-wrap > input[type="tel"]:focus,
     .cfw-input-wrap > input[type="number"]:focus,
     .cfw-input-wrap > input[type="password"]:focus,

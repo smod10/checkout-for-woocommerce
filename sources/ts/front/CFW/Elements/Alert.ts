@@ -1,5 +1,7 @@
 import { Element }              from "Element";
-import { AlertInfo }            from "../Types/Types";
+import { AlertType }            from "../Enums/AlertType";
+
+export type AlertInfo = { type: string, message: string, cssClass: string };
 
 /**
  *
@@ -10,6 +12,8 @@ export class Alert extends Element {
      *
      */
     private _alertInfo: AlertInfo;
+
+    private static _previousClass: string;
 
     /**
      *
@@ -26,9 +30,15 @@ export class Alert extends Element {
      *
      */
     addAlert(): void {
+        if(Alert.previousClass) {
+            this.jel.removeClass(Alert.previousClass);
+        }
+
         this.jel.find(".message").html(this.alertInfo.message);
         this.jel.addClass(this.alertInfo.cssClass);
         this.jel.slideDown(300);
+
+        Alert.previousClass = this.alertInfo.cssClass;
     }
 
     /**
@@ -45,5 +55,13 @@ export class Alert extends Element {
      */
     set alertInfo(value: AlertInfo) {
         this._alertInfo = value;
+    }
+
+    static get previousClass(): string {
+        return this._previousClass;
+    }
+
+    static set previousClass(value: string) {
+        this._previousClass = value;
     }
 }

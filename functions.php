@@ -402,17 +402,28 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		        $item_title     = $item_data->get_title();
 		        $item_url       = get_permalink( $cart_item['product_id'] );
 		        $item_subtotal  = $cart->get_product_subtotal( $_product, $cart_item['quantity'] );
-
+		        /**
+                 * If the product doesn't have an image increment the title and subtotal by half the image column size
+		         * to accommodate the lack of an image
+		         */
+                $columns        = array(
+                    "image"     => 2,
+                    "title"     => 7 + ((!$item_thumb_url) ? 1 : 0),
+                    "subtotal"  => 3 + ((!$item_thumb_url) ? 1 : 0)
+                );
+                $column_base = "cfw-column-";
 		        ?>
                 <div class="cfw-cart-row cfw-container cfw-collapse">
-                    <div class="cfw-cart-item-image cfw-cart-item-col cfw-column-2">
+                    <?php if($item_thumb_url): ?>
+                    <div class="cfw-cart-item-image cfw-cart-item-col <?php echo "${column_base}${columns["image"]}"; ?>">
                         <img src="<?php echo $item_thumb_url; ?>"/>
                     </div>
-                    <div class="cfw-cart-item-title-quantity cfw-cart-item-col cfw-column-7">
+                    <?php endif; ?>
+                    <div class="cfw-cart-item-title-quantity cfw-cart-item-col <?php echo "${column_base}${columns["title"]}"; ?>">
                         <a href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
                         <strong><?php echo $item_quantity; ?></strong>
                     </div>
-                    <div class="cfw-cart-item-subtotal cfw-cart-item-col cfw-column-3">
+                    <div class="cfw-cart-item-subtotal cfw-cart-item-col <?php echo "${column_base}${columns["subtotal"]}"; ?>">
 				        <?php echo $item_subtotal; ?>
                     </div>
                 </div>

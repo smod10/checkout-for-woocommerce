@@ -14,44 +14,11 @@
             </div>
         </div>
 
-        <?php
-            function urlParamCheck() {
-	            $url_parts = array_slice(explode("/", $_SERVER['REQUEST_URI']), 1);
-	            $process = $url_parts[0];
-	            $sub_process = $url_parts[1];
-	            $order_id = $url_parts[2];
-	            $out = (object)array("process" => $process, "sub_process" => $sub_process, "order_id" => $order_id);
-
-	            return $out;
-            }
-
-            function isOrderReceived($pParams) {
-                return $pParams->process == "checkout" && $pParams->sub_process == get_option( 'woocommerce_checkout_order_received_endpoint');
-            }
-
-            function getThankYou($order_id) {
-	            $order = wc_get_order($order_id);
-	            wc_get_template( 'checkout/thankyou.php', array( 'order' => $order ) );
-            }
-
-            $pParams = urlParamCheck();
-            $isOrderReceived = isOrderReceived($pParams);
-        ?>
-
 	    <?php if ( WC()->cart->is_empty() ): ?>
 
-            <?php
-                if($isOrderReceived) {
-	                getThankYou($pParams->order_id);
-                } else {
-	                wc_get_template( 'cart/cart-empty.php' );
-                }
-            ?>
+		    <?php wc_get_template( 'cart/cart-empty.php' ); ?>
 
-	    <?php elseif($isOrderReceived):
-            WC()->cart->empty_cart();
-		    getThankYou($pParams->order_id);
-        else: ?>
+	    <?php else: ?>
 
             <div id="cfw-main-container" class="cfw-container" customer="<?php echo $customer->get_id(); ?>">
 

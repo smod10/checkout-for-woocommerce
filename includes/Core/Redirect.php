@@ -13,7 +13,7 @@ class Redirect {
 	 * @param $version
 	 */
 	public static function checkout($settings_manager, $path_manager, $template_manager, $version) {
-		if ( $settings_manager->get_setting('enable') == 'yes' && function_exists('is_checkout') && is_checkout() ) {
+		if ( $settings_manager->get_setting('enable') == 'yes' && function_exists('is_checkout') && is_checkout() && !is_order_received_page() ) {
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());
 

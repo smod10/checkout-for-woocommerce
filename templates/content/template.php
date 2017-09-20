@@ -37,7 +37,7 @@
                         </li>
                     </ul>
 
-                    <form id="cfw-checkout-form" class="woocommerce-checkout" data-persist="garlic" method="POST" data-parsley-validate="">
+                    <form id="cfw-checkout-form" data-persist="garlic" class="woocommerce-checkout" method="POST">
 
                         <!-- Customer Info Panel -->
                         <div id="cfw-customer-info">
@@ -61,12 +61,12 @@
                                 <div id="" class="cfw-input-container">
                                     <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
                                         <label class="cfw-input-label" for="cfw-email">Email</label>
-                                        <input type="email" name="cfw-email" id="cfw-email" autocomplete="email" size="30" title="Email" placeholder="Email" class="required" value="" required="" data-parsley-trigger="keyup">
+                                        <input type="email" name="cfw-email" id="cfw-email" autocomplete="email" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
                                     </div>
                                     <div id="cfw-login-slide">
                                         <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
                                             <label class="cfw-input-label" for="cfw-email">Password</label>
-                                            <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password" class="required">
+                                            <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password">
                                         </div>
                                         <div class="cfw-input-wrap cfw-button-input">
                                             <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="Login" />
@@ -74,7 +74,7 @@
                                     </div>
                                     <?php if(!WC()->checkout->is_registration_required()): ?>
                                     <div class="cfw-input-wrap cfw-check-input">
-                                        <input type="checkbox" id="cfw-acc-register-chk" name="cfw-acc-register-chk" />
+                                        <input type="checkbox" id="cfw-acc-register-chk" class="garlic-auto-save" name="cfw-acc-register-chk" />
                                         <label class="cfw-small" for="cfw-acc-register-chk">Create a <?php echo get_bloginfo('name'); ?> shopping account.</label>
                                     </div>
                                     <?php endif; ?>
@@ -152,7 +152,7 @@
                                     <li class="cfw-radio-reveal-li cfw-no-reveal">
                                         <div class="cfw-radio-reveal-title-wrap">
                                             <label class="cfw-radio-reveal-title-wrap cfw-radio-reveal-label">
-                                                <input type="radio" name="shipping_same" id="shipping_same_as_billing" checked="checked" value="0" />
+                                                <input type="radio" name="shipping_same" id="shipping_same_as_billing" value="0" class="garlic-auto-save" />
                                                 <span class="cfw-radio-reveal-title">Same as shipping address</span>
                                             </label>
                                         </div>
@@ -160,7 +160,7 @@
                                     <li class="cfw-radio-reveal-li">
                                         <div class="cfw-radio-reveal-title-wrap">
                                             <label class="cfw-radio-reveal-label">
-                                                <input type="radio" name="shipping_same" id="shipping_dif_from_billing" value="1" />
+                                                <input type="radio" name="shipping_same" id="shipping_dif_from_billing" value="1" class="garlic-auto-save" />
                                                 <span class="cfw-radio-reveal-title">Use a different billing address</span>
                                             </label>
                                         </div>
@@ -213,7 +213,7 @@
                             <div class="cfw-sg-container cfw-promo-row cfw-input-wrap-row">
                                 <div class="cfw-column-8">
                                     <div class="cfw-input-wrap cfw-text-input">
-                                        <input type="text" name="cfw-promo-code" id="cfw-promo-code" size="30" title="Enter Promo Code" placeholder="Enter Promo Code" class="required">
+                                        <input type="text" name="cfw-promo-code" id="cfw-promo-code" size="30" title="Enter Promo Code" placeholder="Enter Promo Code">
                                     </div>
                                 </div>
                                 <div class="cfw-column-4">

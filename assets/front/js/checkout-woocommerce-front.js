@@ -654,6 +654,7 @@ define("Actions/UpdateShippingFieldsAction", ["require", "exports", "Actions/Act
             if (!resp.error) {
                 var ufi_arr_1 = [];
                 var updated_shipping_methods_1 = [];
+                console.log("No error...");
                 if (resp.updated_fields_info) {
                     Object.keys(resp.updated_fields_info).forEach(function (key) { return ufi_arr_1.push(resp.updated_fields_info[key]); });
                     Object.keys(resp.updated_ship_methods).forEach(function (key) { return updated_shipping_methods_1.push(resp.updated_ship_methods[key]); });
@@ -677,6 +678,9 @@ define("Actions/UpdateShippingFieldsAction", ["require", "exports", "Actions/Act
                     this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
                     Cart_1.Cart.outputValues(this.cart, resp.new_totals);
                 }
+            }
+            else {
+                console.log("ERRRRROR");
             }
         };
         Object.defineProperty(UpdateShippingFieldsAction.prototype, "ajaxInfo", {
@@ -1079,6 +1083,11 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             continue_button.on("click", updateAllProcess.bind(this));
             shipping_payment_bc.on("click", updateAllProcess.bind(this));
         };
+        TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields, cart, tabContainer) {
+            var type = fe.holder.jel.attr("field_key");
+            var cdi = { field_type: type, field_value: value };
+            return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer);
+        };
         TabContainer.prototype.setUpCreditCardRadioReveal = function () {
             var stripe_container = $(".payment_method_stripe");
             if (stripe_container.length > 0) {
@@ -1318,11 +1327,6 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart).load();
             });
         };
-        TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields, cart, tabContainer) {
-            var type = fe.holder.jel.attr("field_key");
-            var cdi = { field_type: type, field_value: value };
-            return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer);
-        };
         TabContainer.prototype.getUpdateShippingRequiredItems = function () {
             var sdf_jquery_results = $("#cfw-shipping-details-fields .cfw-shipping-details-field");
             var shipping_details_fields = [];
@@ -1363,7 +1367,56 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
     }(Element_6.Element));
     exports.TabContainer = TabContainer;
 });
-define("Main", ["require", "exports"], function (require, exports) {
+define("Services/ValidationService", ["require", "exports"], function (require, exports) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EValidationSections;
+    (function (EValidationSections) {
+        EValidationSections[EValidationSections["SHIPPING"] = 0] = "SHIPPING";
+        EValidationSections[EValidationSections["BILLING"] = 1] = "BILLING";
+    })(EValidationSections = exports.EValidationSections || (exports.EValidationSections = {}));
+    var ValidationService = (function () {
+        function ValidationService(tabContainer) {
+            this.tabContainer = tabContainer;
+            this.setup();
+        }
+        ValidationService.prototype.setup = function () {
+            this.setEventListeners();
+            this.setStripeCacheDestroyers();
+        };
+        ValidationService.prototype.setEventListeners = function () {
+            this.tabContainer.jel.bind('easytabs:before', function () {
+                var validated = $("#cfw-checkout-form").parsley().validate();
+                return validated;
+            }.bind(this));
+        };
+        ValidationService.prototype.setStripeCacheDestroyers = function () {
+            var destroyCacheItems = ["stripe-card-number", "stripe-card-expiry", "stripe-card-cvc"];
+            destroyCacheItems.forEach(function (item) {
+                $("#" + item).on('keyup', function () {
+                    destroyCacheItems.forEach(function (innerItem) {
+                        $("#" + innerItem).garlic('destroy');
+                    });
+                });
+            });
+        };
+        ValidationService.prototype.validate = function (section) {
+            return;
+        };
+        Object.defineProperty(ValidationService.prototype, "tabContainer", {
+            get: function () {
+                return this._tabContainer;
+            },
+            set: function (value) {
+                this._tabContainer = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ValidationService;
+    }());
+    exports.ValidationService = ValidationService;
+});
+define("Main", ["require", "exports", "Services/ValidationService"], function (require, exports, ValidationService_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var Main = (function () {
         function Main(tabContainer, ajaxInfo, cart, settings) {
@@ -1371,6 +1424,7 @@ define("Main", ["require", "exports"], function (require, exports) {
             this.ajaxInfo = ajaxInfo;
             this.cart = cart;
             this.settings = settings;
+            this.validationService = new ValidationService_1.ValidationService(tabContainer);
             Main.instance = this;
         }
         Main.prototype.setup = function () {
@@ -1389,17 +1443,10 @@ define("Main", ["require", "exports"], function (require, exports) {
             this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
             this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
             this.tabContainer.setShippingFieldsOnLoad();
-            this.setupParsley();
         };
         Main.prototype.setupAnimationListeners = function () {
             $("#cfw-ci-login").on("click", function () {
                 $("#cfw-login-slide").slideDown(300);
-            });
-        };
-        Main.prototype.setupParsley = function () {
-            $('#cfw-tab-container')
-                .bind('easytabs:before', function () {
-                return $("#cfw-checkout-form").parsley().validate();
             });
         };
         Object.defineProperty(Main.prototype, "tabContainer", {
@@ -1438,6 +1485,16 @@ define("Main", ["require", "exports"], function (require, exports) {
             },
             set: function (value) {
                 this._settings = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Main.prototype, "validationService", {
+            get: function () {
+                return this._validationService;
+            },
+            set: function (value) {
+                this._validationService = value;
             },
             enumerable: true,
             configurable: true

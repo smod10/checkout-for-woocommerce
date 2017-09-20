@@ -5,6 +5,7 @@ import { TabContainer } 			from "./Elements/TabContainer";
 import { AjaxInfo }					from "./Types/Types";
 import { Cart } 					from "./Elements/Cart";
 import { TabContainerSection } 		from "./Elements/TabContainerSection";
+import { ValidationService } 		from "./Services/ValidationService";
 
 /**
  *
@@ -36,6 +37,11 @@ export class Main {
     /**
 	 *
      */
+	private _validationService: ValidationService;
+
+    /**
+	 *
+     */
 	private static _instance: Main;
 
 	/**
@@ -50,6 +56,7 @@ export class Main {
 		this.ajaxInfo = ajaxInfo;
 		this.cart = cart;
 		this.settings = settings;
+		this.validationService = new ValidationService(tabContainer);
 
 		Main.instance = this;
 	}
@@ -90,8 +97,6 @@ export class Main {
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
-
-		this.setupParsley();
     }
 
 	/**
@@ -101,13 +106,6 @@ export class Main {
 		$("#cfw-ci-login").on("click", function(){
 			$("#cfw-login-slide").slideDown(300);
 		});
-	}
-
-	setupParsley() {
-        $('#cfw-tab-container')
-            .bind('easytabs:before', function() {
-                return $("#cfw-checkout-form").parsley().validate();
-            })
 	}
 
 	/**
@@ -164,6 +162,14 @@ export class Main {
 
     set settings(value: any) {
         this._settings = value;
+    }
+
+    get validationService(): ValidationService {
+        return this._validationService;
+    }
+
+    set validationService(value: ValidationService) {
+        this._validationService = value;
     }
 
     static get instance(): Main {

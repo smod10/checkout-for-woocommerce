@@ -64,6 +64,7 @@ class Redirect {
 			window.$ = jQuery;
 			$.fn.block = function(item) {};
 			$.fn.unblock = function(item) {};
+
             window.requiredFiles = [
 	            'Main',
 	            'Elements/TabContainer',

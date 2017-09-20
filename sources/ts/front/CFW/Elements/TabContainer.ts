@@ -140,6 +140,23 @@ export class TabContainer extends Element {
         shipping_payment_bc.on("click", updateAllProcess.bind(this));
     }
 
+    /**
+     * @param fe
+     * @param value
+     * @param ajaxInfo
+     * @param action
+     * @param shipping_details_fields
+     * @param cart
+     * @param tabContainer
+     */
+    static genericUpdateShippingFieldsActionProcess(fe: FormElement, value: any, ajaxInfo: AjaxInfo, action: string,
+                                                    shipping_details_fields: Array<JQuery>, cart: Cart, tabContainer: TabContainer): UpdateShippingFieldsAction {
+        let type = fe.holder.jel.attr("field_key");
+        let cdi: CustomerDataInfo = {field_type: type, field_value: value};
+
+        return new UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer);
+    }
+
     setUpCreditCardRadioReveal() {
         let stripe_container: JQuery = $(".payment_method_stripe");
 
@@ -433,23 +450,6 @@ export class TabContainer extends Element {
         $("#cfw-promo-code-btn").on('click', () => {
             new ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart).load();
         })
-    }
-
-    /**
-     * @param fe
-     * @param value
-     * @param ajaxInfo
-     * @param action
-     * @param shipping_details_fields
-     * @param cart
-     * @param tabContainer
-     */
-    static genericUpdateShippingFieldsActionProcess(fe: FormElement, value: any, ajaxInfo: AjaxInfo, action: string,
-                                                    shipping_details_fields: Array<JQuery>, cart: Cart, tabContainer: TabContainer): UpdateShippingFieldsAction {
-        let type = fe.holder.jel.attr("field_key");
-        let cdi: CustomerDataInfo = {field_type: type, field_value: value};
-
-        return new UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer);
     }
 
     /**

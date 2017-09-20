@@ -358,12 +358,13 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
         if ( WC()->cart->needs_payment() ) {
             ?><ul class="wc_payment_methods payment_methods methods cfw-radio-reveal-group"><?php
                 if ( ! empty( $available_gateways ) ) {
+                    $count = 0;
                     foreach ( $available_gateways as $gateway ) {
                         ?>
                         <li class="wc_payment_method payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-li">
                             <div class="payment_method_title_wrap cfw-radio-reveal-title-wrap">
                                 <label class="payment_method_label cfw-radio-reveal-label" for="payment_method_<?php echo $gateway->id; ?>">
-                                    <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php checked( $gateway->chosen, true ); ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
+                                    <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php echo ($count == 0) ? "checked" : ""; ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
                                     <span class="payment_method_title cfw-radio-reveal-title"><?php echo $gateway->get_title(); ?></span>
                                 </label>
 
@@ -380,6 +381,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		                    <?php endif; ?>
                         </li>
                         <?php
+                        $count++;
                     }
                 } else {
                     echo '<li class="woocommerce-notice woocommerce-notice--info woocommerce-info">' . apply_filters( 'woocommerce_no_available_payment_methods_message', __( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) ) . '</li>';

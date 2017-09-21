@@ -67,7 +67,6 @@ export class Cart extends Element {
 
         if(cartLineItem.jel.length > 0) {
             coupons.forEach((coupon: any) => {
-                console.log("Coupon Loop", coupon);
                 let wrap = $('<div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">');
                 let type = $('<span class="type"></span>').html(coupon.label);
                 let amount = $('<span class="amount"></span>').html(coupon.amount);

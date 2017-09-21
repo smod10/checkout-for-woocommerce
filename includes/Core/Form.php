@@ -109,6 +109,14 @@ class Form {
 					'priority'     => 45,
 					'wrap'         => $this->input_wrap('text', 4, 45),
 					'label_class'  => 'cfw-input-label',
+					'custom_attributes' => array(
+						"data-parsley-state-and-zip"        => "us",
+						"data-parsley-validate-if-empty"    => "",
+						"data-parsley-type"                 => "digits",
+						"data-parsley-length"               => "[5,5]",
+						"data-parsley-zip"                  => "us",
+						"data-parsley-trigger"              => "keyup change focusout"
+					),
 					'start'        => false,
 					'end'          => false
 				),
@@ -123,6 +131,11 @@ class Form {
 					'wrap'         => $this->input_wrap('select', 4, 50),
 					'label_class'  => 'cfw-input-label',
 					'input_class'  => array('garlic-auto-save'),
+					'custom_attributes' => array(
+						"data-parsley-state-and-zip"        => "us",
+						"data-parsley-validate-if-empty"    => "",
+						"data-parsley-trigger"              => "keyup change focusout"
+					),
 					'start'        => false,
 					'end'          => true,
 					'is_select'    => true

@@ -147,13 +147,11 @@ export class CompleteOrderAction extends Action {
      */
     setup(): void {
         if(StripeService.hasStripe() && StripeService.hasNewPayment()) {
-            console.log("Needs token");
             this.needsStripeToken = true;
 
             StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);
             StripeService.triggerStripe();
         } else {
-            console.log("Doesn't need token...");
             this.needsStripeToken = false;
             this.load();
         }

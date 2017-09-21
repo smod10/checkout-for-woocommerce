@@ -563,7 +563,6 @@ define("Elements/Cart", ["require", "exports", "Elements/Element"], function (re
             cartLineItem.jel.html("");
             if (cartLineItem.jel.length > 0) {
                 coupons.forEach(function (coupon) {
-                    console.log("Coupon Loop", coupon);
                     var wrap = $('<div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">');
                     var type = $('<span class="type"></span>').html(coupon.label);
                     var amount = $('<span class="amount"></span>').html(coupon.amount);
@@ -679,9 +678,6 @@ define("Actions/UpdateShippingFieldsAction", ["require", "exports", "Actions/Act
                     this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
                     Cart_1.Cart.outputValues(this.cart, resp.new_totals);
                 }
-            }
-            else {
-                console.log("ERRRRROR");
             }
         };
         Object.defineProperty(UpdateShippingFieldsAction.prototype, "ajaxInfo", {
@@ -833,6 +829,7 @@ define("Services/StripeService", ["require", "exports"], function (require, expo
 });
 define("Services/ValidationService", ["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
+    var Parsley;
     var EValidationSections;
     (function (EValidationSections) {
         EValidationSections[EValidationSections["SHIPPING"] = 0] = "SHIPPING";
@@ -849,7 +846,7 @@ define("Services/ValidationService", ["require", "exports"], function (require, 
         ValidationService.prototype.setup = function () {
             this.setEventListeners();
             this.setStripeCacheDestroyers();
-            if (window.location.hash != "#cfw-customer-info") {
+            if (window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
                 if (!this.validate(EValidationSections.SHIPPING)) {
                     window.location.hash = "#cfw-customer-info";
                 }
@@ -902,6 +899,8 @@ define("Services/ValidationService", ["require", "exports"], function (require, 
                     validated = $("#cfw-checkout-form").parsley().validate("account");
                     break;
             }
+            if (validated == null)
+                validated = true;
             return validated;
         };
         Object.defineProperty(ValidationService.prototype, "easyTabsOrder", {
@@ -1016,13 +1015,11 @@ define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "
         };
         CompleteOrderAction.prototype.setup = function () {
             if (StripeService_1.StripeService.hasStripe() && StripeService_1.StripeService.hasNewPayment()) {
-                console.log("Needs token");
                 this.needsStripeToken = true;
                 StripeService_1.StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);
                 StripeService_1.StripeService.triggerStripe();
             }
             else {
-                console.log("Doesn't need token...");
                 this.needsStripeToken = false;
                 this.load();
             }

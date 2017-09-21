@@ -105,8 +105,6 @@ export class UpdateShippingFieldsAction extends Action {
                 // Update totals
                 Cart.outputValues(this.cart, resp.new_totals);
             }
-        } else {
-            console.log("ERRRRROR");
         }
     }
 

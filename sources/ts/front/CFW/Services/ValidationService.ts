@@ -1,5 +1,6 @@
 import { TabContainer }                         from "../Elements/TabContainer";
-import {Alert, AlertInfo} from "../Elements/Alert";
+
+let Parsley: any;
 
 export enum EValidationSections {
     SHIPPING,
@@ -27,7 +28,7 @@ export class ValidationService {
         this.setEventListeners();
         this.setStripeCacheDestroyers();
 
-        if(window.location.hash != "#cfw-customer-info") {
+        if(window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
             if(!this.validate(EValidationSections.SHIPPING)) {
                 window.location.hash = "#cfw-customer-info";
             }
@@ -92,6 +93,9 @@ export class ValidationService {
                 validated = $("#cfw-checkout-form").parsley().validate("account");
                 break;
         }
+
+        if(validated == null)
+            validated = true;
 
         return validated;
     }

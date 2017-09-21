@@ -37,10 +37,11 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 		$ship_or_bill_key = explode("_", $key)[0];
 
-		$defaults['custom_attributes'] = array("data-parsley-group" => $ship_or_bill_key);
+
 
 		$args = wp_parse_args( $args, $defaults );
 		$args = apply_filters( 'woocommerce_form_field_args', $args, $key, $value );
+		$args['custom_attributes']["data-parsley-group"] = $ship_or_bill_key;
 
 		if ( $args['required'] ) {
 			$args['class'][] = 'validate-required';

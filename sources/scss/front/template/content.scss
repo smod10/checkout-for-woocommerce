@@ -1,6 +1,7 @@
 $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
 #cfw-content {
+  position: relative;
   .wrap { padding: 2em 0; }
 }
 
@@ -246,6 +247,35 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
   &:last-child {
     margin-bottom: 0;
+  }
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #fff;
+  opacity: 0.7;
+  display: none;
+}
+
+.show-overlay {
+  .overlay {
+    display: block;
+  }
+}
+
+.wc-stripe-error {
+  display: none;
+}
+
+.cfw-alert-container {
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
   }
 }
 

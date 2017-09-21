@@ -34,9 +34,13 @@ export class Alert extends Element {
             this.jel.removeClass(Alert.previousClass);
         }
 
+        $("#cfw-content").removeClass("show-overlay");
+
         this.jel.find(".message").html(this.alertInfo.message);
         this.jel.addClass(this.alertInfo.cssClass);
         this.jel.slideDown(300);
+
+        window.scrollTo(0,0);
 
         Alert.previousClass = this.alertInfo.cssClass;
     }

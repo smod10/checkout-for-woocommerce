@@ -408,9 +408,11 @@ define("Elements/Alert", ["require", "exports", "Elements/Element"], function (r
             if (Alert.previousClass) {
                 this.jel.removeClass(Alert.previousClass);
             }
+            $("#cfw-content").removeClass("show-overlay");
             this.jel.find(".message").html(this.alertInfo.message);
             this.jel.addClass(this.alertInfo.cssClass);
             this.jel.slideDown(300);
+            window.scrollTo(0, 0);
             Alert.previousClass = this.alertInfo.cssClass;
         };
         Object.defineProperty(Alert.prototype, "alertInfo", {
@@ -877,6 +879,7 @@ define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "
                 data["wc-stripe-new-payment-method"] = checkoutData["wc-stripe-new-payment-method"];
             }
             _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            $("#cfw-content").addClass("show-overlay");
             _this.stripeServiceCallbacks = {
                 success: function (response) {
                     _this.stripeResponse = response;
@@ -884,8 +887,24 @@ define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "
                     _this.needsStripeToken = false;
                     _this.load();
                 },
-                noData: function (response) { return console.log("Stripe has no data to go off of. Try putting some in"); },
-                badData: function (response) { return console.log("Stripe has had bad or invalid data entered"); }
+                noData: function (response) {
+                    var alertInfo = {
+                        type: "StripeNoDataError",
+                        message: "Stripe: " + response.error.message,
+                        cssClass: "cfw-alert-danger"
+                    };
+                    var alert = new Alert_2.Alert($("#cfw-alert-container"), alertInfo);
+                    alert.addAlert();
+                },
+                badData: function (response) {
+                    var alertInfo = {
+                        type: "StripeBadDataError",
+                        message: "Stripe: " + response.error.message,
+                        cssClass: "cfw-alert-danger"
+                    };
+                    var alert = new Alert_2.Alert($("#cfw-alert-container"), alertInfo);
+                    alert.addAlert();
+                }
             };
             _this.setup();
             return _this;
@@ -1077,12 +1096,7 @@ define("Services/ValidationService", ["require", "exports"], function (require, 
         ValidationService.prototype.validate = function (section) {
             var validated;
             if (section == EValidationSections.SHIPPING) {
-                var shippingValidation = $("#cfw-checkout-form").parsley().validate("shipping");
-                var accountValidation = true;
-                if ($("#cfw-password-wrap:visible").length !== 0) {
-                    accountValidation = $("#cfw-checkout-form").parsley().validate("account");
-                }
-                validated = shippingValidation && accountValidation;
+                validated = $("#cfw-checkout-form").parsley().validate("shipping");
             }
             else {
                 validated = $("#cfw-checkout-form").parsley().validate("billing");

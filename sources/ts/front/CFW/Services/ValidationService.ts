@@ -75,14 +75,7 @@ export class ValidationService {
         let validated: boolean;
 
         if(section == EValidationSections.SHIPPING) {
-            let shippingValidation: boolean = $("#cfw-checkout-form").parsley().validate("shipping");
-            let accountValidation: boolean = true;
-
-            if($("#cfw-password-wrap:visible").length !== 0) {
-                accountValidation = $("#cfw-checkout-form").parsley().validate("account");
-            }
-
-            validated = shippingValidation && accountValidation;
+            validated = $("#cfw-checkout-form").parsley().validate("shipping");
         } else {
             validated = $("#cfw-checkout-form").parsley().validate("billing");
         }

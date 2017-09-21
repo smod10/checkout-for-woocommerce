@@ -23,6 +23,11 @@ p {
   margin: 0;
 }
 
+.cart-empty, .return-to-shop {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
 body {
   background: $main-bg;
   font-family: $font-family;

@@ -89,6 +89,8 @@ export class CompleteOrderAction extends Action {
 
         super(id, ajaxInfo.admin_url, data);
 
+        $("#cfw-content").addClass("show-overlay");
+
         this.stripeServiceCallbacks = {
             success: (response: StripeValidResponse) => {
                 this.stripeResponse = response;
@@ -96,8 +98,26 @@ export class CompleteOrderAction extends Action {
                 this.needsStripeToken = false;
                 this.load();
             },
-            noData: (response: StripeNoDataResponse) => console.log("Stripe has no data to go off of. Try putting some in"),
-            badData: (response: StripeBadDataResponse) => console.log("Stripe has had bad or invalid data entered")
+            noData: (response: StripeNoDataResponse) => {
+                let alertInfo: AlertInfo = {
+                    type: "StripeNoDataError",
+                    message: "Stripe: " + response.error.message,
+                    cssClass: "cfw-alert-danger"
+                };
+
+                let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+                alert.addAlert();
+            },
+            badData: (response: StripeBadDataResponse) => {
+                let alertInfo: AlertInfo = {
+                    type: "StripeBadDataError",
+                    message: "Stripe: " + response.error.message,
+                    cssClass: "cfw-alert-danger"
+                };
+
+                let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+                alert.addAlert();
+            }
         };
 
         this.setup();

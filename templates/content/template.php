@@ -4,6 +4,7 @@
     }
 ?>
 <main id="cfw-content">
+    <div class="overlay"></div>
     <div class="wrap">
 
         <div class="cfw-container">
@@ -66,7 +67,7 @@
                                     <div id="cfw-login-slide">
                                         <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
                                             <label class="cfw-input-label" for="cfw-email">Password</label>
-                                            <input type="password" name="cfw-password" id="cfw-password" data-parsley-group="account" required="" autocomplete="off" title="Password" placeholder="Password">
+                                            <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password">
                                         </div>
                                         <div class="cfw-input-wrap cfw-button-input">
                                             <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="Login" />

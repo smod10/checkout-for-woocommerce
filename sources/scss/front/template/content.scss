@@ -224,15 +224,15 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 }
 
 .cfw-alert-danger {
-  background-color: #f2dede;
-  border-color: #ebccd1;
-  color: #a94442;
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
 }
 
 .cfw-alert-success {
-  background-color: #6dd645;
-  border-color: #4b9a3b;
-  color: #fff;
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
 }
 
 .cfw-input-wrap-row {
@@ -262,7 +262,16 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 }
 
 .parsley-errors-list {
-  display: none;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  color: red;
+  font-weight: 500;
+  font-size: 0.875em;
+
+  li {
+    margin-top: 10px;
+  }
 }
 
 .parsley-error {

@@ -429,7 +429,7 @@ body {
 .wc-stripe-error {
   display: none; }
 
-.cfw-alert-container ul {
+#cfw-alert-container ul {
   list-style-type: none;
   padding-left: 0;
   margin-left: 0; }

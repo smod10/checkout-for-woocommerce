@@ -656,7 +656,6 @@ define("Actions/UpdateShippingFieldsAction", ["require", "exports", "Actions/Act
             if (!resp.error) {
                 var ufi_arr_1 = [];
                 var updated_shipping_methods_1 = [];
-                console.log("No error...");
                 if (resp.updated_fields_info) {
                     Object.keys(resp.updated_fields_info).forEach(function (key) { return ufi_arr_1.push(resp.updated_fields_info[key]); });
                     Object.keys(resp.updated_ship_methods).forEach(function (key) { return updated_shipping_methods_1.push(resp.updated_ship_methods[key]); });
@@ -832,7 +831,104 @@ define("Services/StripeService", ["require", "exports"], function (require, expo
     }());
     exports.StripeService = StripeService;
 });
-define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "Services/StripeService", "Elements/Alert"], function (require, exports, Action_5, StripeService_1, Alert_2) {
+define("Services/ValidationService", ["require", "exports"], function (require, exports) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EValidationSections;
+    (function (EValidationSections) {
+        EValidationSections[EValidationSections["SHIPPING"] = 0] = "SHIPPING";
+        EValidationSections[EValidationSections["BILLING"] = 1] = "BILLING";
+        EValidationSections[EValidationSections["ACCOUNT"] = 2] = "ACCOUNT";
+    })(EValidationSections = exports.EValidationSections || (exports.EValidationSections = {}));
+    var ValidationService = (function () {
+        function ValidationService(tabContainer) {
+            this._easyTabsOrder = [];
+            this.tabContainer = tabContainer;
+            this.easyTabsOrder = [$("#cfw-customer-info"), $("#cfw-shipping-method"), $("#cfw-payment-method")];
+            this.setup();
+        }
+        ValidationService.prototype.setup = function () {
+            this.setEventListeners();
+            this.setStripeCacheDestroyers();
+            if (window.location.hash != "#cfw-customer-info") {
+                if (!this.validate(EValidationSections.SHIPPING)) {
+                    window.location.hash = "#cfw-customer-info";
+                }
+            }
+        };
+        ValidationService.prototype.setEventListeners = function () {
+            this.tabContainer.jel.bind('easytabs:before', function (event, clicked, target, settings) {
+                var currentPanelIndex;
+                var targetPanelIndex;
+                this.easyTabsOrder.forEach(function (tab, index) {
+                    if (tab.filter(":visible").length !== 0) {
+                        currentPanelIndex = index;
+                    }
+                    if (tab.is($(target))) {
+                        targetPanelIndex = index;
+                    }
+                });
+                if (targetPanelIndex > currentPanelIndex) {
+                    if (currentPanelIndex === 0) {
+                        var validated = this.validate(EValidationSections.SHIPPING);
+                        if (!validated) {
+                            window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");
+                        }
+                        return validated;
+                    }
+                }
+                return true;
+            }.bind(this));
+        };
+        ValidationService.prototype.setStripeCacheDestroyers = function () {
+            var destroyCacheItems = ["stripe-card-number", "stripe-card-expiry", "stripe-card-cvc"];
+            destroyCacheItems.forEach(function (item) {
+                $("#" + item).on('keyup', function () {
+                    destroyCacheItems.forEach(function (innerItem) {
+                        $("#" + innerItem).garlic('destroy');
+                    });
+                });
+            });
+        };
+        ValidationService.prototype.validate = function (section) {
+            var validated;
+            switch (section) {
+                case EValidationSections.SHIPPING:
+                    validated = $("#cfw-checkout-form").parsley().validate("shipping");
+                    break;
+                case EValidationSections.BILLING:
+                    validated = $("#cfw-checkout-form").parsley().validate("billing");
+                    break;
+                case EValidationSections.ACCOUNT:
+                    validated = $("#cfw-checkout-form").parsley().validate("account");
+                    break;
+            }
+            return validated;
+        };
+        Object.defineProperty(ValidationService.prototype, "easyTabsOrder", {
+            get: function () {
+                return this._easyTabsOrder;
+            },
+            set: function (value) {
+                this._easyTabsOrder = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ValidationService.prototype, "tabContainer", {
+            get: function () {
+                return this._tabContainer;
+            },
+            set: function (value) {
+                this._tabContainer = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ValidationService;
+    }());
+    exports.ValidationService = ValidationService;
+});
+define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "Services/StripeService", "Elements/Alert", "Main", "Services/ValidationService"], function (require, exports, Action_5, StripeService_1, Alert_2, Main_1, ValidationService_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var CompleteOrderAction = (function (_super) {
         __extends(CompleteOrderAction, _super);
@@ -904,6 +1000,7 @@ define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "
                     };
                     var alert = new Alert_2.Alert($("#cfw-alert-container"), alertInfo);
                     alert.addAlert();
+                    _this.resetData();
                 }
             };
             _this.setup();
@@ -919,11 +1016,13 @@ define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "
         };
         CompleteOrderAction.prototype.setup = function () {
             if (StripeService_1.StripeService.hasStripe() && StripeService_1.StripeService.hasNewPayment()) {
+                console.log("Needs token");
                 this.needsStripeToken = true;
                 StripeService_1.StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);
                 StripeService_1.StripeService.triggerStripe();
             }
             else {
+                console.log("Doesn't need token...");
                 this.needsStripeToken = false;
                 this.load();
             }
@@ -975,7 +1074,57 @@ define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "
                 };
                 var alert_2 = new Alert_2.Alert($("#cfw-alert-container"), alertInfo);
                 alert_2.addAlert();
+                this.resetData();
             }
+        };
+        CompleteOrderAction.prototype.resetData = function () {
+            var _this = this;
+            $('#cfw-password').val(this.data["account_password"]);
+            $("#cfw-email").val(this.data.billing_email);
+            $("#billing_first_name").val(this.data.billing_first_name);
+            $("#billing_last_name").val(this.data.billing_last_name);
+            $("#billing_company").val(this.data.billing_company);
+            $("#billing_country").val(this.data.billing_country);
+            $("#billing_address_1").val(this.data.billing_address_1);
+            $("#billing_address_2").val(this.data.billing_address_2);
+            $("#billing_city").val(this.data.billing_city);
+            $("#billing_state").val(this.data.billing_state);
+            $("#billing_postcode").val(this.data.billing_postcode);
+            $("#shipping_first_name").val(this.data.shipping_first_name);
+            $("#shipping_last_name").val(this.data.shipping_last_name);
+            $("#shipping_company").val(this.data.shipping_company);
+            $("#shipping_country").val(this.data.shipping_country);
+            $("#shipping_address_1").val(this.data.shipping_address_1);
+            $("#shipping_address_2").val(this.data.shipping_address_2);
+            $("#shipping_city").val(this.data.shipping_city);
+            $("#shipping_state").val(this.data.shipping_state);
+            $("#shipping_postcode").val(this.data.shipping_postcode);
+            $("[name='shipping_method[0]']").each(function (index, elem) {
+                if ($(elem).val() == _this.data["shipping_method[0]"]) {
+                    $(elem).prop('checked', true);
+                }
+            });
+            $("[name='shipping_same']").each(function (index, elem) {
+                if ($(elem).val() == _this.data.ship_to_different_address) {
+                    $(elem).prop('checked', true);
+                }
+            });
+            $('[name="payment_method"]').each(function (index, elem) {
+                if ($(elem).val() == _this.data.payment_method) {
+                    $(elem).prop('checked', true);
+                }
+            });
+            $("[name='wc-stripe-payment-token']").each(function (index, elem) {
+                if ($(elem).val() == _this.data["wc-stripe-payment-token"]) {
+                    $(elem).prop('checked', true);
+                }
+            });
+            $("#_wpnonce").val(this.data._wpnonce);
+            $("[name='_wp_http_referer']").val(this.data._wp_http_referer);
+            $("#cfw-login-btn").val("Login");
+            Main_1.Main.instance.validationService.validate(ValidationService_1.EValidationSections.SHIPPING);
+            Main_1.Main.instance.validationService.validate(ValidationService_1.EValidationSections.BILLING);
+            Main_1.Main.instance.validationService.validate(ValidationService_1.EValidationSections.ACCOUNT);
         };
         return CompleteOrderAction;
     }(Action_5.Action));
@@ -1041,93 +1190,7 @@ define("Actions/ApplyCouponAction", ["require", "exports", "Actions/Action", "De
     }(Action_6.Action));
     exports.ApplyCouponAction = ApplyCouponAction;
 });
-define("Services/ValidationService", ["require", "exports"], function (require, exports) {
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var EValidationSections;
-    (function (EValidationSections) {
-        EValidationSections[EValidationSections["SHIPPING"] = 0] = "SHIPPING";
-        EValidationSections[EValidationSections["BILLING"] = 1] = "BILLING";
-    })(EValidationSections = exports.EValidationSections || (exports.EValidationSections = {}));
-    var ValidationService = (function () {
-        function ValidationService(tabContainer) {
-            this._easyTabsOrder = [];
-            this.tabContainer = tabContainer;
-            this.easyTabsOrder = [$("#cfw-customer-info"), $("#cfw-shipping-method"), $("#cfw-payment-method")];
-            this.setup();
-        }
-        ValidationService.prototype.setup = function () {
-            this.setEventListeners();
-            this.setStripeCacheDestroyers();
-        };
-        ValidationService.prototype.setEventListeners = function () {
-            this.tabContainer.jel.bind('easytabs:before', function (event, clicked, target, settings) {
-                var currentPanelIndex;
-                var targetPanelIndex;
-                this.easyTabsOrder.forEach(function (tab, index) {
-                    if (tab.filter(":visible").length !== 0) {
-                        currentPanelIndex = index;
-                    }
-                    if (tab.is($(target))) {
-                        targetPanelIndex = index;
-                    }
-                });
-                if (targetPanelIndex > currentPanelIndex) {
-                    if (currentPanelIndex === 0) {
-                        var validated = this.validate(EValidationSections.SHIPPING);
-                        if (!validated) {
-                            window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");
-                        }
-                        return validated;
-                    }
-                }
-                return true;
-            }.bind(this));
-        };
-        ValidationService.prototype.setStripeCacheDestroyers = function () {
-            var destroyCacheItems = ["stripe-card-number", "stripe-card-expiry", "stripe-card-cvc"];
-            destroyCacheItems.forEach(function (item) {
-                $("#" + item).on('keyup', function () {
-                    destroyCacheItems.forEach(function (innerItem) {
-                        $("#" + innerItem).garlic('destroy');
-                    });
-                });
-            });
-        };
-        ValidationService.prototype.validate = function (section) {
-            var validated;
-            if (section == EValidationSections.SHIPPING) {
-                validated = $("#cfw-checkout-form").parsley().validate("shipping");
-            }
-            else {
-                validated = $("#cfw-checkout-form").parsley().validate("billing");
-            }
-            return validated;
-        };
-        Object.defineProperty(ValidationService.prototype, "easyTabsOrder", {
-            get: function () {
-                return this._easyTabsOrder;
-            },
-            set: function (value) {
-                this._easyTabsOrder = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ValidationService.prototype, "tabContainer", {
-            get: function () {
-                return this._tabContainer;
-            },
-            set: function (value) {
-                this._tabContainer = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return ValidationService;
-    }());
-    exports.ValidationService = ValidationService;
-});
-define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction", "Actions/UpdateShippingFieldsAction", "Actions/UpdateShippingMethodAction", "Actions/CompleteOrderAction", "Main", "Actions/ApplyCouponAction", "Services/ValidationService"], function (require, exports, Element_6, AccountExistsAction_1, LoginAction_1, UpdateShippingFieldsAction_1, UpdateShippingMethodAction_1, CompleteOrderAction_1, Main_1, ApplyCouponAction_1, ValidationService_1) {
+define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction", "Actions/UpdateShippingFieldsAction", "Actions/UpdateShippingMethodAction", "Actions/CompleteOrderAction", "Main", "Actions/ApplyCouponAction", "Services/ValidationService"], function (require, exports, Element_6, AccountExistsAction_1, LoginAction_1, UpdateShippingFieldsAction_1, UpdateShippingMethodAction_1, CompleteOrderAction_1, Main_2, ApplyCouponAction_1, ValidationService_2) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
@@ -1413,7 +1476,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             completeOrderButton.jel.on('click', function () {
                 var createOrder = true;
                 if ($("#shipping_dif_from_billing:checked").length !== 0) {
-                    createOrder = Main_1.Main.instance.validationService.validate(ValidationService_1.EValidationSections.BILLING);
+                    createOrder = Main_2.Main.instance.validationService.validate(ValidationService_2.EValidationSections.BILLING);
                 }
                 if (createOrder) {
                     new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, _this.getOrderDetails());
@@ -1465,7 +1528,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
     }(Element_6.Element));
     exports.TabContainer = TabContainer;
 });
-define("Main", ["require", "exports", "Services/ValidationService"], function (require, exports, ValidationService_2) {
+define("Main", ["require", "exports", "Services/ValidationService"], function (require, exports, ValidationService_3) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var Main = (function () {
         function Main(tabContainer, ajaxInfo, cart, settings) {
@@ -1473,7 +1536,7 @@ define("Main", ["require", "exports", "Services/ValidationService"], function (r
             this.ajaxInfo = ajaxInfo;
             this.cart = cart;
             this.settings = settings;
-            this.validationService = new ValidationService_2.ValidationService(tabContainer);
+            this.validationService = new ValidationService_3.ValidationService(tabContainer);
             Main.instance = this;
         }
         Main.prototype.setup = function () {

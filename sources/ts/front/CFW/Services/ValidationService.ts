@@ -3,7 +3,8 @@ import {Alert, AlertInfo} from "../Elements/Alert";
 
 export enum EValidationSections {
     SHIPPING,
-    BILLING
+    BILLING,
+    ACCOUNT
 }
 
 export class ValidationService {
@@ -25,6 +26,12 @@ export class ValidationService {
     setup(): void {
         this.setEventListeners();
         this.setStripeCacheDestroyers();
+
+        if(window.location.hash != "#cfw-customer-info") {
+            if(!this.validate(EValidationSections.SHIPPING)) {
+                window.location.hash = "#cfw-customer-info";
+            }
+        }
     }
 
     setEventListeners(): void{
@@ -74,10 +81,16 @@ export class ValidationService {
     validate(section: EValidationSections): boolean {
         let validated: boolean;
 
-        if(section == EValidationSections.SHIPPING) {
-            validated = $("#cfw-checkout-form").parsley().validate("shipping");
-        } else {
-            validated = $("#cfw-checkout-form").parsley().validate("billing");
+        switch(section) {
+            case EValidationSections.SHIPPING:
+                validated = $("#cfw-checkout-form").parsley().validate("shipping");
+                break;
+            case EValidationSections.BILLING:
+                validated = $("#cfw-checkout-form").parsley().validate("billing");
+                break;
+            case EValidationSections.ACCOUNT:
+                validated = $("#cfw-checkout-form").parsley().validate("account");
+                break;
         }
 
         return validated;

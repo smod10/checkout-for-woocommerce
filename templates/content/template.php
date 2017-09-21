@@ -40,103 +40,104 @@
 
                     <form id="cfw-checkout-form" data-persist="garlic" class="woocommerce-checkout" method="POST">
 
-                        <!-- Customer Info Panel -->
-                        <div id="cfw-customer-info">
+                        <div id="order_review" class="woocommerce-checkout-review-order">
+                            <!-- Customer Info Panel -->
+                            <div id="cfw-customer-info">
 
-                            <div id="cfw-login-details" class="cfw-module">
-                                <h3 class="cfw-module-title">Customer Information</h3>
+                                <div id="cfw-login-details" class="cfw-module">
+                                    <h3 class="cfw-module-title">Customer Information</h3>
 
-                                <?php if(!is_user_logged_in()): ?>
-                                <div class="cfw-have-acc-text cfw-small">
-                                    <span>
-                                        <?php echo __('Already have an account with us?', 'checkout-woocommerce'); ?>
-                                    </span>
-                                    <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
-                                        <?php echo __('Log in.', 'checkout-woocommerce'); ?>
-                                    </a>
-                                    <span>
-                                        <?php echo __('Otherwise the information provided here will be used to create an account on checkout', 'checkout-woocommerce'); ?>
-                                    </span>
-                                </div>
-
-                                <div id="" class="cfw-input-container">
-                                    <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
-                                        <label class="cfw-input-label" for="cfw-email">Email</label>
-                                        <input type="email" name="cfw-email" id="cfw-email" data-parsley-group="account" autocomplete="email" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
+                                    <?php if(!is_user_logged_in()): ?>
+                                    <div class="cfw-have-acc-text cfw-small">
+                                        <span>
+                                            <?php echo __('Already have an account with us?', 'checkout-woocommerce'); ?>
+                                        </span>
+                                        <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
+                                            <?php echo __('Log in.', 'checkout-woocommerce'); ?>
+                                        </a>
+                                        <span>
+                                            <?php echo __('Otherwise the information provided here will be used to create an account on checkout', 'checkout-woocommerce'); ?>
+                                        </span>
                                     </div>
-                                    <div id="cfw-login-slide">
-                                        <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
-                                            <label class="cfw-input-label" for="cfw-email">Password</label>
-                                            <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password">
+
+                                    <div id="" class="cfw-input-container">
+                                        <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
+                                            <label class="cfw-input-label" for="cfw-email">Email</label>
+                                            <input type="email" name="cfw-email" id="cfw-email" data-parsley-group="account" autocomplete="email" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
                                         </div>
-                                        <div class="cfw-input-wrap cfw-button-input">
-                                            <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="Login" />
+                                        <div id="cfw-login-slide">
+                                            <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
+                                                <label class="cfw-input-label" for="cfw-email">Password</label>
+                                                <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password">
+                                            </div>
+                                            <div class="cfw-input-wrap cfw-button-input">
+                                                <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="Login" />
+                                            </div>
                                         </div>
+                                        <?php if(!WC()->checkout->is_registration_required()): ?>
+                                        <div class="cfw-input-wrap cfw-check-input">
+                                            <input type="checkbox" id="cfw-acc-register-chk" class="garlic-auto-save" name="cfw-acc-register-chk" />
+                                            <label class="cfw-small" for="cfw-acc-register-chk">Create a <?php echo get_bloginfo('name'); ?> shopping account.</label>
+                                        </div>
+                                        <?php endif; ?>
                                     </div>
-                                    <?php if(!WC()->checkout->is_registration_required()): ?>
-                                    <div class="cfw-input-wrap cfw-check-input">
-                                        <input type="checkbox" id="cfw-acc-register-chk" class="garlic-auto-save" name="cfw-acc-register-chk" />
-                                        <label class="cfw-small" for="cfw-acc-register-chk">Create a <?php echo get_bloginfo('name'); ?> shopping account.</label>
+                                    <?php else: ?>
+                                    <div class="cfw-have-acc-text cfw-small">
+                                        Welcome back <strong><?php echo wp_get_current_user()->display_name; ?></strong>
                                     </div>
                                     <?php endif; ?>
                                 </div>
-                                <?php else: ?>
-                                <div class="cfw-have-acc-text cfw-small">
-                                    Welcome back <strong><?php echo wp_get_current_user()->display_name; ?></strong>
-                                </div>
-                                <?php endif; ?>
-                            </div>
 
-                            <div id="cfw-shipping-info" class="cfw-module">
-                                <h3 class="cfw-module-title">Shipping Address</h3>
+                                <div id="cfw-shipping-info" class="cfw-module">
+                                    <h3 class="cfw-module-title">Shipping Address</h3>
 
-                                <div class="cfw-shipping-info-container cfw-parsley-shipping-details">
-                                    <?php cfw_get_shipping_checkout_fields($checkout); ?>
-                                </div>
-                            </div>
-
-                            <div id="cfw-shipping-info-action" class="cfw-bottom-controls">
-                                <a href="#cfw-shipping-method" class="cfw-primary-btn cfw-next-tab">Continue to shipping method</a>
-                            </div>
-                        </div>
-
-                        <!-- Shipping Method Panel -->
-                        <div id="cfw-shipping-method">
-
-                            <div id="cfw-shipping-details" class="cfw-module">
-                                <h3 class="cfw-module-title">Shipping address</h3>
-
-                                <div id="cfw-shipping-details-fields">
-                                    <?php cfw_get_shipping_details($checkout); ?>
-                                </div>
-
-                                <div>
-                                    <a href="#cfw-customer-info" class="cfw-link">Edit shipping address</a>
-                                </div>
-                            </div>
-
-	                        <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
-                                <div id="cfw-shipping-method" class="cfw-module">
-                                    <h3 class="cfw-module-title">Shipping method</h3>
-                                    <span>Select a shipping method:</span>
-                                    <div>
-                                        <?php cfw_cart_totals_shipping_html(); ?>
+                                    <div class="cfw-shipping-info-container cfw-parsley-shipping-details">
+                                        <?php cfw_get_shipping_checkout_fields($checkout); ?>
                                     </div>
                                 </div>
-	                        <?php endif; ?>
 
-                            <div id="cfw-shipping-action" class="cfw-bottom-controls">
-                                <div>
-                                    <a href="#cfw-customer-info" class="cfw-prev-tab" rel="0">« Return to customer information</a>
-                                </div>
-                                <div>
-                                    <a href="#cfw-payment-method" class="cfw-primary-btn cfw-next-tab">Continue to payment method</a>
+                                <div id="cfw-shipping-info-action" class="cfw-bottom-controls">
+                                    <a href="#cfw-shipping-method" class="cfw-primary-btn cfw-next-tab">Continue to shipping method</a>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Payment Method Panel -->
-                        <div id="cfw-payment-method">
+                            <!-- Shipping Method Panel -->
+                            <div id="cfw-shipping-method">
+
+                                <div id="cfw-shipping-details" class="cfw-module">
+                                    <h3 class="cfw-module-title">Shipping address</h3>
+
+                                    <div id="cfw-shipping-details-fields">
+                                        <?php cfw_get_shipping_details($checkout); ?>
+                                    </div>
+
+                                    <div>
+                                        <a href="#cfw-customer-info" class="cfw-link">Edit shipping address</a>
+                                    </div>
+                                </div>
+
+                                <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
+                                    <div id="cfw-shipping-method" class="cfw-module">
+                                        <h3 class="cfw-module-title">Shipping method</h3>
+                                        <span>Select a shipping method:</span>
+                                        <div>
+                                            <?php cfw_cart_totals_shipping_html(); ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+
+                                <div id="cfw-shipping-action" class="cfw-bottom-controls">
+                                    <div>
+                                        <a href="#cfw-customer-info" class="cfw-prev-tab" rel="0">« Return to customer information</a>
+                                    </div>
+                                    <div>
+                                        <a href="#cfw-payment-method" class="cfw-primary-btn cfw-next-tab">Continue to payment method</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Method Panel -->
+                            <div id="cfw-payment-method">
 
                             <div id="cfw-billing-methods" class="cfw-module">
                                 <h3 class="cfw-module-title">Payment method</h3>
@@ -153,7 +154,7 @@
                                     <li class="cfw-radio-reveal-li cfw-no-reveal">
                                         <div class="cfw-radio-reveal-title-wrap">
                                             <label class="cfw-radio-reveal-title-wrap cfw-radio-reveal-label">
-                                                <input type="radio" name="shipping_same" id="shipping_same_as_billing" value="0" class="garlic-auto-save" />
+                                                <input type="radio" name="shipping_same" id="shipping_same_as_billing" value="0" class="garlic-auto-save" checked />
                                                 <span class="cfw-radio-reveal-title">Same as shipping address</span>
                                             </label>
                                         </div>
@@ -182,6 +183,7 @@
                                     <a id="cfw-complete-order-button" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate" style="text-transform: uppercase;">Complete Order</a>
                                 </div>
                             </div>
+                        </div>
                         </div>
 
 	                    <?php wp_nonce_field( 'woocommerce-process_checkout' ); ?>

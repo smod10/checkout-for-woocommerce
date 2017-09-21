@@ -20,7 +20,7 @@ export abstract class Action {
      * @type {Object}
      * @private
      */
-    private _data: Object;
+    private _data: any;
 
     /**
      * @param id
@@ -77,14 +77,14 @@ export abstract class Action {
     /**
      * @returns {Object}
      */
-    get data(): Object {
+    get data(): any {
         return this._data;
     }
 
     /**
      * @param value
      */
-    set data(value: Object) {
+    set data(value: any) {
         this._data = value;
     }
 }

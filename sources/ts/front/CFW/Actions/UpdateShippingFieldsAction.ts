@@ -68,7 +68,7 @@ export class UpdateShippingFieldsAction extends Action {
         if(!resp.error) {
             let ufi_arr: Array<CustomerDataInfo> = [];
             let updated_shipping_methods: Array<any> = [];
-            console.log("No error...")
+
             if(resp.updated_fields_info) {
 
                 // Push all the object values into an array

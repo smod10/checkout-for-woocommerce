@@ -61,12 +61,12 @@
                                 <div id="" class="cfw-input-container">
                                     <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
                                         <label class="cfw-input-label" for="cfw-email">Email</label>
-                                        <input type="email" name="cfw-email" id="cfw-email" autocomplete="email" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
+                                        <input type="email" name="cfw-email" id="cfw-email" data-parsley-group="account" autocomplete="email" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
                                     </div>
                                     <div id="cfw-login-slide">
                                         <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
                                             <label class="cfw-input-label" for="cfw-email">Password</label>
-                                            <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password">
+                                            <input type="password" name="cfw-password" id="cfw-password" data-parsley-group="account" required="" autocomplete="off" title="Password" placeholder="Password">
                                         </div>
                                         <div class="cfw-input-wrap cfw-button-input">
                                             <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="Login" />

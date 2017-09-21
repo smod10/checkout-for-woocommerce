@@ -1022,7 +1022,98 @@ define("Actions/ApplyCouponAction", ["require", "exports", "Actions/Action", "De
     }(Action_6.Action));
     exports.ApplyCouponAction = ApplyCouponAction;
 });
-define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction", "Actions/UpdateShippingFieldsAction", "Actions/UpdateShippingMethodAction", "Actions/CompleteOrderAction", "Elements/Alert", "Actions/ApplyCouponAction"], function (require, exports, Element_6, AccountExistsAction_1, LoginAction_1, UpdateShippingFieldsAction_1, UpdateShippingMethodAction_1, CompleteOrderAction_1, Alert_4, ApplyCouponAction_1) {
+define("Services/ValidationService", ["require", "exports"], function (require, exports) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EValidationSections;
+    (function (EValidationSections) {
+        EValidationSections[EValidationSections["SHIPPING"] = 0] = "SHIPPING";
+        EValidationSections[EValidationSections["BILLING"] = 1] = "BILLING";
+    })(EValidationSections = exports.EValidationSections || (exports.EValidationSections = {}));
+    var ValidationService = (function () {
+        function ValidationService(tabContainer) {
+            this._easyTabsOrder = [];
+            this.tabContainer = tabContainer;
+            this.easyTabsOrder = [$("#cfw-customer-info"), $("#cfw-shipping-method"), $("#cfw-payment-method")];
+            this.setup();
+        }
+        ValidationService.prototype.setup = function () {
+            this.setEventListeners();
+            this.setStripeCacheDestroyers();
+        };
+        ValidationService.prototype.setEventListeners = function () {
+            this.tabContainer.jel.bind('easytabs:before', function (event, clicked, target, settings) {
+                var currentPanelIndex;
+                var targetPanelIndex;
+                this.easyTabsOrder.forEach(function (tab, index) {
+                    if (tab.filter(":visible").length !== 0) {
+                        currentPanelIndex = index;
+                    }
+                    if (tab.is($(target))) {
+                        targetPanelIndex = index;
+                    }
+                });
+                if (targetPanelIndex > currentPanelIndex) {
+                    if (currentPanelIndex === 0) {
+                        var validated = this.validate(EValidationSections.SHIPPING);
+                        if (!validated) {
+                            window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");
+                        }
+                        return validated;
+                    }
+                }
+                return true;
+            }.bind(this));
+        };
+        ValidationService.prototype.setStripeCacheDestroyers = function () {
+            var destroyCacheItems = ["stripe-card-number", "stripe-card-expiry", "stripe-card-cvc"];
+            destroyCacheItems.forEach(function (item) {
+                $("#" + item).on('keyup', function () {
+                    destroyCacheItems.forEach(function (innerItem) {
+                        $("#" + innerItem).garlic('destroy');
+                    });
+                });
+            });
+        };
+        ValidationService.prototype.validate = function (section) {
+            var validated;
+            if (section == EValidationSections.SHIPPING) {
+                var shippingValidation = $("#cfw-checkout-form").parsley().validate("shipping");
+                var accountValidation = true;
+                if ($("#cfw-password-wrap:visible").length !== 0) {
+                    accountValidation = $("#cfw-checkout-form").parsley().validate("account");
+                }
+                validated = shippingValidation && accountValidation;
+            }
+            else {
+                validated = $("#cfw-checkout-form").parsley().validate("billing");
+            }
+            return validated;
+        };
+        Object.defineProperty(ValidationService.prototype, "easyTabsOrder", {
+            get: function () {
+                return this._easyTabsOrder;
+            },
+            set: function (value) {
+                this._easyTabsOrder = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ValidationService.prototype, "tabContainer", {
+            get: function () {
+                return this._tabContainer;
+            },
+            set: function (value) {
+                this._tabContainer = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ValidationService;
+    }());
+    exports.ValidationService = ValidationService;
+});
+define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Actions/AccountExistsAction", "Actions/LoginAction", "Actions/UpdateShippingFieldsAction", "Actions/UpdateShippingMethodAction", "Actions/CompleteOrderAction", "Main", "Actions/ApplyCouponAction", "Services/ValidationService"], function (require, exports, Element_6, AccountExistsAction_1, LoginAction_1, UpdateShippingFieldsAction_1, UpdateShippingMethodAction_1, CompleteOrderAction_1, Main_1, ApplyCouponAction_1, ValidationService_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
@@ -1306,19 +1397,12 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             var _this = this;
             var completeOrderButton = new Element_6.Element($("#cfw-complete-order-button"));
             completeOrderButton.jel.on('click', function () {
-                if ($("#cfw-checkout-form").parsley().validate()) {
-                    if ($("#cfw-acc-register-chk:checked").length > 0 && $("#cfw-password").val() == '') {
-                        var alertInfo = {
-                            type: "CreateAccNoPassword",
-                            message: "Cannot create an account with a blank password",
-                            cssClass: "cfw-alert-danger"
-                        };
-                        var alert_3 = new Alert_4.Alert($("#cfw-alert-container"), alertInfo);
-                        alert_3.addAlert();
-                    }
-                    else {
-                        new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, _this.getOrderDetails());
-                    }
+                var createOrder = true;
+                if ($("#shipping_dif_from_billing:checked").length !== 0) {
+                    createOrder = Main_1.Main.instance.validationService.validate(ValidationService_1.EValidationSections.BILLING);
+                }
+                if (createOrder) {
+                    new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, _this.getOrderDetails());
                 }
             });
         };
@@ -1367,56 +1451,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
     }(Element_6.Element));
     exports.TabContainer = TabContainer;
 });
-define("Services/ValidationService", ["require", "exports"], function (require, exports) {
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var EValidationSections;
-    (function (EValidationSections) {
-        EValidationSections[EValidationSections["SHIPPING"] = 0] = "SHIPPING";
-        EValidationSections[EValidationSections["BILLING"] = 1] = "BILLING";
-    })(EValidationSections = exports.EValidationSections || (exports.EValidationSections = {}));
-    var ValidationService = (function () {
-        function ValidationService(tabContainer) {
-            this.tabContainer = tabContainer;
-            this.setup();
-        }
-        ValidationService.prototype.setup = function () {
-            this.setEventListeners();
-            this.setStripeCacheDestroyers();
-        };
-        ValidationService.prototype.setEventListeners = function () {
-            this.tabContainer.jel.bind('easytabs:before', function () {
-                var validated = $("#cfw-checkout-form").parsley().validate();
-                return validated;
-            }.bind(this));
-        };
-        ValidationService.prototype.setStripeCacheDestroyers = function () {
-            var destroyCacheItems = ["stripe-card-number", "stripe-card-expiry", "stripe-card-cvc"];
-            destroyCacheItems.forEach(function (item) {
-                $("#" + item).on('keyup', function () {
-                    destroyCacheItems.forEach(function (innerItem) {
-                        $("#" + innerItem).garlic('destroy');
-                    });
-                });
-            });
-        };
-        ValidationService.prototype.validate = function (section) {
-            return;
-        };
-        Object.defineProperty(ValidationService.prototype, "tabContainer", {
-            get: function () {
-                return this._tabContainer;
-            },
-            set: function (value) {
-                this._tabContainer = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return ValidationService;
-    }());
-    exports.ValidationService = ValidationService;
-});
-define("Main", ["require", "exports", "Services/ValidationService"], function (require, exports, ValidationService_1) {
+define("Main", ["require", "exports", "Services/ValidationService"], function (require, exports, ValidationService_2) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var Main = (function () {
         function Main(tabContainer, ajaxInfo, cart, settings) {
@@ -1424,7 +1459,7 @@ define("Main", ["require", "exports", "Services/ValidationService"], function (r
             this.ajaxInfo = ajaxInfo;
             this.cart = cart;
             this.settings = settings;
-            this.validationService = new ValidationService_1.ValidationService(tabContainer);
+            this.validationService = new ValidationService_2.ValidationService(tabContainer);
             Main.instance = this;
         }
         Main.prototype.setup = function () {

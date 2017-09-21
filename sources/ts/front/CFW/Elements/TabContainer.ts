@@ -16,6 +16,7 @@ import { CompleteOrderCheckoutData }        from "../Types/Types";
 import { Main }                             from "../Main";
 import { Alert, AlertInfo }                 from "../Elements/Alert";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
+import {EValidationSections} from "../Services/ValidationService";
 
 /**
  *
@@ -429,19 +430,14 @@ export class TabContainer extends Element {
         let completeOrderButton: Element = new Element($("#cfw-complete-order-button"));
 
         completeOrderButton.jel.on('click', () => {
-            if($("#cfw-checkout-form").parsley().validate()) {
-                if ($("#cfw-acc-register-chk:checked").length > 0 && $("#cfw-password").val() == '') {
-                    let alertInfo: AlertInfo = {
-                        type: "CreateAccNoPassword",
-                        message: "Cannot create an account with a blank password",
-                        cssClass: "cfw-alert-danger"
-                    };
+            let createOrder: boolean = true;
 
-                    let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
-                    alert.addAlert();
-                } else {
-                    new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
-                }
+            if($("#shipping_dif_from_billing:checked").length !== 0) {
+                createOrder = Main.instance.validationService.validate(EValidationSections.BILLING)
+            }
+
+            if(createOrder) {
+                new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
             }
         });
     }

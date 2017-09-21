@@ -1,4 +1,5 @@
 import { TabContainer }                         from "../Elements/TabContainer";
+import {Alert, AlertInfo} from "../Elements/Alert";
 
 export enum EValidationSections {
     SHIPPING,
@@ -7,6 +8,8 @@ export enum EValidationSections {
 
 export class ValidationService {
 
+    private _easyTabsOrder: Array<JQuery> = [];
+
     /**
      *
      */
@@ -14,6 +17,7 @@ export class ValidationService {
 
     constructor(tabContainer: TabContainer) {
         this.tabContainer = tabContainer;
+        this.easyTabsOrder = [$("#cfw-customer-info"), $("#cfw-shipping-method"), $("#cfw-payment-method")];
 
         this.setup();
     }
@@ -24,14 +28,34 @@ export class ValidationService {
     }
 
     setEventListeners(): void{
-        this.tabContainer.jel.bind('easytabs:before', function() {
-            let validated = $("#cfw-checkout-form").parsley().validate();
+        this.tabContainer.jel.bind('easytabs:before', function(event, clicked, target, settings) {
+            let currentPanelIndex: number;
+            let targetPanelIndex: number;
 
-            // if(!validated) {
-            //     window.location.hash = '';
-            // }
+            this.easyTabsOrder.forEach((tab, index) => {
+                if(tab.filter(":visible").length !== 0) {
+                    currentPanelIndex = index;
+                }
 
-            return validated;
+                if(tab.is($(target))) {
+                    targetPanelIndex = index;
+                }
+            });
+
+            if(targetPanelIndex > currentPanelIndex) {
+                if(currentPanelIndex === 0) {
+                    let validated = this.validate(EValidationSections.SHIPPING);
+
+                    if(!validated) {
+                        window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");
+                    }
+
+                    return validated;
+                }
+            }
+
+            return true;
+
         }.bind(this));
     }
 
@@ -48,7 +72,30 @@ export class ValidationService {
     }
 
     validate(section: EValidationSections): boolean {
-        return
+        let validated: boolean;
+
+        if(section == EValidationSections.SHIPPING) {
+            let shippingValidation: boolean = $("#cfw-checkout-form").parsley().validate("shipping");
+            let accountValidation: boolean = true;
+
+            if($("#cfw-password-wrap:visible").length !== 0) {
+                accountValidation = $("#cfw-checkout-form").parsley().validate("account");
+            }
+
+            validated = shippingValidation && accountValidation;
+        } else {
+            validated = $("#cfw-checkout-form").parsley().validate("billing");
+        }
+
+        return validated;
+    }
+
+    get easyTabsOrder(): Array<JQuery> {
+        return this._easyTabsOrder;
+    }
+
+    set easyTabsOrder(value: Array<JQuery>) {
+        this._easyTabsOrder = value;
     }
 
     get tabContainer(): TabContainer {

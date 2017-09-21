@@ -35,6 +35,10 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		);
 		$key_sans_type = cfw_strip_key_type($key);
 
+		$ship_or_bill_key = explode("_", $key)[0];
+
+		$defaults['custom_attributes'] = array("data-parsley-group" => $ship_or_bill_key);
+
 		$args = wp_parse_args( $args, $defaults );
 		$args = apply_filters( 'woocommerce_form_field_args', $args, $key, $value );
 

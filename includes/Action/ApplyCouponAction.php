@@ -20,6 +20,9 @@ class ApplyCouponAction extends Action {
 
 			$discount_amounts = array();
 
+			//  We set it true to here so when the HTML is generated the target is correct
+			wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
+
 			foreach(WC()->cart->get_coupons() as $code => $coupon) {
 				ob_start();
 				wc_cart_totals_coupon_html($coupon);

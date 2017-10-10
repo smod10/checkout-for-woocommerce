@@ -435,17 +435,8 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                             <?php foreach($cart_item['variation'] as $key => $variation): ?>
                                 <div class="cfw-cart-variation">
                                 <?php
-                                    // Remove attribute prefix
-                                    $name = str_replace("attribute_", "", $key);
-
-                                    // If the remaining name has any intended spaces in it, explode them
-                                    if(strpos($name, "_")) {
-                                        $temp = implode(" ", explode($name, "_"));
-                                        $name = $temp;
-                                    }
-
-                                    // Upper case all the words
-                                    $name = ucwords($name);
+                                    // Remove attribute prefix and replace underscores with spaces (if any). Then upper case it
+                                    $name = ucwords(str_replace("_", " ", str_replace("attribute_", "", $key)));
                                 ?>
                                     <strong><?php echo $name; ?>: </strong>
                                     <span><?php echo $variation; ?></span>

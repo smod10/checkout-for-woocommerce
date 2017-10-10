@@ -3,7 +3,6 @@ import { AccountExistsResponse }        from "../Types/Types";
 import { AccountExistsData }            from "../Types/Types";
 import { AjaxInfo }                     from "../Types/Types";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
-import { AlertInfo, Alert }             from "../Elements/Alert";
 
 /**
  * Ajax does the account exist action. Takes the information from email box and fires of a request to see if the account
@@ -44,40 +43,21 @@ export class AccountExistsAction extends Action {
      */
     @ResponsePrep
     public response(resp: AccountExistsResponse) {
-        let accontExistsActions = () => {
-            $("#cfw-login-slide").slideDown(300);
-            $("#cfw-login-slide input[type='password']").focus();
-            $("#cfw-acc-register-chk").attr('checked', null);
-            $("#cfw-login-btn").css('display', 'block');
-        };
+        let login_slide: any = $("#cfw-login-slide");
+        let register_user_checkbox: any = $("#cfw-acc-register-chk")[0];
+        let register_container: any = $("#cfw-login-details .cfw-check-input");
 
+        // If account exists slide down the password field, uncheck the register box, and hide the container for the checkbox
         if(resp.account_exists) {
+            login_slide.slideDown(300);
+            register_user_checkbox.checked = false;
+            register_container.css("display", "none");
 
-            // If we start out on another tab, switch us back and focus
-            this.ezTabContainer.bind('easytabs:after', () => {
-                if(resp.account_exists) {
-                    accontExistsActions();
-                }
-            });
-
-            // Slide down, focus, and un-tick the register box
-            accontExistsActions();
-
-            this.ezTabContainer.easytabs('select', '#cfw-customer-info');
+        // If account does not exist, reverse
         } else {
-            if($("#cfw-acc-register-chk:checked").length > 0) {
-                $("#cfw-login-slide").slideDown(300);
-                $("#cfw-login-btn").css('display', 'none');
-            } else {
-                if($("#cfw-acc-register-chk").length > 0) {
-                    $("#cfw-login-slide").slideUp(300);
-                } else {
-                    $("#cfw-login-slide").css('display', 'block');
-                    $("#cfw-login-btn").css('display', 'none');
-                }
-                // Account doesn't exist and dont want to make an account? Slide us back up
-                $("#cfw-login-slide input[type='password']").val('');
-            }
+            login_slide.slideUp(300);
+            register_user_checkbox.checked = true;
+            register_container.css("display", "block");
         }
     }
 

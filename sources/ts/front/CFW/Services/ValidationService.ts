@@ -10,13 +10,21 @@ export enum EValidationSections {
 
 export class ValidationService {
 
+    /**
+     * @type {Array}
+     * @private
+     */
     private _easyTabsOrder: Array<JQuery> = [];
 
     /**
-     *
+     * @type {TabContainer}
+     * @private
      */
     private _tabContainer: TabContainer;
 
+    /**
+     * @param {TabContainer} tabContainer
+     */
     constructor(tabContainer: TabContainer) {
         this.tabContainer = tabContainer;
         this.easyTabsOrder = [$("#cfw-customer-info"), $("#cfw-shipping-method"), $("#cfw-payment-method")];
@@ -52,7 +60,7 @@ export class ValidationService {
 
             if(targetPanelIndex > currentPanelIndex) {
                 if(currentPanelIndex === 0) {
-                    let validated = this.validate(EValidationSections.SHIPPING);
+                    let validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.SHIPPING);
 
                     if(!validated) {
                         window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");

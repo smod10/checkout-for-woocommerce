@@ -395,6 +395,53 @@ define("Decorators/ResponsePrep", ["require", "exports"], function (require, exp
     }
     exports.ResponsePrep = ResponsePrep;
 });
+define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep"], function (require, exports, Action_1, ResponsePrep_1) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var AccountExistsAction = (function (_super) {
+        __extends(AccountExistsAction, _super);
+        function AccountExistsAction(id, ajaxInfo, email, ezTabContainer) {
+            var _this = this;
+            var data = {
+                action: id,
+                security: ajaxInfo.nonce,
+                email: email
+            };
+            _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+            _this.ezTabContainer = ezTabContainer;
+            return _this;
+        }
+        AccountExistsAction.prototype.response = function (resp) {
+            var login_slide = $("#cfw-login-slide");
+            var register_user_checkbox = $("#cfw-acc-register-chk")[0];
+            var register_container = $("#cfw-login-details .cfw-check-input");
+            if (resp.account_exists) {
+                login_slide.slideDown(300);
+                register_user_checkbox.checked = false;
+                register_container.css("display", "none");
+            }
+            else {
+                login_slide.slideUp(300);
+                register_user_checkbox.checked = true;
+                register_container.css("display", "block");
+            }
+        };
+        Object.defineProperty(AccountExistsAction.prototype, "ezTabContainer", {
+            get: function () {
+                return this._ezTabContainer;
+            },
+            set: function (value) {
+                this._ezTabContainer = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        __decorate([
+            ResponsePrep_1.ResponsePrep
+        ], AccountExistsAction.prototype, "response", null);
+        return AccountExistsAction;
+    }(Action_1.Action));
+    exports.AccountExistsAction = AccountExistsAction;
+});
 define("Elements/Alert", ["require", "exports", "Elements/Element"], function (require, exports, Element_4) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var Alert = (function (_super) {
@@ -438,71 +485,6 @@ define("Elements/Alert", ["require", "exports", "Elements/Element"], function (r
         return Alert;
     }(Element_4.Element));
     exports.Alert = Alert;
-});
-define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "Decorators/ResponsePrep"], function (require, exports, Action_1, ResponsePrep_1) {
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var AccountExistsAction = (function (_super) {
-        __extends(AccountExistsAction, _super);
-        function AccountExistsAction(id, ajaxInfo, email, ezTabContainer) {
-            var _this = this;
-            var data = {
-                action: id,
-                security: ajaxInfo.nonce,
-                email: email
-            };
-            _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
-            _this.ezTabContainer = ezTabContainer;
-            return _this;
-        }
-        AccountExistsAction.prototype.response = function (resp) {
-            var accontExistsActions = function () {
-                $("#cfw-login-slide").slideDown(300);
-                $("#cfw-login-slide input[type='password']").focus();
-                $("#cfw-acc-register-chk").attr('checked', null);
-                $("#cfw-login-btn").css('display', 'block');
-            };
-            if (resp.account_exists) {
-                this.ezTabContainer.bind('easytabs:after', function () {
-                    if (resp.account_exists) {
-                        accontExistsActions();
-                    }
-                });
-                accontExistsActions();
-                this.ezTabContainer.easytabs('select', '#cfw-customer-info');
-            }
-            else {
-                if ($("#cfw-acc-register-chk:checked").length > 0) {
-                    $("#cfw-login-slide").slideDown(300);
-                    $("#cfw-login-btn").css('display', 'none');
-                }
-                else {
-                    if ($("#cfw-acc-register-chk").length > 0) {
-                        $("#cfw-login-slide").slideUp(300);
-                    }
-                    else {
-                        $("#cfw-login-slide").css('display', 'block');
-                        $("#cfw-login-btn").css('display', 'none');
-                    }
-                    $("#cfw-login-slide input[type='password']").val('');
-                }
-            }
-        };
-        Object.defineProperty(AccountExistsAction.prototype, "ezTabContainer", {
-            get: function () {
-                return this._ezTabContainer;
-            },
-            set: function (value) {
-                this._ezTabContainer = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        __decorate([
-            ResponsePrep_1.ResponsePrep
-        ], AccountExistsAction.prototype, "response", null);
-        return AccountExistsAction;
-    }(Action_1.Action));
-    exports.AccountExistsAction = AccountExistsAction;
 });
 define("Actions/LoginAction", ["require", "exports", "Actions/Action", "Elements/Alert", "Decorators/ResponsePrep"], function (require, exports, Action_2, Alert_1, ResponsePrep_2) {
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -866,7 +848,7 @@ define("Services/ValidationService", ["require", "exports"], function (require, 
                 });
                 if (targetPanelIndex > currentPanelIndex) {
                     if (currentPanelIndex === 0) {
-                        var validated = this.validate(EValidationSections.SHIPPING);
+                        var validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.SHIPPING);
                         if (!validated) {
                             window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");
                         }

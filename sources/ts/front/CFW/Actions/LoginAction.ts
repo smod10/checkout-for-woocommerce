@@ -4,7 +4,6 @@ import { LogInData }                    from "../Types/Types";
 import { AjaxInfo }                     from "../Types/Types";
 import { Alert, AlertInfo }             from "../Elements/Alert";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
-import { AlertType }                    from "../Enums/AlertType";
 
 /**
  *

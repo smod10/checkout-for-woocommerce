@@ -2,7 +2,7 @@ import { Action } from "./Action";
 import { AjaxInfo } from "../Types/Types";
 import { ResponsePrep } from "../Decorators/ResponsePrep";
 import { Cart } from "../Elements/Cart";
-import {Alert, AlertInfo} from "../Elements/Alert";
+import { Alert, AlertInfo } from "../Elements/Alert";
 
 export class ApplyCouponAction extends Action {
     private _cart: Cart;

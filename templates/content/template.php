@@ -38,7 +38,7 @@
                         </li>
                     </ul>
 
-                    <form id="cfw-checkout-form" data-persist="garlic" class="woocommerce-checkout" method="POST">
+                    <form id="cfw-checkout-form" data-persist="garlic" class="woocommerce-checkout" method="POST" data-parsley-validate="">
 
                         <div id="order_review" class="woocommerce-checkout-review-order">
                             <!-- Customer Info Panel -->

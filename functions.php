@@ -427,8 +427,31 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                     </div>
                     <?php endif; ?>
                     <div class="cfw-cart-item-title-quantity cfw-cart-item-col <?php echo "${column_base}${columns["title"]}"; ?>">
-                        <a href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
-                        <strong><?php echo $item_quantity; ?></strong>
+                        <div>
+                            <a href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
+                            <strong><?php echo $item_quantity; ?></strong>
+                        </div>
+                        <?php if($cart_item['variation']): ?>
+                            <?php foreach($cart_item['variation'] as $key => $variation): ?>
+                                <div class="cfw-cart-variation">
+                                <?php
+                                    // Remove attribute prefix
+                                    $name = str_replace("attribute_", "", $key);
+
+                                    // If the remaining name has any intended spaces in it, explode them
+                                    if(strpos($name, "_")) {
+                                        $temp = implode(" ", explode($name, "_"));
+                                        $name = $temp;
+                                    }
+
+                                    // Upper case all the words
+                                    $name = ucwords($name);
+                                ?>
+                                    <strong><?php echo $name; ?>: </strong>
+                                    <span><?php echo $variation; ?></span>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                     <div class="cfw-cart-item-subtotal cfw-cart-item-col <?php echo "${column_base}${columns["subtotal"]}"; ?>">
 				        <?php echo $item_subtotal; ?>

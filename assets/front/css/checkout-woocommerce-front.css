@@ -423,6 +423,10 @@ body {
   opacity: 0.7;
   display: none; }
 
+.cfw-cart-variation {
+  font-size: 0.875em;
+  margin-top: 4px; }
+
 .show-overlay .overlay {
   display: block; }
 

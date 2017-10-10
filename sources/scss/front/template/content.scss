@@ -261,6 +261,11 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   display: none;
 }
 
+.cfw-cart-variation {
+  font-size: 0.875em;
+  margin-top: 4px;
+}
+
 .show-overlay {
   .overlay {
     display: block;

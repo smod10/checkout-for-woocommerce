@@ -58,19 +58,19 @@ body {
     height: 90px;
     position: relative;
 
-    &:after {
-      content: "CFW";
-      position: absolute;
-      color: $header-bg;
-      font-weight: 900;
-      font-size: 2.25em;
-      font-family: $font-family;
-      letter-spacing: 0.15em;
-      text-indent: 0.15em;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+    //&:after {
+    //  content: "CFW";
+    //  position: absolute;
+    //  color: $header-bg;
+    //  font-weight: 900;
+    //  font-size: 2.25em;
+    //  font-family: $font-family;
+    //  letter-spacing: 0.15em;
+    //  text-indent: 0.15em;
+    //  top: 50%;
+    //  left: 50%;
+    //  transform: translate(-50%, -50%);
+    //}
   }
 }
 

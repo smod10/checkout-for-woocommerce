@@ -17,12 +17,14 @@ class Admin {
 	}
 
 	public function start() {
+	    // Admin Menu
 		add_action('admin_menu', array($this, 'admin_menu'), 100 );
 
 		// Key Nag
 		add_action('admin_menu', array($this, 'add_key_nag'), 11);
 
-
+        // Enqueue Admin Scripts
+		add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
 	}
 
 	function admin_menu() {
@@ -49,6 +51,64 @@ class Admin {
 							<p class="description">When disabled, only admin users will see Checkout for WooCommerce checkout theme.</p>
 						</td>
 					</tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            Logo
+                        </th>
+                        <td>
+                            <div class='image-preview-wrapper'>
+                                <img id='image-preview' src='<?php echo wp_get_attachment_url( $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id') ); ?>' width='100' height='100' style='max-height: 100px; width: 100px;'>
+                            </div>
+                            <input id="upload_image_button" type="button" class="button" value="<?php _e( 'Upload image' ); ?>" />
+                            <input type='hidden' name='<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('logo_attachment_id'); ?>' id='logo_attachment_id' value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id'); ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_color'); ?>"><?php _e('Header Background Color', 'cfw'); ?></label>
+                        </th>
+                        <td>
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_color'); ?>" data-default-color="#000000" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_color'); ?>"><?php _e('Footer Background Color', 'cfw'); ?></label>
+                        </th>
+                        <td>
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('footer_color'); ?>" data-default-color="#000000" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('link_color'); ?>"><?php _e('Link Color', 'cfw'); ?></label>
+                        </th>
+                        <td>
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('link_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('link_color'); ?>" data-default-color="#e9a81d" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>"><?php _e('Button Color', 'cfw'); ?></label>
+                        </th>
+                        <td>
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_color'); ?>" data-default-color="#e9a81d" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>"><?php _e('Button Text Color', 'cfw'); ?></label>
+                        </th>
+                        <td>
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_text_color'); ?>" data-default-color="#000000" />
+                        </td>
+                    </tr>
 
 					</tbody>
 				</table>
@@ -90,4 +150,21 @@ class Admin {
 	function keynag() {
 		return "<span style='color:red'>You're missing out on important updates because your license key is missing, invalid, or expired.</span>";
 	}
+
+	function admin_scripts() {
+		// Add the color picker css file
+		wp_enqueue_style( 'wp-color-picker' );
+
+		// Add media picker script
+		wp_enqueue_media();
+
+		// Include our custom jQuery file with WordPress Color Picker dependency
+		wp_enqueue_script( 'objectiv-cfw-admin', CFW_URL . 'assets/admin/admin.js', array( 'jquery', 'wp-color-picker' ), CFW_VERSION );
+
+		// Localize the script with new data
+		$settings_array = array(
+			'logo_attachment_id' => $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id'),
+		);
+		wp_localize_script( 'objectiv-cfw-admin', 'objectiv_cfw_admin', $settings_array );
+    }
 }

@@ -1475,6 +1475,9 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                     }.bind(_this), { once: true });
                     createOrder = Main_2.Main.instance.validationService.validate(ValidationService_2.EValidationSections.BILLING);
                 }
+                else {
+                    new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, _this.getOrderDetails());
+                }
             });
         };
         TabContainer.prototype.setApplyCouponListener = function (ajaxInfo, cart) {

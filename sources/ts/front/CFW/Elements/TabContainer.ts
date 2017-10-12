@@ -455,7 +455,9 @@ export class TabContainer extends Element {
                     w.CREATE_ORDER = false;
                 }.bind(this), { once: true });
 
-                createOrder = Main.instance.validationService.validate(EValidationSections.BILLING)
+                createOrder = Main.instance.validationService.validate(EValidationSections.BILLING);
+            } else {
+                new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
             }
         });
     }

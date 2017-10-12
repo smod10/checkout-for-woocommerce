@@ -31,7 +31,10 @@ class Form {
 					'wrap'         => $this->input_wrap('text', 6, 05),
 					'label_class'  => 'cfw-input-label',
 					'start'        => true,
-					'end'          => false
+					'end'          => false,
+					'custom_attributes' => array(
+						"data-parsley-trigger"              => "change focusout"
+					)
 				),
 				'last_name' => array(
 					'label'        => __( 'Last name', 'checkout-woocommerce' ),
@@ -44,7 +47,10 @@ class Form {
 					'wrap'         => $this->input_wrap('text', 6, 10),
 					'label_class'  => 'cfw-input-label',
 					'start'        => false,
-					'end'          => true
+					'end'          => true,
+					'custom_attributes' => array(
+						"data-parsley-trigger"              => "change focusout"
+					)
 				),
 				'address_1' => array(
 					'label'        => __( 'Address', 'checkout-woocommerce' ),
@@ -57,7 +63,10 @@ class Form {
 					'wrap'         => $this->input_wrap('text', 8,15),
 					'label_class'  => 'cfw-input-label',
 					'start'        => true,
-					'end'          => false
+					'end'          => false,
+					'custom_attributes' => array(
+						"data-parsley-trigger"              => "change focusout"
+					)
 				),
 				'address_2' => array(
 					'label'        => __('Apartment, suite, unit etc.', 'checkout-woocommerce'),
@@ -150,7 +159,10 @@ class Form {
 					'wrap'         => $this->input_wrap('text', 12, 60),
 					'label_class'  => 'cfw-input-label',
 					'start'        => true,
-					'end'          => true
+					'end'          => true,
+					'custom_attributes' => array(
+						"data-parsley-trigger"              => "change focusout"
+					)
 				),
 			);
 		});

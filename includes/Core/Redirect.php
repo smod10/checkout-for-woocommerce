@@ -128,27 +128,30 @@ class Redirect {
                     // When Zippopotam.us returns the info of the given zip, check it:
                     return xhr.then(function(json) {
                         var actualState = json.places[0]['state abbreviation'];
+                        var ret;
+                        var eventName = "";
 
                         if (actualState !== state) {
+                            eventName = "cfw:state-zip-failure";
+
                             $("#cfw-tab-container").easytabs("select", failLocation);
 
-                            if(window.CREATE_ORDER) {
-                                var event = new Event("cfw:state-zip-failure");
-                                window.dispatchEvent(event);
-                            }
-
-                            return $.Deferred().reject("The zip code " + zip + " is in " + actualState + ", not in " + state);
+                            ret = $.Deferred().reject("The zip code " + zip + " is in " + actualState + ", not in " + state);
                         } else {
+                            eventName = "cfw:state-zip-success";
+
                             $("#" + elementType + "_state").parsley().reset();
                             $("#" + elementType + "_postcode").parsley().reset();
 
-                            if(window.CREATE_ORDER) {
-                                var event = new Event("cfw:state-zip-success");
-                                window.dispatchEvent(event);
-                            }
+                            ret = true;
                         }
 
-                        return true;
+                        if(window.CREATE_ORDER) {
+                            var event = new Event(eventName);
+                            window.dispatchEvent(event);
+                        }
+
+                        return ret;
                     }).fail(function(){
                         $("#cfw-tab-container").easytabs("select", failLocation);
 

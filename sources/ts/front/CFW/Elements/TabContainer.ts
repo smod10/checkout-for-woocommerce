@@ -436,7 +436,7 @@ export class TabContainer extends Element {
             if($("#shipping_dif_from_billing:checked").length !== 0) {
                 w.CREATE_ORDER = true;
 
-                $(window).on("cfw:state-zip-success", function() {
+                w.addEventListener("cfw:state-zip-success", function() {
                     if(w.CREATE_ORDER) {
                         w.CREATE_ORDER = false;
 

@@ -1463,14 +1463,14 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 var w = window;
                 if ($("#shipping_dif_from_billing:checked").length !== 0) {
                     w.CREATE_ORDER = true;
-                    $(window).on("cfw:state-zip-success", function () {
+                    w.addEventListener("cfw:state-zip-success", function () {
                         if (w.CREATE_ORDER) {
                             w.CREATE_ORDER = false;
                             if (Main_2.Main.instance.validationService.validate(ValidationService_2.EValidationSections.BILLING)) {
                                 new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
                             }
                         }
-                    }.bind(_this));
+                    }.bind(_this), { once: true });
                     Main_2.Main.instance.validationService.validate(ValidationService_2.EValidationSections.BILLING);
                 }
             });

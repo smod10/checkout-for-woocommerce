@@ -56,4 +56,13 @@ jQuery( document ).ready( function( $ ) {
     jQuery( 'a.add_media' ).on( 'click', function() {
         wp.media.model.settings.post.id = wp_media_post_id;
     });
+
+    // DELETE IMAGE LINK
+    $('.delete-custom-img').on( 'click', function( event ){
+
+        event.preventDefault();
+
+        $("#logo_attachment_id").val('');
+        $('#image-preview' ).attr( 'src', '' ).css( 'width', 'auto' );
+    });
 });

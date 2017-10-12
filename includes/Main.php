@@ -413,7 +413,9 @@ class Main extends Singleton {
 
 		// Init settings
 		$main->settings_manager->add_setting('enable', 'yes');
-		$main->settings_manager->add_setting('header_color', '#000000');
+		$main->settings_manager->add_setting('header_background_color', '#000000');
+		$main->settings_manager->add_setting('header_text_color', '#ffffff');
+		$main->settings_manager->add_setting('header_shadow_color', '#000000');
 		$main->settings_manager->add_setting('footer_color', '#000000');
 		$main->settings_manager->add_setting('link_color', '#e9a81d');
 		$main->settings_manager->add_setting('button_color', '#e9a81d');

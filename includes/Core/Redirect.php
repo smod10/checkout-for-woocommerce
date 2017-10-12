@@ -221,17 +221,29 @@ class Redirect {
 
             // Get logo attachment ID if available
             $logo_attachment_id = $settings_manager->get_setting('logo_attachment_id');
+            $hex = $settings_manager->get_setting('header_shadow_color');
+            if ( ! empty($hex) ) {
+	            list($r, $g, $b) = sscanf($hex, "#%02x%02x%02x");
+            } else {
+                $r = $g = $b = 0;
+            }
+
             ?>
             <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,500,500i,700,900" rel="stylesheet">
             <style>
                 #cfw-header {
-                    background: <?php echo $settings_manager->get_setting('header_color'); ?>
+                    background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
+                    box-shadow: 0 2px 1px rgba(<?php echo $r; ?>,<?php echo $g; ?>,<?php echo $b; ?>,.2);
                 }
                 #cfw-footer {
                     background: <?php echo $settings_manager->get_setting('footer_color'); ?>
                 }
+                #cfw-cart-details-arrow {
+                    color: <?php echo $settings_manager->get_setting('link_color'); ?> !important;
+                    fill: <?php echo $settings_manager->get_setting('link_color'); ?> !important;
+                }
                 .cfw-link {
-                    color: <?php echo $settings_manager->get_setting('link_color'); ?>
+                    color: <?php echo $settings_manager->get_setting('link_color'); ?> !important;
                 }
                 .cfw-bottom-controls .cfw-primary-btn {
                     background-color: <?php echo $settings_manager->get_setting('button_color'); ?>;
@@ -240,8 +252,21 @@ class Redirect {
 
                 <?php if ( ! empty($logo_attachment_id) ): ?>
                 .cfw-logo .logo {
-                    background: <?php echo $settings_manager->get_setting('header_color'); ?> url( <?php echo wp_get_attachment_url($logo_attachment_id); ?> ) no-repeat;
+                    background: transparent url( <?php echo wp_get_attachment_url($logo_attachment_id); ?> ) no-repeat;
                     background-size: contain;
+                }
+                <?php else: ?>
+                .cfw-logo .logo {
+                    background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
+                    height: auto;
+                    width: auto;
+                    margin: 20px auto;
+                    color: <?php echo $settings_manager->get_setting('header_text_color'); ?>;
+                }
+                .cfw-logo .logo:after {
+                    padding-top: 40px;
+                    content: "<?php echo get_bloginfo( 'name' ); ?>";
+                    font-size: 30px;
                 }
                 <?php endif; ?>
             </style>

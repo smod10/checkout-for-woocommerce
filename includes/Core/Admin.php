@@ -58,19 +58,39 @@ class Admin {
                         </th>
                         <td>
                             <div class='image-preview-wrapper'>
-                                <img id='image-preview' src='<?php echo wp_get_attachment_url( $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id') ); ?>' width='100' height='100' style='max-height: 100px; width: 100px;'>
+                                <img id='image-preview' src='<?php echo wp_get_attachment_url( $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id') ); ?>' width='100' style='max-height: 100px; width: 100px;'>
                             </div>
                             <input id="upload_image_button" type="button" class="button" value="<?php _e( 'Upload image' ); ?>" />
                             <input type='hidden' name='<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('logo_attachment_id'); ?>' id='logo_attachment_id' value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id'); ?>">
+
+                            <a class="delete-custom-img button secondary-button">Clear Logo</a>
                         </td>
                     </tr>
 
                     <tr>
                         <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_color'); ?>"><?php _e('Header Background Color', 'cfw'); ?></label>
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>"><?php _e('Header Background Color', 'cfw'); ?></label>
                         </th>
                         <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_color'); ?>" data-default-color="#000000" />
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_background_color'); ?>" data-default-color="#000000" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_text_color'); ?>"><?php _e('Header Text Color', 'cfw'); ?></label>
+                        </th>
+                        <td>
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_text_color'); ?>" data-default-color="#ffffff" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>"><?php _e('Header Shadow Color', 'cfw'); ?></label>
+                        </th>
+                        <td>
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_shadow_color'); ?>" data-default-color="#000000" />
                         </td>
                     </tr>
 

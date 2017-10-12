@@ -132,18 +132,30 @@ class Redirect {
                         if (actualState !== state) {
                             $("#cfw-tab-container").easytabs("select", failLocation);
 
+                            if(window.CREATE_ORDER) {
+                                var event = new Event("cfw:state-zip-failure");
+                                window.dispatchEvent(event);
+                            }
+
                             return $.Deferred().reject("The zip code " + zip + " is in " + actualState + ", not in " + state);
                         } else {
                             $("#" + elementType + "_state").parsley().reset();
                             $("#" + elementType + "_postcode").parsley().reset();
 
-                            var event = new Event("cfw:state-zip-success");
-                            window.dispatchEvent(event);
+                            if(window.CREATE_ORDER) {
+                                var event = new Event("cfw:state-zip-success");
+                                window.dispatchEvent(event);
+                            }
                         }
 
                         return true;
                     }).fail(function(){
                         $("#cfw-tab-container").easytabs("select", failLocation);
+
+                        if(window.CREATE_ORDER) {
+                            var event = new Event("cfw:state-zip-failure");
+                            window.dispatchEvent(event);
+                        }
                     })
                 },
                 // The following error message will still show if the xhr itself fails

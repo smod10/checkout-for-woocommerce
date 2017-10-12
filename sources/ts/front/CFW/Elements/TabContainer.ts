@@ -440,24 +440,22 @@ export class TabContainer extends Element {
             let createOrder: boolean = true;
             let w: any = window;
 
-            if(this.sendOrder) {
-                new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
-            }
-
             if($("#shipping_dif_from_billing:checked").length !== 0) {
                 w.CREATE_ORDER = true;
 
                 w.addEventListener("cfw:state-zip-success", function() {
-                    if(w.CREATE_ORDER) {
-                        w.CREATE_ORDER = false;
+                    w.CREATE_ORDER = false;
 
-                        if(Main.instance.validationService.validate(EValidationSections.BILLING)) {
-                            this.sendOrder = true;
-                        }
+                    if(createOrder) {
+                        new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
                     }
                 }.bind(this), { once: true });
 
-                Main.instance.validationService.validate(EValidationSections.BILLING)
+                w.addEventListener("cfw:state-zip-failure", function(){
+                    w.CREATE_ORDER = false;
+                }.bind(this), { once: true });
+
+                createOrder = Main.instance.validationService.validate(EValidationSections.BILLING)
             }
         });
     }

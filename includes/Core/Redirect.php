@@ -38,13 +38,13 @@ class Redirect {
 			$global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
 
 			// Output the contents of the <head></head> section
-			self::head($path_manager, $version, ['cfw']);
+			self::head($path_manager, $version, ['cfw'], $settings_manager);
 
 			// Output the contents of the <body></body> section
-			self::body($path_manager, $template_manager, $global_template_parameters);
+			self::body($path_manager, $template_manager, $global_template_parameters, $settings_manager);
 
 			// Output a closing </body> and closing </html> tag
-			self::footer($path_manager);
+			self::footer($path_manager, $settings_manager);
 
 			// Exit out before WordPress can do anything else
 			exit;
@@ -217,19 +217,67 @@ class Redirect {
 	 * @param string $version
 	 * @param array $classes
 	 */
-	public static function head($path_manager, $version, $classes) {
-
+	public static function head($path_manager, $version, $classes, $settings_manager) {
 		?>
 		<!DOCTYPE html>
 		<head>
-		<?php
+            <?php
 
-		WC()->payment_gateways->get_available_payment_gateways();
+            WC()->payment_gateways->get_available_payment_gateways();
 
-		self::init_block((!CO_DEV_MODE) ? ".min" : "", $path_manager);
+            self::init_block((!CO_DEV_MODE) ? ".min" : "", $path_manager);
 
-		?>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,500,500i,700,900" rel="stylesheet">
+            // Get logo attachment ID if available
+            $logo_attachment_id = $settings_manager->get_setting('logo_attachment_id');
+            $hex = $settings_manager->get_setting('header_shadow_color');
+            if ( ! empty($hex) ) {
+	            list($r, $g, $b) = sscanf($hex, "#%02x%02x%02x");
+            } else {
+                $r = $g = $b = 0;
+            }
+
+            ?>
+            <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,500,500i,700,900" rel="stylesheet">
+            <style>
+                #cfw-header {
+                    background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
+                    box-shadow: 0 2px 1px rgba(<?php echo $r; ?>,<?php echo $g; ?>,<?php echo $b; ?>,.2);
+                }
+                #cfw-footer {
+                    background: <?php echo $settings_manager->get_setting('footer_color'); ?>
+                }
+                #cfw-cart-details-arrow {
+                    color: <?php echo $settings_manager->get_setting('link_color'); ?> !important;
+                    fill: <?php echo $settings_manager->get_setting('link_color'); ?> !important;
+                }
+                .cfw-link {
+                    color: <?php echo $settings_manager->get_setting('link_color'); ?> !important;
+                }
+                .cfw-bottom-controls .cfw-primary-btn {
+                    background-color: <?php echo $settings_manager->get_setting('button_color'); ?>;
+                    color: <?php echo $settings_manager->get_setting('button_text_color'); ?>;
+                }
+
+                <?php if ( ! empty($logo_attachment_id) ): ?>
+                .cfw-logo .logo {
+                    background: transparent url( <?php echo wp_get_attachment_url($logo_attachment_id); ?> ) no-repeat;
+                    background-size: contain;
+                }
+                <?php else: ?>
+                .cfw-logo .logo {
+                    background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
+                    height: auto;
+                    width: auto;
+                    margin: 20px auto;
+                    color: <?php echo $settings_manager->get_setting('header_text_color'); ?>;
+                }
+                .cfw-logo .logo:after {
+                    padding-top: 40px;
+                    content: "<?php echo get_bloginfo( 'name' ); ?>";
+                    font-size: 30px;
+                }
+                <?php endif; ?>
+            </style>
 		</head>
 		<body class="<?php echo implode(" ", $classes); ?>" onload="init()">
 		<?php
@@ -261,7 +309,7 @@ class Redirect {
 	 * @param TemplateManager $template_manager
 	 * @param array $global_template_parameters
 	 */
-	public static function body($path_manager, $template_manager, $global_template_parameters) {
+	public static function body($path_manager, $template_manager, $global_template_parameters, $settings_manager) {
 		// Fire off an action before we load the template pieces
 		do_action('cfw_template_before_load');
 
@@ -279,7 +327,7 @@ class Redirect {
      * @param PathManager $path_manager
 	 * @since 0.1.0
 	 */
-	public static function footer($path_manager) {
+	public static function footer($path_manager, $settings_manager) {
 		print_footer_scripts();
 		?>
 		</body>

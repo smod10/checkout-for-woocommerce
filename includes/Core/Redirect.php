@@ -117,40 +117,33 @@ class Redirect {
 	            }
             });
 
-            Parsley.addValidator('zip', {
-                validateString: function(value, country) {
-                    // Zippopotam.us returns a status 404 for incorrect zip codes,
-                    // so we simply return the ajax request:
-                    if(value === "") {
-                        return false;
-                    }
-
-                    console.log(value);
-
-                    return $.ajax('//www.zippopotam.us/' + country + '/' + value)
-                },
-                messages: {en: 'There is no such zip for the country "%s"'}
-            });
-
             Parsley.addValidator('stateAndZip', {
                 validateString: function(_ignoreValue, country, instance) {
-//                    var state = instance.$element.find('[name="state"]').val();
-//                    var zip = instance.$element.find('[name="zip"]').val();
-
                     var elementType = instance.$element[0].getAttribute("id").split("_")[0];
                     var state = $("#" + elementType + "_state").val();
                     var zip = $("#" + elementType + "_postcode").val();
+                    var failLocation = (elementType === "shipping") ? "#cfw-customer-info" : "#cfw-payment-method";
 
                     var xhr = $.ajax('//www.zippopotam.us/' + country + '/' + zip);
                     // When Zippopotam.us returns the info of the given zip, check it:
                     return xhr.then(function(json) {
                         var actualState = json.places[0]['state abbreviation'];
+
                         if (actualState !== state) {
-                            // We could return `false`, but for an even better result
-                            // we can fail the promise with a custom error message:
+                            $("#cfw-tab-container").easytabs("select", failLocation);
+
                             return $.Deferred().reject("The zip code " + zip + " is in " + actualState + ", not in " + state);
-                            // Note: in jQuery 3.0+, you can `throw('my custom error')` for the same result
+                        } else {
+                            $("#" + elementType + "_state").parsley().reset();
+                            $("#" + elementType + "_postcode").parsley().reset();
+
+                            var event = new Event("cfw:state-zip-success");
+                            window.dispatchEvent(event);
                         }
+
+                        return true;
+                    }).fail(function(){
+                        $("#cfw-tab-container").easytabs("select", failLocation);
                     })
                 },
                 // The following error message will still show if the xhr itself fails

@@ -41,6 +41,15 @@ export class ValidationService {
                 window.location.hash = "#cfw-customer-info";
             }
         }
+
+        // Parsley isn't a jquery default, this gets around it.
+        let $temp: any = $;
+        let shipping_action: Function = function(element) {
+            $("#cfw-tab-container").easytabs("select", "#cfw-customer-info");
+        };
+
+        $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
+        $temp("#shipping_state").parsley().on("field:error", shipping_action);
     }
 
     setEventListeners(): void{
@@ -62,7 +71,7 @@ export class ValidationService {
                 if(currentPanelIndex === 0) {
                     let validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.SHIPPING);
 
-                    if(!validated) {
+                    if (!validated) {
                         window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");
                     }
 
@@ -87,7 +96,7 @@ export class ValidationService {
         });
     }
 
-    validate(section: EValidationSections): boolean {
+    validate(section: EValidationSections): any {
         let validated: boolean;
 
         switch(section) {

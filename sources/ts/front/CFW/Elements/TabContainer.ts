@@ -431,13 +431,22 @@ export class TabContainer extends Element {
 
         completeOrderButton.jel.on('click', () => {
             let createOrder: boolean = true;
+            let w: any = window;
 
             if($("#shipping_dif_from_billing:checked").length !== 0) {
-                createOrder = Main.instance.validationService.validate(EValidationSections.BILLING)
-            }
+                w.CREATE_ORDER = true;
 
-            if(createOrder) {
-                new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
+                $(window).on("cfw:state-zip-success", function() {
+                    if(w.CREATE_ORDER) {
+                        w.CREATE_ORDER = false;
+
+                        if(Main.instance.validationService.validate(EValidationSections.BILLING)) {
+                            new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
+                        }
+                    }
+                }.bind(this), { once: true });
+
+                Main.instance.validationService.validate(EValidationSections.BILLING)
             }
         });
     }

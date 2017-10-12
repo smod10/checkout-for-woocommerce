@@ -833,6 +833,12 @@ define("Services/ValidationService", ["require", "exports"], function (require, 
                     window.location.hash = "#cfw-customer-info";
                 }
             }
+            var $temp = $;
+            var shipping_action = function (element) {
+                $("#cfw-tab-container").easytabs("select", "#cfw-customer-info");
+            };
+            $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
+            $temp("#shipping_state").parsley().on("field:error", shipping_action);
         };
         ValidationService.prototype.setEventListeners = function () {
             this.tabContainer.jel.bind('easytabs:before', function (event, clicked, target, settings) {
@@ -1454,11 +1460,18 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             var completeOrderButton = new Element_6.Element($("#cfw-complete-order-button"));
             completeOrderButton.jel.on('click', function () {
                 var createOrder = true;
+                var w = window;
                 if ($("#shipping_dif_from_billing:checked").length !== 0) {
-                    createOrder = Main_2.Main.instance.validationService.validate(ValidationService_2.EValidationSections.BILLING);
-                }
-                if (createOrder) {
-                    new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, _this.getOrderDetails());
+                    w.CREATE_ORDER = true;
+                    $(window).on("cfw:state-zip-success", function () {
+                        if (w.CREATE_ORDER) {
+                            w.CREATE_ORDER = false;
+                            if (Main_2.Main.instance.validationService.validate(ValidationService_2.EValidationSections.BILLING)) {
+                                new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
+                            }
+                        }
+                    }.bind(_this));
+                    Main_2.Main.instance.validationService.validate(ValidationService_2.EValidationSections.BILLING);
                 }
             });
         };

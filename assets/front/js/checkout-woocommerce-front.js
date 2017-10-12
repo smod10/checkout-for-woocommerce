@@ -1181,6 +1181,7 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
         __extends(TabContainer, _super);
         function TabContainer(jel, tabContainerBreadcrumb, tabContainerSections) {
             var _this = _super.call(this, jel) || this;
+            _this._sendOrder = false;
             _this.tabContainerBreadcrumb = tabContainerBreadcrumb;
             _this.tabContainerSections = tabContainerSections;
             return _this;
@@ -1461,13 +1462,16 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             completeOrderButton.jel.on('click', function () {
                 var createOrder = true;
                 var w = window;
+                if (_this.sendOrder) {
+                    new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, _this.getOrderDetails());
+                }
                 if ($("#shipping_dif_from_billing:checked").length !== 0) {
                     w.CREATE_ORDER = true;
                     w.addEventListener("cfw:state-zip-success", function () {
                         if (w.CREATE_ORDER) {
                             w.CREATE_ORDER = false;
                             if (Main_2.Main.instance.validationService.validate(ValidationService_2.EValidationSections.BILLING)) {
-                                new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
+                                this.sendOrder = true;
                             }
                         }
                     }.bind(_this), { once: true });
@@ -1512,6 +1516,16 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             },
             set: function (value) {
                 this._tabContainerSections = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TabContainer.prototype, "sendOrder", {
+            get: function () {
+                return this._sendOrder;
+            },
+            set: function (value) {
+                this._sendOrder = value;
             },
             enumerable: true,
             configurable: true

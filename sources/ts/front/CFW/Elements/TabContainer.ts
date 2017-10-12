@@ -35,6 +35,13 @@ export class TabContainer extends Element {
 
     /**
      *
+     * @type {boolean}
+     * @private
+     */
+    private _sendOrder: boolean = false;
+
+    /**
+     *
      * @param jel
      * @param tabContainerBreadcrumb
      * @param tabContainerSections
@@ -433,6 +440,10 @@ export class TabContainer extends Element {
             let createOrder: boolean = true;
             let w: any = window;
 
+            if(this.sendOrder) {
+                new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
+            }
+
             if($("#shipping_dif_from_billing:checked").length !== 0) {
                 w.CREATE_ORDER = true;
 
@@ -441,7 +452,7 @@ export class TabContainer extends Element {
                         w.CREATE_ORDER = false;
 
                         if(Main.instance.validationService.validate(EValidationSections.BILLING)) {
-                            new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
+                            this.sendOrder = true;
                         }
                     }
                 }.bind(this), { once: true });
@@ -521,5 +532,13 @@ export class TabContainer extends Element {
      */
     set tabContainerSections(value: Array<TabContainerSection>) {
         this._tabContainerSections = value;
+    }
+
+    get sendOrder(): boolean {
+        return this._sendOrder;
+    }
+
+    set sendOrder(value: boolean) {
+        this._sendOrder = value;
     }
 }

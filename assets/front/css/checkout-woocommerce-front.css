@@ -769,4 +769,7 @@ body {
   text-align: center;
   background: #eaeaea; }
 
+#cfw-footer .cfw-footer-inner {
+  padding: 40px 0; }
+
 /*# sourceMappingURL=checkout-woocommerce-front.css.map */

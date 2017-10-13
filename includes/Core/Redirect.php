@@ -244,7 +244,8 @@ class Redirect {
                     box-shadow: 0 2px 1px rgba(<?php echo $r; ?>,<?php echo $g; ?>,<?php echo $b; ?>,.2);
                 }
                 #cfw-footer {
-                    background: <?php echo $settings_manager->get_setting('footer_color'); ?>
+                    color: <?php echo $settings_manager->get_setting('footer_color'); ?>;
+                    background: <?php echo $settings_manager->get_setting('footer_background_color'); ?>;
                 }
                 #cfw-cart-details-arrow {
                     color: <?php echo $settings_manager->get_setting('link_color'); ?> !important;

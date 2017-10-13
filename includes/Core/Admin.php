@@ -11,6 +11,7 @@ namespace Objectiv\Plugins\Checkout\Core;
 
 class Admin {
 	var $plugin_instance;
+	var $tabs;
 
 	public function __construct( $plugin ) {
 		$this->plugin_instance = $plugin;
@@ -25,139 +26,160 @@ class Admin {
 
         // Enqueue Admin Scripts
 		add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
+
+		// Initiate tab object
+        $this->tabs = new \WP_Tabbed_Navigation('Checkout for WooCommerce');
 	}
 
 	function admin_menu() {
 		add_options_page("Checkout for WooCommerce", "Checkout for WooCommerce", "manage_options", "cfw-settings", array($this, "admin_page") );
+
+		// Setup tabs
+        $this->tabs->add_tab('Welcome', menu_page_url('cfw-settings', false) );
+		$this->tabs->add_tab('Design', add_query_arg( array('subpage' => 'design'), menu_page_url('cfw-settings', false) ) );
+		$this->tabs->add_tab('License', add_query_arg( array('subpage' => 'license'), menu_page_url('cfw-settings', false) ) );
 	}
 
 	function admin_page() {
 		?>
 		<div class="wrap">
-			<h2>Checkout for WooCommerce</h2>
+            <?php $this->tabs->display_tabs(); ?>
 
-			<form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-				<?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
+            <?php if ( $this->get_current_tab() == "license" ): ?>
+                <?php $this->plugin_instance->get_updater()->admin_page(); ?>
+            <?php else: ?>
+                <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+                    <?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
+                    <table class="form-table">
+                        <tbody>
 
-				<table class="form-table">
-					<tbody>
-					<tr>
-						<th scope="row" valign="top">
-							<label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>"><?php _e('Enable Template', 'cfw'); ?></label>
-						</th>
-						<td>
-							<input type="hidden" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="no" />
-							<label><input type="checkbox" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" id="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="yes" <?php if ( $this->plugin_instance->get_settings_manager()->get_setting('enable') == "yes" ) echo "checked"; ?> /> <?php _e('Enable Checkout for WooCommerce', 'cfw'); ?></label>
-							<p class="description">When disabled, only admin users will see Checkout for WooCommerce checkout theme.</p>
-						</td>
-					</tr>
+                        <?php if ( $this->get_current_tab() === false ): ?>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>"><?php _e('Enable Template', 'cfw'); ?></label>
+                            </th>
+                            <td>
+                                <input type="hidden" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="no" />
+                                <label><input type="checkbox" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" id="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="yes" <?php if ( $this->plugin_instance->get_settings_manager()->get_setting('enable') == "yes" ) echo "checked"; ?> /> <?php _e('Enable Checkout for WooCommerce', 'cfw'); ?></label>
+                                <p class="description">When disabled, only admin users will see Checkout for WooCommerce checkout theme.</p>
+                            </td>
+                        </tr>
+                        <?php endif; ?>
 
-                    <tr>
-                        <th scope="row" valign="top">
-                            Logo
-                        </th>
-                        <td>
-                            <div class='image-preview-wrapper'>
-                                <img id='image-preview' src='<?php echo wp_get_attachment_url( $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id') ); ?>' width='100' style='max-height: 100px; width: 100px;'>
-                            </div>
-                            <input id="upload_image_button" type="button" class="button" value="<?php _e( 'Upload image' ); ?>" />
-                            <input type='hidden' name='<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('logo_attachment_id'); ?>' id='logo_attachment_id' value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id'); ?>">
+                        <?php if ( $this->get_current_tab() == "design" ): ?>
+                        <tr>
+                            <th scope="row" valign="top">
+                                Logo
+                            </th>
+                            <td>
+                                <div class='image-preview-wrapper'>
+                                    <img id='image-preview' src='<?php echo wp_get_attachment_url( $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id') ); ?>' width='100' style='max-height: 100px; width: 100px;'>
+                                </div>
+                                <input id="upload_image_button" type="button" class="button" value="<?php _e( 'Upload image' ); ?>" />
+                                <input type='hidden' name='<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('logo_attachment_id'); ?>' id='logo_attachment_id' value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id'); ?>">
 
-                            <a class="delete-custom-img button secondary-button">Clear Logo</a>
-                        </td>
-                    </tr>
+                                <a class="delete-custom-img button secondary-button">Clear Logo</a>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>"><?php _e('Header Background Color', 'cfw'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_background_color'); ?>" data-default-color="#000000" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>"><?php _e('Header Background Color', 'cfw'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_background_color'); ?>" data-default-color="#000000" />
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_text_color'); ?>"><?php _e('Header Text Color', 'cfw'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_text_color'); ?>" data-default-color="#ffffff" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_text_color'); ?>"><?php _e('Header Text Color', 'cfw'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_text_color'); ?>" data-default-color="#ffffff" />
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>"><?php _e('Header Shadow Color', 'cfw'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_shadow_color'); ?>" data-default-color="#000000" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>"><?php _e('Header Shadow Color', 'cfw'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_shadow_color'); ?>" data-default-color="#000000" />
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_background_color'); ?>"><?php _e('Footer Background Color', 'cfw'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_background_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('footer_background_color'); ?>" data-default-color="#000000" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_background_color'); ?>"><?php _e('Footer Background Color', 'cfw'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_background_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('footer_background_color'); ?>" data-default-color="#000000" />
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_color'); ?>"><?php _e('Footer Text Color', 'cfw'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('footer_color'); ?>" data-default-color="#ffffff" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_color'); ?>"><?php _e('Footer Text Color', 'cfw'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('footer_color'); ?>" data-default-color="#ffffff" />
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'); ?>"><?php _e('Footer Text', 'cfw'); ?></label>
-                        </th>
-                        <td>
-                            <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'), array('textarea_rows' => 5) ); ?>
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'); ?>"><?php _e('Footer Text', 'cfw'); ?></label>
+                            </th>
+                            <td>
+                                <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'), array('textarea_rows' => 5) ); ?>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('link_color'); ?>"><?php _e('Link Color', 'cfw'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('link_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('link_color'); ?>" data-default-color="#e9a81d" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('link_color'); ?>"><?php _e('Link Color', 'cfw'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('link_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('link_color'); ?>" data-default-color="#e9a81d" />
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>"><?php _e('Button Color', 'cfw'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_color'); ?>" data-default-color="#e9a81d" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>"><?php _e('Button Color', 'cfw'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_color'); ?>" data-default-color="#e9a81d" />
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>"><?php _e('Button Text Color', 'cfw'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_text_color'); ?>" data-default-color="#000000" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>"><?php _e('Button Text Color', 'cfw'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_text_color'); ?>" data-default-color="#000000" />
+                            </td>
+                        </tr>
 
-					</tbody>
-				</table>
+                        <?php endif; ?>
 
-				<?php submit_button('Save'); ?>
-			</form>
+                        </tbody>
+                    </table>
 
-            <?php $this->plugin_instance->get_updater()->admin_page(); ?>
+                    <?php submit_button('Save'); ?>
+                </form>
+
+            <?php endif; ?>
+
 		</div>
 		<?php
 	}
+
+	function get_current_tab() {
+	    return empty($_GET['subpage']) ? false : $_GET['subpage'];
+    }
 
 	function add_key_nag() {
 		global $pagenow;

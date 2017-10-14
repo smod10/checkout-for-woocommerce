@@ -30,14 +30,14 @@ class Admin {
 
 	function admin_menu() {
 		// Initiate tab object
-		$this->tabs = new \WP_Tabbed_Navigation( __( 'Checkout for WooCommerce', 'cfw' ) );
+		$this->tabs = new \WP_Tabbed_Navigation( __( 'Checkout for WooCommerce', 'checkout-wc' ) );
 
-		add_options_page( __( 'Checkout for WooCommerce', 'cfw' ), __( 'Checkout for WooCommerce', 'cfw' ), "manage_options", "cfw-settings", array($this, "admin_page") );
+		add_options_page( __( 'Checkout for WooCommerce', 'checkout-wc' ), __( 'Checkout for WooCommerce', 'checkout-wc' ), "manage_options", "cfw-settings", array($this, "admin_page") );
 
 		// Setup tabs
-        $this->tabs->add_tab( __( 'Welcome', 'cfw' ), menu_page_url('cfw-settings', false) );
-		$this->tabs->add_tab( __( 'Design', 'cfw' ), add_query_arg( array('subpage' => 'design'), menu_page_url('cfw-settings', false) ) );
-		$this->tabs->add_tab( __( 'License', 'cfw' ), add_query_arg( array('subpage' => 'license'), menu_page_url('cfw-settings', false) ) );
+        $this->tabs->add_tab( __( 'Welcome', 'checkout-wc' ), menu_page_url('cfw-settings', false) );
+		$this->tabs->add_tab( __( 'Design', 'checkout-wc' ), add_query_arg( array('subpage' => 'design'), menu_page_url('cfw-settings', false) ) );
+		$this->tabs->add_tab( __( 'License', 'checkout-wc' ), add_query_arg( array('subpage' => 'license'), menu_page_url('cfw-settings', false) ) );
 	}
 
 	function admin_page() {
@@ -56,12 +56,12 @@ class Admin {
                         <?php if ( $this->get_current_tab() === false ): ?>
                         <tr>
                             <th scope="row" valign="top">
-                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>"><?php _e('Enable / Disable', 'cfw'); ?></label>
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>"><?php _e('Enable / Disable', 'checkout-wc'); ?></label>
                             </th>
                             <td>
                                 <input type="hidden" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="no" />
-                                <label><input type="checkbox" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" id="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="yes" <?php if ( $this->plugin_instance->get_settings_manager()->get_setting('enable') == "yes" ) echo "checked"; ?> /> <?php _e('Use Checkout for WooCommerce Template', 'cfw'); ?></label>
-                                <p class="description"><?php _e('Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always enabled for admin users.)', 'cfw'); ?></p>
+                                <label><input type="checkbox" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" id="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="yes" <?php if ( $this->plugin_instance->get_settings_manager()->get_setting('enable') == "yes" ) echo "checked"; ?> /> <?php _e('Use Checkout for WooCommerce Template', 'checkout-wc'); ?></label>
+                                <p class="description"><?php _e('Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always enabled for admin users.)', 'checkout-wc'); ?></p>
                             </td>
                         </tr>
                         <?php endif; ?>
@@ -69,7 +69,7 @@ class Admin {
                         <?php if ( $this->get_current_tab() == "design" ): ?>
                         <tr>
                             <th scope="row" valign="top">
-	                            <?php _e('Logo', 'cfw'); ?>
+	                            <?php _e('Logo', 'checkout-wc'); ?>
                             </th>
                             <td>
                                 <div class='image-preview-wrapper'>
@@ -78,13 +78,13 @@ class Admin {
                                 <input id="upload_image_button" type="button" class="button" value="<?php _e( 'Upload image' ); ?>" />
                                 <input type='hidden' name='<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('logo_attachment_id'); ?>' id='logo_attachment_id' value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id'); ?>">
 
-                                <a class="delete-custom-img button secondary-button"><?php _e('Clear Logo', 'cfw'); ?></a>
+                                <a class="delete-custom-img button secondary-button"><?php _e('Clear Logo', 'checkout-wc'); ?></a>
                             </td>
                         </tr>
 
                         <tr>
                             <th scope="row" valign="top">
-                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>"><?php _e('Header Background Color', 'cfw'); ?></label>
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>"><?php _e('Header Background Color', 'checkout-wc'); ?></label>
                             </th>
                             <td>
                                 <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_background_color'); ?>" data-default-color="#000000" />
@@ -93,7 +93,7 @@ class Admin {
 
                         <tr>
                             <th scope="row" valign="top">
-                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_text_color'); ?>"><?php _e('Header Text Color', 'cfw'); ?></label>
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_text_color'); ?>"><?php _e('Header Text Color', 'checkout-wc'); ?></label>
                             </th>
                             <td>
                                 <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_text_color'); ?>" data-default-color="#ffffff" />
@@ -102,7 +102,7 @@ class Admin {
 
                         <tr>
                             <th scope="row" valign="top">
-                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>"><?php _e('Header Shadow Color', 'cfw'); ?></label>
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>"><?php _e('Header Shadow Color', 'checkout-wc'); ?></label>
                             </th>
                             <td>
                                 <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_shadow_color'); ?>" data-default-color="#000000" />
@@ -111,7 +111,7 @@ class Admin {
 
                         <tr>
                             <th scope="row" valign="top">
-                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_background_color'); ?>"><?php _e('Footer Background Color', 'cfw'); ?></label>
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_background_color'); ?>"><?php _e('Footer Background Color', 'checkout-wc'); ?></label>
                             </th>
                             <td>
                                 <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_background_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('footer_background_color'); ?>" data-default-color="#000000" />
@@ -120,7 +120,7 @@ class Admin {
 
                         <tr>
                             <th scope="row" valign="top">
-                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_color'); ?>"><?php _e('Footer Text Color', 'cfw'); ?></label>
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_color'); ?>"><?php _e('Footer Text Color', 'checkout-wc'); ?></label>
                             </th>
                             <td>
                                 <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('footer_color'); ?>" data-default-color="#ffffff" />
@@ -129,7 +129,7 @@ class Admin {
 
                         <tr>
                             <th scope="row" valign="top">
-                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'); ?>"><?php _e('Footer Text', 'cfw'); ?></label>
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'); ?>"><?php _e('Footer Text', 'checkout-wc'); ?></label>
                             </th>
                             <td>
                                 <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'), array('textarea_rows' => 5) ); ?>
@@ -138,7 +138,7 @@ class Admin {
 
                         <tr>
                             <th scope="row" valign="top">
-                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('link_color'); ?>"><?php _e('Link Color', 'cfw'); ?></label>
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('link_color'); ?>"><?php _e('Link Color', 'checkout-wc'); ?></label>
                             </th>
                             <td>
                                 <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('link_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('link_color'); ?>" data-default-color="#e9a81d" />
@@ -147,7 +147,7 @@ class Admin {
 
                         <tr>
                             <th scope="row" valign="top">
-                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>"><?php _e('Button Color', 'cfw'); ?></label>
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>"><?php _e('Button Color', 'checkout-wc'); ?></label>
                             </th>
                             <td>
                                 <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_color'); ?>" data-default-color="#e9a81d" />
@@ -156,7 +156,7 @@ class Admin {
 
                         <tr>
                             <th scope="row" valign="top">
-                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>"><?php _e('Button Text Color', 'cfw'); ?></label>
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>"><?php _e('Button Text Color', 'checkout-wc'); ?></label>
                             </th>
                             <td>
                                 <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_text_color'); ?>" data-default-color="#000000" />

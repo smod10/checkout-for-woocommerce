@@ -38,7 +38,7 @@ class Redirect {
 			$global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
 
 			// Output the contents of the <head></head> section
-			self::head($path_manager, $version, ['cfw'], $settings_manager);
+			self::head($path_manager, $version, ['checkout-wc'], $settings_manager);
 
 			// Output the contents of the <body></body> section
 			self::body($path_manager, $template_manager, $global_template_parameters, $settings_manager);

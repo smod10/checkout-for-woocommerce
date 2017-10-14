@@ -293,7 +293,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 	function cfw_get_shipping_details($checkout) {
 		foreach ( $checkout->get_checkout_fields( 'shipping' ) as $key => $field ) {
-			echo "<div field_type='" . cfw_strip_key_type($key) ."' class='cfw-shipping-details-field'><label class='field_type'>" . esc_html__(cfw_strip_key_type_and_capitalize($key), 'cfw') . ": </label><span class='field_value'>{$checkout->get_value($key)}</span></div>";
+			echo "<div field_type='" . cfw_strip_key_type($key) ."' class='cfw-shipping-details-field'><label class='field_type'>" . esc_html__(cfw_strip_key_type_and_capitalize($key), 'checkout-wc') . ": </label><span class='field_value'>{$checkout->get_value($key)}</span></div>";
 		}
 	}
 

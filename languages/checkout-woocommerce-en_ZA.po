@@ -13,7 +13,7 @@ msgstr ""
 "Language: en_ZA\n"
 
 #: Activator.php:78
-msgid "Checkout for Woocommerce"
+msgid "Checkout for WooCommerce"
 msgstr "Checzkout for Woocmerce"
 
 #: Activator.php:51

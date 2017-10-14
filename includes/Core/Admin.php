@@ -26,12 +26,12 @@ class Admin {
 
         // Enqueue Admin Scripts
 		add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
-
-		// Initiate tab object
-        $this->tabs = new \WP_Tabbed_Navigation( __( 'Checkout for WooCommerce', 'cfw' ) );
 	}
 
 	function admin_menu() {
+		// Initiate tab object
+		$this->tabs = new \WP_Tabbed_Navigation( __( 'Checkout for WooCommerce', 'cfw' ) );
+
 		add_options_page( __( 'Checkout for WooCommerce', 'cfw' ), __( 'Checkout for WooCommerce', 'cfw' ), "manage_options", "cfw-settings", array($this, "admin_page") );
 
 		// Setup tabs

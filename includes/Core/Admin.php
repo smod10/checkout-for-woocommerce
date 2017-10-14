@@ -56,12 +56,12 @@ class Admin {
                         <?php if ( $this->get_current_tab() === false ): ?>
                         <tr>
                             <th scope="row" valign="top">
-                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>"><?php _e('Enable Template', 'cfw'); ?></label>
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>"><?php _e('Enable / Disable', 'cfw'); ?></label>
                             </th>
                             <td>
                                 <input type="hidden" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="no" />
-                                <label><input type="checkbox" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" id="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="yes" <?php if ( $this->plugin_instance->get_settings_manager()->get_setting('enable') == "yes" ) echo "checked"; ?> /> <?php _e('Enable Checkout for WooCommerce', 'cfw'); ?></label>
-                                <p class="description">When disabled, only admin users will see Checkout for WooCommerce checkout theme.</p>
+                                <label><input type="checkbox" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" id="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="yes" <?php if ( $this->plugin_instance->get_settings_manager()->get_setting('enable') == "yes" ) echo "checked"; ?> /> <?php _e('Use Checkout for WooCommerce Template', 'cfw'); ?></label>
+                                <p class="description">Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always enabled for admin users.)</p>
                             </td>
                         </tr>
                         <?php endif; ?>

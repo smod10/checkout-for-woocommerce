@@ -295,7 +295,9 @@ class Redirect {
 			'cfw_front_js_parsley',
             'cfw_front_js_array_find_poly',
             'stripe',
-            'woocommerce_stripe'
+            'woocommerce_stripe',
+            'stripe_apple_pay',
+            'woocommerce_stripe_apple_pay',
         );
 
 		foreach($wp_scripts->queue as $handle) {

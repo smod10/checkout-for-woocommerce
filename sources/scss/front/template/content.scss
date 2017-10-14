@@ -555,6 +555,19 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   box-sizing: border-box;
 }
 
+#cfw-main-container {
+  .apple-pay-button-checkout-separator {
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .apple-pay-button-wrapper {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+}
+
 @media (max-width: 767px) {
   #cfw-cart-details {
     order: 0;

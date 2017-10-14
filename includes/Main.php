@@ -366,7 +366,7 @@ class Main extends Singleton {
 	}
 
 	/**
-	 * Handles general purpose Wordpress actions.
+	 * Handles general purpose WordPress actions.
 	 *
 	 * @since 0.1.0
 	 * @access private

@@ -674,6 +674,15 @@ body {
   padding: 30px;
   box-sizing: border-box; }
 
+#cfw-main-container .apple-pay-button-checkout-separator {
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 20px; }
+
+#cfw-main-container .apple-pay-button-wrapper {
+  text-align: center;
+  margin-bottom: 10px; }
+
 @media (max-width: 767px) {
   #cfw-cart-details {
     -webkit-box-ordinal-group: 1;

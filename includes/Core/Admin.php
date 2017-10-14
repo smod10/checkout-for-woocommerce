@@ -28,16 +28,16 @@ class Admin {
 		add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
 
 		// Initiate tab object
-        $this->tabs = new \WP_Tabbed_Navigation('Checkout for WooCommerce');
+        $this->tabs = new \WP_Tabbed_Navigation( __( 'Checkout for WooCommerce', 'cfw' ) );
 	}
 
 	function admin_menu() {
-		add_options_page("Checkout for WooCommerce", "Checkout for WooCommerce", "manage_options", "cfw-settings", array($this, "admin_page") );
+		add_options_page( __( 'Checkout for WooCommerce', 'cfw' ), __( 'Checkout for WooCommerce', 'cfw' ), "manage_options", "cfw-settings", array($this, "admin_page") );
 
 		// Setup tabs
-        $this->tabs->add_tab('Welcome', menu_page_url('cfw-settings', false) );
-		$this->tabs->add_tab('Design', add_query_arg( array('subpage' => 'design'), menu_page_url('cfw-settings', false) ) );
-		$this->tabs->add_tab('License', add_query_arg( array('subpage' => 'license'), menu_page_url('cfw-settings', false) ) );
+        $this->tabs->add_tab( __( 'Welcome', 'cfw' ), menu_page_url('cfw-settings', false) );
+		$this->tabs->add_tab( __( 'Design', 'cfw' ), add_query_arg( array('subpage' => 'design'), menu_page_url('cfw-settings', false) ) );
+		$this->tabs->add_tab( __( 'License', 'cfw' ), add_query_arg( array('subpage' => 'license'), menu_page_url('cfw-settings', false) ) );
 	}
 
 	function admin_page() {
@@ -168,7 +168,7 @@ class Admin {
                         </tbody>
                     </table>
 
-                    <?php submit_button('Save'); ?>
+                    <?php submit_button(); ?>
                 </form>
 
             <?php endif; ?>

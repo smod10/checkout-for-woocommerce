@@ -47,7 +47,7 @@
                                 <div id="cfw-login-details" class="cfw-module">
                                     <h3 class="cfw-module-title">Customer Information</h3>
 
-                                    <?php if(!is_user_logged_in()): ?>
+                                    <?php if( ! is_user_logged_in() ): ?>
                                     <div class="cfw-have-acc-text cfw-small">
                                         <span>
                                             <?php echo __('Already have an account with us?', 'checkout-woocommerce'); ?>

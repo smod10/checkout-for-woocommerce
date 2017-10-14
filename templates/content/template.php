@@ -47,6 +47,8 @@
                                 <div id="cfw-login-details" class="cfw-module">
                                     <h3 class="cfw-module-title">Customer Information</h3>
 
+                                    <?php do_action('cfw_checkout_before_customer_info'); ?>
+
                                     <?php if( ! is_user_logged_in() ): ?>
                                     <div class="cfw-have-acc-text cfw-small">
                                         <span>

@@ -1,17 +1,17 @@
-#, fuzzy
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2017-10-14 11:45-0400\n"
-"PO-Revision-Date: 2017-10-14 11:44-0400\n"
+"POT-Creation-Date: 2017-10-14 12:42-0400\n"
+"PO-Revision-Date: 2017-10-14 12:52-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.4\n"
 "X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: checkout-for-woocommerce.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -23,23 +23,23 @@ msgstr ""
 
 #: functions.php:48
 msgid "required"
-msgstr ""
+msgstr "必要的"
 
 #: functions.php:117
 msgid "Select a country&hellip;"
-msgstr ""
+msgstr "选择一个国家＆hellip;"
 
 #: functions.php:125
 msgid "Update country"
-msgstr ""
+msgstr "更新国家"
 
 #: functions.php:146
 msgid "Select a state&hellip;"
-msgstr ""
+msgstr "选择一个地区&hellip;"
 
 #: functions.php:191
 msgid "Choose an option"
-msgstr ""
+msgstr "选择一个选项"
 
 #: functions.php:317 includes/Action/UpdateShippingFieldsAction.php:93
 #, php-format
@@ -47,17 +47,17 @@ msgctxt "shipping packages"
 msgid "Shipping"
 msgid_plural "Shipping %d"
 msgstr[0] ""
-msgstr[1] ""
 
 #: functions.php:343
 msgid "Shipping costs will be calculated once you have provided your address."
-msgstr ""
+msgstr "一旦您提供地址，运费将会计算在内。"
 
 #: functions.php:345
 msgid ""
 "There are no shipping methods available. Please double check your address, "
 "or contact us if you need any help."
 msgstr ""
+"没有可用的运送方式。请仔细检查您的地址，如果您需要任何帮助，请联系我们。"
 
 #: functions.php:392
 msgid ""
@@ -65,253 +65,257 @@ msgid ""
 "location. Please contact us if you require assistance or wish to make "
 "alternate arrangements."
 msgstr ""
+"很抱歉，似乎你所在的位置没有可用的付款方式。如果您需要帮助请联系我们，或希望"
+"使其他安排。"
 
 #. Plugin Name of the plugin/theme
 #: includes/Core/Admin.php:33 includes/Core/Admin.php:35
+#, fuzzy
 msgid "Checkout for WooCommerce"
-msgstr ""
+msgstr "Checkout for WooCommerce"
 
 #: includes/Core/Admin.php:38
 msgid "Welcome"
-msgstr ""
+msgstr "欢迎"
 
 #: includes/Core/Admin.php:39
 msgid "Design"
-msgstr ""
+msgstr "设计"
 
 #: includes/Core/Admin.php:40
 msgid "License"
-msgstr ""
+msgstr "许可证"
 
 #: includes/Core/Admin.php:59
 msgid "Enable / Disable"
-msgstr ""
+msgstr "启用/停用"
 
 #: includes/Core/Admin.php:63
 msgid "Use Checkout for WooCommerce Template"
-msgstr ""
+msgstr "使用Checkout进行WooCommerce模板"
 
 #: includes/Core/Admin.php:64
 msgid ""
 "Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always "
 "enabled for admin users.)"
-msgstr ""
+msgstr "启用或禁用 WooCommerce 主题的签出。(注： 主题始终为管理员用户启用。)"
 
 #: includes/Core/Admin.php:72
 msgid "Logo"
-msgstr ""
+msgstr "标识"
 
 #: includes/Core/Admin.php:78
 msgid "Upload image"
-msgstr ""
+msgstr "上传图片"
 
 #: includes/Core/Admin.php:81
 msgid "Clear Logo"
-msgstr ""
+msgstr "删除徽标"
 
 #: includes/Core/Admin.php:87
 msgid "Header Background Color"
-msgstr ""
+msgstr "页眉背景色"
 
 #: includes/Core/Admin.php:96
 msgid "Header Text Color"
-msgstr ""
+msgstr "页眉文本颜色"
 
 #: includes/Core/Admin.php:105
 msgid "Header Shadow Color"
-msgstr ""
+msgstr "標題陰影顏色"
 
 #: includes/Core/Admin.php:114
 msgid "Footer Background Color"
-msgstr ""
+msgstr "页脚背景颜色"
 
 #: includes/Core/Admin.php:123
 msgid "Footer Text Color"
-msgstr ""
+msgstr "页脚文字颜色"
 
 #: includes/Core/Admin.php:132
 msgid "Footer Text"
-msgstr ""
+msgstr "页脚文本"
 
 #: includes/Core/Admin.php:141
 msgid "Link Color"
-msgstr ""
+msgstr "链接颜色"
 
 #: includes/Core/Admin.php:150
 msgid "Button Color"
-msgstr ""
+msgstr "按钮颜色"
 
 #: includes/Core/Admin.php:159
 msgid "Button Text Color"
-msgstr ""
+msgstr "按钮文字颜色"
 
 #: includes/Core/Form.php:48 includes/Core/Form.php:49
 msgid "First name"
-msgstr ""
+msgstr "姓氏"
 
 #: includes/Core/Form.php:65 includes/Core/Form.php:66
 msgid "Last name"
-msgstr ""
+msgstr "名字"
 
 #: includes/Core/Form.php:81
 msgid "Address"
-msgstr ""
+msgstr "地址"
 
 #: includes/Core/Form.php:82
 msgid "Street address"
-msgstr ""
+msgstr "街道地址"
 
 #: includes/Core/Form.php:97 includes/Core/Form.php:98
 msgid "Apartment, suite, unit etc."
-msgstr ""
+msgstr "公寓，套房，單位等。"
 
 #: includes/Core/Form.php:110 includes/Core/Form.php:111
 msgid "Company name"
-msgstr ""
+msgstr "公司名称"
 
 #: includes/Core/Form.php:123
 msgid "Country"
-msgstr ""
+msgstr "國家"
 
 #: includes/Core/Form.php:136 includes/Core/Form.php:137
 msgid "Postcode / ZIP"
-msgstr ""
+msgstr "邮政编码"
 
 #: includes/Core/Form.php:158
 msgid "State / County"
-msgstr ""
+msgstr "省/市"
 
 #: includes/Core/Form.php:177 includes/Core/Form.php:178
 msgid "Town / City"
-msgstr ""
+msgstr "城市"
 
 #: includes/Utilities/Activator.php:47
 msgid ""
 "Activation failed: Please activate WooCommerce in order to use Checkout for "
 "WooCommerce"
-msgstr ""
+msgstr "激活失败：请激活WooCommerce以便为WooCommerce使用Checkout"
 
 #: templates/content/template.php:31 templates/content/template.php:48
 msgid "Customer information"
-msgstr ""
+msgstr "客户信息"
 
 #: templates/content/template.php:34 templates/content/template.php:125
 msgid "Shipping method"
-msgstr ""
+msgstr "يەتكۈزۈش ئۇسۇلى"
 
 #: templates/content/template.php:37 templates/content/template.php:147
 msgid "Payment method"
-msgstr ""
+msgstr "付款方法"
 
 #: templates/content/template.php:55
 msgid "Already have an account with us?"
-msgstr ""
+msgstr "已经拥有账户?"
 
 #: templates/content/template.php:58
 msgid "Log in."
-msgstr ""
+msgstr "登录"
 
 #: templates/content/template.php:61
 msgid ""
 "Otherwise the information provided here will be used to create an account on "
 "checkout"
-msgstr ""
+msgstr "否则，此处提供的信息将用于在结帐时创建一个帐户"
 
 #: templates/content/template.php:67
 msgid "Email"
-msgstr ""
+msgstr "电子邮件"
 
 #: templates/content/template.php:72
 msgid "Password"
-msgstr ""
+msgstr "密码"
 
 #: templates/content/template.php:82
 #, php-format
 msgid "Create a %s shopping account."
-msgstr ""
+msgstr "创建购物帐户 %s。"
 
 #: templates/content/template.php:88
 #, php-format
 msgid "Welcome back, %s"
-msgstr ""
+msgstr "欢迎回来, %s"
 
 #: templates/content/template.php:94
 msgid "Shipping Address"
-msgstr ""
+msgstr "邮寄地址"
 
 #: templates/content/template.php:102
 msgid "Continue to shipping method"
-msgstr ""
+msgstr "继续运送方式"
 
 #: templates/content/template.php:110
 msgid "Shipping address"
-msgstr ""
+msgstr "配送地址"
 
 #: templates/content/template.php:119
 msgid "Edit shipping address"
-msgstr ""
+msgstr "编辑送货地址"
 
 #: templates/content/template.php:126
 msgid "Select a shipping method:"
-msgstr ""
+msgstr "選擇其它配送方式"
 
 #: templates/content/template.php:135
 msgid "Return to customer information"
-msgstr ""
+msgstr "返回到客户信息"
 
 #: templates/content/template.php:138
 msgid "Continue to payment method"
-msgstr ""
+msgstr "继续付款方式"
 
 #: templates/content/template.php:152
 msgid ""
 "All transactions are secure and encrypted. Credit card information is never "
 "stored on our servers."
-msgstr ""
+msgstr "所有的交易都是安全和加密。信用卡信息永远不会存储在我们的服务器上。"
 
 #: templates/content/template.php:165
+#, fuzzy
 msgid "Same as shipping address"
-msgstr ""
+msgstr "跟邮寄地址一样"
 
 #: templates/content/template.php:173
 msgid "Use a different billing address"
-msgstr ""
+msgstr "使用不同的帐单地址"
 
 #: templates/content/template.php:187
 msgid "Return to shipping information"
-msgstr ""
+msgstr "返回到发货信息"
 
 #: templates/content/template.php:190
 msgid "Complete Order"
-msgstr ""
+msgstr "已完成的订单"
 
 #: templates/content/template.php:205
 msgid "Show order summary"
-msgstr ""
+msgstr "显示订单总结"
 
 #: templates/content/template.php:226
 msgid "Enter Promo Code"
-msgstr ""
+msgstr "输入促销代码"
 
 #: templates/content/template.php:231
 msgid "Apply"
-msgstr ""
+msgstr "应用"
 
 #: templates/content/template.php:241
 msgid "Subtotal"
-msgstr ""
+msgstr "小计"
 
 #: templates/content/template.php:253
 msgid "Shipping"
-msgstr ""
+msgstr "运输"
 
 #: templates/content/template.php:258
 msgid "Taxes"
-msgstr ""
+msgstr "税额"
 
 #: templates/content/template.php:265
 msgid "Total"
-msgstr ""
+msgstr "共计"
 
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
 #, php-format
@@ -319,6 +323,8 @@ msgid ""
 "There is a new version of %1$s available. <a target=\"_blank\" class="
 "\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
 msgstr ""
+"有一个新版本的 %1$s 可用. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s"
+"\">查看版本 %3$s 详情</a>."
 
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
 #, php-format
@@ -327,17 +333,19 @@ msgid ""
 "\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s"
 "\">update now</a>."
 msgstr ""
+"有一个新的版本 %1$s 可用。<a target=\"_blank\" class=\"thickbox\" href=\"%2$s"
+"\">视图版本 %3$s 细节</a> 或者 <a href=\"%4$s\">现在更新</a>."
 
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "You do not have permission to install plugin updates"
-msgstr ""
+msgstr "你没有安装插件更新的权限"
 
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
 #, php-format
 msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
-msgstr ""
+msgstr "有一个新版本的%1$s可用。 %2$s View版本%3$s细节%4$s."
 
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
 #, php-format
@@ -345,23 +353,25 @@ msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s "
 "or %5$supdate now%6$s."
 msgstr ""
+"有一个新版本的%1$s可用。 %2$s View版本 %3$s 详细信息%4$s 或%5$supdate now"
+"%6$s."
 
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #. Plugin URI of the plugin/theme
 msgid "https://getcheckout.co/"
-msgstr ""
+msgstr "https://getcheckout.co/"
 
 #. Description of the plugin/theme
 msgid "Beautiful, conversion optimized checkout template for WooCommerce."
-msgstr ""
+msgstr "美观, 转换优化 Woocommerce 结帐模板。"
 
 #. Author of the plugin/theme
 msgid "Brandon Tassone"
-msgstr ""
+msgstr "Brandon Tassone"
 
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
-msgstr ""
+msgstr "https://objectiv.co"

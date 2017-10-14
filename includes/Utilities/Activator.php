@@ -44,7 +44,7 @@ class Activator {
 			$activation[] = array(
 				"success"           => false,
 				"class"             => "notice error",
-				"message"           => "Activation failed: Please activate WooCommerce in order to use Checkout for Woocommerce",
+				"message"           => __("Activation failed: Please activate WooCommerce in order to use Checkout for WooCommerce", 'checkout-wc')
 			);
 		}
 

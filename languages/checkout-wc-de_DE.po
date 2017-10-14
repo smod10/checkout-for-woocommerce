@@ -1,17 +1,17 @@
-#, fuzzy
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2017-10-14 11:45-0400\n"
-"PO-Revision-Date: 2017-10-14 11:44-0400\n"
+"POT-Creation-Date: 2017-10-14 12:15-0400\n"
+"PO-Revision-Date: 2017-10-14 12:22-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.4\n"
 "X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: checkout-for-woocommerce.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -23,23 +23,23 @@ msgstr ""
 
 #: functions.php:48
 msgid "required"
-msgstr ""
+msgstr "Pflichtfeld"
 
 #: functions.php:117
 msgid "Select a country&hellip;"
-msgstr ""
+msgstr "Land auswählen&hellip;"
 
 #: functions.php:125
 msgid "Update country"
-msgstr ""
+msgstr "Land aktualisieren"
 
 #: functions.php:146
 msgid "Select a state&hellip;"
-msgstr ""
+msgstr "Wählen sie ein Bundesland aus&hellip;"
 
 #: functions.php:191
 msgid "Choose an option"
-msgstr ""
+msgstr "Wähle eine Kombination"
 
 #: functions.php:317 includes/Action/UpdateShippingFieldsAction.php:93
 #, php-format
@@ -52,12 +52,15 @@ msgstr[1] ""
 #: functions.php:343
 msgid "Shipping costs will be calculated once you have provided your address."
 msgstr ""
+"Die Versandkosten werden berechnet, sobald Sie Ihre Adresse angegeben haben."
 
 #: functions.php:345
 msgid ""
 "There are no shipping methods available. Please double check your address, "
 "or contact us if you need any help."
 msgstr ""
+"Es wurde keine Versandart ausgewählt. Bitte überprüfe Deine  Adresse, oder "
+"kontaktiere mich, wenn Du Hilfe benötigst."
 
 #: functions.php:392
 msgid ""
@@ -65,253 +68,264 @@ msgid ""
 "location. Please contact us if you require assistance or wish to make "
 "alternate arrangements."
 msgstr ""
+"Es gibt keine Zahlungsarten, die hinzugefügt werden können. Bitte "
+"kontaktieren Sie uns, falls Sie Hilfe benötigen oder alternative Absprachen "
+"treffen möchten."
 
 #. Plugin Name of the plugin/theme
 #: includes/Core/Admin.php:33 includes/Core/Admin.php:35
 msgid "Checkout for WooCommerce"
-msgstr ""
+msgstr "Checkout für WooCommerce"
 
 #: includes/Core/Admin.php:38
 msgid "Welcome"
-msgstr ""
+msgstr "Willkommen"
 
 #: includes/Core/Admin.php:39
 msgid "Design"
-msgstr ""
+msgstr "Design"
 
 #: includes/Core/Admin.php:40
 msgid "License"
-msgstr ""
+msgstr "Lizenz"
 
 #: includes/Core/Admin.php:59
 msgid "Enable / Disable"
-msgstr ""
+msgstr "Aktivieren / Deaktivieren"
 
 #: includes/Core/Admin.php:63
 msgid "Use Checkout for WooCommerce Template"
-msgstr ""
+msgstr "Checkout für WooCommerce-Vorlage verwenden"
 
 #: includes/Core/Admin.php:64
 msgid ""
 "Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always "
 "enabled for admin users.)"
 msgstr ""
+"Aktivieren Sie oder deaktivieren Sie die Kasse für WooCommerce Thema. "
+"(Hinweis: Thema für Admin-Benutzer immer aktiviert ist.)"
 
 #: includes/Core/Admin.php:72
 msgid "Logo"
-msgstr ""
+msgstr "Logo"
 
 #: includes/Core/Admin.php:78
 msgid "Upload image"
-msgstr ""
+msgstr "Bild hochladen"
 
 #: includes/Core/Admin.php:81
 msgid "Clear Logo"
-msgstr ""
+msgstr "Klar-Logo"
 
 #: includes/Core/Admin.php:87
 msgid "Header Background Color"
-msgstr ""
+msgstr "Hintergrundfarbe Header"
 
 #: includes/Core/Admin.php:96
 msgid "Header Text Color"
-msgstr ""
+msgstr "Header Text Farbe"
 
 #: includes/Core/Admin.php:105
 msgid "Header Shadow Color"
-msgstr ""
+msgstr "Header Schattenfarbe"
 
 #: includes/Core/Admin.php:114
 msgid "Footer Background Color"
-msgstr ""
+msgstr "Footer Hintergrundfarbe"
 
 #: includes/Core/Admin.php:123
 msgid "Footer Text Color"
-msgstr ""
+msgstr "Footer Textfarbe"
 
 #: includes/Core/Admin.php:132
 msgid "Footer Text"
-msgstr ""
+msgstr "Fußzeilen Text"
 
 #: includes/Core/Admin.php:141
 msgid "Link Color"
-msgstr ""
+msgstr "Linkfarbe"
 
 #: includes/Core/Admin.php:150
 msgid "Button Color"
-msgstr ""
+msgstr "Schaltflächenfarbe"
 
 #: includes/Core/Admin.php:159
 msgid "Button Text Color"
-msgstr ""
+msgstr "Schaltflächentextfarbe"
 
 #: includes/Core/Form.php:48 includes/Core/Form.php:49
 msgid "First name"
-msgstr ""
+msgstr "Vorname"
 
 #: includes/Core/Form.php:65 includes/Core/Form.php:66
 msgid "Last name"
-msgstr ""
+msgstr "Nachname"
 
 #: includes/Core/Form.php:81
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
 #: includes/Core/Form.php:82
 msgid "Street address"
-msgstr ""
+msgstr "Straße, Nr."
 
 #: includes/Core/Form.php:97 includes/Core/Form.php:98
 msgid "Apartment, suite, unit etc."
-msgstr ""
+msgstr "Apartment, Suite und ähnliches"
 
 #: includes/Core/Form.php:110 includes/Core/Form.php:111
 msgid "Company name"
-msgstr ""
+msgstr "Firmenname"
 
 #: includes/Core/Form.php:123
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 #: includes/Core/Form.php:136 includes/Core/Form.php:137
 msgid "Postcode / ZIP"
-msgstr ""
+msgstr "Postleitzahl"
 
 #: includes/Core/Form.php:158
 msgid "State / County"
-msgstr ""
+msgstr "Bundesland"
 
 #: includes/Core/Form.php:177 includes/Core/Form.php:178
 msgid "Town / City"
-msgstr ""
+msgstr "Stadt"
 
 #: includes/Utilities/Activator.php:47
 msgid ""
 "Activation failed: Please activate WooCommerce in order to use Checkout for "
 "WooCommerce"
 msgstr ""
+"Aktivierung fehlgeschlagen: Bitte aktivieren Sie WooCommerce um die Kasse "
+"für WooCommerce zu verwenden"
 
 #: templates/content/template.php:31 templates/content/template.php:48
 msgid "Customer information"
-msgstr ""
+msgstr "Kundeninformation"
 
 #: templates/content/template.php:34 templates/content/template.php:125
 msgid "Shipping method"
-msgstr ""
+msgstr "Versandart"
 
 #: templates/content/template.php:37 templates/content/template.php:147
 msgid "Payment method"
-msgstr ""
+msgstr "Zahlungsweise"
 
 #: templates/content/template.php:55
 msgid "Already have an account with us?"
-msgstr ""
+msgstr "Bereits registriert bei uns?"
 
 #: templates/content/template.php:58
 msgid "Log in."
-msgstr ""
+msgstr "Anmelden"
 
 #: templates/content/template.php:61
 msgid ""
 "Otherwise the information provided here will be used to create an account on "
 "checkout"
 msgstr ""
+"Andernfalls werden die hier angegebenen Informationen verwendet, um ein "
+"Konto bei der Kasse zu erstellen"
 
 #: templates/content/template.php:67
 msgid "Email"
-msgstr ""
+msgstr "E-Mail"
 
 #: templates/content/template.php:72
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 #: templates/content/template.php:82
 #, php-format
 msgid "Create a %s shopping account."
-msgstr ""
+msgstr "Erstellen Sie ein %s Konto einkaufen."
 
 #: templates/content/template.php:88
 #, php-format
 msgid "Welcome back, %s"
-msgstr ""
+msgstr "Willkommen zurück, %s"
 
 #: templates/content/template.php:94
 msgid "Shipping Address"
-msgstr ""
+msgstr "Versandadresse"
 
 #: templates/content/template.php:102
 msgid "Continue to shipping method"
-msgstr ""
+msgstr "Weiter zu Versandart"
 
 #: templates/content/template.php:110
 msgid "Shipping address"
-msgstr ""
+msgstr "Rechnungsadresse"
 
 #: templates/content/template.php:119
 msgid "Edit shipping address"
-msgstr ""
+msgstr "Lieferadresse bearbeiten"
 
 #: templates/content/template.php:126
 msgid "Select a shipping method:"
-msgstr ""
+msgstr "Wählen Sie eine Versandart:"
 
 #: templates/content/template.php:135
 msgid "Return to customer information"
-msgstr ""
+msgstr "Zurück zu Kundeninformationen"
 
 #: templates/content/template.php:138
 msgid "Continue to payment method"
-msgstr ""
+msgstr "Weiter zu Zahlungsmethode"
 
 #: templates/content/template.php:152
 msgid ""
 "All transactions are secure and encrypted. Credit card information is never "
 "stored on our servers."
 msgstr ""
+"Alle Transaktionen sind sicher und verschlüsselt. Kreditkarten-Informationen "
+"werden nie auf unseren Servern gespeichert."
 
 #: templates/content/template.php:165
 msgid "Same as shipping address"
-msgstr ""
+msgstr "Gleicht Lieferadresse"
 
 #: templates/content/template.php:173
 msgid "Use a different billing address"
-msgstr ""
+msgstr "Verwenden Sie eine andere Rechnungsadresse"
 
 #: templates/content/template.php:187
 msgid "Return to shipping information"
-msgstr ""
+msgstr "Zurück zu Versandinformationen"
 
 #: templates/content/template.php:190
 msgid "Complete Order"
-msgstr ""
+msgstr "Bestellung abschließen"
 
 #: templates/content/template.php:205
 msgid "Show order summary"
-msgstr ""
+msgstr "Bestellungsübersicht anzeigen"
 
 #: templates/content/template.php:226
 msgid "Enter Promo Code"
-msgstr ""
+msgstr "Promo-Code eingeben"
 
 #: templates/content/template.php:231
 msgid "Apply"
-msgstr ""
+msgstr "Anwenden"
 
 #: templates/content/template.php:241
 msgid "Subtotal"
-msgstr ""
+msgstr "Gesamt"
 
 #: templates/content/template.php:253
 msgid "Shipping"
-msgstr ""
+msgstr "Versand"
 
 #: templates/content/template.php:258
 msgid "Taxes"
-msgstr ""
+msgstr "Steuersätze"
 
 #: templates/content/template.php:265
 msgid "Total"
-msgstr ""
+msgstr "Summe"
 
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
 #, php-format
@@ -319,6 +333,8 @@ msgid ""
 "There is a new version of %1$s available. <a target=\"_blank\" class="
 "\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
 msgstr ""
+"Eine neue Version von %1$s ist erhältlich. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
 
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
 #, php-format
@@ -327,17 +343,22 @@ msgid ""
 "\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s"
 "\">update now</a>."
 msgstr ""
+"Es ist eine neue Version von %1$s iverfügbar. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">Details von Version %3$s anzeigen</a> oder <a "
+"href=\"%4$s\">jetzt aktualisieren</a>."
 
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "You do not have permission to install plugin updates"
 msgstr ""
+"Du hast keine Berechtigung, um Aktualisierungen für Erweiterungen "
+"durchzuführen"
 
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
 #, php-format
 msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
-msgstr ""
+msgstr "Es gibt eine neue Version von %1$s. %2$s %3$s Versionsdetails %4$s."
 
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
 #, php-format
@@ -345,23 +366,25 @@ msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s "
 "or %5$supdate now%6$s."
 msgstr ""
+"Es ist eine neue Version von %1$s verfügbar. %2$s %3$s Versionsdetails %4$s "
+"anzeigen oder %5$sjetzt aktualisieren%6$s."
 
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #. Plugin URI of the plugin/theme
 msgid "https://getcheckout.co/"
-msgstr ""
+msgstr "https://getcheckout.co/"
 
 #. Description of the plugin/theme
 msgid "Beautiful, conversion optimized checkout template for WooCommerce."
-msgstr ""
+msgstr "Schöne, konvertierungsoptimierte Checkout-Vorlage für WooCommerce."
 
 #. Author of the plugin/theme
 msgid "Brandon Tassone"
-msgstr ""
+msgstr "Brandon Tassone"
 
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
-msgstr ""
+msgstr "https://objectiv.co"

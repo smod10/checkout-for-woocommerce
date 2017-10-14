@@ -109,6 +109,8 @@
                                 <div id="cfw-shipping-details" class="cfw-module">
                                     <h3 class="cfw-module-title">Shipping address</h3>
 
+	                                <?php do_action('cfw_checkout_before_shipping_method'); ?>
+
                                     <div id="cfw-shipping-details-fields">
                                         <?php cfw_get_shipping_details($checkout); ?>
                                     </div>
@@ -143,6 +145,9 @@
 
                             <div id="cfw-billing-methods" class="cfw-module">
                                 <h3 class="cfw-module-title">Payment method</h3>
+
+	                            <?php do_action('cfw_checkout_before_payment_method'); ?>
+
                                 <div>
                                     <span class="cfw-small">All transactions are secure and encrypted. Credit card information is never stored on our servers.</span>
                                 </div>

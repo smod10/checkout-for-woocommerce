@@ -155,12 +155,12 @@ body {
   color: #737375; }
 
 .cfw-logo {
-  padding: 1em 0; }
+  padding: 1.2em 0; }
   .cfw-logo .logo {
     background: #ffffff;
-    width: 120px;
+    width: 100%;
     display: inline-block;
-    height: 90px;
+    height: 60px;
     position: relative; }
 
 .cfw-link {
@@ -673,6 +673,15 @@ body {
   border-left: 1px solid #ddd;
   padding: 30px;
   box-sizing: border-box; }
+
+#cfw-main-container .apple-pay-button-checkout-separator {
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 20px; }
+
+#cfw-main-container .apple-pay-button-wrapper {
+  text-align: center;
+  margin-bottom: 10px; }
 
 @media (max-width: 767px) {
   #cfw-cart-details {

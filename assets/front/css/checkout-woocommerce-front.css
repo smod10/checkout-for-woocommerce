@@ -155,12 +155,12 @@ body {
   color: #737375; }
 
 .cfw-logo {
-  padding: 1em 0; }
+  padding: 1.2em 0; }
   .cfw-logo .logo {
     background: #ffffff;
-    width: 120px;
+    width: 100%;
     display: inline-block;
-    height: 90px;
+    height: 60px;
     position: relative; }
 
 .cfw-link {

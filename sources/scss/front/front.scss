@@ -49,13 +49,13 @@ body {
 }
 
 .cfw-logo {
-  padding: 1em 0;
+  padding: 1.2em 0;
 
   .logo {
     background: $main-bg;
-    width: 120px;
+    width: 100%;
     display: inline-block;
-    height: 90px;
+    height: 60px;
     position: relative;
 
     //&:after {

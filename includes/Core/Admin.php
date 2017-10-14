@@ -61,7 +61,7 @@ class Admin {
                             <td>
                                 <input type="hidden" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="no" />
                                 <label><input type="checkbox" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" id="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="yes" <?php if ( $this->plugin_instance->get_settings_manager()->get_setting('enable') == "yes" ) echo "checked"; ?> /> <?php _e('Use Checkout for WooCommerce Template', 'cfw'); ?></label>
-                                <p class="description">Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always enabled for admin users.)</p>
+                                <p class="description"><?php _e('Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always enabled for admin users.)', 'cfw'); ?></p>
                             </td>
                         </tr>
                         <?php endif; ?>
@@ -69,7 +69,7 @@ class Admin {
                         <?php if ( $this->get_current_tab() == "design" ): ?>
                         <tr>
                             <th scope="row" valign="top">
-                                Logo
+	                            <?php _e('Logo', 'cfw'); ?>
                             </th>
                             <td>
                                 <div class='image-preview-wrapper'>
@@ -78,7 +78,7 @@ class Admin {
                                 <input id="upload_image_button" type="button" class="button" value="<?php _e( 'Upload image' ); ?>" />
                                 <input type='hidden' name='<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('logo_attachment_id'); ?>' id='logo_attachment_id' value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id'); ?>">
 
-                                <a class="delete-custom-img button secondary-button">Clear Logo</a>
+                                <a class="delete-custom-img button secondary-button"><?php _e('Clear Logo', 'cfw'); ?></a>
                             </td>
                         </tr>
 

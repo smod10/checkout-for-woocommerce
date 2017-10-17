@@ -30,9 +30,11 @@
                         <li class="tab">
                             <a href="#cfw-customer-info" class="cfw-small"><?php esc_html_e( 'Customer information', 'checkout-wc' ); ?></a>
                         </li>
+	                    <?php if ( WC()->cart->needs_shipping_address() ): ?>
                         <li class="tab">
                             <a href="#cfw-shipping-method" class="cfw-small"><?php esc_html_e( 'Shipping method', 'checkout-wc' ); ?></a>
                         </li>
+                        <?php endif; ?>
                         <li class="tab">
                             <a href="#cfw-payment-method" class="cfw-small"><?php esc_html_e( 'Payment method', 'checkout-wc' ); ?></a>
                         </li>
@@ -91,20 +93,38 @@
                                 </div>
 
                                 <div id="cfw-shipping-info" class="cfw-module">
-                                    <h3 class="cfw-module-title"><?php esc_html_e( 'Shipping Address', 'checkout-wc' ); ?></h3>
+                                    <h3 class="cfw-module-title">
+                                        <?php
+                                            if ( !WC()->cart->needs_shipping_address() ) {
+	                                            esc_html_e( 'Billing Address', 'checkout-wc' );
+                                            } else {
+	                                            esc_html_e( 'Shipping Address', 'checkout-wc' );
+                                            }
+                                        ?>
+                                    </h3>
 
                                     <div class="cfw-shipping-info-container cfw-parsley-shipping-details">
-                                        <?php cfw_get_shipping_checkout_fields($checkout); ?>
+	                                    <?php
+                                            if ( !WC()->cart->needs_shipping_address() ) {
+	                                            cfw_get_billing_checkout_fields($checkout);
+                                            } else {
+	                                            cfw_get_shipping_checkout_fields($checkout);
+                                            }
+                                        ?>
                                     </div>
                                 </div>
 
                                 <div id="cfw-shipping-info-action" class="cfw-bottom-controls">
-                                    <a href="#cfw-shipping-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e('Continue to shipping method', 'checkout-wc'); ?></a>
+	                                <?php if ( WC()->cart->needs_shipping_address() ): ?>
+                                        <a href="#cfw-shipping-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e('Continue to shipping method', 'checkout-wc'); ?></a>
+                                    <?php else: ?>
+                                        <a href="#cfw-payment-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e('Continue to payment method', 'checkout-wc'); ?></a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
                             <!-- Shipping Method Panel -->
-                            <div id="cfw-shipping-method">
+                            <div id="cfw-shipping-method" style="<?php echo (!WC()->cart->needs_shipping_address()) ? "display: none" : ""; ?>">
 
                                 <div id="cfw-shipping-details" class="cfw-module">
                                     <h3 class="cfw-module-title"><?php esc_html_e( 'Shipping address', 'checkout-wc' ); ?></h3>
@@ -156,6 +176,7 @@
                                 </div>
                             </div>
 
+                            <?php if ( WC()->cart->needs_shipping_address() ): ?>
                             <div id="cfw-shipping-same-billing" class="cfw-module">
                                 <ul class="cfw-radio-reveal-group">
                                     <li class="cfw-radio-reveal-li cfw-no-reveal">
@@ -181,6 +202,7 @@
                                     </li>
                                 </ul>
                             </div>
+                            <?php endif; ?>
 
                             <div id="cfw-payment-action" class="cfw-bottom-controls">
                                 <div>

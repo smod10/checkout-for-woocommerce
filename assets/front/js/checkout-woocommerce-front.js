@@ -852,8 +852,10 @@ define("Services/ValidationService", ["require", "exports"], function (require, 
             var shipping_action = function (element) {
                 $("#cfw-tab-container").easytabs("select", "#cfw-customer-info");
             };
-            $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
-            $temp("#shipping_state").parsley().on("field:error", shipping_action);
+            if ($temp("#shipping_postcode").length !== 0) {
+                $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
+                $temp("#shipping_state").parsley().on("field:error", shipping_action);
+            }
         };
         ValidationService.prototype.setEventListeners = function () {
             this.tabContainer.jel.bind('easytabs:before', function (event, clicked, target, settings) {

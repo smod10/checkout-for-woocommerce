@@ -48,11 +48,13 @@ export class ValidationService {
             $("#cfw-tab-container").easytabs("select", "#cfw-customer-info");
         };
 
-        $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
-        $temp("#shipping_state").parsley().on("field:error", shipping_action);
+        if($temp("#shipping_postcode").length !== 0) {
+            $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
+            $temp("#shipping_state").parsley().on("field:error", shipping_action);
+        }
     }
 
-    setEventListeners(): void{
+    setEventListeners(): void {
         this.tabContainer.jel.bind('easytabs:before', function(event, clicked, target, settings) {
             let currentPanelIndex: number;
             let targetPanelIndex: number;

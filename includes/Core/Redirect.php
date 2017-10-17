@@ -56,7 +56,9 @@ class Redirect {
      * @param PathManager $path_manager
 	 */
 	public static function init_block($env_extension, $path_manager) {
-		_wp_render_title_tag();
+		// We use this instead of _wp_render_title_tag because it requires the theme support title-tag capability.
+		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
+		
 		wp_enqueue_scripts();
 		self::remove_scripts();
 		print_head_scripts();

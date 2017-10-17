@@ -16,7 +16,7 @@ class Redirect {
 	    // If using our checkout system force password generation for new users.
 		update_option('woocommerce_registration_generate_password', 'yes');
 
-		if ( $settings_manager->get_setting('enable') == 'yes' && function_exists('is_checkout') && is_checkout() && !is_order_received_page() ) {
+		if ( ( $settings_manager->get_setting('enable') == 'yes' || current_user_can('manage_options') ) && function_exists('is_checkout') && is_checkout() && !is_order_received_page() ) {
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());
 
@@ -56,7 +56,9 @@ class Redirect {
      * @param PathManager $path_manager
 	 */
 	public static function init_block($env_extension, $path_manager) {
-		_wp_render_title_tag();
+		// We use this instead of _wp_render_title_tag because it requires the theme support title-tag capability.
+		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
+		
 		wp_enqueue_scripts();
 		self::remove_scripts();
 		print_head_scripts();

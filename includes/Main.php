@@ -267,9 +267,9 @@ class Main extends Singleton {
 	 */
 	private function enable_dev_mode() {
 		// Enable Whoops
-		$whoops = new Run();
-		$whoops->pushHandler(new PrettyPageHandler());
-		$whoops->register();
+//		$whoops = new Run();
+//		$whoops->pushHandler(new PrettyPageHandler());
+//		$whoops->register();
 
 		// Enable Kint
 		\Kint::enabled(true);

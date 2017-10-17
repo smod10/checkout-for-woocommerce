@@ -213,6 +213,7 @@ export class CompleteOrderAction extends Action {
      * @param resp
      */
     public response(resp: any) {
+
         if(resp.result === "success") {
             window.location.href = resp.redirect;
         }

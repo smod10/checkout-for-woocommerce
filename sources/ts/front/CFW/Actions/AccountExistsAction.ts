@@ -17,6 +17,12 @@ export class AccountExistsAction extends Action {
     private _ezTabContainer: JQuery;
 
     /**
+     * @type {boolean}
+     * @private
+     */
+    private static _checkBox: boolean = true;
+
+    /**
      *
      * @param id
      * @param ajaxInfo
@@ -53,10 +59,17 @@ export class AccountExistsAction extends Action {
             register_user_checkbox.checked = false;
             register_container.css("display", "none");
 
+            AccountExistsAction.checkBox = true;
+
         // If account does not exist, reverse
         } else {
             login_slide.slideUp(300);
-            register_user_checkbox.checked = true;
+
+            if(AccountExistsAction.checkBox) {
+                register_user_checkbox.checked = true;
+                AccountExistsAction.checkBox = false;
+            }
+
             register_container.css("display", "block");
         }
     }
@@ -73,5 +86,13 @@ export class AccountExistsAction extends Action {
      */
     set ezTabContainer(value: JQuery) {
         this._ezTabContainer = value;
+    }
+
+    static get checkBox(): boolean {
+        return AccountExistsAction._checkBox;
+    }
+
+    static set checkBox(value: boolean) {
+        AccountExistsAction._checkBox = value;
     }
 }

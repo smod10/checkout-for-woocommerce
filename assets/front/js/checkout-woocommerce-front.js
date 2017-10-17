@@ -418,10 +418,14 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
                 login_slide.slideDown(300);
                 register_user_checkbox.checked = false;
                 register_container.css("display", "none");
+                AccountExistsAction.checkBox = true;
             }
             else {
                 login_slide.slideUp(300);
-                register_user_checkbox.checked = true;
+                if (AccountExistsAction.checkBox) {
+                    register_user_checkbox.checked = true;
+                    AccountExistsAction.checkBox = false;
+                }
                 register_container.css("display", "block");
             }
         };
@@ -435,6 +439,17 @@ define("Actions/AccountExistsAction", ["require", "exports", "Actions/Action", "
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(AccountExistsAction, "checkBox", {
+            get: function () {
+                return AccountExistsAction._checkBox;
+            },
+            set: function (value) {
+                AccountExistsAction._checkBox = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        AccountExistsAction._checkBox = true;
         __decorate([
             ResponsePrep_1.ResponsePrep
         ], AccountExistsAction.prototype, "response", null);

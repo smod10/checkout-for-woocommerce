@@ -50,7 +50,7 @@ class Form {
 					'required'     => true,
 					'class'        => array(),
 					'autocomplete' => 'given-name',
-					'autofocus'    => true,
+					'autofocus'    => false,
 					'input_class'  => array('garlic-auto-save'),
 					'priority'     => 05,
 					'wrap'         => $this->input_wrap('text', 6, 05),

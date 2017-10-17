@@ -8,21 +8,22 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              getcheckout.co
+ * @link              checkoutwc.com
  * @since             0.1.0
  * @package           Objectiv\Plugins\Checkout
  *
  * @wordpress-plugin
  * Plugin Name:       Checkout for WooCommerce
- * Plugin URI:        https://getcheckout.co/
+ * Plugin URI:        https://checkoutwc.com
  * Description:       Beautiful, conversion optimized checkout template for WooCommerce.
  * Version:           1.0.0
- * Author:            Brandon Tassone
+ * Author:            Objectiv
  * Author URI:        https://objectiv.co
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       checkout-wc
  * Domain Path:       /languages
+ * Tested up to: 4.8
  */
 
 /**
@@ -33,7 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define('CFW_NAME', 'Checkout for WooCommerce');
-define('CFW_UPDATE_URL', 'https://www.getcheckout.co');
+define('CFW_UPDATE_URL', 'https://checkoutwc.com');
 define('CFW_VERSION', '1.0.0');
 define('CFW_PATH', dirname(__FILE__) );
 define('CFW_URL', plugins_url('/', __FILE__) );

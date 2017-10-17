@@ -389,8 +389,8 @@ msgid "Error"
 msgstr "Error"
 
 #. Plugin URI of the plugin/theme
-msgid "https://getcheckout.co/"
-msgstr "https://getcheckout.co/"
+msgid "https://checkoutwc.com/"
+msgstr "https://checkoutwc.com/"
 
 #. Description of the plugin/theme
 msgid "Beautiful, conversion optimized checkout template for WooCommerce."

@@ -120,23 +120,37 @@ class Redirect {
             Parsley.addValidator('stateAndZip', {
                 validateString: function(_ignoreValue, country, instance) {
                     var elementType = instance.$element[0].getAttribute("id").split("_")[0];
-                    var state = $("#" + elementType + "_state").val();
-                    var zip = $("#" + elementType + "_postcode").val();
+                    var stateElement = $("#" + elementType + "_state");
+                    var zipElement = $("#" + elementType + "_postcode");
+                    var cityElement = $("#" + elementType + "_city");
                     var failLocation = (elementType === "shipping") ? "#cfw-customer-info" : "#cfw-payment-method";
+                    var xhr = $.ajax('//www.zippopotam.us/' + country + '/' + zipElement.val());
 
-                    var xhr = $.ajax('//www.zippopotam.us/' + country + '/' + zip);
-                    // When Zippopotam.us returns the info of the given zip, check it:
                     return xhr.then(function(json) {
-                        var actualState = json.places[0]['state abbreviation'];
-                        var ret;
+                        var ret = null;
+                        var stateResponseValue = "";
                         var eventName = "";
+                        var cityResponseValue = "";
 
-                        if (actualState !== state) {
+                        // Set the state response value
+                        stateResponseValue = json.places[0]["state abbreviation"];
+
+                        // Set the city response value and set the corresponding city field
+                        cityResponseValue = json.places[0]["place name"];
+                        cityElement.val(cityResponseValue);
+
+                        var fieldType = $(instance.element).attr("id").split("_")[1];
+
+                        if(fieldType === "postcode") {
+                            stateElement.val(stateResponseValue);
+                        }
+
+                        if (stateResponseValue !== stateElement.val()) {
                             eventName = "cfw:state-zip-failure";
 
                             $("#cfw-tab-container").easytabs("select", failLocation);
 
-                            ret = $.Deferred().reject("The zip code " + zip + " is in " + actualState + ", not in " + state);
+                            ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
                         } else {
                             eventName = "cfw:state-zip-success";
 
@@ -161,8 +175,6 @@ class Redirect {
                         }
                     })
                 },
-                // The following error message will still show if the xhr itself fails
-                // (404 because zip does not exist, network error, etc.)
                 messages: {en: 'There is no such zip for the country "%s"'}
             });
 

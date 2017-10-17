@@ -95,7 +95,7 @@
                                 <div id="cfw-shipping-info" class="cfw-module">
                                     <h3 class="cfw-module-title">
                                         <?php
-                                            if ( !WC()->cart->needs_shipping_address() ) {
+                                            if ( ! WC()->cart->needs_shipping_address() ) {
 	                                            esc_html_e( 'Billing Address', 'checkout-wc' );
                                             } else {
 	                                            esc_html_e( 'Shipping Address', 'checkout-wc' );
@@ -105,7 +105,7 @@
 
                                     <div class="cfw-shipping-info-container cfw-parsley-shipping-details">
 	                                    <?php
-                                            if ( !WC()->cart->needs_shipping_address() ) {
+                                            if ( ! WC()->cart->needs_shipping_address() ) {
 	                                            cfw_get_billing_checkout_fields($checkout);
                                             } else {
 	                                            cfw_get_shipping_checkout_fields($checkout);

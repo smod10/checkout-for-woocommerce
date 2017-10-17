@@ -412,7 +412,7 @@ class Main extends Singleton {
 		$main = Main::instance();
 
 		// Init settings
-		$main->settings_manager->add_setting('enable', 'yes');
+		$main->settings_manager->add_setting('enable', 'no');
 		$main->settings_manager->add_setting('header_background_color', '#000000');
 		$main->settings_manager->add_setting('header_text_color', '#ffffff');
 		$main->settings_manager->add_setting('header_shadow_color', '#000000');

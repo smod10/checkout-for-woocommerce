@@ -254,7 +254,7 @@ class Redirect {
             <style>
                 #cfw-header {
                     background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
-                    /* box-shadow: 0 2px 1px rgba(<?php echo $r; ?>,<?php echo $g; ?>,<?php echo $b; ?>,.2); */
+                    box-shadow: 0 2px 1px rgba(<?php echo $r; ?>,<?php echo $g; ?>,<?php echo $b; ?>,.2);
                 }
                 #cfw-footer {
                     color: <?php echo $settings_manager->get_setting('footer_color'); ?>;

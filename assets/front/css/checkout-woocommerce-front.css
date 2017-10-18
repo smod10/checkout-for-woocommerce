@@ -181,7 +181,7 @@ body {
 
 #cfw-content {
   position: relative;
-  height: 100vh; }
+  min-height: 100vh; }
   #cfw-content .wrap {
     padding: 2em 0; }
 
@@ -198,16 +198,18 @@ body {
 
 #cfw-login-btn {
   border: none;
+  border-radius: 4px;
   box-shadow: none;
-  border-radius: 0;
   cursor: pointer;
   padding: 12px 16px;
   background: #999;
   color: #f4f4f4;
-  text-transform: uppercase;
   text-align: center;
-  font-size: 14px;
+  font-size: 1em;
+  transition: all .2s ease;
   width: auto; }
+  #cfw-login-btn:hover {
+    background: #232323; }
 
 #cfw-billing-methods .cfw-radio-reveal-group, #cfw-shipping-same-billing .cfw-radio-reveal-group {
   line-height: 1;
@@ -267,6 +269,9 @@ body {
   clear: both;
   box-sizing: border-box;
   font-size: 1em; }
+  #cfw-billing-methods .cfw-radio-reveal-label input[type="radio"], #cfw-shipping-same-billing .cfw-radio-reveal-label input[type="radio"] {
+    position: relative;
+    top: -1px; }
 
 #cfw-billing-methods .cfw-radio-reveal-content-wrap, #cfw-shipping-same-billing .cfw-radio-reveal-content-wrap {
   background: #f4f4f4; }
@@ -274,6 +279,9 @@ body {
 #cfw-billing-methods .cfw-radio-reveal-content, #cfw-shipping-same-billing .cfw-radio-reveal-content {
   padding: 20px 10px 20px 10px;
   border-top: 1px solid #ddd; }
+  #cfw-billing-methods .cfw-radio-reveal-content p, #cfw-shipping-same-billing .cfw-radio-reveal-content p {
+    font-size: 0.825em;
+    line-height: 1.25; }
 
 #cfw-billing-methods #stripe-payment-data > *, #cfw-shipping-same-billing #stripe-payment-data > * {
   margin-bottom: 15px; }
@@ -329,10 +337,10 @@ body {
       color: rgba(0, 0, 0, 0.5); }
     #cfw-breadcrumb li:not(:last-child):after {
       content: " ";
-      width: 15px;
-      height: 15px;
+      width: 12px;
+      height: 12px;
       background: url("../img/arrow-right.svg") no-repeat 50% 50%;
-      background-size: 15px 15px;
+      background-size: 12px 12px;
       padding-left: 15px; }
 
 .cfw-shipping-methods-list {
@@ -574,7 +582,8 @@ body {
 .cfw-prev-tab {
   transition: all .2s ease;
   color: #9e9e9e;
-  line-height: 64px; }
+  line-height: 64px;
+  text-decoration: none; }
 
 .cfw-bottom-controls {
   display: -webkit-box;
@@ -587,20 +596,17 @@ body {
   .cfw-bottom-controls .cfw-primary-btn {
     display: inline-block;
     text-decoration: none;
-    background: #ebb134;
-    color: #1d1503;
-    border-radius: 0;
+    background: #232323;
+    color: #fff;
+    border-radius: 4px;
     border: none;
-    border: 1px solid #d79915;
-    font-size: 14px;
-    font-size: 1.25rem;
+    font-size: 1em;
     box-sizing: border-box;
     font-weight: 400;
     transition: all .3s ease-in-out;
     padding: 19px 15px; }
     .cfw-bottom-controls .cfw-primary-btn:hover {
       background: #ddd;
-      border: 1px solid #c4c4c4;
       color: #666; }
 
 .cfw-def-action-btn {
@@ -609,7 +615,7 @@ body {
   border-radius: 4px;
   cursor: pointer;
   padding: 12px 16px;
-  font-weight: 300;
+  font-size: 1em;
   background: #999;
   color: #f4f4f4;
   text-align: center;
@@ -676,8 +682,8 @@ body {
   -webkit-box-ordinal-group: 2;
       -ms-flex-order: 1;
           order: 1;
-  border-left: 1px solid #ddd;
-  padding: 30px;
+  border-left: 1px solid #eee;
+  padding: 20px;
   padding-top: 0;
   box-sizing: border-box; }
 

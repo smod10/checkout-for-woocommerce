@@ -3,7 +3,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 #cfw-content {
   position: relative;
   .wrap { padding: 2em 0; }
-  height: 100vh;
+  min-height: 100vh;
 }
 
 #cfw-main-container {
@@ -18,16 +18,20 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
 #cfw-login-btn {
   border: none;
+  border-radius: 4px;
   box-shadow: none;
-  border-radius: 0;
   cursor: pointer;
   padding: 12px 16px;
   background: #999;
   color: #f4f4f4;
-  text-transform: uppercase;
   text-align: center;
-  font-size: 14px;
+  font-size: 1em;
+  transition: all .2s ease;
   width: auto;
+
+  &:hover {
+    background: #232323;
+  }
 }
 
 #cfw-billing-methods, #cfw-shipping-same-billing {
@@ -84,6 +88,11 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
     clear: both;
     box-sizing: border-box;
     font-size: 1em;
+
+    input[type="radio"] {
+      position: relative;
+      top: -1px;
+    }
   }
 
   .cfw-radio-reveal-content-wrap {
@@ -93,6 +102,11 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   .cfw-radio-reveal-content {
     padding: 20px 10px 20px 10px;
     border-top: 1px solid #ddd;
+
+    p {
+      font-size: 0.825em;
+      line-height: 1.25;
+    }
   }
 
   #stripe-payment-data {
@@ -156,10 +170,10 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
     &:not(:last-child):after {
       content: " ";
-      width: 15px;
-      height: 15px;
+      width: 12px;
+      height: 12px;
       background: url('../img/arrow-right.svg') no-repeat 50% 50%;
-      background-size: 15px 15px;
+      background-size: 12px 12px;
       padding-left: 15px;
     }
   }
@@ -447,6 +461,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   transition: all .2s ease;
   color: #9e9e9e;
   line-height: 64px;
+  text-decoration: none;
 }
 
 .cfw-bottom-controls {
@@ -457,13 +472,11 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   .cfw-primary-btn {
     display: inline-block;
     text-decoration: none;
-    background: #ebb134;
-    color: #1d1503;
-    border-radius: 0;
+    background: #232323;
+    color: #fff;
+    border-radius: 4px;
     border: none;
-    border: 1px solid #d79915;
-    font-size: 14px;
-    font-size: 1.25rem;
+    font-size: 1em;
     box-sizing: border-box;
     font-weight: 400;
     -webkit-transition: all .3s ease-in-out;
@@ -473,7 +486,6 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
     &:hover {
       background: #ddd;
-      border: 1px solid #c4c4c4;
       color: #666;
     }
   }
@@ -485,7 +497,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   border-radius: 4px;
   cursor: pointer;
   padding: 12px 16px;
-  font-weight: 300;
+  font-size: 1em;
   background: #999;
   color: #f4f4f4;
   text-align: center;
@@ -560,8 +572,8 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
 .cfw-right-column {
   order: 1;
-  border-left: 1px solid #ddd;
-  padding: 30px;
+  border-left: 1px solid #eee;
+  padding: 20px;
   padding-top: 0;
   box-sizing: border-box;
 }

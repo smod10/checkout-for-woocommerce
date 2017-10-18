@@ -127,7 +127,7 @@ class Admin {
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>"><?php _e('Header Shadow Color', 'checkout-wc'); ?></label>
                         </th>
                         <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_shadow_color'); ?>" data-default-color="#000000" />
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_shadow_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_shadow_color'); ?>" data-default-color="#ffffff" />
                         </td>
                     </tr>
 

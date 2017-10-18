@@ -135,7 +135,7 @@ p {
 
 body {
   background: #ffffff;
-  font-family: "Roboto", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -152,7 +152,7 @@ body {
 
 .cfw-small {
   font-size: 0.875em;
-  color: #737375; }
+  color: #737373; }
 
 .cfw-logo {
   padding: 1.2em 0; }
@@ -160,7 +160,7 @@ body {
     background: #ffffff;
     width: 100%;
     display: inline-block;
-    height: 60px;
+    height: 40px;
     position: relative; }
 
 .cfw-link {
@@ -171,8 +171,7 @@ body {
   margin: 0; }
 
 #cfw-header {
-  background: #222;
-  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2); }
+  background: #222; }
 
 @media (max-width: 767px) {
   #cfw-logo-container {
@@ -182,7 +181,7 @@ body {
 
 #cfw-content {
   position: relative;
-  height: 100vh; }
+  min-height: 100vh; }
   #cfw-content .wrap {
     padding: 2em 0; }
 
@@ -199,16 +198,18 @@ body {
 
 #cfw-login-btn {
   border: none;
+  border-radius: 4px;
   box-shadow: none;
-  border-radius: 0;
   cursor: pointer;
   padding: 12px 16px;
   background: #999;
   color: #f4f4f4;
-  text-transform: uppercase;
   text-align: center;
-  font-size: 14px;
+  font-size: 1em;
+  transition: all .2s ease;
   width: auto; }
+  #cfw-login-btn:hover {
+    background: #232323; }
 
 #cfw-billing-methods .cfw-radio-reveal-group, #cfw-shipping-same-billing .cfw-radio-reveal-group {
   line-height: 1;
@@ -268,6 +269,9 @@ body {
   clear: both;
   box-sizing: border-box;
   font-size: 1em; }
+  #cfw-billing-methods .cfw-radio-reveal-label input[type="radio"], #cfw-shipping-same-billing .cfw-radio-reveal-label input[type="radio"] {
+    position: relative;
+    top: -1px; }
 
 #cfw-billing-methods .cfw-radio-reveal-content-wrap, #cfw-shipping-same-billing .cfw-radio-reveal-content-wrap {
   background: #f4f4f4; }
@@ -275,6 +279,9 @@ body {
 #cfw-billing-methods .cfw-radio-reveal-content, #cfw-shipping-same-billing .cfw-radio-reveal-content {
   padding: 20px 10px 20px 10px;
   border-top: 1px solid #ddd; }
+  #cfw-billing-methods .cfw-radio-reveal-content p, #cfw-shipping-same-billing .cfw-radio-reveal-content p {
+    font-size: 0.825em;
+    line-height: 1.25; }
 
 #cfw-billing-methods .wc_payment_methods fieldset, #cfw-shipping-same-billing .wc_payment_methods fieldset {
   margin-left: 0;
@@ -328,16 +335,17 @@ body {
         -ms-flex-align: center;
             align-items: center; }
     #cfw-breadcrumb li > a {
+      font-size: 0.75em;
       text-decoration: none;
       color: #333; }
     #cfw-breadcrumb li:not(.active) > a {
       color: rgba(0, 0, 0, 0.5); }
     #cfw-breadcrumb li:not(:last-child):after {
       content: " ";
-      width: 15px;
-      height: 15px;
+      width: 12px;
+      height: 12px;
       background: url("../img/arrow-right.svg") no-repeat 50% 50%;
-      background-size: 15px 15px;
+      background-size: 12px 12px;
       padding-left: 15px; }
 
 .cfw-shipping-methods-list {
@@ -454,7 +462,10 @@ body {
   display: none; }
 
 #cfw-totals-list .cfw-flex-row {
-  padding: 14px 0; }
+  padding: 10px 0; }
+
+#cfw-totals-list .type {
+  font-size: 14px; }
 
 #cfw-totals-list .cfw-totals-normal .cfw-flex-row {
   border-bottom: #eee 1px solid; }
@@ -462,7 +473,7 @@ body {
     border-bottom: none; }
 
 #cfw-totals-list .cfw-totals-total .cfw-flex-row {
-  border-top: 2px solid #333;
+  border-top: 1px solid #eeeeee;
   border-bottom: 2px solid #333;
   font-weight: 700;
   color: #000; }
@@ -576,7 +587,8 @@ body {
 .cfw-prev-tab {
   transition: all .2s ease;
   color: #9e9e9e;
-  line-height: 64px; }
+  line-height: 64px;
+  text-decoration: none; }
 
 .cfw-bottom-controls {
   display: -webkit-box;
@@ -589,20 +601,17 @@ body {
   .cfw-bottom-controls .cfw-primary-btn {
     display: inline-block;
     text-decoration: none;
-    background: #ebb134;
-    color: #1d1503;
-    border-radius: 0;
+    background: #232323;
+    color: #fff;
+    border-radius: 4px;
     border: none;
-    border: 1px solid #d79915;
-    font-size: 14px;
-    font-size: 1.25rem;
+    font-size: 1em;
     box-sizing: border-box;
     font-weight: 400;
     transition: all .3s ease-in-out;
     padding: 19px 15px; }
     .cfw-bottom-controls .cfw-primary-btn:hover {
       background: #ddd;
-      border: 1px solid #c4c4c4;
       color: #666; }
 
 .cfw-def-action-btn {
@@ -611,7 +620,7 @@ body {
   border-radius: 4px;
   cursor: pointer;
   padding: 12px 16px;
-  font-weight: 300;
+  font-size: 1em;
   background: #999;
   color: #f4f4f4;
   text-align: center;
@@ -657,6 +666,8 @@ body {
   padding: 0 1.02em;
   line-height: 1.625;
   opacity: 0; }
+  .cfw-input-label abbr[title] {
+    text-decoration: none; }
 
 .cfw-module-title {
   font-size: 1.5em;
@@ -676,8 +687,9 @@ body {
   -webkit-box-ordinal-group: 2;
       -ms-flex-order: 1;
           order: 1;
-  border-left: 1px solid #ddd;
-  padding: 30px;
+  border-left: 1px solid #eee;
+  padding: 20px;
+  padding-top: 0;
   box-sizing: border-box; }
 
 #cfw-main-container .apple-pay-button-checkout-separator {

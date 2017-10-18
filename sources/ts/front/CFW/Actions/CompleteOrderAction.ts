@@ -78,6 +78,9 @@ export class CompleteOrderAction extends Action {
             "wc-authorize-net-aim-account-number": checkoutData["wc-authorize-net-aim-account-number"],
             "wc-authorize-net-aim-expiry": checkoutData["wc-authorize-net-aim-expiry"],
             "wc-authorize-net-aim-csc": checkoutData["wc-authorize-net-aim-csc"],
+            "paypal_pro_payflow-card-number": checkoutData["paypal_pro_payflow-card-number"],
+            "paypal_pro_payflow-card-expiry": checkoutData["paypal_pro_payflow-card-expiry"],
+            "paypal_pro_payflow-card-cvc": checkoutData["paypal_pro_payflow-card-cvc"],
         };
 
         if(checkoutData.account_password) {

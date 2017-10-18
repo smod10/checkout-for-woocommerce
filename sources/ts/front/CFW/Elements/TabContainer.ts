@@ -232,12 +232,31 @@ export class TabContainer extends Element {
             $(elem).find("label").addClass("cfw-input-label");
             $(elem).find("input").css("width", "100%");
 
-            if($(elem).hasClass("form-row-wide")) {
+            if( $(elem).hasClass("form-row-wide") ) {
                 $(elem).wrap("<div class='cfw-column-6'></div>")
             }
 
-            if($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
+            if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
                 $(elem).wrap("<div class='cfw-column-3'></div>")
+            }
+        });
+
+        // PayFlow Pro
+
+        let payflow_pro_form_wraps = $(".payment_method_paypal_pro_payflow > fieldset > .form-row");
+
+        $(".payment_method_paypal_pro_payflow > fieldset").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+
+        payflow_pro_form_wraps.each(function(index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label").addClass("cfw-input-label");
+            $(elem).find("input").css("width", "100%");
+
+            if( $(elem).hasClass("form-row-first") && $(elem).index() === 0 ) {
+                $(elem).wrap("<div class='cfw-column-6'></div>")
+            } else {
+                $(elem).wrap("<div class='cfw-column-3'></div>");
             }
         });
     }
@@ -401,6 +420,10 @@ export class TabContainer extends Element {
         let wc_authorize_net_aim_expiry = $("[name='wc-authorize-net-aim-expiry']").val();
         let wc_authorize_net_aim_csc = $("[name='wc-authorize-net-aim-csc']").val();
 
+        let paypal_pro_payflow_card_number = $("[name='paypal_pro_payflow-card-number']").val();
+        let paypal_pro_payflow_card_expiry = $("[name='paypal_pro_payflow-card-expiry']").val();
+        let paypal_pro_payflow_card_cvc = $("[name='paypal_pro_payflow-card-cvc']").val();
+
         if(ship_to_different_address === 0) {
             billing_first_name = shipping_first_name;
             billing_last_name = shipping_last_name;
@@ -444,6 +467,9 @@ export class TabContainer extends Element {
             "wc-authorize-net-aim-account-number": wc_authorize_net_aim_account_number,
             "wc-authorize-net-aim-expiry": wc_authorize_net_aim_expiry,
             "wc-authorize-net-aim-csc": wc_authorize_net_aim_csc,
+            "paypal_pro_payflow-card-number": paypal_pro_payflow_card_number,
+            "paypal_pro_payflow-card-expiry": paypal_pro_payflow_card_expiry,
+            "paypal_pro_payflow-card-cvc": paypal_pro_payflow_card_cvc,
         };
 
         if(account_password && account_password.length > 0) {

@@ -58,7 +58,7 @@ class Redirect {
 	public static function init_block($env_extension, $path_manager) {
 		// We use this instead of _wp_render_title_tag because it requires the theme support title-tag capability.
 		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
-		
+
 		wp_enqueue_scripts();
 		self::remove_scripts();
 		print_head_scripts();
@@ -251,7 +251,6 @@ class Redirect {
             }
 
             ?>
-            <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,500,500i,700,900" rel="stylesheet">
             <style>
                 #cfw-header {
                     background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;

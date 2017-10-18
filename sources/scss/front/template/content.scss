@@ -283,6 +283,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   left: 0;
   background: #fff;
   opacity: 0.7;
+  z-index: 10000;
   display: none;
 }
 

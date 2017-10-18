@@ -652,6 +652,8 @@ body {
   padding: 0 1.02em;
   line-height: 1.625;
   opacity: 0; }
+  .cfw-input-label abbr[title] {
+    text-decoration: none; }
 
 .cfw-module-title {
   font-size: 1.5em;

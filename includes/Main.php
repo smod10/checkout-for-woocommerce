@@ -445,7 +445,7 @@ class Main extends Singleton {
 	}
 
 	/**
-	 * @param $value
+	 * @return string
 	 */
 	function override_woocommerce_registration_generate_password() {
 		return "yes";

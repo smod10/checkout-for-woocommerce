@@ -380,7 +380,29 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		                    <?php if ( $gateway->has_fields() || $gateway->get_description() ) : ?>
                                 <div class="payment_box_wrap cfw-radio-reveal-content-wrap" <?php if ( ! $gateway->chosen ) : ?>style="display:none;"<?php endif; ?>>
                                     <div class="payment_box payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-content">
-                                        <?php $gateway->payment_fields(); ?>
+                                        <?php
+                                        ob_start();
+                                        $gateway->payment_fields();
+
+                                        $field_html = ob_get_clean();
+
+                                        /**
+                                         * Garlic Exclusions
+                                         */
+                                        // PayPal Pro
+                                        $field_html = str_ireplace('name="paypal_pro-card-number"', 'name="paypal_pro-card-number" data-persist="false"', $field_html);
+                                        $field_html = str_ireplace('name="paypal_pro-card-cvc"', 'name="paypal_pro-card-cvc" data-persist="false"', $field_html);
+
+                                        // Authorize.net
+                                        $field_html = str_ireplace('name="wc-authorize-net-aim-account-number"', 'name="wc-authorize-net-aim-account-number" data-persist="false"', $field_html);
+                                        $field_html = str_ireplace('name="wc-authorize-net-aim-csc"', 'name="wc-authorize-net-aim-csc" data-persist="false"', $field_html);
+
+                                        // PayFlow Pro
+                                        $field_html = str_ireplace('name="paypal_pro_payflow-card-number"', 'name="paypal_pro_payflow-card-number" data-persist="false"', $field_html);
+                                        $field_html = str_ireplace('name="paypal_pro_payflow-card-cvc"', 'name="paypal_pro_payflow-card-cvc" data-persist="false"', $field_html);
+
+                                        echo $field_html;
+                                        ?>
                                     </div>
                                 </div>
 		                    <?php endif; ?>

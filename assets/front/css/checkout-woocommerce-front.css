@@ -276,6 +276,18 @@ body {
   padding: 20px 10px 20px 10px;
   border-top: 1px solid #ddd; }
 
+#cfw-billing-methods .wc_payment_methods fieldset, #cfw-shipping-same-billing .wc_payment_methods fieldset {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  padding: 0;
+  border: none; }
+
+#cfw-billing-methods .wc_payment_methods .wc_payment_method .payment_box > *, #cfw-shipping-same-billing .wc_payment_methods .wc_payment_method .payment_box > * {
+  margin-bottom: 15px; }
+  #cfw-billing-methods .wc_payment_methods .wc_payment_method .payment_box > *:last-child, #cfw-shipping-same-billing .wc_payment_methods .wc_payment_method .payment_box > *:last-child {
+    margin-bottom: 0; }
+
 #cfw-billing-methods #stripe-payment-data > *, #cfw-shipping-same-billing #stripe-payment-data > * {
   margin-bottom: 15px; }
   #cfw-billing-methods #stripe-payment-data > *:last-child, #cfw-shipping-same-billing #stripe-payment-data > *:last-child {
@@ -283,13 +295,6 @@ body {
 
 #cfw-billing-methods #stripe-payment-data #wc-stripe-cc-form, #cfw-billing-methods #stripe-payment-data .woocommerce-SavedPaymentMethods-saveNew, #cfw-shipping-same-billing #stripe-payment-data #wc-stripe-cc-form, #cfw-shipping-same-billing #stripe-payment-data .woocommerce-SavedPaymentMethods-saveNew {
   display: none; }
-
-#cfw-billing-methods #stripe-payment-data fieldset, #cfw-shipping-same-billing #stripe-payment-data fieldset {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  padding: 0;
-  border: none; }
 
 #cfw-billing-methods #stripe-payment-data ul, #cfw-shipping-same-billing #stripe-payment-data ul {
   padding: 0;

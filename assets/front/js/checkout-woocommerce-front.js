@@ -1293,10 +1293,24 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             }
         };
         TabContainer.prototype.setUpCreditCardFields = function () {
-            var form_wraps = $("#wc-stripe-cc-form .form-row");
+            var stripe_form_wraps = $("#wc-stripe-cc-form .form-row");
             $("#wc-stripe-cc-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
             $("#wc-stripe-cc-form").find(".clear").remove();
-            form_wraps.each(function (index, elem) {
+            stripe_form_wraps.each(function (index, elem) {
+                $(elem).addClass("cfw-input-wrap");
+                $(elem).addClass("cfw-text-input");
+                $(elem).find("label").addClass("cfw-input-label");
+                $(elem).find("input").css("width", "100%");
+                if ($(elem).hasClass("form-row-wide")) {
+                    $(elem).wrap("<div class='cfw-column-6'></div>");
+                }
+                if ($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
+                    $(elem).wrap("<div class='cfw-column-3'></div>");
+                }
+            });
+            var authorizenet_form_wraps = $("#wc-authorize-net-aim-credit-card-form .form-row");
+            $("#wc-authorize-net-aim-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+            authorizenet_form_wraps.each(function (index, elem) {
                 $(elem).addClass("cfw-input-wrap");
                 $(elem).addClass("cfw-text-input");
                 $(elem).find("label").addClass("cfw-input-label");

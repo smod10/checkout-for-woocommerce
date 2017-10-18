@@ -13,16 +13,13 @@ class Redirect {
 	 * @param $version
 	 */
 	public static function checkout($settings_manager, $path_manager, $template_manager, $version) {
-		if ( ( $settings_manager->get_setting('enable') == 'yes' || current_user_can('manage_options') ) && function_exists('is_checkout') && is_checkout() && !is_order_received_page() ) {
+		if ( function_exists('is_checkout') && is_checkout() && ! is_order_received_page() ) {
 			// When on the checkout with an empty cart, redirect to cart page
 			if ( WC()->cart->is_empty() ) {
 				wc_add_notice( __( 'Checkout is not available whilst your cart is empty.', 'woocommerce' ), 'notice' );
 				wp_redirect( wc_get_page_permalink( 'cart' ) );
 				exit;
 			}
-
-			// If using our checkout system force password generation for new users.
-			add_filter('pre_option_woocommerce_registration_generate_password', 'Objectiv\Plugins\Checkout\Core\Redirect::override_woocommerce_registration_generate_password' );
 
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());
@@ -357,11 +354,4 @@ class Redirect {
 		</html>
 		<?php
 	}
-
-	/**
-	 * @param $value
-	 */
-	function override_woocommerce_registration_generate_password( $value ) {
-        return "yes";
-    }
 }

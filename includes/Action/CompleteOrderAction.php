@@ -23,7 +23,7 @@ class CompleteOrderAction extends Action {
 
 		wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
-		// If the user is logged in dont try and get the user from the front end, just get it on the back before we checkout
+		// If the user is logged in don't try and get the user from the front end, just get it on the back before we checkout
 		if(!$_POST['billing_email']) {
 			$current_user = wp_get_current_user();
 			if($current_user) {

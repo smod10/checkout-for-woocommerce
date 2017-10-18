@@ -200,12 +200,33 @@ export class TabContainer extends Element {
     }
 
     setUpCreditCardFields() {
-        let form_wraps = $("#wc-stripe-cc-form .form-row");
+        // Stripe Form
+        let stripe_form_wraps = $("#wc-stripe-cc-form .form-row");
 
         $("#wc-stripe-cc-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
         $("#wc-stripe-cc-form").find(".clear").remove();
 
-        form_wraps.each(function(index, elem) {
+        stripe_form_wraps.each(function(index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label").addClass("cfw-input-label");
+            $(elem).find("input").css("width", "100%");
+
+            if($(elem).hasClass("form-row-wide")) {
+                $(elem).wrap("<div class='cfw-column-6'></div>")
+            }
+
+            if($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
+                $(elem).wrap("<div class='cfw-column-3'></div>")
+            }
+        });
+
+        // Authorize.net
+        let authorizenet_form_wraps = $("#wc-authorize-net-aim-credit-card-form .form-row");
+
+        $("#wc-authorize-net-aim-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+
+        authorizenet_form_wraps.each(function(index, elem) {
             $(elem).addClass("cfw-input-wrap");
             $(elem).addClass("cfw-text-input");
             $(elem).find("label").addClass("cfw-input-label");
@@ -376,6 +397,10 @@ export class TabContainer extends Element {
         let _wp_http_referer = $("[name='_wp_http_referer']").val();
         let wc_stripe_payment_token = $("[name='wc-stripe-payment-token']").val();
 
+        let wc_authorize_net_aim_account_number = $("[name='wc-authorize-net-aim-account-number']").val();
+        let wc_authorize_net_aim_expiry = $("[name='wc-authorize-net-aim-expiry']").val();
+        let wc_authorize_net_aim_csc = $("[name='wc-authorize-net-aim-csc']").val();
+
         if(ship_to_different_address === 0) {
             billing_first_name = shipping_first_name;
             billing_last_name = shipping_last_name;
@@ -415,7 +440,10 @@ export class TabContainer extends Element {
             payment_method: payment_method,
             "wc-stripe-payment-token": wc_stripe_payment_token,
             _wpnonce: _wpnonce,
-            _wp_http_referer: _wp_http_referer
+            _wp_http_referer: _wp_http_referer,
+            "wc-authorize-net-aim-account-number": wc_authorize_net_aim_account_number,
+            "wc-authorize-net-aim-expiry": wc_authorize_net_aim_expiry,
+            "wc-authorize-net-aim-csc": wc_authorize_net_aim_csc,
         };
 
         if(account_password && account_password.length > 0) {

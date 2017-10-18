@@ -95,6 +95,24 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
     border-top: 1px solid #ddd;
   }
 
+  .wc_payment_methods {
+    fieldset {
+      margin-left: 0;
+      margin-right: 0;
+      margin-top: 0;
+      padding: 0;
+      border: none;
+    }
+
+    .wc_payment_method .payment_box {
+      & > * {
+        margin-bottom: 15px;
+
+        &:last-child { margin-bottom: 0; }
+      }
+    }
+  }
+
   #stripe-payment-data {
     & > * {
       margin-bottom: 15px;
@@ -104,14 +122,6 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
     #wc-stripe-cc-form, .woocommerce-SavedPaymentMethods-saveNew {
       display: none;
-    }
-
-    fieldset {
-      margin-left: 0;
-      margin-right: 0;
-      margin-top: 0;
-      padding: 0;
-      border: none;
     }
 
     ul {

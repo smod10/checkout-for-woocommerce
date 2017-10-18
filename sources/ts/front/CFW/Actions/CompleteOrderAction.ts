@@ -44,7 +44,7 @@ export class CompleteOrderAction extends Action {
      */
     constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: any) {
 
-        // We do a normal object here becuase to make a new type just to add two different options seems silly.
+        // We do a normal object here because to make a new type just to add two different options seems silly.
         let data: {} = {
             action: id,
             security: ajaxInfo.nonce,
@@ -75,6 +75,9 @@ export class CompleteOrderAction extends Action {
             "wc-stripe-payment-token": checkoutData["wc-stripe-payment-token"],
             _wpnonce: checkoutData._wpnonce,
             _wp_http_referer: checkoutData._wp_http_referer,
+            "wc-authorize-net-aim-account-number": checkoutData["wc-authorize-net-aim-account-number"],
+            "wc-authorize-net-aim-expiry": checkoutData["wc-authorize-net-aim-expiry"],
+            "wc-authorize-net-aim-csc": checkoutData["wc-authorize-net-aim-csc"],
         };
 
         if(checkoutData.account_password) {

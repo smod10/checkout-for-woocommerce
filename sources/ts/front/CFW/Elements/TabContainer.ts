@@ -376,6 +376,10 @@ export class TabContainer extends Element {
         let _wp_http_referer = $("[name='_wp_http_referer']").val();
         let wc_stripe_payment_token = $("[name='wc-stripe-payment-token']").val();
 
+        let wc_authorize_net_aim_account_number = $("[name='wc-authorize-net-aim-account-number']").val();
+        let wc_authorize_net_aim_expiry = $("[name='wc-authorize-net-aim-expiry']").val();
+        let wc_authorize_net_aim_csc = $("[name='wc-authorize-net-aim-csc']").val();
+
         if(ship_to_different_address === 0) {
             billing_first_name = shipping_first_name;
             billing_last_name = shipping_last_name;
@@ -415,7 +419,10 @@ export class TabContainer extends Element {
             payment_method: payment_method,
             "wc-stripe-payment-token": wc_stripe_payment_token,
             _wpnonce: _wpnonce,
-            _wp_http_referer: _wp_http_referer
+            _wp_http_referer: _wp_http_referer,
+            "wc-authorize-net-aim-account-number": wc_authorize_net_aim_account_number,
+            "wc-authorize-net-aim-expiry": wc_authorize_net_aim_expiry,
+            "wc-authorize-net-aim-csc": wc_authorize_net_aim_csc,
         };
 
         if(account_password && account_password.length > 0) {

@@ -968,6 +968,9 @@ define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "
                 "wc-stripe-payment-token": checkoutData["wc-stripe-payment-token"],
                 _wpnonce: checkoutData._wpnonce,
                 _wp_http_referer: checkoutData._wp_http_referer,
+                "wc-authorize-net-aim-account-number": checkoutData["wc-authorize-net-aim-account-number"],
+                "wc-authorize-net-aim-expiry": checkoutData["wc-authorize-net-aim-expiry"],
+                "wc-authorize-net-aim-csc": checkoutData["wc-authorize-net-aim-csc"],
             };
             if (checkoutData.account_password) {
                 data["account_password"] = checkoutData.account_password;
@@ -1422,6 +1425,9 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             var _wpnonce = $("#_wpnonce").val();
             var _wp_http_referer = $("[name='_wp_http_referer']").val();
             var wc_stripe_payment_token = $("[name='wc-stripe-payment-token']").val();
+            var wc_authorize_net_aim_account_number = $("[name='wc-authorize-net-aim-account-number']").val();
+            var wc_authorize_net_aim_expiry = $("[name='wc-authorize-net-aim-expiry']").val();
+            var wc_authorize_net_aim_csc = $("[name='wc-authorize-net-aim-csc']").val();
             if (ship_to_different_address === 0) {
                 billing_first_name = shipping_first_name;
                 billing_last_name = shipping_last_name;
@@ -1460,7 +1466,10 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 payment_method: payment_method,
                 "wc-stripe-payment-token": wc_stripe_payment_token,
                 _wpnonce: _wpnonce,
-                _wp_http_referer: _wp_http_referer
+                _wp_http_referer: _wp_http_referer,
+                "wc-authorize-net-aim-account-number": wc_authorize_net_aim_account_number,
+                "wc-authorize-net-aim-expiry": wc_authorize_net_aim_expiry,
+                "wc-authorize-net-aim-csc": wc_authorize_net_aim_csc,
             };
             if (account_password && account_password.length > 0) {
                 completeOrderCheckoutData["account_password"] = account_password;

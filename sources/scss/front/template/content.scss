@@ -145,6 +145,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
     align-items: center;
 
     & > a {
+      font-size: 0.75em;
       text-decoration: none;
       color: #333;
     }
@@ -320,7 +321,11 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
 #cfw-totals-list {
   .cfw-flex-row {
-    padding: 14px 0;
+    padding: 10px 0;
+  }
+
+  .type {
+    font-size: 14px;
   }
 
   .cfw-totals-normal .cfw-flex-row {
@@ -332,7 +337,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   }
 
   .cfw-totals-total .cfw-flex-row {
-    border-top: 2px solid #333;
+    border-top: 1px solid #eeeeee;
     border-bottom: 2px solid #333;
     font-weight: 700;
     color: #000;
@@ -557,6 +562,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   order: 1;
   border-left: 1px solid #ddd;
   padding: 30px;
+  padding-top: 0;
   box-sizing: border-box;
 }
 

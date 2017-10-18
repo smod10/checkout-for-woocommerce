@@ -152,7 +152,7 @@ body {
 
 .cfw-small {
   font-size: 0.875em;
-  color: #737375; }
+  color: #737373; }
 
 .cfw-logo {
   padding: 1.2em 0; }
@@ -171,8 +171,7 @@ body {
   margin: 0; }
 
 #cfw-header {
-  background: #222;
-  border-bottom: 1px solid #eee; }
+  background: #222; }
 
 @media (max-width: 767px) {
   #cfw-logo-container {
@@ -323,6 +322,7 @@ body {
         -ms-flex-align: center;
             align-items: center; }
     #cfw-breadcrumb li > a {
+      font-size: 0.75em;
       text-decoration: none;
       color: #333; }
     #cfw-breadcrumb li:not(.active) > a {
@@ -449,7 +449,10 @@ body {
   display: none; }
 
 #cfw-totals-list .cfw-flex-row {
-  padding: 14px 0; }
+  padding: 10px 0; }
+
+#cfw-totals-list .type {
+  font-size: 14px; }
 
 #cfw-totals-list .cfw-totals-normal .cfw-flex-row {
   border-bottom: #eee 1px solid; }
@@ -457,7 +460,7 @@ body {
     border-bottom: none; }
 
 #cfw-totals-list .cfw-totals-total .cfw-flex-row {
-  border-top: 2px solid #333;
+  border-top: 1px solid #eeeeee;
   border-bottom: 2px solid #333;
   font-weight: 700;
   color: #000; }
@@ -675,6 +678,7 @@ body {
           order: 1;
   border-left: 1px solid #ddd;
   padding: 30px;
+  padding-top: 0;
   box-sizing: border-box; }
 
 #cfw-main-container .apple-pay-button-checkout-separator {

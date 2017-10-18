@@ -974,6 +974,9 @@ define("Actions/CompleteOrderAction", ["require", "exports", "Actions/Action", "
                 "paypal_pro_payflow-card-number": checkoutData["paypal_pro_payflow-card-number"],
                 "paypal_pro_payflow-card-expiry": checkoutData["paypal_pro_payflow-card-expiry"],
                 "paypal_pro_payflow-card-cvc": checkoutData["paypal_pro_payflow-card-cvc"],
+                "paypal_pro-card-number": checkoutData["paypal_pro-card-number"],
+                "paypal_pro-card-expiry": checkoutData["paypal_pro-card-expiry"],
+                "paypal_pro-card-cvc": checkoutData["paypal_pro-card-cvc"],
             };
             if (checkoutData.account_password) {
                 data["account_password"] = checkoutData.account_password;
@@ -1339,6 +1342,20 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                     $(elem).wrap("<div class='cfw-column-3'></div>");
                 }
             });
+            var paypro_form_wraps = $(".payment_method_paypal_pro > fieldset > .form-row");
+            $(".payment_method_paypal_pro > fieldset").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+            paypro_form_wraps.each(function (index, elem) {
+                $(elem).addClass("cfw-input-wrap");
+                $(elem).addClass("cfw-text-input");
+                $(elem).find("label").addClass("cfw-input-label");
+                $(elem).find("input").css("width", "100%");
+                if ($(elem).hasClass("form-row-first") && $(elem).index() === 0) {
+                    $(elem).wrap("<div class='cfw-column-6'></div>");
+                }
+                else {
+                    $(elem).wrap("<div class='cfw-column-3'></div>");
+                }
+            });
         };
         TabContainer.prototype.setUpPaymentTabRadioButtons = function () {
             var payment_radio_buttons = this
@@ -1462,6 +1479,9 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
             var paypal_pro_payflow_card_number = $("[name='paypal_pro_payflow-card-number']").val();
             var paypal_pro_payflow_card_expiry = $("[name='paypal_pro_payflow-card-expiry']").val();
             var paypal_pro_payflow_card_cvc = $("[name='paypal_pro_payflow-card-cvc']").val();
+            var paypal_pro_card_number = $("[name='paypal_pro-card-number']").val();
+            var paypal_pro_card_expiry = $("[name='paypal_pro-card-expiry']").val();
+            var paypal_pro_card_cvc = $("[name='paypal_pro-card-cvc']").val();
             if (ship_to_different_address === 0) {
                 billing_first_name = shipping_first_name;
                 billing_last_name = shipping_last_name;
@@ -1507,6 +1527,9 @@ define("Elements/TabContainer", ["require", "exports", "Elements/Element", "Acti
                 "paypal_pro_payflow-card-number": paypal_pro_payflow_card_number,
                 "paypal_pro_payflow-card-expiry": paypal_pro_payflow_card_expiry,
                 "paypal_pro_payflow-card-cvc": paypal_pro_payflow_card_cvc,
+                "paypal_pro-card-number": paypal_pro_card_number,
+                "paypal_pro-card-expiry": paypal_pro_card_expiry,
+                "paypal_pro-card-cvc": paypal_pro_card_cvc,
             };
             if (account_password && account_password.length > 0) {
                 completeOrderCheckoutData["account_password"] = account_password;

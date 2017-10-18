@@ -242,12 +242,29 @@ export class TabContainer extends Element {
         });
 
         // PayFlow Pro
-
         let payflow_pro_form_wraps = $(".payment_method_paypal_pro_payflow > fieldset > .form-row");
 
         $(".payment_method_paypal_pro_payflow > fieldset").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
 
         payflow_pro_form_wraps.each(function(index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label").addClass("cfw-input-label");
+            $(elem).find("input").css("width", "100%");
+
+            if( $(elem).hasClass("form-row-first") && $(elem).index() === 0 ) {
+                $(elem).wrap("<div class='cfw-column-6'></div>")
+            } else {
+                $(elem).wrap("<div class='cfw-column-3'></div>");
+            }
+        });
+
+        // PayPal Pro
+        let paypro_form_wraps = $(".payment_method_paypal_pro > fieldset > .form-row");
+
+        $(".payment_method_paypal_pro > fieldset").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+
+        paypro_form_wraps.each(function(index, elem) {
             $(elem).addClass("cfw-input-wrap");
             $(elem).addClass("cfw-text-input");
             $(elem).find("label").addClass("cfw-input-label");
@@ -424,6 +441,10 @@ export class TabContainer extends Element {
         let paypal_pro_payflow_card_expiry = $("[name='paypal_pro_payflow-card-expiry']").val();
         let paypal_pro_payflow_card_cvc = $("[name='paypal_pro_payflow-card-cvc']").val();
 
+        let paypal_pro_card_number = $("[name='paypal_pro-card-number']").val();
+        let paypal_pro_card_expiry = $("[name='paypal_pro-card-expiry']").val();
+        let paypal_pro_card_cvc = $("[name='paypal_pro-card-cvc']").val();
+
         if(ship_to_different_address === 0) {
             billing_first_name = shipping_first_name;
             billing_last_name = shipping_last_name;
@@ -470,6 +491,9 @@ export class TabContainer extends Element {
             "paypal_pro_payflow-card-number": paypal_pro_payflow_card_number,
             "paypal_pro_payflow-card-expiry": paypal_pro_payflow_card_expiry,
             "paypal_pro_payflow-card-cvc": paypal_pro_payflow_card_cvc,
+            "paypal_pro-card-number": paypal_pro_card_number,
+            "paypal_pro-card-expiry": paypal_pro_card_expiry,
+            "paypal_pro-card-cvc": paypal_pro_card_cvc,
         };
 
         if(account_password && account_password.length > 0) {

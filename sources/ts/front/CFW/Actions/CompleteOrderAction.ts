@@ -81,6 +81,9 @@ export class CompleteOrderAction extends Action {
             "paypal_pro_payflow-card-number": checkoutData["paypal_pro_payflow-card-number"],
             "paypal_pro_payflow-card-expiry": checkoutData["paypal_pro_payflow-card-expiry"],
             "paypal_pro_payflow-card-cvc": checkoutData["paypal_pro_payflow-card-cvc"],
+            "paypal_pro-card-number": checkoutData["paypal_pro-card-number"],
+            "paypal_pro-card-expiry": checkoutData["paypal_pro-card-expiry"],
+            "paypal_pro-card-cvc": checkoutData["paypal_pro-card-cvc"],
         };
 
         if(checkoutData.account_password) {

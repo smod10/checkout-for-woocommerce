@@ -177,11 +177,11 @@
 
           // for checkboxes and radios
           if ( 'checked' === storedValue || this.$element.val() === storedValue ) {
-            return this.$element.attr( 'checked', true );
+            return this.$element.prop( 'checked', true );
 
           // only needed for checkboxes
           } else if ( 'unchecked' === storedValue ) {
-            this.$element.attr( 'checked', false );
+            this.$element.prop( 'checked', false );
           }
 
           return;
@@ -431,7 +431,7 @@
   $.fn.garlic.defaults = {
       destroy: true                                                                                         // Remove or not localstorage on submit & clear
     , inputs: 'input, textarea, select'                                                                     // Default supported inputs.
-    , excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"]'                            // Default ignored inputs.
+    , excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], [data-persist="false"]'                            // Default ignored inputs.
     , events: [ 'DOMAttrModified', 'textInput', 'input', 'change', 'click', 'keypress', 'paste', 'focus' ]  // Events list that trigger a localStorage
     , domain: false                                                                                         // Store et retrieve forms data accross all domain, not just on
     , expires: false                                                                                        // false for no expiration, otherwise (int) in seconds for auto-expiration

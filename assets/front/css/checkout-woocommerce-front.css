@@ -171,8 +171,7 @@ body {
   margin: 0; }
 
 #cfw-header {
-  background: #222;
-  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2); }
+  background: #222; }
 
 @media (max-width: 767px) {
   #cfw-logo-container {
@@ -181,8 +180,7 @@ body {
     display: inline-block; } }
 
 #cfw-content {
-  position: relative;
-  height: 100vh; }
+  position: relative; }
   #cfw-content .wrap {
     padding: 2em 0; }
 
@@ -782,7 +780,9 @@ body {
 
 #cfw-footer {
   text-align: center;
-  background: #eaeaea; }
+  background: #fff;
+  color: #999999;
+  font-size: 0.825em; }
 
 #cfw-footer .cfw-footer-inner {
   padding: 40px 0; }

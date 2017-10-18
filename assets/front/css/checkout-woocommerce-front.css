@@ -181,7 +181,8 @@ body {
     display: inline-block; } }
 
 #cfw-content {
-  position: relative; }
+  position: relative;
+  height: 100vh; }
   #cfw-content .wrap {
     padding: 2em 0; }
 

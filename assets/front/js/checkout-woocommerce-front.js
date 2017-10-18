@@ -842,7 +842,6 @@ define("Services/ValidationService", ["require", "exports"], function (require, 
         }
         ValidationService.prototype.setup = function () {
             this.setEventListeners();
-            this.setStripeCacheDestroyers();
             if (window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
                 if (!this.validate(EValidationSections.SHIPPING)) {
                     window.location.hash = "#cfw-customer-info";
@@ -880,16 +879,6 @@ define("Services/ValidationService", ["require", "exports"], function (require, 
                 }
                 return true;
             }.bind(this));
-        };
-        ValidationService.prototype.setStripeCacheDestroyers = function () {
-            var destroyCacheItems = ["stripe-card-number", "stripe-card-expiry", "stripe-card-cvc"];
-            destroyCacheItems.forEach(function (item) {
-                $("#" + item).on('keyup', function () {
-                    destroyCacheItems.forEach(function (innerItem) {
-                        $("#" + innerItem).garlic('destroy');
-                    });
-                });
-            });
         };
         ValidationService.prototype.validate = function (section) {
             var validated;

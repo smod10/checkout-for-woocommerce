@@ -34,7 +34,6 @@ export class ValidationService {
 
     setup(): void {
         this.setEventListeners();
-        this.setStripeCacheDestroyers();
 
         if(window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
             if(!this.validate(EValidationSections.SHIPPING)) {
@@ -84,18 +83,6 @@ export class ValidationService {
             return true;
 
         }.bind(this));
-    }
-
-    setStripeCacheDestroyers(): void {
-        let destroyCacheItems = ["stripe-card-number", "stripe-card-expiry", "stripe-card-cvc"];
-
-        destroyCacheItems.forEach(function(item) {
-            $("#" + item).on('keyup', function(){
-                destroyCacheItems.forEach(function(innerItem){
-                    $("#" + innerItem).garlic('destroy');
-                })
-            })
-        });
     }
 
     validate(section: EValidationSections): any {

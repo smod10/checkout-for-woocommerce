@@ -13,10 +13,14 @@ class Redirect {
 	 * @param $version
 	 */
 	public static function checkout($settings_manager, $path_manager, $template_manager, $version) {
-	    // If using our checkout system force password generation for new users.
-		update_option('woocommerce_registration_generate_password', 'yes');
+		if ( function_exists('is_checkout') && is_checkout() && ! is_order_received_page() ) {
+			// When on the checkout with an empty cart, redirect to cart page
+			if ( WC()->cart->is_empty() ) {
+				wc_add_notice( __( 'Checkout is not available whilst your cart is empty.', 'woocommerce' ), 'notice' );
+				wp_redirect( wc_get_page_permalink( 'cart' ) );
+				exit;
+			}
 
-		if ( ( $settings_manager->get_setting('enable') == 'yes' || current_user_can('manage_options') ) && function_exists('is_checkout') && is_checkout() && !is_order_received_page() ) {
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());
 

@@ -375,18 +375,23 @@ class Main extends Singleton {
 		$this->loader->add_action('wp_enqueue_scripts', array($this, 'set_assets'));
 
 		// Add the Language class
-		$this->loader->add_action('init', function(){
+		$this->loader->add_action('init', function() {
 			$this->i18n->load_plugin_textdomain($this->path_manager);
 		});
 
 		// Handle the Activation notices
-		$this->loader->add_action('admin_notices', function(){
+		$this->loader->add_action('admin_notices', function() {
 			Activator::activate_admin_notice($this->path_manager);
 		});
 
 		// Setup the Checkout redirect
-		$this->loader->add_action('template_redirect', function(){
-			Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
+		$this->loader->add_action('template_redirect', function() {
+			if ( $this->settings_manager->get_setting('enabled') == "yes" || current_user_can('manage_options') ) {
+				// For some reason, using the loader add_filter here doesn't work *shrug*
+				add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
+
+				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
+			}
 		});
 	}
 
@@ -398,7 +403,7 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function load_filters() {
-		// Filters go here...
+		// filters
 	}
 
 	/**
@@ -437,5 +442,12 @@ class Main extends Singleton {
 
 		// Remove cron for license update check
 		$main->updater->unset_license_check_cron();
+	}
+
+	/**
+	 * @return string
+	 */
+	function override_woocommerce_registration_generate_password() {
+		return "yes";
 	}
 }

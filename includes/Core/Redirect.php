@@ -288,6 +288,7 @@ class Redirect {
                 }
                 <?php endif; ?>
             </style>
+            <meta name="viewport" content="width=device-width">
 		</head>
 		<body class="<?php echo implode(" ", $classes); ?>" onload="init()">
 		<?php

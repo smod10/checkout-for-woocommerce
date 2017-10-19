@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bc7cedba7412cf8a1ef0c26919b9b508",
-    "content-hash": "87b9dde7409a6ef93d58c2e99c71fead",
+    "hash": "9268c7bddc6a47bbaf7f27f37a372a97",
+    "content-hash": "5bac99af7cfc89b127248a80f47e3189",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -157,16 +157,16 @@
         },
         {
             "name": "objectivco/wordpress-simple-settings",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Objectivco/wordpress-simple-settings.git",
-                "reference": "cd67d8a0989e2273e6b9ef49e388270e0cd4a19d"
+                "reference": "d4c80f46e420a214fcb4b3c5c4345da1c5d8191b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Objectivco/wordpress-simple-settings/zipball/cd67d8a0989e2273e6b9ef49e388270e0cd4a19d",
-                "reference": "cd67d8a0989e2273e6b9ef49e388270e0cd4a19d",
+                "url": "https://api.github.com/repos/Objectivco/wordpress-simple-settings/zipball/d4c80f46e420a214fcb4b3c5c4345da1c5d8191b",
+                "reference": "d4c80f46e420a214fcb4b3c5c4345da1c5d8191b",
                 "shasum": ""
             },
             "require": {
@@ -190,7 +190,7 @@
             ],
             "description": "A minimalist framework for managing WordPress plugin or theme settings.",
             "homepage": "https://github.com/Objectivco/wordpress-simple-settings",
-            "time": "2017-06-15 18:26:41"
+            "time": "2017-10-19 16:46:17"
         },
         {
             "name": "objectivco/wp_tabbed_navigation",

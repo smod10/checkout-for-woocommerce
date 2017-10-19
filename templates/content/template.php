@@ -78,12 +78,14 @@
                                                 <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="Login" />
                                             </div>
                                         </div>
-                                        <?php if(!WC()->checkout->is_registration_required()): ?>
                                         <div class="cfw-input-wrap cfw-check-input">
-                                            <input type="checkbox" id="cfw-acc-register-chk" class="garlic-auto-save" name="cfw-acc-register-chk" />
+	                                        <?php if( ! WC()->checkout->is_registration_required() ): ?>
+                                                <input type="checkbox" id="cfw-acc-register-chk" class="garlic-auto-save" name="cfw-acc-register-chk" />
+                                            <?php else: ?>
+                                                <input type="checkbox" id="cfw-acc-register-chk" class="garlic-auto-save" name="cfw-acc-register-chk" disabled="disabled" checked />
+                                            <?php endif; ?>
                                             <label class="cfw-small" for="cfw-acc-register-chk"><?php printf( esc_html__('Create a %s shopping account.', 'checkout-wc'), get_bloginfo('name') ); ?></label>
                                         </div>
-                                        <?php endif; ?>
                                     </div>
                                     <?php else: ?>
                                     <div class="cfw-have-acc-text cfw-small">

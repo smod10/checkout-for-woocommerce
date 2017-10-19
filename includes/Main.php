@@ -377,6 +377,11 @@ class Main extends Singleton {
 		// Add the Language class
 		$this->loader->add_action('init', function() {
 			$this->i18n->load_plugin_textdomain($this->path_manager);
+
+			if ( $this->settings_manager->get_setting('enable') == "yes" || current_user_can('manage_options') ) {
+				// For some reason, using the loader add_filter here doesn't work *shrug*
+				add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
+			}
 		});
 
 		// Handle the Activation notices
@@ -387,9 +392,6 @@ class Main extends Singleton {
 		// Setup the Checkout redirect
 		$this->loader->add_action('template_redirect', function() {
 			if ( $this->settings_manager->get_setting('enable') == "yes" || current_user_can('manage_options') ) {
-				// For some reason, using the loader add_filter here doesn't work *shrug*
-				add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
-
 				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
 			}
 		});

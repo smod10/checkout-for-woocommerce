@@ -181,7 +181,7 @@ class Redirect {
                         }
                     })
                 },
-                messages: {en: 'There is no such zip for the country "%s"'}
+                messages: {en: 'Zip is not valid for country "%s"'}
             });
 
             function init() {

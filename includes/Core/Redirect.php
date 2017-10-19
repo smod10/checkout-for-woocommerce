@@ -299,6 +299,8 @@ class Redirect {
                 <?php echo $settings_manager->get_setting('custom_css'); ?>;
             </style>
             <meta name="viewport" content="width=device-width">
+
+            <?php echo $settings_manager->get_setting('header_scripts'); ?>
 		</head>
 		<body class="<?php echo implode(" ", $classes); ?>" onload="init()">
 		<?php
@@ -352,6 +354,7 @@ class Redirect {
 	 */
 	public static function footer($path_manager, $settings_manager) {
 		print_footer_scripts();
+		echo $settings_manager->get_setting('footer_scripts');
 		?>
 		</body>
 		</html>

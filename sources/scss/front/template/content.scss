@@ -204,18 +204,24 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
     padding: 4px 0;
     margin: 0;
 
+    label {
+      border-bottom: 1px solid #ddd;
+      display: block;
+      float: none;
+      border-radius: 0px;
+      padding: 8px;
+      clear: both;
+    }
+
+    &:first-child {
+      label {
+        border-radius: 4px 4px 0px 0px;
+      }
+    }
+
     &:last-child {
       label { border: none; }
     }
-  }
-
-  label {
-    border-bottom: 1px solid #ddd;
-    display: block;
-    float: none;
-    border-radius: 4px;
-    padding: 8px;
-    clear: both;
   }
 
   input[type="radio"] {
@@ -469,13 +475,13 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 .cfw-prev-tab {
   transition: all .2s ease;
   color: #9e9e9e;
-  line-height: 64px;
   text-decoration: none;
 }
 
 .cfw-bottom-controls {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 1.5em;
 
   .cfw-primary-btn {
@@ -601,6 +607,15 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 }
 
 @media (max-width: 767px) {
+  .cfw-prev-tab {
+    margin-bottom: 1em;
+    display: inline-block;
+  }
+
+  .previous-button {
+    text-align: center;
+  }
+
   #cfw-cart-details {
     order: 0;
     border-left: none;

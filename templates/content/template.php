@@ -151,7 +151,7 @@
                                 <?php endif; ?>
 
                                 <div id="cfw-shipping-action" class="cfw-bottom-controls">
-                                    <div>
+                                    <div class="previous-button">
                                         <a href="#cfw-customer-info" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to customer information', 'checkout-wc' ); ?></a>
                                     </div>
                                     <div>
@@ -205,7 +205,7 @@
                             <?php endif; ?>
 
                             <div id="cfw-payment-action" class="cfw-bottom-controls">
-                                <div>
+                                <div class="previous-button">
                                     <a href="#cfw-shipping-method" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to shipping information', 'checkout-wc' ); ?></a>
                                 </div>
                                 <div>

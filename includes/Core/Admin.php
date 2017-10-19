@@ -175,6 +175,15 @@ class Admin {
                             <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_text_color'); ?>" data-default-color="#000000" />
                         </td>
                     </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('custom_css'); ?>"><?php _e('Custom CSS', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+		                    <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('custom_css'), $this->plugin_instance->get_settings_manager()->get_field_name('custom_css'), array('textarea_rows' => 5, 'quicktags' => false, 'media_buttons' => false) ); ?>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 

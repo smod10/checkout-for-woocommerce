@@ -251,6 +251,10 @@ class Redirect {
             <style>
                 #cfw-header {
                     background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
+
+                    <?php if ( strtolower( $settings_manager->get_setting('header_background_color') ) !== "#ffffff" ): ?>
+                        margin-bottom: 2em;
+                    <?php endif; ?>
                 }
                 #cfw-footer {
                     color: <?php echo $settings_manager->get_setting('footer_color'); ?>;
@@ -287,6 +291,7 @@ class Redirect {
                     font-size: 30px;
                 }
                 <?php endif; ?>
+                <?php echo $settings_manager->get_setting('custom_css'); ?>;
             </style>
             <meta name="viewport" content="width=device-width">
 		</head>

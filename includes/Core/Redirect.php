@@ -259,6 +259,10 @@ class Redirect {
                 #cfw-footer {
                     color: <?php echo $settings_manager->get_setting('footer_color'); ?>;
                     background: <?php echo $settings_manager->get_setting('footer_background_color'); ?>;
+
+                    <?php if ( strtolower( $settings_manager->get_setting('footer_background_color') ) !== "#ffffff" ): ?>
+                        margin-top: 2em;
+                    <?php endif; ?>
                 }
                 #cfw-cart-details-arrow {
                     color: <?php echo $settings_manager->get_setting('link_color'); ?> !important;

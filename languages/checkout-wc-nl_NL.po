@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2017-10-17 16:10-0400\n"
-"PO-Revision-Date: 2017-10-17 16:11-0400\n"
+"POT-Creation-Date: 2017-10-19 13:18-0400\n"
+"PO-Revision-Date: 2017-10-19 13:21-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl_NL\n"
@@ -46,7 +46,7 @@ msgstr "Kies een optie"
 msgctxt "shipping packages"
 msgid "Shipping"
 msgid_plural "Shipping %d"
-msgstr[0] ""
+msgstr[0] "Verzendkosten"
 msgstr[1] ""
 
 #: functions.php:343
@@ -61,7 +61,7 @@ msgstr ""
 "Er zijn geen verzendmethoden beschikbaar. Controleer uw adres nogmaals of "
 "neem contact met ons op voor hulp."
 
-#: functions.php:392
+#: functions.php:421
 msgid ""
 "Sorry, it seems that there are no available payment methods for your "
 "location. Please contact us if you require assistance or wish to make "
@@ -78,7 +78,7 @@ msgstr "Checkout voor WooCommerce"
 
 #: includes/Core/Admin.php:38
 msgid "General"
-msgstr ""
+msgstr "Algemeen"
 
 #: includes/Core/Admin.php:39
 msgid "Design"
@@ -90,7 +90,7 @@ msgstr "Licentie"
 
 #: includes/Core/Admin.php:41
 msgid "Support"
-msgstr ""
+msgstr "Support"
 
 #: includes/Core/Admin.php:50
 msgid ""
@@ -116,53 +116,101 @@ msgstr ""
 "Schakel Checkout for WooCommerce-thema in of uit. (OPMERKING: Thema is "
 "altijd ingeschakeld voor gebruikers van admin.)"
 
+#: includes/Core/Admin.php:80
+msgid "Header Scripts"
+msgstr "Header-scripts"
+
+#: includes/Core/Admin.php:86
+msgid ""
+"This code will output immediately before the closing <code>&lt;/head&gt;</"
+"code> tag in the document source."
+msgstr ""
+"Deze code zal output onmiddellijk vóór de afsluitende <code>&lt;/head&gt;</"
+"code>-code in het brondocument."
+
 #: includes/Core/Admin.php:94
+msgid "Footer Scripts"
+msgstr "Voettekst Scripts"
+
+#: includes/Core/Admin.php:100
+msgid ""
+"This code will output immediately before the closing <code>&lt;/body&gt;</"
+"code> tag in the document source."
+msgstr ""
+"Deze code zal output onmiddellijk vóór de afsluitende <code>&lt;/body&gt;</"
+"code>-code in het brondocument."
+
+#: includes/Core/Admin.php:122
 msgid "Logo"
 msgstr "Logo"
 
-#: includes/Core/Admin.php:100
+#: includes/Core/Admin.php:128
 msgid "Upload image"
 msgstr "Upload afbeelding"
 
-#: includes/Core/Admin.php:103
+#: includes/Core/Admin.php:131
 msgid "Clear Logo"
 msgstr "Logo Verwijderen"
 
-#: includes/Core/Admin.php:109
+#: includes/Core/Admin.php:137
 msgid "Header Background Color"
 msgstr "Kop Achtergrond Kleur"
 
-#: includes/Core/Admin.php:118
+#: includes/Core/Admin.php:146
 msgid "Header Text Color"
 msgstr "Tekstkleur Header"
 
-#: includes/Core/Admin.php:127
-msgid "Header Shadow Color"
-msgstr "Kopschaduw Kleur"
-
-#: includes/Core/Admin.php:136
+#: includes/Core/Admin.php:155
 msgid "Footer Background Color"
 msgstr "Voettekst Achtergrond Kleur"
 
-#: includes/Core/Admin.php:145
+#: includes/Core/Admin.php:164
 msgid "Footer Text Color"
 msgstr "Kleur tekst footer"
 
-#: includes/Core/Admin.php:154
+#: includes/Core/Admin.php:173
 msgid "Footer Text"
 msgstr "Footertekst"
 
-#: includes/Core/Admin.php:163
+#: includes/Core/Admin.php:179
+msgid ""
+"If left blank, a standard copyright notice will be displayed. Set to a "
+"single space to override this behavior."
+msgstr ""
+"Als het argument leeg is, wordt een standaard copyrightinformatie getoond. "
+"Ingesteld op een enkele spatie om deze instelling wijzigen."
+
+#: includes/Core/Admin.php:187
+msgid "Primary Button Color"
+msgstr "Kleur Primaire knop"
+
+#: includes/Core/Admin.php:196
+msgid "Primary Button Text Color"
+msgstr "Primaire knop tekst kleur"
+
+#: includes/Core/Admin.php:205
+msgid "Secondary Button Color"
+msgstr "Kleur van de secundaire knop"
+
+#: includes/Core/Admin.php:214
+msgid "Secondary Button Text Color"
+msgstr "Tekstknop van de secundaire toets"
+
+#: includes/Core/Admin.php:223
 msgid "Link Color"
 msgstr "Link kleur"
 
-#: includes/Core/Admin.php:172
-msgid "Button Color"
-msgstr "Knop Kleur"
+#: includes/Core/Admin.php:232
+msgid "Custom CSS"
+msgstr "Aangepast CSS"
 
-#: includes/Core/Admin.php:181
-msgid "Button Text Color"
-msgstr "Knop tekst kleur"
+#: includes/Core/Admin.php:238
+msgid ""
+"Add Custom CSS rules to fully control the appearance of the checkout "
+"template."
+msgstr ""
+"Voeg aangepaste CSS-regels toe om de uitstraling van het afrekeningsjabloon "
+"volledig te controleren."
 
 #: includes/Core/Form.php:48 includes/Core/Form.php:49
 msgid "First name"
@@ -203,6 +251,10 @@ msgstr "Provincie"
 #: includes/Core/Form.php:177 includes/Core/Form.php:178
 msgid "Town / City"
 msgstr "Plaats"
+
+#: includes/Core/Redirect.php:19
+msgid "Checkout is not available whilst your cart is empty."
+msgstr "Afrekenen is niet beschikbaar als uw winkelmand leeg is."
 
 #: includes/Utilities/Activator.php:47
 msgid ""
@@ -389,20 +441,26 @@ msgid "Error"
 msgstr "Fout"
 
 #. Plugin URI of the plugin/theme
-msgid "https://checkoutwc.com/"
-msgstr "https://checkoutwc.com/"
+msgid "https://checkoutwc.com"
+msgstr "https://checkoutwc.com"
 
 #. Description of the plugin/theme
 msgid "Beautiful, conversion optimized checkout template for WooCommerce."
 msgstr "Mooi, conversie geoptimaliseerd kassa sjabloon voor WooCommerce."
 
 #. Author of the plugin/theme
-msgid "Brandon Tassone"
-msgstr "Brandon Tassone"
+msgid "Objectiv"
+msgstr "Objectiv"
 
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
 msgstr "https://objectiv.co"
+
+#~ msgid "Header Shadow Color"
+#~ msgstr "Kopschaduw Kleur"
+
+#~ msgid "Brandon Tassone"
+#~ msgstr "Brandon Tassone"
 
 #~ msgid "Welcome"
 #~ msgstr "Welkom"

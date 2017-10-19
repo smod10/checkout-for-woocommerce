@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2017-10-17 16:05-0400\n"
-"PO-Revision-Date: 2017-10-17 16:05-0400\n"
+"POT-Creation-Date: 2017-10-19 13:10-0400\n"
+"PO-Revision-Date: 2017-10-19 13:13-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: hi_IN\n"
@@ -46,7 +46,7 @@ msgstr "कोई विकल्प चुनें"
 msgctxt "shipping packages"
 msgid "Shipping"
 msgid_plural "Shipping %d"
-msgstr[0] ""
+msgstr[0] "यातायात"
 msgstr[1] ""
 
 #: functions.php:343
@@ -61,7 +61,7 @@ msgstr ""
 "इसमें कोई शिपिंग विधियां उपलब्ध नहीं हैं कृपया अपना पता दोबारा जांच लें, या अगर आपको कोई मदद की ज़रूरत है तो "
 "हमसे संपर्क करें।"
 
-#: functions.php:392
+#: functions.php:421
 msgid ""
 "Sorry, it seems that there are no available payment methods for your location. Please contact "
 "us if you require assistance or wish to make alternate arrangements."
@@ -113,53 +113,93 @@ msgstr ""
 "WooCommerce विषयवस्तु के लिए चेकआउट सक्षम या अक्षम करें. (ध्यान दें: विषय हमेशा व्यवस्थापक उपयोगकर्ताओं के लिए "
 "सक्षम है.)"
 
+#: includes/Core/Admin.php:80
+msgid "Header Scripts"
+msgstr "शीर्ष लेख स्क्रिप्ट"
+
+#: includes/Core/Admin.php:86
+msgid ""
+"This code will output immediately before the closing <code>&lt;/head&gt;</code> tag in the "
+"document source."
+msgstr "यह कोड तुरंत बंद <code>&lt;/head&gt;</code> टैग दस्तावेज़ स्रोत में आउटपुट होगा ।"
+
 #: includes/Core/Admin.php:94
+msgid "Footer Scripts"
+msgstr "पाद लेख स्क्रिप्ट"
+
+#: includes/Core/Admin.php:100
+msgid ""
+"This code will output immediately before the closing <code>&lt;/body&gt;</code> tag in the "
+"document source."
+msgstr "यह कोड तुरंत बंद <code>&lt;/body&gt;</code> टैग दस्तावेज़ स्रोत में आउटपुट होगा ।"
+
+#: includes/Core/Admin.php:122
 msgid "Logo"
 msgstr "लो़गो"
 
-#: includes/Core/Admin.php:100
+#: includes/Core/Admin.php:128
 msgid "Upload image"
 msgstr "छवि अपलोड करें"
 
-#: includes/Core/Admin.php:103
+#: includes/Core/Admin.php:131
 msgid "Clear Logo"
 msgstr "स्पष्ट लोगो"
 
-#: includes/Core/Admin.php:109
+#: includes/Core/Admin.php:137
 msgid "Header Background Color"
 msgstr "हैडर पृष्ठभूमि का रंग"
 
-#: includes/Core/Admin.php:118
+#: includes/Core/Admin.php:146
 msgid "Header Text Color"
 msgstr "शीर्ष लेख पाठ रंग"
 
-#: includes/Core/Admin.php:127
-msgid "Header Shadow Color"
-msgstr "शीर्ष लेख छाया रंग"
-
-#: includes/Core/Admin.php:136
+#: includes/Core/Admin.php:155
 msgid "Footer Background Color"
 msgstr "पाद पृष्ठभूमि का रंग"
 
-#: includes/Core/Admin.php:145
+#: includes/Core/Admin.php:164
 msgid "Footer Text Color"
 msgstr "पाद लेख पाठ रंग"
 
-#: includes/Core/Admin.php:154
+#: includes/Core/Admin.php:173
 msgid "Footer Text"
 msgstr "फूटर टेक्स्ट"
 
-#: includes/Core/Admin.php:163
+#: includes/Core/Admin.php:179
+msgid ""
+"If left blank, a standard copyright notice will be displayed. Set to a single space to "
+"override this behavior."
+msgstr ""
+"यदि खाली छोड़ा जाता है, तो मानक कॉपीराइट सूचना प्रदर्शित होगी. इस व्यवहार को ओवरराइड करने के लिए किसी "
+"एकल स्थान पर सेट करें."
+
+#: includes/Core/Admin.php:187
+msgid "Primary Button Color"
+msgstr "प्राथमिक बटन रंग"
+
+#: includes/Core/Admin.php:196
+msgid "Primary Button Text Color"
+msgstr "प्राथमिक बटन पाठ रंग"
+
+#: includes/Core/Admin.php:205
+msgid "Secondary Button Color"
+msgstr "बटन का द्वितीयक बटन रं"
+
+#: includes/Core/Admin.php:214
+msgid "Secondary Button Text Color"
+msgstr "द्वितीयक बटन पाठ रंग"
+
+#: includes/Core/Admin.php:223
 msgid "Link Color"
 msgstr "लिंक रंग"
 
-#: includes/Core/Admin.php:172
-msgid "Button Color"
-msgstr "बटन का रंग"
+#: includes/Core/Admin.php:232
+msgid "Custom CSS"
+msgstr "कस्टम CSS"
 
-#: includes/Core/Admin.php:181
-msgid "Button Text Color"
-msgstr "बटन पाठ रंग"
+#: includes/Core/Admin.php:238
+msgid "Add Custom CSS rules to fully control the appearance of the checkout template."
+msgstr "कस्टम सीएसएस नियम जोड़ें पूरी तरह से checkout टेम्पलेट की उपस्थिति को नियंत्रित करने के लिए."
 
 #: includes/Core/Form.php:48 includes/Core/Form.php:49
 msgid "First name"
@@ -200,6 +240,10 @@ msgstr "राज्य / काउंटी"
 #: includes/Core/Form.php:177 includes/Core/Form.php:178
 msgid "Town / City"
 msgstr "शहर "
+
+#: includes/Core/Redirect.php:19
+msgid "Checkout is not available whilst your cart is empty."
+msgstr "चेकआउट उपलब्ध नहीं है, जबकि अपनी गाड़ी खाली है."
 
 #: includes/Utilities/Activator.php:47
 msgid "Activation failed: Please activate WooCommerce in order to use Checkout for WooCommerce"
@@ -369,20 +413,26 @@ msgid "Error"
 msgstr "त्रुटि।"
 
 #. Plugin URI of the plugin/theme
-msgid "https://checkoutwc.com/"
-msgstr "https://checkoutwc.com/"
+msgid "https://checkoutwc.com"
+msgstr "https://checkoutwc.com"
 
 #. Description of the plugin/theme
 msgid "Beautiful, conversion optimized checkout template for WooCommerce."
 msgstr "WooCommerce के लिए सुंदर, रूपांतरण अनुकूलित चेकआउट टेम्पलेट"
 
 #. Author of the plugin/theme
-msgid "Brandon Tassone"
-msgstr "Brandon Tassone"
+msgid "Objectiv"
+msgstr "Objectiv"
 
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
 msgstr "https://objectiv.co"
+
+#~ msgid "Header Shadow Color"
+#~ msgstr "शीर्ष लेख छाया रंग"
+
+#~ msgid "Brandon Tassone"
+#~ msgstr "Brandon Tassone"
 
 #~ msgid "Welcome"
 #~ msgstr "स्वागत है"

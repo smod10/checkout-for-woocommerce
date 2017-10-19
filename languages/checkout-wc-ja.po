@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2017-10-17 16:06-0400\n"
-"PO-Revision-Date: 2017-10-17 16:08-0400\n"
+"POT-Creation-Date: 2017-10-19 13:15-0400\n"
+"PO-Revision-Date: 2017-10-19 13:18-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -58,7 +58,7 @@ msgid ""
 "or contact us if you need any help."
 msgstr "利用可能な配送方法がありません。お問合わせください。"
 
-#: functions.php:392
+#: functions.php:421
 msgid ""
 "Sorry, it seems that there are no available payment methods for your "
 "location. Please contact us if you require assistance or wish to make "
@@ -114,53 +114,101 @@ msgstr ""
 "WooCommerce テーマのチェックアウトを有効または無効にします。(注: テーマは常に"
 "管理者ユーザーに対して有効になります。"
 
+#: includes/Core/Admin.php:80
+msgid "Header Scripts"
+msgstr "ヘッダー スクリプト"
+
+#: includes/Core/Admin.php:86
+msgid ""
+"This code will output immediately before the closing <code>&lt;/head&gt;</"
+"code> tag in the document source."
+msgstr ""
+"このコードは、ドキュメントソース内の <code>&lt;/head&gt;</code> タグを閉じる"
+"直前に出力されます。"
+
 #: includes/Core/Admin.php:94
+msgid "Footer Scripts"
+msgstr "フッタースクリプト"
+
+#: includes/Core/Admin.php:100
+msgid ""
+"This code will output immediately before the closing <code>&lt;/body&gt;</"
+"code> tag in the document source."
+msgstr ""
+"このコードは、ドキュメントソース内の <code>&lt;/body&gt;</code> タグを閉じる"
+"直前に出力されます。"
+
+#: includes/Core/Admin.php:122
 msgid "Logo"
 msgstr "ロゴ"
 
-#: includes/Core/Admin.php:100
+#: includes/Core/Admin.php:128
 msgid "Upload image"
 msgstr "画像のアップロード"
 
-#: includes/Core/Admin.php:103
+#: includes/Core/Admin.php:131
 msgid "Clear Logo"
 msgstr "明確なロゴ"
 
-#: includes/Core/Admin.php:109
+#: includes/Core/Admin.php:137
 msgid "Header Background Color"
 msgstr "ヘッダー 背景色"
 
-#: includes/Core/Admin.php:118
+#: includes/Core/Admin.php:146
 msgid "Header Text Color"
 msgstr "ヘッダーテキストの色"
 
-#: includes/Core/Admin.php:127
-msgid "Header Shadow Color"
-msgstr "ヘッダーの影の色"
-
-#: includes/Core/Admin.php:136
+#: includes/Core/Admin.php:155
 msgid "Footer Background Color"
 msgstr "フッターの背景色"
 
-#: includes/Core/Admin.php:145
+#: includes/Core/Admin.php:164
 msgid "Footer Text Color"
 msgstr "フッターテキスト色"
 
-#: includes/Core/Admin.php:154
+#: includes/Core/Admin.php:173
 msgid "Footer Text"
-msgstr "Footer Text"
+msgstr "フッターテキスト"
 
-#: includes/Core/Admin.php:163
+#: includes/Core/Admin.php:179
+msgid ""
+"If left blank, a standard copyright notice will be displayed. Set to a "
+"single space to override this behavior."
+msgstr ""
+"空白のままにすると、標準の著作権表記が表示されます。この動作をオーバーライド"
+"するには、1つの領域に設定します。"
+
+#: includes/Core/Admin.php:187
+msgid "Primary Button Color"
+msgstr "主ボタンの色"
+
+#: includes/Core/Admin.php:196
+msgid "Primary Button Text Color"
+msgstr "プライマリボタンのテキストの色"
+
+#: includes/Core/Admin.php:205
+msgid "Secondary Button Color"
+msgstr "2次ボタンの色"
+
+#: includes/Core/Admin.php:214
+msgid "Secondary Button Text Color"
+msgstr "セカンダリボタンのテキストの色"
+
+#: includes/Core/Admin.php:223
 msgid "Link Color"
 msgstr "リンクの色"
 
-#: includes/Core/Admin.php:172
-msgid "Button Color"
-msgstr "ボタンの色"
+#: includes/Core/Admin.php:232
+msgid "Custom CSS"
+msgstr "カスタム CSS"
 
-#: includes/Core/Admin.php:181
-msgid "Button Text Color"
-msgstr "ボタンテキストの色"
+#: includes/Core/Admin.php:238
+msgid ""
+"Add Custom CSS rules to fully control the appearance of the checkout "
+"template."
+msgstr ""
+"カスタム CSS ルールを追加して、チェックアウトテンプレートの外観を完全に制御し"
+"ます。"
 
 #: includes/Core/Form.php:48 includes/Core/Form.php:49
 msgid "First name"
@@ -201,6 +249,10 @@ msgstr "都道府県 (State / Prefecture)"
 #: includes/Core/Form.php:177 includes/Core/Form.php:178
 msgid "Town / City"
 msgstr "市区町村 (City)"
+
+#: includes/Core/Redirect.php:19
+msgid "Checkout is not available whilst your cart is empty."
+msgstr "カートが空の間、チェックアウトは利用できません。"
 
 #: includes/Utilities/Activator.php:47
 msgid ""
@@ -387,20 +439,26 @@ msgid "Error"
 msgstr "エラー"
 
 #. Plugin URI of the plugin/theme
-msgid "https://checkoutwc.com/"
-msgstr "https://checkoutwc.com/"
+msgid "https://checkoutwc.com"
+msgstr "https://checkoutwc.com"
 
 #. Description of the plugin/theme
 msgid "Beautiful, conversion optimized checkout template for WooCommerce."
 msgstr "WooCommerce用の美しく変換されたチェックアウトテンプレート。"
 
 #. Author of the plugin/theme
-msgid "Brandon Tassone"
-msgstr "Brandon Tassone"
+msgid "Objectiv"
+msgstr "Objectiv"
 
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
 msgstr "https://objectiv.co"
+
+#~ msgid "Header Shadow Color"
+#~ msgstr "ヘッダーの影の色"
+
+#~ msgid "Brandon Tassone"
+#~ msgstr "Brandon Tassone"
 
 #~ msgid "Welcome"
 #~ msgstr "ようこそ"

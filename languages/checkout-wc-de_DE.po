@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2017-10-17 16:09-0400\n"
-"PO-Revision-Date: 2017-10-17 16:10-0400\n"
+"POT-Creation-Date: 2017-10-19 12:58-0400\n"
+"PO-Revision-Date: 2017-10-19 13:03-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -46,7 +46,7 @@ msgstr "Wähle eine Kombination"
 msgctxt "shipping packages"
 msgid "Shipping"
 msgid_plural "Shipping %d"
-msgstr[0] ""
+msgstr[0] "Versand"
 msgstr[1] ""
 
 #: functions.php:343
@@ -62,7 +62,7 @@ msgstr ""
 "Es wurde keine Versandart ausgewählt. Bitte überprüfe Deine  Adresse, oder "
 "kontaktiere mich, wenn Du Hilfe benötigst."
 
-#: functions.php:392
+#: functions.php:421
 msgid ""
 "Sorry, it seems that there are no available payment methods for your "
 "location. Please contact us if you require assistance or wish to make "
@@ -117,53 +117,102 @@ msgstr ""
 "Aktivieren Sie oder deaktivieren Sie die Kasse für WooCommerce Thema. "
 "(Hinweis: Thema für Admin-Benutzer immer aktiviert ist.)"
 
+#: includes/Core/Admin.php:80
+msgid "Header Scripts"
+msgstr "Header-Skripte"
+
+#: includes/Core/Admin.php:86
+msgid ""
+"This code will output immediately before the closing <code>&lt;/head&gt;</"
+"code> tag in the document source."
+msgstr ""
+"Dieser Code wird unmittelbar vor dem schließenden <code>&lt;/head &gt;</"
+"code> Tag in der Dokument-Quelle ausgegeben."
+
 #: includes/Core/Admin.php:94
+msgid "Footer Scripts"
+msgstr "Footer-Skripte"
+
+#: includes/Core/Admin.php:100
+msgid ""
+"This code will output immediately before the closing <code>&lt;/body&gt;</"
+"code> tag in the document source."
+msgstr ""
+"Dieser Code wird unmittelbar vor dem schließenden <code>&lt;/body &gt;</"
+"code> Tag in der Dokument-Quelle ausgegeben."
+
+#: includes/Core/Admin.php:122
 msgid "Logo"
 msgstr "Logo"
 
-#: includes/Core/Admin.php:100
+#: includes/Core/Admin.php:128
 msgid "Upload image"
 msgstr "Bild hochladen"
 
-#: includes/Core/Admin.php:103
+#: includes/Core/Admin.php:131
 msgid "Clear Logo"
 msgstr "Klar-Logo"
 
-#: includes/Core/Admin.php:109
+#: includes/Core/Admin.php:137
 msgid "Header Background Color"
 msgstr "Hintergrundfarbe Header"
 
-#: includes/Core/Admin.php:118
+#: includes/Core/Admin.php:146
 msgid "Header Text Color"
 msgstr "Header Text Farbe"
 
-#: includes/Core/Admin.php:127
-msgid "Header Shadow Color"
-msgstr "Header Schattenfarbe"
-
-#: includes/Core/Admin.php:136
+#: includes/Core/Admin.php:155
 msgid "Footer Background Color"
 msgstr "Footer Hintergrundfarbe"
 
-#: includes/Core/Admin.php:145
+#: includes/Core/Admin.php:164
 msgid "Footer Text Color"
 msgstr "Footer Textfarbe"
 
-#: includes/Core/Admin.php:154
+#: includes/Core/Admin.php:173
 msgid "Footer Text"
 msgstr "Fußzeilen Text"
 
-#: includes/Core/Admin.php:163
+#: includes/Core/Admin.php:179
+msgid ""
+"If left blank, a standard copyright notice will be displayed. Set to a "
+"single space to override this behavior."
+msgstr ""
+"Wenn diese Option leer gelassen wird, wird ein standardmäßiger Copyright-"
+"Hinweis angezeigt. Stellen Sie auf ein einzelnes Leerzeichen ein, um dieses "
+"Verhalten zu überschreiben."
+
+#: includes/Core/Admin.php:187
+msgid "Primary Button Color"
+msgstr "Primäre Schaltflächen-Farbe"
+
+#: includes/Core/Admin.php:196
+msgid "Primary Button Text Color"
+msgstr "Primäre Schaltfläche Text Color"
+
+#: includes/Core/Admin.php:205
+msgid "Secondary Button Color"
+msgstr "Color der sekundären Schaltfläche"
+
+#: includes/Core/Admin.php:214
+msgid "Secondary Button Text Color"
+msgstr "Textfarbe der sekundären Schaltfläche"
+
+#: includes/Core/Admin.php:223
 msgid "Link Color"
 msgstr "Linkfarbe"
 
-#: includes/Core/Admin.php:172
-msgid "Button Color"
-msgstr "Schaltflächenfarbe"
+#: includes/Core/Admin.php:232
+msgid "Custom CSS"
+msgstr "Benutzerdefinierte CSS"
 
-#: includes/Core/Admin.php:181
-msgid "Button Text Color"
-msgstr "Schaltflächentextfarbe"
+#: includes/Core/Admin.php:238
+msgid ""
+"Add Custom CSS rules to fully control the appearance of the checkout "
+"template."
+msgstr ""
+"Fügen Sie benutzerdefinierte CSS-Regeln hinzu, um das Aussehen der Checkout-"
+"Vorlage vollständig zu steuern."
 
 #: includes/Core/Form.php:48 includes/Core/Form.php:49
 msgid "First name"
@@ -204,6 +253,11 @@ msgstr "Bundesland"
 #: includes/Core/Form.php:177 includes/Core/Form.php:178
 msgid "Town / City"
 msgstr "Stadt"
+
+#: includes/Core/Redirect.php:19
+msgid "Checkout is not available whilst your cart is empty."
+msgstr ""
+"Wenn der Anfragenkorb leer ist, steht das Einreichen nicht zu Verfügung."
 
 #: includes/Utilities/Activator.php:47
 msgid ""
@@ -390,7 +444,7 @@ msgid "Error"
 msgstr "Fehler"
 
 #. Plugin URI of the plugin/theme
-msgid "https://checkoutwc.com/"
+msgid "https://checkoutwc.com"
 msgstr "https://checkoutwc.com/"
 
 #. Description of the plugin/theme
@@ -398,12 +452,18 @@ msgid "Beautiful, conversion optimized checkout template for WooCommerce."
 msgstr "Schöne, konvertierungsoptimierte Checkout-Vorlage für WooCommerce."
 
 #. Author of the plugin/theme
-msgid "Brandon Tassone"
-msgstr "Brandon Tassone"
+msgid "Objectiv"
+msgstr "Objectiv"
 
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
 msgstr "https://objectiv.co"
+
+#~ msgid "Header Shadow Color"
+#~ msgstr "Header Schattenfarbe"
+
+#~ msgid "Brandon Tassone"
+#~ msgstr "Brandon Tassone"
 
 #~ msgid "Welcome"
 #~ msgstr "Willkommen"

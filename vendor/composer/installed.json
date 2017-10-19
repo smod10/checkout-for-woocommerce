@@ -1151,45 +1151,6 @@
         "description": "A drop-in class that magically manages Easy Digital Downloads Software Licensing for plugins and themes."
     },
     {
-        "name": "objectivco/wordpress-simple-settings",
-        "version": "0.4.0",
-        "version_normalized": "0.4.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Objectivco/wordpress-simple-settings.git",
-            "reference": "cd67d8a0989e2273e6b9ef49e388270e0cd4a19d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Objectivco/wordpress-simple-settings/zipball/cd67d8a0989e2273e6b9ef49e388270e0cd4a19d",
-            "reference": "cd67d8a0989e2273e6b9ef49e388270e0cd4a19d",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.0"
-        },
-        "time": "2017-06-15 18:26:41",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/wordpress-simple-settings.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0+"
-        ],
-        "authors": [
-            {
-                "name": "Clifton Griffin",
-                "email": "clif@objectiv.co"
-            }
-        ],
-        "description": "A minimalist framework for managing WordPress plugin or theme settings.",
-        "homepage": "https://github.com/Objectivco/wordpress-simple-settings"
-    },
-    {
         "name": "objectivco/wp_tabbed_navigation",
         "version": "0.1.0",
         "version_normalized": "0.1.0.0",
@@ -1227,5 +1188,44 @@
         ],
         "description": "Automate creating a tabbed navigation and maintaining tabbed states",
         "homepage": "https://github.com/Objectivco/WP_Tabbed_Navigation"
+    },
+    {
+        "name": "objectivco/wordpress-simple-settings",
+        "version": "0.5.0",
+        "version_normalized": "0.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Objectivco/wordpress-simple-settings.git",
+            "reference": "d4c80f46e420a214fcb4b3c5c4345da1c5d8191b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Objectivco/wordpress-simple-settings/zipball/d4c80f46e420a214fcb4b3c5c4345da1c5d8191b",
+            "reference": "d4c80f46e420a214fcb4b3c5c4345da1c5d8191b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2017-10-19 16:46:17",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/wordpress-simple-settings.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0+"
+        ],
+        "authors": [
+            {
+                "name": "Clifton Griffin",
+                "email": "clif@objectiv.co"
+            }
+        ],
+        "description": "A minimalist framework for managing WordPress plugin or theme settings.",
+        "homepage": "https://github.com/Objectivco/wordpress-simple-settings"
     }
 ]

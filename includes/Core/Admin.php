@@ -71,7 +71,35 @@ class Admin {
                         <td>
                             <input type="hidden" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="no" />
                             <label><input type="checkbox" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" id="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable'); ?>" value="yes" <?php if ( $this->plugin_instance->get_settings_manager()->get_setting('enable') == "yes" ) echo "checked"; ?> /> <?php _e('Use Checkout for WooCommerce Template', 'checkout-wc'); ?></label>
-                            <p class="description"><?php _e('Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always enabled for admin users.)', 'checkout-wc'); ?></p>
+                            <p><span class="description"><?php _e('Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always enabled for admin users.)', 'checkout-wc'); ?></span></p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts'); ?>"><?php _e('Header Scripts', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+		                    <?php wp_editor( stripslashes_deep( $this->plugin_instance->get_settings_manager()->get_setting('header_scripts') ), $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts'), array('textarea_rows' => 6, 'quicktags' => false, 'media_buttons' => false) ); ?>
+                            <p>
+                                <span class="description">
+				                    <?php _e('This code will output immediately before the closing <code>&lt;/head&gt;</code> tag in the document source.', 'checkout-wc'); ?>
+                                </span>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_scripts'); ?>"><?php _e('Footer Scripts', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+		                    <?php wp_editor( stripslashes_deep( $this->plugin_instance->get_settings_manager()->get_setting('footer_scripts') ), $this->plugin_instance->get_settings_manager()->get_field_name('footer_scripts'), array('textarea_rows' => 6, 'quicktags' => false, 'media_buttons' => false) ); ?>
+                            <p>
+                                <span class="description">
+				                    <?php _e('This code will output immediately before the closing <code>&lt;/body&gt;</code> tag in the document source.', 'checkout-wc'); ?>
+                                </span>
+                            </p>
                         </td>
                     </tr>
                 </tbody>
@@ -146,6 +174,47 @@ class Admin {
                         </th>
                         <td>
 						    <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'), array('textarea_rows' => 5) ); ?>
+                            <p>
+                                <span class="description">
+				                    <?php _e('If left blank, a standard copyright notice will be displayed. Set to a single space to override this behavior.', 'checkout-wc'); ?>
+                                </span>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>"><?php _e('Primary Button Color', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_color'); ?>" data-default-color="#e9a81d" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>"><?php _e('Primary Button Text Color', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_text_color'); ?>" data-default-color="#000000" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('secondary_button_color'); ?>"><?php _e('Secondary Button Color', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('secondary_button_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('secondary_button_color'); ?>" data-default-color="#999999" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('secondary_button_text_color'); ?>"><?php _e('Secondary Button Text Color', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('secondary_button_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('secondary_button_text_color'); ?>" data-default-color="#ffffff" />
                         </td>
                     </tr>
 
@@ -160,28 +229,15 @@ class Admin {
 
                     <tr>
                         <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>"><?php _e('Button Color', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_color'); ?>" data-default-color="#e9a81d" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>"><?php _e('Button Text Color', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_text_color'); ?>" data-default-color="#000000" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('custom_css'); ?>"><?php _e('Custom CSS', 'checkout-wc'); ?></label>
                         </th>
                         <td>
 		                    <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('custom_css'), $this->plugin_instance->get_settings_manager()->get_field_name('custom_css'), array('textarea_rows' => 5, 'quicktags' => false, 'media_buttons' => false) ); ?>
+                            <p>
+                                <span class="description">
+				                    <?php _e('Add Custom CSS rules to fully control the appearance of the checkout template.', 'checkout-wc'); ?>
+                                </span>
+                            </p>
                         </td>
                     </tr>
                 </tbody>

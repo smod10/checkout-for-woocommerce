@@ -272,6 +272,11 @@ class Redirect {
                     color: <?php echo $settings_manager->get_setting('button_text_color'); ?>;
                 }
 
+                .cfw-def-action-btn {
+                    background-color: <?php echo $settings_manager->get_setting('secondary_button_color'); ?>;
+                    color: <?php echo $settings_manager->get_setting('secondary_button_text_color'); ?>;
+                }
+
                 <?php if ( ! empty($logo_attachment_id) ): ?>
                 .cfw-logo .logo {
                     background: transparent url( <?php echo wp_get_attachment_url($logo_attachment_id); ?> ) no-repeat;
@@ -294,6 +299,8 @@ class Redirect {
                 <?php echo $settings_manager->get_setting('custom_css'); ?>;
             </style>
             <meta name="viewport" content="width=device-width">
+
+            <?php echo $settings_manager->get_setting('header_scripts'); ?>
 		</head>
 		<body class="<?php echo implode(" ", $classes); ?>" onload="init()">
 		<?php
@@ -347,6 +354,7 @@ class Redirect {
 	 */
 	public static function footer($path_manager, $settings_manager) {
 		print_footer_scripts();
+		echo $settings_manager->get_setting('footer_scripts');
 		?>
 		</body>
 		</html>

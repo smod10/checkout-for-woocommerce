@@ -247,18 +247,10 @@ class Redirect {
 
             // Get logo attachment ID if available
             $logo_attachment_id = $settings_manager->get_setting('logo_attachment_id');
-            $hex = $settings_manager->get_setting('header_shadow_color');
-            if ( ! empty($hex) ) {
-	            list($r, $g, $b) = sscanf($hex, "#%02x%02x%02x");
-            } else {
-                $r = $g = $b = 0;
-            }
-
             ?>
             <style>
                 #cfw-header {
                     background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
-                    box-shadow: 0 2px 1px rgba(<?php echo $r; ?>,<?php echo $g; ?>,<?php echo $b; ?>,.2);
                 }
                 #cfw-footer {
                     color: <?php echo $settings_manager->get_setting('footer_color'); ?>;

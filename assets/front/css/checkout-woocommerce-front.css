@@ -821,7 +821,8 @@ body {
 #cfw-main-container .apple-pay-button-checkout-separator {
   text-align: center;
   text-transform: uppercase;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  display: none; }
 
 #cfw-main-container .apple-pay-button-wrapper {
   text-align: center;

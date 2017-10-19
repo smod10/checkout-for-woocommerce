@@ -27,19 +27,17 @@ class Form {
 			$this->wc_stripe_apple_pay = new \WC_Stripe_Apple_Pay();
 			$gateways = WC()->payment_gateways->get_available_payment_gateways();
 
-			if ( $this->wc_stripe_apple_pay->apple_pay && isset( $gateways['stripe'] ) ) {
-				// Display button
-				add_action( 'cfw_checkout_before_customer_info', array(
-					$this->wc_stripe_apple_pay,
-					'display_apple_pay_button'
-				), 1 );
+			// Display button
+			add_action( 'cfw_checkout_before_customer_info', array(
+				$this->wc_stripe_apple_pay,
+				'display_apple_pay_button'
+			), 1 );
 
-				// Display separator
-				add_action( 'cfw_checkout_before_customer_info', array(
-					$this->wc_stripe_apple_pay,
-					'display_apple_pay_separator_html'
-				), 2 );
-			}
+			// Display separator
+			add_action( 'cfw_checkout_before_customer_info', array(
+				$this->wc_stripe_apple_pay,
+				'display_apple_pay_separator_html'
+			), 2 );
 		}
 
 		$this->base_fields = add_filter('woocommerce_default_address_fields', function($defaults) {

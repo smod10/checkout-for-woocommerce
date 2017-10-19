@@ -598,6 +598,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
     text-align: center;
     text-transform: uppercase;
     margin-bottom: 20px;
+    display: none;
   }
 
   .apple-pay-button-wrapper {

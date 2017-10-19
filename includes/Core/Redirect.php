@@ -272,6 +272,11 @@ class Redirect {
                     color: <?php echo $settings_manager->get_setting('button_text_color'); ?>;
                 }
 
+                .cfw-def-action-btn {
+                    background-color: <?php echo $settings_manager->get_setting('secondary_button_color'); ?>;
+                    color: <?php echo $settings_manager->get_setting('secondary_button_text_color'); ?>;
+                }
+
                 <?php if ( ! empty($logo_attachment_id) ): ?>
                 .cfw-logo .logo {
                     background: transparent url( <?php echo wp_get_attachment_url($logo_attachment_id); ?> ) no-repeat;

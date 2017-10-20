@@ -332,6 +332,15 @@ body {
   #cfw-login-btn:hover {
     background: #232323; }
 
+.login-optional {
+  display: inline-block;
+  margin-left: 10px; }
+  @media (max-width: 767px) {
+    .login-optional {
+      display: block;
+      margin-left: 0;
+      margin-top: 20px; } }
+
 #cfw-billing-methods .cfw-radio-reveal-group, #cfw-shipping-same-billing .cfw-radio-reveal-group {
   line-height: 1;
   border-radius: 4px;

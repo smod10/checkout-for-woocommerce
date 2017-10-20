@@ -63,7 +63,7 @@
 
 	                                    <?php if( WC()->checkout->is_registration_required() ): ?>
                                         <span>
-                                            <?php esc_html_e('Otherwise the information provided here will be used to create an account on checkout', 'checkout-wc'); ?>
+                                            <?php esc_html_e('If you do not have an account, the information provided here will be used to create an account on checkout', 'checkout-wc'); ?>
                                         </span>
                                         <?php endif; ?>
                                     </div>

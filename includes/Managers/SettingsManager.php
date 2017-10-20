@@ -3,7 +3,7 @@
  * Provides standard object for accessing user-defined plugin settings
  *
  * @link cgd.io
- * @since 0.1.0
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Core\Base
  * @author Brandon Tassone <brandontassone@gmail.com>
  */

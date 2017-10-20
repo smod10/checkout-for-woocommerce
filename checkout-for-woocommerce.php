@@ -9,12 +9,12 @@
  * that starts the plugin.
  *
  * @link              checkoutwc.com
- * @since             0.1.0
+ * @since             1.0.0
  * @package           Objectiv\Plugins\Checkout
  *
  * @wordpress-plugin
  * Plugin Name:       Checkout for WooCommerce
- * Plugin URI:        https://checkoutwc.com
+ * Plugin URI:        https://www.CheckoutWC.com
  * Description:       Beautiful, conversion optimized checkout template for WooCommerce.
  * Version:           1.0.0
  * Author:            Objectiv
@@ -33,8 +33,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define('CFW_NAME', 'Checkout for WooCommerce');
-define('CFW_UPDATE_URL', 'https://checkoutwc.com');
+define('CFW_NAME', 'Checkout for WooCommerce Beta');
+define('CFW_UPDATE_URL', 'https://www.checkoutwc.com');
 define('CFW_VERSION', '1.0.0');
 define('CFW_PATH', dirname(__FILE__) );
 define('CFW_URL', plugins_url('/', __FILE__) );

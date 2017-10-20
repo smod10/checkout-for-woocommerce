@@ -9,7 +9,7 @@ use Objectiv\Plugins\Checkout\Core\Base\Tracked;
  * content)
  *
  * @link cgd.io
- * @since 0.1.0
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Core
  * @author Brandon Tassone <brandontassone@gmail.com>
  */
@@ -19,7 +19,7 @@ class Template extends Tracked {
 	/**
 	 * The template path
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access protected
 	 * @var string $path The template path
 	 */
@@ -28,7 +28,7 @@ class Template extends Tracked {
 	/**
 	 * The template parameters
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access protected
 	 * @var array $parameters The template parameters
 	 */
@@ -37,7 +37,7 @@ class Template extends Tracked {
 	/**
 	 * Template constructor.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @param $id
 	 * @param $path
 	 * @param $parameters
@@ -52,7 +52,7 @@ class Template extends Tracked {
 	/**
 	 * Get the parameters for the template
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return mixed
 	 */
@@ -64,7 +64,7 @@ class Template extends Tracked {
 	/**
 	 * Return the template path
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return mixed
 	 */
@@ -76,7 +76,7 @@ class Template extends Tracked {
 	/**
 	 * Call the template and its relevant callback. Override this
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	public function view() {
 		/**

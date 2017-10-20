@@ -10,7 +10,7 @@ use Objectiv\Plugins\Checkout\Core\Template;
  * is pulled in from get_template_information. It is an array of Key Value pairs in the form of sub folder => file path
  *
  * @link cgd.io
- * @since 0.1.0
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Managers
  * @author Brandon Tassone <brandontassone@gmail.com>
  */
@@ -22,14 +22,14 @@ class TemplateManager {
 	 * piece relating to the folder. There are 3 base folders: header, content, and footer. The main files for each sub
 	 * folder are aptly named
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var array $template_sub_folders The array of sub folder and file information.
 	 */
 	private $template_sub_folders = array();
 
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var array $templates Array of Templates
 	 */
@@ -38,7 +38,7 @@ class TemplateManager {
 	/**
 	 * TemplateManager constructor.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @param array $template_sub_folders
 	 */
@@ -50,7 +50,7 @@ class TemplateManager {
 	/**
 	 * Iterate over each template in the array and run the view method
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @param array $template_info
 	 * @param array $global_parameters
 	 */
@@ -83,7 +83,7 @@ class TemplateManager {
 	/**
 	 * Get the list of template sub folders
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return array
 	 */
@@ -95,7 +95,7 @@ class TemplateManager {
 	/**
 	 * Return the array of templates
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return array
 	 */

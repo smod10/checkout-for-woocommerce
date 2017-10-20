@@ -7,7 +7,7 @@ namespace Objectiv\Plugins\Checkout\Core\Base;
  * plugin initialization
  *
  * @link cgd.io
- * @since 0.1.0
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Core\Base
  * @author Brandon Tassone <brandontassone@gmail.com>
  */
@@ -15,7 +15,7 @@ namespace Objectiv\Plugins\Checkout\Core\Base;
 abstract class Singleton
 {
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var null
 	 */
@@ -24,7 +24,7 @@ abstract class Singleton
 	/**
 	 * Singleton constructor. Just a stub. Do not fill with logic
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 */
 	private function __construct() {}
@@ -32,7 +32,7 @@ abstract class Singleton
 	/**
 	 * Clone method. Just a stub. Do not fill with logic
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 */
 	private function __clone() {}
@@ -40,7 +40,7 @@ abstract class Singleton
 	/**
 	 * Wakeup method. Just a stub. Do not fill with logic
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 */
 	private function __wakeup() {}
@@ -48,7 +48,7 @@ abstract class Singleton
 	/**
 	 * Returns the class instantiated instance. Will return the first instance generated, and nothing else.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return null|static
 	 */

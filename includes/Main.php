@@ -32,7 +32,7 @@ use \Whoops\Handler\PrettyPageHandler;
  * version of the plugin.
  *
  * @link cgd.io
- * @since 0.1.0
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout
  * @author Brandon Tassone <brandontassone@gmail.com>
  */
@@ -43,7 +43,7 @@ class Main extends Singleton {
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var Loader $loader Maintains and registers all hooks for the plugin.
 	 */
@@ -52,21 +52,21 @@ class Main extends Singleton {
 	/**
 	 * Template related functionality manager
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var TemplateManager $template_manager Handles all template related functionality.
 	 */
 	private $template_manager;
 
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var PathManager $path_manager Handles the path information for the plugin
 	 */
 	private $path_manager;
 
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var AjaxManager $ajax_manager
 	 */
@@ -75,7 +75,7 @@ class Main extends Singleton {
 	/**
 	 * Language class dealing with translating the various parts of the plugin
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var i18n The language class
 	 */
@@ -84,7 +84,7 @@ class Main extends Singleton {
 	/**
 	 * The unique identifier of this plugin.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var string $plugin_name The string used to uniquely identify this plugin.
 	 */
@@ -93,7 +93,7 @@ class Main extends Singleton {
 	/**
 	 * The current version of the plugin.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var string $version The current version of the plugin.
 	 */
@@ -102,7 +102,7 @@ class Main extends Singleton {
 	/**
 	 * Settings class for accessing user defined settings.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var SettingsManager $settings The settings object.
 	 */
@@ -111,7 +111,7 @@ class Main extends Singleton {
 	/**
 	 * Updater class for handling licenses
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var \CGD_EDDSL_Magic $updater The updater object.
 	 */
@@ -123,13 +123,13 @@ class Main extends Singleton {
 	public function __construct() {
 		// Program Details
 		$this->plugin_name = "Checkout for WooCommerce";
-		$this->version = "0.1.0";
+		$this->version = CFW_VERSION;
 	}
 
 	/**
 	 * Returns the i18n language class
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return i18n
 	 */
@@ -140,7 +140,7 @@ class Main extends Singleton {
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return Loader Orchestrates the hooks of the plugin.
 	 */
@@ -151,7 +151,7 @@ class Main extends Singleton {
 	/**
 	 * Returns the path manager
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return PathManager
 	 */
@@ -160,7 +160,7 @@ class Main extends Singleton {
 	}
 
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return AjaxManager
 	 */
@@ -172,7 +172,7 @@ class Main extends Singleton {
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return string The name of the plugin.
 	 */
@@ -183,7 +183,7 @@ class Main extends Singleton {
 	/**
 	 * Returns the template manager
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return TemplateManager
 	 */
@@ -195,7 +195,7 @@ class Main extends Singleton {
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return string The version number of the plugin.
 	 */
@@ -206,7 +206,7 @@ class Main extends Singleton {
 	/**
 	 * Get the settings manager
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return SettingsManager The settings manager object
 	 */
@@ -217,7 +217,7 @@ class Main extends Singleton {
 	/**
 	 * Get the updater object
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return \CGD_EDDSL_Magic The updater object
 	 */
@@ -228,7 +228,7 @@ class Main extends Singleton {
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @param string $file The file path to the main plugin file
 	 */
 	public function run($file) {
@@ -249,7 +249,7 @@ class Main extends Singleton {
 	 * When run checks to see if the flag is defined and its value (inversely). If found to be active, it runs the
 	 * function
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 */
 	private function check_flags() {
@@ -262,7 +262,7 @@ class Main extends Singleton {
 	 * Whoops - Pretty Errors
 	 * Kint - Pretty Debug
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 */
 	private function enable_dev_mode() {
@@ -280,7 +280,7 @@ class Main extends Singleton {
 	 *
 	 * Note: Realistically the only function that would be needed for testing.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @param string $file The file path to the main plugin file
 	 */
@@ -309,7 +309,7 @@ class Main extends Singleton {
 	}
 
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 */
 	private function configure_objects() {
@@ -368,7 +368,7 @@ class Main extends Singleton {
 	/**
 	 * Handles general purpose WordPress actions.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 */
 	private function load_actions() {
@@ -378,7 +378,7 @@ class Main extends Singleton {
 		$this->loader->add_action('init', function() {
 			$this->i18n->load_plugin_textdomain($this->path_manager);
 
-			if ( $this->settings_manager->get_setting('enable') == "yes" || current_user_can('manage_options') ) {
+			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
 				// For some reason, using the loader add_filter here doesn't work *shrug*
 				add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
 			}
@@ -391,7 +391,7 @@ class Main extends Singleton {
 
 		// Setup the Checkout redirect
 		$this->loader->add_action('template_redirect', function() {
-			if ( $this->settings_manager->get_setting('enable') == "yes" || current_user_can('manage_options') ) {
+			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
 				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
 			}
 		});
@@ -401,7 +401,7 @@ class Main extends Singleton {
 	 * Filters in this plugin allow you to augment a lot of the default functionality present. Anything mission critical
 	 * that needs to be augmented will probably have a filter attached
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 */
 	private function load_filters() {
@@ -453,5 +453,25 @@ class Main extends Singleton {
 	 */
 	function override_woocommerce_registration_generate_password() {
 		return "yes";
+	}
+
+	/**
+	 * @return bool True if license valid, false if it is invalid
+	 */
+	function license_is_valid() {
+		// Get main
+		$main = Main::instance();
+
+		$key_status = $main->updater->get_field_value('key_status');
+		$license_key = $main->updater->get_field_value('license_key');
+
+		$valid = true;
+
+		// Validate Key Status
+		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
+			$valid = false;
+		}
+
+		return $valid;
 	}
 }

@@ -1113,44 +1113,6 @@
         "abandoned": "kint-php/kint"
     },
     {
-        "name": "objectivco/cgd_eddsl_magic",
-        "version": "0.3.2",
-        "version_normalized": "0.3.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Objectivco/CGD_EDDSL_Magic.git",
-            "reference": "37de6ccf1e3e28a50f19baf5b1a295b1ad2375d7"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Objectivco/CGD_EDDSL_Magic/zipball/37de6ccf1e3e28a50f19baf5b1a295b1ad2375d7",
-            "reference": "37de6ccf1e3e28a50f19baf5b1a295b1ad2375d7",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.0"
-        },
-        "time": "2017-04-11 19:33:20",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/CGD_EDDSL_Magic.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0+"
-        ],
-        "authors": [
-            {
-                "name": "Clifton Griffin",
-                "email": "clif@objectiv.co"
-            }
-        ],
-        "description": "A drop-in class that magically manages Easy Digital Downloads Software Licensing for plugins and themes."
-    },
-    {
         "name": "objectivco/wp_tabbed_navigation",
         "version": "0.1.0",
         "version_normalized": "0.1.0.0",
@@ -1227,5 +1189,43 @@
         ],
         "description": "A minimalist framework for managing WordPress plugin or theme settings.",
         "homepage": "https://github.com/Objectivco/wordpress-simple-settings"
+    },
+    {
+        "name": "objectivco/cgd_eddsl_magic",
+        "version": "0.3.3",
+        "version_normalized": "0.3.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Objectivco/CGD_EDDSL_Magic.git",
+            "reference": "337fad642a33b1992bdfcdb4f182021526f8a44e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Objectivco/CGD_EDDSL_Magic/zipball/337fad642a33b1992bdfcdb4f182021526f8a44e",
+            "reference": "337fad642a33b1992bdfcdb4f182021526f8a44e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2017-10-20 18:50:51",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/CGD_EDDSL_Magic.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0+"
+        ],
+        "authors": [
+            {
+                "name": "Clifton Griffin",
+                "email": "clif@objectiv.co"
+            }
+        ],
+        "description": "A drop-in class that magically manages Easy Digital Downloads Software Licensing for plugins and themes."
     }
 ]

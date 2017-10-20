@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9268c7bddc6a47bbaf7f27f37a372a97",
-    "content-hash": "5bac99af7cfc89b127248a80f47e3189",
+    "hash": "bd8ee09346d030985070b1ca1d2fde79",
+    "content-hash": "fed16fb54886125258feeded540b5071",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -121,16 +121,16 @@
         },
         {
             "name": "objectivco/cgd_eddsl_magic",
-            "version": "0.3.2",
+            "version": "0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Objectivco/CGD_EDDSL_Magic.git",
-                "reference": "37de6ccf1e3e28a50f19baf5b1a295b1ad2375d7"
+                "reference": "337fad642a33b1992bdfcdb4f182021526f8a44e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Objectivco/CGD_EDDSL_Magic/zipball/37de6ccf1e3e28a50f19baf5b1a295b1ad2375d7",
-                "reference": "37de6ccf1e3e28a50f19baf5b1a295b1ad2375d7",
+                "url": "https://api.github.com/repos/Objectivco/CGD_EDDSL_Magic/zipball/337fad642a33b1992bdfcdb4f182021526f8a44e",
+                "reference": "337fad642a33b1992bdfcdb4f182021526f8a44e",
                 "shasum": ""
             },
             "require": {
@@ -153,7 +153,7 @@
                 }
             ],
             "description": "A drop-in class that magically manages Easy Digital Downloads Software Licensing for plugins and themes.",
-            "time": "2017-04-11 19:33:20"
+            "time": "2017-10-20 18:50:51"
         },
         {
             "name": "objectivco/wordpress-simple-settings",

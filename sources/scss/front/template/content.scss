@@ -32,6 +32,17 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   }
 }
 
+.login-optional {
+  display: inline-block;
+  margin-left: 10px;
+
+  @media (max-width: 767px) {
+    display: block;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+}
+
 #cfw-billing-methods, #cfw-shipping-same-billing {
 
   .cfw-radio-reveal-group {

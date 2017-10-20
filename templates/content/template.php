@@ -56,12 +56,16 @@
                                         <span>
                                             <?php esc_html_e('Already have an account with us?', 'checkout-wc'); ?>
                                         </span>
+
                                         <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
                                             <?php esc_html_e('Log in.', 'checkout-wc'); ?>
                                         </a>
+
+	                                    <?php if( WC()->checkout->is_registration_required() ): ?>
                                         <span>
                                             <?php esc_html_e('Otherwise the information provided here will be used to create an account on checkout', 'checkout-wc'); ?>
                                         </span>
+                                        <?php endif; ?>
                                     </div>
 
                                     <div id="" class="cfw-input-container">
@@ -75,7 +79,12 @@
                                                 <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password">
                                             </div>
                                             <div class="cfw-input-wrap cfw-button-input">
-                                                <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="Login" />
+                                                <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="<?php esc_attr_e('Login', 'checkout-wc'); ?>" />
+	                                            <?php if( ! WC()->checkout->is_registration_required() ): ?>
+                                                    <span class="login-optional cfw-small">
+		                                                <?php esc_html_e('Login is optional. You may continue with your order below.', 'checkout-wc'); ?>
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                         <div class="cfw-input-wrap cfw-check-input">

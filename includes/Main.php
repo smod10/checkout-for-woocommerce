@@ -378,7 +378,7 @@ class Main extends Singleton {
 		$this->loader->add_action('init', function() {
 			$this->i18n->load_plugin_textdomain($this->path_manager);
 
-			if ( $this->settings_manager->get_setting('enable') == "yes" || current_user_can('manage_options') ) {
+			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
 				// For some reason, using the loader add_filter here doesn't work *shrug*
 				add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
 			}
@@ -391,7 +391,7 @@ class Main extends Singleton {
 
 		// Setup the Checkout redirect
 		$this->loader->add_action('template_redirect', function() {
-			if ( $this->settings_manager->get_setting('enable') == "yes" || current_user_can('manage_options') ) {
+			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
 				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
 			}
 		});
@@ -453,5 +453,25 @@ class Main extends Singleton {
 	 */
 	function override_woocommerce_registration_generate_password() {
 		return "yes";
+	}
+
+	/**
+	 * @return bool True if license valid, false if it is invalid
+	 */
+	function license_is_valid() {
+		// Get main
+		$main = Main::instance();
+
+		$key_status = $main->updater->get_field_value('key_status');
+		$license_key = $main->updater->get_field_value('license_key');
+
+		$valid = true;
+
+		// Validate Key Status
+		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
+			$valid = false;
+		}
+
+		return $valid;
 	}
 }

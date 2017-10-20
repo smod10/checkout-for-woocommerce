@@ -107,9 +107,9 @@
                                     <h3 class="cfw-module-title">
                                         <?php
                                             if ( ! WC()->cart->needs_shipping_address() ) {
-	                                            esc_html_e( 'Billing Address', 'checkout-wc' );
+	                                            esc_html_e( 'Billing address', 'checkout-wc' );
                                             } else {
-	                                            esc_html_e( 'Shipping Address', 'checkout-wc' );
+	                                            esc_html_e( 'Shipping address', 'checkout-wc' );
                                             }
                                         ?>
                                     </h3>

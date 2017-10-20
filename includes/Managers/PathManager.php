@@ -8,49 +8,49 @@ namespace Objectiv\Plugins\Checkout\Managers;
  * This class is mainly used in the template manager and other classes related to plugin setup and file management
  *
  * @link cgd.io
- * @since 0.1.0
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Managers
  * @author Brandon Tassone <brandontassone@gmail.com>
  */
 
 class PathManager {
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var string The base path to the plugin
 	 */
 	private $base;
 
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var string The url base path to the plugin
 	 */
 	private $url_base;
 
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var string The assets path
 	 */
 	private $assets;
 
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var string The plugin template path
 	 */
 	private $plugin_template;
 
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var string The theme template path
 	 */
 	private $theme_template;
 
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access private
 	 * @var string The main file name that initiates the plugin
 	 */
@@ -59,7 +59,7 @@ class PathManager {
 	/**
 	 * PathManager constructor.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @param string $base The plugin base path
 	 * @param string $url_base The plugin url base path
@@ -78,7 +78,7 @@ class PathManager {
 	/**
 	 * Get the path to the assets folder
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return string
 	 */
@@ -89,7 +89,7 @@ class PathManager {
 	/**
 	 * Return the base plugin path
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return string
 	 */
@@ -100,7 +100,7 @@ class PathManager {
 	/**
 	 * Return the main file name
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return string
 	 */
@@ -111,7 +111,7 @@ class PathManager {
 	/**
 	 * Returns the concatenated folder name with the main file name in one strong
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return string Returns the concatenated folder name with the main file name in one strong
 	 */
@@ -120,7 +120,7 @@ class PathManager {
 	}
 
 	/**
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return string The plugin template path
 	 */
@@ -131,7 +131,7 @@ class PathManager {
 	/**
 	 * Returns the value of the theme_template variable
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return string The theme template path
 	 */
@@ -142,7 +142,7 @@ class PathManager {
 	/**
 	 * Returns the value of variable url_base
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @return string The url base path
 	 */
@@ -154,7 +154,7 @@ class PathManager {
 	 * Determines where each sub folder file is actually located. Theme template files take precedence over plugin
 	 * template files returned in the array.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 * @param array $sub_folders List of folder names within the template directories to look for template files.
 	 * @return array

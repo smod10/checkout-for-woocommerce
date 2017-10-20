@@ -2,7 +2,7 @@
 /**
  * Admin class
  *
- * @since 0.1.0
+ * @since 1.0.0
  * @access private
  * @var string $version The current version of the plugin.
  */

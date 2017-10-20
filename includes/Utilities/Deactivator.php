@@ -8,7 +8,7 @@ namespace Objectiv\Plugins\Checkout\Utilities;
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @link cgd.io
- * @since 0.1.0
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Utilities
  * @author Brandon Tassone <brandontassone@gmail.com>
  */
@@ -20,7 +20,7 @@ class Deactivator {
 	 *
 	 * Long Description.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 * @access public
 	 */
 	public static function deactivate() {

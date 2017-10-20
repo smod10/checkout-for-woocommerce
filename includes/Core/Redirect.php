@@ -354,7 +354,7 @@ class Redirect {
 
 	/**
      * @param PathManager $path_manager
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	public static function footer($path_manager, $settings_manager) {
 		print_footer_scripts();

@@ -449,7 +449,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                 );
                 $column_base = "cfw-column-";
 		        ?>
-                <div class="cfw-cart-row cfw-container cfw-collapse">
+                <div class="cfw-cart-row cfw-sg-container cfw-collapse">
                     <?php if($item_thumb_url): ?>
                     <div class="cfw-cart-item-image cfw-cart-item-col <?php echo "${column_base}${columns["image"]}"; ?>">
                         <img src="<?php echo $item_thumb_url; ?>"/>

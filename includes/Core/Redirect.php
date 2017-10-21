@@ -96,6 +96,7 @@ class Redirect {
             var cartTaxesId = '#<?php echo apply_filters('cfw_template_cart_taxes_el', 'cfw-cart-taxes'); ?>';
             var cartTotalId = '#<?php echo apply_filters('cfw_template_cart_total_el','cfw-cart-total'); ?>';
             var cartCoupons = '#<?php echo apply_filters('cfw_template_cart_coupons_el', 'cfw-cart-coupons'); ?>';
+            var cartReviewBarId = '#<?php echo apply_filters('cfw_template_cart_review_bar_id', 'cfw-cart-details-review-bar'); ?>';
 
             window.cfwElements = {
 	            breadCrumbElId: breadCrumbElId,
@@ -108,7 +109,8 @@ class Redirect {
 	            cartShippingId: cartShippingId,
 	            cartTaxesId: cartTaxesId,
 	            cartTotalId: cartTotalId,
-                cartCouponsId: cartCoupons
+                cartCouponsId: cartCoupons,
+                cartReviewBarId: cartReviewBarId
             };
 
             window.ajaxInfo = {
@@ -206,6 +208,7 @@ class Redirect {
 			            var cartTaxes = $(cfwElements.cartTaxesId);
 			            var cartTotal = $(cfwElements.cartTotalId);
 			            var cartCoupons = $(cfwElements.cartCouponsId);
+			            var cartReviewBar = $(cfwElements.cartReviewBarId);
 
 			            var tabContainerBreadcrumb = new TabContainerBreadcrumb(breadCrumbEl);
 			            var tabContainerSections = [
@@ -215,7 +218,7 @@ class Redirect {
 			            ];
 			            var tabContainer = new TabContainer(tabContainerEl, tabContainerBreadcrumb, tabContainerSections);
 
-			            var cart = new Cart(cartContainer, cartSubtotal, cartShipping, cartTaxes, cartTotal, cartCoupons);
+			            var cart = new Cart(cartContainer, cartSubtotal, cartShipping, cartTaxes, cartTotal, cartCoupons, cartReviewBar);
 			            var settings = {
                             isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>
                         };

@@ -5,7 +5,7 @@ import { UpdateShippingFieldsResponse }             from "../Types/Types";
 import { CustomerDataInfo }                         from "../Types/Types";
 import { ResponsePrep }                             from "../Decorators/ResponsePrep";
 import { Cart }                                     from "../Elements/Cart";
-import {TabContainer} from "../Elements/TabContainer";
+import { TabContainer }                             from "../Elements/TabContainer";
 
 /**
  *

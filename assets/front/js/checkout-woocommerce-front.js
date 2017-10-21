@@ -541,13 +541,14 @@ define("Elements/Cart", ["require", "exports", "Elements/Element"], function (re
     Object.defineProperty(exports, "__esModule", { value: true });
     var Cart = (function (_super) {
         __extends(Cart, _super);
-        function Cart(cartContainer, subTotal, shipping, taxes, total, coupons) {
+        function Cart(cartContainer, subTotal, shipping, taxes, total, coupons, reviewBarTotal) {
             var _this = _super.call(this, cartContainer) || this;
             _this.subTotal = new Element_5.Element(subTotal);
             _this.shipping = new Element_5.Element(shipping);
             _this.taxes = new Element_5.Element(taxes);
             _this.total = new Element_5.Element(total);
             _this.coupons = new Element_5.Element(coupons);
+            _this.reviewBarTotal = new Element_5.Element(reviewBarTotal);
             return _this;
         }
         Cart.outputValues = function (cart, values) {
@@ -555,6 +556,7 @@ define("Elements/Cart", ["require", "exports", "Elements/Element"], function (re
             Cart.outputValue(cart.shipping, values.new_shipping_total);
             Cart.outputValue(cart.taxes, values.new_taxes_total);
             Cart.outputValue(cart.total, values.new_total);
+            Cart.outputValue(cart.reviewBarTotal, values.new_total);
         };
         Cart.outputCoupons = function (cartLineItem, coupons) {
             cartLineItem.jel.html("");
@@ -571,8 +573,9 @@ define("Elements/Cart", ["require", "exports", "Elements/Element"], function (re
         };
         Cart.outputValue = function (cartLineItem, value, childClass) {
             if (childClass === void 0) { childClass = ".amount"; }
+            console.log(cartLineItem, value, childClass);
             if (cartLineItem.jel.length > 0) {
-                cartLineItem.jel.children(childClass).html(value);
+                cartLineItem.jel.find(childClass).html(value);
             }
         };
         Object.defineProperty(Cart.prototype, "subTotal", {
@@ -621,6 +624,16 @@ define("Elements/Cart", ["require", "exports", "Elements/Element"], function (re
             },
             set: function (value) {
                 this._coupons = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Cart.prototype, "reviewBarTotal", {
+            get: function () {
+                return this._reviewBarTotal;
+            },
+            set: function (value) {
+                this._reviewBarTotal = value;
             },
             enumerable: true,
             configurable: true

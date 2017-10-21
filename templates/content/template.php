@@ -217,7 +217,11 @@
 
                             <div id="cfw-payment-action" class="cfw-bottom-controls">
                                 <div class="previous-button">
-                                    <a href="#cfw-shipping-method" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to shipping information', 'checkout-wc' ); ?></a>
+                                    <?php if ( WC()->cart->needs_shipping_address() ): ?>
+                                        <a href="#cfw-shipping-method" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to shipping information', 'checkout-wc' ); ?></a>
+                                    <?php else: ?>
+                                        <a href="#cfw-customer-info" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to customer information', 'checkout-wc' ); ?></a>
+                                    <?php endif; ?>
                                 </div>
                                 <div>
                                     <a id="cfw-complete-order-button" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate"><?php esc_html_e( 'Complete Order', 'checkout-wc' ); ?></a>
@@ -240,7 +244,7 @@
                             </div>
                         </div>
                         <div class="cfw-column-4">
-                            <span class="total">
+                            <span class="total amount">
                                 <?php echo $cart->get_total(); ?>
                             </span>
                         </div>

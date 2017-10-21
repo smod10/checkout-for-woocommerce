@@ -34,14 +34,21 @@ export class Cart extends Element {
     private _total: Element;
 
     /**
+     * @type {Element}
+     * @private
+     */
+    private _reviewBarTotal: Element;
+
+    /**
      * @param cartContainer
      * @param subTotal
      * @param shipping
      * @param taxes
      * @param total
      * @param coupons
+     * @param reviewBarTotal
      */
-    constructor(cartContainer: JQuery, subTotal: JQuery, shipping: JQuery, taxes: JQuery, total: JQuery, coupons: JQuery) {
+    constructor(cartContainer: JQuery, subTotal: JQuery, shipping: JQuery, taxes: JQuery, total: JQuery, coupons: JQuery, reviewBarTotal: JQuery) {
         super(cartContainer);
 
         this.subTotal = new Element(subTotal);
@@ -49,6 +56,7 @@ export class Cart extends Element {
         this.taxes = new Element(taxes);
         this.total = new Element(total);
         this.coupons = new Element(coupons);
+        this.reviewBarTotal = new Element(reviewBarTotal);
     }
 
     /**
@@ -60,6 +68,7 @@ export class Cart extends Element {
         Cart.outputValue(cart.shipping, values.new_shipping_total);
         Cart.outputValue(cart.taxes, values.new_taxes_total);
         Cart.outputValue(cart.total, values.new_total);
+        Cart.outputValue(cart.reviewBarTotal, values.new_total);
     }
 
     static outputCoupons(cartLineItem: Element, coupons: any) {
@@ -86,8 +95,9 @@ export class Cart extends Element {
      * @param childClass
      */
     static outputValue(cartLineItem: Element, value: string, childClass: string = ".amount") {
+        console.log(cartLineItem, value, childClass);
         if(cartLineItem.jel.length > 0) {
-            cartLineItem.jel.children(childClass).html(value);
+            cartLineItem.jel.find(childClass).html(value);
         }
     }
 
@@ -147,11 +157,31 @@ export class Cart extends Element {
         this._total = value;
     }
 
+    /**
+     * @returns {Element}
+     */
     get coupons(): Element {
         return this._coupons;
     }
 
+    /**
+     * @param {Element} value
+     */
     set coupons(value: Element) {
         this._coupons = value;
+    }
+
+    /**
+     * @returns {Element}
+     */
+    get reviewBarTotal(): Element {
+        return this._reviewBarTotal;
+    }
+
+    /**
+     * @param {Element} value
+     */
+    set reviewBarTotal(value: Element) {
+        this._reviewBarTotal = value;
     }
 }

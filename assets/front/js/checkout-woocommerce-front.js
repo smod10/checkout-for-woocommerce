@@ -573,7 +573,6 @@ define("Elements/Cart", ["require", "exports", "Elements/Element"], function (re
         };
         Cart.outputValue = function (cartLineItem, value, childClass) {
             if (childClass === void 0) { childClass = ".amount"; }
-            console.log(cartLineItem, value, childClass);
             if (cartLineItem.jel.length > 0) {
                 cartLineItem.jel.find(childClass).html(value);
             }

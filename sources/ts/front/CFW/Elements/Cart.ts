@@ -95,7 +95,6 @@ export class Cart extends Element {
      * @param childClass
      */
     static outputValue(cartLineItem: Element, value: string, childClass: string = ".amount") {
-        console.log(cartLineItem, value, childClass);
         if(cartLineItem.jel.length > 0) {
             cartLineItem.jel.find(childClass).html(value);
         }

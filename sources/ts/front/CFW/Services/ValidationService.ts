@@ -1,6 +1,7 @@
 import { TabContainer }                         from "../Elements/TabContainer";
 
 let Parsley: any;
+let w: any = window;
 
 export enum EValidationSections {
     SHIPPING,
@@ -51,6 +52,76 @@ export class ValidationService {
             $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
             $temp("#shipping_state").parsley().on("field:error", shipping_action);
         }
+
+        let interval: any = setInterval(() => {
+            if(w.Parsley !== undefined) {
+                this.setParsleyCustomValidators(w.Parsley);
+                clearInterval(interval);
+            }
+        }, 300);
+    }
+
+    setParsleyCustomValidators(parsley): void {
+        parsley.addValidator('stateAndZip', {
+            validateString: function(_ignoreValue, country, instance) {
+                let elementType = instance.$element[0].getAttribute("id").split("_")[0];
+                let stateElement = $("#" + elementType + "_state");
+                let zipElement = $("#" + elementType + "_postcode");
+                let cityElement = $("#" + elementType + "_city");
+                let failLocation = (elementType === "shipping") ? "#cfw-customer-info" : "#cfw-payment-method";
+                let xhr = $.ajax('//www.zippopotam.us/' + country + '/' + zipElement.val());
+
+                return xhr.then(function(json) {
+                    let ret = null;
+                    let stateResponseValue = "";
+                    let eventName = "";
+                    let cityResponseValue = "";
+
+                    // Set the state response value
+                    stateResponseValue = json.places[0]["state abbreviation"];
+
+                    // Set the city response value and set the corresponding city field
+                    cityResponseValue = json.places[0]["place name"];
+                    cityElement.val(cityResponseValue);
+
+                    let fieldType = $(instance.element).attr("id").split("_")[1];
+
+                    if(fieldType === "postcode") {
+                        stateElement.val(stateResponseValue);
+                    }
+
+                    if (stateResponseValue !== stateElement.val()) {
+                        eventName = "cfw:state-zip-failure";
+
+                        $("#cfw-tab-container").easytabs("select", failLocation);
+
+                        ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
+                    } else {
+                        eventName = "cfw:state-zip-success";
+
+                        $("#" + elementType + "_state").parsley().reset();
+                        $("#" + elementType + "_postcode").parsley().reset();
+
+                        ret = true;
+                    }
+
+                    if(w.CREATE_ORDER) {
+                        let event = new Event(eventName);
+                        window.dispatchEvent(event);
+                    }
+
+                    return ret;
+                }).fail(function(){
+                    $("#cfw-tab-container").easytabs("select", failLocation);
+
+                    if(w.CREATE_ORDER) {
+                        let event = new Event("cfw:state-zip-failure");
+                        window.dispatchEvent(event);
+                    }
+                })
+            }.bind(this),
+            messages: {en: 'Zip is not valid for country "%s"'}
+        });
     }
 
     setEventListeners(): void {

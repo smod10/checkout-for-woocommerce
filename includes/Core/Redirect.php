@@ -67,9 +67,6 @@ class Redirect {
 		self::remove_scripts();
 		print_head_scripts();
 
-		$bower = "{$path_manager->get_assets_path()}/global/bower";
-		$js = "{$path_manager->get_assets_path()}/global/js";
-
 		?>
         <script>
             window.$ = jQuery;
@@ -117,68 +114,7 @@ class Redirect {
                 isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>
             };
 
-            Parsley.addValidator('stateAndZip', {
-                validateString: function(_ignoreValue, country, instance) {
-                    var elementType = instance.$element[0].getAttribute("id").split("_")[0];
-                    var stateElement = $("#" + elementType + "_state");
-                    var zipElement = $("#" + elementType + "_postcode");
-                    var cityElement = $("#" + elementType + "_city");
-                    var failLocation = (elementType === "shipping") ? "#cfw-customer-info" : "#cfw-payment-method";
-                    var xhr = $.ajax('//www.zippopotam.us/' + country + '/' + zipElement.val());
-
-                    return xhr.then(function(json) {
-                        var ret = null;
-                        var stateResponseValue = "";
-                        var eventName = "";
-                        var cityResponseValue = "";
-
-                        // Set the state response value
-                        stateResponseValue = json.places[0]["state abbreviation"];
-
-                        // Set the city response value and set the corresponding city field
-                        cityResponseValue = json.places[0]["place name"];
-                        cityElement.val(cityResponseValue);
-
-                        var fieldType = $(instance.element).attr("id").split("_")[1];
-
-                        if(fieldType === "postcode") {
-                            stateElement.val(stateResponseValue);
-                        }
-
-                        if (stateResponseValue !== stateElement.val()) {
-                            eventName = "cfw:state-zip-failure";
-
-                            $("#cfw-tab-container").easytabs("select", failLocation);
-
-                            ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-                        } else {
-                            eventName = "cfw:state-zip-success";
-
-                            $("#" + elementType + "_state").parsley().reset();
-                            $("#" + elementType + "_postcode").parsley().reset();
-
-                            ret = true;
-                        }
-
-                        if(window.CREATE_ORDER) {
-                            var event = new Event(eventName);
-                            window.dispatchEvent(event);
-                        }
-
-                        return ret;
-                    }).fail(function(){
-                        $("#cfw-tab-container").easytabs("select", failLocation);
-
-                        if(window.CREATE_ORDER) {
-                            var event = new Event("cfw:state-zip-failure");
-                            window.dispatchEvent(event);
-                        }
-                    })
-                },
-                messages: {en: 'Zip is not valid for country "%s"'}
-            });
-
-            $(document).on("ready", function() {
+            $(window).load(function() {
                 var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
                 window.dispatchEvent(cfwInitEvent);
             });
@@ -274,6 +210,7 @@ class Redirect {
             'jquery',
             'admin-bar',
             'cfw_front_js',
+            'cfw_front_js_vendor',
             'cfw_front_js_hash_change',
             'cfw_front_js_easy_tabs',
             'cfw_front_js_garlic',

@@ -15,6 +15,7 @@ import { Cart }                             from "./sources/ts/front/CFW/Element
  *
  * @type {Window}
  */
+
 let w: any = window;
 w.addEventListener("cfw-initialize", (eventData) => {
     let data = eventData.detail;

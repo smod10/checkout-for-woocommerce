@@ -9,7 +9,6 @@
 	},
 	"files": [
 		"./sources/ts/front/CFW/Main.ts",
-		"./typings/index.d.ts",
-		"./assets/global/js/ArrayFindPoly.js"
+		"./typings/index.d.ts"
 	]
 }

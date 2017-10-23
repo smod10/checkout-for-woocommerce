@@ -114,7 +114,7 @@ class Redirect {
                 isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>
             };
 
-            $(window).load(function() {
+            $(document).ready(function() {
                 var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
                 window.dispatchEvent(cfwInitEvent);
             });

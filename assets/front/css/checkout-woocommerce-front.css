@@ -1133,7 +1133,7 @@ body {
   content: " ";
   width: 12px;
   height: 12px;
-  background: url(./assets/front/img/arrow-right.svg?769b3ee330c31664920706c790b7492e) no-repeat 50% 50%;
+  background: url(../../.././assets/front/img/arrow-right.svg?769b3ee330c31664920706c790b7492e) no-repeat 50% 50%;
   background-size: 12px 12px;
   padding-left: 15px;
 }

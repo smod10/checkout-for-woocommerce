@@ -47,9 +47,6 @@ module.exports = {
                             }
                         },
                         {
-                            loader: 'resolve-url-loader'
-                        },
-                        {
                             loader: "sass-loader",
                             options: {
                                 sourceMap: true
@@ -63,6 +60,7 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: './assets/front/img/[name].[ext]?[hash]',
+                    publicPath: '../../../'
                 }
             }
         ]

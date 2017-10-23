@@ -1,4 +1,4 @@
-import { Element }              from "Element";
+import { Element }              from "./Element";
 import { AlertType }            from "../Enums/AlertType";
 
 export type AlertInfo = { type: string, message: string, cssClass: string };

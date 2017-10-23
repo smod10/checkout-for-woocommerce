@@ -1,5 +1,5 @@
 import { Element }                      from "./Element";
-import {UpdateCartTotalsData} from "../Types/Types";
+import { UpdateCartTotalsData }         from "../Types/Types";
 
 export class Cart extends Element {
 

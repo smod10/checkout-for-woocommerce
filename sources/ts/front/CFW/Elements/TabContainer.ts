@@ -1,7 +1,7 @@
-import { Element }                          from "Element";
-import { TabContainerBreadcrumb }           from "TabContainerBreadcrumb";
-import { TabContainerSection }              from "TabContainerSection";
-import { InputLabelWrap }                   from "InputLabelWrap";
+import { Element }                          from "./Element";
+import { TabContainerBreadcrumb }           from "./TabContainerBreadcrumb";
+import { TabContainerSection }              from "./TabContainerSection";
+import { InputLabelWrap }                   from "./InputLabelWrap";
 import { CustomerDataInfo }                 from "../Types/Types";
 import { AjaxInfo }                         from "../Types/Types";
 import { UpdateShippingFieldsRI }           from "../Types/Types";
@@ -16,7 +16,7 @@ import { CompleteOrderCheckoutData }        from "../Types/Types";
 import { Main }                             from "../Main";
 import { Alert, AlertInfo }                 from "../Elements/Alert";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
-import {EValidationSections} from "../Services/ValidationService";
+import { EValidationSections }              from "../Services/ValidationService";
 
 /**
  *

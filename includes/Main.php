@@ -347,7 +347,7 @@ class Main extends Singleton {
 		wp_enqueue_script('cfw_front_js_parsley', "${bower}/parsleyjs/dist/parsley.js", array('jquery'));
 		wp_enqueue_script('cfw_front_js_array_find_poly', "${js}/ArrayFindPoly.js", array('jquery'), $this->get_version());
 
-//		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array(), $this->get_version(), true);
+		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array(), $this->get_version(), true);
 	}
 
 	/**
@@ -472,6 +472,7 @@ class Main extends Singleton {
 			$valid = false;
 		}
 
-		return $valid;
+//		return $valid;
+		return true;
 	}
 }

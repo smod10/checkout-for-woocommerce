@@ -1,18 +1,14 @@
 {
 	"compilerOptions": {
-		"module": "AMD",
-		"removeComments": true,
+		"module": "commonjs",
 		"target": "es5",
-		"noEmitOnError": true,
-		"noImplicitUseStrict": true,
 		"experimentalDecorators": true,
 		"preserveConstEnums": true,
-		"outFile": "checkout-woocommerce-front.js",
 		"sourceMap": true,
 		"allowJs": true
 	},
-	"include": [
-		"sources/ts/front/**/*"
-	],
-	"exclude": []
+	"files": [
+		"./sources/ts/front/CFW/Main.ts",
+		"./typings/index.d.ts"
+	]
 }

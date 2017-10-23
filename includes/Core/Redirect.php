@@ -67,22 +67,13 @@ class Redirect {
 		self::remove_scripts();
 		print_head_scripts();
 
-		$bower = "{$path_manager->get_assets_path()}/global/bower";
-		$js = "{$path_manager->get_assets_path()}/global/js";
 		?>
-        <script src="<?php echo $bower; ?>/requirejs/require.js"></script>
-		<script>
-			window.$ = jQuery;
-			$.fn.block = function(item) {};
-			$.fn.unblock = function(item) {};
+        <script>
+            window.$ = jQuery;
+            $.fn.block = function(item) {};
+            $.fn.unblock = function(item) {};
 
-            window.requiredFiles = [
-	            'Main',
-	            'Elements/TabContainer',
-	            'Elements/TabContainerBreadcrumb',
-	            'Elements/TabContainerSection',
-	            'Elements/Cart'
-            ];
+            // TODO: Find out if we can remove this. Pretty sure we can
             window.siteBase = "<?php echo $path_manager->get_url_base(); ?>";
 
             var breadCrumbElId = '#<?php echo apply_filters('cfw_template_breadcrumb_id', 'cfw-breadcrumb'); ?>';
@@ -98,136 +89,36 @@ class Redirect {
             var cartCoupons = '#<?php echo apply_filters('cfw_template_cart_coupons_el', 'cfw-cart-coupons'); ?>';
             var cartReviewBarId = '#<?php echo apply_filters('cfw_template_cart_review_bar_id', 'cfw-cart-details-review-bar'); ?>';
 
-            window.cfwElements = {
-	            breadCrumbElId: breadCrumbElId,
-	            customerInfoElId: customerInfoElId,
-	            shippingMethodElId: shippingMethodElId,
-	            paymentMethodElId: paymentMethodElId,
-	            tabContainerElId: tabContainerElId,
-	            cartContainerId: cartContainerId,
-	            cartSubtotalId: cartSubtotalId,
-	            cartShippingId: cartShippingId,
-	            cartTaxesId: cartTaxesId,
-	            cartTotalId: cartTotalId,
+            var cfwEventData = {};
+            cfwEventData.elements = {
+                breadCrumbElId: breadCrumbElId,
+                customerInfoElId: customerInfoElId,
+                shippingMethodElId: shippingMethodElId,
+                paymentMethodElId: paymentMethodElId,
+                tabContainerElId: tabContainerElId,
+                cartContainerId: cartContainerId,
+                cartSubtotalId: cartSubtotalId,
+                cartShippingId: cartShippingId,
+                cartTaxesId: cartTaxesId,
+                cartTotalId: cartTotalId,
                 cartCouponsId: cartCoupons,
                 cartReviewBarId: cartReviewBarId
             };
 
-            window.ajaxInfo = {
-	            admin_url: new URL('<?php echo admin_url('admin-ajax.php'); ?>'),
-	            nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
+            cfwEventData.ajaxInfo = {
+                admin_url: new URL('<?php echo admin_url('admin-ajax.php'); ?>'),
+                nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
             };
 
-            requirejs.config({
-	            baseUrl : window.siteBase + 'assets/front/js/',
-	            bundles: {
-		            'checkout-woocommerce-front<?php echo $env_extension; ?>': window.requiredFiles
-	            }
+            cfwEventData.settings = {
+                isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>
+            };
+
+            $(document).ready(function() {
+                var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
+                window.dispatchEvent(cfwInitEvent);
             });
-
-            Parsley.addValidator('stateAndZip', {
-                validateString: function(_ignoreValue, country, instance) {
-                    var elementType = instance.$element[0].getAttribute("id").split("_")[0];
-                    var stateElement = $("#" + elementType + "_state");
-                    var zipElement = $("#" + elementType + "_postcode");
-                    var cityElement = $("#" + elementType + "_city");
-                    var failLocation = (elementType === "shipping") ? "#cfw-customer-info" : "#cfw-payment-method";
-                    var xhr = $.ajax('//www.zippopotam.us/' + country + '/' + zipElement.val());
-
-                    return xhr.then(function(json) {
-                        var ret = null;
-                        var stateResponseValue = "";
-                        var eventName = "";
-                        var cityResponseValue = "";
-
-                        // Set the state response value
-                        stateResponseValue = json.places[0]["state abbreviation"];
-
-                        // Set the city response value and set the corresponding city field
-                        cityResponseValue = json.places[0]["place name"];
-                        cityElement.val(cityResponseValue);
-
-                        var fieldType = $(instance.element).attr("id").split("_")[1];
-
-                        if(fieldType === "postcode") {
-                            stateElement.val(stateResponseValue);
-                        }
-
-                        if (stateResponseValue !== stateElement.val()) {
-                            eventName = "cfw:state-zip-failure";
-
-                            $("#cfw-tab-container").easytabs("select", failLocation);
-
-                            ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-                        } else {
-                            eventName = "cfw:state-zip-success";
-
-                            $("#" + elementType + "_state").parsley().reset();
-                            $("#" + elementType + "_postcode").parsley().reset();
-
-                            ret = true;
-                        }
-
-                        if(window.CREATE_ORDER) {
-                            var event = new Event(eventName);
-                            window.dispatchEvent(event);
-                        }
-
-                        return ret;
-                    }).fail(function(){
-                        $("#cfw-tab-container").easytabs("select", failLocation);
-
-                        if(window.CREATE_ORDER) {
-                            var event = new Event("cfw:state-zip-failure");
-                            window.dispatchEvent(event);
-                        }
-                    })
-                },
-                messages: {en: 'Zip is not valid for country "%s"'}
-            });
-
-            function init() {
-	            require(requiredFiles,
-		            function(Main, TabContainer, TabContainerBreadcrumb, TabContainerSection, Cart){
-
-			            // Require wraps objects for some reason in bundles
-			            Main = Main.Main;
-			            TabContainer = TabContainer.TabContainer;
-			            TabContainerBreadcrumb = TabContainerBreadcrumb.TabContainerBreadcrumb;
-			            TabContainerSection = TabContainerSection.TabContainerSection;
-			            Cart = Cart.Cart;
-
-			            var breadCrumbEl = $(cfwElements.breadCrumbElId);
-			            var customerInfoEl = $(cfwElements.customerInfoElId);
-			            var shippingMethodEl = $(cfwElements.shippingMethodElId);
-			            var paymentMethodEl = $(cfwElements.paymentMethodElId);
-			            var tabContainerEl = $(cfwElements.tabContainerElId);
-			            var cartContainer = $(cfwElements.cartContainerId);
-			            var cartSubtotal = $(cfwElements.cartSubtotalId);
-			            var cartShipping = $(cfwElements.cartShippingId);
-			            var cartTaxes = $(cfwElements.cartTaxesId);
-			            var cartTotal = $(cfwElements.cartTotalId);
-			            var cartCoupons = $(cfwElements.cartCouponsId);
-			            var cartReviewBar = $(cfwElements.cartReviewBarId);
-
-			            var tabContainerBreadcrumb = new TabContainerBreadcrumb(breadCrumbEl);
-			            var tabContainerSections = [
-				            new TabContainerSection(customerInfoEl, "customer_info"),
-				            new TabContainerSection(shippingMethodEl, "shipping_method"),
-				            new TabContainerSection(paymentMethodEl, "payment_method")
-			            ];
-			            var tabContainer = new TabContainer(tabContainerEl, tabContainerBreadcrumb, tabContainerSections);
-
-			            var cart = new Cart(cartContainer, cartSubtotal, cartShipping, cartTaxes, cartTotal, cartCoupons, cartReviewBar);
-			            var settings = {
-                            isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>
-                        };
-
-			            var main = new Main( tabContainer, ajaxInfo, cart, settings );
-			            main.setup();
-		            });
-            }
-		</script>
+        </script>
 		<?php
 
 		wp_print_styles(array('cfw_front_css', 'admin-bar'));
@@ -309,7 +200,7 @@ class Redirect {
 
             <?php echo $settings_manager->get_setting('header_scripts'); ?>
 		</head>
-		<body class="<?php echo implode(" ", $classes); ?>" onload="init()">
+		<body class="<?php echo implode(" ", $classes); ?>">
 		<?php
 	}
 
@@ -318,6 +209,8 @@ class Redirect {
 		$ignore = array(
             'jquery',
             'admin-bar',
+            'cfw_front_js',
+            'cfw_front_js_vendor',
             'cfw_front_js_hash_change',
             'cfw_front_js_easy_tabs',
             'cfw_front_js_garlic',

@@ -1,4 +1,4 @@
-import { Element }              from "Element";
+import { Element }              from "./Element";
 import { LabelType }            from "../Enums/LabelType";
 import { EventCallback }        from "../Types/Types";
 

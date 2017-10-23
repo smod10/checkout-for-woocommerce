@@ -1,9 +1,9 @@
-import { Element }                  from "Element";
-import { InputLabelWrap }           from "InputLabelWrap";
+import { Element }                  from "./Element";
+import { InputLabelWrap }           from "./InputLabelWrap";
 import { LabelType }                from "../Enums/LabelType";
 import { InputLabelType }           from "../Types/Types";
 import { SelectLabelWrap }          from "./SelectLabelWrap";
-import {FormElement} from "./FormElement";
+import { FormElement }              from "./FormElement";
 
 /**
  *

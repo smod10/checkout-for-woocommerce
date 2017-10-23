@@ -4,8 +4,9 @@
   "description": "### Development installation instructions",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "dev": "webpack --watch"
+    "dev": "webpack",
+    "production": "NODE_ENV=production webpack -p",
+    "watch": "npm run dev -- --watch"
   },
   "repository": {
     "type": "git",

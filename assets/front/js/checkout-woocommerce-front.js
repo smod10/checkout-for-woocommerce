@@ -621,6 +621,8 @@ var ValidationService = /** @class */ (function () {
     ValidationService.prototype.setup = function () {
         var _this = this;
         this.setEventListeners();
+        var max_iterations = 1000;
+        var iterations = 0;
         if (window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
             if (!this.validate(EValidationSections.SHIPPING)) {
                 window.location.hash = "#cfw-customer-info";
@@ -640,7 +642,14 @@ var ValidationService = /** @class */ (function () {
                 _this.setParsleyCustomValidators(w.Parsley);
                 clearInterval(interval);
             }
-        }, 300);
+            else if (iterations >= max_iterations) {
+                // Give up
+                clearInterval(interval);
+            }
+            else {
+                iterations++;
+            }
+        }, 50);
     };
     ValidationService.prototype.setParsleyCustomValidators = function (parsley) {
         parsley.addValidator('stateAndZip', {

@@ -1,8 +1,8 @@
-import { Main }                             from "./sources/ts/front/CFW/Main";
-import { TabContainer }                     from "./sources/ts/front/CFW/Elements/TabContainer";
-import { TabContainerBreadcrumb }           from "./sources/ts/front/CFW/Elements/TabContainerBreadcrumb";
-import { TabContainerSection }              from "./sources/ts/front/CFW/Elements/TabContainerSection";
-import { Cart }                             from "./sources/ts/front/CFW/Elements/Cart";
+import { Main }                             from "./front/CFW/Main";
+import { TabContainer }                     from "./front/CFW/Elements/TabContainer";
+import { TabContainerBreadcrumb }           from "./front/CFW/Elements/TabContainerBreadcrumb";
+import { TabContainerSection }              from "./front/CFW/Elements/TabContainerSection";
+import { Cart }                             from "./front/CFW/Elements/Cart";
 
 /**
  * This is our main kick off file. We used to do this in a require block in the Redirect file but since we've moved to

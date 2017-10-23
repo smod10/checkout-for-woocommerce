@@ -19,7 +19,7 @@ function get_argv_param(param){
 module.exports = {
     context: __dirname,
     entry: {
-        "checkout-woocommerce-front": ["./sources/js/vendor.js", './entry.ts']
+        "checkout-woocommerce-front": ["./sources/js/vendor.js", './sources/ts/entry.ts']
     },
     output: {
         filename: inProduction ? './assets/front/js/[name].min.js' : './assets/front/js/[name].js' //relative to root of the application
@@ -47,6 +47,9 @@ module.exports = {
                             }
                         },
                         {
+                            loader: 'resolve-url-loader'
+                        },
+                        {
                             loader: "sass-loader",
                             options: {
                                 sourceMap: true
@@ -59,7 +62,7 @@ module.exports = {
                 test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
                 loader: 'file-loader',
                 options: {
-                    name: '../img/[name].[hash].[ext]'
+                    name: './assets/front/img/[name].[ext]?[hash]',
                 }
             }
         ]

@@ -35,6 +35,8 @@ export class ValidationService {
 
     setup(): void {
         this.setEventListeners();
+        let max_iterations = 1000;
+        let iterations = 0;
 
         if(window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
             if(!this.validate(EValidationSections.SHIPPING)) {
@@ -48,17 +50,22 @@ export class ValidationService {
             $("#cfw-tab-container").easytabs("select", "#cfw-customer-info");
         };
 
-        if($temp("#shipping_postcode").length !== 0) {
+        if ( $temp("#shipping_postcode").length !== 0 ) {
             $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
             $temp("#shipping_state").parsley().on("field:error", shipping_action);
         }
 
         let interval: any = setInterval(() => {
-            if(w.Parsley !== undefined) {
+            if ( w.Parsley !== undefined ) {
                 this.setParsleyCustomValidators(w.Parsley);
                 clearInterval(interval);
+            } else if( iterations >= max_iterations ) {
+                // Give up
+                clearInterval(interval);
+            } else {
+                iterations++;
             }
-        }, 300);
+        }, 50);
     }
 
     setParsleyCustomValidators(parsley): void {

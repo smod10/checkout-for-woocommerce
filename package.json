@@ -16,6 +16,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/cgdinc/checkout-for-woocommerce#readme",
   "devDependencies": {
+    "clean-webpack-plugin": "^0.1.17",
     "copy-webpack-plugin": "^4.2.0",
     "css-loader": "^0.28.7",
     "del": "^2.2.2",

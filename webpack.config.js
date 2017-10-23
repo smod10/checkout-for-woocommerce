@@ -5,6 +5,16 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var WebpackZipPlugin = require('webpack-zip-plugin');
 var inProduction = (process.env.NODE_ENV === 'production');
+var version = get_argv_param('env.version') || false;
+
+function get_argv_param(param){
+    let result = '';
+    process.argv.forEach((argv)=>{
+        if(argv.indexOf('--' + param) === -1) return;
+        result = argv.split('=')[1];
+    });
+    return  result;
+}
 
 module.exports = {
     context: __dirname,
@@ -80,11 +90,16 @@ if ( inProduction ) {
                     }
                 }
             ]
-        ),
+        )
+    )
+}
+
+if ( inProduction && version !== false ) {
+    module.exports.plugins.push(
         new WebpackZipPlugin({
             initialFile: 'dist/checkout-for-woocommerce',
             endPath: './dist',
-            zipName: 'checkout-for-woocommerce-1.0.0.zip'
+            zipName: 'checkout-for-woocommerce-' + version + '.zip'
         })
-    )
+    );
 }

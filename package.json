@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "webpack",
     "production": "NODE_ENV=production webpack -p",
+    "build": "npm run production -- --env.version=$npm_package_version",
     "watch": "npm run dev -- --watch"
   },
   "repository": {
@@ -38,6 +39,7 @@
   "dependencies": {
     "EasyTabs": "git+https://github.com/JangoSteve/jQuery-EasyTabs.git#v3.2.0",
     "Garlic.js": "git+https://github.com/objectivco/Garlic.js.git#1.3.0-cgd",
+    "argv": "0.0.2",
     "garlic": "0.0.3",
     "moment": "^2.19.1",
     "normalize.css": "^7.0.0",

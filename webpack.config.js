@@ -46,7 +46,7 @@ module.exports = {
                 test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
                 loader: 'file-loader',
                 options: {
-                    name: './assets/front/img/[name].[hash].[ext]'
+                    name: '../img/[name].[hash].[ext]'
                 }
             }
         ]

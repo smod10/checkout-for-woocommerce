@@ -34,7 +34,6 @@
     "webpack": "^3.8.1",
     "webpack-notifier": "^1.5.0",
     "webpack-zip-plugin": "^0.1.2",
-    "zip-webpack-plugin": "^2.0.0"
   },
   "dependencies": {
     "EasyTabs": "git+https://github.com/JangoSteve/jQuery-EasyTabs.git#v3.2.0",

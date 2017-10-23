@@ -66,12 +66,6 @@ export class TabContainer extends Element {
             let email_input: JQuery = email_input_wrap.holder.jel;
             let reg_email: JQuery = $("#cfw-acc-register-chk");
 
-            email_input.garlic( {
-                onRetrieve: function ( elem, retrievedValue ) {
-                    new AccountExistsAction("account_exists", ajaxInfo, retrievedValue, elem).load();
-                }
-            } );
-
             // Handles page onload use case
             new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel).load();
 

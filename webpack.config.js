@@ -2,7 +2,8 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var WebpackNotifierPlugin = require('webpack-notifier');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-var CleanWebpackPlugin = require('clean-webpack-plugin'); //installed via npm
+var CleanWebpackPlugin = require('clean-webpack-plugin');
+var WebpackZipPlugin = require('webpack-zip-plugin');
 var inProduction = (process.env.NODE_ENV === 'production');
 
 module.exports = {
@@ -64,7 +65,6 @@ if ( inProduction ) {
         new CleanWebpackPlugin(
             'dist',
             {
-                root: './',
                 verbose: true
             }
         ),
@@ -73,9 +73,18 @@ if ( inProduction ) {
                 {
                     from:'.',
                     to:'dist/checkout-for-woocommerce',
-                    ignore: ['node_modules/**', 'dist/**', '.git/**']
+                    ignore: ['node_modules/**', 'dist/**', '.git/**'],
+                    transform: function(content, path) {
+                        
+                        return content;
+                    }
                 }
             ]
-        )
+        ),
+        new WebpackZipPlugin({
+            initialFile: 'dist/checkout-for-woocommerce',
+            endPath: './dist',
+            zipName: 'checkout-for-woocommerce-1.0.0.zip'
+        })
     )
 }

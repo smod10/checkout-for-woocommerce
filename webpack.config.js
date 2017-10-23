@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var WebpackNotifierPlugin = require('webpack-notifier');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var inProduction = (process.env.NODE_ENV === 'production');
 
 module.exports = {
@@ -56,3 +57,17 @@ module.exports = {
         new WebpackNotifierPlugin({ alwaysNotify: true })
     ]
 };
+
+if ( inProduction ) {
+    module.exports.plugins.push(
+        new CopyWebpackPlugin(
+            [
+                {
+                    from:'.',
+                    to:'dist/checkout-for-woocommerce',
+                    ignore: './node_modules/*'
+                }
+            ]
+        )
+    )
+}

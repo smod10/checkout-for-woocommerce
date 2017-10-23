@@ -469,7 +469,6 @@ class Main extends Singleton {
 			$valid = false;
 		}
 
-//		return $valid;
-		return true;
+		return $valid;
 	}
 }

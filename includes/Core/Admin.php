@@ -342,14 +342,16 @@ class Admin {
 	}
 
 	/**
-	 * renewal or purchase notice
+	 * @param $key_status
+	 * @param $license_key
+	 *
 	 * @return String The renewal or purchase notice.
 	 */
 	function renew_or_purchase_nag( $key_status, $license_key ) {
 		if ( $key_status == "expired" ) {
-			return __( 'Checkout for WooCommerce: Your license key appears to have expired. Please verify that your license key is valid or <a target="_blank" href="https://www.checkoutwc.com/checkout/?edd_license_key=' . $license_key .'">renew your license now</a> to restore full functionality.', 'act');
-		} else {
-			return __( 'Checkout for WooCommerce: Your license key is missing or invalid. Please verify that your license key is valid or <a target="_blank" href="https://checkoutwc.com/">purchase a license</a> to restore full functionality.', 'act');
+			return __( 'Checkout for WooCommerce: Your license key appears to have expired. Please verify that your license key is valid or <a target="_blank" href="https://www.checkoutwc.com/checkout/?edd_license_key=' . $license_key .'">renew your license now</a> to restore full functionality.', 'checkout-wc');
 		}
+
+		return __( 'Checkout for WooCommerce: Your license key is missing or invalid. Please verify that your license key is valid or <a target="_blank" href="https://checkoutwc.com/">purchase a license</a> to restore full functionality.', 'checkout-wc');
 	}
 }

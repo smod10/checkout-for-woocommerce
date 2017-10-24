@@ -60,11 +60,10 @@ export class UpdateShippingFieldsAction extends Action {
     }
 
     /**
-     *
      * @param resp
      */
     @ResponsePrep
-    public response(resp: UpdateShippingFieldsResponse) {
+    public response(resp: UpdateShippingFieldsResponse): void {
         if(!resp.error) {
             let ufi_arr: Array<CustomerDataInfo> = [];
             let updated_shipping_methods: Array<any> = [];

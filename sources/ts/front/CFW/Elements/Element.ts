@@ -4,12 +4,12 @@
 export class Element {
 
     /**
-     *
+     * @type {JQuery}
+     * @protected
      */
     protected _jel: JQuery;
 
     /**
-     *
      * @param jel
      */
     constructor(jel: JQuery) {
@@ -17,7 +17,6 @@ export class Element {
     }
 
     /**
-     *
      * @returns {JQuery}
      */
     get jel(): JQuery {
@@ -25,7 +24,6 @@ export class Element {
     }
 
     /**
-     *
      * @param value
      */
     set jel(value: JQuery) {

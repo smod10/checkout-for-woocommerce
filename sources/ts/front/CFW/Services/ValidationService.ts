@@ -1,6 +1,5 @@
 import { TabContainer }                         from "../Elements/TabContainer";
 
-let Parsley: any;
 let w: any = window;
 
 export enum EValidationSections {
@@ -39,6 +38,9 @@ export class ValidationService {
         this.setup();
     }
 
+    /**
+     *
+     */
     setup(): void {
         this.setEventListeners();
         let max_iterations = 1000;
@@ -74,6 +76,9 @@ export class ValidationService {
         }, 50);
     }
 
+    /**
+     * @param parsley
+     */
     setParsleyCustomValidators(parsley): void {
         parsley.addValidator('stateAndZip', {
             validateString: function(_ignoreValue, country, instance) {
@@ -151,6 +156,9 @@ export class ValidationService {
         });
     }
 
+    /**
+     *
+     */
     setEventListeners(): void {
         this.tabContainer.jel.bind('easytabs:before', function(event, clicked, target, settings) {
             let currentPanelIndex: number;
@@ -183,6 +191,10 @@ export class ValidationService {
         }.bind(this));
     }
 
+    /**
+     * @param {EValidationSections} section
+     * @returns {any}
+     */
     validate(section: EValidationSections): any {
         let validated: boolean;
 
@@ -204,26 +216,44 @@ export class ValidationService {
         return validated;
     }
 
+    /**
+     * @returns {Array<JQuery>}
+     */
     get easyTabsOrder(): Array<JQuery> {
         return this._easyTabsOrder;
     }
 
+    /**
+     * @param {Array<JQuery>} value
+     */
     set easyTabsOrder(value: Array<JQuery>) {
         this._easyTabsOrder = value;
     }
 
+    /**
+     * @returns {TabContainer}
+     */
     get tabContainer(): TabContainer {
         return this._tabContainer;
     }
 
+    /**
+     * @param {TabContainer} value
+     */
     set tabContainer(value: TabContainer) {
         this._tabContainer = value;
     }
 
+    /**
+     * @returns {boolean}
+     */
     static get cityStateValidating(): boolean {
         return this._cityStateValidating;
     }
 
+    /**
+     * @param {boolean} value
+     */
     static set cityStateValidating(value: boolean) {
         this._cityStateValidating = value;
     }

@@ -12,9 +12,7 @@ import { UpdateShippingFieldsAction }       from "../Actions/UpdateShippingField
 import { UpdateShippingMethodAction }       from "../Actions/UpdateShippingMethodAction";
 import { Cart }                             from "./Cart";
 import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
-import { CompleteOrderCheckoutData }        from "../Types/Types";
 import { Main }                             from "../Main";
-import { Alert, AlertInfo }                 from "../Elements/Alert";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { EValidationSections }              from "../Services/ValidationService";
 
@@ -24,24 +22,18 @@ import { EValidationSections }              from "../Services/ValidationService"
 export class TabContainer extends Element {
 
     /**
-     *
+     * @type {TabContainerBreadcrumb}
+     * @private
      */
     private _tabContainerBreadcrumb: TabContainerBreadcrumb;
 
     /**
-     *
+     * @type {[TabContainerSection]}
+     * @private
      */
     private _tabContainerSections: Array<TabContainerSection>;
 
     /**
-     *
-     * @type {boolean}
-     * @private
-     */
-    private _sendOrder: boolean = false;
-
-    /**
-     *
      * @param jel
      * @param tabContainerBreadcrumb
      * @param tabContainerSections
@@ -54,7 +46,6 @@ export class TabContainer extends Element {
     }
 
     /**
-     *
      * @param ajaxInfo
      */
     setAccountCheckListener(ajaxInfo: AjaxInfo) {
@@ -83,7 +74,6 @@ export class TabContainer extends Element {
     }
 
     /**
-     *
      * @param ajaxInfo
      */
     setLogInListener(ajaxInfo: AjaxInfo) {
@@ -165,6 +155,9 @@ export class TabContainer extends Element {
         return new UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer);
     }
 
+    /**
+     *
+     */
     setUpCreditCardRadioReveal() {
         let stripe_container: JQuery = $(".payment_method_stripe");
 
@@ -199,6 +192,9 @@ export class TabContainer extends Element {
         }
     }
 
+    /**
+     *
+     */
     setUpCreditCardFields() {
         // Stripe Form
         let stripe_form_wraps = $("#wc-stripe-cc-form .form-row");
@@ -278,6 +274,9 @@ export class TabContainer extends Element {
         });
     }
 
+    /**
+     *
+     */
     setUpPaymentTabRadioButtons() {
         // The payment radio buttons to register the click events too
         let payment_radio_buttons: Array<Element> = this
@@ -386,6 +385,9 @@ export class TabContainer extends Element {
         })
     }
 
+    /**
+     *
+     */
     setUpMobileCartDetailsReveal(): void {
         let showCartDetails: Element = new Element($("#cfw-show-cart-details"));
         showCartDetails.jel.on('click', () => {
@@ -402,6 +404,9 @@ export class TabContainer extends Element {
         })
     }
 
+    /**
+     * @returns {{}}
+     */
     getOrderDetails() {
         let ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
         let payment_method = $('[name="payment_method"]:checked').val();
@@ -511,6 +516,10 @@ export class TabContainer extends Element {
         return completeOrderCheckoutData;
     }
 
+    /**
+     * @param {AjaxInfo} ajaxInfo
+     * @param {Cart} cart
+     */
     setCompleteOrder(ajaxInfo: AjaxInfo, cart: Cart): void {
         let completeOrderButton: Element = new Element($("#cfw-complete-order-button"));
 
@@ -540,6 +549,10 @@ export class TabContainer extends Element {
         });
     }
 
+    /**
+     * @param {AjaxInfo} ajaxInfo
+     * @param {Cart} cart
+     */
     setApplyCouponListener(ajaxInfo: AjaxInfo, cart: Cart) {
         $("#cfw-promo-code-btn").on('click', () => {
             new ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart).load();
@@ -547,7 +560,6 @@ export class TabContainer extends Element {
     }
 
     /**
-     *
      * @returns {UpdateShippingFieldsRI}
      */
     getUpdateShippingRequiredItems(): UpdateShippingFieldsRI {
@@ -571,7 +583,6 @@ export class TabContainer extends Element {
     }
 
     /**
-     *
      * @param by
      * @param value
      * @returns {TabContainerSection}
@@ -581,7 +592,6 @@ export class TabContainer extends Element {
     }
 
     /**
-     *
      * @returns {TabContainerBreadcrumb}
      */
     get tabContainerBreadcrumb(): TabContainerBreadcrumb {
@@ -589,7 +599,6 @@ export class TabContainer extends Element {
     }
 
     /**
-     *
      * @param value
      */
     set tabContainerBreadcrumb(value: TabContainerBreadcrumb) {
@@ -597,7 +606,6 @@ export class TabContainer extends Element {
     }
 
     /**
-     *
      * @returns {Array<TabContainerSection>}
      */
     get tabContainerSections(): Array<TabContainerSection> {
@@ -605,18 +613,9 @@ export class TabContainer extends Element {
     }
 
     /**
-     *
      * @param value
      */
     set tabContainerSections(value: Array<TabContainerSection>) {
         this._tabContainerSections = value;
-    }
-
-    get sendOrder(): boolean {
-        return this._sendOrder;
-    }
-
-    set sendOrder(value: boolean) {
-        this._sendOrder = value;
     }
 }

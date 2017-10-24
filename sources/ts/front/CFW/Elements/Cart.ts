@@ -71,6 +71,10 @@ export class Cart extends Element {
         Cart.outputValue(cart.reviewBarTotal, values.new_total);
     }
 
+    /**
+     * @param {Element} cartLineItem
+     * @param coupons
+     */
     static outputCoupons(cartLineItem: Element, coupons: any) {
         cartLineItem.jel.html("");
 

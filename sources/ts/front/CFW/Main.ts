@@ -8,7 +8,7 @@ import { TabContainerSection } 		from "./Elements/TabContainerSection";
 import { ValidationService } 		from "./Services/ValidationService";
 
 /**
- *
+ * The main class of the front end checkout system
  */
 export class Main {
 
@@ -19,7 +19,8 @@ export class Main {
 	private _tabContainer: TabContainer;
 
 	/**
-	 *
+	 * @type {Cart}
+	 * @private
 	 */
 	private _cart: Cart;
 
@@ -30,22 +31,25 @@ export class Main {
 	private _ajaxInfo: AjaxInfo;
 
     /**
-	 *
+	 * @type {AjaxInfo}
+	 * @private
      */
 	private _settings: any;
 
     /**
-	 *
+	 * @type {ValidationService}
+	 * @private
      */
 	private _validationService: ValidationService;
 
     /**
-	 *
+	 * @type {Main}
+	 * @private
+	 * @static
      */
 	private static _instance: Main;
 
 	/**
-	 *
 	 * @param tabContainer
 	 * @param ajaxInfo
 	 * @param cart
@@ -65,7 +69,7 @@ export class Main {
 	 * Sets up the tab container by running easy tabs, setting up animation listeners, and setting up events and on load
 	 * functionality
 	 */
-	setup() {
+	setup(): void {
 		// Setup easy tabs
 		this.tabContainer.easyTabs();
 
@@ -102,14 +106,13 @@ export class Main {
 	/**
 	 * Sets up animation listeners
 	 */
-	setupAnimationListeners() {
+	setupAnimationListeners(): void {
 		$("#cfw-ci-login").on("click", function(){
 			$("#cfw-login-slide").slideDown(300);
 		});
 	}
 
 	/**
-	 *
 	 * @returns {TabContainer}
 	 */
 	get tabContainer() {
@@ -117,7 +120,6 @@ export class Main {
 	}
 
 	/**
-	 *
 	 * @param value
 	 */
 	set tabContainer(value: TabContainer) {
@@ -125,7 +127,6 @@ export class Main {
 	}
 
 	/**
-	 *
 	 * @returns {AjaxInfo}
 	 */
 	get ajaxInfo(): AjaxInfo {
@@ -133,7 +134,6 @@ export class Main {
 	}
 
 	/**
-	 * 
 	 * @param value
 	 */
 	set ajaxInfo(value: AjaxInfo) {
@@ -141,7 +141,6 @@ export class Main {
 	}
 
 	/**
-	 *
 	 * @returns {Cart}
 	 */
 	get cart(): Cart {
@@ -149,33 +148,50 @@ export class Main {
 	}
 
 	/**
-	 *
 	 * @param value
 	 */
 	set cart(value: Cart) {
 		this._cart = value;
 	}
 
+    /**
+     * @returns {any}
+     */
     get settings(): any {
         return this._settings;
     }
 
+    /**
+     * @param value
+     */
     set settings(value: any) {
         this._settings = value;
     }
 
+    /**
+     * @returns {ValidationService}
+     */
     get validationService(): ValidationService {
         return this._validationService;
     }
 
+    /**
+     * @param {ValidationService} value
+     */
     set validationService(value: ValidationService) {
         this._validationService = value;
     }
 
+    /**
+     * @returns {Main}
+     */
     static get instance(): Main {
         return Main._instance;
     }
 
+    /**
+     * @param {Main} value
+     */
     static set instance(value: Main) {
 		if(!Main._instance) {
             Main._instance = value;

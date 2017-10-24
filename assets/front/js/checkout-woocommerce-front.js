@@ -75,7 +75,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 var Element = /** @class */ (function () {
     /**
-     *
      * @param jel
      */
     function Element(jel) {
@@ -83,14 +82,12 @@ var Element = /** @class */ (function () {
     }
     Object.defineProperty(Element.prototype, "jel", {
         /**
-         *
          * @returns {JQuery}
          */
         get: function () {
             return this._jel;
         },
         /**
-         *
          * @param value
          */
         set: function (value) {
@@ -303,6 +300,10 @@ var Cart = /** @class */ (function (_super) {
         Cart.outputValue(cart.total, values.new_total);
         Cart.outputValue(cart.reviewBarTotal, values.new_total);
     };
+    /**
+     * @param {Element} cartLineItem
+     * @param coupons
+     */
     Cart.outputCoupons = function (cartLineItem, coupons) {
         cartLineItem.jel.html("");
         if (cartLineItem.jel.length > 0) {
@@ -440,11 +441,10 @@ exports.Cart = Cart;
 Object.defineProperty(exports, "__esModule", { value: true });
 var ValidationService_1 = __webpack_require__(6);
 /**
- *
+ * The main class of the front end checkout system
  */
 var Main = /** @class */ (function () {
     /**
-     *
      * @param tabContainer
      * @param ajaxInfo
      * @param cart
@@ -500,14 +500,12 @@ var Main = /** @class */ (function () {
     };
     Object.defineProperty(Main.prototype, "tabContainer", {
         /**
-         *
          * @returns {TabContainer}
          */
         get: function () {
             return this._tabContainer;
         },
         /**
-         *
          * @param value
          */
         set: function (value) {
@@ -518,14 +516,12 @@ var Main = /** @class */ (function () {
     });
     Object.defineProperty(Main.prototype, "ajaxInfo", {
         /**
-         *
          * @returns {AjaxInfo}
          */
         get: function () {
             return this._ajaxInfo;
         },
         /**
-         *
          * @param value
          */
         set: function (value) {
@@ -536,14 +532,12 @@ var Main = /** @class */ (function () {
     });
     Object.defineProperty(Main.prototype, "cart", {
         /**
-         *
          * @returns {Cart}
          */
         get: function () {
             return this._cart;
         },
         /**
-         *
          * @param value
          */
         set: function (value) {
@@ -553,9 +547,15 @@ var Main = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Main.prototype, "settings", {
+        /**
+         * @returns {any}
+         */
         get: function () {
             return this._settings;
         },
+        /**
+         * @param value
+         */
         set: function (value) {
             this._settings = value;
         },
@@ -563,9 +563,15 @@ var Main = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Main.prototype, "validationService", {
+        /**
+         * @returns {ValidationService}
+         */
         get: function () {
             return this._validationService;
         },
+        /**
+         * @param {ValidationService} value
+         */
         set: function (value) {
             this._validationService = value;
         },
@@ -573,9 +579,15 @@ var Main = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Main, "instance", {
+        /**
+         * @returns {Main}
+         */
         get: function () {
             return Main._instance;
         },
+        /**
+         * @param {Main} value
+         */
         set: function (value) {
             if (!Main._instance) {
                 Main._instance = value;
@@ -596,7 +608,6 @@ exports.Main = Main;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Parsley;
 var w = window;
 var EValidationSections;
 (function (EValidationSections) {
@@ -618,6 +629,9 @@ var ValidationService = /** @class */ (function () {
         this.easyTabsOrder = [$("#cfw-customer-info"), $("#cfw-shipping-method"), $("#cfw-payment-method")];
         this.setup();
     }
+    /**
+     *
+     */
     ValidationService.prototype.setup = function () {
         var _this = this;
         this.setEventListeners();
@@ -651,6 +665,9 @@ var ValidationService = /** @class */ (function () {
             }
         }, 50);
     };
+    /**
+     * @param parsley
+     */
     ValidationService.prototype.setParsleyCustomValidators = function (parsley) {
         parsley.addValidator('stateAndZip', {
             validateString: function (_ignoreValue, country, instance) {
@@ -710,6 +727,9 @@ var ValidationService = /** @class */ (function () {
             messages: { en: 'Zip is not valid for country "%s"' }
         });
     };
+    /**
+     *
+     */
     ValidationService.prototype.setEventListeners = function () {
         this.tabContainer.jel.bind('easytabs:before', function (event, clicked, target, settings) {
             var currentPanelIndex;
@@ -734,6 +754,10 @@ var ValidationService = /** @class */ (function () {
             return true;
         }.bind(this));
     };
+    /**
+     * @param {EValidationSections} section
+     * @returns {any}
+     */
     ValidationService.prototype.validate = function (section) {
         var validated;
         switch (section) {
@@ -752,9 +776,15 @@ var ValidationService = /** @class */ (function () {
         return validated;
     };
     Object.defineProperty(ValidationService.prototype, "easyTabsOrder", {
+        /**
+         * @returns {Array<JQuery>}
+         */
         get: function () {
             return this._easyTabsOrder;
         },
+        /**
+         * @param {Array<JQuery>} value
+         */
         set: function (value) {
             this._easyTabsOrder = value;
         },
@@ -762,9 +792,15 @@ var ValidationService = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(ValidationService.prototype, "tabContainer", {
+        /**
+         * @returns {TabContainer}
+         */
         get: function () {
             return this._tabContainer;
         },
+        /**
+         * @param {TabContainer} value
+         */
         set: function (value) {
             this._tabContainer = value;
         },
@@ -772,9 +808,15 @@ var ValidationService = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(ValidationService, "cityStateValidating", {
+        /**
+         * @returns {boolean}
+         */
         get: function () {
             return this._cityStateValidating;
         },
+        /**
+         * @param {boolean} value
+         */
         set: function (value) {
             this._cityStateValidating = value;
         },
@@ -840,14 +882,12 @@ var Alert = /** @class */ (function (_super) {
     };
     Object.defineProperty(Alert.prototype, "alertInfo", {
         /**
-         *
          * @returns {AlertInfo}
          */
         get: function () {
             return this._alertInfo;
         },
         /**
-         *
          * @param value
          */
         set: function (value) {
@@ -857,9 +897,15 @@ var Alert = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(Alert, "previousClass", {
+        /**
+         * @returns {string}
+         */
         get: function () {
             return this._previousClass;
         },
+        /**
+         * @param {string} value
+         */
         set: function (value) {
             this._previousClass = value;
         },
@@ -896,13 +942,11 @@ var LabelType_1 = __webpack_require__(9);
 var FormElement = /** @class */ (function (_super) {
     __extends(FormElement, _super);
     /**
-     *
      * @param jel
      */
     function FormElement(jel) {
         var _this = _super.call(this, jel) || this;
         /**
-         *
          * @type {Array}
          * @private
          */
@@ -910,7 +954,6 @@ var FormElement = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
      * @returns {any}
      */
     FormElement.getLabelTypes = function () {
@@ -926,7 +969,6 @@ var FormElement = /** @class */ (function (_super) {
         this.wrapClassSwap(this.holder.jel.val());
     };
     /**
-     *
      * @param tjel
      * @param useType
      */
@@ -946,7 +988,6 @@ var FormElement = /** @class */ (function (_super) {
         }
     };
     /**
-     *
      * @param value
      */
     FormElement.prototype.wrapClassSwap = function (value) {
@@ -976,14 +1017,12 @@ var FormElement = /** @class */ (function (_super) {
     };
     Object.defineProperty(FormElement, "labelClass", {
         /**
-         *
          * @returns {string}
          */
         get: function () {
             return FormElement._labelClass;
         },
         /**
-         *
          * @param value
          */
         set: function (value) {
@@ -994,14 +1033,12 @@ var FormElement = /** @class */ (function (_super) {
     });
     Object.defineProperty(FormElement.prototype, "eventCallbacks", {
         /**
-         *
          * @returns {Array<EventCallback>}
          */
         get: function () {
             return this._eventCallbacks;
         },
         /**
-         *
          * @param value
          */
         set: function (value) {
@@ -1012,14 +1049,12 @@ var FormElement = /** @class */ (function (_super) {
     });
     Object.defineProperty(FormElement.prototype, "moduleContainer", {
         /**
-         *
          * @returns {JQuery}
          */
         get: function () {
             return this._moduleContainer;
         },
         /**
-         *
          * @param value
          */
         set: function (value) {
@@ -1030,14 +1065,12 @@ var FormElement = /** @class */ (function (_super) {
     });
     Object.defineProperty(FormElement.prototype, "holder", {
         /**
-         *
          * @returns {Element}
          */
         get: function () {
             return this._holder;
         },
         /**
-         *
          * @param value
          */
         set: function (value) {
@@ -1047,7 +1080,6 @@ var FormElement = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     *
      * @type {string}
      * @private
      */
@@ -1253,25 +1285,17 @@ var ValidationService_1 = __webpack_require__(6);
 var TabContainer = /** @class */ (function (_super) {
     __extends(TabContainer, _super);
     /**
-     *
      * @param jel
      * @param tabContainerBreadcrumb
      * @param tabContainerSections
      */
     function TabContainer(jel, tabContainerBreadcrumb, tabContainerSections) {
         var _this = _super.call(this, jel) || this;
-        /**
-         *
-         * @type {boolean}
-         * @private
-         */
-        _this._sendOrder = false;
         _this.tabContainerBreadcrumb = tabContainerBreadcrumb;
         _this.tabContainerSections = tabContainerSections;
         return _this;
     }
     /**
-     *
      * @param ajaxInfo
      */
     TabContainer.prototype.setAccountCheckListener = function (ajaxInfo) {
@@ -1294,7 +1318,6 @@ var TabContainer = /** @class */ (function (_super) {
         }
     };
     /**
-     *
      * @param ajaxInfo
      */
     TabContainer.prototype.setLogInListener = function (ajaxInfo) {
@@ -1359,6 +1382,9 @@ var TabContainer = /** @class */ (function (_super) {
         var cdi = { field_type: type, field_value: value };
         return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer);
     };
+    /**
+     *
+     */
     TabContainer.prototype.setUpCreditCardRadioReveal = function () {
         var stripe_container = $(".payment_method_stripe");
         if (stripe_container.length > 0) {
@@ -1389,6 +1415,9 @@ var TabContainer = /** @class */ (function (_super) {
             });
         }
     };
+    /**
+     *
+     */
     TabContainer.prototype.setUpCreditCardFields = function () {
         // Stripe Form
         var stripe_form_wraps = $("#wc-stripe-cc-form .form-row");
@@ -1452,6 +1481,9 @@ var TabContainer = /** @class */ (function (_super) {
             }
         });
     };
+    /**
+     *
+     */
     TabContainer.prototype.setUpPaymentTabRadioButtons = function () {
         // The payment radio buttons to register the click events too
         var payment_radio_buttons = this
@@ -1545,6 +1577,9 @@ var TabContainer = /** @class */ (function (_super) {
             match.children(".field_value").text(feFieldValue);
         });
     };
+    /**
+     *
+     */
     TabContainer.prototype.setUpMobileCartDetailsReveal = function () {
         var showCartDetails = new Element_1.Element($("#cfw-show-cart-details"));
         showCartDetails.jel.on('click', function () {
@@ -1560,6 +1595,9 @@ var TabContainer = /** @class */ (function (_super) {
             }
         });
     };
+    /**
+     * @returns {{}}
+     */
     TabContainer.prototype.getOrderDetails = function () {
         var ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
         var payment_method = $('[name="payment_method"]:checked').val();
@@ -1656,6 +1694,10 @@ var TabContainer = /** @class */ (function (_super) {
         }
         return completeOrderCheckoutData;
     };
+    /**
+     * @param {AjaxInfo} ajaxInfo
+     * @param {Cart} cart
+     */
     TabContainer.prototype.setCompleteOrder = function (ajaxInfo, cart) {
         var _this = this;
         var completeOrderButton = new Element_1.Element($("#cfw-complete-order-button"));
@@ -1680,13 +1722,16 @@ var TabContainer = /** @class */ (function (_super) {
             }
         });
     };
+    /**
+     * @param {AjaxInfo} ajaxInfo
+     * @param {Cart} cart
+     */
     TabContainer.prototype.setApplyCouponListener = function (ajaxInfo, cart) {
         $("#cfw-promo-code-btn").on('click', function () {
             new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart).load();
         });
     };
     /**
-     *
      * @returns {UpdateShippingFieldsRI}
      */
     TabContainer.prototype.getUpdateShippingRequiredItems = function () {
@@ -1706,7 +1751,6 @@ var TabContainer = /** @class */ (function (_super) {
         this.jel.easytabs();
     };
     /**
-     *
      * @param by
      * @param value
      * @returns {TabContainerSection}
@@ -1716,14 +1760,12 @@ var TabContainer = /** @class */ (function (_super) {
     };
     Object.defineProperty(TabContainer.prototype, "tabContainerBreadcrumb", {
         /**
-         *
          * @returns {TabContainerBreadcrumb}
          */
         get: function () {
             return this._tabContainerBreadcrumb;
         },
         /**
-         *
          * @param value
          */
         set: function (value) {
@@ -1734,28 +1776,16 @@ var TabContainer = /** @class */ (function (_super) {
     });
     Object.defineProperty(TabContainer.prototype, "tabContainerSections", {
         /**
-         *
          * @returns {Array<TabContainerSection>}
          */
         get: function () {
             return this._tabContainerSections;
         },
         /**
-         *
          * @param value
          */
         set: function (value) {
             this._tabContainerSections = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TabContainer.prototype, "sendOrder", {
-        get: function () {
-            return this._sendOrder;
-        },
-        set: function (value) {
-            this._sendOrder = value;
         },
         enumerable: true,
         configurable: true
@@ -1797,7 +1827,6 @@ var ResponsePrep_1 = __webpack_require__(3);
 var AccountExistsAction = /** @class */ (function (_super) {
     __extends(AccountExistsAction, _super);
     /**
-     *
      * @param id
      * @param ajaxInfo
      * @param email
@@ -1858,9 +1887,15 @@ var AccountExistsAction = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(AccountExistsAction, "checkBox", {
+        /**
+         * @returns {boolean}
+         */
         get: function () {
             return AccountExistsAction._checkBox;
         },
+        /**
+         * @param {boolean} value
+         */
         set: function (value) {
             AccountExistsAction._checkBox = value;
         },
@@ -2009,7 +2044,6 @@ var UpdateShippingFieldsAction = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
      * @param resp
      */
     UpdateShippingFieldsAction.prototype.response = function (resp) {
@@ -2145,6 +2179,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
 var ResponsePrep_1 = __webpack_require__(3);
 var Cart_1 = __webpack_require__(4);
+/**
+ *
+ */
 var UpdateShippingMethodAction = /** @class */ (function (_super) {
     __extends(UpdateShippingMethodAction, _super);
     /**
@@ -2394,7 +2431,6 @@ var CompleteOrderAction = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     *
      * @param resp
      */
     CompleteOrderAction.prototype.response = function (resp) {
@@ -2412,6 +2448,9 @@ var CompleteOrderAction = /** @class */ (function (_super) {
             this.resetData();
         }
     };
+    /**
+     *
+     */
     CompleteOrderAction.prototype.resetData = function () {
         var _this = this;
         $('#cfw-password').val(this.data["account_password"]);
@@ -2568,6 +2607,10 @@ var StripeService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @type {[string]}
+     * @private
+     */
     StripeService._serviceUrls = ["https://js.stripe.com"];
     return StripeService;
 }());
@@ -2598,11 +2641,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
-var ResponsePrep_1 = __webpack_require__(3);
 var Cart_1 = __webpack_require__(4);
 var Alert_1 = __webpack_require__(7);
+var ResponsePrep_1 = __webpack_require__(3);
+/**
+ *
+ */
 var ApplyCouponAction = /** @class */ (function (_super) {
     __extends(ApplyCouponAction, _super);
+    /**
+     * @param {string} id
+     * @param {AjaxInfo} ajaxInfo
+     * @param {string} code
+     * @param {Cart} cart
+     */
     function ApplyCouponAction(id, ajaxInfo, code, cart) {
         var _this = this;
         var data = {
@@ -2614,6 +2666,9 @@ var ApplyCouponAction = /** @class */ (function (_super) {
         _this.cart = cart;
         return _this;
     }
+    /**
+     * @param resp
+     */
     ApplyCouponAction.prototype.response = function (resp) {
         var alertInfo;
         if (resp.new_totals) {
@@ -2643,9 +2698,15 @@ var ApplyCouponAction = /** @class */ (function (_super) {
         alert.addAlert();
     };
     Object.defineProperty(ApplyCouponAction.prototype, "cart", {
+        /**
+         * @returns {Cart}
+         */
         get: function () {
             return this._cart;
         },
+        /**
+         * @param {Cart} value
+         */
         set: function (value) {
             this._cart = value;
         },
@@ -2968,7 +3029,6 @@ var FormElement_1 = __webpack_require__(8);
 var InputLabelWrap = /** @class */ (function (_super) {
     __extends(InputLabelWrap, _super);
     /**
-     *
      * @param jel
      */
     function InputLabelWrap(jel) {
@@ -3011,7 +3071,6 @@ var FormElement_1 = __webpack_require__(8);
 var SelectLabelWrap = /** @class */ (function (_super) {
     __extends(SelectLabelWrap, _super);
     /**
-     *
      * @param jel
      */
     function SelectLabelWrap(jel) {

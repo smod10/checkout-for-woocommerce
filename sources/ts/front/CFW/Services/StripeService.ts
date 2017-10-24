@@ -9,6 +9,10 @@ import { StripeServiceCallbacks }                       from "../Types/Types";
  */
 export class StripeService {
 
+    /**
+     * @type {[string]}
+     * @private
+     */
     private static _serviceUrls: Array<string> = ["https://js.stripe.com"];
 
     /**

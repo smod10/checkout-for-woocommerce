@@ -5,6 +5,9 @@ import { UpdateShippingMethodResponse }     from "../Types/Types";
 import { ResponsePrep }                     from "../Decorators/ResponsePrep";
 import { Cart }                             from "../Elements/Cart";
 
+/**
+ *
+ */
 export class UpdateShippingMethodAction extends Action {
 
     /**
@@ -35,7 +38,7 @@ export class UpdateShippingMethodAction extends Action {
      * @param resp
      */
     @ResponsePrep
-    public response(resp: UpdateShippingMethodResponse) {
+    public response(resp: UpdateShippingMethodResponse): void {
         if(resp.new_totals) {
             Cart.outputValues(this.cart, resp.new_totals);
         }

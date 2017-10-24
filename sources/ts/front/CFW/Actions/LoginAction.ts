@@ -11,7 +11,9 @@ import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 export class LoginAction extends Action {
 
     /**
-     *
+     * @type {boolean}
+     * @private
+     * @static
      */
     private static _loginLocked: boolean;
 
@@ -38,7 +40,7 @@ export class LoginAction extends Action {
      * @param resp
      */
     @ResponsePrep
-    public response(resp: LogInResponse) {
+    public response(resp: LogInResponse): void {
 
         if(resp.logged_in) {
             location.reload();

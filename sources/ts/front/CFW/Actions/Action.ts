@@ -44,7 +44,7 @@ export abstract class Action {
      * Our ajax response handler. Overridden in child classes
      * @param resp
      */
-    abstract response(resp: Object);
+    abstract response(resp: Object): void;
 
     /**
      * @returns {string}

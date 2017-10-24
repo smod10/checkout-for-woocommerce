@@ -23,7 +23,6 @@ export class AccountExistsAction extends Action {
     private static _checkBox: boolean = true;
 
     /**
-     *
      * @param id
      * @param ajaxInfo
      * @param email
@@ -48,7 +47,7 @@ export class AccountExistsAction extends Action {
      * @param resp
      */
     @ResponsePrep
-    public response(resp: AccountExistsResponse) {
+    public response(resp: AccountExistsResponse): void {
         let login_slide: any = $("#cfw-login-slide");
         let register_user_checkbox: any = $("#cfw-acc-register-chk")[0];
         let register_container: any = $("#cfw-login-details .cfw-check-input");
@@ -88,10 +87,16 @@ export class AccountExistsAction extends Action {
         this._ezTabContainer = value;
     }
 
+    /**
+     * @returns {boolean}
+     */
     static get checkBox(): boolean {
         return AccountExistsAction._checkBox;
     }
 
+    /**
+     * @param {boolean} value
+     */
     static set checkBox(value: boolean) {
         AccountExistsAction._checkBox = value;
     }

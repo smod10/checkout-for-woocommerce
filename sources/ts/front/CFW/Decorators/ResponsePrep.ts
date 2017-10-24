@@ -26,5 +26,4 @@ export function ResponsePrep(target: Object, propertyKey: string, descriptor: Pr
 
     // return edited descriptor as opposed to overwriting the descriptor
     return descriptor;
-
 }

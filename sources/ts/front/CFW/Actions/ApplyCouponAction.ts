@@ -1,12 +1,26 @@
-import { Action } from "./Action";
-import { AjaxInfo } from "../Types/Types";
-import { ResponsePrep } from "../Decorators/ResponsePrep";
-import { Cart } from "../Elements/Cart";
-import { Alert, AlertInfo } from "../Elements/Alert";
+import { Action }                       from "./Action";
+import { AjaxInfo }                     from "../Types/Types";
+import { Cart }                         from "../Elements/Cart";
+import { Alert, AlertInfo }             from "../Elements/Alert";
+import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 
+/**
+ *
+ */
 export class ApplyCouponAction extends Action {
+
+    /**
+     * @type {Cart}
+     * @private
+     */
     private _cart: Cart;
 
+    /**
+     * @param {string} id
+     * @param {AjaxInfo} ajaxInfo
+     * @param {string} code
+     * @param {Cart} cart
+     */
     constructor(id: string, ajaxInfo: AjaxInfo, code: string, cart: Cart) {
         let data: {} = {
             action: id,
@@ -19,8 +33,11 @@ export class ApplyCouponAction extends Action {
         this.cart = cart;
     }
 
+    /**
+     * @param resp
+     */
     @ResponsePrep
-    public response(resp: any) {
+    public response(resp: any): void {
         let alertInfo: AlertInfo;
 
         if(resp.new_totals) {
@@ -55,10 +72,16 @@ export class ApplyCouponAction extends Action {
         alert.addAlert();
     }
 
+    /**
+     * @returns {Cart}
+     */
     get cart(): Cart {
         return this._cart;
     }
 
+    /**
+     * @param {Cart} value
+     */
     set cart(value: Cart) {
         this._cart = value;
     }

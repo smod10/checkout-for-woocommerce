@@ -8,31 +8,30 @@ import { EventCallback }        from "../Types/Types";
 export class FormElement extends Element {
 
     /**
-     *
      * @type {string}
      * @private
      */
     protected static _labelClass: string = "cfw-floating-label";
 
     /**
-     *
      * @type {Array}
      * @private
      */
     protected _eventCallbacks: Array<EventCallback> = [];
 
     /**
-     *
+     * @type {JQuery}
+     * @private
      */
     private _moduleContainer: JQuery;
 
     /**
-     *
+     * @type {Element}
+     * @private
      */
     private _holder: Element;
 
     /**
-     *
      * @param jel
      */
     constructor(jel: JQuery) {
@@ -40,7 +39,6 @@ export class FormElement extends Element {
     }
 
     /**
-     *
      * @returns {any}
      */
     static getLabelTypes(): Array<any> {
@@ -59,7 +57,6 @@ export class FormElement extends Element {
     }
 
     /**
-     *
      * @param tjel
      * @param useType
      */
@@ -83,7 +80,6 @@ export class FormElement extends Element {
     }
 
     /**
-     *
      * @param value
      */
     wrapClassSwap(value: string) {
@@ -116,7 +112,6 @@ export class FormElement extends Element {
     }
 
     /**
-     *
      * @returns {string}
      */
     static get labelClass(): string {
@@ -124,7 +119,6 @@ export class FormElement extends Element {
     }
 
     /**
-     *
      * @param value
      */
     static set labelClass(value: string) {
@@ -132,7 +126,6 @@ export class FormElement extends Element {
     }
 
     /**
-     *
      * @returns {Array<EventCallback>}
      */
     get eventCallbacks(): Array<EventCallback> {
@@ -140,7 +133,6 @@ export class FormElement extends Element {
     }
 
     /**
-     *
      * @param value
      */
     set eventCallbacks(value: Array<EventCallback>) {
@@ -148,7 +140,6 @@ export class FormElement extends Element {
     }
 
     /**
-     *
      * @returns {JQuery}
      */
     get moduleContainer(): JQuery {
@@ -156,7 +147,6 @@ export class FormElement extends Element {
     }
 
     /**
-     *
      * @param value
      */
     set moduleContainer(value: JQuery) {
@@ -164,7 +154,6 @@ export class FormElement extends Element {
     }
 
     /**
-     *
      * @returns {Element}
      */
     get holder(): Element {
@@ -172,7 +161,6 @@ export class FormElement extends Element {
     }
 
     /**
-     *
      * @param value
      */
     set holder(value: Element) {

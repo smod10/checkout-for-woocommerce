@@ -218,10 +218,9 @@ export class CompleteOrderAction extends Action {
     }
 
     /**
-     *
      * @param resp
      */
-    public response(resp: any) {
+    public response(resp: any): void {
 
         if(resp.result === "success") {
             window.location.href = resp.redirect;
@@ -241,7 +240,10 @@ export class CompleteOrderAction extends Action {
         }
     }
 
-    resetData() {
+    /**
+     *
+     */
+    resetData(): void {
         $('#cfw-password').val(this.data["account_password"]);
         $("#cfw-email").val(this.data.billing_email);
 

@@ -1,5 +1,4 @@
 import { Element }              from "./Element";
-import { AlertType }            from "../Enums/AlertType";
 
 export type AlertInfo = { type: string, message: string, cssClass: string };
 
@@ -9,10 +8,16 @@ export type AlertInfo = { type: string, message: string, cssClass: string };
 export class Alert extends Element {
 
     /**
-     *
+     * @type {AlertInfo}
+     * @private
      */
     private _alertInfo: AlertInfo;
 
+    /**
+     * @type {string}
+     * @private
+     * @static
+     */
     private static _previousClass: string;
 
     /**
@@ -46,7 +51,6 @@ export class Alert extends Element {
     }
 
     /**
-     *
      * @returns {AlertInfo}
      */
     get alertInfo(): AlertInfo {
@@ -54,17 +58,22 @@ export class Alert extends Element {
     }
 
     /**
-     *
      * @param value
      */
     set alertInfo(value: AlertInfo) {
         this._alertInfo = value;
     }
 
+    /**
+     * @returns {string}
+     */
     static get previousClass(): string {
         return this._previousClass;
     }
 
+    /**
+     * @param {string} value
+     */
     static set previousClass(value: string) {
         this._previousClass = value;
     }

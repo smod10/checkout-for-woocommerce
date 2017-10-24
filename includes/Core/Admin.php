@@ -337,7 +337,7 @@ class Admin {
 
 		// Validate Key Status
 		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
-			echo "<div class='notice notice-warning is-dismissible'> <p>" . $this->renew_or_purchase_nag($key_status, $license_key) . "</p></div>";
+			echo "<div class='notice notice-error is-dismissible'> <p>" . $this->renew_or_purchase_nag($key_status, $license_key) . "</p></div>";
 		}
 	}
 

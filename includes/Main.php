@@ -305,7 +305,7 @@ class Main extends Singleton {
 		$this->settings_manager = new SettingsManager();
 
 		// License updater
-		$this->updater = new \CGD_EDDSL_Magic("_cfw_licensing", false, $this->path_manager->get_url_base(), $this->get_version(), CFW_NAME, "Objectiv", $this->path_manager->get_main_file(), $theme = false);
+		$this->updater = new \CGD_EDDSL_Magic("_cfw_licensing", false, CFW_UPDATE_URL, $this->get_version(), CFW_NAME, "Objectiv", $this->path_manager->get_main_file(), $theme = false);
 	}
 
 	/**

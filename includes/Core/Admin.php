@@ -26,6 +26,9 @@ class Admin {
 
         // Enqueue Admin Scripts
 		add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
+
+		// Admin notice
+        add_action('admin_notices', array($this, 'add_notice_key_nag') );
 	}
 
 	function admin_menu() {
@@ -324,4 +327,29 @@ class Admin {
 		);
 		wp_localize_script( 'objectiv-cfw-admin', 'objectiv_cfw_admin', $settings_array );
     }
+
+	/**
+	 * add_notice_key_nag function
+	 */
+	function add_notice_key_nag() {
+		$key_status = $this->plugin_instance->get_updater()->get_field_value('key_status');
+		$license_key = $this->plugin_instance->get_updater()->get_field_value('license_key');
+
+		// Validate Key Status
+		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
+			echo "<div class='notice notice-warning is-dismissible'> <p>" . $this->renew_or_purchase_nag($key_status, $license_key) . "</p></div>";
+		}
+	}
+
+	/**
+	 * renewal or purchase notice
+	 * @return String The renewal or purchase notice.
+	 */
+	function renew_or_purchase_nag( $key_status, $license_key ) {
+		if ( $key_status == "expired" ) {
+			return __( 'Checkout for WooCommerce: Your license key appears to have expired. Please verify that your license key is valid or <a target="_blank" href="https://www.checkoutwc.com/checkout/?edd_license_key=' . $license_key .'">renew your license now</a> to restore full functionality.', 'act');
+		} else {
+			return __( 'Checkout for WooCommerce: Your license key is missing or invalid. Please verify that your license key is valid or <a target="_blank" href="https://checkoutwc.com/">purchase a license</a> to restore full functionality.', 'act');
+		}
+	}
 }

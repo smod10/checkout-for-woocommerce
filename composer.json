@@ -1,5 +1,5 @@
 {
-    "name": "objective/checkout",
+    "name": "objectivco/checkout-for-woocommerce",
     "description": "A full WooCommerce Checkout Rewrite",
     "type": "wordpress-plugin",
     "authors": [

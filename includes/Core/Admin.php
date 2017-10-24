@@ -50,7 +50,7 @@ class Admin {
 		<div class="wrap about-wrap" style="margin-left:2px;">
 
             <h1><?php _e('Checkout for WooCommerce', 'checkout-wc'); ?></h1>
-            <p class="about-text"><?php _e( 'Checkout for  WooCommerce provides a beautiful, conversion optimized checkout template for WooCommerce' , 'checkout-wc' ); ?></p>
+            <p class="about-text"><?php _e( 'Checkout for WooCommerce provides a beautiful, conversion optimized checkout template for WooCommerce.' , 'checkout-wc' ); ?></p>
         </div>
 
         <div class="wrap">
@@ -348,10 +348,10 @@ class Admin {
 	 * @return String The renewal or purchase notice.
 	 */
 	function renew_or_purchase_nag( $key_status, $license_key ) {
-		if ( $key_status == "expired" ) {
-			return __( 'Checkout for WooCommerce: Your license key appears to have expired. Please verify that your license key is valid or <a target="_blank" href="https://www.checkoutwc.com/checkout/?edd_license_key=' . $license_key .'">renew your license now</a> to restore full functionality.', 'checkout-wc');
+		if ( true || $key_status == "expired" ) {
+			return sprintf(__('Checkout for WooCommerce: Your license key appears to have expired. Please verify that your license key is valid or <a target="_blank" href="https://www.checkoutwc.com/checkout/?edd_license_key=%s">renew your license now</a> to restore full functionality.', $license_key), 'checkout-wc');
 		}
 
-		return __( 'Checkout for WooCommerce: Your license key is missing or invalid. Please verify that your license key is valid or <a target="_blank" href="https://checkoutwc.com/">purchase a license</a> to restore full functionality.', 'checkout-wc');
+		return __( 'Checkout for WooCommerce: Your license key is missing or invalid. Please verify that your license key is valid or <a target="_blank" href="https://www.checkoutwc.com/">purchase a license</a> to restore full functionality.', 'checkout-wc');
 	}
 }

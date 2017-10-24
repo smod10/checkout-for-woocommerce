@@ -1,5 +1,6 @@
 # Now we can start singling out files we actually want to exclude in the checkout project
 composer.phar
+phpDocumentor.phar
 bower_components
 node_modules
 /dist

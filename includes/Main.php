@@ -333,18 +333,12 @@ class Main extends Singleton {
 	public function set_assets() {
 		$front = "{$this->path_manager->get_assets_path()}/front";
 
-		$min = (!CO_DEV_MODE) ? ".min" : "";
+		$min = ( ! CO_DEV_MODE ) ? ".min" : "";
 
 		wp_enqueue_style('cfw_front_css', "${front}/css/checkout-woocommerce-front${min}.css", array(), $this->get_version());
 
 		wp_enqueue_script('jquery');
-//		wp_enqueue_script('cfw_front_js_hash_change', "${bower}/easytabs/vendor/jquery.hashchange.min.js", array('jquery'));
-//		wp_enqueue_script('cfw_front_js_easy_tabs', "${bower}/easytabs/lib/jquery.easytabs.min.js", array('jquery'));
-//		wp_enqueue_script('cfw_front_js_garlic', "${bower}/garlicjs/dist/garlic.min.js", array('jquery'));
-//		wp_enqueue_script('cfw_front_js_parsley', "${bower}/parsleyjs/dist/parsley.js", array('jquery'));
-//		wp_enqueue_script('cfw_front_js_array_find_poly', "${js}/ArrayFindPoly.js", array('jquery'), $this->get_version());
-//		wp_enqueue_script('cfw_front_js_vendor', "${front}/js/vendor.js", array('jquery'), $this->get_version());
-		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array(), $this->get_version(), true);
+		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array('jquery'), $this->get_version(), true);
 	}
 
 	/**

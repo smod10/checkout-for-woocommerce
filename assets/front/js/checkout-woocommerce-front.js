@@ -660,43 +660,52 @@ var ValidationService = /** @class */ (function () {
                 var cityElement = $("#" + elementType + "_city");
                 var failLocation = (elementType === "shipping") ? "#cfw-customer-info" : "#cfw-payment-method";
                 var xhr = $.ajax('//www.zippopotam.us/' + country + '/' + zipElement.val());
-                return xhr.then(function (json) {
-                    var ret = null;
-                    var stateResponseValue = "";
-                    var eventName = "";
-                    var cityResponseValue = "";
-                    // Set the state response value
-                    stateResponseValue = json.places[0]["state abbreviation"];
-                    // Set the city response value and set the corresponding city field
-                    cityResponseValue = json.places[0]["place name"];
-                    cityElement.val(cityResponseValue);
-                    var fieldType = $(instance.element).attr("id").split("_")[1];
-                    if (fieldType === "postcode") {
-                        stateElement.val(stateResponseValue);
-                    }
-                    if (stateResponseValue !== stateElement.val()) {
-                        eventName = "cfw:state-zip-failure";
+                if (!ValidationService.cityStateValidating) {
+                    ValidationService.cityStateValidating = true;
+                    return xhr.then(function (json) {
+                        var ret = null;
+                        var stateResponseValue = "";
+                        var eventName = "";
+                        var cityResponseValue = "";
+                        // Set the state response value
+                        stateResponseValue = json.places[0]["state abbreviation"];
+                        // Set the city response value and set the corresponding city field
+                        cityResponseValue = json.places[0]["place name"];
+                        cityElement.val(cityResponseValue);
+                        var fieldType = $(instance.element).attr("id").split("_")[1];
+                        if (fieldType === "postcode") {
+                            stateElement.val(stateResponseValue);
+                        }
+                        if (stateResponseValue !== stateElement.val()) {
+                            eventName = "cfw:state-zip-failure";
+                            $("#cfw-tab-container").easytabs("select", failLocation);
+                            ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
+                        }
+                        else {
+                            eventName = "cfw:state-zip-success";
+                            $("#" + elementType + "_state").parsley().reset();
+                            $("#" + elementType + "_postcode").parsley().reset();
+                            ret = true;
+                        }
+                        if (w.CREATE_ORDER) {
+                            var event_1 = new Event(eventName);
+                            window.dispatchEvent(event_1);
+                        }
+                        ValidationService.cityStateValidating = false;
+                        cityElement.parsley().reset();
+                        zipElement.parsley().reset();
+                        stateElement.parsley().reset();
+                        return ret;
+                    }).fail(function () {
                         $("#cfw-tab-container").easytabs("select", failLocation);
-                        ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-                    }
-                    else {
-                        eventName = "cfw:state-zip-success";
-                        $("#" + elementType + "_state").parsley().reset();
-                        $("#" + elementType + "_postcode").parsley().reset();
-                        ret = true;
-                    }
-                    if (w.CREATE_ORDER) {
-                        var event_1 = new Event(eventName);
-                        window.dispatchEvent(event_1);
-                    }
-                    return ret;
-                }).fail(function () {
-                    $("#cfw-tab-container").easytabs("select", failLocation);
-                    if (w.CREATE_ORDER) {
-                        var event_2 = new Event("cfw:state-zip-failure");
-                        window.dispatchEvent(event_2);
-                    }
-                });
+                        if (w.CREATE_ORDER) {
+                            var event_2 = new Event("cfw:state-zip-failure");
+                            window.dispatchEvent(event_2);
+                        }
+                        ValidationService.cityStateValidating = false;
+                    });
+                }
+                return true;
             }.bind(this),
             messages: { en: 'Zip is not valid for country "%s"' }
         });
@@ -762,6 +771,21 @@ var ValidationService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ValidationService, "cityStateValidating", {
+        get: function () {
+            return this._cityStateValidating;
+        },
+        set: function (value) {
+            this._cityStateValidating = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @type {boolean}
+     * @private
+     */
+    ValidationService._cityStateValidating = false;
     return ValidationService;
 }());
 exports.ValidationService = ValidationService;

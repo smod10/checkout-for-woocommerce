@@ -6,13 +6,19 @@ use Objectiv\Plugins\Checkout\Core\Base\Action;
 
 /**
  * Class AccountExistsAction
+ *
+ * @link objectiv.co
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Action
+ * @author Brandon Tassone <brandontassone@gmail.com>
  */
 class AccountExistsAction extends Action {
 
 	/**
 	 * AccountExistsAction constructor.
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 * @param $id
 	 */
 	public function __construct( $id ) {
@@ -20,7 +26,10 @@ class AccountExistsAction extends Action {
 	}
 
 	/**
+	 * Checks whether the account exists on the website or not
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 */
 	public function action() {
 		check_ajax_referer("some-seed-word", "security");

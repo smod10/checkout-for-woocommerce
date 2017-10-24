@@ -4,11 +4,21 @@ namespace Objectiv\Plugins\Checkout\Action;
 
 use Objectiv\Plugins\Checkout\Core\Base\Action;
 
+/**
+ * Class CompleteOrderAction
+ *
+ * @link objectiv.co
+ * @since 1.0.0
+ * @package Objectiv\Plugins\Checkout\Action
+ * @author Brandon Tassone <brandontassone@gmail.com>
+ */
 class CompleteOrderAction extends Action {
 
 	/**
 	 * LogInAction constructor.
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 * @param $id
 	 */
 	public function __construct( $id ) {
@@ -16,7 +26,10 @@ class CompleteOrderAction extends Action {
 	}
 
 	/**
+	 * Takes in the information from the order form and hands it off to Woocommerce.
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 */
 	public function action() {
 		check_ajax_referer("some-seed-word", "security");

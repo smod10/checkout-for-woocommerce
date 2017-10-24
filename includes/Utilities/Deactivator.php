@@ -7,7 +7,7 @@ namespace Objectiv\Plugins\Checkout\Utilities;
  *
  * This class defines all code necessary to run during the plugin's deactivation.
  *
- * @link cgd.io
+ * @link objectiv.co
  * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Utilities
  * @author Brandon Tassone <brandontassone@gmail.com>

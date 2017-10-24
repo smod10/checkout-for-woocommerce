@@ -6,13 +6,19 @@ use Objectiv\Plugins\Checkout\Core\Loader;
 
 /**
  * Class Action
+ *
+ * @link objectiv.co
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Core\Base
+ * @author Brandon Tassone <brandontassone@gmail.com>
  */
 abstract class Action extends Tracked {
 
 	/**
 	 * Action constructor.
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 * @param $id
 	 */
 	public function __construct( $id ) {
@@ -20,6 +26,8 @@ abstract class Action extends Tracked {
 	}
 
 	/**
+	 * @since 1.0.0
+	 * @access public
 	 * @param Loader $loader
 	 * @param boolean $np
 	 */
@@ -32,6 +40,8 @@ abstract class Action extends Tracked {
 	}
 
 	/**
+	 * @since 1.0.0
+	 * @access protected
 	 * @param $out
 	 */
 	protected function out($out) {
@@ -40,6 +50,8 @@ abstract class Action extends Tracked {
 	}
 
 	/**
+	 * @since 1.0.0
+	 * @access public
 	 * @return mixed
 	 */
 	abstract public function action();

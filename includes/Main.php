@@ -31,7 +31,7 @@ use \Whoops\Handler\PrettyPageHandler;
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @link cgd.io
+ * @link objectiv.co
  * @since 1.0.0
  * @package Objectiv\Plugins\Checkout
  * @author Brandon Tassone <brandontassone@gmail.com>
@@ -330,6 +330,9 @@ class Main extends Singleton {
 		);
 	}
 
+	/**
+	 * Set the plugin assets
+	 */
 	public function set_assets() {
 		$front = "{$this->path_manager->get_assets_path()}/front";
 

@@ -9,7 +9,7 @@ use Objectiv\Plugins\Checkout\Core\Template;
  * built in WordPress functions and the plugin path is passed in from the Main class on creation. The relevant path info
  * is pulled in from get_template_information. It is an array of Key Value pairs in the form of sub folder => file path
  *
- * @link cgd.io
+ * @link objectiv.co
  * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Managers
  * @author Brandon Tassone <brandontassone@gmail.com>

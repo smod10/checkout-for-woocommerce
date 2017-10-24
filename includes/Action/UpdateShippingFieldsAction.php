@@ -6,12 +6,18 @@ use Objectiv\Plugins\Checkout\Core\Base\Action;
 
 /**
  * Class UpdateShippingFieldsAction
+ *
+ * @link objectiv.co
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Action
+ * @author Brandon Tassone <brandontassone@gmail.com>
  */
 class UpdateShippingFieldsAction extends Action {
 	/**
 	 * UpdateShippingFieldsAction constructor.
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 * @param $id
 	 */
 	public function __construct($id) {
@@ -19,7 +25,11 @@ class UpdateShippingFieldsAction extends Action {
 	}
 
 	/**
+	 * Updates the shipping details information and based on that it updates the shipping methods. This may in turn
+	 * require the updating of the price etc.
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 */
 	public function action() {
 		check_ajax_referer("some-seed-word", "security");
@@ -70,6 +80,10 @@ class UpdateShippingFieldsAction extends Action {
 	}
 
 	/**
+	 * Returns the shipping methods available
+	 *
+	 * @since 1.0.0
+	 * @access public
 	 * @return array
 	 */
 	public function get_shipping_methods() {

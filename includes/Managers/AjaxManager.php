@@ -4,14 +4,26 @@ namespace Objectiv\Plugins\Checkout\Managers;
 
 use Objectiv\Plugins\Checkout\Core\Loader;
 
+/**
+ * Class AjaxManager
+ *
+ * @link objectiv.co
+ * @since 1.0.0
+ * @package Objectiv\Plugins\Checkout\Managers
+ * @author Brandon Tassone <brandontassone@gmail.com>
+ */
 class AjaxManager {
 
 	/**
+	 * @since 1.0.0
+	 * @access protected
 	 * @var array
 	 */
 	protected $ajax_modules;
 
 	/**
+	 * @since 1.0.0
+	 * @access protected
 	 * @var Loader
 	 */
 	protected $loader;
@@ -19,6 +31,8 @@ class AjaxManager {
 	/**
 	 * AjaxManager constructor.
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 * @param array $ajax_modules
 	 * @param Loader $loader
 	 */
@@ -28,7 +42,10 @@ class AjaxManager {
 	}
 
 	/**
+	 * Iterates through each ajax module and loads it (registers it) with the system
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 */
 	public function load_all() {
 		foreach($this->ajax_modules as $ajax) {
@@ -37,6 +54,8 @@ class AjaxManager {
 	}
 
 	/**
+	 * @since 1.0.0
+	 * @access public
 	 * @return mixed
 	 */
 	public function get_ajax_modules() {
@@ -44,6 +63,8 @@ class AjaxManager {
 	}
 
 	/**
+	 * @since 1.0.0
+	 * @access public
 	 * @return mixed
 	 */
 	public function get_loader() {

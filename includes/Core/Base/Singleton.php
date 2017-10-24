@@ -6,7 +6,7 @@ namespace Objectiv\Plugins\Checkout\Core\Base;
  * Enforces a single instance of an object. Useful for mission critical objects that should never be duplicated beyond
  * plugin initialization
  *
- * @link cgd.io
+ * @link objectiv.co
  * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Core\Base
  * @author Brandon Tassone <brandontassone@gmail.com>

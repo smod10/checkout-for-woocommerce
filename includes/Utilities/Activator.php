@@ -9,7 +9,7 @@ use Objectiv\Plugins\Checkout\Managers\PathManager;
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @link cgd.io
+ * @link objectiv.co
  * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Utilities
  * @author Brandon Tassone <brandontassone@gmail.com>

@@ -8,7 +8,7 @@ use Objectiv\Plugins\Checkout\Core\Base\Tracked;
  * Template handler for associated template piece. Typically there should only be 3 of these in total (header, footer,
  * content)
  *
- * @link cgd.io
+ * @link objectiv.co
  * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Core
  * @author Brandon Tassone <brandontassone@gmail.com>
@@ -38,6 +38,7 @@ class Template extends Tracked {
 	 * Template constructor.
 	 *
 	 * @since 1.0.0
+	 * @access public
 	 * @param $id
 	 * @param $path
 	 * @param $parameters
@@ -77,6 +78,7 @@ class Template extends Tracked {
 	 * Call the template and its relevant callback. Override this
 	 *
 	 * @since 1.0.0
+	 * @access public
 	 */
 	public function view() {
 		/**

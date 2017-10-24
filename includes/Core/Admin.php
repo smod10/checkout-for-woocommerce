@@ -1,22 +1,48 @@
 <?php
-/**
- * Admin class
- *
- * @since 1.0.0
- * @access private
- * @var string $version The current version of the plugin.
- */
 
 namespace Objectiv\Plugins\Checkout\Core;
 
+/**
+ * Class Admin
+ *
+ * @link objectiv.co
+ * @since 1.0.0
+ * @package Objectiv\Plugins\Checkout\Core
+ * @author Clifton Griffin <clif@objectiv.co>
+ */
 class Admin {
-	var $plugin_instance;
-	var $tabs;
 
+	/**
+	 * @since 1.0.0
+	 * @access public
+	 * @var object $plugin_instance The plugin instance
+	 */
+	public $plugin_instance;
+
+	/**
+     * @since 1.0.0
+     * @access public
+	 * @var object $tabs The tabs for the admin navigation
+	 */
+	public $tabs;
+
+	/**
+	 * Admin constructor.
+	 *
+     * @since 1.0.0
+     * @access public
+	 * @param $plugin
+	 */
 	public function __construct( $plugin ) {
 		$this->plugin_instance = $plugin;
 	}
 
+	/**
+	 * Initializes the admin backend
+     *
+     * @since 1.0.0
+     * @access public
+	 */
 	public function start() {
 	    // Admin Menu
 		add_action('admin_menu', array($this, 'admin_menu'), 100 );
@@ -31,7 +57,13 @@ class Admin {
         add_action('admin_notices', array($this, 'add_notice_key_nag') );
 	}
 
-	function admin_menu() {
+	/**
+	 * The main admin menu setup
+     *
+     * @since 1.0.0
+     * @access public
+	 */
+	public function admin_menu() {
 		// Initiate tab object
 		$this->tabs = new \WP_Tabbed_Navigation('');
 
@@ -44,7 +76,13 @@ class Admin {
 		$this->tabs->add_tab( __( 'Support', 'checkout-wc' ), add_query_arg( array('subpage' => 'support'), menu_page_url('cfw-settings', false) ) );
 	}
 
-	function admin_page() {
+	/**
+	 * The admin page wrap
+     *
+     * @since 1.0.0
+     * @access public
+	 */
+	public function admin_page() {
 	    $current_tab_function = $this->get_current_tab() === false ? 'general_tab' : $this->get_current_tab() . "_tab";
 		?>
 		<div class="wrap about-wrap" style="margin-left:2px;">
@@ -61,7 +99,13 @@ class Admin {
 		<?php
 	}
 
-	function general_tab() {
+	/**
+	 * The general tab
+     *
+     * @since 1.0.0
+     * @access public
+	 */
+	public function general_tab() {
 	    ?>
         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 			<?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
@@ -113,7 +157,13 @@ class Admin {
         <?php
     }
 
-    function design_tab() {
+	/**
+	 * The design tab
+     *
+     * @since 1.0.0
+     * @access public
+	 */
+    public function design_tab() {
 	    ?>
         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 		    <?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
@@ -251,11 +301,23 @@ class Admin {
         <?php
     }
 
-    function license_tab() {
+	/**
+	 * The license tab
+     *
+     * @since 1.0.0
+     * @access public
+	 */
+    public function license_tab() {
 	    $this->plugin_instance->get_updater()->admin_page();
     }
 
-    function support_tab() {
+	/**
+	 * The support tab
+     *
+     * @since 1.0.0
+     * @access public
+	 */
+    public function support_tab() {
         ?>
         <script>!function(e,o,n){window.HSCW=o,window.HS=n,n.beacon=n.beacon||{};var t=n.beacon;t.userConfig={},t.readyQueue=[],t.config=function(e){this.userConfig=e},t.ready=function(e){this.readyQueue.push(e)},o.config={docs:{enabled:!1,baseUrl:""},contact:{enabled:!0,formId:"dd423b99-b372-11e7-b466-0ec85169275a"}};var r=e.getElementsByTagName("script")[0],c=e.createElement("script");c.type="text/javascript",c.async=!0,c.src="https://djtflbt20bdde.cloudfront.net/",r.parentNode.insertBefore(c,r)}(document,window.HSCW||{},window.HS||{});</script>
         <script>
@@ -277,11 +339,24 @@ class Admin {
         <?php
     }
 
-	function get_current_tab() {
+	/**
+     * Retrieves the current tab
+     *
+     * @since 1.0.0
+     * @access public
+	 * @return bool
+	 */
+	public function get_current_tab() {
 	    return empty($_GET['subpage']) ? false : $_GET['subpage'];
     }
 
-	function add_key_nag() {
+	/**
+	 * Adds a notification that nags about the license key
+     *
+     * @since 1.0.0
+     * @access public
+	 */
+	public function add_key_nag() {
 		global $pagenow;
 
 		if( $pagenow == 'plugins.php' ) {
@@ -289,7 +364,11 @@ class Admin {
 		}
 	}
 
-	function after_plugin_row_message() {
+	/**
+	 * @since 1.0.0
+     * @access public
+	 */
+	public function after_plugin_row_message() {
 		$key_status = $this->plugin_instance->get_updater()->get_field_value('key_status');
 
 		if ( empty($key_status) ) return;
@@ -307,11 +386,20 @@ class Admin {
 		}
 	}
 
-	function keynag() {
+	/**
+     * @since 1.0.0
+     * @access public
+	 * @return string
+	 */
+	public function keynag() {
 		return "<span style='color:red'>You're missing out on important updates because your license key is missing, invalid, or expired.</span>";
 	}
 
-	function admin_scripts() {
+	/**
+	 * @since 1.0.0
+     * @access public
+	 */
+	public function admin_scripts() {
 		// Add the color picker css file
 		wp_enqueue_style( 'wp-color-picker' );
 
@@ -330,8 +418,11 @@ class Admin {
 
 	/**
 	 * add_notice_key_nag function
+     *
+     * @since 1.0.0
+     * @acess public
 	 */
-	function add_notice_key_nag() {
+	public function add_notice_key_nag() {
 		$key_status = $this->plugin_instance->get_updater()->get_field_value('key_status');
 		$license_key = $this->plugin_instance->get_updater()->get_field_value('license_key');
 
@@ -342,12 +433,13 @@ class Admin {
 	}
 
 	/**
+     * @since 1.0.0
+     * @access public
 	 * @param $key_status
 	 * @param $license_key
-	 *
 	 * @return String The renewal or purchase notice.
 	 */
-	function renew_or_purchase_nag( $key_status, $license_key ) {
+	public function renew_or_purchase_nag( $key_status, $license_key ) {
 		if ( $key_status == "expired" ) {
 			return __( 'Checkout for WooCommerce: Your license key appears to have expired. Please verify that your license key is valid or <a target="_blank" href="https://www.checkoutwc.com/checkout/?edd_license_key=' . $license_key .'">renew your license now</a> to restore full functionality.', 'checkout-wc');
 		}

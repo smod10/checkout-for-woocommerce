@@ -5,8 +5,19 @@ use Objectiv\Plugins\Checkout\Managers\SettingsManager;
 use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 
+/**
+ * Class Redirect
+ *
+ * @link objectiv.co
+ * @since 1.0.0
+ * @package Objectiv\Plugins\Checkout\Core
+ * @author Brandon Tassone <brandontassone@gmail.com>
+ */
 class Redirect {
+
 	/**
+     * @since 1.0.0
+     * @access public
      * @param SettingsManager $settings_manager
 	 * @param PathManager $path_manager
 	 * @param TemplateManager $template_manager
@@ -56,6 +67,8 @@ class Redirect {
 	}
 
 	/**
+     * @since 1.0.0
+     * @access public
 	 * @param $env_extension
      * @param PathManager $path_manager
 	 */
@@ -125,6 +138,8 @@ class Redirect {
 	}
 
 	/**
+     * @since 1.0.0
+     * @access public
      * @param PathManager $path_manager
 	 * @param string $version
 	 * @param array $classes
@@ -204,6 +219,12 @@ class Redirect {
 		<?php
 	}
 
+    /**
+     * Removes all scripts besides the listed ignored scripts from being loaded onto the page.
+     *
+     * @since 1.0.0
+     * @access public
+     */
 	public static function remove_scripts() {
 		global $wp_scripts;
 		$ignore = array(
@@ -230,6 +251,8 @@ class Redirect {
         }
     }
 	/**
+     * @since 1.0.0
+     * @access public
 	 * @param PathManager $path_manager
 	 * @param TemplateManager $template_manager
 	 * @param array $global_template_parameters
@@ -249,8 +272,9 @@ class Redirect {
 	}
 
 	/**
+     * @since 1.0.0
+     * @access public
      * @param PathManager $path_manager
-	 * @since 1.0.0
 	 */
 	public static function footer($path_manager, $settings_manager) {
 		print_footer_scripts();

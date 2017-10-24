@@ -10,7 +10,7 @@ use Objectiv\Plugins\Checkout\Managers\PathManager;
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link cgd.io
+ * @link objectiv.co
  * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Language
  * @author Brandon Tassone <brandontassone@gmail.com>

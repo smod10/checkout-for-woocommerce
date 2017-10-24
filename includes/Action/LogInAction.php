@@ -6,13 +6,19 @@ use Objectiv\Plugins\Checkout\Core\Base\Action;
 
 /**
  * Class LogInAction
+ *
+ * @link objectiv.co
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Action
+ * @author Brandon Tassone <brandontassone@gmail.com>
  */
 class LogInAction extends Action {
 
 	/**
 	 * LogInAction constructor.
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 * @param $id
 	 */
 	public function __construct( $id ) {
@@ -20,7 +26,10 @@ class LogInAction extends Action {
 	}
 
 	/**
+	 * Logs in the user based on the information passed. If information is incorrect it returns an error message
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 */
 	public function action() {
 		check_ajax_referer("some-seed-word", "security");

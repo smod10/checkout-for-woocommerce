@@ -4,11 +4,33 @@ namespace Objectiv\Plugins\Checkout\Action;
 
 use Objectiv\Plugins\Checkout\Core\Base\Action;
 
+/**
+ * Class ApplyCouponAction
+ *
+ * @link objectiv.co
+ * @since 1.0.0
+ * @package Objectiv\Plugins\Checkout\Action
+ * @author Brandon Tassone <brandontassone@gmail.com>
+ */
 class ApplyCouponAction extends Action {
+
+	/**
+	 * ApplyCouponAction constructor.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @param $id
+	 */
 	public function __construct( $id ) {
 		parent::__construct( $id );
 	}
 
+	/**
+	 * Applies the coupon discount and returns the new totals
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
 	public function action() {
 		check_ajax_referer("some-seed-word", "security");
 

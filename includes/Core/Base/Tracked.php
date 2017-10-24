@@ -2,21 +2,35 @@
 
 namespace Objectiv\Plugins\Checkout\Core\Base;
 
+/**
+ * Class Tracked
+ *
+ * @link objectiv.co
+ * @since 1.0.0
+ * @package Objectiv\Plugins\Checkout\Core\Base
+ * @author Brandon Tassone <brandontassone@gmail.com>
+ */
 abstract class Tracked {
 
 	/**
-	 * @var string
+	 * @since 1.0.0
+	 * @access protected
+	 * @var string $id
 	 */
 	protected $id = "";
 
 	/**
-	 * @var array
+	 * @since 1.0.0
+	 * @access protected
+	 * @var array $i
 	 */
 	protected static $i = array();
 
 	/**
 	 * CFW constructor.
 	 *
+	 * @since 1.0.0
+	 * @access public
 	 * @param $id
 	 */
 	public function __construct($id) {
@@ -26,13 +40,16 @@ abstract class Tracked {
 	}
 
 	/**
-	 *
+	 * @since 1.0.0
+	 * @access public
 	 */
 	public function __destruct() {
 		self::remove_i($this);
 	}
 
 	/**
+	 * @since 1.0.0
+	 * @access public
 	 * @return string
 	 */
 	public function get_id() {
@@ -40,6 +57,8 @@ abstract class Tracked {
 	}
 
 	/**
+	 * @since 1.0.0
+	 * @access public
 	 * @param $id
 	 */
 	public function set_id($id) {
@@ -47,6 +66,8 @@ abstract class Tracked {
 	}
 
 	/**
+	 * @since 1.0.0
+	 * @access public
 	 * @param $i
 	 */
 	public static function add_i($i) {
@@ -60,6 +81,8 @@ abstract class Tracked {
 	}
 
 	/**
+	 * @since 1.0.0
+	 * @access public
 	 * @param Tracked | string $identifier
 	 */
 	public static function remove_i($identifier) {
@@ -85,8 +108,9 @@ abstract class Tracked {
 	}
 
 	/**
+	 * @since 1.0.0
+	 * @access public
 	 * @param string $id
-	 *
 	 * @return array
 	 */
 	public static function get_i($id = "") {

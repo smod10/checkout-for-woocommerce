@@ -4,22 +4,33 @@ namespace Objectiv\Plugins\Checkout\Core;
 
 /**
  * Class Form
+ *
+ * @link objectiv.co
+ * @since 1.0.0
  * @package Objectiv\Plugins\Checkout\Core
+ * @author Brandon Tassone <brandontassone@gmail.com>
  */
 class Form {
 
 	/**
-	 * @var true|void
+	 * @since 1.0.0
+	 * @access public
+	 * @var true|void $base_fields
 	 */
 	public $base_fields;
 
 	/**
-	 * WP_Stripe_Apple_Pay Instance
+	 * @since 1.0.0
+	 * @access public
+	 * @var object $wc_stripe_apple_pay
 	 */
 	public $wc_stripe_apple_pay;
 
 	/**
 	 * Form constructor.
+	 *
+	 * @since 1.0.0
+	 * @access public
 	 */
 	public function __construct() {
 		// Setup Apple Pay
@@ -192,10 +203,11 @@ class Form {
 	}
 
 	/**
+	 * @since 1.0.0
+	 * @access public
 	 * @param $type
 	 * @param $col
 	 * @param $priority
-	 *
 	 * @return object
 	 */
 	public function input_wrap($type, $col, $priority) {

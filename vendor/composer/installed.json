@@ -20,14 +20,14 @@
         "require-dev": {
             "mockery/mockery": "0.9.*"
         },
-        "time": "2015-06-29T05:42:04+00:00",
+        "time": "2015-06-29 05:42:04",
         "type": "library",
         "extra": {
             "branch-alias": {
                 "dev-master": "1.2-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-0": {
                 "Whoops": "src/"
@@ -60,122 +60,6 @@
         ]
     },
     {
-        "name": "objectivco/cgd_eddsl_magic",
-        "version": "0.3.3",
-        "version_normalized": "0.3.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Objectivco/CGD_EDDSL_Magic.git",
-            "reference": "337fad642a33b1992bdfcdb4f182021526f8a44e"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Objectivco/CGD_EDDSL_Magic/zipball/337fad642a33b1992bdfcdb4f182021526f8a44e",
-            "reference": "337fad642a33b1992bdfcdb4f182021526f8a44e",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.0"
-        },
-        "time": "2017-10-20T18:50:51+00:00",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "classmap": [
-                "src/CGD_EDDSL_Magic.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0+"
-        ],
-        "authors": [
-            {
-                "name": "Clifton Griffin",
-                "email": "clif@objectiv.co"
-            }
-        ],
-        "description": "A drop-in class that magically manages Easy Digital Downloads Software Licensing for plugins and themes."
-    },
-    {
-        "name": "objectivco/wordpress-simple-settings",
-        "version": "0.5.0",
-        "version_normalized": "0.5.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Objectivco/wordpress-simple-settings.git",
-            "reference": "d4c80f46e420a214fcb4b3c5c4345da1c5d8191b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Objectivco/wordpress-simple-settings/zipball/d4c80f46e420a214fcb4b3c5c4345da1c5d8191b",
-            "reference": "d4c80f46e420a214fcb4b3c5c4345da1c5d8191b",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.0"
-        },
-        "time": "2017-10-19T16:46:17+00:00",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "classmap": [
-                "src/wordpress-simple-settings.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0+"
-        ],
-        "authors": [
-            {
-                "name": "Clifton Griffin",
-                "email": "clif@objectiv.co"
-            }
-        ],
-        "description": "A minimalist framework for managing WordPress plugin or theme settings.",
-        "homepage": "https://github.com/Objectivco/wordpress-simple-settings"
-    },
-    {
-        "name": "objectivco/wp_tabbed_navigation",
-        "version": "0.1.0",
-        "version_normalized": "0.1.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Objectivco/WP_Tabbed_Navigation.git",
-            "reference": "56558a4de366a5e299738e040ad200bc31dedf37"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Objectivco/WP_Tabbed_Navigation/zipball/56558a4de366a5e299738e040ad200bc31dedf37",
-            "reference": "56558a4de366a5e299738e040ad200bc31dedf37",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.0"
-        },
-        "time": "2017-10-13T15:42:14+00:00",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "classmap": [
-                "src/class-wp-tabbed-navigation.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0+"
-        ],
-        "authors": [
-            {
-                "name": "Clifton Griffin",
-                "email": "clif@objectiv.co"
-            }
-        ],
-        "description": "Automate creating a tabbed navigation and maintaining tabbed states",
-        "homepage": "https://github.com/Objectivco/WP_Tabbed_Navigation"
-    },
-    {
         "name": "raveren/kint",
         "version": "1.0.10",
         "version_normalized": "1.0.10.0",
@@ -193,14 +77,14 @@
         "require": {
             "php": ">=5.1.0"
         },
-        "time": "2015-09-16T14:09:00+00:00",
+        "time": "2015-09-16 14:09:00",
         "type": "library",
         "extra": {
             "branch-alias": {
                 "dev-master": "1.0.x-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "files": [
                 "Kint.class.php"
@@ -228,5 +112,121 @@
             "php"
         ],
         "abandoned": "kint-php/kint"
+    },
+    {
+        "name": "objectivco/wordpress-simple-settings",
+        "version": "0.5.0",
+        "version_normalized": "0.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Objectivco/wordpress-simple-settings.git",
+            "reference": "d4c80f46e420a214fcb4b3c5c4345da1c5d8191b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Objectivco/wordpress-simple-settings/zipball/d4c80f46e420a214fcb4b3c5c4345da1c5d8191b",
+            "reference": "d4c80f46e420a214fcb4b3c5c4345da1c5d8191b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2017-10-19 16:46:17",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/wordpress-simple-settings.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0+"
+        ],
+        "authors": [
+            {
+                "name": "Clifton Griffin",
+                "email": "clif@objectiv.co"
+            }
+        ],
+        "description": "A minimalist framework for managing WordPress plugin or theme settings.",
+        "homepage": "https://github.com/Objectivco/wordpress-simple-settings"
+    },
+    {
+        "name": "objectivco/cgd_eddsl_magic",
+        "version": "0.3.3",
+        "version_normalized": "0.3.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Objectivco/CGD_EDDSL_Magic.git",
+            "reference": "337fad642a33b1992bdfcdb4f182021526f8a44e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Objectivco/CGD_EDDSL_Magic/zipball/337fad642a33b1992bdfcdb4f182021526f8a44e",
+            "reference": "337fad642a33b1992bdfcdb4f182021526f8a44e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2017-10-20 18:50:51",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/CGD_EDDSL_Magic.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0+"
+        ],
+        "authors": [
+            {
+                "name": "Clifton Griffin",
+                "email": "clif@objectiv.co"
+            }
+        ],
+        "description": "A drop-in class that magically manages Easy Digital Downloads Software Licensing for plugins and themes."
+    },
+    {
+        "name": "objectivco/wp_tabbed_navigation",
+        "version": "0.1.0",
+        "version_normalized": "0.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Objectivco/WP_Tabbed_Navigation.git",
+            "reference": "56558a4de366a5e299738e040ad200bc31dedf37"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Objectivco/WP_Tabbed_Navigation/zipball/56558a4de366a5e299738e040ad200bc31dedf37",
+            "reference": "56558a4de366a5e299738e040ad200bc31dedf37",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2017-10-13 15:42:14",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/class-wp-tabbed-navigation.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0+"
+        ],
+        "authors": [
+            {
+                "name": "Clifton Griffin",
+                "email": "clif@objectiv.co"
+            }
+        ],
+        "description": "Automate creating a tabbed navigation and maintaining tabbed states",
+        "homepage": "https://github.com/Objectivco/WP_Tabbed_Navigation"
     }
 ]

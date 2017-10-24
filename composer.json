@@ -1,6 +1,6 @@
 {
-    "name": "objective/checkout",
-    "description": "A full WooCommerce Checkout Rewrite",
+    "name": "objectivco/checkout-for-woocommerce",
+    "description": "A beautiful, responsive and conversion optimized checkout theme for WooCommerce.",
     "type": "wordpress-plugin",
     "authors": [
         {

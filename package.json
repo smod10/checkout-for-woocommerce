@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack",
-    "production": "set NODE_ENV=production | webpack -p",
+    "production": "cross-env NODE_ENV=production webpack -p",
     "build": "npm run production -- --env.version=$npm_package_version",
     "watch": "npm run dev -- --watch"
   },
@@ -19,6 +19,7 @@
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.17",
     "copy-webpack-plugin": "^4.2.0",
+    "cross-env": "^5.1.0",
     "css-loader": "^0.28.7",
     "del": "^2.2.2",
     "extract-text-webpack-plugin": "^3.0.1",

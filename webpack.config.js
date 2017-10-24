@@ -1,11 +1,12 @@
-var webpack = require('webpack');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var WebpackNotifierPlugin = require('webpack-notifier');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var WebpackZipPlugin = require('webpack-zip-plugin');
-var inProduction = (process.env.NODE_ENV === 'production');
-var version = get_argv_param('env.version') || false;
+let webpack = require('webpack');
+let ExtractTextPlugin = require("extract-text-webpack-plugin");
+let WebpackNotifierPlugin = require('webpack-notifier');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
+let CleanWebpackPlugin = require('clean-webpack-plugin');
+let WebpackZipPlugin = require('webpack-zip-plugin');
+let TypedocWebpackPlugin = require('typedoc-webpack-plugin');
+let inProduction = (process.env.NODE_ENV === 'production');
+let version = get_argv_param('env.version') || false;
 
 function get_argv_param(param){
     let result = '';
@@ -67,7 +68,15 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin( inProduction ? './assets/front/css/checkout-woocommerce-front.min.css' : './assets/front/css/checkout-woocommerce-front.css'),
-        new WebpackNotifierPlugin({ alwaysNotify: true })
+        new WebpackNotifierPlugin({ alwaysNotify: true }),
+        new TypedocWebpackPlugin({
+            out: './docs/ts',
+            module: 'commonjs',
+            target: 'es5',
+            exclude: '**/node_modules/**/*.*',
+            experimentalDecorators: true,
+            excludeExternals: true
+        })
     ]
 };
 

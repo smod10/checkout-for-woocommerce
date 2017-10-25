@@ -46,14 +46,7 @@ export class ValidationService {
         let max_iterations = 1000;
         let iterations = 0;
 
-        $(".garlic-auto-save").each((index: number, elem: Element) => {
-            $(elem).garlic({
-                onRetrieve: (element, retrievedValue) => {
-                    $(element).parent().addClass("cfw-floating-label");
-                    console.log($(element).parent().attr("class"));
-                }
-            })
-        });
+        this.floatLabelOnGarlicRetrieve();
 
         if(window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
             if(!this.validate(EValidationSections.SHIPPING)) {
@@ -83,6 +76,20 @@ export class ValidationService {
                 iterations++;
             }
         }, 50);
+    }
+
+    /**
+     * Sometimes in some browsers (looking at you safari and chrome) the label doesn't float when the data is retrieved
+     * via garlic. This will fix this issue and float the label like it should.
+     */
+    floatLabelOnGarlicRetrieve(): void {
+        $(".garlic-auto-save").each((index: number, elem: Element) => {
+            $(elem).garlic({
+                onRetrieve: (element, retrievedValue) => {
+                    $(element).parent().addClass("cfw-floating-label");
+                }
+            })
+        });
     }
 
     /**

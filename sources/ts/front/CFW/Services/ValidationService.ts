@@ -46,6 +46,15 @@ export class ValidationService {
         let max_iterations = 1000;
         let iterations = 0;
 
+        $(".garlic-auto-save").each((index: number, elem: Element) => {
+            $(elem).garlic({
+                onRetrieve: (element, retrievedValue) => {
+                    $(element).parent().addClass("cfw-floating-label");
+                    console.log($(element).parent().attr("class"));
+                }
+            })
+        });
+
         if(window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
             if(!this.validate(EValidationSections.SHIPPING)) {
                 window.location.hash = "#cfw-customer-info";

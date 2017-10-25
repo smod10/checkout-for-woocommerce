@@ -80,7 +80,7 @@ export class TabContainerSection extends Element {
         let selector: string = "";
 
         TabContainerSection.inputLabelTypes.forEach((labelType, index) => {
-            selector += "." + TabContainerSection.inputLabelWrapClass + "." + labelType.cssClass;
+            selector += `.${TabContainerSection.inputLabelWrapClass}.${labelType.cssClass}`;
 
             if(index+1 != TabContainerSection.inputLabelTypes.length) {
                 selector += ", ";

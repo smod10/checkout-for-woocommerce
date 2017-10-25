@@ -637,6 +637,14 @@ var ValidationService = /** @class */ (function () {
         this.setEventListeners();
         var max_iterations = 1000;
         var iterations = 0;
+        $(".garlic-auto-save").each(function (index, elem) {
+            $(elem).garlic({
+                onRetrieve: function (element, retrievedValue) {
+                    $(element).parent().addClass("cfw-floating-label");
+                    console.log($(element).parent().attr("class"));
+                }
+            });
+        });
         if (window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
             if (!this.validate(EValidationSections.SHIPPING)) {
                 window.location.hash = "#cfw-customer-info";

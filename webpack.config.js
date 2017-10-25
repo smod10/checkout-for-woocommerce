@@ -5,8 +5,11 @@ let CopyWebpackPlugin = require('copy-webpack-plugin');
 let CleanWebpackPlugin = require('clean-webpack-plugin');
 let WebpackZipPlugin = require('webpack-zip-plugin');
 let TypedocWebpackPlugin = require('typedoc-webpack-plugin');
+
 let inProduction = (process.env.NODE_ENV === 'production');
 let version = get_argv_param('env.version') || false;
+
+const buildDir = './checkout-for-woocommerce';
 
 function get_argv_param(param){
     let result = '';
@@ -88,6 +91,12 @@ if ( inProduction ) {
                 verbose: true
             }
         ),
+        new CleanWebpackPlugin(
+            'checkout-for-woocommerce',
+            {
+                verbose: true
+            }
+        ),
         new CopyWebpackPlugin(
             [
                 {
@@ -95,7 +104,7 @@ if ( inProduction ) {
                     to:'dist/checkout-for-woocommerce',
                     ignore: ['node_modules/**', 'dist/**', '.git/**'],
                     transform: function(content, path) {
-                        
+
                         return content;
                     }
                 }
@@ -105,9 +114,23 @@ if ( inProduction ) {
 }
 
 if ( inProduction && version !== false ) {
+    module.exports.plugins.push(new CopyWebpackPlugin(
+        [
+            {
+                from:'.',
+                to:'checkout-for-woocommerce',
+                ignore: ['node_modules/**', 'dist/**', '.git/**'],
+                transform: function(content, path) {
+
+                    return content;
+                }
+            }
+        ]
+    ));
+
     module.exports.plugins.push(
         new WebpackZipPlugin({
-            initialFile: 'dist/checkout-for-woocommerce',
+            initialFile: 'checkout-for-woocommerce && rm -rf ' + buildDir,
             endPath: './dist',
             zipName: 'checkout-for-woocommerce-' + version + '.zip'
         })

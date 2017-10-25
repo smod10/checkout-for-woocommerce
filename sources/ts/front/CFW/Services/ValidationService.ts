@@ -192,9 +192,15 @@ export class ValidationService {
 
             if(targetPanelIndex > currentPanelIndex) {
                 if(currentPanelIndex === 0) {
-                    let validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.SHIPPING);
+                    let validated = false;
 
-                    if (!validated) {
+                    if ( this.tabContainer.jel.find('.etabs > li').length == 2 ) {
+                        validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.BILLING);
+                    } else {
+                        validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.SHIPPING);
+                    }
+
+                    if ( ! validated ) {
                         window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");
                     }
 

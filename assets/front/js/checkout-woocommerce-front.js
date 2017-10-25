@@ -758,7 +758,13 @@ var ValidationService = /** @class */ (function () {
             });
             if (targetPanelIndex > currentPanelIndex) {
                 if (currentPanelIndex === 0) {
-                    var validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.SHIPPING);
+                    var validated = false;
+                    if (this.tabContainer.jel.find('.etabs > li').length == 2) {
+                        validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.BILLING);
+                    }
+                    else {
+                        validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.SHIPPING);
+                    }
                     if (!validated) {
                         window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");
                     }

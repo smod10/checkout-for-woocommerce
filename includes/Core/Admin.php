@@ -55,6 +55,12 @@ class Admin {
 
 		// Admin notice
         add_action('admin_notices', array($this, 'add_notice_key_nag') );
+
+        // Welcome notice
+		add_action('admin_notices', array($this, 'add_welcome_notice') );
+
+        // Welcome redirect
+		add_action( 'admin_init', array($this, 'welcome_screen_do_activation_redirect') );
 	}
 
 	/**
@@ -426,6 +432,8 @@ class Admin {
 		$key_status = $this->plugin_instance->get_updater()->get_field_value('key_status');
 		$license_key = $this->plugin_instance->get_updater()->get_field_value('license_key');
 
+		if ( ! empty($_GET['cfw_welcome']) ) return;
+
 		// Validate Key Status
 		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
 			echo "<div class='notice notice-error is-dismissible'> <p>" . $this->renew_or_purchase_nag($key_status, $license_key) . "</p></div>";
@@ -446,4 +454,28 @@ class Admin {
 
 		return __( 'Checkout for WooCommerce: Your license key is missing or invalid. Please verify that your license key is valid or <a target="_blank" href="https://www.checkoutwc.com/">purchase a license</a> to restore full functionality.', 'checkout-wc');
 	}
+
+	function add_welcome_notice() {
+	    if ( ! empty($_GET['cfw_welcome']) ) {
+	        echo "<div style='display:block !important' class='notice notice-info'><p>" . __('Thank you for installing Checkout for WooCommerce! To get started, click on <strong>License</strong> below and activate your license key!', 'checkout-wc') . "</p></div>";
+        }
+    }
+
+	function welcome_screen_do_activation_redirect() {
+		// Bail if no activation redirect
+		if ( ! get_transient( '_cfw_welcome_screen_activation_redirect' ) ) {
+			return;
+		}
+
+		// Delete the redirect transient
+		delete_transient( '_cfw_welcome_screen_activation_redirect' );
+
+		// Bail if activating from network, or bulk
+		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
+			return;
+		}
+
+		// Redirect to bbPress about page
+		wp_safe_redirect( add_query_arg( array( 'page' => 'cfw-settings', 'cfw_welcome' => 'true' ), admin_url( 'options-general.php' ) ) );
+    }
 }

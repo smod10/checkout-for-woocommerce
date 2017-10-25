@@ -440,7 +440,7 @@ class Admin {
 	 * @return String The renewal or purchase notice.
 	 */
 	public function renew_or_purchase_nag( $key_status, $license_key ) {
-		if ( true || $key_status == "expired" ) {
+		if ( $key_status == "expired" ) {
 			return sprintf(__('Checkout for WooCommerce: Your license key appears to have expired. Please verify that your license key is valid or <a target="_blank" href="https://www.checkoutwc.com/checkout/?edd_license_key=%s">renew your license now</a> to restore full functionality.', $license_key), 'checkout-wc');
 		}
 

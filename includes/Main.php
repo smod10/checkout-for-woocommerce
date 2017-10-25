@@ -407,7 +407,7 @@ class Main extends Singleton {
 	 * This action is documented in includes/class-midas-activator.php
 	 */
 	public static function activation() {
-		Activator::activate();
+		$success = Activator::activate();
 
 		// Get main
 		$main = Main::instance();
@@ -427,8 +427,10 @@ class Main extends Singleton {
 		// Updater license status cron
 		$main->updater->set_license_check_cron();
 
-		// Welcome screen transient
-		set_transient( '_cfw_welcome_screen_activation_redirect', true, 30 );
+		if ( $success ) {
+			// Welcome screen transient
+			set_transient( '_cfw_welcome_screen_activation_redirect', true, 30 );
+		}
 	}
 
 	/**

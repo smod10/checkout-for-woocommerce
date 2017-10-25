@@ -51,6 +51,8 @@ class Activator {
 		if( ! empty($activation) ) {
 			add_option(self::$anotice_op_name, $activation);
 		}
+
+		return empty($activation);
 	}
 
 	/**

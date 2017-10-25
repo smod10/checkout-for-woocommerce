@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     '6bc45d0537e6858fd179bdbc31d62c79' => $vendorDir . '/raveren/kint/Kint.class.php',
-    '37ce5fb7241fdbffe61d46aa1870bafe' => $baseDir . '/constants.php',
+    '1f0823f1af88b44c9d755ddf0a322c90' => $baseDir . '/constants.php',
+    'cbbab0e7079234e6e77808716493e1ca' => $baseDir . '/functions.php',
 );

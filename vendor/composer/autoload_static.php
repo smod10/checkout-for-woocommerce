@@ -4,11 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit61542e57d44545c63010cd95d647327f
+class ComposerStaticInitf8acf001f641622e7a8d01500390b108
 {
     public static $files = array (
         '6bc45d0537e6858fd179bdbc31d62c79' => __DIR__ . '/..' . '/raveren/kint/Kint.class.php',
-        '37ce5fb7241fdbffe61d46aa1870bafe' => __DIR__ . '/../..' . '/constants.php',
+        '1f0823f1af88b44c9d755ddf0a322c90' => __DIR__ . '/../..' . '/constants.php',
+        'cbbab0e7079234e6e77808716493e1ca' => __DIR__ . '/../..' . '/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -36,18 +37,21 @@ class ComposerStaticInit61542e57d44545c63010cd95d647327f
     );
 
     public static $classMap = array (
+        'CGD_EDDSL_Magic' => __DIR__ . '/..' . '/objectivco/cgd_eddsl_magic/src/CGD_EDDSL_Magic.php',
+        'WP_Tabbed_Navigation' => __DIR__ . '/..' . '/objectivco/wp_tabbed_navigation/src/class-wp-tabbed-navigation.php',
         'Whoops\\Module' => __DIR__ . '/..' . '/filp/whoops/src/deprecated/Zend/Module.php',
         'Whoops\\Provider\\Zend\\ExceptionStrategy' => __DIR__ . '/..' . '/filp/whoops/src/deprecated/Zend/ExceptionStrategy.php',
         'Whoops\\Provider\\Zend\\RouteNotFoundStrategy' => __DIR__ . '/..' . '/filp/whoops/src/deprecated/Zend/RouteNotFoundStrategy.php',
+        'WordPress_SimpleSettings' => __DIR__ . '/..' . '/objectivco/wordpress-simple-settings/src/wordpress-simple-settings.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit61542e57d44545c63010cd95d647327f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit61542e57d44545c63010cd95d647327f::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit61542e57d44545c63010cd95d647327f::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit61542e57d44545c63010cd95d647327f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf8acf001f641622e7a8d01500390b108::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf8acf001f641622e7a8d01500390b108::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitf8acf001f641622e7a8d01500390b108::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitf8acf001f641622e7a8d01500390b108::$classMap;
 
         }, null, ClassLoader::class);
     }

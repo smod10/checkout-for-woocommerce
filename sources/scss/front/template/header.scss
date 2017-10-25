@@ -1,0 +1,13 @@
+#cfw-header {
+  background: $header-bg;
+}
+
+@media(max-width: 767px) {
+  #cfw-logo-container {
+    text-align: center;
+  }
+
+  #cfw-logo {
+    display: inline-block;
+  }
+}

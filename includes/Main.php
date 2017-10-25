@@ -2,17 +2,25 @@
 
 namespace Objectiv\Plugins\Checkout;
 
-/**
- * The file that defines the core plugin class
- *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area.
- *
- * @link       brandont.me
- * @since      0.1.0
- *
- * @package    Objectiv\Plugins\Checkout
- */
+use Objectiv\Plugins\Checkout\Action\ApplyCouponAction;
+use Objectiv\Plugins\Checkout\Action\CompleteOrderAction;
+use Objectiv\Plugins\Checkout\Language\i18n;
+use Objectiv\Plugins\Checkout\Utilities\Activator;
+use Objectiv\Plugins\Checkout\Utilities\Deactivator;
+use Objectiv\Plugins\Checkout\Core\Base\Singleton;
+use Objectiv\Plugins\Checkout\Core\Redirect;
+use Objectiv\Plugins\Checkout\Core\Loader;
+use Objectiv\Plugins\Checkout\Managers\SettingsManager;
+use Objectiv\Plugins\Checkout\Managers\PathManager;
+use Objectiv\Plugins\Checkout\Managers\TemplateManager;
+use Objectiv\Plugins\Checkout\Managers\AjaxManager;
+use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
+use Objectiv\Plugins\Checkout\Action\LogInAction;
+use Objectiv\Plugins\Checkout\Action\UpdateShippingFieldsAction;
+use Objectiv\Plugins\Checkout\Action\UpdateShippingMethodAction;
+
+use \Whoops\Run;
+use \Whoops\Handler\PrettyPageHandler;
 
 /**
  * The core plugin class.
@@ -23,280 +31,446 @@ namespace Objectiv\Plugins\Checkout;
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      0.1.0
- * @package    Objectiv\Plugins\Checkout
- * @author     Brandon Tassone <brandontassone@gmail.com>
+ * @link objectiv.co
+ * @since 1.0.0
+ * @package Objectiv\Plugins\Checkout
+ * @author Brandon Tassone <brandontassone@gmail.com>
  */
 
-class Main {
-    /**
-     * The loader that's responsible for maintaining and registering all hooks that power
-     * the plugin.
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      Loader    $loader    Maintains and registers all hooks for the plugin.
-     */
-    protected $loader;
+class Main extends Singleton {
 
-    /**
-     * The redirect class handles the theme redirects in relation to the woocommerce checkout system
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      Redirect    $redirect    Maintains and registers all the redirects
-     */
-    protected $redirect;
+	/**
+	 * The loader that's responsible for maintaining and registering all hooks that power
+	 * the plugin.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var Loader $loader Maintains and registers all hooks for the plugin.
+	 */
+	private $loader;
 
-    /**
-     * The redirect class handles the theme redirects in relation to the woocommerce checkout system
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      TemplateManager    $template_manager    Handles all template related functionality.
-     */
-    protected $template_manager;
+	/**
+	 * Template related functionality manager
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var TemplateManager $template_manager Handles all template related functionality.
+	 */
+	private $template_manager;
 
-    /**
-     * The unique identifier of this plugin.
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      string    $plugin_name    The string used to uniquely identify this plugin.
-     */
-    protected $plugin_name;
+	/**
+	 * @since 1.0.0
+	 * @access private
+	 * @var PathManager $path_manager Handles the path information for the plugin
+	 */
+	private $path_manager;
 
-    /**
-     * The plugin folder name/main file combined in a string (useful for deactivating the plugin amongst other things)
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      string    $plugin_main_file    The plugin folder and main file name concatenated
-     */
-    protected $plugin_main_file;
+	/**
+	 * @since 1.0.0
+	 * @access private
+	 * @var AjaxManager $ajax_manager
+	 */
+	private $ajax_manager;
 
-    /**
-     * The plugin directory path
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      string    $version    The plugin directory path
-     */
-    protected $plugin_directory_path;
+	/**
+	 * Language class dealing with translating the various parts of the plugin
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var i18n The language class
+	 */
+	private $i18n;
 
-    /**
-     * The current version of the plugin.
-     *
-     * @since    0.1.0
-     * @access   protected
-     * @var      string    $version    The current version of the plugin.
-     */
-    protected $version;
+	/**
+	 * The unique identifier of this plugin.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var string $plugin_name The string used to uniquely identify this plugin.
+	 */
+	private $plugin_name;
 
-    /**
-     * Define the core functionality of the plugin.
-     *
-     * Set the plugin name and the plugin version that can be used throughout the plugin.
-     * Load the dependencies, define the locale, and set the hooks for the admin area and
-     * the public-facing side of the site.
-     *
-     * @param   string      $plugin_directory_path      The plugin directory path
-     * @param   string      $plugin_main_file           The plugin main file name (including extension)
-     *
-     * @since    0.1.0
-     */
-    public function __construct($plugin_directory_path, $plugin_main_file) {
-        // Program Details
-        $this->plugin_name = "Checkout for Woocommerce";
-        $this->version = "0.1.0";
-        $this->plugin_directory_path = $plugin_directory_path;
-        $this->plugin_main_file = $plugin_main_file;
+	/**
+	 * The current version of the plugin.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var string $version The current version of the plugin.
+	 */
+	private $version;
 
-        // Enable program flags
-        $this->check_flags();
+	/**
+	 * Settings class for accessing user defined settings.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var SettingsManager $settings The settings object.
+	 */
+	private $settings_manager;
 
-        // Instantiate program objects
-        $this->loader = new Loader();
+	/**
+	 * Updater class for handling licenses
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var \CGD_EDDSL_Magic $updater The updater object.
+	 */
+	private $updater;
 
-        // Set up localization
-        $this->set_locale();
+	/**
+	 * Main constructor.
+	 */
+	public function __construct() {
+		// Program Details
+		$this->plugin_name = "Checkout for WooCommerce";
+		$this->version = CFW_VERSION;
+	}
 
-        // Load the plugin actions
-        $this->load_actions();
+	/**
+	 * Returns the i18n language class
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return i18n
+	 */
+	public function get_i18n() {
+		return $this->i18n;
+	}
 
-        // Pull in backend admin and public resources
-        $this->define_admin_hooks();
-        $this->define_public_hooks();
+	/**
+	 * The reference to the class that orchestrates the hooks with the plugin.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return Loader Orchestrates the hooks of the plugin.
+	 */
+	public function get_loader() {
+		return $this->loader;
+	}
 
-        // Enable the checkout redirects
-        $this->enable_redirects();
+	/**
+	 * Returns the path manager
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return PathManager
+	 */
+	public function get_path_manager() {
+		return $this->path_manager;
+	}
 
-        // Create the template manager
-        $this->template_manager = new TemplateManager($this->plugin_directory_path);
-    }
+	/**
+	 * @since 1.0.0
+	 * @access public
+	 * @return AjaxManager
+	 */
+	public function get_ajax_manager() {
+		return $this->ajax_manager;
+	}
 
+	/**
+	 * The name of the plugin used to uniquely identify it within the context of
+	 * WordPress and to define internationalization functionality.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return string The name of the plugin.
+	 */
+	public function get_plugin_name() {
+		return $this->plugin_name;
+	}
 
-    /**
-     * Handles general purpose Wordpress actions.
-     */
-    protected function load_actions() {
-        $this->loader->add_action('admin_notices', '\Objectiv\Plugins\Checkout\Activator', 'activate_admin_notice');
-    }
+	/**
+	 * Returns the template manager
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return TemplateManager
+	 */
+	public function get_template_manager()
+	{
+		return $this->template_manager;
+	}
 
-    /**
-     * When run checks to see if the flag is defined and its value (inversely). If found to be active, it runs the
-     * function
-     *
-     * @since    0.1.0
-     * @access   private
-     */
-    private function check_flags() {
-        (!defined('CO_DEV_MODE') || !CO_DEV_MODE) ?: $this->enable_dev_mode();
-    }
+	/**
+	 * Retrieve the version number of the plugin.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return string The version number of the plugin.
+	 */
+	public function get_version() {
+		return $this->version;
+	}
 
-    /**
-     * Enables libraries and functions for the specific task of aiding in development
-     *
-     * Whoops - Pretty Errors
-     * Kint - Pretty Debug
-     *
-     * @since    0.1.0
-     * @access   private
-     */
-    private function enable_dev_mode() {
-        // Enable Whoops
-        $whoops = new \Whoops\Run;
-        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-        $whoops->register();
+	/**
+	 * Get the settings manager
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return SettingsManager The settings manager object
+	 */
+	public function get_settings_manager() {
+		return $this->settings_manager;
+	}
 
-        // Enable Kint
-        \Kint::enabled(true);
-    }
+	/**
+	 * Get the updater object
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return \CGD_EDDSL_Magic The updater object
+	 */
+	public function get_updater() {
+		return $this->updater;
+	}
 
-    /**
-     * Enables the redirects that reroute certain portions of the woocommerce framework
-     *
-     * @since    0.1.0
-     * @access   protected
-     */
-    protected function enable_redirects() {
-        $this->redirect = new Redirect();
+	/**
+	 * Run the loader to execute all of the hooks with WordPress.
+	 *
+	 * @since 1.0.0
+	 * @param string $file The file path to the main plugin file
+	 */
+	public function run($file) {
+		// Enable program flags
+		$this->check_flags();
 
-        $this->loader->add_action('template_redirect', $this->redirect, 'checkout');
-    }
+		// Create and setup the plugins main objects
+		$this->create_main_objects($file);
 
-    /**
-     * Returns the concatenated folder name with the main file name in one strong
-     *
-     * @since     0.1.0
-     * @return    string    Returns the concatenated folder name with the main file name in one strong
-     */
-    public function get_plugin_full_path_main_file() {
-        return $this->plugin_directory_path . "/" . $this->plugin_main_file;
-    }
+		// Loads all the ajax handlers on the php side
+		$this->configure_objects();
 
-    /**
-     * @return TemplateManager
-     */
-    public function get_template_manager()
-    {
-        return $this->template_manager;
-    }
+		// Adds the plugins hooks
+		$this->add_plugin_hooks();
+	}
 
-    /**
-     * Returns the main plugin file name including extension
-     *
-     * @since     0.1.0
-     * @return    string    Returns the main plugin file name including extension
-     */
-    public function get_plugin_main_file() {
-        return $this->plugin_main_file;
-    }
+	/**
+	 * When run checks to see if the flag is defined and its value (inversely). If found to be active, it runs the
+	 * function
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 */
+	private function check_flags() {
+		(!defined('CO_DEV_MODE') || !CO_DEV_MODE) ?: $this->enable_dev_mode();
+	}
 
-    /**
-     * Gets the plugin directory path
-     *
-     * @return string
-     */
-    public function get_plugin_directory_path()
-    {
-        return $this->plugin_directory_path;
-    }
+	/**
+	 * Enables libraries and functions for the specific task of aiding in development
+	 *
+	 * Whoops - Pretty Errors
+	 * Kint - Pretty Debug
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 */
+	private function enable_dev_mode() {
+		// Enable Whoops
+//		$whoops = new Run();
+//		$whoops->pushHandler(new PrettyPageHandler());
+//		$whoops->register();
 
-    /**
-     * The reference to the class that orchestrates the hooks with the plugin.
-     *
-     * @since     0.1.0
-     * @return    Loader    Orchestrates the hooks of the plugin.
-     */
-    public function get_loader() {
-        return $this->loader;
-    }
+		// Enable Kint
+		\Kint::enabled(true);
+	}
 
-    /**
-     * The name of the plugin used to uniquely identify it within the context of
-     * WordPress and to define internationalization functionality.
-     *
-     * @since     0.1.0
-     * @return    string    The name of the plugin.
-     */
-    public function get_plugin_name() {
-        return $this->plugin_name;
-    }
+	/**
+	 * Creates the main objects used in this plugins setup and processing
+	 *
+	 * Note: Realistically the only function that would be needed for testing.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @param string $file The file path to the main plugin file
+	 */
+	private function create_main_objects($file) {
 
-    /**
-     * Retrieve the version number of the plugin.
-     *
-     * @since     0.1.0
-     * @return    string    The version number of the plugin.
-     */
-    public function get_version() {
-        return $this->version;
-    }
+		// Create the loader for actions and filters
+		$this->loader = new Loader();
 
-    /**
-     * Run the loader to execute all of the hooks with WordPress.
-     *
-     * @since    0.1.0
-     */
-    public function run() {
-        $this->loader->run();
-    }
+		// Set up localization
+		$this->i18n = new i18n();
 
-    /**
-     * Register all of the hooks related to the admin area functionality
-     * of the plugin.
-     *
-     * @since    0.1.0
-     * @access   private
-     */
-    private function define_admin_hooks() {
+		// The path manager for the plugin
+		$this->path_manager = new PathManager(plugin_dir_path($file), plugin_dir_url($file), basename($file));
 
-    }
+		// Create the template manager
+		$this->template_manager = new TemplateManager();
 
-    /**
-     * Register all of the hooks related to the public-facing functionality
-     * of the plugin.
-     *
-     * @since    0.1.0
-     * @access   private
-     */
-    private function define_public_hooks() {
+		// Create the ajax manager
+		$this->ajax_manager = new AjaxManager($this->get_ajax_actions(), $this->loader);
 
-    }
+		// The settings manager for the plugin
+		$this->settings_manager = new SettingsManager();
 
-    /**
-     * Define the locale for this plugin for internationalization.
-     *
-     * Uses the i18n class in order to set the domain and to register the hook
-     * with WordPress.
-     *
-     * @since    0.1.0
-     * @access   private
-     */
-    private function set_locale() {
-        $plugin_i18n = new i18n();
+		// License updater
+		$this->updater = new \CGD_EDDSL_Magic("_cfw_licensing", false, CFW_UPDATE_URL, $this->get_version(), CFW_NAME, "Objectiv", $this->path_manager->get_main_file(), $theme = false);
+	}
 
-        $this->loader->add_action('init', $plugin_i18n, 'load_plugin_textdomain');
-    }
+	/**
+	 * @since 1.0.0
+	 * @access private
+	 */
+	private function configure_objects() {
+		$this->ajax_manager->load_all();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get_ajax_actions() {
+		return array(
+			new AccountExistsAction("account_exists"),
+			new LogInAction("login"),
+			new UpdateShippingFieldsAction("update_shipping_fields"),
+			new UpdateShippingMethodAction("update_shipping_method"),
+			new CompleteOrderAction("complete_order"),
+			new ApplyCouponAction("apply_coupon")
+		);
+	}
+
+	/**
+	 * Set the plugin assets
+	 */
+	public function set_assets() {
+		$front = "{$this->path_manager->get_assets_path()}/front";
+
+		$min = ( ! CO_DEV_MODE ) ? ".min" : "";
+
+		wp_enqueue_style('cfw_front_css', "${front}/css/checkout-woocommerce-front${min}.css", array(), $this->get_version());
+
+		wp_enqueue_script('jquery');
+		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array('jquery'), $this->get_version(), true);
+	}
+
+	/**
+	 * Add the actions and hooks used by the plugin (filtered through the Loader class) then run register them with
+	 * WordPress
+	 */
+	public function add_plugin_hooks() {
+		// Load the plugin actions
+		$this->load_actions();
+
+		// Load the plugin filters
+		$this->load_filters();
+
+		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
+		$this->loader->run();
+	}
+
+	/**
+	 * Handles general purpose WordPress actions.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 */
+	private function load_actions() {
+		$this->loader->add_action('wp_enqueue_scripts', array($this, 'set_assets'));
+
+		// Add the Language class
+		$this->loader->add_action('init', function() {
+			$this->i18n->load_plugin_textdomain($this->path_manager);
+
+			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+				// For some reason, using the loader add_filter here doesn't work *shrug*
+				add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
+			}
+		});
+
+		// Handle the Activation notices
+		$this->loader->add_action('admin_notices', function() {
+			Activator::activate_admin_notice($this->path_manager);
+		});
+
+		// Setup the Checkout redirect
+		$this->loader->add_action('template_redirect', function() {
+			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
+			}
+		});
+	}
+
+	/**
+	 * Filters in this plugin allow you to augment a lot of the default functionality present. Anything mission critical
+	 * that needs to be augmented will probably have a filter attached
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 */
+	private function load_filters() {
+		// filters
+	}
+
+	/**
+	 * The code that runs during plugin activation.
+	 * This action is documented in includes/class-midas-activator.php
+	 */
+	public static function activation() {
+		$success = Activator::activate();
+
+		// Get main
+		$main = Main::instance();
+
+		// Init settings
+		$main->settings_manager->add_setting('enable', 'no');
+		$main->settings_manager->add_setting('header_background_color', '#ffffff');
+		$main->settings_manager->add_setting('header_text_color', '#2b2b2b');
+		$main->settings_manager->add_setting('footer_background_color', '#ffffff');
+		$main->settings_manager->add_setting('footer_color', '#999999');
+		$main->settings_manager->add_setting('link_color', '#e9a81d');
+		$main->settings_manager->add_setting('button_color', '#e9a81d');
+		$main->settings_manager->add_setting('button_text_color', '#000000');
+		$main->settings_manager->add_setting('secondary_button_color', '#999999');
+		$main->settings_manager->add_setting('secondary_button_text_color', '#ffffff');
+
+		// Updater license status cron
+		$main->updater->set_license_check_cron();
+
+		if ( $success ) {
+			// Welcome screen transient
+			set_transient( '_cfw_welcome_screen_activation_redirect', true, 30 );
+		}
+	}
+
+	/**
+	 * The code that runs during plugin deactivation.
+	 * This action is documented in includes/class-midas-deactivator.php
+	 */
+	public static function deactivation() {
+		Deactivator::deactivate();
+
+		// Get main
+		$main = Main::instance();
+
+		// Remove cron for license update check
+		$main->updater->unset_license_check_cron();
+	}
+
+	/**
+	 * @return string
+	 */
+	function override_woocommerce_registration_generate_password() {
+		return "yes";
+	}
+
+	/**
+	 * @return bool True if license valid, false if it is invalid
+	 */
+	function license_is_valid() {
+		// Get main
+		$main = Main::instance();
+
+		$key_status = $main->updater->get_field_value('key_status');
+		$license_key = $main->updater->get_field_value('license_key');
+
+		$valid = true;
+
+		// Validate Key Status
+		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
+			$valid = false;
+		}
+
+		return $valid;
+	}
 }

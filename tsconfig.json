@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es5",
+		"experimentalDecorators": true,
+		"preserveConstEnums": true,
+		"sourceMap": true,
+		"allowJs": true
+	},
+	"files": [
+		"./sources/ts/front/CFW/Main.ts",
+		"./typings/index.d.ts"
+	]
+}

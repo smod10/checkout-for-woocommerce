@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en_ZA\n"
+
+#: Activator.php:78
+msgid "Checkout for WooCommerce"
+msgstr "Checzkout for Woocmerce"
+
+#: Activator.php:51
+msgid ""
+"Activation failed: Please activate Woocommerce in order to use Checkout for "
+"Woocommerce"
+msgstr ""
+"Activatzion Faized Pleaze Actizate Woocommerce in order to use Checzkout "
+"for Woocommerce "

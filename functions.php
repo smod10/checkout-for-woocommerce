@@ -280,19 +280,25 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	}
 
 	function cfw_get_shipping_checkout_fields($checkout) {
-		foreach ( $checkout->get_checkout_fields( 'shipping' ) as $key => $field ) {
+	    $shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', $checkout->get_checkout_fields( 'shipping' ) );
+
+		foreach ( $shipping_checkout_fields as $key => $field ) {
 			cfw_form_field( $key, $field, $checkout->get_value( $key ) );
 		}
 	}
 
 	function cfw_get_billing_checkout_fields($checkout) {
-		foreach ( $checkout->get_checkout_fields( 'billing' ) as $key => $field ) {
+	    $billing_checkout_fields = apply_filters('cfw_get_billing_checkout_fields', $checkout->get_checkout_fields( 'billing' ) );
+
+		foreach ( $billing_checkout_fields as $key => $field ) {
 			cfw_form_field( $key, $field, $checkout->get_value( $key ) );
 		}
 	}
 
 	function cfw_get_shipping_details($checkout) {
-		foreach ( $checkout->get_checkout_fields( 'shipping' ) as $key => $field ) {
+		$shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', $checkout->get_checkout_fields( 'shipping' ) );
+
+		foreach ( $shipping_checkout_fields as $key => $field ) {
 			echo "<div field_type='" . cfw_strip_key_type($key) ."' class='cfw-shipping-details-field'><label class='field_type'>" . esc_html__(cfw_strip_key_type_and_capitalize($key), 'checkout-wc') . ": </label><span class='field_value'>{$checkout->get_value($key)}</span></div>";
 		}
 	}
@@ -408,7 +414,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                                         $field_html = str_ireplace('id="stripe-card-number"', 'id="stripe-card-number" data-persist="false"', $field_html);
                                         $field_html = str_ireplace('id="stripe-card-cvc"', 'id="stripe-card-cvc" data-persist="false"', $field_html);
 
-                                        echo $field_html;
+                                        echo apply_filters('cfw_payment_gateway_field_html_' . $gateway->id, $field_html);
                                         ?>
                                     </div>
                                 </div>

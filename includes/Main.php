@@ -243,6 +243,9 @@ class Main extends Singleton {
 
 		// Adds the plugins hooks
 		$this->add_plugin_hooks();
+
+		// Add compatibility
+		$this->compatibility();
 	}
 
 	/**
@@ -357,6 +360,10 @@ class Main extends Singleton {
 
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
 		$this->loader->run();
+	}
+
+	function compatibility() {
+		new \Objectiv\Plugins\Checkout\Core\Compatibility();
 	}
 
 	/**

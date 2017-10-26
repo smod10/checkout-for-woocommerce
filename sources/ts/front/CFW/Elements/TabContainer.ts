@@ -411,7 +411,7 @@ export class TabContainer extends Element {
         let ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
         let payment_method = $('[name="payment_method"]:checked').val();
         let account_password = $('#cfw-password').val();
-        let billing_email = $("#cfw-email").val();
+        let billing_email = $("#billing_email").val();
 
         let billing_first_name = $("#billing_first_name").val();
         let billing_last_name = $("#billing_last_name").val();

@@ -245,7 +245,7 @@ export class CompleteOrderAction extends Action {
      */
     resetData(): void {
         $('#cfw-password').val(this.data["account_password"]);
-        $("#cfw-email").val(this.data.billing_email);
+        $("#billing_email").val(this.data.billing_email);
 
         $("#billing_first_name").val(this.data.billing_first_name);
         $("#billing_last_name").val(this.data.billing_last_name);

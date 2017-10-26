@@ -241,7 +241,10 @@ class Redirect {
             'woocommerce_stripe',
             'stripe_apple_pay',
             'woocommerce_stripe_apple_pay',
+            'wc-jilt',
         );
+
+		$ignore = apply_filters('cfw_allowed_script_handles', $ignore);
 
 		foreach($wp_scripts->queue as $handle) {
 		    if(!in_array($handle, $ignore)) {

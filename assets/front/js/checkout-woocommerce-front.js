@@ -1622,7 +1622,7 @@ var TabContainer = /** @class */ (function (_super) {
         var ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
         var payment_method = $('[name="payment_method"]:checked').val();
         var account_password = $('#cfw-password').val();
-        var billing_email = $("#cfw-email").val();
+        var billing_email = $("#billing_email").val();
         var billing_first_name = $("#billing_first_name").val();
         var billing_last_name = $("#billing_last_name").val();
         var billing_company = $("#billing_company").val();
@@ -2474,7 +2474,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
     CompleteOrderAction.prototype.resetData = function () {
         var _this = this;
         $('#cfw-password').val(this.data["account_password"]);
-        $("#cfw-email").val(this.data.billing_email);
+        $("#billing_email").val(this.data.billing_email);
         $("#billing_first_name").val(this.data.billing_first_name);
         $("#billing_last_name").val(this.data.billing_last_name);
         $("#billing_company").val(this.data.billing_company);

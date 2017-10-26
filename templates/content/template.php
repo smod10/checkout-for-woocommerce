@@ -65,12 +65,12 @@
 
                                 <div id="" class="cfw-input-container">
                                     <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
-                                        <label class="cfw-input-label" for="cfw-email"><?php esc_html_e('Email', 'checkout-wc'); ?></label>
-                                        <input type="email" name="cfw-email" id="cfw-email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
+                                        <label class="cfw-input-label" for="billing_email"><?php esc_html_e('Email', 'checkout-wc'); ?></label>
+                                        <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
                                     </div>
                                     <div id="cfw-login-slide">
                                         <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
-                                            <label class="cfw-input-label" for="cfw-email"><?php esc_html_e('Password', 'checkout-wc'); ?></label>
+                                            <label class="cfw-input-label" for="cfw-password"><?php esc_html_e('Password', 'checkout-wc'); ?></label>
                                             <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password">
                                         </div>
                                         <div class="cfw-input-wrap cfw-button-input">

@@ -214,6 +214,8 @@ class Redirect {
             <meta name="viewport" content="width=device-width">
 
             <?php echo $settings_manager->get_setting('header_scripts'); ?>
+
+            <?php do_action('cfw_wp_head'); ?>
 		</head>
 		<body class="<?php echo implode(" ", $classes); ?>">
 		<?php
@@ -282,6 +284,7 @@ class Redirect {
 	public static function footer($path_manager, $settings_manager) {
 		print_footer_scripts();
 		echo $settings_manager->get_setting('footer_scripts');
+		do_action('cfw_wp_footer');
 		?>
 		</body>
 		</html>

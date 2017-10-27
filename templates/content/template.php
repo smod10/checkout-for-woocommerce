@@ -42,7 +42,9 @@
                         <div id="cfw-customer-info">
 
                             <div id="cfw-login-details" class="cfw-module">
-                                <h3 class="cfw-module-title"><?php _e( 'Customer information', 'checkout-wc' ); ?></h3>
+                                <h3 class="cfw-module-title">
+                                    <?php echo apply_filters('cfw_customer_information_heading', __( 'Customer information', 'checkout-wc' ) ); ?>
+                                </h3>
 
                                 <?php do_action('cfw_checkout_before_customer_info_tab'); ?>
 
@@ -104,9 +106,9 @@
                                 <h3 class="cfw-module-title">
                                     <?php
                                         if ( ! WC()->cart->needs_shipping_address() ) {
-                                            esc_html_e( 'Billing address', 'checkout-wc' );
+	                                        echo apply_filters('cfw_billing_address_heading', esc_html__( 'Billing address', 'checkout-wc' ) );
                                         } else {
-                                            esc_html_e( 'Shipping address', 'checkout-wc' );
+	                                        echo apply_filters('cfw_shipping_address_heading', esc_html__( 'Shipping address', 'checkout-wc' ) );
                                         }
                                     ?>
                                 </h3>
@@ -135,7 +137,9 @@
                         <div id="cfw-shipping-method" style="<?php echo (!WC()->cart->needs_shipping_address()) ? "display: none" : ""; ?>">
 
                             <div id="cfw-shipping-details" class="cfw-module">
-                                <h3 class="cfw-module-title"><?php esc_html_e( 'Shipping address', 'checkout-wc' ); ?></h3>
+                                <h3 class="cfw-module-title">
+                                    <?php echo apply_filters('cfw_shipping_address_recap_heading', esc_html__( 'Shipping address', 'checkout-wc' ) ); ?>
+                                </h3>
 
                                 <?php do_action('cfw_checkout_before_shipping_method_tab'); ?>
 
@@ -152,7 +156,9 @@
 
                             <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
                                 <div id="cfw-shipping-method" class="cfw-module">
-                                    <h3 class="cfw-module-title"><?php esc_html_e( 'Shipping method', 'checkout-wc' ); ?></h3>
+                                    <h3 class="cfw-module-title">
+                                        <?php echo apply_filters('cfw_shipping_method_heading', esc_html__( 'Shipping method', 'checkout-wc' ) ); ?>
+                                    </h3>
                                     <span><?php esc_html_e( 'Select a shipping method:', 'checkout-wc' ); ?></span>
                                     <div>
                                         <?php cfw_cart_totals_shipping_html(); ?>
@@ -174,7 +180,9 @@
                         <div id="cfw-payment-method">
 
                         <div id="cfw-billing-methods" class="cfw-module">
-                            <h3 class="cfw-module-title"><?php esc_html_e('Payment method', 'checkout-wc'); ?></h3>
+                            <h3 class="cfw-module-title">
+                                <?php echo apply_filters('cfw_payment_method_heading', esc_html__('Payment method', 'checkout-wc') ); ?>
+                            </h3>
 
                             <?php do_action('cfw_checkout_before_payment_method_tab'); ?>
 

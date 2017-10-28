@@ -489,6 +489,8 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
     }
 
     function cfw_get_template_part( $template_part ) {
+	    if ( apply_filters('cfw_get_template_part_skip_' . $template_part, false) ) return;
+	    
 	    $Main = Objectiv\Plugins\Checkout\Main::instance();
 
 	    $global_template_parameters = apply_filters('cfw_template_global_params', array());

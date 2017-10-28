@@ -72,7 +72,7 @@ class PathManager {
 
 		$this->plugin_template = $this->base . "templates";
 		$this->assets = $this->url_base . "assets";
-		$this->theme_template = get_template_directory() . "/checkout";
+		$this->theme_template = get_stylesheet_directory() . "/checkout-wc";
 	}
 
 	/**
@@ -159,14 +159,14 @@ class PathManager {
 	 * @param array $sub_folders List of folder names within the template directories to look for template files.
 	 * @return array
 	 */
-	public function get_template_information($sub_folders) {
+	public function get_template_information($sub_folders, $file_name = 'template.php') {
 		$template_information = array();
 
 		foreach($sub_folders as $sub_folder) {
 
 			// Set up the possible paths
-			$plugin_template_path = $this->plugin_template . "/" . $sub_folder . "/template.php";
-			$theme_template_path = $this->theme_template . "/" . $sub_folder . "/template.php";
+			$plugin_template_path = $this->plugin_template . "/" . $sub_folder . "/{$file_name}";
+			$theme_template_path = $this->theme_template . "/" . $sub_folder . "/{$file_name}";
 
 			// Get the template path we want (user overloaded, or base)
 			$template_path = file_exists($theme_template_path) ? $theme_template_path : $plugin_template_path;

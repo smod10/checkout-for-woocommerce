@@ -93,7 +93,8 @@ export class Main {
 		this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
 		this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo, this.cart);
 		this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
-		this.tabContainer.setUpPaymentTabRadioButtons();
+		this.tabContainer.setUpCustomerTabRadioButtons();
+        this.tabContainer.setUpPaymentTabRadioButtons();
 		this.tabContainer.setUpCreditCardRadioReveal();
 		this.tabContainer.setUpMobileCartDetailsReveal();
 		this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);

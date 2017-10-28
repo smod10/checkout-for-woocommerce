@@ -482,6 +482,7 @@ var Main = /** @class */ (function () {
         this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
         this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo, this.cart);
         this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
+        this.tabContainer.setUpCustomerTabRadioButtons();
         this.tabContainer.setUpPaymentTabRadioButtons();
         this.tabContainer.setUpCreditCardRadioReveal();
         this.tabContainer.setUpMobileCartDetailsReveal();
@@ -1500,6 +1501,15 @@ var TabContainer = /** @class */ (function (_super) {
                 $(elem).wrap("<div class='cfw-column-3'></div>");
             }
         });
+    };
+    /**
+     * Set up reveal radio group on customer info tab for billing
+     */
+    TabContainer.prototype.setUpCustomerTabRadioButtons = function () {
+        var shipping_same_radio_buttons = this
+            .tabContainerSectionBy("name", "customer_info")
+            .getInputsFromSection('[type="radio"][name="shipping_same"]');
+        this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons, true);
     };
     /**
      *

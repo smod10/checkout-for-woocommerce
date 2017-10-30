@@ -171,11 +171,13 @@ export class TabContainer extends Element {
                         $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
                     });
 
-                    if($(elem).is(":checked")) {
-                        $("#wc-stripe-cc-form").slideDown(300);
-                        $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
-                        $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
-                    }
+                    $(window).on('load', () => {
+                        if($(elem).is(":checked")) {
+                            $("#wc-stripe-cc-form").slideDown(300);
+                            $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
+                            $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
+                        }
+                    });
                 } else {
                     $(elem).on('click', () => {
                         $("#wc-stripe-cc-form").slideUp(300);
@@ -184,9 +186,11 @@ export class TabContainer extends Element {
 
                     });
 
-                    if($(elem).is(":checked")) {
-                        $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
-                    }
+                    $(window).on('load', () => {
+                        if($(elem).is(":checked")) {
+                            $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
+                        }
+                    });
                 }
             })
         }
@@ -354,9 +358,11 @@ export class TabContainer extends Element {
                 });
 
                 // Fire it once for page load if selected
-                if(rb.jel.is(":checked")) {
-                    slideUpAndDownContainers(rb);
-                }
+                $(window).on('load', () => {
+                    if(rb.jel.is(":checked")) {
+                        slideUpAndDownContainers(rb);
+                    }
+                });
             });
     }
 

@@ -19,11 +19,13 @@ class Compatibility {
 		$all_integrations = WC()->integrations->get_integrations();
 		$WC_Mixpanel = $all_integrations['mixpanel'];
 
-		$WC_Mixpanel->output_head();
-		$WC_Mixpanel->started_checkout();
+		if($WC_Mixpanel) {
+			$WC_Mixpanel->output_head();
+			$WC_Mixpanel->started_checkout();
 
-		// Payment form
-		$this->echo_payment_start_script($WC_Mixpanel);
+			// Payment form
+			$this->echo_payment_start_script( $WC_Mixpanel );
+		}
 	}
 
 	function echo_payment_start_script($WC_Mixpanel) {

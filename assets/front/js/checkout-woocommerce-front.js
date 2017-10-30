@@ -1416,11 +1416,13 @@ var TabContainer = /** @class */ (function (_super) {
                         $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
                         $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
                     });
-                    if ($(elem).is(":checked")) {
-                        $("#wc-stripe-cc-form").slideDown(300);
-                        $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
-                        $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
-                    }
+                    $(window).on('load', function () {
+                        if ($(elem).is(":checked")) {
+                            $("#wc-stripe-cc-form").slideDown(300);
+                            $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
+                            $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
+                        }
+                    });
                 }
                 else {
                     $(elem).on('click', function () {
@@ -1428,9 +1430,11 @@ var TabContainer = /** @class */ (function (_super) {
                         $(".woocommerce-SavedPaymentMethods-saveNew").slideUp(300);
                         $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
                     });
-                    if ($(elem).is(":checked")) {
-                        $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
-                    }
+                    $(window).on('load', function () {
+                        if ($(elem).is(":checked")) {
+                            $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
+                        }
+                    });
                 }
             });
         }
@@ -1562,9 +1566,11 @@ var TabContainer = /** @class */ (function (_super) {
                 slideUpAndDownContainers(rb);
             });
             // Fire it once for page load if selected
-            if (rb.jel.is(":checked")) {
-                slideUpAndDownContainers(rb);
-            }
+            $(window).on('load', function () {
+                if (rb.jel.is(":checked")) {
+                    slideUpAndDownContainers(rb);
+                }
+            });
         });
     };
     /**

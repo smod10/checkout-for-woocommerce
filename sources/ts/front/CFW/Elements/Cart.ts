@@ -1,5 +1,12 @@
 import { Element }                      from "./Element";
-import { UpdateCartTotalsData }         from "../Types/Types";
+
+export type UpdateCartTotalsData = {
+    new_subtotal: any,
+    new_shipping_total: any,
+    new_taxes_total: any,
+    new_total: any,
+    coupons: any | undefined
+}
 
 export class Cart extends Element {
 

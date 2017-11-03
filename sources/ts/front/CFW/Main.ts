@@ -103,6 +103,26 @@ export class Main {
 		this.tabContainer.setShippingFieldsOnLoad();
     }
 
+    /**
+     * @returns {boolean}
+     */
+    static isPaymentRequired(): boolean {
+        return !$("#cfw-content").hasClass("cfw-payment-false");
+    }
+
+    static togglePaymentRequired(isPaymentRequired: boolean): void {
+        let $cfw = $("#cfw-content");
+        let noPaymentCssClass = "cfw-payment-false";
+
+        if(!isPaymentRequired) {
+            if(!$cfw.hasClass(noPaymentCssClass)) {
+                $cfw.addClass(noPaymentCssClass);
+            }
+        } else {
+            $cfw.removeClass(noPaymentCssClass);
+        }
+	}
+
 	/**
 	 * Sets up animation listeners
 	 */

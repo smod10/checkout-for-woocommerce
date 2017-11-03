@@ -4,7 +4,7 @@ import { TabContainerSection }              from "./TabContainerSection";
 import { InputLabelWrap }                   from "./InputLabelWrap";
 import { CustomerDataInfo }                 from "../Types/Types";
 import { AjaxInfo }                         from "../Types/Types";
-import { UpdateShippingFieldsRI }           from "../Types/Types";
+import { UpdateShippingFieldsRI }           from "../Actions/UpdateShippingFieldsAction";
 import { AccountExistsAction }              from "../Actions/AccountExistsAction";
 import { LoginAction }                      from "../Actions/LoginAction";
 import { FormElement }                      from "./FormElement";

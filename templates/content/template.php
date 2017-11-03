@@ -3,7 +3,7 @@
         exit; // Exit if accessed directly
     }
 ?>
-<main id="cfw-content">
+<main id="cfw-content" class="<?php echo $css_classes; ?>">
     <div class="overlay"></div>
     <div class="wrap">
 
@@ -39,7 +39,7 @@
 
                     <div id="order_review" class="woocommerce-checkout-review-order">
                         <!-- Customer Info Panel -->
-                        <div id="cfw-customer-info">
+                        <div id="cfw-customer-info" class="cfw-panel">
 
                             <div id="cfw-login-details" class="cfw-module">
                                 <h3 class="cfw-module-title">
@@ -49,54 +49,66 @@
                                 <?php do_action('cfw_checkout_before_customer_info_tab'); ?>
 
                                 <?php if( ! is_user_logged_in() ): ?>
-                                <div class="cfw-have-acc-text cfw-small">
-                                    <span>
-                                        <?php esc_html_e('Already have an account with us?', 'checkout-wc'); ?>
-                                    </span>
 
-                                    <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
-                                        <?php esc_html_e('Log in.', 'checkout-wc'); ?>
-                                    </a>
+                                    <div class="cfw-have-acc-text cfw-small">
+                                        <span>
+                                            <?php esc_html_e('Already have an account with us?', 'checkout-wc'); ?>
+                                        </span>
 
-                                    <?php if( WC()->checkout->is_registration_required() ): ?>
-                                    <span>
-                                        <?php esc_html_e('If you do not have an account, the information provided here will be used to create an account on checkout.', 'checkout-wc'); ?>
-                                    </span>
-                                    <?php endif; ?>
-                                </div>
+                                        <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
+                                            <?php esc_html_e('Log in.', 'checkout-wc'); ?>
+                                        </a>
 
-                                <div id="" class="cfw-input-container">
-                                    <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
-                                        <label class="cfw-input-label" for="billing_email"><?php esc_html_e('Email', 'checkout-wc'); ?></label>
-                                        <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
-                                    </div>
-                                    <div id="cfw-login-slide">
-                                        <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
-                                            <label class="cfw-input-label" for="cfw-password"><?php esc_html_e('Password', 'checkout-wc'); ?></label>
-                                            <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password">
-                                        </div>
-                                        <div class="cfw-input-wrap cfw-button-input">
-                                            <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="<?php esc_attr_e('Login', 'checkout-wc'); ?>" />
-                                            <?php if( ! WC()->checkout->is_registration_required() ): ?>
-                                                <span class="login-optional cfw-small">
-                                                    <?php esc_html_e('Login is optional. You may continue with your order below.', 'checkout-wc'); ?>
-                                                </span>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                    <div class="cfw-input-wrap cfw-check-input">
-                                        <?php if( ! WC()->checkout->is_registration_required() ): ?>
-                                            <input type="checkbox" id="cfw-acc-register-chk" class="garlic-auto-save" name="cfw-acc-register-chk" />
-                                        <?php else: ?>
-                                            <input type="checkbox" id="cfw-acc-register-chk" class="garlic-auto-save" name="cfw-acc-register-chk" disabled="disabled" checked />
+                                        <?php if( WC()->checkout->is_registration_required() ): ?>
+                                            <span>
+                                                <?php esc_html_e('If you do not have an account, the information provided here will be used to create an account on checkout.', 'checkout-wc'); ?>
+                                            </span>
                                         <?php endif; ?>
-                                        <label class="cfw-small" for="cfw-acc-register-chk"><?php printf( esc_html__('Create a %s shopping account.', 'checkout-wc'), get_bloginfo('name') ); ?></label>
                                     </div>
-                                </div>
+
+                                    <div id="" class="cfw-input-container">
+
+                                        <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
+                                            <label class="cfw-input-label" for="billing_email"><?php esc_html_e('Email', 'checkout-wc'); ?></label>
+                                            <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
+                                        </div>
+
+                                        <div id="cfw-login-slide">
+
+                                            <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
+                                                <label class="cfw-input-label" for="cfw-password"><?php esc_html_e('Password', 'checkout-wc'); ?></label>
+                                                <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password">
+                                            </div>
+
+                                            <div class="cfw-input-wrap cfw-button-input">
+                                                <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="<?php esc_attr_e('Login', 'checkout-wc'); ?>" />
+                                                <?php if( ! WC()->checkout->is_registration_required() ): ?>
+                                                    <span class="login-optional cfw-small">
+                                                        <?php esc_html_e('Login is optional. You may continue with your order below.', 'checkout-wc'); ?>
+                                                    </span>
+                                                <?php endif; ?>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="cfw-input-wrap cfw-check-input">
+
+                                            <?php if( ! WC()->checkout->is_registration_required() ): ?>
+                                                <input type="checkbox" id="cfw-acc-register-chk" class="garlic-auto-save" name="cfw-acc-register-chk" />
+                                            <?php else: ?>
+                                                <input type="checkbox" id="cfw-acc-register-chk" class="garlic-auto-save" name="cfw-acc-register-chk" disabled="disabled" checked />
+                                            <?php endif; ?>
+
+                                            <label class="cfw-small" for="cfw-acc-register-chk"><?php printf( esc_html__('Create a %s shopping account.', 'checkout-wc'), get_bloginfo('name') ); ?></label>
+                                        </div>
+                                    </div>
+
                                 <?php else: ?>
-                                <div class="cfw-have-acc-text cfw-small">
-                                    <?php printf( esc_html__('Welcome back, %s', 'checkout-wc'), "<strong>" . wp_get_current_user()->display_name . "</strong>" ); ?>
-                                </div>
+
+                                    <div class="cfw-have-acc-text cfw-small">
+                                        <?php printf( esc_html__('Welcome back, %s', 'checkout-wc'), "<strong>" . wp_get_current_user()->display_name . "</strong>" ); ?>
+                                    </div>
+
                                 <?php endif; ?>
 
                                 <?php do_action('cfw_checkout_after_customer_info_tab'); ?>
@@ -134,7 +146,7 @@
                         </div>
 
                         <!-- Shipping Method Panel -->
-                        <div id="cfw-shipping-method" style="<?php echo (!WC()->cart->needs_shipping_address()) ? "display: none" : ""; ?>">
+                        <div id="cfw-shipping-method" class="cfw-panel" style="<?php echo (!WC()->cart->needs_shipping_address()) ? "display: none" : ""; ?>">
 
                             <div id="cfw-shipping-details" class="cfw-module">
                                 <h3 class="cfw-module-title">
@@ -177,66 +189,73 @@
                         </div>
 
                         <!-- Payment Method Panel -->
-                        <div id="cfw-payment-method">
+                        <div id="cfw-payment-method" class="cfw-panel">
 
-                        <div id="cfw-billing-methods" class="cfw-module">
-                            <h3 class="cfw-module-title">
-                                <?php echo apply_filters('cfw_payment_method_heading', esc_html__('Payment method', 'checkout-wc') ); ?>
-                            </h3>
+                            <div id="cfw-billing-methods" class="cfw-module">
+                                <h3 class="cfw-module-title">
+                                    <?php echo apply_filters('cfw_payment_method_heading', esc_html__('Payment method', 'checkout-wc') ); ?>
+                                </h3>
 
-                            <?php do_action('cfw_checkout_before_payment_method_tab'); ?>
+                                <?php do_action('cfw_checkout_before_payment_method_tab'); ?>
 
-                            <div>
-                                <span class="cfw-small"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', 'checkout-wc' ); ?></span>
-                            </div>
-                            <div>
-                                <?php cfw_get_payment_methods_html(); ?>
-                            </div>
-
-                            <?php do_action('cfw_checkout_after_payment_method_tab'); ?>
-                        </div>
-
-                        <?php if ( WC()->cart->needs_shipping_address() ): ?>
-                        <div id="cfw-shipping-same-billing" class="cfw-module">
-                            <ul class="cfw-radio-reveal-group">
-                                <li class="cfw-radio-reveal-li cfw-no-reveal">
-                                    <div class="cfw-radio-reveal-title-wrap">
-                                        <label class="cfw-radio-reveal-title-wrap cfw-radio-reveal-label">
-                                            <input type="radio" name="shipping_same" id="shipping_same_as_billing" value="0" class="garlic-auto-save" checked />
-                                            <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Same as shipping address', 'checkout-wc' ); ?></span>
-                                        </label>
+                                <div class="cfw-payment-method-information-wrap">
+                                    <div>
+                                        <span class="cfw-small"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', 'checkout-wc' ); ?></span>
                                     </div>
-                                </li>
-                                <li class="cfw-radio-reveal-li">
-                                    <div class="cfw-radio-reveal-title-wrap">
-                                        <label class="cfw-radio-reveal-label">
-                                            <input type="radio" name="shipping_same" id="shipping_dif_from_billing" value="1" class="garlic-auto-save" />
-                                            <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Use a different billing address', 'checkout-wc' ); ?></span>
-                                        </label>
-                                    </div>
-                                    <div class="cfw-radio-reveal-content-wrap" style="display: none">
-                                        <div id="cfw-billing-fields-container" class="cfw-radio-reveal-content">
-                                            <?php cfw_get_billing_checkout_fields($checkout); ?>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <?php endif; ?>
 
-                        <div id="cfw-payment-action" class="cfw-bottom-controls">
-                            <div class="previous-button">
-                                <?php if ( WC()->cart->needs_shipping_address() ): ?>
-                                    <a href="#cfw-shipping-method" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to shipping information', 'checkout-wc' ); ?></a>
-                                <?php else: ?>
-                                    <a href="#cfw-customer-info" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to customer information', 'checkout-wc' ); ?></a>
-                                <?php endif; ?>
+                                    <div class="cfw-payment-methods-wrap">
+                                        <?php cfw_get_payment_methods_html(); ?>
+                                    </div>
+                                </div>
+
+                                <div class="cfw-no-payment-method-wrap">
+                                    <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Payment has been verified as free and clear! Please complete your order.', 'checkout-wc') ); ?></span>
+                                </div>
+
+                                <?php do_action('cfw_checkout_after_payment_method_tab'); ?>
                             </div>
-                            <div>
-                                <a id="cfw-complete-order-button" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate"><?php esc_html_e( 'Complete Order', 'checkout-wc' ); ?></a>
+
+                            <?php if ( WC()->cart->needs_shipping_address() ): ?>
+                                <div id="cfw-shipping-same-billing" class="cfw-module">
+                                    <ul class="cfw-radio-reveal-group">
+                                        <li class="cfw-radio-reveal-li cfw-no-reveal">
+                                            <div class="cfw-radio-reveal-title-wrap">
+                                                <label class="cfw-radio-reveal-title-wrap cfw-radio-reveal-label">
+                                                    <input type="radio" name="shipping_same" id="shipping_same_as_billing" value="0" class="garlic-auto-save" checked />
+                                                    <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Same as shipping address', 'checkout-wc' ); ?></span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="cfw-radio-reveal-li">
+                                            <div class="cfw-radio-reveal-title-wrap">
+                                                <label class="cfw-radio-reveal-label">
+                                                    <input type="radio" name="shipping_same" id="shipping_dif_from_billing" value="1" class="garlic-auto-save" />
+                                                    <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Use a different billing address', 'checkout-wc' ); ?></span>
+                                                </label>
+                                            </div>
+                                            <div class="cfw-radio-reveal-content-wrap" style="display: none">
+                                                <div id="cfw-billing-fields-container" class="cfw-radio-reveal-content">
+                                                    <?php cfw_get_billing_checkout_fields($checkout); ?>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            <?php endif; ?>
+
+                            <div id="cfw-payment-action" class="cfw-bottom-controls">
+                                <div class="previous-button">
+                                    <?php if ( WC()->cart->needs_shipping_address() ): ?>
+                                        <a href="#cfw-shipping-method" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to shipping information', 'checkout-wc' ); ?></a>
+                                    <?php else: ?>
+                                        <a href="#cfw-customer-info" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to customer information', 'checkout-wc' ); ?></a>
+                                    <?php endif; ?>
+                                </div>
+                                <div>
+                                    <a id="cfw-complete-order-button" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate"><?php esc_html_e( 'Complete Order', 'checkout-wc' ); ?></a>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>
 
                     <?php wp_nonce_field( 'woocommerce-process_checkout' ); ?>

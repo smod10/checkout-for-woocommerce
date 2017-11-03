@@ -491,6 +491,24 @@ var Main = /** @class */ (function () {
         this.tabContainer.setShippingFieldsOnLoad();
     };
     /**
+     * @returns {boolean}
+     */
+    Main.isPaymentRequired = function () {
+        return !$("#cfw-content").hasClass("cfw-payment-false");
+    };
+    Main.togglePaymentRequired = function (isPaymentRequired) {
+        var $cfw = $("#cfw-content");
+        var noPaymentCssClass = "cfw-payment-false";
+        if (!isPaymentRequired) {
+            if (!$cfw.hasClass(noPaymentCssClass)) {
+                $cfw.addClass(noPaymentCssClass);
+            }
+        }
+        else {
+            $cfw.removeClass(noPaymentCssClass);
+        }
+    };
+    /**
      * Sets up animation listeners
      */
     Main.prototype.setupAnimationListeners = function () {
@@ -2205,6 +2223,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
 var ResponsePrep_1 = __webpack_require__(3);
 var Cart_1 = __webpack_require__(4);
+var Main_1 = __webpack_require__(5);
 /**
  *
  */
@@ -2234,6 +2253,7 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
         if (resp.new_totals) {
             Cart_1.Cart.outputValues(this.cart, resp.new_totals);
         }
+        Main_1.Main.togglePaymentRequired(resp.needs_payment);
     };
     Object.defineProperty(UpdateShippingMethodAction.prototype, "cart", {
         /**
@@ -2390,7 +2410,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      * The setup function which mainly determines if we need a stripe token to continue
      */
     CompleteOrderAction.prototype.setup = function () {
-        if (StripeService_1.StripeService.hasStripe() && StripeService_1.StripeService.hasNewPayment()) {
+        if (StripeService_1.StripeService.hasStripe() && StripeService_1.StripeService.hasNewPayment() && Main_1.Main.isPaymentRequired()) {
             this.needsStripeToken = true;
             StripeService_1.StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);
             StripeService_1.StripeService.triggerStripe();

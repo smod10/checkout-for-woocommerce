@@ -1,9 +1,20 @@
 import { Action }                           from "./Action";
 import { AjaxInfo }                         from "../Types/Types";
-import { UpdateShippingMethodData }         from "../Types/Types";
-import { UpdateShippingMethodResponse }     from "../Types/Types";
 import { ResponsePrep }                     from "../Decorators/ResponsePrep";
+import { UpdateCartTotalsData }             from "../Elements/Cart";
 import { Cart }                             from "../Elements/Cart";
+import { Main }                             from "../Main";
+
+export type UpdateShippingMethodData = {
+    action: string,
+    security: string,
+    shipping_method: any
+}
+
+export type UpdateShippingMethodResponse = {
+    new_totals: UpdateCartTotalsData,
+    needs_payment: boolean
+}
 
 /**
  *
@@ -42,6 +53,8 @@ export class UpdateShippingMethodAction extends Action {
         if(resp.new_totals) {
             Cart.outputValues(this.cart, resp.new_totals);
         }
+
+        Main.togglePaymentRequired(resp.needs_payment);
     }
 
     /**

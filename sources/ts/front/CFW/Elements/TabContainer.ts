@@ -279,17 +279,6 @@ export class TabContainer extends Element {
     }
 
     /**
-     * Set up reveal radio group on customer info tab for billing
-     */
-    setUpCustomerTabRadioButtons() {
-        let shipping_same_radio_buttons: Array<Element> = this
-            .tabContainerSectionBy("name", "customer_info")
-            .getInputsFromSection('[type="radio"][name="shipping_same"]');
-
-        this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons, true);
-    }
-
-    /**
      *
      */
     setUpPaymentTabRadioButtons() {

@@ -32,11 +32,9 @@
                     </li>
                     <?php endif; ?>
 
-                    <?php if ( WC()->cart->needs_payment() ): ?>
                     <li class="tab">
                         <a href="#cfw-payment-method" class="cfw-small"><?php esc_html_e( 'Payment method', 'checkout-wc' ); ?></a>
                     </li>
-                    <?php endif; ?>
                 </ul>
 
                 <form id="cfw-checkout-form" data-persist="garlic" class="woocommerce-checkout" method="POST" data-parsley-validate="">
@@ -132,13 +130,7 @@
                                 <?php if ( WC()->cart->needs_shipping_address() ): ?>
                                     <a href="#cfw-shipping-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e('Continue to shipping method', 'checkout-wc'); ?></a>
                                 <?php else: ?>
-                                    <?php if ( WC()->cart->needs_payment() ): ?>
-                                        <a href="#cfw-payment-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e('Continue to payment method', 'checkout-wc'); ?></a>
-                                    <?php else: ?>
-                                        <div>
-                                            <a id="cfw-complete-order-button" href="javascript:;" class="cfw-primary-btn cfw-complete-order-button cfw-next-tab validate"><?php esc_html_e( 'Complete Order', 'checkout-wc' ); ?></a>
-                                        </div>
-                                    <?php endif; ?>
+                                    <a href="#cfw-payment-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e('Continue to payment method', 'checkout-wc'); ?></a>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -180,23 +172,16 @@
                                 <div class="previous-button">
                                     <a href="#cfw-customer-info" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to customer information', 'checkout-wc' ); ?></a>
                                 </div>
-
-                                <?php if ( WC()->cart->needs_payment() ): ?>
-                                    <div>
-                                        <a href="#cfw-payment-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e( 'Continue to payment method', 'checkout-wc' ); ?></a>
-                                    </div>
-                                <?php else: ?>
-                                    <div>
-                                        <a id="cfw-complete-order-button" href="javascript:;" class="cfw-primary-btn cfw-complete-order-button cfw-next-tab validate"><?php esc_html_e( 'Complete Order', 'checkout-wc' ); ?></a>
-                                    </div>
-                                <?php endif; ?>
+                                <div>
+                                    <a href="#cfw-payment-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e( 'Continue to payment method', 'checkout-wc' ); ?></a>
+                                </div>
                             </div>
 
 	                        <?php do_action('cfw_checkout_after_shipping_method_tab'); ?>
                         </div>
 
                         <!-- Payment Method Panel -->
-                        <div id="cfw-payment-method" style="<?php echo ( ! WC()->cart->needs_payment() ) ? "display: none" : ""; ?>">
+                        <div id="cfw-payment-method">
                             <div id="cfw-billing-methods" class="cfw-module">
                                 <h3 class="cfw-module-title">
                                     <?php echo apply_filters('cfw_payment_method_heading', esc_html__('Payment method', 'checkout-wc') ); ?>

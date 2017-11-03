@@ -3,6 +3,7 @@ import { AjaxInfo }                     from "../Types/Types";
 import { Cart }                         from "../Elements/Cart";
 import { Alert, AlertInfo }             from "../Elements/Alert";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
+import { Main }                         from "../Main";
 
 /**
  *
@@ -70,6 +71,8 @@ export class ApplyCouponAction extends Action {
 
         let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
         alert.addAlert();
+
+        Main.togglePaymentRequired(resp.needs_payment);
     }
 
     /**

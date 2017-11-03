@@ -80,6 +80,7 @@ class ApplyCouponAction extends Action {
 					"new_taxes_total" => WC()->cart->get_cart_tax(),
 					"new_total" => WC()->cart->get_total(),
 				),
+				"needs_payment" => WC()->cart->needs_payment(),
 				"coupons" => $discount_amounts,
 				"message" => $message
 			));

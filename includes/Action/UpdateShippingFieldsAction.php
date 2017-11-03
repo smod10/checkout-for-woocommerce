@@ -75,6 +75,7 @@ class UpdateShippingFieldsAction extends Action {
 				"new_taxes_total" => WC()->cart->get_cart_tax(),
 				"new_total" => WC()->cart->get_total()
 			),
+			"needs_payment", WC()->cart->needs_payment(),
 			"updated_ship_methods" => $ship_methods
 		));
 	}

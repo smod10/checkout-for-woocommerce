@@ -2060,6 +2060,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
 var ResponsePrep_1 = __webpack_require__(3);
 var Cart_1 = __webpack_require__(4);
+var Main_1 = __webpack_require__(5);
 /**
  *
  */
@@ -2123,6 +2124,7 @@ var UpdateShippingFieldsAction = /** @class */ (function (_super) {
                 // Update totals
                 Cart_1.Cart.outputValues(this.cart, resp.new_totals);
             }
+            Main_1.Main.togglePaymentRequired(resp.needs_payment);
         }
     };
     Object.defineProperty(UpdateShippingFieldsAction.prototype, "ajaxInfo", {
@@ -2690,6 +2692,7 @@ var Action_1 = __webpack_require__(1);
 var Cart_1 = __webpack_require__(4);
 var Alert_1 = __webpack_require__(7);
 var ResponsePrep_1 = __webpack_require__(3);
+var Main_1 = __webpack_require__(5);
 /**
  *
  */
@@ -2742,6 +2745,7 @@ var ApplyCouponAction = /** @class */ (function (_super) {
         }
         var alert = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
         alert.addAlert();
+        Main_1.Main.togglePaymentRequired(resp.needs_payment);
     };
     Object.defineProperty(ApplyCouponAction.prototype, "cart", {
         /**

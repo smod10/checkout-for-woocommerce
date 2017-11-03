@@ -5,11 +5,13 @@ import { ResponsePrep }                             from "../Decorators/Response
 import { UpdateCartTotalsData }                     from "../Elements/Cart";
 import { Cart }                                     from "../Elements/Cart";
 import { TabContainer }                             from "../Elements/TabContainer";
+import { Main }                                     from "../Main";
 
 export type UpdateShippingFieldsResponse = {
     error: boolean,
     updated_fields_info: Array<CustomerDataInfo>,
     new_totals: UpdateCartTotalsData,
+    needs_payment: boolean,
     updated_ship_methods: any
 }
 
@@ -121,6 +123,8 @@ export class UpdateShippingFieldsAction extends Action {
                 // Update totals
                 Cart.outputValues(this.cart, resp.new_totals);
             }
+
+            Main.togglePaymentRequired(resp.needs_payment);
         }
     }
 

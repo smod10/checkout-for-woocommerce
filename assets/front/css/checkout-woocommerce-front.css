@@ -725,9 +725,6 @@ body {
 .cfw-payment-false .cfw-payment-method-information-wrap, .cfw-payment-false #cfw-shipping-same-billing {
   display: none; }
 
-.cfw-payment-false.cfw-shipping-address-false #cfw-shipping-info {
-  display: none; }
-
 .cfw-no-payment-method-wrap {
   margin-bottom: 60px; }
 

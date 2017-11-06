@@ -488,7 +488,6 @@ var Main = /** @class */ (function () {
         this.tabContainer.setUpMobileCartDetailsReveal();
         this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
         this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
-        this.tabContainer.setTermsAndConditions();
         // Handles the shipping fields on load if the user happens to land on the shipping method page.
         this.tabContainer.setShippingFieldsOnLoad();
     };
@@ -1729,26 +1728,7 @@ var TabContainer = /** @class */ (function (_super) {
         if ($("#wc-stripe-new-payment-method:checked").length > 0) {
             completeOrderCheckoutData["wc-stripe-new-payment-method"] = true;
         }
-        if ($("#terms").length > 0) {
-            completeOrderCheckoutData["terms-field"] = 1;
-            if ($("#terms:checked").length > 0) {
-                completeOrderCheckoutData["terms"] = "on";
-            }
-        }
         return completeOrderCheckoutData;
-    };
-    /**
-     *
-     */
-    TabContainer.prototype.setTermsAndConditions = function () {
-        var termsAndConditionsLinkClass = "woocommerce-terms-and-conditions-link";
-        var termsAndConditionsContentClass = "woocommerce-terms-and-conditions";
-        var termsAndConditionsLink = new Element_1.Element($("." + termsAndConditionsLinkClass));
-        var termsAndConditionsContent = new Element_1.Element($("." + termsAndConditionsContentClass));
-        termsAndConditionsLink.jel.on('click', function (eventObject) {
-            eventObject.preventDefault();
-            termsAndConditionsContent.jel.slideToggle(300);
-        });
     };
     /**
      * @param {AjaxInfo} ajaxInfo
@@ -2321,60 +2301,13 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      */
     function CompleteOrderAction(id, ajaxInfo, checkoutData) {
         var _this = this;
-        // We do a normal object here because to make a new type just to add two different options seems silly.
+        // TODO: Using assign we can combine this process pre-constructor. Probably best to move this for all actions
         var data = {
             action: id,
-            security: ajaxInfo.nonce,
-            billing_first_name: checkoutData.billing_first_name,
-            billing_last_name: checkoutData.billing_last_name,
-            billing_company: checkoutData.billing_company,
-            billing_country: checkoutData.billing_country,
-            billing_address_1: checkoutData.billing_address_1,
-            billing_address_2: checkoutData.billing_address_2,
-            billing_city: checkoutData.billing_city,
-            billing_state: checkoutData.billing_state,
-            billing_postcode: checkoutData.billing_postcode,
-            billing_phone: checkoutData.billing_phone,
-            billing_email: checkoutData.billing_email,
-            ship_to_different_address: checkoutData.ship_to_different_address,
-            shipping_first_name: checkoutData.shipping_first_name,
-            shipping_last_name: checkoutData.shipping_last_name,
-            shipping_company: checkoutData.shipping_company,
-            shipping_country: checkoutData.shipping_country,
-            shipping_address_1: checkoutData.shipping_address_1,
-            shipping_address_2: checkoutData.shipping_address_2,
-            shipping_city: checkoutData.shipping_city,
-            shipping_state: checkoutData.shipping_state,
-            shipping_postcode: checkoutData.shipping_postcode,
-            order_comments: checkoutData.order_comments,
-            "shipping_method[0]": checkoutData["shipping_method[0]"],
-            payment_method: checkoutData.payment_method,
-            "wc-stripe-payment-token": checkoutData["wc-stripe-payment-token"],
-            _wpnonce: checkoutData._wpnonce,
-            _wp_http_referer: checkoutData._wp_http_referer,
-            "wc-authorize-net-aim-account-number": checkoutData["wc-authorize-net-aim-account-number"],
-            "wc-authorize-net-aim-expiry": checkoutData["wc-authorize-net-aim-expiry"],
-            "wc-authorize-net-aim-csc": checkoutData["wc-authorize-net-aim-csc"],
-            "paypal_pro_payflow-card-number": checkoutData["paypal_pro_payflow-card-number"],
-            "paypal_pro_payflow-card-expiry": checkoutData["paypal_pro_payflow-card-expiry"],
-            "paypal_pro_payflow-card-cvc": checkoutData["paypal_pro_payflow-card-cvc"],
-            "paypal_pro-card-number": checkoutData["paypal_pro-card-number"],
-            "paypal_pro-card-expiry": checkoutData["paypal_pro-card-expiry"],
-            "paypal_pro-card-cvc": checkoutData["paypal_pro-card-cvc"],
+            security: ajaxInfo.nonce
         };
-        if (checkoutData.account_password) {
-            data["account_password"] = checkoutData.account_password;
-        }
-        if (checkoutData.createaccount) {
-            data["createaccount"] = checkoutData.createaccount;
-        }
-        if (checkoutData["wc-stripe-new-payment-method"]) {
-            data["wc-stripe-new-payment-method"] = checkoutData["wc-stripe-new-payment-method"];
-        }
-        if (checkoutData["terms"]) {
-            data["terms-field"] = checkoutData["terms-field"];
-            data["terms"] = checkoutData["terms"];
-        }
+        // Copies our checkoutData properties to the object with the two pieces of differing data.
+        Object.assign(data, checkoutData);
         _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
         $("#cfw-content").addClass("show-overlay");
         _this.stripeServiceCallbacks = {
@@ -2553,7 +2486,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
                 $(elem).prop('checked', true);
             }
         });
-        $("#terms").attr("checked", (this.data.terms === "on"));
+        $("[name='stripe_token']").remove();
         $("#_wpnonce").val(this.data._wpnonce);
         $("[name='_wp_http_referer']").val(this.data._wp_http_referer);
         $("#cfw-login-btn").val("Login");

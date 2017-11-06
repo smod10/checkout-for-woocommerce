@@ -43,7 +43,6 @@ export class CompleteOrderAction extends Action {
      * @param checkoutData
      */
     constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: any) {
-
         // We do a normal object here because to make a new type just to add two different options seems silly.
         let data: {} = {
             action: id,
@@ -292,6 +291,7 @@ export class CompleteOrderAction extends Action {
             }
         });
         $("#terms").attr("checked", <any>(this.data.terms === "on"));
+        $("[name='stripe_token']").remove();
 
         $("#_wpnonce").val(this.data._wpnonce);
         $("[name='_wp_http_referer']").val(this.data._wp_http_referer);

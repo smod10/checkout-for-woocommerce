@@ -69,373 +69,6 @@
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- *
- */
-var Element = /** @class */ (function () {
-    /**
-     * @param jel
-     */
-    function Element(jel) {
-        this.jel = jel;
-    }
-    Object.defineProperty(Element.prototype, "jel", {
-        /**
-         * @returns {JQuery}
-         */
-        get: function () {
-            return this._jel;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._jel = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Element;
-}());
-exports.Element = Element;
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * Base class for our ajax handling. Child classes will extend this and override the response function and implement their
- * own custom solutions for the php side of actions
- */
-var Action = /** @class */ (function () {
-    /**
-     * @param id
-     * @param url
-     * @param data
-     */
-    function Action(id, url, data) {
-        this.id = id;
-        this.url = url;
-        this.data = data;
-    }
-    /**
-     * Fire ze ajax
-     */
-    Action.prototype.load = function () {
-        $.post(this.url.href, this.data, this.response.bind(this));
-    };
-    Object.defineProperty(Action.prototype, "id", {
-        /**
-         * @returns {string}
-         */
-        get: function () {
-            return this._id;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._id = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Action.prototype, "url", {
-        /**
-         * @returns {URL}
-         */
-        get: function () {
-            return this._url;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._url = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Action.prototype, "data", {
-        /**
-         * @returns {Object}
-         */
-        get: function () {
-            return this._data;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._data = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Action;
-}());
-exports.Action = Action;
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-module.exports = function(src) {
-	function log(error) {
-		(typeof console !== "undefined")
-		&& (console.error || console.log)("[Script Loader]", error);
-	}
-
-	// Check for IE =< 8
-	function isIE() {
-		return typeof attachEvent !== "undefined" && typeof addEventListener === "undefined";
-	}
-
-	try {
-		if (typeof execScript !== "undefined" && isIE()) {
-			execScript(src);
-		} else if (typeof eval !== "undefined") {
-			eval.call(null, src);
-		} else {
-			log("EvalError: No eval function available");
-		}
-	} catch (error) {
-		log(error);
-	}
-}
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * First argument of success response is the data object. What we do since on the PHP side it's prepped as a json object
- * we intercept the argument and parse the JSON. On the overloaded function side we specify the object type.
- *
- * @param target {Object}
- * @param propertyKey {string}
- * @param descriptor {PropertyDescriptor}
- * @returns {PropertyDescriptor}
- * @constructor
- */
-function ResponsePrep(target, propertyKey, descriptor) {
-    // save a reference to the original method this way we keep the values currently in the
-    // descriptor and don't overwrite what another decorator might have done to the descriptor.
-    if (descriptor === undefined) {
-        descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
-    }
-    var originalMethod = descriptor.value;
-    //editing the descriptor/value parameter
-    descriptor.value = function () {
-        arguments[0] = JSON.parse(arguments[0]);
-        return originalMethod.apply(this, arguments);
-    };
-    // return edited descriptor as opposed to overwriting the descriptor
-    return descriptor;
-}
-exports.ResponsePrep = ResponsePrep;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
-var Cart = /** @class */ (function (_super) {
-    __extends(Cart, _super);
-    /**
-     * @param cartContainer
-     * @param subTotal
-     * @param shipping
-     * @param taxes
-     * @param total
-     * @param coupons
-     * @param reviewBarTotal
-     */
-    function Cart(cartContainer, subTotal, shipping, taxes, total, coupons, reviewBarTotal) {
-        var _this = _super.call(this, cartContainer) || this;
-        _this.subTotal = new Element_1.Element(subTotal);
-        _this.shipping = new Element_1.Element(shipping);
-        _this.taxes = new Element_1.Element(taxes);
-        _this.total = new Element_1.Element(total);
-        _this.coupons = new Element_1.Element(coupons);
-        _this.reviewBarTotal = new Element_1.Element(reviewBarTotal);
-        return _this;
-    }
-    /**
-     * @param cart
-     * @param values
-     */
-    Cart.outputValues = function (cart, values) {
-        Cart.outputValue(cart.subTotal, values.new_subtotal);
-        Cart.outputValue(cart.shipping, values.new_shipping_total);
-        Cart.outputValue(cart.taxes, values.new_taxes_total);
-        Cart.outputValue(cart.total, values.new_total);
-        Cart.outputValue(cart.reviewBarTotal, values.new_total);
-    };
-    /**
-     * @param {Element} cartLineItem
-     * @param coupons
-     */
-    Cart.outputCoupons = function (cartLineItem, coupons) {
-        cartLineItem.jel.html("");
-        if (cartLineItem.jel.length > 0) {
-            coupons.forEach(function (coupon) {
-                var wrap = $('<div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">');
-                var type = $('<span class="type"></span>').html(coupon.label);
-                var amount = $('<span class="amount"></span>').html(coupon.amount);
-                wrap.append(type);
-                wrap.append(amount);
-                cartLineItem.jel.append(wrap);
-            });
-        }
-    };
-    /**
-     *
-     * @param cartLineItem
-     * @param value
-     * @param childClass
-     */
-    Cart.outputValue = function (cartLineItem, value, childClass) {
-        if (childClass === void 0) { childClass = ".amount"; }
-        if (cartLineItem.jel.length > 0) {
-            cartLineItem.jel.find(childClass).html(value);
-        }
-    };
-    Object.defineProperty(Cart.prototype, "subTotal", {
-        /**
-         * @returns {Element}
-         */
-        get: function () {
-            return this._subTotal;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._subTotal = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Cart.prototype, "shipping", {
-        /**
-         * @returns {Element}
-         */
-        get: function () {
-            return this._shipping;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._shipping = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Cart.prototype, "taxes", {
-        /**
-         * @returns {Element}
-         */
-        get: function () {
-            return this._taxes;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._taxes = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Cart.prototype, "total", {
-        /**
-         * @returns {Element}
-         */
-        get: function () {
-            return this._total;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._total = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Cart.prototype, "coupons", {
-        /**
-         * @returns {Element}
-         */
-        get: function () {
-            return this._coupons;
-        },
-        /**
-         * @param {Element} value
-         */
-        set: function (value) {
-            this._coupons = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Cart.prototype, "reviewBarTotal", {
-        /**
-         * @returns {Element}
-         */
-        get: function () {
-            return this._reviewBarTotal;
-        },
-        /**
-         * @param {Element} value
-         */
-        set: function (value) {
-            this._reviewBarTotal = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Cart;
-}(Element_1.Element));
-exports.Cart = Cart;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
 /// <reference path="../../../../typings/index.d.ts" />
 /// <reference path="Definitions/ArrayFind.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -617,6 +250,373 @@ var Main = /** @class */ (function () {
     return Main;
 }());
 exports.Main = Main;
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ *
+ */
+var Element = /** @class */ (function () {
+    /**
+     * @param jel
+     */
+    function Element(jel) {
+        this.jel = jel;
+    }
+    Object.defineProperty(Element.prototype, "jel", {
+        /**
+         * @returns {JQuery}
+         */
+        get: function () {
+            return this._jel;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._jel = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Element;
+}());
+exports.Element = Element;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Base class for our ajax handling. Child classes will extend this and override the response function and implement their
+ * own custom solutions for the php side of actions
+ */
+var Action = /** @class */ (function () {
+    /**
+     * @param id
+     * @param url
+     * @param data
+     */
+    function Action(id, url, data) {
+        this.id = id;
+        this.url = url;
+        this.data = data;
+    }
+    /**
+     * Fire ze ajax
+     */
+    Action.prototype.load = function () {
+        $.post(this.url.href, this.data, this.response.bind(this));
+    };
+    Object.defineProperty(Action.prototype, "id", {
+        /**
+         * @returns {string}
+         */
+        get: function () {
+            return this._id;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._id = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Action.prototype, "url", {
+        /**
+         * @returns {URL}
+         */
+        get: function () {
+            return this._url;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._url = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Action.prototype, "data", {
+        /**
+         * @returns {Object}
+         */
+        get: function () {
+            return this._data;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._data = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Action;
+}());
+exports.Action = Action;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+module.exports = function(src) {
+	function log(error) {
+		(typeof console !== "undefined")
+		&& (console.error || console.log)("[Script Loader]", error);
+	}
+
+	// Check for IE =< 8
+	function isIE() {
+		return typeof attachEvent !== "undefined" && typeof addEventListener === "undefined";
+	}
+
+	try {
+		if (typeof execScript !== "undefined" && isIE()) {
+			execScript(src);
+		} else if (typeof eval !== "undefined") {
+			eval.call(null, src);
+		} else {
+			log("EvalError: No eval function available");
+		}
+	} catch (error) {
+		log(error);
+	}
+}
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * First argument of success response is the data object. What we do since on the PHP side it's prepped as a json object
+ * we intercept the argument and parse the JSON. On the overloaded function side we specify the object type.
+ *
+ * @param target {Object}
+ * @param propertyKey {string}
+ * @param descriptor {PropertyDescriptor}
+ * @returns {PropertyDescriptor}
+ * @constructor
+ */
+function ResponsePrep(target, propertyKey, descriptor) {
+    // save a reference to the original method this way we keep the values currently in the
+    // descriptor and don't overwrite what another decorator might have done to the descriptor.
+    if (descriptor === undefined) {
+        descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
+    }
+    var originalMethod = descriptor.value;
+    //editing the descriptor/value parameter
+    descriptor.value = function () {
+        arguments[0] = JSON.parse(arguments[0]);
+        return originalMethod.apply(this, arguments);
+    };
+    // return edited descriptor as opposed to overwriting the descriptor
+    return descriptor;
+}
+exports.ResponsePrep = ResponsePrep;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Element_1 = __webpack_require__(1);
+var Cart = /** @class */ (function (_super) {
+    __extends(Cart, _super);
+    /**
+     * @param cartContainer
+     * @param subTotal
+     * @param shipping
+     * @param taxes
+     * @param total
+     * @param coupons
+     * @param reviewBarTotal
+     */
+    function Cart(cartContainer, subTotal, shipping, taxes, total, coupons, reviewBarTotal) {
+        var _this = _super.call(this, cartContainer) || this;
+        _this.subTotal = new Element_1.Element(subTotal);
+        _this.shipping = new Element_1.Element(shipping);
+        _this.taxes = new Element_1.Element(taxes);
+        _this.total = new Element_1.Element(total);
+        _this.coupons = new Element_1.Element(coupons);
+        _this.reviewBarTotal = new Element_1.Element(reviewBarTotal);
+        return _this;
+    }
+    /**
+     * @param cart
+     * @param values
+     */
+    Cart.outputValues = function (cart, values) {
+        Cart.outputValue(cart.subTotal, values.new_subtotal);
+        Cart.outputValue(cart.shipping, values.new_shipping_total);
+        Cart.outputValue(cart.taxes, values.new_taxes_total);
+        Cart.outputValue(cart.total, values.new_total);
+        Cart.outputValue(cart.reviewBarTotal, values.new_total);
+    };
+    /**
+     * @param {Element} cartLineItem
+     * @param coupons
+     */
+    Cart.outputCoupons = function (cartLineItem, coupons) {
+        cartLineItem.jel.html("");
+        if (cartLineItem.jel.length > 0) {
+            coupons.forEach(function (coupon) {
+                var wrap = $('<div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">');
+                var type = $('<span class="type"></span>').html(coupon.label);
+                var amount = $('<span class="amount"></span>').html(coupon.amount);
+                wrap.append(type);
+                wrap.append(amount);
+                cartLineItem.jel.append(wrap);
+            });
+        }
+    };
+    /**
+     *
+     * @param cartLineItem
+     * @param value
+     * @param childClass
+     */
+    Cart.outputValue = function (cartLineItem, value, childClass) {
+        if (childClass === void 0) { childClass = ".amount"; }
+        if (cartLineItem.jel.length > 0) {
+            cartLineItem.jel.find(childClass).html(value);
+        }
+    };
+    Object.defineProperty(Cart.prototype, "subTotal", {
+        /**
+         * @returns {Element}
+         */
+        get: function () {
+            return this._subTotal;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._subTotal = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Cart.prototype, "shipping", {
+        /**
+         * @returns {Element}
+         */
+        get: function () {
+            return this._shipping;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._shipping = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Cart.prototype, "taxes", {
+        /**
+         * @returns {Element}
+         */
+        get: function () {
+            return this._taxes;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._taxes = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Cart.prototype, "total", {
+        /**
+         * @returns {Element}
+         */
+        get: function () {
+            return this._total;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._total = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Cart.prototype, "coupons", {
+        /**
+         * @returns {Element}
+         */
+        get: function () {
+            return this._coupons;
+        },
+        /**
+         * @param {Element} value
+         */
+        set: function (value) {
+            this._coupons = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Cart.prototype, "reviewBarTotal", {
+        /**
+         * @returns {Element}
+         */
+        get: function () {
+            return this._reviewBarTotal;
+        },
+        /**
+         * @param {Element} value
+         */
+        set: function (value) {
+            this._reviewBarTotal = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Cart;
+}(Element_1.Element));
+exports.Cart = Cart;
 
 
 /***/ }),
@@ -888,7 +888,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
+var Element_1 = __webpack_require__(1);
 /**
  *
  */
@@ -972,7 +972,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
+var Element_1 = __webpack_require__(1);
 var LabelType_1 = __webpack_require__(9);
 /**
  *
@@ -1184,7 +1184,7 @@ __webpack_require__(22);
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2)(__webpack_require__(15))
+__webpack_require__(3)(__webpack_require__(15))
 
 /***/ }),
 /* 15 */
@@ -1196,7 +1196,7 @@ module.exports = "/*\r\n * jQuery hashchange event - v1.3 - 7/21/2010\r\n * http
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2)(__webpack_require__(17))
+__webpack_require__(3)(__webpack_require__(17))
 
 /***/ }),
 /* 17 */
@@ -1208,7 +1208,7 @@ module.exports = "/*\r\n * jQuery EasyTabs plugin 3.2.0\r\n *\r\n * Copyright (c
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2)(__webpack_require__(19))
+__webpack_require__(3)(__webpack_require__(19))
 
 /***/ }),
 /* 19 */
@@ -1220,7 +1220,7 @@ module.exports = "/* Garlicjs dist/garlic.min.js build version 1.3.1-cgd http://
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2)(__webpack_require__(21))
+__webpack_require__(3)(__webpack_require__(21))
 
 /***/ }),
 /* 21 */
@@ -1232,7 +1232,7 @@ module.exports = "/*!\n* Parsley.js\n* Version 2.8.0 - built Wed, Sep 13th 2017,
 /* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2)(__webpack_require__(23))
+__webpack_require__(3)(__webpack_require__(23))
 
 /***/ }),
 /* 23 */
@@ -1247,11 +1247,11 @@ module.exports = "// Find polyfill\r\nif (!Array.prototype.find) {\r\n\tArray.pr
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Main_1 = __webpack_require__(5);
+var Main_1 = __webpack_require__(0);
 var TabContainer_1 = __webpack_require__(25);
 var TabContainerBreadcrumb_1 = __webpack_require__(33);
 var TabContainerSection_1 = __webpack_require__(34);
-var Cart_1 = __webpack_require__(4);
+var Cart_1 = __webpack_require__(5);
 /**
  * This is our main kick off file. We used to do this in a require block in the Redirect file but since we've moved to
  * webpack this is the new lay of the land (commonjs). In order to make this work in a non node setup (wordpress) we need
@@ -1308,13 +1308,13 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
+var Element_1 = __webpack_require__(1);
 var AccountExistsAction_1 = __webpack_require__(26);
 var LoginAction_1 = __webpack_require__(27);
 var UpdateShippingFieldsAction_1 = __webpack_require__(28);
 var UpdateShippingMethodAction_1 = __webpack_require__(29);
 var CompleteOrderAction_1 = __webpack_require__(30);
-var Main_1 = __webpack_require__(5);
+var Main_1 = __webpack_require__(0);
 var ApplyCouponAction_1 = __webpack_require__(32);
 var ValidationService_1 = __webpack_require__(6);
 /**
@@ -1862,8 +1862,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
-var ResponsePrep_1 = __webpack_require__(3);
+var Action_1 = __webpack_require__(2);
+var ResponsePrep_1 = __webpack_require__(4);
 /**
  * Ajax does the account exist action. Takes the information from email box and fires of a request to see if the account
  * exists
@@ -1982,9 +1982,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
+var Action_1 = __webpack_require__(2);
 var Alert_1 = __webpack_require__(7);
-var ResponsePrep_1 = __webpack_require__(3);
+var ResponsePrep_1 = __webpack_require__(4);
 /**
  *
  */
@@ -2057,10 +2057,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
-var ResponsePrep_1 = __webpack_require__(3);
-var Cart_1 = __webpack_require__(4);
-var Main_1 = __webpack_require__(5);
+var Action_1 = __webpack_require__(2);
+var ResponsePrep_1 = __webpack_require__(4);
+var Cart_1 = __webpack_require__(5);
+var Main_1 = __webpack_require__(0);
 /**
  *
  */
@@ -2222,10 +2222,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
-var ResponsePrep_1 = __webpack_require__(3);
-var Cart_1 = __webpack_require__(4);
-var Main_1 = __webpack_require__(5);
+var Action_1 = __webpack_require__(2);
+var ResponsePrep_1 = __webpack_require__(4);
+var Cart_1 = __webpack_require__(5);
+var Main_1 = __webpack_require__(0);
 /**
  *
  */
@@ -2298,10 +2298,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
+var Action_1 = __webpack_require__(2);
 var StripeService_1 = __webpack_require__(31);
 var Alert_1 = __webpack_require__(7);
-var Main_1 = __webpack_require__(5);
+var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(6);
 var CompleteOrderAction = /** @class */ (function (_super) {
     __extends(CompleteOrderAction, _super);
@@ -2541,6 +2541,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
                 $(elem).prop('checked', true);
             }
         });
+        $("[name='stripe_token']").remove();
         $("#_wpnonce").val(this.data._wpnonce);
         $("[name='_wp_http_referer']").val(this.data._wp_http_referer);
         $("#cfw-login-btn").val("Login");
@@ -2688,11 +2689,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
-var Cart_1 = __webpack_require__(4);
+var Action_1 = __webpack_require__(2);
+var Cart_1 = __webpack_require__(5);
 var Alert_1 = __webpack_require__(7);
-var ResponsePrep_1 = __webpack_require__(3);
-var Main_1 = __webpack_require__(5);
+var ResponsePrep_1 = __webpack_require__(4);
+var Main_1 = __webpack_require__(0);
 /**
  *
  */
@@ -2788,7 +2789,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
+var Element_1 = __webpack_require__(1);
 /**
  *
  */
@@ -2823,7 +2824,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
+var Element_1 = __webpack_require__(1);
 var InputLabelWrap_1 = __webpack_require__(35);
 var LabelType_1 = __webpack_require__(9);
 var SelectLabelWrap_1 = __webpack_require__(36);

@@ -488,6 +488,7 @@ var Main = /** @class */ (function () {
         this.tabContainer.setUpMobileCartDetailsReveal();
         this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
         this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
+        this.tabContainer.setTermsAndConditions();
         // Handles the shipping fields on load if the user happens to land on the shipping method page.
         this.tabContainer.setShippingFieldsOnLoad();
     };
@@ -1728,7 +1729,26 @@ var TabContainer = /** @class */ (function (_super) {
         if ($("#wc-stripe-new-payment-method:checked").length > 0) {
             completeOrderCheckoutData["wc-stripe-new-payment-method"] = true;
         }
+        if ($("#terms").length > 0) {
+            completeOrderCheckoutData["terms-field"] = 1;
+            if ($("#terms:checked").length > 0) {
+                completeOrderCheckoutData["terms"] = "on";
+            }
+        }
         return completeOrderCheckoutData;
+    };
+    /**
+     *
+     */
+    TabContainer.prototype.setTermsAndConditions = function () {
+        var termsAndConditionsLinkClass = "woocommerce-terms-and-conditions-link";
+        var termsAndConditionsContentClass = "woocommerce-terms-and-conditions";
+        var termsAndConditionsLink = new Element_1.Element($("." + termsAndConditionsLinkClass));
+        var termsAndConditionsContent = new Element_1.Element($("." + termsAndConditionsContentClass));
+        termsAndConditionsLink.jel.on('click', function (eventObject) {
+            eventObject.preventDefault();
+            termsAndConditionsContent.jel.slideToggle(300);
+        });
     };
     /**
      * @param {AjaxInfo} ajaxInfo
@@ -2486,6 +2506,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
                 $(elem).prop('checked', true);
             }
         });
+        $("#terms").attr("checked", (this.data.terms === "on"));
         $("[name='stripe_token']").remove();
         $("#_wpnonce").val(this.data._wpnonce);
         $("[name='_wp_http_referer']").val(this.data._wp_http_referer);

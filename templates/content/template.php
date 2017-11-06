@@ -226,6 +226,8 @@
                                 <?php cfw_get_template_part('billing-address'); ?>
                             <?php endif; ?>
 
+                            <?php wc_get_template('checkout/terms.php'); ?>
+
                             <div id="cfw-payment-action" class="cfw-bottom-controls">
                                 <div class="previous-button">
                                     <?php if ( WC()->cart->needs_shipping_address() ): ?>

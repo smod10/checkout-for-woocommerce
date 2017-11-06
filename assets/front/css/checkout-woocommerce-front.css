@@ -722,6 +722,11 @@ body {
       margin-left: 0;
       margin-top: 20px; } }
 
+.woocommerce-terms-and-conditions {
+  border: 1px solid #eee;
+  margin-bottom: 30px;
+  padding: 20px; }
+
 #cfw-billing-methods .cfw-radio-reveal-group, #cfw-shipping-same-billing .cfw-radio-reveal-group {
   line-height: 1;
   border-radius: 4px;

@@ -7,8 +7,8 @@ import { StripeServiceCallbacks }               from "../Types/Types"
 import { StripeService }                        from "../Services/StripeService";
 import { AlertInfo }                            from "../Elements/Alert";
 import { Alert }                                from "../Elements/Alert";
-import {Main} from "../Main";
-import {EValidationSections} from "../Services/ValidationService";
+import { Main }                                 from "../Main";
+import { EValidationSections }                  from "../Services/ValidationService";
 
 export class CompleteOrderAction extends Action {
 
@@ -240,6 +240,7 @@ export class CompleteOrderAction extends Action {
                 $(elem).prop('checked', true);
             }
         });
+        $("#terms").attr("checked", <any>(this.data.terms === "on"));
         $("[name='stripe_token']").remove();
 
         $("#_wpnonce").val(this.data._wpnonce);

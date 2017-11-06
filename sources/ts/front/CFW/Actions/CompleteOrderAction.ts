@@ -109,7 +109,7 @@ export class CompleteOrderAction extends Action {
      * The setup function which mainly determines if we need a stripe token to continue
      */
     setup(): void {
-        if(StripeService.hasStripe() && StripeService.hasNewPayment()) {
+        if(StripeService.hasStripe() && StripeService.hasNewPayment() && Main.isPaymentRequired()) {
             this.needsStripeToken = true;
 
             StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);

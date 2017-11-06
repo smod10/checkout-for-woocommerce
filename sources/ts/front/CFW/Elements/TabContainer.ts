@@ -4,7 +4,7 @@ import { TabContainerSection }              from "./TabContainerSection";
 import { InputLabelWrap }                   from "./InputLabelWrap";
 import { CustomerDataInfo }                 from "../Types/Types";
 import { AjaxInfo }                         from "../Types/Types";
-import { UpdateShippingFieldsRI }           from "../Types/Types";
+import { UpdateShippingFieldsRI }           from "../Actions/UpdateShippingFieldsAction";
 import { AccountExistsAction }              from "../Actions/AccountExistsAction";
 import { LoginAction }                      from "../Actions/LoginAction";
 import { FormElement }                      from "./FormElement";
@@ -276,17 +276,6 @@ export class TabContainer extends Element {
                 $(elem).wrap("<div class='cfw-column-3'></div>");
             }
         });
-    }
-
-    /**
-     * Set up reveal radio group on customer info tab for billing
-     */
-    setUpCustomerTabRadioButtons() {
-        let shipping_same_radio_buttons: Array<Element> = this
-            .tabContainerSectionBy("name", "customer_info")
-            .getInputsFromSection('[type="radio"][name="shipping_same"]');
-
-        this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons, true);
     }
 
     /**

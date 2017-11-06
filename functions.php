@@ -366,69 +366,67 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	function cfw_get_payment_methods_html() {
         $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 
-        if ( WC()->cart->needs_payment() ) {
-            ?><ul class="wc_payment_methods payment_methods methods cfw-radio-reveal-group"><?php
-                if ( ! empty( $available_gateways ) ) {
-                    $count = 0;
-                    foreach ( $available_gateways as $gateway ) {
-                        ?>
-                        <li class="wc_payment_method payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-li">
-                            <div class="payment_method_title_wrap cfw-radio-reveal-title-wrap">
-                                <label class="payment_method_label cfw-radio-reveal-label" for="payment_method_<?php echo $gateway->id; ?>">
-                                    <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php echo ($count == 0) ? "checked" : ""; ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
-                                    <span class="payment_method_title cfw-radio-reveal-title"><?php echo $gateway->get_title(); ?></span>
-                                </label>
+		?><ul class="wc_payment_methods payment_methods methods cfw-radio-reveal-group"><?php
+		if ( ! empty( $available_gateways ) ) {
+			$count = 0;
+			foreach ( $available_gateways as $gateway ) {
+				?>
+                <li class="wc_payment_method payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-li">
+                    <div class="payment_method_title_wrap cfw-radio-reveal-title-wrap">
+                        <label class="payment_method_label cfw-radio-reveal-label" for="payment_method_<?php echo $gateway->id; ?>">
+                            <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php echo ($count == 0) ? "checked" : ""; ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
+                            <span class="payment_method_title cfw-radio-reveal-title"><?php echo $gateway->get_title(); ?></span>
+                        </label>
 
-                                <span class="payment_method_icons">
+                        <span class="payment_method_icons">
                                     <?php echo $gateway->get_icon(); ?>
                                 </span>
+                    </div>
+					<?php if ( $gateway->has_fields() || $gateway->get_description() ) : ?>
+                        <div class="payment_box_wrap cfw-radio-reveal-content-wrap" <?php if ( ! $gateway->chosen ) : ?>style="display:none;"<?php endif; ?>>
+                            <div class="payment_box payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-content">
+								<?php
+								ob_start();
+								$gateway->payment_fields();
+
+								$field_html = ob_get_clean();
+
+								/**
+								 * Garlic Exclusions and Gateway Compatability Patches
+								 */
+								// PayPal Pro
+								$field_html = str_ireplace('name="paypal_pro-card-number"', 'name="paypal_pro-card-number" data-persist="false"', $field_html);
+								$field_html = str_ireplace('name="paypal_pro-card-cvc"', 'name="paypal_pro-card-cvc" data-persist="false"', $field_html);
+
+								// Authorize.net
+								$field_html = str_ireplace('name="wc-authorize-net-aim-account-number"', 'name="wc-authorize-net-aim-account-number" data-persist="false"', $field_html);
+								$field_html = str_ireplace('name="wc-authorize-net-aim-csc"', 'name="wc-authorize-net-aim-csc" data-persist="false"', $field_html);
+
+								// Expiration field fix
+								$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-input', 'js-sv-wc-payment-gateway-credit-card-form-input  wc-credit-card-form-card-expiry', $field_html);
+
+								// PayFlow Pro
+								$field_html = str_ireplace('name="paypal_pro_payflow-card-number"', 'name="paypal_pro_payflow-card-number" data-persist="false"', $field_html);
+								$field_html = str_ireplace('name="paypal_pro_payflow-card-cvc"', 'name="paypal_pro_payflow-card-cvc" data-persist="false"', $field_html);
+
+								// Stripe
+								$field_html = str_ireplace('id="stripe-card-number"', 'id="stripe-card-number" data-persist="false"', $field_html);
+								$field_html = str_ireplace('id="stripe-card-expiry"', 'id="stripe-card-expiry" data-persist="false"', $field_html);
+								$field_html = str_ireplace('id="stripe-card-cvc"', 'id="stripe-card-cvc" data-persist="false"', $field_html);
+
+								echo apply_filters('cfw_payment_gateway_field_html_' . $gateway->id, $field_html);
+								?>
                             </div>
-		                    <?php if ( $gateway->has_fields() || $gateway->get_description() ) : ?>
-                                <div class="payment_box_wrap cfw-radio-reveal-content-wrap" <?php if ( ! $gateway->chosen ) : ?>style="display:none;"<?php endif; ?>>
-                                    <div class="payment_box payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-content">
-                                        <?php
-                                        ob_start();
-                                        $gateway->payment_fields();
-
-                                        $field_html = ob_get_clean();
-
-                                        /**
-                                         * Garlic Exclusions and Gateway Compatability Patches
-                                         */
-                                        // PayPal Pro
-                                        $field_html = str_ireplace('name="paypal_pro-card-number"', 'name="paypal_pro-card-number" data-persist="false"', $field_html);
-                                        $field_html = str_ireplace('name="paypal_pro-card-cvc"', 'name="paypal_pro-card-cvc" data-persist="false"', $field_html);
-
-                                        // Authorize.net
-                                        $field_html = str_ireplace('name="wc-authorize-net-aim-account-number"', 'name="wc-authorize-net-aim-account-number" data-persist="false"', $field_html);
-                                        $field_html = str_ireplace('name="wc-authorize-net-aim-csc"', 'name="wc-authorize-net-aim-csc" data-persist="false"', $field_html);
-
-                                        // Expiration field fix
-                                        $field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-input', 'js-sv-wc-payment-gateway-credit-card-form-input  wc-credit-card-form-card-expiry', $field_html);
-
-                                        // PayFlow Pro
-                                        $field_html = str_ireplace('name="paypal_pro_payflow-card-number"', 'name="paypal_pro_payflow-card-number" data-persist="false"', $field_html);
-                                        $field_html = str_ireplace('name="paypal_pro_payflow-card-cvc"', 'name="paypal_pro_payflow-card-cvc" data-persist="false"', $field_html);
-
-                                        // Stripe
-                                        $field_html = str_ireplace('id="stripe-card-number"', 'id="stripe-card-number" data-persist="false"', $field_html);
-                                        $field_html = str_ireplace('id="stripe-card-expiry"', 'id="stripe-card-expiry" data-persist="false"', $field_html);
-                                        $field_html = str_ireplace('id="stripe-card-cvc"', 'id="stripe-card-cvc" data-persist="false"', $field_html);
-
-                                        echo apply_filters('cfw_payment_gateway_field_html_' . $gateway->id, $field_html);
-                                        ?>
-                                    </div>
-                                </div>
-		                    <?php endif; ?>
-                        </li>
-                        <?php
-                        $count++;
-                    }
-                } else {
-                    echo '<li class="woocommerce-notice woocommerce-notice--info woocommerce-info">' . apply_filters( 'woocommerce_no_available_payment_methods_message', __( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) ) . '</li>';
-                }
-            ?></ul><?php
-        }
+                        </div>
+					<?php endif; ?>
+                </li>
+				<?php
+				$count++;
+			}
+		} else {
+			echo '<li class="woocommerce-notice woocommerce-notice--info woocommerce-info">' . apply_filters( 'woocommerce_no_available_payment_methods_message', __( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) ) . '</li>';
+		}
+		?></ul><?php
     }
 
     function cfw_get_checkout_cart_html() {

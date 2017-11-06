@@ -51,6 +51,7 @@ class Redirect {
 			$global_template_parameters["checkout"]     = WC()->checkout();                 // Checkout Object
 			$global_template_parameters["cart"]         = WC()->cart;                       // Cart Object
 			$global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
+            $global_template_parameters["css_classes"]  = Redirect::get_css_classes();
 
 			// Output the contents of the <head></head> section
 			self::head($path_manager, $version, ['checkout-wc'], $settings_manager);
@@ -65,6 +66,25 @@ class Redirect {
 			exit;
 		}
 	}
+
+	/**
+     * Initial classes for visibility states
+     *
+	 * @return string
+	 */
+	public static function get_css_classes() {
+	    $css_classes = [];
+
+		if(!WC()->cart->needs_payment()) {
+			$css_classes[] = "cfw-payment-false";
+		}
+
+		if(!WC()->cart->needs_shipping_address()) {
+		    $css_classes[] = "cfw-shipping-address-false";
+        }
+
+		return implode(" ", $css_classes);
+    }
 
 	/**
      * @since 1.0.0

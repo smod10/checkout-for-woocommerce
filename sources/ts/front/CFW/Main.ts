@@ -93,8 +93,7 @@ export class Main {
 		this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
 		this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo, this.cart);
 		this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
-		this.tabContainer.setUpCustomerTabRadioButtons();
-        this.tabContainer.setUpPaymentTabRadioButtons();
+		this.tabContainer.setUpPaymentTabRadioButtons();
 		this.tabContainer.setUpCreditCardRadioReveal();
 		this.tabContainer.setUpMobileCartDetailsReveal();
 		this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
@@ -104,6 +103,26 @@ export class Main {
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
     }
+
+    /**
+     * @returns {boolean}
+     */
+    static isPaymentRequired(): boolean {
+        return !$("#cfw-content").hasClass("cfw-payment-false");
+    }
+
+    static togglePaymentRequired(isPaymentRequired: boolean): void {
+        let $cfw = $("#cfw-content");
+        let noPaymentCssClass = "cfw-payment-false";
+
+        if(!isPaymentRequired) {
+            if(!$cfw.hasClass(noPaymentCssClass)) {
+                $cfw.addClass(noPaymentCssClass);
+            }
+        } else {
+            $cfw.removeClass(noPaymentCssClass);
+        }
+	}
 
 	/**
 	 * Sets up animation listeners

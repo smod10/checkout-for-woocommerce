@@ -1,11 +1,30 @@
 import { Action }                                   from "./Action";
 import { AjaxInfo }                                 from "../Types/Types";
-import { UpdateShippingFieldsData }                 from "../Types/Types";
-import { UpdateShippingFieldsResponse }             from "../Types/Types";
 import { CustomerDataInfo }                         from "../Types/Types";
 import { ResponsePrep }                             from "../Decorators/ResponsePrep";
+import { UpdateCartTotalsData }                     from "../Elements/Cart";
 import { Cart }                                     from "../Elements/Cart";
 import { TabContainer }                             from "../Elements/TabContainer";
+import { Main }                                     from "../Main";
+
+export type UpdateShippingFieldsResponse = {
+    error: boolean,
+    updated_fields_info: Array<CustomerDataInfo>,
+    new_totals: UpdateCartTotalsData,
+    needs_payment: boolean,
+    updated_ship_methods: any
+}
+
+export type UpdateShippingFieldsData = {
+    action: string,
+    security: string,
+    shipping_fields_info: Array<CustomerDataInfo>
+}
+
+export type UpdateShippingFieldsRI = {
+    action: string,
+    shipping_details_fields: Array<JQuery>
+}
 
 /**
  *
@@ -104,6 +123,8 @@ export class UpdateShippingFieldsAction extends Action {
                 // Update totals
                 Cart.outputValues(this.cart, resp.new_totals);
             }
+
+            Main.togglePaymentRequired(resp.needs_payment);
         }
     }
 

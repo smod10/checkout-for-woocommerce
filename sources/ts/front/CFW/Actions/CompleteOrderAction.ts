@@ -43,6 +43,7 @@ export class CompleteOrderAction extends Action {
      * @param checkoutData
      */
     constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: any) {
+        console.log("ATTEMPTING NEW ORDER");
 
         // We do a normal object here because to make a new type just to add two different options seems silly.
         let data: {} = {
@@ -104,12 +105,16 @@ export class CompleteOrderAction extends Action {
 
         this.stripeServiceCallbacks = {
             success: (response: StripeValidResponse) => {
+                console.log("CompleteOrderAction::successCallback");
+
                 this.stripeResponse = response;
                 this.addStripeTokenToData(response.id);
                 this.needsStripeToken = false;
                 this.load();
             },
             noData: (response: StripeNoDataResponse) => {
+                console.log("CompleteOrderAction::noDataCallback");
+
                 let alertInfo: AlertInfo = {
                     type: "StripeNoDataError",
                     message: "Stripe: " + response.error.message,
@@ -120,6 +125,8 @@ export class CompleteOrderAction extends Action {
                 alert.addAlert();
             },
             badData: (response: StripeBadDataResponse) => {
+                console.log("CompleteOrderAction::badDataCallback");
+
                 let alertInfo: AlertInfo = {
                     type: "StripeBadDataError",
                     message: "Stripe: " + response.error.message,
@@ -156,6 +163,7 @@ export class CompleteOrderAction extends Action {
      */
     setup(): void {
         if(StripeService.hasStripe() && StripeService.hasNewPayment()) {
+            console.log("CompleteOrderAction::setup");
             this.needsStripeToken = true;
 
             StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);
@@ -223,10 +231,13 @@ export class CompleteOrderAction extends Action {
     public response(resp: any): void {
 
         if(resp.result === "success") {
+            console.log("CompleteOrderAction::response | success");
             window.location.href = resp.redirect;
         }
 
         if(resp.result === "failure") {
+            console.log("CompleteOrderAction::response | failure");
+
             let alertInfo: AlertInfo = {
                 type: "AccPassRequiredField",
                 message: resp.messages,
@@ -286,6 +297,7 @@ export class CompleteOrderAction extends Action {
                 $(elem).prop('checked', true);
             }
         });
+        $("[name='stripe_token']").remove();
 
         $("#_wpnonce").val(this.data._wpnonce);
         $("[name='_wp_http_referer']").val(this.data._wp_http_referer);

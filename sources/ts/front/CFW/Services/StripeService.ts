@@ -56,6 +56,7 @@ export class StripeService {
      * Trigger the stripe event that checks the credit card ata
      */
     static triggerStripe(): void {
+        console.log("StripeService::triggerStripe");
         let checkoutForm: JQuery = $("form.woocommerce-checkout");
         checkoutForm.trigger('checkout_place_order_stripe');
         checkoutForm.on('submit', (event) => event.preventDefault());
@@ -68,6 +69,7 @@ export class StripeService {
      * @returns {StripeResponse}
      */
     static parseStripeMessage(message: string): StripeResponse {
+        console.log(message);
         let matchResults = message.match('default\\d{0,}(?:(?!{).)*');
         let out: StripeResponse = null;
 

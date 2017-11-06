@@ -2301,69 +2301,23 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      */
     function CompleteOrderAction(id, ajaxInfo, checkoutData) {
         var _this = this;
-        console.log("ATTEMPTING NEW ORDER");
-        // We do a normal object here because to make a new type just to add two different options seems silly.
+        // TODO: Using assign we can combine this process pre-constructor. Probably best to move this for all actions
         var data = {
             action: id,
-            security: ajaxInfo.nonce,
-            billing_first_name: checkoutData.billing_first_name,
-            billing_last_name: checkoutData.billing_last_name,
-            billing_company: checkoutData.billing_company,
-            billing_country: checkoutData.billing_country,
-            billing_address_1: checkoutData.billing_address_1,
-            billing_address_2: checkoutData.billing_address_2,
-            billing_city: checkoutData.billing_city,
-            billing_state: checkoutData.billing_state,
-            billing_postcode: checkoutData.billing_postcode,
-            billing_phone: checkoutData.billing_phone,
-            billing_email: checkoutData.billing_email,
-            ship_to_different_address: checkoutData.ship_to_different_address,
-            shipping_first_name: checkoutData.shipping_first_name,
-            shipping_last_name: checkoutData.shipping_last_name,
-            shipping_company: checkoutData.shipping_company,
-            shipping_country: checkoutData.shipping_country,
-            shipping_address_1: checkoutData.shipping_address_1,
-            shipping_address_2: checkoutData.shipping_address_2,
-            shipping_city: checkoutData.shipping_city,
-            shipping_state: checkoutData.shipping_state,
-            shipping_postcode: checkoutData.shipping_postcode,
-            order_comments: checkoutData.order_comments,
-            "shipping_method[0]": checkoutData["shipping_method[0]"],
-            payment_method: checkoutData.payment_method,
-            "wc-stripe-payment-token": checkoutData["wc-stripe-payment-token"],
-            _wpnonce: checkoutData._wpnonce,
-            _wp_http_referer: checkoutData._wp_http_referer,
-            "wc-authorize-net-aim-account-number": checkoutData["wc-authorize-net-aim-account-number"],
-            "wc-authorize-net-aim-expiry": checkoutData["wc-authorize-net-aim-expiry"],
-            "wc-authorize-net-aim-csc": checkoutData["wc-authorize-net-aim-csc"],
-            "paypal_pro_payflow-card-number": checkoutData["paypal_pro_payflow-card-number"],
-            "paypal_pro_payflow-card-expiry": checkoutData["paypal_pro_payflow-card-expiry"],
-            "paypal_pro_payflow-card-cvc": checkoutData["paypal_pro_payflow-card-cvc"],
-            "paypal_pro-card-number": checkoutData["paypal_pro-card-number"],
-            "paypal_pro-card-expiry": checkoutData["paypal_pro-card-expiry"],
-            "paypal_pro-card-cvc": checkoutData["paypal_pro-card-cvc"],
+            security: ajaxInfo.nonce
         };
-        if (checkoutData.account_password) {
-            data["account_password"] = checkoutData.account_password;
-        }
-        if (checkoutData.createaccount) {
-            data["createaccount"] = checkoutData.createaccount;
-        }
-        if (checkoutData["wc-stripe-new-payment-method"]) {
-            data["wc-stripe-new-payment-method"] = checkoutData["wc-stripe-new-payment-method"];
-        }
+        // Copies our checkoutData properties to the object with the two pieces of differing data.
+        Object.assign(data, checkoutData);
         _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
         $("#cfw-content").addClass("show-overlay");
         _this.stripeServiceCallbacks = {
             success: function (response) {
-                console.log("CompleteOrderAction::successCallback");
                 _this.stripeResponse = response;
                 _this.addStripeTokenToData(response.id);
                 _this.needsStripeToken = false;
                 _this.load();
             },
             noData: function (response) {
-                console.log("CompleteOrderAction::noDataCallback");
                 var alertInfo = {
                     type: "StripeNoDataError",
                     message: "Stripe: " + response.error.message,
@@ -2373,7 +2327,6 @@ var CompleteOrderAction = /** @class */ (function (_super) {
                 alert.addAlert();
             },
             badData: function (response) {
-                console.log("CompleteOrderAction::badDataCallback");
                 var alertInfo = {
                     type: "StripeBadDataError",
                     message: "Stripe: " + response.error.message,
@@ -2405,7 +2358,6 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      */
     CompleteOrderAction.prototype.setup = function () {
         if (StripeService_1.StripeService.hasStripe() && StripeService_1.StripeService.hasNewPayment()) {
-            console.log("CompleteOrderAction::setup");
             this.needsStripeToken = true;
             StripeService_1.StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);
             StripeService_1.StripeService.triggerStripe();
@@ -2476,11 +2428,9 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      */
     CompleteOrderAction.prototype.response = function (resp) {
         if (resp.result === "success") {
-            console.log("CompleteOrderAction::response | success");
             window.location.href = resp.redirect;
         }
         if (resp.result === "failure") {
-            console.log("CompleteOrderAction::response | failure");
             var alertInfo = {
                 type: "AccPassRequiredField",
                 message: resp.messages,
@@ -2599,7 +2549,6 @@ var StripeService = /** @class */ (function () {
      * Trigger the stripe event that checks the credit card ata
      */
     StripeService.triggerStripe = function () {
-        console.log("StripeService::triggerStripe");
         var checkoutForm = $("form.woocommerce-checkout");
         checkoutForm.trigger('checkout_place_order_stripe');
         checkoutForm.on('submit', function (event) { return event.preventDefault(); });
@@ -2611,7 +2560,6 @@ var StripeService = /** @class */ (function () {
      * @returns {StripeResponse}
      */
     StripeService.parseStripeMessage = function (message) {
-        console.log(message);
         var matchResults = message.match('default\\d{0,}(?:(?!{).)*');
         var out = null;
         if (matchResults.length > 0) {

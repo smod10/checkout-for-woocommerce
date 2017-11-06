@@ -69,6 +69,196 @@
 
 "use strict";
 
+/// <reference path="../../../../typings/index.d.ts" />
+/// <reference path="Definitions/ArrayFind.d.ts" />
+Object.defineProperty(exports, "__esModule", { value: true });
+var ValidationService_1 = __webpack_require__(6);
+/**
+ * The main class of the front end checkout system
+ */
+var Main = /** @class */ (function () {
+    /**
+     * @param tabContainer
+     * @param ajaxInfo
+     * @param cart
+     * @param settings
+     */
+    function Main(tabContainer, ajaxInfo, cart, settings) {
+        this.tabContainer = tabContainer;
+        this.ajaxInfo = ajaxInfo;
+        this.cart = cart;
+        this.settings = settings;
+        this.validationService = new ValidationService_1.ValidationService(tabContainer);
+        Main.instance = this;
+    }
+    /**
+     * Sets up the tab container by running easy tabs, setting up animation listeners, and setting up events and on load
+     * functionality
+     */
+    Main.prototype.setup = function () {
+        // Setup easy tabs
+        this.tabContainer.easyTabs();
+        // Setup animation listeners
+        this.setupAnimationListeners();
+        // Set up credit card fields if there. Needs to happen before wrap
+        this.tabContainer.setUpCreditCardFields();
+        /**
+         * NOTE: If you are doing any DOM manipulation (adding and removing classes specifically). Do it before the setWraps
+         * call on the tab container sections. Once this is called all the setup of the different areas will have completed and
+         * wont be run again until next page load
+         */
+        // Loop through and set up the wraps on the tab container sections
+        this.tabContainer.tabContainerSections.forEach(function (tcs) { return tcs.setWraps(); });
+        // Set up event handlers
+        this.tabContainer.setAccountCheckListener(this.ajaxInfo);
+        this.tabContainer.setLogInListener(this.ajaxInfo);
+        this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
+        this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo, this.cart);
+        this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
+        this.tabContainer.setUpPaymentTabRadioButtons();
+        this.tabContainer.setUpCreditCardRadioReveal();
+        this.tabContainer.setUpMobileCartDetailsReveal();
+        this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
+        this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
+        this.tabContainer.setTermsAndConditions();
+        // Handles the shipping fields on load if the user happens to land on the shipping method page.
+        this.tabContainer.setShippingFieldsOnLoad();
+    };
+    /**
+     * @returns {boolean}
+     */
+    Main.isPaymentRequired = function () {
+        return !$("#cfw-content").hasClass("cfw-payment-false");
+    };
+    Main.togglePaymentRequired = function (isPaymentRequired) {
+        var $cfw = $("#cfw-content");
+        var noPaymentCssClass = "cfw-payment-false";
+        if (!isPaymentRequired) {
+            if (!$cfw.hasClass(noPaymentCssClass)) {
+                $cfw.addClass(noPaymentCssClass);
+            }
+        }
+        else {
+            $cfw.removeClass(noPaymentCssClass);
+        }
+    };
+    /**
+     * Sets up animation listeners
+     */
+    Main.prototype.setupAnimationListeners = function () {
+        $("#cfw-ci-login").on("click", function () {
+            $("#cfw-login-slide").slideDown(300);
+        });
+    };
+    Object.defineProperty(Main.prototype, "tabContainer", {
+        /**
+         * @returns {TabContainer}
+         */
+        get: function () {
+            return this._tabContainer;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._tabContainer = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Main.prototype, "ajaxInfo", {
+        /**
+         * @returns {AjaxInfo}
+         */
+        get: function () {
+            return this._ajaxInfo;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._ajaxInfo = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Main.prototype, "cart", {
+        /**
+         * @returns {Cart}
+         */
+        get: function () {
+            return this._cart;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._cart = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Main.prototype, "settings", {
+        /**
+         * @returns {any}
+         */
+        get: function () {
+            return this._settings;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._settings = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Main.prototype, "validationService", {
+        /**
+         * @returns {ValidationService}
+         */
+        get: function () {
+            return this._validationService;
+        },
+        /**
+         * @param {ValidationService} value
+         */
+        set: function (value) {
+            this._validationService = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Main, "instance", {
+        /**
+         * @returns {Main}
+         */
+        get: function () {
+            return Main._instance;
+        },
+        /**
+         * @param {Main} value
+         */
+        set: function (value) {
+            if (!Main._instance) {
+                Main._instance = value;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Main;
+}());
+exports.Main = Main;
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  *
@@ -102,7 +292,7 @@ exports.Element = Element;
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -183,7 +373,7 @@ exports.Action = Action;
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports) {
 
 /*
@@ -216,7 +406,7 @@ module.exports = function(src) {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -251,7 +441,7 @@ exports.ResponsePrep = ResponsePrep;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -267,7 +457,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
+var Element_1 = __webpack_require__(1);
 var Cart = /** @class */ (function (_super) {
     __extends(Cart, _super);
     /**
@@ -428,179 +618,6 @@ var Cart = /** @class */ (function (_super) {
     return Cart;
 }(Element_1.Element));
 exports.Cart = Cart;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/// <reference path="../../../../typings/index.d.ts" />
-/// <reference path="Definitions/ArrayFind.d.ts" />
-Object.defineProperty(exports, "__esModule", { value: true });
-var ValidationService_1 = __webpack_require__(6);
-/**
- * The main class of the front end checkout system
- */
-var Main = /** @class */ (function () {
-    /**
-     * @param tabContainer
-     * @param ajaxInfo
-     * @param cart
-     * @param settings
-     */
-    function Main(tabContainer, ajaxInfo, cart, settings) {
-        this.tabContainer = tabContainer;
-        this.ajaxInfo = ajaxInfo;
-        this.cart = cart;
-        this.settings = settings;
-        this.validationService = new ValidationService_1.ValidationService(tabContainer);
-        Main.instance = this;
-    }
-    /**
-     * Sets up the tab container by running easy tabs, setting up animation listeners, and setting up events and on load
-     * functionality
-     */
-    Main.prototype.setup = function () {
-        // Setup easy tabs
-        this.tabContainer.easyTabs();
-        // Setup animation listeners
-        this.setupAnimationListeners();
-        // Set up credit card fields if there. Needs to happen before wrap
-        this.tabContainer.setUpCreditCardFields();
-        /**
-         * NOTE: If you are doing any DOM manipulation (adding and removing classes specifically). Do it before the setWraps
-         * call on the tab container sections. Once this is called all the setup of the different areas will have completed and
-         * wont be run again until next page load
-         */
-        // Loop through and set up the wraps on the tab container sections
-        this.tabContainer.tabContainerSections.forEach(function (tcs) { return tcs.setWraps(); });
-        // Set up event handlers
-        this.tabContainer.setAccountCheckListener(this.ajaxInfo);
-        this.tabContainer.setLogInListener(this.ajaxInfo);
-        this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
-        this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo, this.cart);
-        this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
-        this.tabContainer.setUpCustomerTabRadioButtons();
-        this.tabContainer.setUpPaymentTabRadioButtons();
-        this.tabContainer.setUpCreditCardRadioReveal();
-        this.tabContainer.setUpMobileCartDetailsReveal();
-        this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
-        this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
-        this.tabContainer.setTermsAndConditions();
-        // Handles the shipping fields on load if the user happens to land on the shipping method page.
-        this.tabContainer.setShippingFieldsOnLoad();
-    };
-    /**
-     * Sets up animation listeners
-     */
-    Main.prototype.setupAnimationListeners = function () {
-        $("#cfw-ci-login").on("click", function () {
-            $("#cfw-login-slide").slideDown(300);
-        });
-    };
-    Object.defineProperty(Main.prototype, "tabContainer", {
-        /**
-         * @returns {TabContainer}
-         */
-        get: function () {
-            return this._tabContainer;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._tabContainer = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Main.prototype, "ajaxInfo", {
-        /**
-         * @returns {AjaxInfo}
-         */
-        get: function () {
-            return this._ajaxInfo;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._ajaxInfo = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Main.prototype, "cart", {
-        /**
-         * @returns {Cart}
-         */
-        get: function () {
-            return this._cart;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._cart = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Main.prototype, "settings", {
-        /**
-         * @returns {any}
-         */
-        get: function () {
-            return this._settings;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._settings = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Main.prototype, "validationService", {
-        /**
-         * @returns {ValidationService}
-         */
-        get: function () {
-            return this._validationService;
-        },
-        /**
-         * @param {ValidationService} value
-         */
-        set: function (value) {
-            this._validationService = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Main, "instance", {
-        /**
-         * @returns {Main}
-         */
-        get: function () {
-            return Main._instance;
-        },
-        /**
-         * @param {Main} value
-         */
-        set: function (value) {
-            if (!Main._instance) {
-                Main._instance = value;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Main;
-}());
-exports.Main = Main;
 
 
 /***/ }),
@@ -872,7 +889,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
+var Element_1 = __webpack_require__(1);
 /**
  *
  */
@@ -956,7 +973,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
+var Element_1 = __webpack_require__(1);
 var LabelType_1 = __webpack_require__(9);
 /**
  *
@@ -1168,7 +1185,7 @@ __webpack_require__(22);
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2)(__webpack_require__(15))
+__webpack_require__(3)(__webpack_require__(15))
 
 /***/ }),
 /* 15 */
@@ -1180,7 +1197,7 @@ module.exports = "/*\r\n * jQuery hashchange event - v1.3 - 7/21/2010\r\n * http
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2)(__webpack_require__(17))
+__webpack_require__(3)(__webpack_require__(17))
 
 /***/ }),
 /* 17 */
@@ -1192,7 +1209,7 @@ module.exports = "/*\r\n * jQuery EasyTabs plugin 3.2.0\r\n *\r\n * Copyright (c
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2)(__webpack_require__(19))
+__webpack_require__(3)(__webpack_require__(19))
 
 /***/ }),
 /* 19 */
@@ -1204,7 +1221,7 @@ module.exports = "/* Garlicjs dist/garlic.min.js build version 1.3.1-cgd http://
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2)(__webpack_require__(21))
+__webpack_require__(3)(__webpack_require__(21))
 
 /***/ }),
 /* 21 */
@@ -1216,7 +1233,7 @@ module.exports = "/*!\n* Parsley.js\n* Version 2.8.0 - built Wed, Sep 13th 2017,
 /* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2)(__webpack_require__(23))
+__webpack_require__(3)(__webpack_require__(23))
 
 /***/ }),
 /* 23 */
@@ -1231,11 +1248,11 @@ module.exports = "// Find polyfill\r\nif (!Array.prototype.find) {\r\n\tArray.pr
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Main_1 = __webpack_require__(5);
+var Main_1 = __webpack_require__(0);
 var TabContainer_1 = __webpack_require__(25);
 var TabContainerBreadcrumb_1 = __webpack_require__(33);
 var TabContainerSection_1 = __webpack_require__(34);
-var Cart_1 = __webpack_require__(4);
+var Cart_1 = __webpack_require__(5);
 /**
  * This is our main kick off file. We used to do this in a require block in the Redirect file but since we've moved to
  * webpack this is the new lay of the land (commonjs). In order to make this work in a non node setup (wordpress) we need
@@ -1292,13 +1309,13 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
+var Element_1 = __webpack_require__(1);
 var AccountExistsAction_1 = __webpack_require__(26);
 var LoginAction_1 = __webpack_require__(27);
 var UpdateShippingFieldsAction_1 = __webpack_require__(28);
 var UpdateShippingMethodAction_1 = __webpack_require__(29);
 var CompleteOrderAction_1 = __webpack_require__(30);
-var Main_1 = __webpack_require__(5);
+var Main_1 = __webpack_require__(0);
 var ApplyCouponAction_1 = __webpack_require__(32);
 var ValidationService_1 = __webpack_require__(6);
 /**
@@ -1506,15 +1523,6 @@ var TabContainer = /** @class */ (function (_super) {
                 $(elem).wrap("<div class='cfw-column-3'></div>");
             }
         });
-    };
-    /**
-     * Set up reveal radio group on customer info tab for billing
-     */
-    TabContainer.prototype.setUpCustomerTabRadioButtons = function () {
-        var shipping_same_radio_buttons = this
-            .tabContainerSectionBy("name", "customer_info")
-            .getInputsFromSection('[type="radio"][name="shipping_same"]');
-        this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons, true);
     };
     /**
      *
@@ -1874,8 +1882,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
-var ResponsePrep_1 = __webpack_require__(3);
+var Action_1 = __webpack_require__(2);
+var ResponsePrep_1 = __webpack_require__(4);
 /**
  * Ajax does the account exist action. Takes the information from email box and fires of a request to see if the account
  * exists
@@ -1994,9 +2002,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
+var Action_1 = __webpack_require__(2);
 var Alert_1 = __webpack_require__(7);
-var ResponsePrep_1 = __webpack_require__(3);
+var ResponsePrep_1 = __webpack_require__(4);
 /**
  *
  */
@@ -2069,9 +2077,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
-var ResponsePrep_1 = __webpack_require__(3);
-var Cart_1 = __webpack_require__(4);
+var Action_1 = __webpack_require__(2);
+var ResponsePrep_1 = __webpack_require__(4);
+var Cart_1 = __webpack_require__(5);
+var Main_1 = __webpack_require__(0);
 /**
  *
  */
@@ -2135,6 +2144,7 @@ var UpdateShippingFieldsAction = /** @class */ (function (_super) {
                 // Update totals
                 Cart_1.Cart.outputValues(this.cart, resp.new_totals);
             }
+            Main_1.Main.togglePaymentRequired(resp.needs_payment);
         }
     };
     Object.defineProperty(UpdateShippingFieldsAction.prototype, "ajaxInfo", {
@@ -2232,9 +2242,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
-var ResponsePrep_1 = __webpack_require__(3);
-var Cart_1 = __webpack_require__(4);
+var Action_1 = __webpack_require__(2);
+var ResponsePrep_1 = __webpack_require__(4);
+var Cart_1 = __webpack_require__(5);
+var Main_1 = __webpack_require__(0);
 /**
  *
  */
@@ -2264,6 +2275,7 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
         if (resp.new_totals) {
             Cart_1.Cart.outputValues(this.cart, resp.new_totals);
         }
+        Main_1.Main.togglePaymentRequired(resp.needs_payment);
     };
     Object.defineProperty(UpdateShippingMethodAction.prototype, "cart", {
         /**
@@ -2306,10 +2318,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
+var Action_1 = __webpack_require__(2);
 var StripeService_1 = __webpack_require__(31);
 var Alert_1 = __webpack_require__(7);
-var Main_1 = __webpack_require__(5);
+var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(6);
 var CompleteOrderAction = /** @class */ (function (_super) {
     __extends(CompleteOrderAction, _super);
@@ -2377,7 +2389,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      * The setup function which mainly determines if we need a stripe token to continue
      */
     CompleteOrderAction.prototype.setup = function () {
-        if (StripeService_1.StripeService.hasStripe() && StripeService_1.StripeService.hasNewPayment()) {
+        if (StripeService_1.StripeService.hasStripe() && StripeService_1.StripeService.hasNewPayment() && Main_1.Main.isPaymentRequired()) {
             this.needsStripeToken = true;
             StripeService_1.StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);
             StripeService_1.StripeService.triggerStripe();
@@ -2655,10 +2667,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
-var Cart_1 = __webpack_require__(4);
+var Action_1 = __webpack_require__(2);
+var Cart_1 = __webpack_require__(5);
 var Alert_1 = __webpack_require__(7);
-var ResponsePrep_1 = __webpack_require__(3);
+var ResponsePrep_1 = __webpack_require__(4);
+var Main_1 = __webpack_require__(0);
 /**
  *
  */
@@ -2711,6 +2724,7 @@ var ApplyCouponAction = /** @class */ (function (_super) {
         }
         var alert = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
         alert.addAlert();
+        Main_1.Main.togglePaymentRequired(resp.needs_payment);
     };
     Object.defineProperty(ApplyCouponAction.prototype, "cart", {
         /**
@@ -2753,7 +2767,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
+var Element_1 = __webpack_require__(1);
 /**
  *
  */
@@ -2788,7 +2802,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(0);
+var Element_1 = __webpack_require__(1);
 var InputLabelWrap_1 = __webpack_require__(35);
 var LabelType_1 = __webpack_require__(9);
 var SelectLabelWrap_1 = __webpack_require__(36);

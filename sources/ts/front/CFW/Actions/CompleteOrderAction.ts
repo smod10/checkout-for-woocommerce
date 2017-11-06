@@ -7,8 +7,8 @@ import { StripeServiceCallbacks }               from "../Types/Types"
 import { StripeService }                        from "../Services/StripeService";
 import { AlertInfo }                            from "../Elements/Alert";
 import { Alert }                                from "../Elements/Alert";
-import {Main} from "../Main";
-import {EValidationSections} from "../Services/ValidationService";
+import { Main }                                 from "../Main";
+import { EValidationSections }                  from "../Services/ValidationService";
 
 export class CompleteOrderAction extends Action {
 
@@ -96,6 +96,11 @@ export class CompleteOrderAction extends Action {
 
         if(checkoutData["wc-stripe-new-payment-method"]) {
             data["wc-stripe-new-payment-method"] = checkoutData["wc-stripe-new-payment-method"];
+        }
+
+        if(checkoutData["terms"]) {
+            data["terms-field"] = checkoutData["terms-field"];
+            data["terms"] = checkoutData["terms"];
         }
 
         super(id, ajaxInfo.admin_url, data);
@@ -286,6 +291,7 @@ export class CompleteOrderAction extends Action {
                 $(elem).prop('checked', true);
             }
         });
+        $("#terms").attr("checked", <any>(this.data.terms === "on"));
 
         $("#_wpnonce").val(this.data._wpnonce);
         $("[name='_wp_http_referer']").val(this.data._wp_http_referer);

@@ -530,7 +530,32 @@ export class TabContainer extends Element {
             completeOrderCheckoutData["wc-stripe-new-payment-method"] = true;
         }
 
+        if($("#terms").length > 0) {
+            completeOrderCheckoutData["terms-field"] = 1;
+
+            if($("#terms:checked").length > 0) {
+                completeOrderCheckoutData["terms"] = "on";
+            }
+        }
+
         return completeOrderCheckoutData;
+    }
+
+    /**
+     *
+     */
+    setTermsAndConditions(): void {
+        const termsAndConditionsLinkClass: string = "woocommerce-terms-and-conditions-link";
+        const termsAndConditionsContentClass: string = "woocommerce-terms-and-conditions";
+
+        let termsAndConditionsLink: Element = new Element($(`.${termsAndConditionsLinkClass}`));
+        let termsAndConditionsContent: Element = new Element($(`.${termsAndConditionsContentClass}`));
+
+        termsAndConditionsLink.jel.on('click', (eventObject) => {
+            eventObject.preventDefault();
+
+            termsAndConditionsContent.jel.slideToggle(300);
+        });
     }
 
     /**

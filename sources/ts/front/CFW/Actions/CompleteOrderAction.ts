@@ -52,11 +52,6 @@ export class CompleteOrderAction extends Action {
         // Copies our checkoutData properties to the object with the two pieces of differing data.
         (<any>Object).assign(data, checkoutData);
 
-        if(checkoutData["terms"]) {
-            data["terms-field"] = checkoutData["terms-field"];
-            data["terms"] = checkoutData["terms"];
-        }
-
         super(id, ajaxInfo.admin_url, data);
 
         $("#cfw-content").addClass("show-overlay");

@@ -209,7 +209,7 @@
                                 </div>
 
                                 <div class="cfw-no-payment-method-wrap">
-                                    <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Payment has been verified as free and clear! Please complete your order.', 'checkout-wc') ); ?></span>
+                                    <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Your order is free. No payment is required.', 'checkout-wc') ); ?></span>
                                 </div>
 
                                 <?php do_action('cfw_checkout_after_payment_method_tab'); ?>

@@ -403,7 +403,8 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 								$field_html = str_ireplace('name="wc-authorize-net-aim-csc"', 'name="wc-authorize-net-aim-csc" data-persist="false"', $field_html);
 
 								// Expiration field fix
-								$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-input', 'js-sv-wc-payment-gateway-credit-card-form-input  wc-credit-card-form-card-expiry', $field_html);
+								$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-expiry', 'js-sv-wc-payment-gateway-credit-card-form-expiry  wc-credit-card-form-card-expiry', $field_html);
+								$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-account-number', 'js-sv-wc-payment-gateway-credit-card-form-account-number  wc-credit-card-form-card-number', $field_html);
 
 								// PayFlow Pro
 								$field_html = str_ireplace('name="paypal_pro_payflow-card-number"', 'name="paypal_pro_payflow-card-number" data-persist="false"', $field_html);

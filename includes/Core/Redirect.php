@@ -51,6 +51,7 @@ class Redirect {
 			$global_template_parameters["checkout"]     = WC()->checkout();                 // Checkout Object
 			$global_template_parameters["cart"]         = WC()->cart;                       // Cart Object
 			$global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
+            $global_template_parameters["css_classes"]  = Redirect::get_css_classes();
 
 			// Output the contents of the <head></head> section
 			self::head($path_manager, $version, ['checkout-wc'], $settings_manager);
@@ -65,6 +66,25 @@ class Redirect {
 			exit;
 		}
 	}
+
+	/**
+     * Initial classes for visibility states
+     *
+	 * @return string
+	 */
+	public static function get_css_classes() {
+	    $css_classes = [];
+
+		if(!WC()->cart->needs_payment()) {
+			$css_classes[] = "cfw-payment-false";
+		}
+
+		if(!WC()->cart->needs_shipping_address()) {
+		    $css_classes[] = "cfw-shipping-address-false";
+        }
+
+		return implode(" ", $css_classes);
+    }
 
 	/**
      * @since 1.0.0
@@ -214,6 +234,8 @@ class Redirect {
             <meta name="viewport" content="width=device-width">
 
             <?php echo $settings_manager->get_setting('header_scripts'); ?>
+
+            <?php do_action('cfw_wp_head'); ?>
 		</head>
 		<body class="<?php echo implode(" ", $classes); ?>">
 		<?php
@@ -241,7 +263,10 @@ class Redirect {
             'woocommerce_stripe',
             'stripe_apple_pay',
             'woocommerce_stripe_apple_pay',
+            'wc-jilt',
         );
+
+		$ignore = apply_filters('cfw_allowed_script_handles', $ignore);
 
 		foreach($wp_scripts->queue as $handle) {
 		    if(!in_array($handle, $ignore)) {
@@ -279,6 +304,7 @@ class Redirect {
 	public static function footer($path_manager, $settings_manager) {
 		print_footer_scripts();
 		echo $settings_manager->get_setting('footer_scripts');
+		do_action('cfw_wp_footer');
 		?>
 		</body>
 		</html>

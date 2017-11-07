@@ -4,7 +4,7 @@ import { TabContainerSection }              from "./TabContainerSection";
 import { InputLabelWrap }                   from "./InputLabelWrap";
 import { CustomerDataInfo }                 from "../Types/Types";
 import { AjaxInfo }                         from "../Types/Types";
-import { UpdateShippingFieldsRI }           from "../Types/Types";
+import { UpdateShippingFieldsRI }           from "../Actions/UpdateShippingFieldsAction";
 import { AccountExistsAction }              from "../Actions/AccountExistsAction";
 import { LoginAction }                      from "../Actions/LoginAction";
 import { FormElement }                      from "./FormElement";
@@ -171,11 +171,13 @@ export class TabContainer extends Element {
                         $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
                     });
 
-                    if($(elem).is(":checked")) {
-                        $("#wc-stripe-cc-form").slideDown(300);
-                        $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
-                        $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
-                    }
+                    $(window).on('load', () => {
+                        if($(elem).is(":checked")) {
+                            $("#wc-stripe-cc-form").slideDown(300);
+                            $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
+                            $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
+                        }
+                    });
                 } else {
                     $(elem).on('click', () => {
                         $("#wc-stripe-cc-form").slideUp(300);
@@ -184,9 +186,11 @@ export class TabContainer extends Element {
 
                     });
 
-                    if($(elem).is(":checked")) {
-                        $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
-                    }
+                    $(window).on('load', () => {
+                        if($(elem).is(":checked")) {
+                            $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
+                        }
+                    });
                 }
             })
         }
@@ -343,9 +347,11 @@ export class TabContainer extends Element {
                 });
 
                 // Fire it once for page load if selected
-                if(rb.jel.is(":checked")) {
-                    slideUpAndDownContainers(rb);
-                }
+                $(window).on('load', () => {
+                    if(rb.jel.is(":checked")) {
+                        slideUpAndDownContainers(rb);
+                    }
+                });
             });
     }
 
@@ -411,7 +417,7 @@ export class TabContainer extends Element {
         let ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
         let payment_method = $('[name="payment_method"]:checked').val();
         let account_password = $('#cfw-password').val();
-        let billing_email = $("#cfw-email").val();
+        let billing_email = $("#billing_email").val();
 
         let billing_first_name = $("#billing_first_name").val();
         let billing_last_name = $("#billing_last_name").val();
@@ -513,7 +519,32 @@ export class TabContainer extends Element {
             completeOrderCheckoutData["wc-stripe-new-payment-method"] = true;
         }
 
+        if($("#terms").length > 0) {
+            completeOrderCheckoutData["terms-field"] = 1;
+
+            if($("#terms:checked").length > 0) {
+                completeOrderCheckoutData["terms"] = "on";
+            }
+        }
+
         return completeOrderCheckoutData;
+    }
+
+    /**
+     *
+     */
+    setTermsAndConditions(): void {
+        const termsAndConditionsLinkClass: string = "woocommerce-terms-and-conditions-link";
+        const termsAndConditionsContentClass: string = "woocommerce-terms-and-conditions";
+
+        let termsAndConditionsLink: Element = new Element($(`.${termsAndConditionsLinkClass}`));
+        let termsAndConditionsContent: Element = new Element($(`.${termsAndConditionsContentClass}`));
+
+        termsAndConditionsLink.jel.on('click', (eventObject) => {
+            eventObject.preventDefault();
+
+            termsAndConditionsContent.jel.slideToggle(300);
+        });
     }
 
     /**

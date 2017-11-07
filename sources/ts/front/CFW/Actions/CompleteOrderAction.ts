@@ -7,8 +7,8 @@ import { StripeServiceCallbacks }               from "../Types/Types"
 import { StripeService }                        from "../Services/StripeService";
 import { AlertInfo }                            from "../Elements/Alert";
 import { Alert }                                from "../Elements/Alert";
-import {Main} from "../Main";
-import {EValidationSections} from "../Services/ValidationService";
+import { Main }                                 from "../Main";
+import { EValidationSections }                  from "../Services/ValidationService";
 
 export class CompleteOrderAction extends Action {
 
@@ -43,59 +43,14 @@ export class CompleteOrderAction extends Action {
      * @param checkoutData
      */
     constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: any) {
-        // We do a normal object here because to make a new type just to add two different options seems silly.
+        // TODO: Using assign we can combine this process pre-constructor. Probably best to move this for all actions
         let data: {} = {
             action: id,
-            security: ajaxInfo.nonce,
-            billing_first_name: checkoutData.billing_first_name,
-            billing_last_name: checkoutData.billing_last_name,
-            billing_company: checkoutData.billing_company,
-            billing_country: checkoutData.billing_country,
-            billing_address_1: checkoutData.billing_address_1,
-            billing_address_2: checkoutData.billing_address_2,
-            billing_city: checkoutData.billing_city,
-            billing_state: checkoutData.billing_state,
-            billing_postcode: checkoutData.billing_postcode,
-            billing_phone: checkoutData.billing_phone,
-            billing_email: checkoutData.billing_email,
-            ship_to_different_address: checkoutData.ship_to_different_address,
-            shipping_first_name: checkoutData.shipping_first_name,
-            shipping_last_name: checkoutData.shipping_last_name,
-            shipping_company: checkoutData.shipping_company,
-            shipping_country: checkoutData.shipping_country,
-            shipping_address_1: checkoutData.shipping_address_1,
-            shipping_address_2: checkoutData.shipping_address_2,
-            shipping_city: checkoutData.shipping_city,
-            shipping_state: checkoutData.shipping_state,
-            shipping_postcode: checkoutData.shipping_postcode,
-            order_comments: checkoutData.order_comments,
-            "shipping_method[0]": checkoutData["shipping_method[0]"],
-            payment_method: checkoutData.payment_method,
-            "wc-stripe-payment-token": checkoutData["wc-stripe-payment-token"],
-            _wpnonce: checkoutData._wpnonce,
-            _wp_http_referer: checkoutData._wp_http_referer,
-            "wc-authorize-net-aim-account-number": checkoutData["wc-authorize-net-aim-account-number"],
-            "wc-authorize-net-aim-expiry": checkoutData["wc-authorize-net-aim-expiry"],
-            "wc-authorize-net-aim-csc": checkoutData["wc-authorize-net-aim-csc"],
-            "paypal_pro_payflow-card-number": checkoutData["paypal_pro_payflow-card-number"],
-            "paypal_pro_payflow-card-expiry": checkoutData["paypal_pro_payflow-card-expiry"],
-            "paypal_pro_payflow-card-cvc": checkoutData["paypal_pro_payflow-card-cvc"],
-            "paypal_pro-card-number": checkoutData["paypal_pro-card-number"],
-            "paypal_pro-card-expiry": checkoutData["paypal_pro-card-expiry"],
-            "paypal_pro-card-cvc": checkoutData["paypal_pro-card-cvc"],
+            security: ajaxInfo.nonce
         };
 
-        if(checkoutData.account_password) {
-            data["account_password"] = checkoutData.account_password;
-        }
-
-        if(checkoutData.createaccount) {
-            data["createaccount"] = checkoutData.createaccount;
-        }
-
-        if(checkoutData["wc-stripe-new-payment-method"]) {
-            data["wc-stripe-new-payment-method"] = checkoutData["wc-stripe-new-payment-method"];
-        }
+        // Copies our checkoutData properties to the object with the two pieces of differing data.
+        (<any>Object).assign(data, checkoutData);
 
         super(id, ajaxInfo.admin_url, data);
 
@@ -154,7 +109,7 @@ export class CompleteOrderAction extends Action {
      * The setup function which mainly determines if we need a stripe token to continue
      */
     setup(): void {
-        if(StripeService.hasStripe() && StripeService.hasNewPayment()) {
+        if(StripeService.hasStripe() && StripeService.hasNewPayment() && Main.isPaymentRequired()) {
             this.needsStripeToken = true;
 
             StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);
@@ -244,7 +199,7 @@ export class CompleteOrderAction extends Action {
      */
     resetData(): void {
         $('#cfw-password').val(this.data["account_password"]);
-        $("#cfw-email").val(this.data.billing_email);
+        $("#billing_email").val(this.data.billing_email);
 
         $("#billing_first_name").val(this.data.billing_first_name);
         $("#billing_last_name").val(this.data.billing_last_name);
@@ -285,6 +240,7 @@ export class CompleteOrderAction extends Action {
                 $(elem).prop('checked', true);
             }
         });
+        $("#terms").attr("checked", <any>(this.data.terms === "on"));
         $("[name='stripe_token']").remove();
 
         $("#_wpnonce").val(this.data._wpnonce);

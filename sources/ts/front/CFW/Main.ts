@@ -98,10 +98,31 @@ export class Main {
 		this.tabContainer.setUpMobileCartDetailsReveal();
 		this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
 		this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
+		this.tabContainer.setTermsAndConditions();
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
     }
+
+    /**
+     * @returns {boolean}
+     */
+    static isPaymentRequired(): boolean {
+        return !$("#cfw-content").hasClass("cfw-payment-false");
+    }
+
+    static togglePaymentRequired(isPaymentRequired: boolean): void {
+        let $cfw = $("#cfw-content");
+        let noPaymentCssClass = "cfw-payment-false";
+
+        if(!isPaymentRequired) {
+            if(!$cfw.hasClass(noPaymentCssClass)) {
+                $cfw.addClass(noPaymentCssClass);
+            }
+        } else {
+            $cfw.removeClass(noPaymentCssClass);
+        }
+	}
 
 	/**
 	 * Sets up animation listeners

@@ -97,9 +97,11 @@ class Redirect {
 		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
 
 		wp_enqueue_scripts();
-		self::remove_scripts();
-		print_head_scripts();
 
+		self::remove_scripts();
+		self::remove_styles();
+
+		print_head_scripts();
 		?>
         <script>
             window.$ = jQuery;
@@ -154,7 +156,7 @@ class Redirect {
         </script>
 		<?php
 
-		wp_print_styles(array('cfw_front_css', 'admin-bar'));
+		wp_print_styles();
 	}
 
 	/**
@@ -263,7 +265,6 @@ class Redirect {
             'woocommerce_stripe',
             'stripe_apple_pay',
             'woocommerce_stripe_apple_pay',
-            'wc-jilt',
         );
 
 		$ignore = apply_filters('cfw_allowed_script_handles', $ignore);
@@ -274,6 +275,24 @@ class Redirect {
 			    wp_deregister_script( $handle );
 		    }
         }
+    }
+
+    public static function remove_styles() {
+	    global $wp_styles;
+
+	    $ignore = array(
+		    'cfw_front_css',
+            'admin-bar',
+        );
+
+	    $ignore = apply_filters('cfw_allowed_style_handles', $ignore);
+
+	    foreach ( $wp_styles->queue as $handle ) {
+		    if ( ! in_array($handle, $ignore) ) {
+			    wp_dequeue_style( $handle );
+			    wp_deregister_style( $handle );
+		    }
+	    }
     }
 	/**
      * @since 1.0.0

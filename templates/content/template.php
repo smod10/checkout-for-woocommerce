@@ -41,12 +41,12 @@
                         <!-- Customer Info Panel -->
                         <div id="cfw-customer-info" class="cfw-panel">
 
+	                        <?php do_action('cfw_checkout_before_customer_info_tab'); ?>
+
                             <div id="cfw-login-details" class="cfw-module">
                                 <h3 class="cfw-module-title">
                                     <?php echo apply_filters('cfw_customer_information_heading', __( 'Customer information', 'checkout-wc' ) ); ?>
                                 </h3>
-
-                                <?php do_action('cfw_checkout_before_customer_info_tab'); ?>
 
                                 <?php if( ! is_user_logged_in() ): ?>
 
@@ -111,8 +111,9 @@
 
                                 <?php endif; ?>
 
-                                <?php do_action('cfw_checkout_after_customer_info_tab'); ?>
                             </div>
+
+	                        <?php do_action('cfw_checkout_before_customer_info_address'); ?>
 
                             <div id="cfw-shipping-info" class="cfw-module">
                                 <h3 class="cfw-module-title">
@@ -136,6 +137,10 @@
                                 </div>
                             </div>
 
+	                        <?php do_action('cfw_checkout_after_customer_info_address'); ?>
+
+	                        <?php do_action('cfw_checkout_before_customer_info_tab_nav'); ?>
+
                             <div id="cfw-shipping-info-action" class="cfw-bottom-controls">
                                 <?php if ( WC()->cart->needs_shipping_address() ): ?>
                                     <a href="#cfw-shipping-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e('Continue to shipping method', 'checkout-wc'); ?></a>
@@ -143,17 +148,18 @@
                                     <a href="#cfw-payment-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e('Continue to payment method', 'checkout-wc'); ?></a>
                                 <?php endif; ?>
                             </div>
+
+	                        <?php do_action('cfw_checkout_after_customer_info_tab'); ?>
                         </div>
 
                         <!-- Shipping Method Panel -->
                         <div id="cfw-shipping-method" class="cfw-panel" style="<?php echo (!WC()->cart->needs_shipping_address()) ? "display: none" : ""; ?>">
+	                        <?php do_action('cfw_checkout_before_shipping_method_tab'); ?>
 
                             <div id="cfw-shipping-details" class="cfw-module">
                                 <h3 class="cfw-module-title">
                                     <?php echo apply_filters('cfw_shipping_address_recap_heading', esc_html__( 'Shipping address', 'checkout-wc' ) ); ?>
                                 </h3>
-
-                                <?php do_action('cfw_checkout_before_shipping_method_tab'); ?>
 
                                 <div id="cfw-shipping-details-fields">
                                     <?php cfw_get_shipping_details($checkout); ?>
@@ -162,9 +168,9 @@
                                 <div>
                                     <a href="#cfw-customer-info" class="cfw-link"><?php esc_html_e( 'Edit shipping address', 'checkout-wc' ); ?></a>
                                 </div>
-
-                                <?php do_action('cfw_checkout_after_shipping_method_tab'); ?>
                             </div>
+
+	                        <?php do_action('cfw_checkout_before_shipping_methods'); ?>
 
                             <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
                                 <div id="cfw-shipping-method" class="cfw-module">
@@ -178,6 +184,10 @@
                                 </div>
                             <?php endif; ?>
 
+	                        <?php do_action('cfw_checkout_after_shipping_methods'); ?>
+
+	                        <?php do_action('cfw_checkout_before_shipping_method_tab_nav'); ?>
+
                             <div id="cfw-shipping-action" class="cfw-bottom-controls">
                                 <div class="previous-button">
                                     <a href="#cfw-customer-info" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to customer information', 'checkout-wc' ); ?></a>
@@ -186,17 +196,21 @@
                                     <a href="#cfw-payment-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e( 'Continue to payment method', 'checkout-wc' ); ?></a>
                                 </div>
                             </div>
+
+	                        <?php do_action('cfw_checkout_after_shipping_method_tab'); ?>
                         </div>
 
                         <!-- Payment Method Panel -->
                         <div id="cfw-payment-method" class="cfw-panel">
 
                             <div id="cfw-billing-methods" class="cfw-module">
+	                            <?php do_action('cfw_checkout_before_payment_method_tab'); ?>
+
                                 <h3 class="cfw-module-title">
                                     <?php echo apply_filters('cfw_payment_method_heading', esc_html__('Payment method', 'checkout-wc') ); ?>
                                 </h3>
 
-                                <?php do_action('cfw_checkout_before_payment_method_tab'); ?>
+                                <?php do_action('cfw_checkout_before_payment_methods'); ?>
 
                                 <div class="cfw-payment-method-information-wrap">
                                     <div>
@@ -212,7 +226,7 @@
                                     <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Your order is free. No payment is required.', 'checkout-wc') ); ?></span>
                                 </div>
 
-                                <?php do_action('cfw_checkout_after_payment_method_tab'); ?>
+	                            <?php do_action('cfw_checkout_after_payment_methods'); ?>
                             </div>
 
                             <?php if ( WC()->cart->needs_shipping_address() ): ?>
@@ -243,7 +257,11 @@
                                 </div>
                             <?php endif; ?>
 
+	                        <?php do_action('cfw_checkout_before_payment_method_terms_checkbox'); ?>
+
                             <?php wc_get_template('checkout/terms.php'); ?>
+
+	                        <?php do_action('cfw_checkout_before_payment_method_tab_nav'); ?>
 
                             <div id="cfw-payment-action" class="cfw-bottom-controls">
                                 <div class="previous-button">
@@ -257,6 +275,8 @@
                                     <a id="cfw-complete-order-button" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate"><?php esc_html_e( 'Complete Order', 'checkout-wc' ); ?></a>
                                 </div>
                             </div>
+
+	                        <?php do_action('cfw_checkout_after_payment_methods_tab'); ?>
                         </div>
                     </div>
 

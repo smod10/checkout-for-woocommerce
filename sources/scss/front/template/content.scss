@@ -67,6 +67,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 .cfw-other-totals {
   text-align: left;
   color: #000;
+  font-size: 0.875em;
 
   table,tbody,tr,th,td {
     margin: 0;

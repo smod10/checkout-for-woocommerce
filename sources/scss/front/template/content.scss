@@ -68,7 +68,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   text-align: left;
   color: #000;
   font-size: 0.875em;
-  padding-top: 20px;
+  padding: 20px 0;
 
   table,tbody,tr,th,td {
     margin: 0;
@@ -108,7 +108,18 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
   .recurring-totals th {
     padding: 10px 0;
+    padding-bottom: 20px;
     border-bottom: #eee 1px solid;
+  }
+
+  .first-payment-date {
+    color: #666;
+    position: relative;
+
+    small {
+      position: absolute;
+      top: 20px;
+    }
   }
 }
 

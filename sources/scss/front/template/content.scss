@@ -65,7 +65,49 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 }
 
 .cfw-other-totals {
+  text-align: left;
+  color: #000;
 
+  table,tbody,tr,th,td {
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+
+  table {
+    width: 100%;
+
+    td, th {
+      vertical-align: top;
+    }
+
+    tr:not(:first-child) {
+      td, th {
+        padding: 10px 0;
+        color: #666;
+        font-weight: 500;
+      }
+    }
+
+    tr:last-child {
+      td, th {
+        color: #000;
+        padding: 10px 0;
+        border-bottom: 2px solid #333;
+        border-top: 2px solid #333;
+      }
+
+      th {
+        font-weight: 700;
+      }
+    }
+  }
+
+  .recurring-totals th {
+    padding: 10px 0;
+    border-bottom: 2px solid #333;
+  }
 }
 
 #cfw-billing-methods, #cfw-shipping-same-billing {

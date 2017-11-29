@@ -737,6 +737,42 @@ body {
   margin-bottom: 60px;
   display: none; }
 
+.cfw-other-totals {
+  text-align: left;
+  color: #000;
+  font-size: 0.875em;
+  padding: 20px 0; }
+  .cfw-other-totals table, .cfw-other-totals tbody, .cfw-other-totals tr, .cfw-other-totals th, .cfw-other-totals td {
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+    table-layout: fixed; }
+  .cfw-other-totals table {
+    width: 100%; }
+    .cfw-other-totals table td, .cfw-other-totals table th {
+      vertical-align: top; }
+    .cfw-other-totals table tr:not(:first-child) td, .cfw-other-totals table tr:not(:first-child) th {
+      padding: 10px 0;
+      color: #666;
+      font-weight: normal; }
+    .cfw-other-totals table tr:last-child td, .cfw-other-totals table tr:last-child th {
+      color: #000;
+      padding: 10px 0;
+      border-top: #eee 1px solid;
+      border-bottom: 2px solid #333; }
+    .cfw-other-totals table tr:last-child th {
+      font-weight: 700; }
+  .cfw-other-totals .recurring-totals th {
+    padding: 10px 0;
+    padding-bottom: 20px;
+    border-bottom: #eee 1px solid; }
+  .cfw-other-totals .first-payment-date {
+    color: #666;
+    position: relative; }
+    .cfw-other-totals .first-payment-date small {
+      position: absolute;
+      top: 20px; }
+
 #cfw-billing-methods .cfw-radio-reveal-group, #cfw-shipping-same-billing .cfw-radio-reveal-group {
   line-height: 1;
   border-radius: 4px;

@@ -24,5 +24,7 @@ export class UpdateCheckoutAction extends Action {
 
             Cart.outputFees(main.cart.fees, fees);
         }
+
+        Cart.outputValues(main.cart, resp.new_totals);
     }
 }

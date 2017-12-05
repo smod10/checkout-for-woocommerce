@@ -117,6 +117,10 @@ export class Cart extends Element {
         }
     }
 
+    /**
+     * @param {Element} cartLineItem
+     * @param fees
+     */
     static outputFees(cartLineItem: Element, fees: any) {
         cartLineItem.jel.html("");
 

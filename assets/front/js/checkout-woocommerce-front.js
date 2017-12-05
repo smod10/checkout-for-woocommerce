@@ -393,39 +393,6 @@ exports.Element = Element;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-module.exports = function(src) {
-	function log(error) {
-		(typeof console !== "undefined")
-		&& (console.error || console.log)("[Script Loader]", error);
-	}
-
-	// Check for IE =< 8
-	function isIE() {
-		return typeof attachEvent !== "undefined" && typeof addEventListener === "undefined";
-	}
-
-	try {
-		if (typeof execScript !== "undefined" && isIE()) {
-			execScript(src);
-		} else if (typeof eval !== "undefined") {
-			eval.call(null, src);
-		} else {
-			log("EvalError: No eval function available");
-		}
-	} catch (error) {
-		log(error);
-	}
-}
-
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -457,6 +424,39 @@ function ResponsePrep(target, propertyKey, descriptor) {
     return descriptor;
 }
 exports.ResponsePrep = ResponsePrep;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+module.exports = function(src) {
+	function log(error) {
+		(typeof console !== "undefined")
+		&& (console.error || console.log)("[Script Loader]", error);
+	}
+
+	// Check for IE =< 8
+	function isIE() {
+		return typeof attachEvent !== "undefined" && typeof addEventListener === "undefined";
+	}
+
+	try {
+		if (typeof execScript !== "undefined" && isIE()) {
+			execScript(src);
+		} else if (typeof eval !== "undefined") {
+			eval.call(null, src);
+		} else {
+			log("EvalError: No eval function available");
+		}
+	} catch (error) {
+		log(error);
+	}
+}
 
 
 /***/ }),
@@ -529,6 +529,10 @@ var Cart = /** @class */ (function (_super) {
             });
         }
     };
+    /**
+     * @param {Element} cartLineItem
+     * @param fees
+     */
     Cart.outputFees = function (cartLineItem, fees) {
         cartLineItem.jel.html("");
         if (cartLineItem.jel.length > 0) {
@@ -1237,7 +1241,7 @@ __webpack_require__(22);
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(3)(__webpack_require__(15))
+__webpack_require__(4)(__webpack_require__(15))
 
 /***/ }),
 /* 15 */
@@ -1249,7 +1253,7 @@ module.exports = "/*\r\n * jQuery hashchange event - v1.3 - 7/21/2010\r\n * http
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(3)(__webpack_require__(17))
+__webpack_require__(4)(__webpack_require__(17))
 
 /***/ }),
 /* 17 */
@@ -1261,7 +1265,7 @@ module.exports = "/*\r\n * jQuery EasyTabs plugin 3.2.0\r\n *\r\n * Copyright (c
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(3)(__webpack_require__(19))
+__webpack_require__(4)(__webpack_require__(19))
 
 /***/ }),
 /* 19 */
@@ -1273,7 +1277,7 @@ module.exports = "/* Garlicjs dist/garlic.min.js build version 1.3.1-cgd http://
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(3)(__webpack_require__(21))
+__webpack_require__(4)(__webpack_require__(21))
 
 /***/ }),
 /* 21 */
@@ -1285,7 +1289,7 @@ module.exports = "/*!\n* Parsley.js\n* Version 2.8.0 - built Wed, Sep 13th 2017,
 /* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(3)(__webpack_require__(23))
+__webpack_require__(4)(__webpack_require__(23))
 
 /***/ }),
 /* 23 */
@@ -1978,7 +1982,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
-var ResponsePrep_1 = __webpack_require__(4);
+var ResponsePrep_1 = __webpack_require__(3);
 /**
  * Ajax does the account exist action. Takes the information from email box and fires of a request to see if the account
  * exists
@@ -2099,7 +2103,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
 var Alert_1 = __webpack_require__(7);
-var ResponsePrep_1 = __webpack_require__(4);
+var ResponsePrep_1 = __webpack_require__(3);
 /**
  *
  */
@@ -2173,7 +2177,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
-var ResponsePrep_1 = __webpack_require__(4);
+var ResponsePrep_1 = __webpack_require__(3);
 var Cart_1 = __webpack_require__(5);
 var Main_1 = __webpack_require__(0);
 /**
@@ -2338,7 +2342,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
-var ResponsePrep_1 = __webpack_require__(4);
+var ResponsePrep_1 = __webpack_require__(3);
 var Cart_1 = __webpack_require__(5);
 var Main_1 = __webpack_require__(0);
 /**
@@ -2765,7 +2769,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
 var Cart_1 = __webpack_require__(5);
 var Alert_1 = __webpack_require__(7);
-var ResponsePrep_1 = __webpack_require__(4);
+var ResponsePrep_1 = __webpack_require__(3);
 var Main_1 = __webpack_require__(0);
 /**
  *
@@ -2871,7 +2875,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
 var Main_1 = __webpack_require__(0);
 var Cart_1 = __webpack_require__(5);
-var ResponsePrep_1 = __webpack_require__(4);
+var ResponsePrep_1 = __webpack_require__(3);
 var UpdateCheckoutAction = /** @class */ (function (_super) {
     __extends(UpdateCheckoutAction, _super);
     function UpdateCheckoutAction(id, ajaxInfo, fields) {
@@ -2887,6 +2891,7 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
             });
             Cart_1.Cart.outputFees(main.cart.fees, fees);
         }
+        Cart_1.Cart.outputValues(main.cart, resp.new_totals);
     };
     __decorate([
         ResponsePrep_1.ResponsePrep

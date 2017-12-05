@@ -68,7 +68,26 @@ class UpdateCheckoutAction extends Action {
 		unset( WC()->session->refresh_totals, WC()->session->reload_checkout );
 
 		$this->out(array(
-			"fees" => WC()->cart->get_fees()
+			"fees" => $this->prep_fees(),
+			"new_totals" => array(
+				"new_subtotal" => WC()->cart->get_cart_subtotal(),
+				"new_shipping_total" => WC()->cart->get_cart_shipping_total(),
+				"new_taxes_total" => WC()->cart->get_cart_tax(),
+				"new_total" => WC()->cart->get_total()
+			)
 		));
+	}
+
+	function prep_fees() {
+		$fees = [];
+
+		foreach(WC()->cart->get_fees() as $fee) {
+			$out = (object)[];
+			$out->name = $fee->name;
+			$out->amount = ( 'excl' == WC()->cart->tax_display_cart ) ? wc_price( $fee->total ) : wc_price( $fee->total + $fee->tax );
+			$fees[] = $out;
+		}
+
+		return $fees;
 	}
 }

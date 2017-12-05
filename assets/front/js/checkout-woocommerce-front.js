@@ -532,10 +532,10 @@ var Cart = /** @class */ (function (_super) {
     Cart.outputFees = function (cartLineItem, fees) {
         cartLineItem.jel.html("");
         if (cartLineItem.jel.length > 0) {
-            fees.forEach(function (coupon) {
-                var wrap = $('<div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">');
-                var type = $('<span class="type"></span>').html(coupon.label);
-                var amount = $('<span class="amount"></span>').html(coupon.amount);
+            fees.forEach(function (fee) {
+                var wrap = $('<div class="cfw-cart-fee cfw-flex-row cfw-flex-justify">');
+                var type = $('<span class="type"></span>').html(fee.name);
+                var amount = $('<span class="amount"></span>').html(fee.amount);
                 wrap.append(type);
                 wrap.append(amount);
                 cartLineItem.jel.append(wrap);
@@ -2803,12 +2803,6 @@ var ApplyCouponAction = /** @class */ (function (_super) {
             });
             Cart_1.Cart.outputCoupons(this.cart.coupons, coupons);
         }
-        if (resp.fees) {
-            var fees = $.map(resp.coupons, function (value, index) {
-                return [value];
-            });
-            Cart_1.Cart.outputFees(this.cart.fees, fees);
-        }
         if (resp.message.success) {
             alertInfo = {
                 type: "ApplyCouponSuccess",
@@ -2867,17 +2861,36 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
 var Main_1 = __webpack_require__(0);
+var Cart_1 = __webpack_require__(5);
+var ResponsePrep_1 = __webpack_require__(4);
 var UpdateCheckoutAction = /** @class */ (function (_super) {
     __extends(UpdateCheckoutAction, _super);
     function UpdateCheckoutAction(id, ajaxInfo, fields) {
         return _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, fields)) || this;
     }
     UpdateCheckoutAction.prototype.response = function (resp) {
-        Main_1.Main.instance.updating = false;
+        var main = Main_1.Main.instance;
+        main.updating = false;
+        Object.keys(resp.fees).forEach(function (key) { return console.log(key, resp.fees[key]); });
+        if (resp.fees) {
+            var fees = $.map(resp.fees, function (value, index) {
+                return [value];
+            });
+            Cart_1.Cart.outputFees(main.cart.fees, fees);
+        }
     };
+    __decorate([
+        ResponsePrep_1.ResponsePrep
+    ], UpdateCheckoutAction.prototype, "response", null);
     return UpdateCheckoutAction;
 }(Action_1.Action));
 exports.UpdateCheckoutAction = UpdateCheckoutAction;

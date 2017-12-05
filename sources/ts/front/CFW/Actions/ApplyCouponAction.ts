@@ -53,14 +53,6 @@ export class ApplyCouponAction extends Action {
             Cart.outputCoupons(this.cart.coupons, coupons);
         }
 
-        if(resp.fees) {
-            let fees = $.map(resp.coupons, function(value, index) {
-                return [value]
-            });
-
-            Cart.outputFees(this.cart.fees, fees);
-        }
-
         if(resp.message.success) {
             alertInfo = {
                 type: "ApplyCouponSuccess",

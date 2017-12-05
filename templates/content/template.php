@@ -342,7 +342,7 @@
                             </div>
                             <div id="cfw-cart-fees"></div>
 	                        <?php foreach ( WC()->cart->get_fees() as $fee ) : ?>
-                                <div class="cfw-flex-row cfw-flex-justify">
+                                <div class="cfw-cart-fee cfw-flex-row cfw-flex-justify">
                                     <span class="type"><?php echo esc_html( $fee->name ); ?></span>
                                     <span class="amount"><?php wc_cart_totals_fee_html( $fee ); ?></span>
                                 </div>

@@ -121,10 +121,10 @@ export class Cart extends Element {
         cartLineItem.jel.html("");
 
         if(cartLineItem.jel.length > 0) {
-            fees.forEach((coupon: any) => {
-                let wrap = $('<div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">');
-                let type = $('<span class="type"></span>').html(coupon.label);
-                let amount = $('<span class="amount"></span>').html(coupon.amount);
+            fees.forEach((fee: any) => {
+                let wrap = $('<div class="cfw-cart-fee cfw-flex-row cfw-flex-justify">');
+                let type = $('<span class="type"></span>').html(fee.name);
+                let amount = $('<span class="amount"></span>').html(fee.amount);
 
                 wrap.append(type);
                 wrap.append(amount);

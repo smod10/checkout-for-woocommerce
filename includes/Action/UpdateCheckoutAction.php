@@ -68,7 +68,7 @@ class UpdateCheckoutAction extends Action {
 		unset( WC()->session->refresh_totals, WC()->session->reload_checkout );
 
 		$this->out(array(
-//			"order_review_html" => WC()->cart->get_fee_total()
+			"fees" => WC()->cart->get_fees()
 		));
 	}
 }

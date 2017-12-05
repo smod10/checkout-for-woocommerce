@@ -43,16 +43,7 @@ export class CompleteOrderAction extends Action {
      * @param checkoutData
      */
     constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: any) {
-        // TODO: Using assign we can combine this process pre-constructor. Probably best to move this for all actions
-        let data: {} = {
-            action: id,
-            security: ajaxInfo.nonce
-        };
-
-        // Copies our checkoutData properties to the object with the two pieces of differing data.
-        (<any>Object).assign(data, checkoutData);
-
-        super(id, ajaxInfo.admin_url, data);
+        super(id, ajaxInfo.admin_url, Action.prep(id, ajaxInfo, checkoutData));
 
         $("#cfw-content").addClass("show-overlay");
 

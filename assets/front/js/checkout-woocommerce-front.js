@@ -1373,9 +1373,9 @@ var UpdateShippingFieldsAction_1 = __webpack_require__(28);
 var UpdateShippingMethodAction_1 = __webpack_require__(29);
 var CompleteOrderAction_1 = __webpack_require__(30);
 var Main_1 = __webpack_require__(0);
-var ApplyCouponAction_1 = __webpack_require__(32);
 var ValidationService_1 = __webpack_require__(6);
 var UpdateCheckoutAction_1 = __webpack_require__(33);
+var ApplyCouponAction_1 = __webpack_require__(32);
 /**
  *
  */
@@ -1698,10 +1698,9 @@ var TabContainer = /** @class */ (function (_super) {
                     s_address: details.shipping_address_1,
                     s_address_2: details.shipping_address_2,
                     has_full_address: has_full_address_1,
-                    post_data: checkout_form.serialize(),
+                    post_data: details.post_data,
                     shipping_method: details["shipping_method[0]"]
                 };
-                console.log("Firing update", fields);
                 new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", main.ajaxInfo, fields).load();
             }
         });
@@ -1743,6 +1742,7 @@ var TabContainer = /** @class */ (function (_super) {
      * @returns {{}}
      */
     TabContainer.prototype.getOrderDetails = function () {
+        var checkout_form = $("form[name='checkout']");
         var ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
         var payment_method = $('[name="payment_method"]:checked').val();
         var account_password = $('#cfw-password').val();
@@ -1826,7 +1826,14 @@ var TabContainer = /** @class */ (function (_super) {
             "paypal_pro-card-number": paypal_pro_card_number,
             "paypal_pro-card-expiry": paypal_pro_card_expiry,
             "paypal_pro-card-cvc": paypal_pro_card_cvc,
+            post_data: checkout_form.serialize()
         };
+        var formArr = checkout_form.serializeArray();
+        formArr.forEach(function (item) {
+            if (!completeOrderCheckoutData[item.name]) {
+                completeOrderCheckoutData[item.name] = item.value;
+            }
+        });
         if (account_password && account_password.length > 0) {
             completeOrderCheckoutData["account_password"] = account_password;
         }
@@ -2431,15 +2438,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      * @param checkoutData
      */
     function CompleteOrderAction(id, ajaxInfo, checkoutData) {
-        var _this = this;
-        // TODO: Using assign we can combine this process pre-constructor. Probably best to move this for all actions
-        var data = {
-            action: id,
-            security: ajaxInfo.nonce
-        };
-        // Copies our checkoutData properties to the object with the two pieces of differing data.
-        Object.assign(data, checkoutData);
-        _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+        var _this = _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, checkoutData)) || this;
         $("#cfw-content").addClass("show-overlay");
         _this.stripeServiceCallbacks = {
             success: function (response) {
@@ -2878,17 +2877,22 @@ var Cart_1 = __webpack_require__(5);
 var ResponsePrep_1 = __webpack_require__(3);
 var UpdateCheckoutAction = /** @class */ (function (_super) {
     __extends(UpdateCheckoutAction, _super);
+    /**
+     * @param {string} id
+     * @param {AjaxInfo} ajaxInfo
+     * @param fields
+     */
     function UpdateCheckoutAction(id, ajaxInfo, fields) {
         return _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, fields)) || this;
     }
+    /**
+     * @param resp
+     */
     UpdateCheckoutAction.prototype.response = function (resp) {
         var main = Main_1.Main.instance;
         main.updating = false;
-        Object.keys(resp.fees).forEach(function (key) { return console.log(key, resp.fees[key]); });
         if (resp.fees) {
-            var fees = $.map(resp.fees, function (value, index) {
-                return [value];
-            });
+            var fees = $.map(resp.fees, function (value) { return [value]; });
             Cart_1.Cart.outputFees(main.cart.fees, fees);
         }
         Cart_1.Cart.outputValues(main.cart, resp.new_totals);

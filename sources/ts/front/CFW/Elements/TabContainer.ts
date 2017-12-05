@@ -13,9 +13,9 @@ import { UpdateShippingMethodAction }       from "../Actions/UpdateShippingMetho
 import { Cart }                             from "./Cart";
 import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
 import { Main }                             from "../Main";
-import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { EValidationSections }              from "../Services/ValidationService";
-import {UpdateCheckoutAction} from "../Actions/UpdateCheckoutAction";
+import { UpdateCheckoutAction }             from "../Actions/UpdateCheckoutAction";
+import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 
 /**
  *
@@ -409,11 +409,9 @@ export class TabContainer extends Element {
                     s_address: details.shipping_address_1,
                     s_address_2: details.shipping_address_2,
                     has_full_address: has_full_address,
-                    post_data: checkout_form.serialize(),
+                    post_data: details.post_data,
                     shipping_method: details["shipping_method[0]"]
                 };
-
-                console.log("Firing update", fields);
 
                 new UpdateCheckoutAction("update_checkout", main.ajaxInfo, fields).load();
             }
@@ -463,6 +461,7 @@ export class TabContainer extends Element {
      * @returns {{}}
      */
     getOrderDetails() {
+        let checkout_form: JQuery = $("form[name='checkout']");
         let ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
         let payment_method = $('[name="payment_method"]:checked').val();
         let account_password = $('#cfw-password').val();
@@ -554,7 +553,15 @@ export class TabContainer extends Element {
             "paypal_pro-card-number": paypal_pro_card_number,
             "paypal_pro-card-expiry": paypal_pro_card_expiry,
             "paypal_pro-card-cvc": paypal_pro_card_cvc,
+            post_data: checkout_form.serialize()
         };
+
+        let formArr: Array<Object> = checkout_form.serializeArray();
+        formArr.forEach((item: any) => {
+            if(!completeOrderCheckoutData[item.name]) {
+                completeOrderCheckoutData[item.name] = item.value;
+            }
+        });
 
         if(account_password && account_password.length > 0) {
             completeOrderCheckoutData["account_password"] = account_password;

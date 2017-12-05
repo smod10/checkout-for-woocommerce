@@ -72,6 +72,8 @@ class ApplyCouponAction extends Action {
 			}
 
 			wc_clear_notices();
+			wc_maybe_define_constant( 'WOOCOMMERCE_CART', true );
+			WC()->cart->calculate_totals();
 
 			$this->out(array(
 				"new_totals" => array(
@@ -81,6 +83,7 @@ class ApplyCouponAction extends Action {
 					"new_total" => WC()->cart->get_total(),
 				),
 				"needs_payment" => WC()->cart->needs_payment(),
+				"fees" => $this->prep_fees(),
 				"coupons" => $discount_amounts,
 				"message" => $message
 			));
@@ -90,5 +93,18 @@ class ApplyCouponAction extends Action {
 				"message" => "Please provide a coupon code"
 			));
 		}
+	}
+
+	function prep_fees() {
+		$fees = [];
+
+		foreach(WC()->cart->get_fees() as $fee) {
+			$out = (object)[];
+			$out->name = $fee->name;
+			$out->amount = ( 'excl' == WC()->cart->tax_display_cart ) ? wc_price( $fee->total ) : wc_price( $fee->total + $fee->tax );
+			$fees[] = $out;
+		}
+
+		return $fees;
 	}
 }

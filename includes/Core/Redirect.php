@@ -108,9 +108,6 @@ class Redirect {
             $.fn.block = function(item) {};
             $.fn.unblock = function(item) {};
 
-            // TODO: Find out if we can remove this. Pretty sure we can
-            window.siteBase = "<?php echo $path_manager->get_url_base(); ?>";
-
             var breadCrumbElId = '#<?php echo apply_filters('cfw_template_breadcrumb_id', 'cfw-breadcrumb'); ?>';
             var customerInfoElId = '#<?php echo apply_filters('cfw_template_customer_info_el', 'cfw-customer-info'); ?>';
             var shippingMethodElId = '#<?php echo apply_filters('cfw_template_shipping_method_el', 'cfw-shipping-method'); ?>';

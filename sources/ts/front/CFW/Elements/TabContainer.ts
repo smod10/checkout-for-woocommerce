@@ -15,6 +15,7 @@ import { CompleteOrderAction }              from "../Actions/CompleteOrderAction
 import { Main }                             from "../Main";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { EValidationSections }              from "../Services/ValidationService";
+import {UpdateCheckoutAction} from "../Actions/UpdateCheckoutAction";
 
 /**
  *
@@ -371,6 +372,54 @@ export class TabContainer extends Element {
         shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each((index, el) => {
             $(el).on("click", updateShippingMethod.bind(this));
         });
+    }
+
+    setUpdateCheckout() {
+        let main: Main = Main.instance;
+
+        $(document.body).on("update_checkout", () => {
+            if(!main.updating) {
+                main.updating = true;
+
+                let checkout_form: JQuery = $("form[name='checkout']");
+                let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
+                let has_full_address: boolean = true;
+
+                if ( $required_inputs.length ) {
+                    $required_inputs.each( function() {
+                        if ( $( this ).find( ':input' ).val() === '' ) {
+                            has_full_address = false;
+                        }
+                    });
+                }
+
+                let details: any = this.getOrderDetails();
+                let fields: any = {
+                    payment_method: details.payment_method,
+                    country: details.billing_country,
+                    state: details.billing_state,
+                    postcode: details.billing_postcode,
+                    city: details.billing_city,
+                    address: details.billing_address_1,
+                    address_2: details.billing_address_2,
+                    s_country: details.shipping_country,
+                    s_state: details.shipping_state,
+                    s_postcode: details.shipping_postcode,
+                    s_city: details.shipping_city,
+                    s_address: details.shipping_address_1,
+                    s_address_2: details.shipping_address_2,
+                    has_full_address: has_full_address,
+                    post_data: checkout_form.serialize(),
+                    shipping_method: details["shipping_method[0]"]
+                };
+
+                console.log("Firing update", fields);
+
+                new UpdateCheckoutAction("update_checkout", main.ajaxInfo, fields).load();
+            }
+        });
+
+        $(document.body).trigger( 'update_checkout' );
     }
 
     /**

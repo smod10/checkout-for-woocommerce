@@ -35,7 +35,7 @@
                     </li>
                 </ul>
 
-                <form id="cfw-checkout-form" data-persist="garlic" class="woocommerce-checkout" method="POST" data-parsley-validate="">
+                <form id="checkout" name="checkout" data-persist="garlic" class="woocommerce-checkout" method="POST" data-parsley-validate="">
 
                     <div id="order_review" class="woocommerce-checkout-review-order">
                         <!-- Customer Info Panel -->
@@ -339,6 +339,14 @@
                             <div id="cfw-cart-shipping-total" class="cfw-flex-row cfw-flex-justify">
                                 <span class="type"><?php esc_html_e('Shipping', 'checkout-wc'); ?></span>
                                 <span class="amount"><?php echo $cart->get_cart_shipping_total(); ?></span>
+                            </div>
+                            <div id="cfw-cart-fees"></div>
+	                        <?php foreach ( WC()->cart->get_fees() as $fee ) : ?>
+                                <div class="cfw-flex-row cfw-flex-justify">
+                                    <span class="type"><?php echo esc_html( $fee->name ); ?></span>
+                                    <span class="amount"><?php wc_cart_totals_fee_html( $fee ); ?></span>
+                                </div>
+	                        <?php endforeach; ?>
                             </div>
                             <?php if($cart->get_cart_tax() != ""): ?>
                             <div id="cfw-cart-taxes" class="cfw-flex-row cfw-flex-justify">

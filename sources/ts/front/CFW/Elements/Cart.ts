@@ -4,6 +4,7 @@ export type UpdateCartTotalsData = {
     new_subtotal: any,
     new_shipping_total: any,
     new_taxes_total: any,
+    new_fees_total: any,
     new_total: any,
     coupons: any | undefined
 }
@@ -29,6 +30,12 @@ export class Cart extends Element {
     private _taxes: Element;
 
     /**
+     * @type {Element}
+     * @private
+     */
+    private _fees: Element;
+
+    /**
      * @type Array<Element>
      * @private
      */
@@ -51,16 +58,26 @@ export class Cart extends Element {
      * @param subTotal
      * @param shipping
      * @param taxes
+     * @param fees
      * @param total
      * @param coupons
      * @param reviewBarTotal
      */
-    constructor(cartContainer: JQuery, subTotal: JQuery, shipping: JQuery, taxes: JQuery, total: JQuery, coupons: JQuery, reviewBarTotal: JQuery) {
+    constructor(
+        cartContainer: JQuery,
+        subTotal: JQuery,
+        shipping: JQuery,
+        taxes: JQuery,
+        fees: JQuery,
+        total: JQuery,
+        coupons: JQuery,
+        reviewBarTotal: JQuery) {
         super(cartContainer);
 
         this.subTotal = new Element(subTotal);
         this.shipping = new Element(shipping);
         this.taxes = new Element(taxes);
+        this.fees = new Element(fees);
         this.total = new Element(total);
         this.coupons = new Element(coupons);
         this.reviewBarTotal = new Element(reviewBarTotal);
@@ -74,6 +91,7 @@ export class Cart extends Element {
         Cart.outputValue(cart.subTotal, values.new_subtotal);
         Cart.outputValue(cart.shipping, values.new_shipping_total);
         Cart.outputValue(cart.taxes, values.new_taxes_total);
+        Cart.outputValue(cart.fees, values.new_fees_total);
         Cart.outputValue(cart.total, values.new_total);
         Cart.outputValue(cart.reviewBarTotal, values.new_total);
     }
@@ -99,6 +117,23 @@ export class Cart extends Element {
         }
     }
 
+    static outputFees(cartLineItem: Element, fees: any) {
+        cartLineItem.jel.html("");
+
+        if(cartLineItem.jel.length > 0) {
+            fees.forEach((coupon: any) => {
+                let wrap = $('<div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">');
+                let type = $('<span class="type"></span>').html(coupon.label);
+                let amount = $('<span class="amount"></span>').html(coupon.amount);
+
+                wrap.append(type);
+                wrap.append(amount);
+
+                cartLineItem.jel.append(wrap);
+            })
+        }
+    }
+
     /**
      *
      * @param cartLineItem
@@ -109,6 +144,20 @@ export class Cart extends Element {
         if(cartLineItem.jel.length > 0) {
             cartLineItem.jel.find(childClass).html(value);
         }
+    }
+
+    /**
+     * @returns {Element}
+     */
+    get fees(): Element {
+        return this._fees;
+    }
+
+    /**
+     * @param {Element} value
+     */
+    set fees(value: Element) {
+        this._fees = value;
     }
 
     /**

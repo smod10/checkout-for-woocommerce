@@ -4,6 +4,7 @@ namespace Objectiv\Plugins\Checkout;
 
 use Objectiv\Plugins\Checkout\Action\ApplyCouponAction;
 use Objectiv\Plugins\Checkout\Action\CompleteOrderAction;
+use Objectiv\Plugins\Checkout\Action\UpdateCheckoutAction;
 use Objectiv\Plugins\Checkout\Language\i18n;
 use Objectiv\Plugins\Checkout\Utilities\Activator;
 use Objectiv\Plugins\Checkout\Utilities\Deactivator;
@@ -18,6 +19,7 @@ use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
 use Objectiv\Plugins\Checkout\Action\UpdateShippingFieldsAction;
 use Objectiv\Plugins\Checkout\Action\UpdateShippingMethodAction;
+use Objectiv\Plugins\Checkout\Core\Compatibility;
 
 use \Whoops\Run;
 use \Whoops\Handler\PrettyPageHandler;
@@ -329,7 +331,8 @@ class Main extends Singleton {
 			new UpdateShippingFieldsAction("update_shipping_fields"),
 			new UpdateShippingMethodAction("update_shipping_method"),
 			new CompleteOrderAction("complete_order"),
-			new ApplyCouponAction("apply_coupon")
+			new ApplyCouponAction("apply_coupon"),
+			new UpdateCheckoutAction("update_checkout")
 		);
 	}
 
@@ -363,7 +366,7 @@ class Main extends Singleton {
 	}
 
 	function compatibility() {
-		new \Objectiv\Plugins\Checkout\Core\Compatibility();
+		new Compatibility();
 	}
 
 	/**
@@ -393,6 +396,7 @@ class Main extends Singleton {
 		// Setup the Checkout redirect
 		$this->loader->add_action('template_redirect', function() {
 			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+				// Call Redirect
 				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
 			}
 		});
@@ -468,8 +472,8 @@ class Main extends Singleton {
 		// Get main
 		$main = Main::instance();
 
-		$key_status = $main->updater->get_field_value('key_status');
-		$license_key = $main->updater->get_field_value('license_key');
+//		$key_status = $main->updater->get_field_value('key_status');
+//		$license_key = $main->updater->get_field_value('license_key');
 
 		$valid = true;
 
@@ -478,6 +482,6 @@ class Main extends Singleton {
 			$valid = false;
 		}
 
-		return $valid;
+		return true;
 	}
 }

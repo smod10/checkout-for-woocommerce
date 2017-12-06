@@ -1374,8 +1374,8 @@ var UpdateShippingMethodAction_1 = __webpack_require__(29);
 var CompleteOrderAction_1 = __webpack_require__(30);
 var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(6);
-var UpdateCheckoutAction_1 = __webpack_require__(33);
-var ApplyCouponAction_1 = __webpack_require__(32);
+var UpdateCheckoutAction_1 = __webpack_require__(32);
+var ApplyCouponAction_1 = __webpack_require__(33);
 /**
  *
  */
@@ -1660,7 +1660,7 @@ var TabContainer = /** @class */ (function (_super) {
         var shipping_method = this.tabContainerSectionBy("name", "shipping_method");
         var updateShippingMethod = function (event) {
             var shipMethodVal = event.target.value;
-            new UpdateShippingMethodAction_1.UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal, cart).load();
+            new UpdateShippingMethodAction_1.UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal, cart, this.getFields()).load();
         };
         shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each(function (index, el) {
             $(el).on("click", updateShippingMethod.bind(_this));
@@ -1672,39 +1672,42 @@ var TabContainer = /** @class */ (function (_super) {
         $(document.body).on("update_checkout", function () {
             if (!main.updating) {
                 main.updating = true;
-                var checkout_form = $("form[name='checkout']");
-                var $required_inputs = checkout_form.find('.address-field.validate-required:visible');
-                var has_full_address_1 = true;
-                if ($required_inputs.length) {
-                    $required_inputs.each(function () {
-                        if ($(this).find(':input').val() === '') {
-                            has_full_address_1 = false;
-                        }
-                    });
-                }
-                var details = _this.getOrderDetails();
-                var fields = {
-                    payment_method: details.payment_method,
-                    country: details.billing_country,
-                    state: details.billing_state,
-                    postcode: details.billing_postcode,
-                    city: details.billing_city,
-                    address: details.billing_address_1,
-                    address_2: details.billing_address_2,
-                    s_country: details.shipping_country,
-                    s_state: details.shipping_state,
-                    s_postcode: details.shipping_postcode,
-                    s_city: details.shipping_city,
-                    s_address: details.shipping_address_1,
-                    s_address_2: details.shipping_address_2,
-                    has_full_address: has_full_address_1,
-                    post_data: details.post_data,
-                    shipping_method: details["shipping_method[0]"]
-                };
-                new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", main.ajaxInfo, fields).load();
+                new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", main.ajaxInfo, _this.getFields()).load();
             }
         });
         $(document.body).trigger('update_checkout');
+    };
+    TabContainer.prototype.getFields = function () {
+        var checkout_form = $("form[name='checkout']");
+        var $required_inputs = checkout_form.find('.address-field.validate-required:visible');
+        var has_full_address = true;
+        if ($required_inputs.length) {
+            $required_inputs.each(function () {
+                if ($(this).find(':input').val() === '') {
+                    has_full_address = false;
+                }
+            });
+        }
+        var details = this.getOrderDetails();
+        var fields = {
+            payment_method: details.payment_method,
+            country: details.billing_country,
+            state: details.billing_state,
+            postcode: details.billing_postcode,
+            city: details.billing_city,
+            address: details.billing_address_1,
+            address_2: details.billing_address_2,
+            s_country: details.shipping_country,
+            s_state: details.shipping_state,
+            s_postcode: details.shipping_postcode,
+            s_city: details.shipping_city,
+            s_address: details.shipping_address_1,
+            s_address_2: details.shipping_address_2,
+            has_full_address: has_full_address,
+            post_data: details.post_data,
+            shipping_method: details["shipping_method[0]"]
+        };
+        return fields;
     };
     /**
      *
@@ -1897,8 +1900,9 @@ var TabContainer = /** @class */ (function (_super) {
      * @param {Cart} cart
      */
     TabContainer.prototype.setApplyCouponListener = function (ajaxInfo, cart) {
+        var _this = this;
         $("#cfw-promo-code-btn").on('click', function () {
-            new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart).load();
+            new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart, _this.getFields()).load();
         });
     };
     /**
@@ -2352,6 +2356,7 @@ var Action_1 = __webpack_require__(1);
 var ResponsePrep_1 = __webpack_require__(3);
 var Cart_1 = __webpack_require__(5);
 var Main_1 = __webpack_require__(0);
+var UpdateCheckoutAction_1 = __webpack_require__(32);
 /**
  *
  */
@@ -2362,8 +2367,9 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
      * @param ajaxInfo
      * @param shipping_method
      * @param cart
+     * @param fields
      */
-    function UpdateShippingMethodAction(id, ajaxInfo, shipping_method, cart) {
+    function UpdateShippingMethodAction(id, ajaxInfo, shipping_method, cart, fields) {
         var _this = this;
         var data = {
             action: id,
@@ -2372,6 +2378,7 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
         };
         _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
         _this.cart = cart;
+        _this.fields = fields;
         return _this;
     }
     /**
@@ -2382,7 +2389,18 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
             Cart_1.Cart.outputValues(this.cart, resp.new_totals);
         }
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
+        new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, this.fields).load();
     };
+    Object.defineProperty(UpdateShippingMethodAction.prototype, "fields", {
+        get: function () {
+            return this._fields;
+        },
+        set: function (value) {
+            this._fields = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(UpdateShippingMethodAction.prototype, "cart", {
         /**
          * @returns {Cart}
@@ -2766,10 +2784,68 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
+var Main_1 = __webpack_require__(0);
+var Cart_1 = __webpack_require__(5);
+var ResponsePrep_1 = __webpack_require__(3);
+var UpdateCheckoutAction = /** @class */ (function (_super) {
+    __extends(UpdateCheckoutAction, _super);
+    /**
+     * @param {string} id
+     * @param {AjaxInfo} ajaxInfo
+     * @param fields
+     */
+    function UpdateCheckoutAction(id, ajaxInfo, fields) {
+        return _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, fields)) || this;
+    }
+    /**
+     * @param resp
+     */
+    UpdateCheckoutAction.prototype.response = function (resp) {
+        var main = Main_1.Main.instance;
+        main.updating = false;
+        if (resp.fees) {
+            var fees = $.map(resp.fees, function (value) { return [value]; });
+            Cart_1.Cart.outputFees(main.cart.fees, fees);
+        }
+        Cart_1.Cart.outputValues(main.cart, resp.new_totals);
+    };
+    __decorate([
+        ResponsePrep_1.ResponsePrep
+    ], UpdateCheckoutAction.prototype, "response", null);
+    return UpdateCheckoutAction;
+}(Action_1.Action));
+exports.UpdateCheckoutAction = UpdateCheckoutAction;
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var Action_1 = __webpack_require__(1);
 var Cart_1 = __webpack_require__(5);
 var Alert_1 = __webpack_require__(7);
 var ResponsePrep_1 = __webpack_require__(3);
 var Main_1 = __webpack_require__(0);
+var UpdateCheckoutAction_1 = __webpack_require__(32);
 /**
  *
  */
@@ -2780,8 +2856,9 @@ var ApplyCouponAction = /** @class */ (function (_super) {
      * @param {AjaxInfo} ajaxInfo
      * @param {string} code
      * @param {Cart} cart
+     * @param {any} fields
      */
-    function ApplyCouponAction(id, ajaxInfo, code, cart) {
+    function ApplyCouponAction(id, ajaxInfo, code, cart, fields) {
         var _this = this;
         var data = {
             action: id,
@@ -2790,6 +2867,7 @@ var ApplyCouponAction = /** @class */ (function (_super) {
         };
         _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
         _this.cart = cart;
+        _this.fields = fields;
         return _this;
     }
     /**
@@ -2823,7 +2901,18 @@ var ApplyCouponAction = /** @class */ (function (_super) {
         var alert = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
         alert.addAlert();
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
+        new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, this.fields).load();
     };
+    Object.defineProperty(ApplyCouponAction.prototype, "fields", {
+        get: function () {
+            return this._fields;
+        },
+        set: function (value) {
+            this._fields = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ApplyCouponAction.prototype, "cart", {
         /**
          * @returns {Cart}
@@ -2846,63 +2935,6 @@ var ApplyCouponAction = /** @class */ (function (_super) {
     return ApplyCouponAction;
 }(Action_1.Action));
 exports.ApplyCouponAction = ApplyCouponAction;
-
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(1);
-var Main_1 = __webpack_require__(0);
-var Cart_1 = __webpack_require__(5);
-var ResponsePrep_1 = __webpack_require__(3);
-var UpdateCheckoutAction = /** @class */ (function (_super) {
-    __extends(UpdateCheckoutAction, _super);
-    /**
-     * @param {string} id
-     * @param {AjaxInfo} ajaxInfo
-     * @param fields
-     */
-    function UpdateCheckoutAction(id, ajaxInfo, fields) {
-        return _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, fields)) || this;
-    }
-    /**
-     * @param resp
-     */
-    UpdateCheckoutAction.prototype.response = function (resp) {
-        var main = Main_1.Main.instance;
-        main.updating = false;
-        if (resp.fees) {
-            var fees = $.map(resp.fees, function (value) { return [value]; });
-            Cart_1.Cart.outputFees(main.cart.fees, fees);
-        }
-        Cart_1.Cart.outputValues(main.cart, resp.new_totals);
-    };
-    __decorate([
-        ResponsePrep_1.ResponsePrep
-    ], UpdateCheckoutAction.prototype, "response", null);
-    return UpdateCheckoutAction;
-}(Action_1.Action));
-exports.UpdateCheckoutAction = UpdateCheckoutAction;
 
 
 /***/ }),

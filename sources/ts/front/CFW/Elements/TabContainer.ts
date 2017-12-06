@@ -366,7 +366,7 @@ export class TabContainer extends Element {
         let updateShippingMethod: Function = function(event: any) {
             let shipMethodVal = event.target.value;
 
-            new UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal, cart).load();
+            new UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal, cart, this.getFields()).load();
         };
 
         shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each((index, el) => {
@@ -381,43 +381,47 @@ export class TabContainer extends Element {
             if(!main.updating) {
                 main.updating = true;
 
-                let checkout_form: JQuery = $("form[name='checkout']");
-                let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
-                let has_full_address: boolean = true;
-
-                if ( $required_inputs.length ) {
-                    $required_inputs.each( function() {
-                        if ( $( this ).find( ':input' ).val() === '' ) {
-                            has_full_address = false;
-                        }
-                    });
-                }
-
-                let details: any = this.getOrderDetails();
-                let fields: any = {
-                    payment_method: details.payment_method,
-                    country: details.billing_country,
-                    state: details.billing_state,
-                    postcode: details.billing_postcode,
-                    city: details.billing_city,
-                    address: details.billing_address_1,
-                    address_2: details.billing_address_2,
-                    s_country: details.shipping_country,
-                    s_state: details.shipping_state,
-                    s_postcode: details.shipping_postcode,
-                    s_city: details.shipping_city,
-                    s_address: details.shipping_address_1,
-                    s_address_2: details.shipping_address_2,
-                    has_full_address: has_full_address,
-                    post_data: details.post_data,
-                    shipping_method: details["shipping_method[0]"]
-                };
-
-                new UpdateCheckoutAction("update_checkout", main.ajaxInfo, fields).load();
+                new UpdateCheckoutAction("update_checkout", main.ajaxInfo, this.getFields()).load();
             }
         });
 
         $(document.body).trigger( 'update_checkout' );
+    }
+
+    getFields(): any {
+        let checkout_form: JQuery = $("form[name='checkout']");
+        let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
+        let has_full_address: boolean = true;
+
+        if ( $required_inputs.length ) {
+            $required_inputs.each( function() {
+                if ( $( this ).find( ':input' ).val() === '' ) {
+                    has_full_address = false;
+                }
+            });
+        }
+
+        let details: any = this.getOrderDetails();
+        let fields: any = {
+            payment_method: details.payment_method,
+            country: details.billing_country,
+            state: details.billing_state,
+            postcode: details.billing_postcode,
+            city: details.billing_city,
+            address: details.billing_address_1,
+            address_2: details.billing_address_2,
+            s_country: details.shipping_country,
+            s_state: details.shipping_state,
+            s_postcode: details.shipping_postcode,
+            s_city: details.shipping_city,
+            s_address: details.shipping_address_1,
+            s_address_2: details.shipping_address_2,
+            has_full_address: has_full_address,
+            post_data: details.post_data,
+            shipping_method: details["shipping_method[0]"]
+        };
+
+        return fields;
     }
 
     /**
@@ -642,7 +646,7 @@ export class TabContainer extends Element {
      */
     setApplyCouponListener(ajaxInfo: AjaxInfo, cart: Cart) {
         $("#cfw-promo-code-btn").on('click', () => {
-            new ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart).load();
+            new ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart, this.getFields()).load();
         })
     }
 

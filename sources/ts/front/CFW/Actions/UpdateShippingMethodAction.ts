@@ -4,6 +4,7 @@ import { ResponsePrep }                     from "../Decorators/ResponsePrep";
 import { UpdateCartTotalsData }             from "../Elements/Cart";
 import { Cart }                             from "../Elements/Cart";
 import { Main }                             from "../Main";
+import {UpdateCheckoutAction} from "./UpdateCheckoutAction";
 
 export type UpdateShippingMethodData = {
     action: string,
@@ -27,13 +28,16 @@ export class UpdateShippingMethodAction extends Action {
      */
     private _cart: Cart;
 
+    private _fields: any;
+
     /**
      * @param id
      * @param ajaxInfo
      * @param shipping_method
      * @param cart
+     * @param fields
      */
-    constructor(id: string, ajaxInfo: AjaxInfo, shipping_method: any, cart: Cart) {
+    constructor(id: string, ajaxInfo: AjaxInfo, shipping_method: any, cart: Cart, fields: any) {
         let data: UpdateShippingMethodData = {
             action: id,
             security: ajaxInfo.nonce,
@@ -43,6 +47,7 @@ export class UpdateShippingMethodAction extends Action {
         super(id, ajaxInfo.admin_url, data);
 
         this.cart = cart;
+        this.fields = fields;
     }
 
     /**
@@ -55,6 +60,16 @@ export class UpdateShippingMethodAction extends Action {
         }
 
         Main.togglePaymentRequired(resp.needs_payment);
+
+        new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.fields).load();
+    }
+
+    get fields(): any {
+        return this._fields;
+    }
+
+    set fields(value: any) {
+        this._fields = value;
     }
 
     /**

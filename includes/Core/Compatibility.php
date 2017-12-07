@@ -15,6 +15,11 @@ class Compatibility {
 		// MixPanel Compatibility
 	    add_action('cfw_wp_head', array($this, 'mixpanel_fixes') );
 
+	    // MonsterInisghts (Google Analytics)
+        if ( function_exists('monsterinsights_tracking_script') ) {
+	        add_action( 'cfw_wp_head', 'monsterinsights_tracking_script', 6 );
+        }
+        
 		// Checkout Add-ons Compatibility
         add_filter('wc_checkout_add_ons_position', array($this, 'set_checkout_add_ons_position') );
 

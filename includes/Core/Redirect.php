@@ -44,8 +44,6 @@ class Redirect {
 			// Calc totals
 			WC()->cart->calculate_totals();
 
-			wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
-
 			// Template conveniences items
 			$global_template_parameters["woo"]          = \WooCommerce::instance();         // WooCommerce Instance
 			$global_template_parameters["checkout"]     = WC()->checkout();                 // Checkout Object

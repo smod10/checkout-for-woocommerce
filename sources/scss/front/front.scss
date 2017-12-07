@@ -83,6 +83,7 @@ body {
 }
 
 // Import parts
+@import "compatibility/checkout-add-ons";
 @import "template/header";
 @import "template/content";
 @import "template/footer";

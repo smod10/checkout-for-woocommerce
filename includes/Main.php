@@ -243,11 +243,10 @@ class Main extends Singleton {
 		// Loads all the ajax handlers on the php side
 		$this->configure_objects();
 
-		// Adds the plugins hooks
-		$this->add_plugin_hooks();
-
-		// Add compatibility
-		$this->compatibility();
+		add_action('init', function() {
+			// Adds the plugins hooks
+			$this->add_plugin_hooks();
+		});
 	}
 
 	/**
@@ -361,6 +360,14 @@ class Main extends Singleton {
 		// Load the plugin filters
 		$this->load_filters();
 
+		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+			// Load Assets
+			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
+
+			// Load Compatibility Class
+			$this->compatibility();
+		}
+
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
 		$this->loader->run();
 	}
@@ -376,8 +383,6 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function load_actions() {
-		$this->loader->add_action('wp_enqueue_scripts', array($this, 'set_assets'));
-
 		// Add the Language class
 		$this->loader->add_action('init', function() {
 			$this->i18n->load_plugin_textdomain($this->path_manager);
@@ -472,8 +477,8 @@ class Main extends Singleton {
 		// Get main
 		$main = Main::instance();
 
-//		$key_status = $main->updater->get_field_value('key_status');
-//		$license_key = $main->updater->get_field_value('license_key');
+		$key_status = $main->updater->get_field_value('key_status');
+		$license_key = $main->updater->get_field_value('license_key');
 
 		$valid = true;
 
@@ -482,6 +487,6 @@ class Main extends Singleton {
 			$valid = false;
 		}
 
-		return true;
+		return $valid;
 	}
 }

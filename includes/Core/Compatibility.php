@@ -64,6 +64,7 @@ class Compatibility {
         // Checkout Add-ons
 	    $scripts[] = 'plupload-all';
 	    $scripts[] = 'wc-checkout-add-ons-frontend';
+	    $scripts[] = 'selectWoo';
 
 	    return $scripts;
     }
@@ -71,6 +72,7 @@ class Compatibility {
     function allowed_styles( $styles ) {
 	    // Checkout Add-ons
 	    $styles[] = 'wc-checkout-add-ons-frontend';
+	    $styles[] = 'select2';
 
 	    return $styles;
     }

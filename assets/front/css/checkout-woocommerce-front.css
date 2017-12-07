@@ -678,6 +678,35 @@ body {
 .cfw-module-title {
   margin: 0; }
 
+.form-row {
+  margin: 0 0 1.5em;
+  padding: 0;
+  line-height: 1.5; }
+  .form-row label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: 600; }
+    .form-row label.checkbox {
+      font-weight: 400; }
+  .form-row input[type="radio"] + label, .form-row input[type="checkbox"] + label {
+    font-weight: 400; }
+  .form-row .input-text {
+    box-sizing: border-box;
+    width: 100%; }
+  .form-row select {
+    width: 100%; }
+  .form-row label.checkbox {
+    display: inline; }
+  .form-row input[type="radio"], .form-row input[type="checkbox"] {
+    margin-right: 0.5em; }
+  .form-row input[type="text"], .form-row input[type="email"], .form-row input[type="url"], .form-row input[type="password"], .form-row input[type="search"], .form-row input[type="number"], .form-row input[type="tel"], .form-row input[type="range"], .form-row input[type="date"], .form-row input[type="month"], .form-row input[type="week"], .form-row input[type="time"], .form-row input[type="datetime"], .form-row input[type="datetime-local"], .form-row input[type="color"], .form-row textarea {
+    padding: 0.7em;
+    border: 1px solid #ddd;
+    border-radius: 4px; }
+
+.input-file-plupload {
+  margin: 0 0 1.5em; }
+
 #cfw-header {
   background: #222; }
 

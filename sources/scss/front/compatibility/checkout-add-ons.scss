@@ -1,0 +1,46 @@
+.form-row {
+  margin: 0 0 1.5em;
+  padding: 0;
+  line-height: 1.5;
+
+  label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+
+    &.checkbox {
+      font-weight: 400;
+    }
+  }
+
+  input[type="radio"] + label, input[type="checkbox"] + label {
+    font-weight: 400;
+  }
+
+  .input-text {
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  select {
+    width: 100%;
+  }
+
+  label.checkbox {
+    display: inline;
+  }
+
+  input[type="radio"], input[type="checkbox"] {
+    margin-right: 0.5em;
+  }
+
+  input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="number"], input[type="tel"], input[type="range"], input[type="date"], input[type="month"], input[type="week"], input[type="time"], input[type="datetime"], input[type="datetime-local"], input[type="color"], textarea {
+    padding: 0.7em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+}
+
+.input-file-plupload {
+  margin: 0 0 1.5em;
+}

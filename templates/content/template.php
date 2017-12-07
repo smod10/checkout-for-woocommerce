@@ -322,7 +322,7 @@
                         <?php endif; ?>
                     </div>
 
-                    <div id="cfw-totals-list" class="cfw-module">
+                    <div id="<?php echo apply_filters('cfw_template_cart_el', "cfw-totals-list"); ?>" class="cfw-module">
                         <div class="cfw-totals-normal">
                             <div id="cfw-cart-subtotal" class="cfw-flex-row cfw-flex-justify">
                                 <span class="type"><?php esc_html_e('Subtotal', 'checkout-wc'); ?></span>
@@ -354,13 +354,15 @@
                                 <span class="amount"><?php echo $cart->get_cart_tax(); ?></span>
                             </div>
                             <?php endif; ?>
-                        </div>
-                        <div class="cfw-totals-total">
-                            <div id="cfw-cart-total" class="cfw-flex-row cfw-flex-justify">
-                                <span class="type"><?php esc_html_e('Total', 'checkout-wc'); ?></span>
-                                <span class="amount"><?php echo $cart->get_total(); ?></span>
+
+                            <div class="cfw-totals-total">
+                                <div id="cfw-cart-total" class="cfw-flex-row cfw-flex-justify">
+                                    <span class="type"><?php esc_html_e('Total', 'checkout-wc'); ?></span>
+                                    <span class="amount"><?php echo $cart->get_total(); ?></span>
+                                </div>
                             </div>
                         </div>
+
                         <div class="cfw-other-totals">
                             <table>
 	                        <?php do_action( 'woocommerce_review_order_after_order_total' ); ?>

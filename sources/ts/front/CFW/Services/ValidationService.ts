@@ -177,8 +177,8 @@ export class ValidationService {
      */
     setEventListeners(): void {
         this.tabContainer.jel.bind('easytabs:before', function(event, clicked, target, settings) {
-            let currentPanelIndex: number;
-            let targetPanelIndex: number;
+            let currentPanelIndex: number = 0;
+            let targetPanelIndex: number = 0;
 
             this.easyTabsOrder.forEach((tab, index) => {
                 if(tab.filter(":visible").length !== 0) {
@@ -219,16 +219,17 @@ export class ValidationService {
      */
     validate(section: EValidationSections): any {
         let validated: boolean;
+        let checkoutForm: JQuery = $("#checkout");
 
         switch(section) {
             case EValidationSections.SHIPPING:
-                validated = $("#cfw-checkout-form").parsley().validate("shipping");
+                validated = checkoutForm.parsley().validate("shipping");
                 break;
             case EValidationSections.BILLING:
-                validated = $("#cfw-checkout-form").parsley().validate("billing");
+                validated = checkoutForm.parsley().validate("billing");
                 break;
             case EValidationSections.ACCOUNT:
-                validated = $("#cfw-checkout-form").parsley().validate("account");
+                validated = checkoutForm.parsley().validate("account");
                 break;
         }
 

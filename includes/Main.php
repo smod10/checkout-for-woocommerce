@@ -4,6 +4,7 @@ namespace Objectiv\Plugins\Checkout;
 
 use Objectiv\Plugins\Checkout\Action\ApplyCouponAction;
 use Objectiv\Plugins\Checkout\Action\CompleteOrderAction;
+use Objectiv\Plugins\Checkout\Action\UpdateCheckoutAction;
 use Objectiv\Plugins\Checkout\Language\i18n;
 use Objectiv\Plugins\Checkout\Utilities\Activator;
 use Objectiv\Plugins\Checkout\Utilities\Deactivator;
@@ -18,6 +19,7 @@ use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
 use Objectiv\Plugins\Checkout\Action\UpdateShippingFieldsAction;
 use Objectiv\Plugins\Checkout\Action\UpdateShippingMethodAction;
+use Objectiv\Plugins\Checkout\Core\Compatibility;
 
 use \Whoops\Run;
 use \Whoops\Handler\PrettyPageHandler;
@@ -241,11 +243,10 @@ class Main extends Singleton {
 		// Loads all the ajax handlers on the php side
 		$this->configure_objects();
 
-		// Adds the plugins hooks
-		$this->add_plugin_hooks();
-
-		// Add compatibility
-		$this->compatibility();
+		add_action('init', function() {
+			// Adds the plugins hooks
+			$this->add_plugin_hooks();
+		});
 	}
 
 	/**
@@ -329,7 +330,8 @@ class Main extends Singleton {
 			new UpdateShippingFieldsAction("update_shipping_fields"),
 			new UpdateShippingMethodAction("update_shipping_method"),
 			new CompleteOrderAction("complete_order"),
-			new ApplyCouponAction("apply_coupon")
+			new ApplyCouponAction("apply_coupon"),
+			new UpdateCheckoutAction("update_checkout")
 		);
 	}
 
@@ -358,12 +360,20 @@ class Main extends Singleton {
 		// Load the plugin filters
 		$this->load_filters();
 
+		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+			// Load Assets
+			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
+
+			// Load Compatibility Class
+			$this->compatibility();
+		}
+
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
 		$this->loader->run();
 	}
 
 	function compatibility() {
-		new \Objectiv\Plugins\Checkout\Core\Compatibility();
+		new Compatibility();
 	}
 
 	/**
@@ -373,8 +383,6 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function load_actions() {
-		$this->loader->add_action('wp_enqueue_scripts', array($this, 'set_assets'));
-
 		// Add the Language class
 		$this->loader->add_action('init', function() {
 			$this->i18n->load_plugin_textdomain($this->path_manager);
@@ -393,6 +401,7 @@ class Main extends Singleton {
 		// Setup the Checkout redirect
 		$this->loader->add_action('template_redirect', function() {
 			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+				// Call Redirect
 				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
 			}
 		});

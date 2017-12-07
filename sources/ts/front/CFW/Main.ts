@@ -43,6 +43,12 @@ export class Main {
 	private _validationService: ValidationService;
 
     /**
+	 * @type {boolean}
+	 * @private
+     */
+	private _updating: boolean;
+
+    /**
 	 * @type {Main}
 	 * @private
 	 * @static
@@ -99,6 +105,7 @@ export class Main {
 		this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
 		this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
 		this.tabContainer.setTermsAndConditions();
+		this.tabContainer.setUpdateCheckout();
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
@@ -133,7 +140,15 @@ export class Main {
 		});
 	}
 
-	/**
+    get updating(): boolean {
+        return this._updating;
+    }
+
+    set updating(value: boolean) {
+        this._updating = value;
+    }
+
+    /**
 	 * @returns {TabContainer}
 	 */
 	get tabContainer() {

@@ -44,14 +44,12 @@ class Redirect {
 			// Calc totals
 			WC()->cart->calculate_totals();
 
-			wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
-
 			// Template conveniences items
 			$global_template_parameters["woo"]          = \WooCommerce::instance();         // WooCommerce Instance
 			$global_template_parameters["checkout"]     = WC()->checkout();                 // Checkout Object
 			$global_template_parameters["cart"]         = WC()->cart;                       // Cart Object
 			$global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
-            $global_template_parameters["css_classes"]  = Redirect::get_css_classes();
+            $global_template_parameters["css_classes"]  = self::get_css_classes();
 
 			// Output the contents of the <head></head> section
 			self::head($path_manager, $version, ['checkout-wc'], $settings_manager);
@@ -108,9 +106,6 @@ class Redirect {
             $.fn.block = function(item) {};
             $.fn.unblock = function(item) {};
 
-            // TODO: Find out if we can remove this. Pretty sure we can
-            window.siteBase = "<?php echo $path_manager->get_url_base(); ?>";
-
             var breadCrumbElId = '#<?php echo apply_filters('cfw_template_breadcrumb_id', 'cfw-breadcrumb'); ?>';
             var customerInfoElId = '#<?php echo apply_filters('cfw_template_customer_info_el', 'cfw-customer-info'); ?>';
             var shippingMethodElId = '#<?php echo apply_filters('cfw_template_shipping_method_el', 'cfw-shipping-method'); ?>';
@@ -120,6 +115,7 @@ class Redirect {
             var cartSubtotalId = '#<?php echo apply_filters('cfw_template_cart_subtotal_el', 'cfw-cart-subtotal'); ?>';
             var cartShippingId = '#<?php echo apply_filters('cfw_template_cart_shipping_el', 'cfw-cart-shipping-total'); ?>';
             var cartTaxesId = '#<?php echo apply_filters('cfw_template_cart_taxes_el', 'cfw-cart-taxes'); ?>';
+            var cartFeesId = '#<?php echo apply_filters('cfw_template_cart_fees_el', 'cfw-cart-fees'); ?>';
             var cartTotalId = '#<?php echo apply_filters('cfw_template_cart_total_el','cfw-cart-total'); ?>';
             var cartCoupons = '#<?php echo apply_filters('cfw_template_cart_coupons_el', 'cfw-cart-coupons'); ?>';
             var cartReviewBarId = '#<?php echo apply_filters('cfw_template_cart_review_bar_id', 'cfw-cart-details-review-bar'); ?>';
@@ -135,6 +131,7 @@ class Redirect {
                 cartSubtotalId: cartSubtotalId,
                 cartShippingId: cartShippingId,
                 cartTaxesId: cartTaxesId,
+                cartFeesId: cartFeesId,
                 cartTotalId: cartTotalId,
                 cartCouponsId: cartCoupons,
                 cartReviewBarId: cartReviewBarId

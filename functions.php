@@ -410,10 +410,18 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 								$field_html = str_ireplace('name="paypal_pro_payflow-card-number"', 'name="paypal_pro_payflow-card-number" data-persist="false"', $field_html);
 								$field_html = str_ireplace('name="paypal_pro_payflow-card-cvc"', 'name="paypal_pro_payflow-card-cvc" data-persist="false"', $field_html);
 
+								// PayTrace
+								$field_html = str_ireplace('name="paytrace-card-number"', 'name="paytrace-card-number" data-persist="false"', $field_html);
+								$field_html = str_ireplace('name="paytrace-card-cvc"', 'name="paytrace-card-cvc" data-persist="false"', $field_html);
+
 								// Stripe
 								$field_html = str_ireplace('id="stripe-card-number"', 'id="stripe-card-number" data-persist="false"', $field_html);
 								$field_html = str_ireplace('id="stripe-card-expiry"', 'id="stripe-card-expiry" data-persist="false"', $field_html);
 								$field_html = str_ireplace('id="stripe-card-cvc"', 'id="stripe-card-cvc" data-persist="false"', $field_html);
+
+                                // Credit Card Field Placeholders
+                                $field_html = str_ireplace('•••• •••• •••• ••••', 'Card Number', $field_html);
+                                $field_html = str_ireplace('&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;', 'Card Number', $field_html);
 
 								echo apply_filters('cfw_payment_gateway_field_html_' . $gateway->id, $field_html);
 								?>

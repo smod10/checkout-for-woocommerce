@@ -70,6 +70,7 @@ class Compatibility {
 	    $scripts[] = 'plupload-all';
 	    $scripts[] = 'wc-checkout-add-ons-frontend';
 	    $scripts[] = 'selectWoo';
+	    $scripts[] = 'paytrace-js';
 
 	    return $scripts;
     }

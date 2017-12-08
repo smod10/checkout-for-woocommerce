@@ -33,9 +33,9 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define('CFW_NAME', 'Checkout for WooCommerce Beta');
+define('CFW_NAME', 'Checkout for WooCommerce');
 define('CFW_UPDATE_URL', 'https://www.checkoutwc.com');
-define('CFW_VERSION', '1.0.1');
+define('CFW_VERSION', '1.0.0');
 define('CFW_PATH', dirname(__FILE__) );
 define('CFW_URL', plugins_url('/', __FILE__) );
 

@@ -277,6 +277,45 @@ export class TabContainer extends Element {
                 $(elem).wrap("<div class='cfw-column-3'></div>");
             }
         });
+
+        // PayTrace Credit
+        let paytrace_form_wraps = $("#paytrace-cards-form .form-row");
+
+        $("#paytrace-cards-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+
+        paytrace_form_wraps.each(function(index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label").addClass("cfw-input-label");
+            $(elem).find("input").css("width", "100%");
+
+            if( $(elem).hasClass("form-row-wide") ) {
+                $(elem).wrap("<div class='cfw-column-6'></div>")
+            }
+
+            if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
+                $(elem).wrap("<div class='cfw-column-3'></div>")
+            }
+        });
+
+        let paytrace_check_form_wraps = $("#paytrace-checks-form .form-row");
+
+        $("#paytrace-checks-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+
+        paytrace_check_form_wraps.each(function(index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label").addClass("cfw-input-label");
+            $(elem).find("input").css("width", "100%");
+
+            if( $(elem).hasClass("form-row-wide") ) {
+                $(elem).wrap("<div class='cfw-column-6'></div>")
+            }
+
+            if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
+                $(elem).wrap("<div class='cfw-column-6'></div>")
+            }
+        });
     }
 
     /**

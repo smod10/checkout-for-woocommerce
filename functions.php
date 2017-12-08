@@ -419,6 +419,10 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 								$field_html = str_ireplace('id="stripe-card-expiry"', 'id="stripe-card-expiry" data-persist="false"', $field_html);
 								$field_html = str_ireplace('id="stripe-card-cvc"', 'id="stripe-card-cvc" data-persist="false"', $field_html);
 
+                                // Credit Card Field Placeholders
+                                $field_html = str_ireplace('•••• •••• •••• ••••', 'Card Number', $field_html);
+                                $field_html = str_ireplace('&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;', 'Card Number', $field_html);
+
 								echo apply_filters('cfw_payment_gateway_field_html_' . $gateway->id, $field_html);
 								?>
                             </div>

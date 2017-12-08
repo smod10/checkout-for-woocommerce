@@ -707,6 +707,12 @@ body {
 .input-file-plupload {
   margin: 0 0 1.5em; }
 
+.wc_payment_choice_selection_wrapper {
+  margin-top: 10px; }
+
+#paytrace_payment_choices {
+  font-size: 0.825em; }
+
 #cfw-header {
   background: #222; }
 

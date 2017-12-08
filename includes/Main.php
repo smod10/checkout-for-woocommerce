@@ -383,15 +383,16 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function load_actions() {
-		// Add the Language class
-		$this->loader->add_action('init', function() {
-			$this->i18n->load_plugin_textdomain($this->path_manager);
 
-			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
-				// For some reason, using the loader add_filter here doesn't work *shrug*
-				add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
-			}
-		});
+		// Add the Language class
+		$this->i18n->load_plugin_textdomain($this->path_manager);
+
+		// Override some WooCommerce Options
+		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+			// For some reason, using the loader add_filter here doesn't work *shrug*
+			add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
+		}
+
 
 		// Handle the Activation notices
 		$this->loader->add_action('admin_notices', function() {

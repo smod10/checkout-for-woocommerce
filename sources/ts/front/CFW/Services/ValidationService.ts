@@ -136,6 +136,8 @@ export class ValidationService {
                         } else {
                             eventName = "cfw:state-zip-success";
 
+                            stateElement.trigger("DOMAttrModified");
+
                             $("#" + elementType + "_state").parsley().reset();
                             $("#" + elementType + "_postcode").parsley().reset();
 
@@ -161,6 +163,8 @@ export class ValidationService {
                             let event = new Event("cfw:state-zip-failure");
                             window.dispatchEvent(event);
                         }
+
+                        stateElement.garlic('destroy');
 
                         ValidationService.cityStateValidating = false;
                     })

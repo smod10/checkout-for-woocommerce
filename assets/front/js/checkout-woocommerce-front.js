@@ -2664,6 +2664,8 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      */
     CompleteOrderAction.prototype.response = function (resp) {
         if (resp.result === "success") {
+            // Destroy all the cache!
+            $('.garlic-auto-save').each(function (index, elem) { return $(elem).garlic('destroy'); });
             window.location.href = resp.redirect;
         }
         if (resp.result === "failure") {

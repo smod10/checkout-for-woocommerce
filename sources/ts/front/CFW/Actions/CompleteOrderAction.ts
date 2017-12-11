@@ -168,6 +168,9 @@ export class CompleteOrderAction extends Action {
     public response(resp: any): void {
 
         if(resp.result === "success") {
+            // Destroy all the cache!
+            $('.garlic-auto-save').each((index: number, elem: Element) => $(elem).garlic('destroy'));
+
             window.location.href = resp.redirect;
         }
 

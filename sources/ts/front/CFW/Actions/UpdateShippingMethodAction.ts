@@ -4,7 +4,7 @@ import { ResponsePrep }                     from "../Decorators/ResponsePrep";
 import { UpdateCartTotalsData }             from "../Elements/Cart";
 import { Cart }                             from "../Elements/Cart";
 import { Main }                             from "../Main";
-import {UpdateCheckoutAction} from "./UpdateCheckoutAction";
+import { UpdateCheckoutAction }             from "./UpdateCheckoutAction";
 
 export type UpdateShippingMethodData = {
     action: string,

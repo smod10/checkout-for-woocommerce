@@ -4,7 +4,7 @@ import { Cart }                         from "../Elements/Cart";
 import { Alert, AlertInfo }             from "../Elements/Alert";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 import { Main }                         from "../Main";
-import {UpdateCheckoutAction} from "./UpdateCheckoutAction";
+import { UpdateCheckoutAction }         from "./UpdateCheckoutAction";
 
 /**
  *

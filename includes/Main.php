@@ -475,20 +475,19 @@ class Main extends Singleton {
 	 * @return bool True if license valid, false if it is invalid
 	 */
 	function license_is_valid() {
-//		// Get main
-//		$main = Main::instance();
-//
-//		$key_status = $main->updater->get_field_value('key_status');
-//		$license_key = $main->updater->get_field_value('license_key');
-//
-//		$valid = true;
-//
-//		// Validate Key Status
-//		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
-//			$valid = false;
-//		}
-//
-//		return $valid;
-		return true;
+		// Get main
+		$main = Main::instance();
+
+		$key_status = $main->updater->get_field_value('key_status');
+		$license_key = $main->updater->get_field_value('license_key');
+
+		$valid = true;
+
+		// Validate Key Status
+		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
+			$valid = false;
+		}
+
+		return $valid;
 	}
 }

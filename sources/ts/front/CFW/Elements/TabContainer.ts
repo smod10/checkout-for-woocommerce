@@ -56,7 +56,7 @@ export class TabContainer extends Element {
         if(email_input_wrap) {
 
             let email_input: JQuery = email_input_wrap.holder.jel;
-            let reg_email: JQuery = $("#cfw-acc-register-chk");
+            let reg_email: JQuery = $("#createaccount");
 
             // Handles page onload use case
             new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel).load();
@@ -163,11 +163,6 @@ export class TabContainer extends Element {
         let stripe_container: JQuery = $(".payment_method_stripe");
 
         if(stripe_container.length > 0) {
-
-            if(Main.instance.settings.user_logged_in === "false") {
-                $(".woocommerce-SavedPaymentMethods-saveNew").remove();
-            }
-
             let stripe_options = stripe_container.find('input[type="radio"][name="wc-stripe-payment-token"]');
             stripe_options.each((index: number, elem: HTMLElement) => {
                 if($(elem).attr("id") == "wc-stripe-payment-token-new") {
@@ -198,7 +193,7 @@ export class TabContainer extends Element {
                         }
                     });
                 }
-            });
+            })
         }
     }
 
@@ -326,8 +321,11 @@ export class TabContainer extends Element {
         });
 
         $(window).on('load', () => {
+            // PayTrace gateway field state workaround
             let checked_radio: JQuery = $("input[type='radio'][name='paytrace_type_choice']:checked");
             checked_radio.trigger("change");
+
+            jQuery(document.body).trigger('wc-credit-card-form-init');
         });
     }
 
@@ -623,7 +621,7 @@ export class TabContainer extends Element {
             completeOrderCheckoutData["account_password"] = account_password;
         }
 
-        if($("#cfw-acc-register-chk:checked").length > 0) {
+        if($("#createaccount:checked").length > 0) {
             completeOrderCheckoutData["createaccount"] = 1;
         }
 

@@ -162,9 +162,6 @@ export class TabContainer extends Element {
     setUpCreditCardRadioReveal() {
         let stripe_container: JQuery = $(".payment_method_stripe");
 
-        console.log("SET UP STRIPE PAYMENT");
-        console.log(Main.instance.settings.user_logged_in);
-
         if(stripe_container.length > 0) {
 
             if(Main.instance.settings.user_logged_in === "false") {

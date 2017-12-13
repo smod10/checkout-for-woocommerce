@@ -1062,6 +1062,7 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
             Cart_1.Cart.outputFees(main.cart.fees, fees);
         }
         Cart_1.Cart.outputValues(main.cart, resp.new_totals);
+        $(document.body).trigger('updated_checkout');
     };
     __decorate([
         ResponsePrep_1.ResponsePrep
@@ -2139,6 +2140,7 @@ var AccountExistsAction = /** @class */ (function (_super) {
             }
             register_container.css("display", "block");
         }
+        $(document.body).trigger('updated_checkout');
     };
     Object.defineProperty(AccountExistsAction.prototype, "ezTabContainer", {
         /**

@@ -231,8 +231,6 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
       display: none;
     }
 
-    fieldset { margin-bottom: 0; }
-
     ul {
       padding: 0;
       margin-left: 0;
@@ -246,6 +244,16 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
       }
     }
   }
+}
+
+fieldset .cfw-sg-container:last-child > * > .form-row {
+  margin-bottom: 0;
+}
+
+.paytrace-create-account {
+  margin-bottom: 0 !important;
+
+  .form-row { margin-bottom: 0; }
 }
 
 #cfw-cart-details-collapse-wrap {

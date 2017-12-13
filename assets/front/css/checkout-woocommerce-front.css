@@ -890,9 +890,6 @@ body {
 #cfw-billing-methods #stripe-payment-data #wc-stripe-cc-form, #cfw-shipping-same-billing #stripe-payment-data #wc-stripe-cc-form {
   display: none; }
 
-#cfw-billing-methods #stripe-payment-data fieldset, #cfw-shipping-same-billing #stripe-payment-data fieldset {
-  margin-bottom: 0; }
-
 #cfw-billing-methods #stripe-payment-data ul, #cfw-shipping-same-billing #stripe-payment-data ul {
   padding: 0;
   margin-left: 0;
@@ -902,6 +899,14 @@ body {
     margin-bottom: 8px; }
     #cfw-billing-methods #stripe-payment-data ul li:last-child, #cfw-shipping-same-billing #stripe-payment-data ul li:last-child {
       margin-bottom: 0; }
+
+fieldset .cfw-sg-container:last-child > * > .form-row {
+  margin-bottom: 0; }
+
+.paytrace-create-account {
+  margin-bottom: 0 !important; }
+  .paytrace-create-account .form-row {
+    margin-bottom: 0; }
 
 #cfw-cart-details-collapse-wrap {
   display: block; }

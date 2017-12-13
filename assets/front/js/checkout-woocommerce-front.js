@@ -1582,6 +1582,8 @@ var TabContainer = /** @class */ (function (_super) {
      *
      */
     TabContainer.prototype.setUpCreditCardFields = function () {
+        var CHECK = "paytrace_check_choice";
+        var CARD = "paytrace_card_choice";
         // Stripe Form
         var stripe_form_wraps = $("#wc-stripe-cc-form .form-row");
         $("#wc-stripe-cc-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
@@ -1672,6 +1674,32 @@ var TabContainer = /** @class */ (function (_super) {
                 $(elem).wrap("<div class='cfw-column-6'></div>");
             }
         });
+        $(window).on('load', function () {
+            var checked_radio = $("input[type='radio'][name='paytrace_type_choice']:checked");
+            var choice = checked_radio.attr('id');
+            if (checked_radio.length > 0) {
+                swapVisibility(choice);
+            }
+        });
+        var swapVisibility = function (type) {
+            var checkWrapper = $(".woocommerce-paytrace-SavedPaymentMethods-wrapper.check");
+            var checkForm = $("#paytrace-checks-form");
+            var checkFields = [checkWrapper, checkForm];
+            var cardWrapper = $(".woocommerce-paytrace-SavedPaymentMethods-wrapper.card");
+            var cardForm = $("#paytrace-cards-form");
+            var cardFields = [cardWrapper, cardForm];
+            switch (type) {
+                case CHECK:
+                    checkFields.forEach(function (field) { return field.css("display", "block"); });
+                    cardFields.forEach(function (field) { return field.css("display", "none"); });
+                    break;
+                case CARD:
+                    checkFields.forEach(function (field) { return field.css("display", "none"); });
+                    cardFields.forEach(function (field) { return field.css("display", "block"); });
+                    break;
+                default:
+            }
+        };
     };
     /**
      *
@@ -2554,7 +2582,6 @@ var CompleteOrderAction = /** @class */ (function (_super) {
                 _this.stripeResponse = response;
                 _this.addStripeTokenToData(response.id);
                 _this.needsStripeToken = false;
-                console.log("HITTING...");
                 $("#checkout").off('form:validate');
                 _this.load();
             },

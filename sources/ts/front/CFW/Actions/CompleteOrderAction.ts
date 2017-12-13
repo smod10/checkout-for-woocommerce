@@ -52,8 +52,9 @@ export class CompleteOrderAction extends Action {
                 this.stripeResponse = response;
                 this.addStripeTokenToData(response.id);
                 this.needsStripeToken = false;
-                console.log("HITTING...");
+
                 $("#checkout").off('form:validate');
+
                 this.load();
             },
             noData: (response: StripeNoDataResponse) => {

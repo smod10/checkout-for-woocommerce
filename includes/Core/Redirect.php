@@ -143,7 +143,8 @@ class Redirect {
             };
 
             cfwEventData.settings = {
-                isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>
+                isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
+                user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>'
             };
 
             $(document).ready(function() {

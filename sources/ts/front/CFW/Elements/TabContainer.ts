@@ -326,8 +326,11 @@ export class TabContainer extends Element {
         });
 
         $(window).on('load', () => {
+            // PayTrace gateway field state workaround
             let checked_radio: JQuery = $("input[type='radio'][name='paytrace_type_choice']:checked");
             checked_radio.trigger("change");
+
+            jQuery(document.body).trigger('wc-credit-card-form-init');
         });
     }
 

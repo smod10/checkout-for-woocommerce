@@ -1544,9 +1544,6 @@ var TabContainer = /** @class */ (function (_super) {
     TabContainer.prototype.setUpCreditCardRadioReveal = function () {
         var stripe_container = $(".payment_method_stripe");
         if (stripe_container.length > 0) {
-            if (Main_1.Main.instance.settings.user_logged_in === "false") {
-                $(".woocommerce-SavedPaymentMethods-saveNew").remove();
-            }
             var stripe_options = stripe_container.find('input[type="radio"][name="wc-stripe-payment-token"]');
             stripe_options.each(function (index, elem) {
                 if ($(elem).attr("id") == "wc-stripe-payment-token-new") {

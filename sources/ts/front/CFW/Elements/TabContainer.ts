@@ -163,11 +163,6 @@ export class TabContainer extends Element {
         let stripe_container: JQuery = $(".payment_method_stripe");
 
         if(stripe_container.length > 0) {
-
-            if(Main.instance.settings.user_logged_in === "false") {
-                $(".woocommerce-SavedPaymentMethods-saveNew").remove();
-            }
-
             let stripe_options = stripe_container.find('input[type="radio"][name="wc-stripe-payment-token"]');
             stripe_options.each((index: number, elem: HTMLElement) => {
                 if($(elem).attr("id") == "wc-stripe-payment-token-new") {
@@ -198,7 +193,7 @@ export class TabContainer extends Element {
                         }
                     });
                 }
-            });
+            })
         }
     }
 

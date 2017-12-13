@@ -327,34 +327,8 @@ export class TabContainer extends Element {
 
         $(window).on('load', () => {
             let checked_radio: JQuery = $("input[type='radio'][name='paytrace_type_choice']:checked");
-            let choice: string = checked_radio.attr('id');
-
-            if(checked_radio.length > 0) {
-                swapVisibility(choice);
-            }
+            checked_radio.trigger("change");
         });
-
-        let swapVisibility = (type) => {
-            let checkWrapper: JQuery = $(".woocommerce-paytrace-SavedPaymentMethods-wrapper.check");
-            let checkForm: JQuery = $("#paytrace-checks-form");
-            let checkFields = [checkWrapper, checkForm];
-
-            let cardWrapper: JQuery = $(".woocommerce-paytrace-SavedPaymentMethods-wrapper.card");
-            let cardForm: JQuery = $("#paytrace-cards-form");
-            let cardFields = [cardWrapper, cardForm];
-
-            switch(type) {
-                case CHECK:
-                    checkFields.forEach(field => field.css("display", "block"));
-                    cardFields.forEach(field => field.css("display", "none"));
-                    break;
-                case CARD:
-                    checkFields.forEach(field => field.css("display", "none"));
-                    cardFields.forEach(field => field.css("display", "block"));
-                    break;
-                default:
-            }
-        }
     }
 
     /**

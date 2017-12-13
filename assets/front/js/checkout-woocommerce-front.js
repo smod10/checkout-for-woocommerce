@@ -1676,30 +1676,8 @@ var TabContainer = /** @class */ (function (_super) {
         });
         $(window).on('load', function () {
             var checked_radio = $("input[type='radio'][name='paytrace_type_choice']:checked");
-            var choice = checked_radio.attr('id');
-            if (checked_radio.length > 0) {
-                swapVisibility(choice);
-            }
+            checked_radio.trigger("change");
         });
-        var swapVisibility = function (type) {
-            var checkWrapper = $(".woocommerce-paytrace-SavedPaymentMethods-wrapper.check");
-            var checkForm = $("#paytrace-checks-form");
-            var checkFields = [checkWrapper, checkForm];
-            var cardWrapper = $(".woocommerce-paytrace-SavedPaymentMethods-wrapper.card");
-            var cardForm = $("#paytrace-cards-form");
-            var cardFields = [cardWrapper, cardForm];
-            switch (type) {
-                case CHECK:
-                    checkFields.forEach(function (field) { return field.css("display", "block"); });
-                    cardFields.forEach(function (field) { return field.css("display", "none"); });
-                    break;
-                case CARD:
-                    checkFields.forEach(function (field) { return field.css("display", "none"); });
-                    cardFields.forEach(function (field) { return field.css("display", "block"); });
-                    break;
-                default:
-            }
-        };
     };
     /**
      *

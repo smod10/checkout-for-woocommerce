@@ -263,6 +263,7 @@ class Redirect {
             'woocommerce_stripe',
             'stripe_apple_pay',
             'woocommerce_stripe_apple_pay',
+            'woocommerce-tokenization-form',
         );
 
 		$ignore = apply_filters('cfw_allowed_script_handles', $ignore);

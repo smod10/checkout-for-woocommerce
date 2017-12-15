@@ -1,5 +1,5 @@
-import { ValidationService }                    from "./ValidationService";
-import { Panel }                                from "./ValidationService";
+import { EasyTabService }                           from "./EasyTabService";
+import { EasyTab }                                  from "./EasyTabService";
 
 let w: any = window;
 
@@ -31,7 +31,7 @@ export class ParsleyService {
     handleStateZipFailure(): void {
         // Parsley isn't a jquery default, this gets around it.
         let $temp: any = $;
-        let shipping_action = () => ValidationService.go(Panel.CUSTOMER);
+        let shipping_action = () => EasyTabService.go(EasyTab.CUSTOMER);
 
         if ( $temp("#shipping_postcode").length !== 0 ) {
             $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
@@ -81,12 +81,12 @@ export class ParsleyService {
      * @returns {string}
      */
     static getFailLocation(infoType: string): string {
-        let customerTabId: string = ValidationService.getTabId(Panel.CUSTOMER);
-        let paymentTabId: string = ValidationService.getTabId(Panel.PAYMENT);
+        let customerTabId: string = EasyTabService.getTabId(EasyTab.CUSTOMER);
+        let paymentTabId: string = EasyTabService.getTabId(EasyTab.PAYMENT);
 
         let location: string = (infoType === "shipping") ? customerTabId : paymentTabId;
 
-        if(!ValidationService.isThereAShippingPanel()) {
+        if(!EasyTabService.isThereAShippingTab()) {
             location = customerTabId;
         }
 

@@ -6,6 +6,8 @@ import { AjaxInfo }					from "./Types/Types";
 import { Cart } 					from "./Elements/Cart";
 import { TabContainerSection } 		from "./Elements/TabContainerSection";
 import { ValidationService } 		from "./Services/ValidationService";
+import { EasyTabService } 			from "./Services/EasyTabService";
+import { ParsleyService } 			from "./Services/ParsleyService";
 
 /**
  * The main class of the front end checkout system
@@ -35,6 +37,18 @@ export class Main {
 	 * @private
      */
 	private _settings: any;
+
+    /**
+     * @type {ParsleyService}
+     * @private
+     */
+    private _parsleyService: ParsleyService;
+
+    /**
+     * @type {EasyTabService}
+     * @private
+     */
+    private _easyTabService: EasyTabService;
 
     /**
 	 * @type {ValidationService}
@@ -68,6 +82,8 @@ export class Main {
 		this.ajaxInfo = ajaxInfo;
 		this.cart = cart;
 		this.settings = settings;
+		this.parsleyService = new ParsleyService();
+		this.easyTabService = new EasyTabService();
 		this.validationService = new ValidationService();
 	}
 
@@ -203,6 +219,34 @@ export class Main {
      */
     set settings(value: any) {
         this._settings = value;
+    }
+
+    /**
+     * @returns {ParsleyService}
+     */
+    get parsleyService(): ParsleyService {
+        return this._parsleyService;
+    }
+
+    /**
+     * @param {ParsleyService} value
+     */
+    set parsleyService(value: ParsleyService) {
+        this._parsleyService = value;
+    }
+
+    /**
+     * @returns {EasyTabService}
+     */
+    get easyTabService(): EasyTabService {
+        return this._easyTabService;
+    }
+
+    /**
+     * @param {EasyTabService} value
+     */
+    set easyTabService(value: EasyTabService) {
+        this._easyTabService = value;
     }
 
     /**

@@ -73,6 +73,8 @@
 /// <reference path="Definitions/ArrayFind.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var ValidationService_1 = __webpack_require__(6);
+var EasyTabService_1 = __webpack_require__(45);
+var ParsleyService_1 = __webpack_require__(26);
 /**
  * The main class of the front end checkout system
  */
@@ -89,6 +91,8 @@ var Main = /** @class */ (function () {
         this.ajaxInfo = ajaxInfo;
         this.cart = cart;
         this.settings = settings;
+        this.parsleyService = new ParsleyService_1.ParsleyService();
+        this.easyTabService = new EasyTabService_1.EasyTabService();
         this.validationService = new ValidationService_1.ValidationService();
     }
     /**
@@ -222,6 +226,38 @@ var Main = /** @class */ (function () {
          */
         set: function (value) {
             this._settings = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Main.prototype, "parsleyService", {
+        /**
+         * @returns {ParsleyService}
+         */
+        get: function () {
+            return this._parsleyService;
+        },
+        /**
+         * @param {ParsleyService} value
+         */
+        set: function (value) {
+            this._parsleyService = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Main.prototype, "easyTabService", {
+        /**
+         * @returns {EasyTabService}
+         */
+        get: function () {
+            return this._easyTabService;
+        },
+        /**
+         * @param {EasyTabService} value
+         */
+        set: function (value) {
+            this._easyTabService = value;
         },
         enumerable: true,
         configurable: true
@@ -684,8 +720,8 @@ exports.Cart = Cart;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Main_1 = __webpack_require__(0);
-var ParsleyService_1 = __webpack_require__(26);
 var EasyTabService_1 = __webpack_require__(45);
+var EasyTabService_2 = __webpack_require__(45);
 /**
  * Validation Sections Enum
  */
@@ -696,15 +732,6 @@ var EValidationSections;
     EValidationSections[EValidationSections["ACCOUNT"] = 2] = "ACCOUNT";
 })(EValidationSections = exports.EValidationSections || (exports.EValidationSections = {}));
 /**
- * Panels Enum
- */
-var Panel;
-(function (Panel) {
-    Panel[Panel["CUSTOMER"] = 0] = "CUSTOMER";
-    Panel[Panel["SHIPPING"] = 1] = "SHIPPING";
-    Panel[Panel["PAYMENT"] = 2] = "PAYMENT";
-})(Panel = exports.Panel || (exports.Panel = {}));
-/**
  *
  */
 var ValidationService = /** @class */ (function () {
@@ -712,84 +739,45 @@ var ValidationService = /** @class */ (function () {
      *
      */
     function ValidationService() {
-        this.parsleyService = new ParsleyService_1.ParsleyService();
-        this.easyTabService = new EasyTabService_1.EasyTabService();
         this.validateSectionsBeforeSwitch();
-        ValidationService.validateShippingOnLoadIfNotCustomerPanel();
+        ValidationService.validateShippingOnLoadIfNotCustomerTab();
     }
     /**
-     * Execute validation checks before each easy tab panel switch.
+     * Execute validation checks before each easy tab easy tab switch.
      */
     ValidationService.prototype.validateSectionsBeforeSwitch = function () {
         Main_1.Main.instance.tabContainer.jel.bind('easytabs:before', function (event, clicked, target) {
             // Where are we going?
-            var panelDirection = ValidationService.getPanelDirection(target);
+            var easyTabDirection = EasyTabService_1.EasyTabService.getTabDirection(target);
             // If we are moving forward in the checkout process and we are currently on the customer tab
-            if (panelDirection.current === Panel.CUSTOMER && panelDirection.target > panelDirection.current) {
-                // Validate the required sections for the customer panel
-                var validated = ValidationService.validateSectionsForCustomerPanel();
+            if (easyTabDirection.current === EasyTabService_2.EasyTab.CUSTOMER && easyTabDirection.target > easyTabDirection.current) {
+                // Validate the required sections for the customer easy tab
+                var validated = ValidationService.validateSectionsForCustomerTab();
                 // If we encountered and error / problem stay on the current tab
                 if (!validated) {
-                    ValidationService.go(panelDirection.current);
+                    EasyTabService_1.EasyTabService.go(easyTabDirection.current);
                 }
                 // Return the validation
                 return validated;
             }
-            // If we are moving forward / backwards, have a shipping panel, and are not on the customer tab then allow
+            // If we are moving forward / backwards, have a shipping easy tab, and are not on the customer tab then allow
             // the tab switch
             return true;
         }.bind(this));
     };
     /**
-     * @param {Panel} panel
-     */
-    ValidationService.go = function (panel) {
-        Main_1.Main.instance.tabContainer.jel.easytabs("select", ValidationService.getTabId(panel));
-    };
-    /**
-     * Returns the id of the Panel passed in
-     *
-     * @param {Panel} panel
-     * @returns {string}
-     */
-    ValidationService.getTabId = function (panel) {
-        var tabContainer = Main_1.Main.instance.tabContainer;
-        var easyTabs = tabContainer.tabContainerSections;
-        return easyTabs[panel].jel.attr("id");
-    };
-    /**
      *
      * @returns {boolean}
      */
-    ValidationService.validateSectionsForCustomerPanel = function () {
+    ValidationService.validateSectionsForCustomerTab = function () {
         var validated = false;
-        if (!ValidationService.isThereAShippingPanel()) {
+        if (!EasyTabService_1.EasyTabService.isThereAShippingTab()) {
             validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.BILLING);
         }
         else {
             validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.SHIPPING);
         }
         return validated;
-    };
-    /**
-     * Returns the current and target panel indexes
-     *
-     * @param target
-     * @returns {PanelDirection}
-     */
-    ValidationService.getPanelDirection = function (target) {
-        var currentPanelIndex = 0;
-        var targetPanelIndex = 0;
-        Main_1.Main.instance.tabContainer.tabContainerSections.forEach(function (tab, index) {
-            var $tab = tab.jel;
-            if ($tab.filter(":visible").length !== 0) {
-                currentPanelIndex = index;
-            }
-            if ($tab.is($(target))) {
-                targetPanelIndex = index;
-            }
-        });
-        return { current: currentPanelIndex, target: targetPanelIndex };
     };
     /**
      * @param {EValidationSections} section
@@ -816,56 +804,16 @@ var ValidationService = /** @class */ (function () {
     /**
      * Handles non ajax cases
      */
-    ValidationService.validateShippingOnLoadIfNotCustomerPanel = function () {
+    ValidationService.validateShippingOnLoadIfNotCustomerTab = function () {
         var hash = window.location.hash;
         var customerInfoId = "#cfw-customer-info";
-        var sectionToValidate = (ValidationService.isThereAShippingPanel()) ? EValidationSections.SHIPPING : EValidationSections.BILLING;
+        var sectionToValidate = (EasyTabService_1.EasyTabService.isThereAShippingTab()) ? EValidationSections.SHIPPING : EValidationSections.BILLING;
         if (hash != customerInfoId && hash != "") {
             if (!ValidationService.validate(sectionToValidate)) {
-                ValidationService.go(Panel.CUSTOMER);
+                EasyTabService_1.EasyTabService.go(EasyTabService_2.EasyTab.CUSTOMER);
             }
         }
     };
-    /**
-     * Is there a shipping panel present?
-     *
-     * @returns {boolean}
-     */
-    ValidationService.isThereAShippingPanel = function () {
-        return Main_1.Main.instance.tabContainer.jel.find('.etabs > li').length !== 2;
-    };
-    Object.defineProperty(ValidationService.prototype, "parsleyService", {
-        /**
-         * @returns {ParsleyService}
-         */
-        get: function () {
-            return this._parsleyService;
-        },
-        /**
-         * @param {ParsleyService} value
-         */
-        set: function (value) {
-            this._parsleyService = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ValidationService.prototype, "easyTabService", {
-        /**
-         * @returns {EasyTabService}
-         */
-        get: function () {
-            return this._easyTabService;
-        },
-        /**
-         * @param {EasyTabService} value
-         */
-        set: function (value) {
-            this._easyTabService = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return ValidationService;
 }());
 exports.ValidationService = ValidationService;
@@ -1357,8 +1305,8 @@ w.addEventListener("cfw-initialize", function (eventData) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var ValidationService_1 = __webpack_require__(6);
-var ValidationService_2 = __webpack_require__(6);
+var EasyTabService_1 = __webpack_require__(45);
+var EasyTabService_2 = __webpack_require__(45);
 var w = window;
 var ParsleyService = /** @class */ (function () {
     /**
@@ -1374,7 +1322,7 @@ var ParsleyService = /** @class */ (function () {
     ParsleyService.prototype.handleStateZipFailure = function () {
         // Parsley isn't a jquery default, this gets around it.
         var $temp = $;
-        var shipping_action = function () { return ValidationService_1.ValidationService.go(ValidationService_2.Panel.CUSTOMER); };
+        var shipping_action = function () { return EasyTabService_1.EasyTabService.go(EasyTabService_2.EasyTab.CUSTOMER); };
         if ($temp("#shipping_postcode").length !== 0) {
             $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
             $temp("#shipping_state").parsley().on("field:error", shipping_action);
@@ -1419,10 +1367,10 @@ var ParsleyService = /** @class */ (function () {
      * @returns {string}
      */
     ParsleyService.getFailLocation = function (infoType) {
-        var customerTabId = ValidationService_1.ValidationService.getTabId(ValidationService_2.Panel.CUSTOMER);
-        var paymentTabId = ValidationService_1.ValidationService.getTabId(ValidationService_2.Panel.PAYMENT);
+        var customerTabId = EasyTabService_1.EasyTabService.getTabId(EasyTabService_2.EasyTab.CUSTOMER);
+        var paymentTabId = EasyTabService_1.EasyTabService.getTabId(EasyTabService_2.EasyTab.PAYMENT);
         var location = (infoType === "shipping") ? customerTabId : paymentTabId;
-        if (!ValidationService_1.ValidationService.isThereAShippingPanel()) {
+        if (!EasyTabService_1.EasyTabService.isThereAShippingTab()) {
             location = customerTabId;
         }
         return location;
@@ -3537,9 +3485,64 @@ exports.SelectLabelWrap = SelectLabelWrap;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var Main_1 = __webpack_require__(0);
+/**
+ * EzTab Enum
+ */
+var EasyTab;
+(function (EasyTab) {
+    EasyTab[EasyTab["CUSTOMER"] = 0] = "CUSTOMER";
+    EasyTab[EasyTab["SHIPPING"] = 1] = "SHIPPING";
+    EasyTab[EasyTab["PAYMENT"] = 2] = "PAYMENT";
+})(EasyTab = exports.EasyTab || (exports.EasyTab = {}));
 var EasyTabService = /** @class */ (function () {
     function EasyTabService() {
     }
+    /**
+     * Returns the current and target tab indexes
+     *
+     * @param target
+     * @returns {EasyTabDirection}
+     */
+    EasyTabService.getTabDirection = function (target) {
+        var currentTabIndex = 0;
+        var targetTabIndex = 0;
+        Main_1.Main.instance.tabContainer.tabContainerSections.forEach(function (tab, index) {
+            var $tab = tab.jel;
+            if ($tab.filter(":visible").length !== 0) {
+                currentTabIndex = index;
+            }
+            if ($tab.is($(target))) {
+                targetTabIndex = index;
+            }
+        });
+        return { current: currentTabIndex, target: targetTabIndex };
+    };
+    /**
+     * @param {EasyTab} tab
+     */
+    EasyTabService.go = function (tab) {
+        Main_1.Main.instance.tabContainer.jel.easytabs("select", EasyTabService.getTabId(tab));
+    };
+    /**
+     * Returns the id of the tab passed in
+     *
+     * @param {EasyTab} tab
+     * @returns {string}
+     */
+    EasyTabService.getTabId = function (tab) {
+        var tabContainer = Main_1.Main.instance.tabContainer;
+        var easyTabs = tabContainer.tabContainerSections;
+        return easyTabs[tab].jel.attr("id");
+    };
+    /**
+     * Is there a shipping easy tab present?
+     *
+     * @returns {boolean}
+     */
+    EasyTabService.isThereAShippingTab = function () {
+        return Main_1.Main.instance.tabContainer.jel.find('.etabs > li').length !== 2;
+    };
     return EasyTabService;
 }());
 exports.EasyTabService = EasyTabService;

@@ -1,81 +1,60 @@
+import { TabContainerSection }                  from "../Elements/TabContainerSection";
+import { Main }                                 from "../Main";
 import { TabContainer }                         from "../Elements/TabContainer";
+import { ParsleyService }                       from "./ParsleyService";
+import { EasyTabService }                       from "./EasyTabService";
 
-let w: any = window;
-
+/**
+ * Validation Sections Enum
+ */
 export enum EValidationSections {
     SHIPPING,
     BILLING,
     ACCOUNT
 }
 
+/**
+ * Panels Enum
+ */
+export enum Panel {
+    CUSTOMER,
+    SHIPPING,
+    PAYMENT,
+}
+
+/**
+ * Panel Direction Object Blueprint
+ */
+export type PanelDirection = { current: Panel, target: Panel };
+
+/**
+ *
+ */
 export class ValidationService {
 
     /**
-     * @type {Array}
+     * @type {ParsleyService}
      * @private
      */
-    private _easyTabsOrder: Array<JQuery> = [];
+    private _parsleyService: ParsleyService;
 
     /**
-     * @type {TabContainer}
+     * @type {EasyTabService}
      * @private
      */
-    private _tabContainer: TabContainer;
-
-    /**
-     * @type {boolean}
-     * @private
-     */
-    private static _cityStateValidating: boolean = false;
-
-    /**
-     * @param {TabContainer} tabContainer
-     */
-    constructor(tabContainer: TabContainer) {
-        this.tabContainer = tabContainer;
-        this.easyTabsOrder = [$("#cfw-customer-info"), $("#cfw-shipping-method"), $("#cfw-payment-method")];
-
-        this.setup();
-    }
+    private _easyTabService: EasyTabService;
 
     /**
      *
      */
-    setup(): void {
-        this.setEventListeners();
-        let max_iterations = 1000;
-        let iterations = 0;
+    constructor() {
+        this.parsleyService = new ParsleyService();
+        this.easyTabService = new EasyTabService()
 
+        this.validateSectionsBeforeSwitch();
         this.floatLabelOnGarlicRetrieve();
 
-        if(window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
-            if(!this.validate(EValidationSections.SHIPPING)) {
-                window.location.hash = "#cfw-customer-info";
-            }
-        }
-
-        // Parsley isn't a jquery default, this gets around it.
-        let $temp: any = $;
-        let shipping_action: Function = function(element) {
-            $("#cfw-tab-container").easytabs("select", "#cfw-customer-info");
-        };
-
-        if ( $temp("#shipping_postcode").length !== 0 ) {
-            $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
-            $temp("#shipping_state").parsley().on("field:error", shipping_action);
-        }
-
-        let interval: any = setInterval(() => {
-            if ( w.Parsley !== undefined ) {
-                this.setParsleyCustomValidators(w.Parsley);
-                clearInterval(interval);
-            } else if( iterations >= max_iterations ) {
-                // Give up
-                clearInterval(interval);
-            } else {
-                iterations++;
-            }
-        }, 50);
+        ValidationService.validateShippingOnLoadIfNotCustomerPanel();
     }
 
     /**
@@ -93,135 +72,103 @@ export class ValidationService {
     }
 
     /**
-     * @param parsley
+     * Execute validation checks before each easy tab panel switch.
      */
-    setParsleyCustomValidators(parsley): void {
-        parsley.addValidator('stateAndZip', {
-            validateString: function(_ignoreValue, country, instance) {
-                let elementType = instance.$element[0].getAttribute("id").split("_")[0];
-                let stateElement = $("#" + elementType + "_state");
-                let zipElement = $("#" + elementType + "_postcode");
-                let cityElement = $("#" + elementType + "_city");
-                let failLocation = (elementType === "shipping") ? "#cfw-customer-info" : "#cfw-payment-method";
-                let xhr = $.ajax('//www.zippopotam.us/' + country + '/' + zipElement.val());
+    validateSectionsBeforeSwitch(): void {
 
-                if(!ValidationService.cityStateValidating) {
-                    ValidationService.cityStateValidating = true;
+        Main.instance.tabContainer.jel.bind('easytabs:before', function(event, clicked, target) {
 
-                    return xhr.then(function(json) {
-                        let ret = null;
-                        let stateResponseValue = "";
-                        let eventName = "";
-                        let cityResponseValue = "";
+            // Where are we going?
+            let panelDirection: PanelDirection = ValidationService.getPanelDirection(target);
 
-                        // Set the state response value
-                        stateResponseValue = json.places[0]["state abbreviation"];
+            // If we are moving forward in the checkout process and we are currently on the customer tab
+            if(panelDirection.current === Panel.CUSTOMER && panelDirection.target > panelDirection.current) {
 
-                        // Set the city response value and set the corresponding city field
-                        cityResponseValue = json.places[0]["place name"];
-                        cityElement.val(cityResponseValue);
+                // Validate the required sections for the customer panel
+                let validated: boolean = ValidationService.validateSectionsForCustomerPanel();
 
-                        let fieldType = $(instance.element).attr("id").split("_")[1];
-
-                        if(fieldType === "postcode") {
-                            stateElement.val(stateResponseValue);
-                        }
-
-                        if (stateResponseValue !== stateElement.val()) {
-                            eventName = "cfw:state-zip-failure";
-
-                            $("#cfw-tab-container").easytabs("select", failLocation);
-
-                            ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-                        } else {
-                            eventName = "cfw:state-zip-success";
-
-                            stateElement.trigger("DOMAttrModified");
-
-                            $("#" + elementType + "_state").parsley().reset();
-                            $("#" + elementType + "_postcode").parsley().reset();
-
-                            ret = true;
-                        }
-
-                        if(w.CREATE_ORDER) {
-                            let event = new Event(eventName);
-                            window.dispatchEvent(event);
-                        }
-
-                        ValidationService.cityStateValidating = false;
-
-                        cityElement.parsley().reset();
-                        zipElement.parsley().reset();
-                        stateElement.parsley().reset();
-
-                        return ret;
-                    }).fail(function(){
-                        $("#cfw-tab-container").easytabs("select", failLocation);
-
-                        if(w.CREATE_ORDER) {
-                            let event = new Event("cfw:state-zip-failure");
-                            window.dispatchEvent(event);
-                        }
-
-                        stateElement.garlic('destroy');
-
-                        ValidationService.cityStateValidating = false;
-                    })
+                // If we encountered and error / problem stay on the current tab
+                if ( !validated ) {
+                    ValidationService.go(panelDirection.current);
                 }
 
-                return true;
-            }.bind(this),
-            messages: {en: 'Zip is not valid for country "%s"'}
-        });
-    }
-
-    /**
-     *
-     */
-    setEventListeners(): void {
-        this.tabContainer.jel.bind('easytabs:before', function(event, clicked, target, settings) {
-            let currentPanelIndex: number = 0;
-            let targetPanelIndex: number = 0;
-
-            this.easyTabsOrder.forEach((tab, index) => {
-                if(tab.filter(":visible").length !== 0) {
-                    currentPanelIndex = index;
-                }
-
-                if(tab.is($(target))) {
-                    targetPanelIndex = index;
-                }
-            });
-
-            if(targetPanelIndex > currentPanelIndex) {
-                if(currentPanelIndex === 0) {
-                    let validated = false;
-
-                    if ( this.tabContainer.jel.find('.etabs > li').length == 2 ) {
-                        validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.BILLING);
-                    } else {
-                        validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.SHIPPING);
-                    }
-
-                    if ( ! validated ) {
-                        window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");
-                    }
-
-                    return validated;
-                }
+                // Return the validation
+                return validated;
             }
 
+            // If we are moving forward / backwards, have a shipping panel, and are not on the customer tab then allow
+            // the tab switch
             return true;
 
         }.bind(this));
     }
 
     /**
+     * @param {Panel} panel
+     */
+    static go(panel: Panel): void {
+        Main.instance.tabContainer.jel.easytabs("select", ValidationService.getTabId(panel))
+    }
+
+    /**
+     * Returns the id of the Panel passed in
+     *
+     * @param {Panel} panel
+     * @returns {string}
+     */
+    static getTabId(panel: Panel): string {
+        let tabContainer: TabContainer = Main.instance.tabContainer;
+        let easyTabs: Array<TabContainerSection> = tabContainer.tabContainerSections;
+
+        return easyTabs[panel].jel.attr("id");
+    }
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    static validateSectionsForCustomerPanel(): boolean {
+        let validated = false;
+
+        if ( !ValidationService.isThereAShippingPanel() ) {
+            validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.BILLING);
+        } else {
+            validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.SHIPPING);
+        }
+
+        return validated;
+    }
+
+    /**
+     * Returns the current and target panel indexes
+     *
+     * @param target
+     * @returns {PanelDirection}
+     */
+    static getPanelDirection(target): PanelDirection {
+        let currentPanelIndex: number = 0;
+        let targetPanelIndex: number = 0;
+
+        Main.instance.tabContainer.tabContainerSections.forEach((tab: TabContainerSection, index: number) => {
+            let $tab: JQuery = tab.jel;
+
+            if($tab.filter(":visible").length !== 0) {
+                currentPanelIndex = index;
+            }
+
+            if($tab.is($(target))) {
+                targetPanelIndex = index;
+            }
+        });
+
+        return <PanelDirection>{ current: currentPanelIndex, target: targetPanelIndex };
+    }
+
+    /**
      * @param {EValidationSections} section
      * @returns {any}
      */
-    validate(section: EValidationSections): any {
+    static validate(section: EValidationSections): any {
         let validated: boolean;
         let checkoutForm: JQuery = $("#checkout");
 
@@ -244,44 +191,55 @@ export class ValidationService {
     }
 
     /**
-     * @returns {Array<JQuery>}
+     * Handles non ajax cases
      */
-    get easyTabsOrder(): Array<JQuery> {
-        return this._easyTabsOrder;
+    static validateShippingOnLoadIfNotCustomerPanel(): void {
+        let hash: string = window.location.hash;
+        let customerInfoId: string = "#cfw-customer-info";
+        let sectionToValidate: EValidationSections = (ValidationService.isThereAShippingPanel()) ? EValidationSections.SHIPPING : EValidationSections.BILLING;
+
+        if(hash != customerInfoId && hash != "") {
+
+            if(!ValidationService.validate(sectionToValidate)) {
+                ValidationService.go(Panel.CUSTOMER);
+            }
+        }
     }
 
     /**
-     * @param {Array<JQuery>} value
-     */
-    set easyTabsOrder(value: Array<JQuery>) {
-        this._easyTabsOrder = value;
-    }
-
-    /**
-     * @returns {TabContainer}
-     */
-    get tabContainer(): TabContainer {
-        return this._tabContainer;
-    }
-
-    /**
-     * @param {TabContainer} value
-     */
-    set tabContainer(value: TabContainer) {
-        this._tabContainer = value;
-    }
-
-    /**
+     * Is there a shipping panel present?
+     *
      * @returns {boolean}
      */
-    static get cityStateValidating(): boolean {
-        return this._cityStateValidating;
+    static isThereAShippingPanel(): boolean {
+        return Main.instance.tabContainer.jel.find('.etabs > li').length !== 2;
     }
 
     /**
-     * @param {boolean} value
+     * @returns {ParsleyService}
      */
-    static set cityStateValidating(value: boolean) {
-        this._cityStateValidating = value;
+    get parsleyService(): ParsleyService {
+        return this._parsleyService;
+    }
+
+    /**
+     * @param {ParsleyService} value
+     */
+    set parsleyService(value: ParsleyService) {
+        this._parsleyService = value;
+    }
+
+    /**
+     * @returns {EasyTabService}
+     */
+    get easyTabService(): EasyTabService {
+        return this._easyTabService;
+    }
+
+    /**
+     * @param {EasyTabService} value
+     */
+    set easyTabService(value: EasyTabService) {
+        this._easyTabService = value;
     }
 }

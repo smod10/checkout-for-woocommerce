@@ -62,13 +62,13 @@ export class Main {
 	 * @param settings
 	 */
 	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
-		this.tabContainer = tabContainer;
-		this.ajaxInfo = ajaxInfo;
-		this.cart = cart;
-		this.settings = settings;
-		this.validationService = new ValidationService(tabContainer);
+        Main.instance = this;
 
-		Main.instance = this;
+        this.tabContainer = tabContainer;
+        this.ajaxInfo = ajaxInfo;
+        this.cart = cart;
+        this.settings = settings;
+		this.validationService = new ValidationService();
 	}
 
 	/**

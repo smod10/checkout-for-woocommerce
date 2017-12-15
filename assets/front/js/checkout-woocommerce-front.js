@@ -84,12 +84,12 @@ var Main = /** @class */ (function () {
      * @param settings
      */
     function Main(tabContainer, ajaxInfo, cart, settings) {
+        Main.instance = this;
         this.tabContainer = tabContainer;
         this.ajaxInfo = ajaxInfo;
         this.cart = cart;
         this.settings = settings;
-        this.validationService = new ValidationService_1.ValidationService(tabContainer);
-        Main.instance = this;
+        this.validationService = new ValidationService_1.ValidationService();
     }
     /**
      * Sets up the tab container by running easy tabs, setting up animation listeners, and setting up events and on load
@@ -682,64 +682,41 @@ exports.Cart = Cart;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var w = window;
+var Main_1 = __webpack_require__(0);
+var ParsleyService_1 = __webpack_require__(26);
+var EasyTabService_1 = __webpack_require__(45);
+/**
+ * Validation Sections Enum
+ */
 var EValidationSections;
 (function (EValidationSections) {
     EValidationSections[EValidationSections["SHIPPING"] = 0] = "SHIPPING";
     EValidationSections[EValidationSections["BILLING"] = 1] = "BILLING";
     EValidationSections[EValidationSections["ACCOUNT"] = 2] = "ACCOUNT";
 })(EValidationSections = exports.EValidationSections || (exports.EValidationSections = {}));
+/**
+ * Panels Enum
+ */
+var Panel;
+(function (Panel) {
+    Panel[Panel["CUSTOMER"] = 0] = "CUSTOMER";
+    Panel[Panel["SHIPPING"] = 1] = "SHIPPING";
+    Panel[Panel["PAYMENT"] = 2] = "PAYMENT";
+})(Panel = exports.Panel || (exports.Panel = {}));
+/**
+ *
+ */
 var ValidationService = /** @class */ (function () {
-    /**
-     * @param {TabContainer} tabContainer
-     */
-    function ValidationService(tabContainer) {
-        /**
-         * @type {Array}
-         * @private
-         */
-        this._easyTabsOrder = [];
-        this.tabContainer = tabContainer;
-        this.easyTabsOrder = [$("#cfw-customer-info"), $("#cfw-shipping-method"), $("#cfw-payment-method")];
-        this.setup();
-    }
     /**
      *
      */
-    ValidationService.prototype.setup = function () {
-        var _this = this;
-        this.setEventListeners();
-        var max_iterations = 1000;
-        var iterations = 0;
+    function ValidationService() {
+        this.parsleyService = new ParsleyService_1.ParsleyService();
+        this.easyTabService = new EasyTabService_1.EasyTabService();
+        this.validateSectionsBeforeSwitch();
         this.floatLabelOnGarlicRetrieve();
-        if (window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
-            if (!this.validate(EValidationSections.SHIPPING)) {
-                window.location.hash = "#cfw-customer-info";
-            }
-        }
-        // Parsley isn't a jquery default, this gets around it.
-        var $temp = $;
-        var shipping_action = function (element) {
-            $("#cfw-tab-container").easytabs("select", "#cfw-customer-info");
-        };
-        if ($temp("#shipping_postcode").length !== 0) {
-            $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
-            $temp("#shipping_state").parsley().on("field:error", shipping_action);
-        }
-        var interval = setInterval(function () {
-            if (w.Parsley !== undefined) {
-                _this.setParsleyCustomValidators(w.Parsley);
-                clearInterval(interval);
-            }
-            else if (iterations >= max_iterations) {
-                // Give up
-                clearInterval(interval);
-            }
-            else {
-                iterations++;
-            }
-        }, 50);
-    };
+        ValidationService.validateShippingOnLoadIfNotCustomerPanel();
+    }
     /**
      * Sometimes in some browsers (looking at you safari and chrome) the label doesn't float when the data is retrieved
      * via garlic. This will fix this issue and float the label like it should.
@@ -754,107 +731,84 @@ var ValidationService = /** @class */ (function () {
         });
     };
     /**
-     * @param parsley
+     * Execute validation checks before each easy tab panel switch.
      */
-    ValidationService.prototype.setParsleyCustomValidators = function (parsley) {
-        parsley.addValidator('stateAndZip', {
-            validateString: function (_ignoreValue, country, instance) {
-                var elementType = instance.$element[0].getAttribute("id").split("_")[0];
-                var stateElement = $("#" + elementType + "_state");
-                var zipElement = $("#" + elementType + "_postcode");
-                var cityElement = $("#" + elementType + "_city");
-                var failLocation = (elementType === "shipping") ? "#cfw-customer-info" : "#cfw-payment-method";
-                var xhr = $.ajax('//www.zippopotam.us/' + country + '/' + zipElement.val());
-                if (!ValidationService.cityStateValidating) {
-                    ValidationService.cityStateValidating = true;
-                    return xhr.then(function (json) {
-                        var ret = null;
-                        var stateResponseValue = "";
-                        var eventName = "";
-                        var cityResponseValue = "";
-                        // Set the state response value
-                        stateResponseValue = json.places[0]["state abbreviation"];
-                        // Set the city response value and set the corresponding city field
-                        cityResponseValue = json.places[0]["place name"];
-                        cityElement.val(cityResponseValue);
-                        var fieldType = $(instance.element).attr("id").split("_")[1];
-                        if (fieldType === "postcode") {
-                            stateElement.val(stateResponseValue);
-                        }
-                        if (stateResponseValue !== stateElement.val()) {
-                            eventName = "cfw:state-zip-failure";
-                            $("#cfw-tab-container").easytabs("select", failLocation);
-                            ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-                        }
-                        else {
-                            eventName = "cfw:state-zip-success";
-                            stateElement.trigger("DOMAttrModified");
-                            $("#" + elementType + "_state").parsley().reset();
-                            $("#" + elementType + "_postcode").parsley().reset();
-                            ret = true;
-                        }
-                        if (w.CREATE_ORDER) {
-                            var event_1 = new Event(eventName);
-                            window.dispatchEvent(event_1);
-                        }
-                        ValidationService.cityStateValidating = false;
-                        cityElement.parsley().reset();
-                        zipElement.parsley().reset();
-                        stateElement.parsley().reset();
-                        return ret;
-                    }).fail(function () {
-                        $("#cfw-tab-container").easytabs("select", failLocation);
-                        if (w.CREATE_ORDER) {
-                            var event_2 = new Event("cfw:state-zip-failure");
-                            window.dispatchEvent(event_2);
-                        }
-                        stateElement.garlic('destroy');
-                        ValidationService.cityStateValidating = false;
-                    });
+    ValidationService.prototype.validateSectionsBeforeSwitch = function () {
+        Main_1.Main.instance.tabContainer.jel.bind('easytabs:before', function (event, clicked, target) {
+            // Where are we going?
+            var panelDirection = ValidationService.getPanelDirection(target);
+            // If we are moving forward in the checkout process and we are currently on the customer tab
+            if (panelDirection.current === Panel.CUSTOMER && panelDirection.target > panelDirection.current) {
+                // Validate the required sections for the customer panel
+                var validated = ValidationService.validateSectionsForCustomerPanel();
+                // If we encountered and error / problem stay on the current tab
+                if (!validated) {
+                    ValidationService.go(panelDirection.current);
                 }
-                return true;
-            }.bind(this),
-            messages: { en: 'Zip is not valid for country "%s"' }
-        });
+                // Return the validation
+                return validated;
+            }
+            // If we are moving forward / backwards, have a shipping panel, and are not on the customer tab then allow
+            // the tab switch
+            return true;
+        }.bind(this));
+    };
+    /**
+     * @param {Panel} panel
+     */
+    ValidationService.go = function (panel) {
+        Main_1.Main.instance.tabContainer.jel.easytabs("select", ValidationService.getTabId(panel));
+    };
+    /**
+     * Returns the id of the Panel passed in
+     *
+     * @param {Panel} panel
+     * @returns {string}
+     */
+    ValidationService.getTabId = function (panel) {
+        var tabContainer = Main_1.Main.instance.tabContainer;
+        var easyTabs = tabContainer.tabContainerSections;
+        return easyTabs[panel].jel.attr("id");
     };
     /**
      *
+     * @returns {boolean}
      */
-    ValidationService.prototype.setEventListeners = function () {
-        this.tabContainer.jel.bind('easytabs:before', function (event, clicked, target, settings) {
-            var currentPanelIndex = 0;
-            var targetPanelIndex = 0;
-            this.easyTabsOrder.forEach(function (tab, index) {
-                if (tab.filter(":visible").length !== 0) {
-                    currentPanelIndex = index;
-                }
-                if (tab.is($(target))) {
-                    targetPanelIndex = index;
-                }
-            });
-            if (targetPanelIndex > currentPanelIndex) {
-                if (currentPanelIndex === 0) {
-                    var validated = false;
-                    if (this.tabContainer.jel.find('.etabs > li').length == 2) {
-                        validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.BILLING);
-                    }
-                    else {
-                        validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.SHIPPING);
-                    }
-                    if (!validated) {
-                        window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");
-                    }
-                    return validated;
-                }
+    ValidationService.validateSectionsForCustomerPanel = function () {
+        var validated = false;
+        if (!ValidationService.isThereAShippingPanel()) {
+            validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.BILLING);
+        }
+        else {
+            validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.SHIPPING);
+        }
+        return validated;
+    };
+    /**
+     * Returns the current and target panel indexes
+     *
+     * @param target
+     * @returns {PanelDirection}
+     */
+    ValidationService.getPanelDirection = function (target) {
+        var currentPanelIndex = 0;
+        var targetPanelIndex = 0;
+        Main_1.Main.instance.tabContainer.tabContainerSections.forEach(function (tab, index) {
+            var $tab = tab.jel;
+            if ($tab.filter(":visible").length !== 0) {
+                currentPanelIndex = index;
             }
-            return true;
-        }.bind(this));
+            if ($tab.is($(target))) {
+                targetPanelIndex = index;
+            }
+        });
+        return { current: currentPanelIndex, target: targetPanelIndex };
     };
     /**
      * @param {EValidationSections} section
      * @returns {any}
      */
-    ValidationService.prototype.validate = function (section) {
+    ValidationService.validate = function (section) {
         var validated;
         var checkoutForm = $("#checkout");
         switch (section) {
@@ -872,59 +826,59 @@ var ValidationService = /** @class */ (function () {
             validated = true;
         return validated;
     };
-    Object.defineProperty(ValidationService.prototype, "easyTabsOrder", {
-        /**
-         * @returns {Array<JQuery>}
-         */
-        get: function () {
-            return this._easyTabsOrder;
-        },
-        /**
-         * @param {Array<JQuery>} value
-         */
-        set: function (value) {
-            this._easyTabsOrder = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ValidationService.prototype, "tabContainer", {
-        /**
-         * @returns {TabContainer}
-         */
-        get: function () {
-            return this._tabContainer;
-        },
-        /**
-         * @param {TabContainer} value
-         */
-        set: function (value) {
-            this._tabContainer = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ValidationService, "cityStateValidating", {
-        /**
-         * @returns {boolean}
-         */
-        get: function () {
-            return this._cityStateValidating;
-        },
-        /**
-         * @param {boolean} value
-         */
-        set: function (value) {
-            this._cityStateValidating = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
-     * @type {boolean}
-     * @private
+     * Handles non ajax cases
      */
-    ValidationService._cityStateValidating = false;
+    ValidationService.validateShippingOnLoadIfNotCustomerPanel = function () {
+        var hash = window.location.hash;
+        var customerInfoId = "#cfw-customer-info";
+        var sectionToValidate = (ValidationService.isThereAShippingPanel()) ? EValidationSections.SHIPPING : EValidationSections.BILLING;
+        if (hash != customerInfoId && hash != "") {
+            if (!ValidationService.validate(sectionToValidate)) {
+                ValidationService.go(Panel.CUSTOMER);
+            }
+        }
+    };
+    /**
+     * Is there a shipping panel present?
+     *
+     * @returns {boolean}
+     */
+    ValidationService.isThereAShippingPanel = function () {
+        return Main_1.Main.instance.tabContainer.jel.find('.etabs > li').length !== 2;
+    };
+    Object.defineProperty(ValidationService.prototype, "parsleyService", {
+        /**
+         * @returns {ParsleyService}
+         */
+        get: function () {
+            return this._parsleyService;
+        },
+        /**
+         * @param {ParsleyService} value
+         */
+        set: function (value) {
+            this._parsleyService = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ValidationService.prototype, "easyTabService", {
+        /**
+         * @returns {EasyTabService}
+         */
+        get: function () {
+            return this._easyTabService;
+        },
+        /**
+         * @param {EasyTabService} value
+         */
+        set: function (value) {
+            this._easyTabService = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return ValidationService;
 }());
 exports.ValidationService = ValidationService;
@@ -1365,9 +1319,9 @@ module.exports = "// Find polyfill\r\nif (!Array.prototype.find) {\r\n\tArray.pr
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Main_1 = __webpack_require__(0);
-var TabContainer_1 = __webpack_require__(26);
-var TabContainerBreadcrumb_1 = __webpack_require__(34);
-var TabContainerSection_1 = __webpack_require__(35);
+var TabContainer_1 = __webpack_require__(27);
+var TabContainerBreadcrumb_1 = __webpack_require__(35);
+var TabContainerSection_1 = __webpack_require__(36);
 var Cart_1 = __webpack_require__(5);
 /**
  * This is our main kick off file. We used to do this in a require block in the Redirect file but since we've moved to
@@ -1415,6 +1369,199 @@ w.addEventListener("cfw-initialize", function (eventData) {
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
+var ValidationService_1 = __webpack_require__(6);
+var ValidationService_2 = __webpack_require__(6);
+var w = window;
+var ParsleyService = /** @class */ (function () {
+    /**
+     *
+     */
+    function ParsleyService() {
+        this.setParsleyValidators();
+        this.handleStateZipFailure();
+    }
+    /**
+     *
+     */
+    ParsleyService.prototype.handleStateZipFailure = function () {
+        // Parsley isn't a jquery default, this gets around it.
+        var $temp = $;
+        var shipping_action = function () { return ValidationService_1.ValidationService.go(ValidationService_2.Panel.CUSTOMER); };
+        if ($temp("#shipping_postcode").length !== 0) {
+            $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
+            $temp("#shipping_state").parsley().on("field:error", shipping_action);
+        }
+    };
+    /**
+     *
+     */
+    ParsleyService.prototype.setParsleyValidators = function () {
+        var _this = this;
+        var max_iterations = 1000;
+        var iterations = 0;
+        var interval = setInterval(function () {
+            if (w.Parsley !== undefined) {
+                _this.parsley = w.Parsley;
+                _this.setParsleyCustomValidators();
+                $("#checkout").parsley().on("form:error", function (data) {
+                    console.log("Data", $.makeArray(data._focusedField));
+                });
+                clearInterval(interval);
+            }
+            else if (iterations >= max_iterations) {
+                // Give up
+                clearInterval(interval);
+            }
+            else {
+                iterations++;
+            }
+        }, 50);
+    };
+    /**
+     *
+     * @param {string} id
+     * @returns {string}
+     */
+    ParsleyService.getInfoType = function (id) {
+        var type = id.split("_")[0];
+        if (type !== "shipping" && type !== "billing") {
+            return "error";
+        }
+        return type;
+    };
+    /**
+     * @param {string} infoType
+     * @returns {string}
+     */
+    ParsleyService.getFailLocation = function (infoType) {
+        return (infoType === "shipping") ? "#cfw-customer-info" : "#cfw-payment-method";
+    };
+    /**
+     *
+     */
+    ParsleyService.prototype.setParsleyCustomValidators = function () {
+        this.stateAndZipValidator();
+    };
+    /**
+     *
+     */
+    ParsleyService.prototype.stateAndZipValidator = function () {
+        this.parsley.addValidator('stateAndZip', {
+            validateString: function (_ignoreValue, country, instance) {
+                var _this = this;
+                var infoType = ParsleyService.getInfoType(instance.$element[0].getAttribute("id"));
+                var failLocation = ParsleyService.getFailLocation(infoType);
+                var zipElement = $("#" + infoType + "_postcode");
+                var stateElement = $("#" + infoType + "_state");
+                var cityElement = $("#" + infoType + "_city");
+                var requestLocation = "//www.zippopotam.us/" + country + "/" + zipElement.val();
+                var xhr = $.ajax(requestLocation);
+                if (!ParsleyService.cityStateValidating) {
+                    ParsleyService.cityStateValidating = true;
+                    return xhr
+                        .then(function (response) { return _this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation); })
+                        .fail(function () { return _this.stateAndZipValidatorOnFail(failLocation, stateElement, instance); });
+                }
+                return true;
+            }.bind(this),
+            messages: { en: 'Zip is not valid for country "%s"' }
+        });
+    };
+    ParsleyService.prototype.stateAndZipValidatorOnFail = function (failLocation, stateElement, instance) {
+        console.log("FAIL", failLocation, ParsleyService.getInfoType(instance.$element[0].getAttribute("id")));
+        $("#cfw-tab-container").easytabs("select", failLocation);
+        if (w.CREATE_ORDER) {
+            var event_1 = new Event("cfw:state-zip-failure");
+            window.dispatchEvent(event_1);
+        }
+        stateElement.garlic('destroy');
+        ParsleyService.cityStateValidating = false;
+    };
+    ParsleyService.prototype.stateAndZipValidatorOnSuccess = function (json, instance, infoType, cityElement, stateElement, zipElement, failLocation) {
+        var ret = null;
+        var eventName = "";
+        // Set the state response value
+        var stateResponseValue = json.places[0]["state abbreviation"];
+        // Set the city response value
+        var cityResponseValue = json.places[0]["place name"];
+        var fieldType = $(instance.element).attr("id").split("_")[1];
+        // Set the city field
+        cityElement.val(cityResponseValue);
+        // Set the state element if the field type is postcode
+        if (fieldType === "postcode") {
+            stateElement.val(stateResponseValue);
+        }
+        if (stateResponseValue !== stateElement.val()) {
+            eventName = "cfw:state-zip-failure";
+            $("#cfw-tab-container").easytabs("select", failLocation);
+            ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
+        }
+        else {
+            eventName = "cfw:state-zip-success";
+            stateElement.trigger("DOMAttrModified");
+            $("#" + infoType + "_state").parsley().reset();
+            $("#" + infoType + "_postcode").parsley().reset();
+            ret = true;
+        }
+        if (w.CREATE_ORDER) {
+            var event_2 = new Event(eventName);
+            window.dispatchEvent(event_2);
+        }
+        ParsleyService.cityStateValidating = false;
+        cityElement.parsley().reset();
+        zipElement.parsley().reset();
+        stateElement.parsley().reset();
+        return ret;
+    };
+    Object.defineProperty(ParsleyService.prototype, "parsley", {
+        /**
+         * @returns {any}
+         */
+        get: function () {
+            return this._parsley;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._parsley = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ParsleyService, "cityStateValidating", {
+        /**
+         * @returns {boolean}
+         */
+        get: function () {
+            return this._cityStateValidating;
+        },
+        /**
+         * @param {boolean} value
+         */
+        set: function (value) {
+            this._cityStateValidating = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @type {boolean}
+     * @private
+     */
+    ParsleyService._cityStateValidating = false;
+    return ParsleyService;
+}());
+exports.ParsleyService = ParsleyService;
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1427,15 +1574,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Element_1 = __webpack_require__(2);
-var AccountExistsAction_1 = __webpack_require__(27);
-var LoginAction_1 = __webpack_require__(28);
-var UpdateShippingFieldsAction_1 = __webpack_require__(29);
-var UpdateShippingMethodAction_1 = __webpack_require__(30);
-var CompleteOrderAction_1 = __webpack_require__(31);
+var AccountExistsAction_1 = __webpack_require__(28);
+var LoginAction_1 = __webpack_require__(29);
+var UpdateShippingFieldsAction_1 = __webpack_require__(30);
+var UpdateShippingMethodAction_1 = __webpack_require__(31);
+var CompleteOrderAction_1 = __webpack_require__(32);
 var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(6);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
-var ApplyCouponAction_1 = __webpack_require__(33);
+var ApplyCouponAction_1 = __webpack_require__(34);
 /**
  *
  */
@@ -1985,7 +2132,7 @@ var TabContainer = /** @class */ (function (_super) {
                 w.addEventListener("cfw:state-zip-failure", function () {
                     w.CREATE_ORDER = false;
                 }.bind(_this), { once: true });
-                createOrder = Main_1.Main.instance.validationService.validate(ValidationService_1.EValidationSections.BILLING);
+                createOrder = ValidationService_1.ValidationService.validate(ValidationService_1.EValidationSections.BILLING);
             }
             else {
                 new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, _this.getOrderDetails());
@@ -2067,7 +2214,7 @@ exports.TabContainer = TabContainer;
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2188,7 +2335,7 @@ exports.AccountExistsAction = AccountExistsAction;
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2263,7 +2410,7 @@ exports.LoginAction = LoginAction;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2428,7 +2575,7 @@ exports.UpdateShippingFieldsAction = UpdateShippingFieldsAction;
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2524,7 +2671,7 @@ exports.UpdateShippingMethodAction = UpdateShippingMethodAction;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2541,7 +2688,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
-var StripeService_1 = __webpack_require__(32);
+var StripeService_1 = __webpack_require__(33);
 var Alert_1 = __webpack_require__(7);
 var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(6);
@@ -2741,9 +2888,9 @@ var CompleteOrderAction = /** @class */ (function (_super) {
         $("#_wpnonce").val(this.data._wpnonce);
         $("[name='_wp_http_referer']").val(this.data._wp_http_referer);
         $("#cfw-login-btn").val("Login");
-        Main_1.Main.instance.validationService.validate(ValidationService_1.EValidationSections.SHIPPING);
-        Main_1.Main.instance.validationService.validate(ValidationService_1.EValidationSections.BILLING);
-        Main_1.Main.instance.validationService.validate(ValidationService_1.EValidationSections.ACCOUNT);
+        ValidationService_1.ValidationService.validate(ValidationService_1.EValidationSections.SHIPPING);
+        ValidationService_1.ValidationService.validate(ValidationService_1.EValidationSections.BILLING);
+        ValidationService_1.ValidationService.validate(ValidationService_1.EValidationSections.ACCOUNT);
     };
     return CompleteOrderAction;
 }(Action_1.Action));
@@ -2751,7 +2898,7 @@ exports.CompleteOrderAction = CompleteOrderAction;
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2863,7 +3010,7 @@ exports.StripeService = StripeService;
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2983,7 +3130,7 @@ exports.ApplyCouponAction = ApplyCouponAction;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3018,7 +3165,7 @@ exports.TabContainerBreadcrumb = TabContainerBreadcrumb;
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3035,9 +3182,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Element_1 = __webpack_require__(2);
-var InputLabelWrap_1 = __webpack_require__(36);
+var InputLabelWrap_1 = __webpack_require__(37);
 var LabelType_1 = __webpack_require__(10);
-var SelectLabelWrap_1 = __webpack_require__(37);
+var SelectLabelWrap_1 = __webpack_require__(38);
 /**
  *
  */
@@ -3267,7 +3414,7 @@ exports.TabContainerSection = TabContainerSection;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3309,7 +3456,7 @@ exports.InputLabelWrap = InputLabelWrap;
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3351,6 +3498,27 @@ var SelectLabelWrap = /** @class */ (function (_super) {
     return SelectLabelWrap;
 }(FormElement_1.FormElement));
 exports.SelectLabelWrap = SelectLabelWrap;
+
+
+/***/ }),
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var EasyTabService = /** @class */ (function () {
+    function EasyTabService() {
+    }
+    return EasyTabService;
+}());
+exports.EasyTabService = EasyTabService;
 
 
 /***/ })

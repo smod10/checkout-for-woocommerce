@@ -13,7 +13,7 @@ import { UpdateShippingMethodAction }       from "../Actions/UpdateShippingMetho
 import { Cart }                             from "./Cart";
 import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
 import { Main }                             from "../Main";
-import { EValidationSections }              from "../Services/ValidationService";
+import {EValidationSections, ValidationService} from "../Services/ValidationService";
 import { UpdateCheckoutAction }             from "../Actions/UpdateCheckoutAction";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 
@@ -683,7 +683,7 @@ export class TabContainer extends Element {
                     w.CREATE_ORDER = false;
                 }.bind(this), { once: true });
 
-                createOrder = Main.instance.validationService.validate(EValidationSections.BILLING);
+                createOrder = ValidationService.validate(EValidationSections.BILLING);
             } else {
                 new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
             }

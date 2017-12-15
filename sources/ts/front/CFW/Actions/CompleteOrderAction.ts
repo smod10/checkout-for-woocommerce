@@ -8,7 +8,7 @@ import { StripeService }                        from "../Services/StripeService"
 import { AlertInfo }                            from "../Elements/Alert";
 import { Alert }                                from "../Elements/Alert";
 import { Main }                                 from "../Main";
-import { EValidationSections }                  from "../Services/ValidationService";
+import {EValidationSections, ValidationService} from "../Services/ValidationService";
 
 export class CompleteOrderAction extends Action {
 
@@ -247,8 +247,8 @@ export class CompleteOrderAction extends Action {
         $("[name='_wp_http_referer']").val(this.data._wp_http_referer);
         $("#cfw-login-btn").val("Login");
 
-        Main.instance.validationService.validate(EValidationSections.SHIPPING);
-        Main.instance.validationService.validate(EValidationSections.BILLING);
-        Main.instance.validationService.validate(EValidationSections.ACCOUNT);
+        ValidationService.validate(EValidationSections.SHIPPING);
+        ValidationService.validate(EValidationSections.BILLING);
+        ValidationService.validate(EValidationSections.ACCOUNT);
     }
 }

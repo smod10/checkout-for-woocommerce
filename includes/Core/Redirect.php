@@ -32,6 +32,8 @@ class Redirect {
 				exit;
 			}
 
+			wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
+
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());
 

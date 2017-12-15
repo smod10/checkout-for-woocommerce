@@ -3,6 +3,8 @@ import { EasyTab }                                  from "./EasyTabService";
 
 let w: any = window;
 
+export type InfoType = "shipping" | "billing" | "error";
+
 export class ParsleyService {
 
     /**
@@ -23,6 +25,13 @@ export class ParsleyService {
     constructor() {
         this.setParsleyValidators();
         this.handleStateZipFailure();
+    }
+
+    /**
+     *
+     */
+    setParsleyCustomValidators(): void {
+        this.stateAndZipValidator();
     }
 
     /**
@@ -63,59 +72,33 @@ export class ParsleyService {
 
     /**
      *
-     * @param {string} id
-     * @returns {string}
-     */
-    static getInfoType(id: string): string {
-        let type: string = id.split("_")[0];
-
-        if(type !== "shipping" && type !== "billing") {
-            return "error"
-        }
-
-        return type;
-    }
-
-    /**
-     * @param {string} infoType
-     * @returns {string}
-     */
-    static getFailLocation(infoType: string): string {
-        let customerTabId: string = EasyTabService.getTabId(EasyTab.CUSTOMER);
-        let paymentTabId: string = EasyTabService.getTabId(EasyTab.PAYMENT);
-
-        let location: string = (infoType === "shipping") ? customerTabId : paymentTabId;
-
-        if(!EasyTabService.isThereAShippingTab()) {
-            location = customerTabId;
-        }
-
-        return location;
-    }
-
-    /**
-     *
-     */
-    setParsleyCustomValidators(): void {
-        this.stateAndZipValidator();
-    }
-
-    /**
-     *
      */
     stateAndZipValidator(): void {
         this.parsley.addValidator('stateAndZip', {
             validateString: function(_ignoreValue, country, instance) {
                 // Is it shipping or billing type of state and zip
-                let infoType: string = ParsleyService.getInfoType(instance.$element[0].getAttribute("id"));
+                let infoType: InfoType = ParsleyService.getInfoType(instance.$element[0].getAttribute("id"));
+
+                // Fail if info type is error. Something went wrong.
+                if(infoType === "error") {
+                    return false;
+                }
 
                 // If this goes south, where do we go (what tab)
-                let failLocation: string = ParsleyService.getFailLocation(infoType);
+                let failLocation: EasyTab = ParsleyService.getFailLocation(infoType);
 
                 // Zip, State, and City
-                let zipElement = $(`#${infoType}_postcode`);
-                let stateElement = $(`#${infoType}_state`);
-                let cityElement = $(`#${infoType}_city`);
+                let zipElement: JQuery = $(`#${infoType}_postcode`);
+                let stateElement: JQuery = $(`#${infoType}_state`);
+                let cityElement: JQuery = $(`#${infoType}_city`);
+
+                // Pass the original state element to the fail callback. Even if it's hidden we want to destroy the garlic cache
+                let failStateElement: JQuery = stateElement;
+
+                // If the stateElement is not visible, it's null
+                if(!stateElement.is(":visible")) {
+                    stateElement = null;
+                }
 
                 // Where to check the zip
                 let requestLocation = `//www.zippopotam.us/${country}/${zipElement.val()}`;
@@ -131,7 +114,7 @@ export class ParsleyService {
 
                     return xhr
                         .then((response) => this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation))
-                        .fail(() => this.stateAndZipValidatorOnFail(failLocation, stateElement, instance))
+                        .fail(() => this.stateAndZipValidatorOnFail(failLocation, failStateElement, instance))
                 }
 
                 // Return true, if we fail we will go back.
@@ -143,12 +126,12 @@ export class ParsleyService {
 
     /**
      *
-     * @param failLocation
-     * @param stateElement
-     * @param instance
+     * @param {EasyTab} failLocation
+     * @param {JQuery} stateElement
+     * @param {any} instance
      */
-    stateAndZipValidatorOnFail(failLocation, stateElement, instance): void {
-        $("#cfw-tab-container").easytabs("select", failLocation);
+    stateAndZipValidatorOnFail(failLocation: EasyTab, stateElement: JQuery, instance: any): void {
+        EasyTabService.go(failLocation);
 
         if(w.CREATE_ORDER) {
             let event = new Event("cfw:state-zip-failure");
@@ -164,13 +147,13 @@ export class ParsleyService {
      *
      * @param json
      * @param instance
-     * @param infoType
-     * @param cityElement
-     * @param stateElement
-     * @param zipElement
-     * @param failLocation
+     * @param {InfoType} infoType
+     * @param {JQuery} cityElement
+     * @param {JQuery} stateElement
+     * @param {JQuery} zipElement
+     * @param {EasyTab} failLocation
      */
-    stateAndZipValidatorOnSuccess(json, instance, infoType, cityElement, stateElement, zipElement, failLocation): void {
+    stateAndZipValidatorOnSuccess(json, instance, infoType: InfoType, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab): void {
         let ret = null;
         let eventName = "";
 
@@ -185,26 +168,27 @@ export class ParsleyService {
         // Set the city field
         cityElement.val(cityResponseValue);
 
-        // Set the state element if the field type is postcode
-        if(fieldType === "postcode") {
-            stateElement.val(stateResponseValue);
-        }
+        // If the country in question has a state
+        if(stateElement) {
 
-        if (stateResponseValue !== stateElement.val()) {
-            eventName = "cfw:state-zip-failure";
+            // Set the state element if the field type is postcode
+            if(fieldType === "postcode") {
+                stateElement.val(stateResponseValue);
+            }
 
-            $("#cfw-tab-container").easytabs("select", failLocation);
+            if (stateResponseValue !== stateElement.val()) {
+                eventName = "cfw:state-zip-failure";
 
-            ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-        } else {
-            eventName = "cfw:state-zip-success";
+                EasyTabService.go(failLocation);
 
-            stateElement.trigger("DOMAttrModified");
+                ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
+            } else {
+                eventName = "cfw:state-zip-success";
 
-            $("#" + infoType + "_state").parsley().reset();
-            $("#" + infoType + "_postcode").parsley().reset();
+                stateElement.trigger("DOMAttrModified");
 
-            ret = true;
+                ret = true;
+            }
         }
 
         if(w.CREATE_ORDER) {
@@ -213,12 +197,45 @@ export class ParsleyService {
         }
 
         ParsleyService.cityStateValidating = false;
-
-        cityElement.parsley().reset();
-        zipElement.parsley().reset();
-        stateElement.parsley().reset();
+        ParsleyService.resetElements(cityElement, zipElement, stateElement);
 
         return ret;
+    }
+
+    /**
+     *
+     * @param {string} id
+     * @returns {InfoType}
+     */
+    static getInfoType(id: string): InfoType {
+        let type: string = id.split("_")[0];
+
+        if(type !== "shipping" && type !== "billing") {
+            return "error"
+        }
+
+        return type;
+    }
+
+    /**
+     * @param {InfoType} infoType
+     * @returns {EasyTab}
+     */
+    static getFailLocation(infoType: InfoType): EasyTab {
+        let location: EasyTab = (infoType === "shipping") ? EasyTab.CUSTOMER : EasyTab.PAYMENT;
+
+        if(!EasyTabService.isThereAShippingTab()) {
+            location = EasyTab.CUSTOMER;
+        }
+
+        return location;
+    }
+
+    /**
+     * @param elements
+     */
+    static resetElements(...elements) {
+        elements.forEach(element => element.parsley().reset());
     }
 
     /**

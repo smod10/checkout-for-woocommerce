@@ -1319,6 +1319,12 @@ var ParsleyService = /** @class */ (function () {
     /**
      *
      */
+    ParsleyService.prototype.setParsleyCustomValidators = function () {
+        this.stateAndZipValidator();
+    };
+    /**
+     *
+     */
     ParsleyService.prototype.handleStateZipFailure = function () {
         // Parsley isn't a jquery default, this gets around it.
         var $temp = $;
@@ -1352,37 +1358,6 @@ var ParsleyService = /** @class */ (function () {
     };
     /**
      *
-     * @param {string} id
-     * @returns {string}
-     */
-    ParsleyService.getInfoType = function (id) {
-        var type = id.split("_")[0];
-        if (type !== "shipping" && type !== "billing") {
-            return "error";
-        }
-        return type;
-    };
-    /**
-     * @param {string} infoType
-     * @returns {string}
-     */
-    ParsleyService.getFailLocation = function (infoType) {
-        var customerTabId = EasyTabService_1.EasyTabService.getTabId(EasyTabService_2.EasyTab.CUSTOMER);
-        var paymentTabId = EasyTabService_1.EasyTabService.getTabId(EasyTabService_2.EasyTab.PAYMENT);
-        var location = (infoType === "shipping") ? customerTabId : paymentTabId;
-        if (!EasyTabService_1.EasyTabService.isThereAShippingTab()) {
-            location = customerTabId;
-        }
-        return location;
-    };
-    /**
-     *
-     */
-    ParsleyService.prototype.setParsleyCustomValidators = function () {
-        this.stateAndZipValidator();
-    };
-    /**
-     *
      */
     ParsleyService.prototype.stateAndZipValidator = function () {
         this.parsley.addValidator('stateAndZip', {
@@ -1390,12 +1365,22 @@ var ParsleyService = /** @class */ (function () {
                 var _this = this;
                 // Is it shipping or billing type of state and zip
                 var infoType = ParsleyService.getInfoType(instance.$element[0].getAttribute("id"));
+                // Fail if info type is error. Something went wrong.
+                if (infoType === "error") {
+                    return false;
+                }
                 // If this goes south, where do we go (what tab)
                 var failLocation = ParsleyService.getFailLocation(infoType);
                 // Zip, State, and City
                 var zipElement = $("#" + infoType + "_postcode");
                 var stateElement = $("#" + infoType + "_state");
                 var cityElement = $("#" + infoType + "_city");
+                // Pass the original state element to the fail callback. Even if it's hidden we want to destroy the garlic cache
+                var failStateElement = stateElement;
+                // If the stateElement is not visible, it's null
+                if (!stateElement.is(":visible")) {
+                    stateElement = null;
+                }
                 // Where to check the zip
                 var requestLocation = "//www.zippopotam.us/" + country + "/" + zipElement.val();
                 // Our request
@@ -1406,7 +1391,7 @@ var ParsleyService = /** @class */ (function () {
                     ParsleyService.cityStateValidating = true;
                     return xhr
                         .then(function (response) { return _this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation); })
-                        .fail(function () { return _this.stateAndZipValidatorOnFail(failLocation, stateElement, instance); });
+                        .fail(function () { return _this.stateAndZipValidatorOnFail(failLocation, failStateElement, instance); });
                 }
                 // Return true, if we fail we will go back.
                 return true;
@@ -1416,12 +1401,12 @@ var ParsleyService = /** @class */ (function () {
     };
     /**
      *
-     * @param failLocation
-     * @param stateElement
-     * @param instance
+     * @param {EasyTab} failLocation
+     * @param {JQuery} stateElement
+     * @param {any} instance
      */
     ParsleyService.prototype.stateAndZipValidatorOnFail = function (failLocation, stateElement, instance) {
-        $("#cfw-tab-container").easytabs("select", failLocation);
+        EasyTabService_1.EasyTabService.go(failLocation);
         if (w.CREATE_ORDER) {
             var event_1 = new Event("cfw:state-zip-failure");
             window.dispatchEvent(event_1);
@@ -1433,11 +1418,11 @@ var ParsleyService = /** @class */ (function () {
      *
      * @param json
      * @param instance
-     * @param infoType
-     * @param cityElement
-     * @param stateElement
-     * @param zipElement
-     * @param failLocation
+     * @param {InfoType} infoType
+     * @param {JQuery} cityElement
+     * @param {JQuery} stateElement
+     * @param {JQuery} zipElement
+     * @param {EasyTab} failLocation
      */
     ParsleyService.prototype.stateAndZipValidatorOnSuccess = function (json, instance, infoType, cityElement, stateElement, zipElement, failLocation) {
         var ret = null;
@@ -1449,31 +1434,63 @@ var ParsleyService = /** @class */ (function () {
         var fieldType = $(instance.element).attr("id").split("_")[1];
         // Set the city field
         cityElement.val(cityResponseValue);
-        // Set the state element if the field type is postcode
-        if (fieldType === "postcode") {
-            stateElement.val(stateResponseValue);
-        }
-        if (stateResponseValue !== stateElement.val()) {
-            eventName = "cfw:state-zip-failure";
-            $("#cfw-tab-container").easytabs("select", failLocation);
-            ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-        }
-        else {
-            eventName = "cfw:state-zip-success";
-            stateElement.trigger("DOMAttrModified");
-            $("#" + infoType + "_state").parsley().reset();
-            $("#" + infoType + "_postcode").parsley().reset();
-            ret = true;
+        // If the country in question has a state
+        if (stateElement) {
+            // Set the state element if the field type is postcode
+            if (fieldType === "postcode") {
+                stateElement.val(stateResponseValue);
+            }
+            if (stateResponseValue !== stateElement.val()) {
+                eventName = "cfw:state-zip-failure";
+                EasyTabService_1.EasyTabService.go(failLocation);
+                ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
+            }
+            else {
+                eventName = "cfw:state-zip-success";
+                stateElement.trigger("DOMAttrModified");
+                ret = true;
+            }
         }
         if (w.CREATE_ORDER) {
             var event_2 = new Event(eventName);
             window.dispatchEvent(event_2);
         }
         ParsleyService.cityStateValidating = false;
-        cityElement.parsley().reset();
-        zipElement.parsley().reset();
-        stateElement.parsley().reset();
+        ParsleyService.resetElements(cityElement, zipElement, stateElement);
         return ret;
+    };
+    /**
+     *
+     * @param {string} id
+     * @returns {InfoType}
+     */
+    ParsleyService.getInfoType = function (id) {
+        var type = id.split("_")[0];
+        if (type !== "shipping" && type !== "billing") {
+            return "error";
+        }
+        return type;
+    };
+    /**
+     * @param {InfoType} infoType
+     * @returns {EasyTab}
+     */
+    ParsleyService.getFailLocation = function (infoType) {
+        var location = (infoType === "shipping") ? EasyTabService_2.EasyTab.CUSTOMER : EasyTabService_2.EasyTab.PAYMENT;
+        if (!EasyTabService_1.EasyTabService.isThereAShippingTab()) {
+            location = EasyTabService_2.EasyTab.CUSTOMER;
+        }
+        return location;
+    };
+    /**
+     * @param elements
+     */
+    ParsleyService.resetElements = function () {
+        var elements = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            elements[_i] = arguments[_i];
+        }
+        elements.forEach(function (element) { return element.parsley().reset(); });
     };
     Object.defineProperty(ParsleyService.prototype, "parsley", {
         /**

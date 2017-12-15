@@ -1435,7 +1435,13 @@ var ParsleyService = /** @class */ (function () {
      * @returns {string}
      */
     ParsleyService.getFailLocation = function (infoType) {
-        return (infoType === "shipping") ? "#cfw-customer-info" : "#cfw-payment-method";
+        var customerTabId = ValidationService_1.ValidationService.getTabId(ValidationService_2.Panel.CUSTOMER);
+        var paymentTabId = ValidationService_1.ValidationService.getTabId(ValidationService_2.Panel.PAYMENT);
+        var location = (infoType === "shipping") ? customerTabId : paymentTabId;
+        if (!ValidationService_1.ValidationService.isThereAShippingPanel()) {
+            location = customerTabId;
+        }
+        return location;
     };
     /**
      *
@@ -1450,24 +1456,38 @@ var ParsleyService = /** @class */ (function () {
         this.parsley.addValidator('stateAndZip', {
             validateString: function (_ignoreValue, country, instance) {
                 var _this = this;
+                // Is it shipping or billing type of state and zip
                 var infoType = ParsleyService.getInfoType(instance.$element[0].getAttribute("id"));
+                // If this goes south, where do we go (what tab)
                 var failLocation = ParsleyService.getFailLocation(infoType);
+                // Zip, State, and City
                 var zipElement = $("#" + infoType + "_postcode");
                 var stateElement = $("#" + infoType + "_state");
                 var cityElement = $("#" + infoType + "_city");
+                // Where to check the zip
                 var requestLocation = "//www.zippopotam.us/" + country + "/" + zipElement.val();
+                // Our request
                 var xhr = $.ajax(requestLocation);
+                // If we aren't already checking, check.
                 if (!ParsleyService.cityStateValidating) {
+                    // Start the check
                     ParsleyService.cityStateValidating = true;
                     return xhr
                         .then(function (response) { return _this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation); })
                         .fail(function () { return _this.stateAndZipValidatorOnFail(failLocation, stateElement, instance); });
                 }
+                // Return true, if we fail we will go back.
                 return true;
             }.bind(this),
             messages: { en: 'Zip is not valid for country "%s"' }
         });
     };
+    /**
+     *
+     * @param failLocation
+     * @param stateElement
+     * @param instance
+     */
     ParsleyService.prototype.stateAndZipValidatorOnFail = function (failLocation, stateElement, instance) {
         console.log("FAIL", failLocation, ParsleyService.getInfoType(instance.$element[0].getAttribute("id")));
         $("#cfw-tab-container").easytabs("select", failLocation);
@@ -1478,6 +1498,16 @@ var ParsleyService = /** @class */ (function () {
         stateElement.garlic('destroy');
         ParsleyService.cityStateValidating = false;
     };
+    /**
+     *
+     * @param json
+     * @param instance
+     * @param infoType
+     * @param cityElement
+     * @param stateElement
+     * @param zipElement
+     * @param failLocation
+     */
     ParsleyService.prototype.stateAndZipValidatorOnSuccess = function (json, instance, infoType, cityElement, stateElement, zipElement, failLocation) {
         var ret = null;
         var eventName = "";

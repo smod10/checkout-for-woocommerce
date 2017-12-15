@@ -122,6 +122,7 @@ var Main = /** @class */ (function () {
         this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
         this.tabContainer.setTermsAndConditions();
         this.tabContainer.setUpdateCheckout();
+        this.tabContainer.setFloatLabelOnGarlicRetrieve();
         // Handles the shipping fields on load if the user happens to land on the shipping method page.
         this.tabContainer.setShippingFieldsOnLoad();
     };
@@ -714,22 +715,8 @@ var ValidationService = /** @class */ (function () {
         this.parsleyService = new ParsleyService_1.ParsleyService();
         this.easyTabService = new EasyTabService_1.EasyTabService();
         this.validateSectionsBeforeSwitch();
-        this.floatLabelOnGarlicRetrieve();
         ValidationService.validateShippingOnLoadIfNotCustomerPanel();
     }
-    /**
-     * Sometimes in some browsers (looking at you safari and chrome) the label doesn't float when the data is retrieved
-     * via garlic. This will fix this issue and float the label like it should.
-     */
-    ValidationService.prototype.floatLabelOnGarlicRetrieve = function () {
-        $(".garlic-auto-save").each(function (index, elem) {
-            $(elem).garlic({
-                onRetrieve: function (element, retrievedValue) {
-                    $(element).parent().addClass("cfw-floating-label");
-                }
-            });
-        });
-    };
     /**
      * Execute validation checks before each easy tab panel switch.
      */
@@ -1404,9 +1391,6 @@ var ParsleyService = /** @class */ (function () {
             if (w.Parsley !== undefined) {
                 _this.parsley = w.Parsley;
                 _this.setParsleyCustomValidators();
-                $("#checkout").parsley().on("form:error", function (data) {
-                    console.log("Data", $.makeArray(data._focusedField));
-                });
                 clearInterval(interval);
             }
             else if (iterations >= max_iterations) {
@@ -1489,7 +1473,6 @@ var ParsleyService = /** @class */ (function () {
      * @param instance
      */
     ParsleyService.prototype.stateAndZipValidatorOnFail = function (failLocation, stateElement, instance) {
-        console.log("FAIL", failLocation, ParsleyService.getInfoType(instance.$element[0].getAttribute("id")));
         $("#cfw-tab-container").easytabs("select", failLocation);
         if (w.CREATE_ORDER) {
             var event_1 = new Event("cfw:state-zip-failure");
@@ -1606,11 +1589,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Element_1 = __webpack_require__(2);
 var AccountExistsAction_1 = __webpack_require__(28);
 var LoginAction_1 = __webpack_require__(29);
+var FormElement_1 = __webpack_require__(9);
 var UpdateShippingFieldsAction_1 = __webpack_require__(30);
 var UpdateShippingMethodAction_1 = __webpack_require__(31);
 var CompleteOrderAction_1 = __webpack_require__(32);
 var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(6);
+var ValidationService_2 = __webpack_require__(6);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
 var ApplyCouponAction_1 = __webpack_require__(34);
 /**
@@ -1629,6 +1614,15 @@ var TabContainer = /** @class */ (function (_super) {
         _this.tabContainerSections = tabContainerSections;
         return _this;
     }
+    /**
+     * Sometimes in some browsers (looking at you safari and chrome) the label doesn't float when the data is retrieved
+     * via garlic. This will fix this issue and float the label like it should.
+     */
+    TabContainer.prototype.setFloatLabelOnGarlicRetrieve = function () {
+        $(".garlic-auto-save").each(function (index, elem) {
+            $(elem).garlic({ onRetrieve: function (element) { return $(element).parent().addClass(FormElement_1.FormElement.labelClass); } });
+        });
+    };
     /**
      * @param ajaxInfo
      */
@@ -2162,7 +2156,7 @@ var TabContainer = /** @class */ (function (_super) {
                 w.addEventListener("cfw:state-zip-failure", function () {
                     w.CREATE_ORDER = false;
                 }.bind(_this), { once: true });
-                createOrder = ValidationService_1.ValidationService.validate(ValidationService_1.EValidationSections.BILLING);
+                createOrder = ValidationService_2.ValidationService.validate(ValidationService_1.EValidationSections.BILLING);
             }
             else {
                 new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, _this.getOrderDetails());

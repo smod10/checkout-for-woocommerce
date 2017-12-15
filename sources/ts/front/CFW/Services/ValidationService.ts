@@ -52,23 +52,8 @@ export class ValidationService {
         this.easyTabService = new EasyTabService()
 
         this.validateSectionsBeforeSwitch();
-        this.floatLabelOnGarlicRetrieve();
 
         ValidationService.validateShippingOnLoadIfNotCustomerPanel();
-    }
-
-    /**
-     * Sometimes in some browsers (looking at you safari and chrome) the label doesn't float when the data is retrieved
-     * via garlic. This will fix this issue and float the label like it should.
-     */
-    floatLabelOnGarlicRetrieve(): void {
-        $(".garlic-auto-save").each((index: number, elem: Element) => {
-            $(elem).garlic({
-                onRetrieve: (element, retrievedValue) => {
-                    $(element).parent().addClass("cfw-floating-label");
-                }
-            })
-        });
     }
 
     /**

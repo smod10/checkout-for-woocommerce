@@ -62,12 +62,12 @@ export class Main {
 	 * @param settings
 	 */
 	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
-        Main.instance = this;
+		Main.instance = this;
 
-        this.tabContainer = tabContainer;
-        this.ajaxInfo = ajaxInfo;
-        this.cart = cart;
-        this.settings = settings;
+		this.tabContainer = tabContainer;
+		this.ajaxInfo = ajaxInfo;
+		this.cart = cart;
+		this.settings = settings;
 		this.validationService = new ValidationService();
 	}
 
@@ -106,6 +106,7 @@ export class Main {
 		this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
 		this.tabContainer.setTermsAndConditions();
 		this.tabContainer.setUpdateCheckout();
+		this.tabContainer.setFloatLabelOnGarlicRetrieve();
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();

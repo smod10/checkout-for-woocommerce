@@ -51,10 +51,6 @@ export class ParsleyService {
                 this.parsley = w.Parsley;
                 this.setParsleyCustomValidators();
 
-                $("#checkout").parsley().on("form:error", (data) => {
-                    console.log("Data", $.makeArray(data._focusedField));
-                });
-
                 clearInterval(interval);
             } else if( iterations >= max_iterations ) {
                 // Give up
@@ -152,8 +148,6 @@ export class ParsleyService {
      * @param instance
      */
     stateAndZipValidatorOnFail(failLocation, stateElement, instance): void {
-        console.log("FAIL", failLocation, ParsleyService.getInfoType(instance.$element[0].getAttribute("id")));
-
         $("#cfw-tab-container").easytabs("select", failLocation);
 
         if(w.CREATE_ORDER) {

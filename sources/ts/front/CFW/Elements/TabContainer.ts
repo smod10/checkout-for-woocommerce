@@ -13,7 +13,8 @@ import { UpdateShippingMethodAction }       from "../Actions/UpdateShippingMetho
 import { Cart }                             from "./Cart";
 import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
 import { Main }                             from "../Main";
-import {EValidationSections, ValidationService} from "../Services/ValidationService";
+import { EValidationSections }              from "../Services/ValidationService";
+import { ValidationService }                from "../Services/ValidationService";
 import { UpdateCheckoutAction }             from "../Actions/UpdateCheckoutAction";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 
@@ -44,6 +45,16 @@ export class TabContainer extends Element {
 
         this.tabContainerBreadcrumb = tabContainerBreadcrumb;
         this.tabContainerSections = tabContainerSections;
+    }
+
+    /**
+     * Sometimes in some browsers (looking at you safari and chrome) the label doesn't float when the data is retrieved
+     * via garlic. This will fix this issue and float the label like it should.
+     */
+    setFloatLabelOnGarlicRetrieve(): void {
+        $(".garlic-auto-save").each((index: number, elem) => {
+            $(elem).garlic({ onRetrieve: element => $(element).parent().addClass(FormElement.labelClass) })
+        });
     }
 
     /**

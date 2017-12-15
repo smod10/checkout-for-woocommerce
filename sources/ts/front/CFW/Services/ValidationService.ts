@@ -2,6 +2,8 @@ import { Main }                                         from "../Main";
 import { EasyTabService }                               from "./EasyTabService";
 import { EasyTabDirection }                             from "./EasyTabService";
 import { EasyTab }                                      from "./EasyTabService";
+import { CompleteOrderAction }                          from "../Actions/CompleteOrderAction";
+import { AjaxInfo }                                     from "../Types/Types";
 
 /**
  * Validation Sections Enum
@@ -56,6 +58,31 @@ export class ValidationService {
             return true;
 
         }.bind(this));
+    }
+
+    static createOrder(difBilling: boolean = false, ajaxInfo: AjaxInfo, orderDetails: any): void {
+        if(difBilling) {
+
+            // Check the normal validation and kick off the ajax ones
+            let validationResult: boolean = true;
+
+            CompleteOrderAction.preppingOrder = true;
+
+            (<any>window).addEventListener("cfw:checkout-validated",
+                () => {
+                    CompleteOrderAction.preppingOrder = false;
+
+                    if(validationResult) {
+                        new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
+                    }
+            }, {once: true});
+
+            (<any>window).addEventListener("cfw:state-zip-failure", () => CompleteOrderAction.preppingOrder = false);
+
+            validationResult = ValidationService.validate(EValidationSections.BILLING);
+        } else {
+            new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
+        }
     }
 
     /**

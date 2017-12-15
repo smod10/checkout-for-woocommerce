@@ -122,7 +122,7 @@ var Main = /** @class */ (function () {
         this.tabContainer.setUpPaymentTabRadioButtons();
         this.tabContainer.setUpCreditCardRadioReveal();
         this.tabContainer.setUpMobileCartDetailsReveal();
-        this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
+        this.tabContainer.setCompleteOrderHandlers(this.ajaxInfo);
         this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
         this.tabContainer.setTermsAndConditions();
         this.tabContainer.setUpdateCheckout();
@@ -722,6 +722,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Main_1 = __webpack_require__(0);
 var EasyTabService_1 = __webpack_require__(45);
 var EasyTabService_2 = __webpack_require__(45);
+var CompleteOrderAction_1 = __webpack_require__(32);
 /**
  * Validation Sections Enum
  */
@@ -764,6 +765,25 @@ var ValidationService = /** @class */ (function () {
             // the tab switch
             return true;
         }.bind(this));
+    };
+    ValidationService.createOrder = function (difBilling, ajaxInfo, orderDetails) {
+        if (difBilling === void 0) { difBilling = false; }
+        if (difBilling) {
+            // Check the normal validation and kick off the ajax ones
+            var validationResult_1 = true;
+            CompleteOrderAction_1.CompleteOrderAction.preppingOrder = true;
+            window.addEventListener("cfw:checkout-validated", function () {
+                CompleteOrderAction_1.CompleteOrderAction.preppingOrder = false;
+                if (validationResult_1) {
+                    new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, orderDetails);
+                }
+            }, { once: true });
+            window.addEventListener("cfw:state-zip-failure", function () { return CompleteOrderAction_1.CompleteOrderAction.preppingOrder = false; });
+            validationResult_1 = ValidationService.validate(EValidationSections.BILLING);
+        }
+        else {
+            new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, orderDetails);
+        }
     };
     /**
      *
@@ -1307,6 +1327,7 @@ w.addEventListener("cfw-initialize", function (eventData) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var EasyTabService_1 = __webpack_require__(45);
 var EasyTabService_2 = __webpack_require__(45);
+var CompleteOrderAction_1 = __webpack_require__(32);
 var w = window;
 var ParsleyService = /** @class */ (function () {
     /**
@@ -1378,7 +1399,7 @@ var ParsleyService = /** @class */ (function () {
                 // Pass the original state element to the fail callback. Even if it's hidden we want to destroy the garlic cache
                 var failStateElement = stateElement;
                 // If the stateElement is not visible, it's null
-                if (!stateElement.is(":visible")) {
+                if (stateElement.is(":disabled")) {
                     stateElement = null;
                 }
                 // Where to check the zip
@@ -1391,7 +1412,7 @@ var ParsleyService = /** @class */ (function () {
                     ParsleyService.cityStateValidating = true;
                     return xhr
                         .then(function (response) { return _this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation); })
-                        .fail(function () { return _this.stateAndZipValidatorOnFail(failLocation, failStateElement, instance); });
+                        .fail(function () { return _this.stateAndZipValidatorOnFail(instance, cityElement, failStateElement, zipElement, failLocation); });
                 }
                 // Return true, if we fail we will go back.
                 return true;
@@ -1400,18 +1421,22 @@ var ParsleyService = /** @class */ (function () {
         });
     };
     /**
-     *
-     * @param {EasyTab} failLocation
-     * @param {JQuery} stateElement
      * @param {any} instance
+     * @param {JQuery} cityElement
+     * @param {JQuery} stateElement
+     * @param {JQuery} zipElement
+     * @param {EasyTab} failLocation
      */
-    ParsleyService.prototype.stateAndZipValidatorOnFail = function (failLocation, stateElement, instance) {
+    ParsleyService.prototype.stateAndZipValidatorOnFail = function (instance, cityElement, stateElement, zipElement, failLocation) {
+        // Fire off the fail event for state and zip
+        var event = new Event("cfw:state-zip-failure");
+        window.dispatchEvent(event);
+        console.log("FAILED");
+        // Go to the fail location
         EasyTabService_1.EasyTabService.go(failLocation);
-        if (w.CREATE_ORDER) {
-            var event_1 = new Event("cfw:state-zip-failure");
-            window.dispatchEvent(event_1);
-        }
-        stateElement.garlic('destroy');
+        // Destroy the state garlic cache
+        cityElement.garlic('destroy');
+        // Set the validating to false to allow new validations
         ParsleyService.cityStateValidating = false;
     };
     /**
@@ -1426,7 +1451,7 @@ var ParsleyService = /** @class */ (function () {
      */
     ParsleyService.prototype.stateAndZipValidatorOnSuccess = function (json, instance, infoType, cityElement, stateElement, zipElement, failLocation) {
         var ret = null;
-        var eventName = "";
+        var stateZipEventName = "";
         // Set the state response value
         var stateResponseValue = json.places[0]["state abbreviation"];
         // Set the city response value
@@ -1441,22 +1466,26 @@ var ParsleyService = /** @class */ (function () {
                 stateElement.val(stateResponseValue);
             }
             if (stateResponseValue !== stateElement.val()) {
-                eventName = "cfw:state-zip-failure";
+                stateZipEventName = "cfw:state-zip-failure";
                 EasyTabService_1.EasyTabService.go(failLocation);
                 ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
             }
             else {
-                eventName = "cfw:state-zip-success";
+                stateZipEventName = "cfw:state-zip-success";
                 stateElement.trigger("DOMAttrModified");
                 ret = true;
             }
         }
-        if (w.CREATE_ORDER) {
-            var event_2 = new Event(eventName);
-            window.dispatchEvent(event_2);
-        }
         ParsleyService.cityStateValidating = false;
-        ParsleyService.resetElements(cityElement, zipElement, stateElement);
+        cityElement.parsley().reset();
+        stateElement.parsley().reset();
+        // Create event
+        var event = new Event(stateZipEventName);
+        window.dispatchEvent(event);
+        if (CompleteOrderAction_1.CompleteOrderAction.preppingOrder) {
+            var orderReadyEvent = new Event("cfw:checkout-validated");
+            window.dispatchEvent(orderReadyEvent);
+        }
         return ret;
     };
     /**
@@ -1481,16 +1510,6 @@ var ParsleyService = /** @class */ (function () {
             location = EasyTabService_2.EasyTab.CUSTOMER;
         }
         return location;
-    };
-    /**
-     * @param elements
-     */
-    ParsleyService.resetElements = function () {
-        var elements = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            elements[_i] = arguments[_i];
-        }
-        elements.forEach(function (element) { return element.parsley().reset(); });
     };
     Object.defineProperty(ParsleyService.prototype, "parsley", {
         /**
@@ -1557,10 +1576,8 @@ var LoginAction_1 = __webpack_require__(29);
 var FormElement_1 = __webpack_require__(9);
 var UpdateShippingFieldsAction_1 = __webpack_require__(30);
 var UpdateShippingMethodAction_1 = __webpack_require__(31);
-var CompleteOrderAction_1 = __webpack_require__(32);
 var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(6);
-var ValidationService_2 = __webpack_require__(6);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
 var ApplyCouponAction_1 = __webpack_require__(34);
 /**
@@ -2102,31 +2119,19 @@ var TabContainer = /** @class */ (function (_super) {
     };
     /**
      * @param {AjaxInfo} ajaxInfo
-     * @param {Cart} cart
      */
-    TabContainer.prototype.setCompleteOrder = function (ajaxInfo, cart) {
+    TabContainer.prototype.setCompleteOrderHandlers = function (ajaxInfo) {
         var _this = this;
         var completeOrderButton = new Element_1.Element($("#cfw-complete-order-button"));
-        completeOrderButton.jel.on('click', function () {
-            var createOrder = true;
-            var w = window;
-            if ($("#shipping_dif_from_billing:checked").length !== 0) {
-                w.CREATE_ORDER = true;
-                w.addEventListener("cfw:state-zip-success", function () {
-                    w.CREATE_ORDER = false;
-                    if (createOrder) {
-                        new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
-                    }
-                }.bind(_this), { once: true });
-                w.addEventListener("cfw:state-zip-failure", function () {
-                    w.CREATE_ORDER = false;
-                }.bind(_this), { once: true });
-                createOrder = ValidationService_2.ValidationService.validate(ValidationService_1.EValidationSections.BILLING);
-            }
-            else {
-                new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, _this.getOrderDetails());
-            }
-        });
+        completeOrderButton.jel.on('click', function () { return _this.completeOrderClickListener(ajaxInfo); });
+    };
+    /**
+     *
+     * @param {AjaxInfo} ajaxInfo
+     */
+    TabContainer.prototype.completeOrderClickListener = function (ajaxInfo) {
+        var isShippingDifferentFromBilling = $("#shipping_dif_from_billing:checked").length !== 0;
+        ValidationService_1.ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, this.getOrderDetails());
     };
     /**
      * @param {AjaxInfo} ajaxInfo
@@ -2759,54 +2764,6 @@ var CompleteOrderAction = /** @class */ (function (_super) {
             _super.prototype.load.call(this);
         }
     };
-    Object.defineProperty(CompleteOrderAction.prototype, "needsStripeToken", {
-        /**
-         * @returns {boolean}
-         */
-        get: function () {
-            return this._needsStripeToken;
-        },
-        /**
-         * @param {boolean} value
-         */
-        set: function (value) {
-            this._needsStripeToken = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CompleteOrderAction.prototype, "stripeServiceCallbacks", {
-        /**
-         * @returns {StripeServiceCallbacks}
-         */
-        get: function () {
-            return this._stripeServiceCallbacks;
-        },
-        /**
-         * @param {StripeServiceCallbacks} value
-         */
-        set: function (value) {
-            this._stripeServiceCallbacks = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CompleteOrderAction.prototype, "stripeResponse", {
-        /**
-         * @returns {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse}
-         */
-        get: function () {
-            return this._stripeResponse;
-        },
-        /**
-         * @param {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse} value
-         */
-        set: function (value) {
-            this._stripeResponse = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * @param resp
      */
@@ -2881,6 +2838,76 @@ var CompleteOrderAction = /** @class */ (function (_super) {
         ValidationService_1.ValidationService.validate(ValidationService_1.EValidationSections.BILLING);
         ValidationService_1.ValidationService.validate(ValidationService_1.EValidationSections.ACCOUNT);
     };
+    Object.defineProperty(CompleteOrderAction.prototype, "needsStripeToken", {
+        /**
+         * @returns {boolean}
+         */
+        get: function () {
+            return this._needsStripeToken;
+        },
+        /**
+         * @param {boolean} value
+         */
+        set: function (value) {
+            this._needsStripeToken = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CompleteOrderAction.prototype, "stripeServiceCallbacks", {
+        /**
+         * @returns {StripeServiceCallbacks}
+         */
+        get: function () {
+            return this._stripeServiceCallbacks;
+        },
+        /**
+         * @param {StripeServiceCallbacks} value
+         */
+        set: function (value) {
+            this._stripeServiceCallbacks = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CompleteOrderAction.prototype, "stripeResponse", {
+        /**
+         * @returns {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse}
+         */
+        get: function () {
+            return this._stripeResponse;
+        },
+        /**
+         * @param {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse} value
+         */
+        set: function (value) {
+            this._stripeResponse = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CompleteOrderAction, "preppingOrder", {
+        /**
+         * @returns {boolean}
+         */
+        get: function () {
+            return this._preppingOrder;
+        },
+        /**
+         * @param {boolean} value
+         */
+        set: function (value) {
+            this._preppingOrder = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @type {boolean}
+     * @static
+     * @private
+     */
+    CompleteOrderAction._preppingOrder = false;
     return CompleteOrderAction;
 }(Action_1.Action));
 exports.CompleteOrderAction = CompleteOrderAction;

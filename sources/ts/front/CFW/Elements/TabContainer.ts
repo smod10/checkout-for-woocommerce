@@ -670,35 +670,21 @@ export class TabContainer extends Element {
 
     /**
      * @param {AjaxInfo} ajaxInfo
-     * @param {Cart} cart
      */
-    setCompleteOrder(ajaxInfo: AjaxInfo, cart: Cart): void {
+    setCompleteOrderHandlers(ajaxInfo: AjaxInfo): void {
         let completeOrderButton: Element = new Element($("#cfw-complete-order-button"));
 
-        completeOrderButton.jel.on('click', () => {
-            let createOrder: boolean = true;
-            let w: any = window;
+        completeOrderButton.jel.on('click', () => this.completeOrderClickListener(ajaxInfo));
+    }
 
-            if($("#shipping_dif_from_billing:checked").length !== 0) {
-                w.CREATE_ORDER = true;
+    /**
+     *
+     * @param {AjaxInfo} ajaxInfo
+     */
+    completeOrderClickListener(ajaxInfo: AjaxInfo): void {
+        let isShippingDifferentFromBilling: boolean = $("#shipping_dif_from_billing:checked").length !== 0;
 
-                w.addEventListener("cfw:state-zip-success", function() {
-                    w.CREATE_ORDER = false;
-
-                    if(createOrder) {
-                        new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
-                    }
-                }.bind(this), { once: true });
-
-                w.addEventListener("cfw:state-zip-failure", function(){
-                    w.CREATE_ORDER = false;
-                }.bind(this), { once: true });
-
-                createOrder = ValidationService.validate(EValidationSections.BILLING);
-            } else {
-                new CompleteOrderAction('complete_order', ajaxInfo, this.getOrderDetails());
-            }
-        });
+        ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, this.getOrderDetails());
     }
 
     /**

@@ -1,5 +1,7 @@
 import { EasyTabService }                           from "./EasyTabService";
 import { EasyTab }                                  from "./EasyTabService";
+import { Main }                                     from "../Main";
+import {CompleteOrderAction} from "../Actions/CompleteOrderAction";
 
 let w: any = window;
 
@@ -96,7 +98,7 @@ export class ParsleyService {
                 let failStateElement: JQuery = stateElement;
 
                 // If the stateElement is not visible, it's null
-                if(!stateElement.is(":visible")) {
+                if(stateElement.is(":disabled")) {
                     stateElement = null;
                 }
 
@@ -114,7 +116,7 @@ export class ParsleyService {
 
                     return xhr
                         .then((response) => this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation))
-                        .fail(() => this.stateAndZipValidatorOnFail(failLocation, failStateElement, instance))
+                        .fail(() => this.stateAndZipValidatorOnFail(instance, cityElement, failStateElement, zipElement, failLocation))
                 }
 
                 // Return true, if we fail we will go back.
@@ -125,21 +127,26 @@ export class ParsleyService {
     }
 
     /**
-     *
-     * @param {EasyTab} failLocation
-     * @param {JQuery} stateElement
      * @param {any} instance
+     * @param {JQuery} cityElement
+     * @param {JQuery} stateElement
+     * @param {JQuery} zipElement
+     * @param {EasyTab} failLocation
      */
-    stateAndZipValidatorOnFail(failLocation: EasyTab, stateElement: JQuery, instance: any): void {
+    stateAndZipValidatorOnFail(instance: any, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab): void {
+        // Fire off the fail event for state and zip
+        let event = new Event("cfw:state-zip-failure");
+        window.dispatchEvent(event);
+
+        console.log("FAILED");
+
+        // Go to the fail location
         EasyTabService.go(failLocation);
 
-        if(w.CREATE_ORDER) {
-            let event = new Event("cfw:state-zip-failure");
-            window.dispatchEvent(event);
-        }
+        // Destroy the state garlic cache
+        cityElement.garlic('destroy');
 
-        stateElement.garlic('destroy');
-
+        // Set the validating to false to allow new validations
         ParsleyService.cityStateValidating = false;
     }
 
@@ -155,7 +162,7 @@ export class ParsleyService {
      */
     stateAndZipValidatorOnSuccess(json, instance, infoType: InfoType, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab): void {
         let ret = null;
-        let eventName = "";
+        let stateZipEventName = "";
 
         // Set the state response value
         let stateResponseValue = json.places[0]["state abbreviation"];
@@ -177,13 +184,13 @@ export class ParsleyService {
             }
 
             if (stateResponseValue !== stateElement.val()) {
-                eventName = "cfw:state-zip-failure";
+                stateZipEventName = "cfw:state-zip-failure";
 
                 EasyTabService.go(failLocation);
 
                 ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
             } else {
-                eventName = "cfw:state-zip-success";
+                stateZipEventName = "cfw:state-zip-success";
 
                 stateElement.trigger("DOMAttrModified");
 
@@ -191,13 +198,19 @@ export class ParsleyService {
             }
         }
 
-        if(w.CREATE_ORDER) {
-            let event = new Event(eventName);
-            window.dispatchEvent(event);
-        }
-
         ParsleyService.cityStateValidating = false;
-        ParsleyService.resetElements(cityElement, zipElement, stateElement);
+
+        cityElement.parsley().reset();
+        stateElement.parsley().reset();
+
+        // Create event
+        let event = new Event(stateZipEventName);
+        window.dispatchEvent(event);
+
+        if(CompleteOrderAction.preppingOrder) {
+            let orderReadyEvent = new Event("cfw:checkout-validated");
+            window.dispatchEvent(orderReadyEvent);
+        }
 
         return ret;
     }
@@ -230,14 +243,6 @@ export class ParsleyService {
 
         return location;
     }
-
-    /**
-     * @param elements
-     */
-    static resetElements(...elements) {
-        elements.forEach(element => element.parsley().reset());
-    }
-
     /**
      * @returns {any}
      */

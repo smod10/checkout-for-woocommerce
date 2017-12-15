@@ -118,7 +118,7 @@ export class Main {
 		this.tabContainer.setUpPaymentTabRadioButtons();
 		this.tabContainer.setUpCreditCardRadioReveal();
 		this.tabContainer.setUpMobileCartDetailsReveal();
-		this.tabContainer.setCompleteOrder(this.ajaxInfo, this.cart);
+		this.tabContainer.setCompleteOrderHandlers(this.ajaxInfo);
 		this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
 		this.tabContainer.setTermsAndConditions();
 		this.tabContainer.setUpdateCheckout();

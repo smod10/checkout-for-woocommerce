@@ -13,6 +13,13 @@ import {EValidationSections, ValidationService} from "../Services/ValidationServ
 export class CompleteOrderAction extends Action {
 
     /**
+     * @type {boolean}
+     * @static
+     * @private
+     */
+    private static _preppingOrder: boolean = false;
+
+    /**
      * Do we need a stripe token to continue load?
      *
      * @type {boolean}
@@ -127,48 +134,6 @@ export class CompleteOrderAction extends Action {
     }
 
     /**
-     * @returns {boolean}
-     */
-    get needsStripeToken(): boolean {
-        return this._needsStripeToken;
-    }
-
-    /**
-     * @param {boolean} value
-     */
-    set needsStripeToken(value: boolean) {
-        this._needsStripeToken = value;
-    }
-
-    /**
-     * @returns {StripeServiceCallbacks}
-     */
-    get stripeServiceCallbacks(): StripeServiceCallbacks {
-        return this._stripeServiceCallbacks;
-    }
-
-    /**
-     * @param {StripeServiceCallbacks} value
-     */
-    set stripeServiceCallbacks(value: StripeServiceCallbacks) {
-        this._stripeServiceCallbacks = value;
-    }
-
-    /**
-     * @returns {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse}
-     */
-    get stripeResponse(): StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse {
-        return this._stripeResponse;
-    }
-
-    /**
-     * @param {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse} value
-     */
-    set stripeResponse(value: StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse) {
-        this._stripeResponse = value;
-    }
-
-    /**
      * @param resp
      */
     public response(resp: any): void {
@@ -226,9 +191,9 @@ export class CompleteOrderAction extends Action {
             }
         });
         $("[name='shipping_same']").each((index, elem) => {
-           if($(elem).val() == this.data.ship_to_different_address) {
-               $(elem).prop('checked', true);
-           }
+            if($(elem).val() == this.data.ship_to_different_address) {
+                $(elem).prop('checked', true);
+            }
         });
         $('[name="payment_method"]').each((index, elem) => {
             if($(elem).val() == this.data.payment_method) {
@@ -250,5 +215,61 @@ export class CompleteOrderAction extends Action {
         ValidationService.validate(EValidationSections.SHIPPING);
         ValidationService.validate(EValidationSections.BILLING);
         ValidationService.validate(EValidationSections.ACCOUNT);
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    get needsStripeToken(): boolean {
+        return this._needsStripeToken;
+    }
+
+    /**
+     * @param {boolean} value
+     */
+    set needsStripeToken(value: boolean) {
+        this._needsStripeToken = value;
+    }
+
+    /**
+     * @returns {StripeServiceCallbacks}
+     */
+    get stripeServiceCallbacks(): StripeServiceCallbacks {
+        return this._stripeServiceCallbacks;
+    }
+
+    /**
+     * @param {StripeServiceCallbacks} value
+     */
+    set stripeServiceCallbacks(value: StripeServiceCallbacks) {
+        this._stripeServiceCallbacks = value;
+    }
+
+    /**
+     * @returns {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse}
+     */
+    get stripeResponse(): StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse {
+        return this._stripeResponse;
+    }
+
+    /**
+     * @param {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse} value
+     */
+    set stripeResponse(value: StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse) {
+        this._stripeResponse = value;
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    static get preppingOrder(): boolean {
+        return this._preppingOrder;
+    }
+
+    /**
+     * @param {boolean} value
+     */
+    static set preppingOrder(value: boolean) {
+        this._preppingOrder = value;
     }
 }

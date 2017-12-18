@@ -6,6 +6,8 @@ import { UpdateCartTotalsData }                     from "../Elements/Cart";
 import { Cart }                                     from "../Elements/Cart";
 import { TabContainer }                             from "../Elements/TabContainer";
 import { Main }                                     from "../Main";
+import {CompleteOrderAction} from "./CompleteOrderAction";
+import {UpdateCheckoutAction} from "./UpdateCheckoutAction";
 
 export type UpdateShippingFieldsResponse = {
     error: boolean,
@@ -49,6 +51,8 @@ export class UpdateShippingFieldsAction extends Action {
      */
     private _tabContainer: TabContainer;
 
+    private _fields: any;
+
     /**
      * @type {Array<JQuery>}
      * @private
@@ -62,8 +66,9 @@ export class UpdateShippingFieldsAction extends Action {
      * @param shipping_details_fields
      * @param cart
      * @param tabContainer
+     * @param fields
      */
-    constructor(id:string, ajaxInfo: AjaxInfo, shipping_fields_info: Array<CustomerDataInfo>, shipping_details_fields: Array<JQuery>, cart: Cart, tabContainer: TabContainer) {
+    constructor(id:string, ajaxInfo: AjaxInfo, shipping_fields_info: Array<CustomerDataInfo>, shipping_details_fields: Array<JQuery>, cart: Cart, tabContainer: TabContainer, fields: any) {
         let data: UpdateShippingFieldsData = {
             action: id,
             security: ajaxInfo.nonce,
@@ -76,6 +81,7 @@ export class UpdateShippingFieldsAction extends Action {
         this.cart = cart;
         this.tabContainer = tabContainer;
         this.ajaxInfo = ajaxInfo;
+        this.fields = fields;
     }
 
     /**
@@ -126,6 +132,8 @@ export class UpdateShippingFieldsAction extends Action {
 
             Main.togglePaymentRequired(resp.needs_payment);
         }
+
+        new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.fields).load();
     }
 
     /**
@@ -182,5 +190,13 @@ export class UpdateShippingFieldsAction extends Action {
      */
     set shipping_details_fields(value: Array<JQuery>) {
         this._shipping_details_fields = value;
+    }
+
+    get fields(): any {
+        return this._fields;
+    }
+
+    set fields(value: any) {
+        this._fields = value;
     }
 }

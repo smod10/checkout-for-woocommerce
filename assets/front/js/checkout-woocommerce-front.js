@@ -1843,14 +1843,15 @@ var ParsleyService = /** @class */ (function () {
                 if (!ParsleyService.cityStateValidating) {
                     // Start the check
                     ParsleyService.cityStateValidating = true;
-                    return xhr
-                        .then(function (response) { return _this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation); })
-                        .fail(function () { return _this.stateAndZipValidatorOnFail(instance, cityElement, failStateElement, zipElement, failLocation); });
+                    // return xhr
+                    //     .then((response) => this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation))
+                    // .fail(() => this.stateAndZipValidatorOnFail(instance, cityElement, failStateElement, zipElement, failLocation))
+                    xhr
+                        .then(function (response) { return _this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation); });
                 }
                 // Return true, if we fail we will go back.
                 return true;
             }.bind(this),
-            messages: { en: 'Zip is not valid for country "%s"' }
         });
     };
     /**
@@ -1864,7 +1865,6 @@ var ParsleyService = /** @class */ (function () {
         // Fire off the fail event for state and zip
         var event = new Event("cfw:state-zip-failure");
         window.dispatchEvent(event);
-        console.log("FAILED");
         // Go to the fail location
         EasyTabService_1.EasyTabService.go(failLocation);
         // Destroy the state garlic cache
@@ -1898,28 +1898,32 @@ var ParsleyService = /** @class */ (function () {
             if (fieldType === "postcode") {
                 stateElement.val(stateResponseValue);
             }
-            if (stateResponseValue !== stateElement.val()) {
-                stateZipEventName = "cfw:state-zip-failure";
-                EasyTabService_1.EasyTabService.go(failLocation);
-                ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-            }
-            else {
-                stateZipEventName = "cfw:state-zip-success";
-                stateElement.trigger("DOMAttrModified");
-                ret = true;
-            }
+            // stateZipEventName = "cfw:state-zip-success";
+            stateElement.trigger("DOMAttrModified");
+            // if (stateResponseValue !== stateElement.val()) {
+            //     stateZipEventName = "cfw:state-zip-failure";
+            //
+            //     EasyTabService.go(failLocation);
+            //
+            //     ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
+            // } else {
+            //     stateZipEventName = "cfw:state-zip-success";
+            //
+            //     stateElement.trigger("DOMAttrModified");
+            // }
         }
         ParsleyService.cityStateValidating = false;
         cityElement.parsley().reset();
         stateElement.parsley().reset();
         // Create event
-        var event = new Event(stateZipEventName);
-        window.dispatchEvent(event);
+        // let event = new Event(stateZipEventName);
+        // window.dispatchEvent(event);
         if (CompleteOrderAction_1.CompleteOrderAction.preppingOrder) {
             var orderReadyEvent = new Event("cfw:checkout-validated");
             window.dispatchEvent(orderReadyEvent);
         }
-        return ret;
+        // return ret;
+        return true;
     };
     /**
      *
@@ -2088,7 +2092,8 @@ var TabContainer = /** @class */ (function (_super) {
         var usfri = this.getUpdateShippingRequiredItems();
         var tc = this;
         var registerUpdateShippingFieldsActionOnChange = function (fe, action, ajaxInfo, shipping_details_fields, on) {
-            fe.holder.jel.on(on, function (event) { return TabContainer.genericUpdateShippingFieldsActionProcess(fe, event.target.value, ajaxInfo, action, shipping_details_fields, cart, tc).load(); });
+            var _this = this;
+            fe.holder.jel.on(on, function (event) { return TabContainer.genericUpdateShippingFieldsActionProcess(fe, event.target.value, ajaxInfo, action, shipping_details_fields, cart, tc, _this.getOrderDetails()).load(); });
         };
         form_elements.forEach(function (fe) { return registerUpdateShippingFieldsActionOnChange(fe, usfri.action, ajaxInfo, usfri.shipping_details_fields, on); });
     };
@@ -2106,7 +2111,8 @@ var TabContainer = /** @class */ (function (_super) {
         var usfri = this.getUpdateShippingRequiredItems();
         var tc = this;
         var updateAllProcess = function (event) {
-            form_elements.forEach(function (fe) { return TabContainer.genericUpdateShippingFieldsActionProcess(fe, fe.holder.jel.val(), ajaxInfo, usfri.action, usfri.shipping_details_fields, cart, tc).load(); });
+            var _this = this;
+            form_elements.forEach(function (fe) { return TabContainer.genericUpdateShippingFieldsActionProcess(fe, fe.holder.jel.val(), ajaxInfo, usfri.action, usfri.shipping_details_fields, cart, tc, _this.getOrderDetails()).load(); });
         };
         continue_button.on("click", updateAllProcess.bind(this));
         shipping_payment_bc.on("click", updateAllProcess.bind(this));
@@ -2119,11 +2125,12 @@ var TabContainer = /** @class */ (function (_super) {
      * @param shipping_details_fields
      * @param cart
      * @param tabContainer
+     * @param fields
      */
-    TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields, cart, tabContainer) {
+    TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields, cart, tabContainer, fields) {
         var type = fe.holder.jel.attr("field_key");
         var cdi = { field_type: type, field_value: value };
-        return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer);
+        return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer, fields);
     };
     /**
      *
@@ -2873,6 +2880,7 @@ var Action_1 = __webpack_require__(1);
 var ResponsePrep_1 = __webpack_require__(3);
 var Cart_1 = __webpack_require__(6);
 var Main_1 = __webpack_require__(0);
+var UpdateCheckoutAction_1 = __webpack_require__(10);
 /**
  *
  */
@@ -2885,8 +2893,9 @@ var UpdateShippingFieldsAction = /** @class */ (function (_super) {
      * @param shipping_details_fields
      * @param cart
      * @param tabContainer
+     * @param fields
      */
-    function UpdateShippingFieldsAction(id, ajaxInfo, shipping_fields_info, shipping_details_fields, cart, tabContainer) {
+    function UpdateShippingFieldsAction(id, ajaxInfo, shipping_fields_info, shipping_details_fields, cart, tabContainer, fields) {
         var _this = this;
         var data = {
             action: id,
@@ -2898,6 +2907,7 @@ var UpdateShippingFieldsAction = /** @class */ (function (_super) {
         _this.cart = cart;
         _this.tabContainer = tabContainer;
         _this.ajaxInfo = ajaxInfo;
+        _this.fields = fields;
         return _this;
     }
     /**
@@ -2938,6 +2948,7 @@ var UpdateShippingFieldsAction = /** @class */ (function (_super) {
             }
             Main_1.Main.togglePaymentRequired(resp.needs_payment);
         }
+        new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, this.fields).load();
     };
     Object.defineProperty(UpdateShippingFieldsAction.prototype, "ajaxInfo", {
         /**
@@ -2999,6 +3010,16 @@ var UpdateShippingFieldsAction = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._shipping_details_fields = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UpdateShippingFieldsAction.prototype, "fields", {
+        get: function () {
+            return this._fields;
+        },
+        set: function (value) {
+            this._fields = value;
         },
         enumerable: true,
         configurable: true

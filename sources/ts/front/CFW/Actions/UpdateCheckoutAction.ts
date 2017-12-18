@@ -1,9 +1,9 @@
-import {Action} from "./Action";
-import {AjaxInfo} from "../Types/Types";
-import {Main} from "../Main";
-import {Cart} from "../Elements/Cart";
-import {ResponsePrep} from "../Decorators/ResponsePrep";
-import {TabContainer} from "../Elements/TabContainer";
+import { Action }                           from "./Action";
+import { AjaxInfo }                         from "../Types/Types";
+import { Main }                             from "../Main";
+import { Cart }                             from "../Elements/Cart";
+import { ResponsePrep }                     from "../Decorators/ResponsePrep";
+import { TabContainer }                     from "../Elements/TabContainer";
 
 export class UpdateCheckoutAction extends Action {
 

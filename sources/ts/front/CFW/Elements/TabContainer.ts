@@ -120,7 +120,7 @@ export class TabContainer extends Element {
 
         let registerUpdateShippingFieldsActionOnChange: Function = function(fe: FormElement, action: string, ajaxInfo: AjaxInfo, shipping_details_fields: Array<JQuery>, on: string) {
             fe.holder.jel.on(on, (event: any) => TabContainer.genericUpdateShippingFieldsActionProcess(fe, event.target.value,
-                ajaxInfo, action, shipping_details_fields, cart, tc).load());
+                ajaxInfo, action, shipping_details_fields, cart, tc, this.getOrderDetails()).load());
         };
 
         form_elements.forEach((fe: FormElement) => registerUpdateShippingFieldsActionOnChange(fe, usfri.action, ajaxInfo,
@@ -143,7 +143,7 @@ export class TabContainer extends Element {
 
         let updateAllProcess: Function = function(event: any) {
             form_elements.forEach((fe: FormElement) => TabContainer.genericUpdateShippingFieldsActionProcess(fe, fe.holder.jel.val(),
-                ajaxInfo, usfri.action, usfri.shipping_details_fields, cart, tc).load());
+                ajaxInfo, usfri.action, usfri.shipping_details_fields, cart, tc, this.getOrderDetails()).load());
         };
 
         continue_button.on("click", updateAllProcess.bind(this));
@@ -158,13 +158,14 @@ export class TabContainer extends Element {
      * @param shipping_details_fields
      * @param cart
      * @param tabContainer
+     * @param fields
      */
     static genericUpdateShippingFieldsActionProcess(fe: FormElement, value: any, ajaxInfo: AjaxInfo, action: string,
-                                                    shipping_details_fields: Array<JQuery>, cart: Cart, tabContainer: TabContainer): UpdateShippingFieldsAction {
+                                                    shipping_details_fields: Array<JQuery>, cart: Cart, tabContainer: TabContainer, fields: any): UpdateShippingFieldsAction {
         let type = fe.holder.jel.attr("field_key");
         let cdi: CustomerDataInfo = {field_type: type, field_value: value};
 
-        return new UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer);
+        return new UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer, fields);
     }
 
     /**

@@ -113,15 +113,18 @@ export class ParsleyService {
                     // Start the check
                     ParsleyService.cityStateValidating = true;
 
-                    return xhr
+                    // return xhr
+                    //     .then((response) => this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation))
+                        // .fail(() => this.stateAndZipValidatorOnFail(instance, cityElement, failStateElement, zipElement, failLocation))
+
+                    xhr
                         .then((response) => this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation))
-                        .fail(() => this.stateAndZipValidatorOnFail(instance, cityElement, failStateElement, zipElement, failLocation))
                 }
 
                 // Return true, if we fail we will go back.
                 return true;
             }.bind(this),
-            messages: {en: 'Zip is not valid for country "%s"'}
+            // messages: {en: 'Zip is not valid for country "%s"'}
         });
     }
 
@@ -136,8 +139,6 @@ export class ParsleyService {
         // Fire off the fail event for state and zip
         let event = new Event("cfw:state-zip-failure");
         window.dispatchEvent(event);
-
-        console.log("FAILED");
 
         // Go to the fail location
         EasyTabService.go(failLocation);
@@ -159,7 +160,7 @@ export class ParsleyService {
      * @param {JQuery} zipElement
      * @param {EasyTab} failLocation
      */
-    stateAndZipValidatorOnSuccess(json, instance, infoType: InfoType, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab): void {
+    stateAndZipValidatorOnSuccess(json, instance, infoType: InfoType, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab) {
         let ret = null;
         let stateZipEventName = "";
 
@@ -182,19 +183,21 @@ export class ParsleyService {
                 stateElement.val(stateResponseValue);
             }
 
-            if (stateResponseValue !== stateElement.val()) {
-                stateZipEventName = "cfw:state-zip-failure";
+            // stateZipEventName = "cfw:state-zip-success";
 
-                EasyTabService.go(failLocation);
+            stateElement.trigger("DOMAttrModified");
 
-                ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-            } else {
-                stateZipEventName = "cfw:state-zip-success";
-
-                stateElement.trigger("DOMAttrModified");
-
-                ret = true;
-            }
+            // if (stateResponseValue !== stateElement.val()) {
+            //     stateZipEventName = "cfw:state-zip-failure";
+            //
+            //     EasyTabService.go(failLocation);
+            //
+            //     ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
+            // } else {
+            //     stateZipEventName = "cfw:state-zip-success";
+            //
+            //     stateElement.trigger("DOMAttrModified");
+            // }
         }
 
         ParsleyService.cityStateValidating = false;
@@ -203,15 +206,16 @@ export class ParsleyService {
         stateElement.parsley().reset();
 
         // Create event
-        let event = new Event(stateZipEventName);
-        window.dispatchEvent(event);
+        // let event = new Event(stateZipEventName);
+        // window.dispatchEvent(event);
 
         if(CompleteOrderAction.preppingOrder) {
             let orderReadyEvent = new Event("cfw:checkout-validated");
             window.dispatchEvent(orderReadyEvent);
         }
 
-        return ret;
+        // return ret;
+        return true;
     }
 
     /**

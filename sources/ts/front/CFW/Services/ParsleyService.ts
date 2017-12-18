@@ -1,7 +1,6 @@
 import { EasyTabService }                           from "./EasyTabService";
 import { EasyTab }                                  from "./EasyTabService";
-import { Main }                                     from "../Main";
-import {CompleteOrderAction} from "../Actions/CompleteOrderAction";
+import { CompleteOrderAction }                      from "../Actions/CompleteOrderAction";
 
 let w: any = window;
 

@@ -1761,6 +1761,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var EasyTabService_1 = __webpack_require__(5);
 var EasyTabService_2 = __webpack_require__(5);
 var CompleteOrderAction_1 = __webpack_require__(11);
+var Main_1 = __webpack_require__(0);
 var w = window;
 var ParsleyService = /** @class */ (function () {
     /**
@@ -1829,25 +1830,22 @@ var ParsleyService = /** @class */ (function () {
                 var zipElement = $("#" + infoType + "_postcode");
                 var stateElement = $("#" + infoType + "_state");
                 var cityElement = $("#" + infoType + "_city");
-                // Pass the original state element to the fail callback. Even if it's hidden we want to destroy the garlic cache
-                var failStateElement = stateElement;
                 // If the stateElement is not visible, it's null
                 if (stateElement.is(":disabled")) {
                     stateElement = null;
                 }
-                // Where to check the zip
-                var requestLocation = "//www.zippopotam.us/" + country + "/" + zipElement.val();
-                // Our request
-                var xhr = $.ajax(requestLocation);
                 // If we aren't already checking, check.
                 if (!ParsleyService.cityStateValidating) {
                     // Start the check
                     ParsleyService.cityStateValidating = true;
-                    // return xhr
-                    //     .then((response) => this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation))
-                    // .fail(() => this.stateAndZipValidatorOnFail(instance, cityElement, failStateElement, zipElement, failLocation))
+                    // Where to check the zip
+                    var requestLocation = "//www.zippopotam.us/" + country + "/" + zipElement.val();
+                    // Our request
+                    var xhr = $.ajax(requestLocation);
+                    // Setup our callbacks
                     xhr
-                        .then(function (response) { return _this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation); });
+                        .then(function (response) { return _this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation); })
+                        .always(function () { return ParsleyService.cityStateValidating = false; });
                 }
                 // Return true, if we fail we will go back.
                 return true;
@@ -1883,8 +1881,7 @@ var ParsleyService = /** @class */ (function () {
      * @param {EasyTab} failLocation
      */
     ParsleyService.prototype.stateAndZipValidatorOnSuccess = function (json, instance, infoType, cityElement, stateElement, zipElement, failLocation) {
-        var ret = null;
-        var stateZipEventName = "";
+        var updateShippingFieldsDetailsCallback = Main_1.Main.instance.tabContainer.getShippingFieldsUpdateCallback();
         // Set the state response value
         var stateResponseValue = json.places[0]["state abbreviation"];
         // Set the city response value
@@ -1892,36 +1889,25 @@ var ParsleyService = /** @class */ (function () {
         var fieldType = $(instance.element).attr("id").split("_")[1];
         // Set the city field
         cityElement.val(cityResponseValue);
+        cityElement.trigger(("DomAttrModified"));
         // If the country in question has a state
         if (stateElement) {
             // Set the state element if the field type is postcode
             if (fieldType === "postcode") {
                 stateElement.val(stateResponseValue);
+                stateElement.trigger("DOMAttrModified");
             }
-            // stateZipEventName = "cfw:state-zip-success";
-            stateElement.trigger("DOMAttrModified");
-            // if (stateResponseValue !== stateElement.val()) {
-            //     stateZipEventName = "cfw:state-zip-failure";
-            //
-            //     EasyTabService.go(failLocation);
-            //
-            //     ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-            // } else {
-            //     stateZipEventName = "cfw:state-zip-success";
-            //
-            //     stateElement.trigger("DOMAttrModified");
-            // }
         }
-        ParsleyService.cityStateValidating = false;
         cityElement.parsley().reset();
         stateElement.parsley().reset();
-        // Create event
-        // let event = new Event(stateZipEventName);
-        // window.dispatchEvent(event);
+        if (ParsleyService.updateShippingTabInfo && EasyTabService_1.EasyTabService.isThereAShippingTab()) {
+            updateShippingFieldsDetailsCallback();
+        }
         if (CompleteOrderAction_1.CompleteOrderAction.preppingOrder) {
             var orderReadyEvent = new Event("cfw:checkout-validated");
             window.dispatchEvent(orderReadyEvent);
         }
+        ParsleyService.cityStateValidating = false;
         // return ret;
         return true;
     };
@@ -1980,11 +1966,34 @@ var ParsleyService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ParsleyService, "updateShippingTabInfo", {
+        /**
+         * @returns {boolean}
+         */
+        get: function () {
+            return this._updateShippingTabInfo;
+        },
+        /**
+         * @param {boolean} value
+         */
+        set: function (value) {
+            this._updateShippingTabInfo = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * @type {boolean}
+     * @static
      * @private
      */
     ParsleyService._cityStateValidating = false;
+    /**
+     * @type {boolean}
+     * @static
+     * @private
+     */
+    ParsleyService._updateShippingTabInfo = false;
     return ParsleyService;
 }());
 exports.ParsleyService = ParsleyService;
@@ -2086,16 +2095,16 @@ var TabContainer = /** @class */ (function (_super) {
      * @param cart
      */
     TabContainer.prototype.setUpdateShippingFieldsListener = function (ajaxInfo, cart) {
+        var _this = this;
         var customer_info = this.tabContainerSectionBy("name", "customer_info");
         var form_elements = customer_info.getFormElementsByModule('cfw-shipping-info');
-        var on = "change";
+        var onEvent = "change";
         var usfri = this.getUpdateShippingRequiredItems();
         var tc = this;
         var registerUpdateShippingFieldsActionOnChange = function (fe, action, ajaxInfo, shipping_details_fields, on) {
-            var _this = this;
             fe.holder.jel.on(on, function (event) { return TabContainer.genericUpdateShippingFieldsActionProcess(fe, event.target.value, ajaxInfo, action, shipping_details_fields, cart, tc, _this.getOrderDetails()).load(); });
         };
-        form_elements.forEach(function (fe) { return registerUpdateShippingFieldsActionOnChange(fe, usfri.action, ajaxInfo, usfri.shipping_details_fields, on); });
+        form_elements.forEach(function (fe) { return registerUpdateShippingFieldsActionOnChange(fe, usfri.action, ajaxInfo, usfri.shipping_details_fields, onEvent); });
     };
     /**
      * Handles updating all the fields on a breadcrumb click or a move to the next section button
@@ -2104,33 +2113,38 @@ var TabContainer = /** @class */ (function (_super) {
      * @param cart
      */
     TabContainer.prototype.setUpdateAllShippingFieldsListener = function (ajaxInfo, cart) {
-        var customer_info = this.tabContainerSectionBy("name", "customer_info");
-        var form_elements = customer_info.getFormElementsByModule('cfw-shipping-info');
-        var continue_button = customer_info.jel.find("#cfw-shipping-info-action");
+        var continueBtn = $("#cfw-shipping-method");
         var shipping_payment_bc = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
-        var usfri = this.getUpdateShippingRequiredItems();
-        var tc = this;
-        var updateAllProcess = function (event) {
-            var _this = this;
-            form_elements.forEach(function (fe) { return TabContainer.genericUpdateShippingFieldsActionProcess(fe, fe.holder.jel.val(), ajaxInfo, usfri.action, usfri.shipping_details_fields, cart, tc, _this.getOrderDetails()).load(); });
+        var updateAllProcesses = this.getShippingFieldsUpdateCallback();
+        continueBtn.on("click", updateAllProcesses.bind(this));
+        shipping_payment_bc.on("click", updateAllProcesses.bind(this));
+    };
+    /**
+     * @returns {Function}
+     */
+    TabContainer.prototype.getShippingFieldsUpdateCallback = function () {
+        var _this = this;
+        var customerInfoSection = this.tabContainerSectionBy("name", "customer_info");
+        var formElements = customerInfoSection.getFormElementsByModule('cfw-shipping-info');
+        var shippingFieldsInfo = this.getUpdateShippingRequiredItems();
+        return function (event) {
+            formElements.forEach(function (fe) { return TabContainer.genericUpdateShippingFieldsActionProcess(fe, fe.holder.jel.val(), Main_1.Main.instance.ajaxInfo, shippingFieldsInfo.action, shippingFieldsInfo.shipping_details_fields, Main_1.Main.instance.cart, _this, _this.getOrderDetails()).load(); });
         };
-        continue_button.on("click", updateAllProcess.bind(this));
-        shipping_payment_bc.on("click", updateAllProcess.bind(this));
     };
     /**
      * @param fe
      * @param value
      * @param ajaxInfo
      * @param action
-     * @param shipping_details_fields
+     * @param shippingDetailFields
      * @param cart
      * @param tabContainer
-     * @param fields
+     * @param allFields
      */
-    TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shipping_details_fields, cart, tabContainer, fields) {
+    TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shippingDetailFields, cart, tabContainer, allFields) {
         var type = fe.holder.jel.attr("field_key");
         var cdi = { field_type: type, field_value: value };
-        return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shipping_details_fields, cart, tabContainer, fields);
+        return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shippingDetailFields, cart, tabContainer, allFields);
     };
     /**
      *

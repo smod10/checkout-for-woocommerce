@@ -1,6 +1,7 @@
 import { EasyTabService }                           from "./EasyTabService";
 import { EasyTab }                                  from "./EasyTabService";
 import { CompleteOrderAction }                      from "../Actions/CompleteOrderAction";
+import { Main }                                     from "../Main";
 
 let w: any = window;
 
@@ -10,9 +11,17 @@ export class ParsleyService {
 
     /**
      * @type {boolean}
+     * @static
      * @private
      */
     private static _cityStateValidating: boolean = false;
+
+    /**
+     * @type {boolean}
+     * @static
+     * @private
+     */
+    private static _updateShippingTabInfo: boolean = false;
 
     /**
      * @type {any}
@@ -93,19 +102,10 @@ export class ParsleyService {
                 let stateElement: JQuery = $(`#${infoType}_state`);
                 let cityElement: JQuery = $(`#${infoType}_city`);
 
-                // Pass the original state element to the fail callback. Even if it's hidden we want to destroy the garlic cache
-                let failStateElement: JQuery = stateElement;
-
                 // If the stateElement is not visible, it's null
                 if(stateElement.is(":disabled")) {
                     stateElement = null;
                 }
-
-                // Where to check the zip
-                let requestLocation = `//www.zippopotam.us/${country}/${zipElement.val()}`;
-
-                // Our request
-                let xhr = $.ajax(requestLocation);
 
                 // If we aren't already checking, check.
                 if(!ParsleyService.cityStateValidating) {
@@ -113,12 +113,16 @@ export class ParsleyService {
                     // Start the check
                     ParsleyService.cityStateValidating = true;
 
-                    // return xhr
-                    //     .then((response) => this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation))
-                        // .fail(() => this.stateAndZipValidatorOnFail(instance, cityElement, failStateElement, zipElement, failLocation))
+                    // Where to check the zip
+                    let requestLocation = `//www.zippopotam.us/${country}/${zipElement.val()}`;
 
+                    // Our request
+                    let xhr = $.ajax(requestLocation);
+
+                    // Setup our callbacks
                     xhr
                         .then((response) => this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation))
+                        .always(() => ParsleyService.cityStateValidating = false);
                 }
 
                 // Return true, if we fail we will go back.
@@ -161,8 +165,7 @@ export class ParsleyService {
      * @param {EasyTab} failLocation
      */
     stateAndZipValidatorOnSuccess(json, instance, infoType: InfoType, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab) {
-        let ret = null;
-        let stateZipEventName = "";
+        let updateShippingFieldsDetailsCallback = Main.instance.tabContainer.getShippingFieldsUpdateCallback();
 
         // Set the state response value
         let stateResponseValue = json.places[0]["state abbreviation"];
@@ -174,6 +177,7 @@ export class ParsleyService {
 
         // Set the city field
         cityElement.val(cityResponseValue);
+        cityElement.trigger(("DomAttrModified"));
 
         // If the country in question has a state
         if(stateElement) {
@@ -181,38 +185,23 @@ export class ParsleyService {
             // Set the state element if the field type is postcode
             if(fieldType === "postcode") {
                 stateElement.val(stateResponseValue);
+                stateElement.trigger("DOMAttrModified");
             }
-
-            // stateZipEventName = "cfw:state-zip-success";
-
-            stateElement.trigger("DOMAttrModified");
-
-            // if (stateResponseValue !== stateElement.val()) {
-            //     stateZipEventName = "cfw:state-zip-failure";
-            //
-            //     EasyTabService.go(failLocation);
-            //
-            //     ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-            // } else {
-            //     stateZipEventName = "cfw:state-zip-success";
-            //
-            //     stateElement.trigger("DOMAttrModified");
-            // }
         }
-
-        ParsleyService.cityStateValidating = false;
 
         cityElement.parsley().reset();
         stateElement.parsley().reset();
 
-        // Create event
-        // let event = new Event(stateZipEventName);
-        // window.dispatchEvent(event);
+        if(ParsleyService.updateShippingTabInfo && EasyTabService.isThereAShippingTab()) {
+            updateShippingFieldsDetailsCallback();
+        }
 
         if(CompleteOrderAction.preppingOrder) {
             let orderReadyEvent = new Event("cfw:checkout-validated");
             window.dispatchEvent(orderReadyEvent);
         }
+
+        ParsleyService.cityStateValidating = false;
 
         // return ret;
         return true;
@@ -272,5 +261,19 @@ export class ParsleyService {
      */
     static set cityStateValidating(value: boolean) {
         this._cityStateValidating = value;
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    static get updateShippingTabInfo(): boolean {
+        return this._updateShippingTabInfo;
+    }
+
+    /**
+     * @param {boolean} value
+     */
+    static set updateShippingTabInfo(value: boolean) {
+        this._updateShippingTabInfo = value;
     }
 }

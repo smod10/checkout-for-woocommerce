@@ -155,9 +155,8 @@ class Form {
 					'custom_attributes' => array(
 						"data-parsley-state-and-zip"        => "us",
 						"data-parsley-validate-if-empty"    => "",
-						"data-parsley-type"                 => "digits",
-						"data-parsley-length"               => "[5,5]",
-						"data-parsley-trigger"              => "keyup change focusout"
+						"data-parsley-type"                 => "alphanum",
+						"data-parsley-trigger"              => "change focusout"
 					),
 					'start'        => false,
 					'end'          => false

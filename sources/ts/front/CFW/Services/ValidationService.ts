@@ -28,25 +28,29 @@ export class ValidationService {
         ValidationService.validateShippingOnLoadIfNotCustomerTab();
     }
 
+    ezTabBefore(event, clicked, target): void {
+
+    }
+
     /**
      * Execute validation checks before each easy tab easy tab switch.
      */
     validateSectionsBeforeSwitch(): void {
 
         Main.instance.tabContainer.jel.bind('easytabs:before', function(event, clicked, target) {
-
             // Where are we going?
             let easyTabDirection: EasyTabDirection = EasyTabService.getTabDirection(target);
 
             // If we are moving forward in the checkout process and we are currently on the customer tab
             if(easyTabDirection.current === EasyTab.CUSTOMER && easyTabDirection.target > easyTabDirection.current) {
 
-                // Validate the required sections for the customer easy tab
                 let validated: boolean = ValidationService.validateSectionsForCustomerTab();
+                let tabId: string = EasyTabService.getTabId(easyTabDirection.current);
 
-                // If we encountered and error / problem stay on the current tab
-                if ( !validated ) {
-                    EasyTabService.go(easyTabDirection.current);
+                // Has to be done with the window.location.hash. Reason being is on false validation it somehow ignores
+                // the continue button going forward. This prevents that by "resetting" the page so to speak.
+                if ( ! validated ) {
+                    window.location.hash = `#${tabId}`;
                 }
 
                 // Return the validation
@@ -56,7 +60,6 @@ export class ValidationService {
             // If we are moving forward / backwards, have a shipping easy tab, and are not on the customer tab then allow
             // the tab switch
             return true;
-
         }.bind(this));
     }
 

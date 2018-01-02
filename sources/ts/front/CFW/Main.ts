@@ -1,13 +1,13 @@
 /// <reference path="../../../../typings/index.d.ts" />
 /// <reference path="Definitions/ArrayFind.d.ts" />
 
-import { TabContainer } 			from "./Elements/TabContainer";
-import { AjaxInfo }					from "./Types/Types";
-import { Cart } 					from "./Elements/Cart";
-import { TabContainerSection } 		from "./Elements/TabContainerSection";
-import { ValidationService } 		from "./Services/ValidationService";
-import { EasyTabService } 			from "./Services/EasyTabService";
-import { ParsleyService } 			from "./Services/ParsleyService";
+import { TabContainer }							from "./Elements/TabContainer";
+import { AjaxInfo }								from "./Types/Types";
+import { Cart }									from "./Elements/Cart";
+import { TabContainerSection }					from "./Elements/TabContainerSection";
+import { ValidationService }					from "./Services/ValidationService";
+import { EasyTabService }						from "./Services/EasyTabService";
+import { ParsleyService }						from "./Services/ParsleyService";
 
 /**
  * The main class of the front end checkout system

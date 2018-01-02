@@ -132,7 +132,7 @@ export class TabContainer extends Element {
      * @param cart
      */
     setUpdateAllShippingFieldsListener(ajaxInfo: AjaxInfo, cart: Cart) {
-        let continueBtn: JQuery = $("#cfw-shipping-method");
+        let continueBtn: JQuery = $("#cfw-shipping-info-action .cfw-next-tab");
         let shipping_payment_bc: JQuery = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
         let updateAllProcesses = this.getShippingFieldsUpdateCallback();
 

@@ -127,11 +127,8 @@ export class TabContainer extends Element {
 
     /**
      * Handles updating all the fields on a breadcrumb click or a move to the next section button
-     *
-     * @param ajaxInfo
-     * @param cart
      */
-    setUpdateAllShippingFieldsListener(ajaxInfo: AjaxInfo, cart: Cart) {
+    setUpdateAllShippingFieldsListener() {
         let continueBtn: JQuery = $("#cfw-shipping-info-action .cfw-next-tab");
         let shipping_payment_bc: JQuery = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
         let updateAllProcesses = this.getShippingFieldsUpdateCallback();
@@ -148,9 +145,18 @@ export class TabContainer extends Element {
         let formElements: Array<FormElement> = customerInfoSection.getFormElementsByModule('cfw-shipping-info');
         let shippingFieldsInfo: UpdateShippingFieldsRI = this.getUpdateShippingRequiredItems();
 
-        return (event: any) => {
-            formElements.forEach((fe: FormElement) => TabContainer.genericUpdateShippingFieldsActionProcess(fe, fe.holder.jel.val(),
-                Main.instance.ajaxInfo, shippingFieldsInfo.action, shippingFieldsInfo.shipping_details_fields, Main.instance.cart, this, this.getOrderDetails()).load());
+        return () => {
+            formElements.forEach(formElement => TabContainer.genericUpdateShippingFieldsActionProcess(
+                    formElement,
+                    formElement.holder.jel.val(),
+                    Main.instance.ajaxInfo,
+                    shippingFieldsInfo.action,
+                    shippingFieldsInfo.shipping_details_fields,
+                    Main.instance.cart,
+                    this,
+                    this.getOrderDetails()
+                ).load()
+            );
         };
     }
 

@@ -119,6 +119,7 @@ export class TabContainerSection extends Element {
             let moduleContainer: JQuery = $(wrap).parents(".cfw-module");
 
             if($(wrap).hasClass("cfw-select-input")) {
+                console.log("Wrap", $(wrap));
                 let slw: SelectLabelWrap = new SelectLabelWrap( $(wrap) );
                 slw.moduleContainer = moduleContainer;
 

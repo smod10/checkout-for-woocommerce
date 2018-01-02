@@ -98,11 +98,11 @@ export class Main {
 		// Setup animation listeners
 		this.setupAnimationListeners();
 
-		// Fix floating labels
-		this.tabContainer.setFloatLabelOnGarlicRetrieve();
-
 		// Set up credit card fields if there. Needs to happen before wrap
 		this.tabContainer.setUpCreditCardFields();
+
+        // Fix floating labels
+        this.tabContainer.setFloatLabelOnGarlicRetrieve();
 
 		/**
 		 * NOTE: If you are doing any DOM manipulation (adding and removing classes specifically). Do it before the setWraps
@@ -115,8 +115,10 @@ export class Main {
 		// Set up event handlers
 		this.tabContainer.setAccountCheckListener(this.ajaxInfo);
 		this.tabContainer.setLogInListener(this.ajaxInfo);
-		this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
-		this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo, this.cart);
+
+		// this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
+
+		this.tabContainer.setUpdateAllShippingFieldsListener();
 		this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
 		this.tabContainer.setUpPaymentTabRadioButtons();
 		this.tabContainer.setUpCreditCardRadioReveal();

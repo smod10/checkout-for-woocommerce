@@ -173,11 +173,12 @@ export class ParsleyService {
         // Set the city response value
         let cityResponseValue = json.places[0]["place name"];
 
+        // Billing or Shipping?
         let fieldType = $(instance.element).attr("id").split("_")[1];
 
         // Set the city field
         cityElement.val(cityResponseValue);
-        cityElement.trigger(("DomAttrModified"));
+        cityElement.trigger("keyup");
 
         // If the country in question has a state
         if(stateElement) {
@@ -189,6 +190,7 @@ export class ParsleyService {
             }
         }
 
+        // Resets in case error labels.
         cityElement.parsley().reset();
         stateElement.parsley().reset();
 

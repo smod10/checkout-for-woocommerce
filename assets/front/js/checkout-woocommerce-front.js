@@ -104,6 +104,8 @@ var Main = /** @class */ (function () {
         this.tabContainer.easyTabs();
         // Setup animation listeners
         this.setupAnimationListeners();
+        // Fix floating labels
+        this.tabContainer.setFloatLabelOnGarlicRetrieve();
         // Set up credit card fields if there. Needs to happen before wrap
         this.tabContainer.setUpCreditCardFields();
         /**
@@ -126,7 +128,6 @@ var Main = /** @class */ (function () {
         this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
         this.tabContainer.setTermsAndConditions();
         this.tabContainer.setUpdateCheckout();
-        this.tabContainer.setFloatLabelOnGarlicRetrieve();
         // Handles the shipping fields on load if the user happens to land on the shipping method page.
         this.tabContainer.setShippingFieldsOnLoad();
     };

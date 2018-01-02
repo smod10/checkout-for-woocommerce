@@ -32,41 +32,41 @@ export class Main {
 	 */
 	private _ajaxInfo: AjaxInfo;
 
-    /**
+	/**
 	 * @type {AjaxInfo}
 	 * @private
-     */
+	 */
 	private _settings: any;
 
-    /**
-     * @type {ParsleyService}
-     * @private
-     */
-    private _parsleyService: ParsleyService;
+	/**
+	 * @type {ParsleyService}
+	 * @private
+	 */
+	private _parsleyService: ParsleyService;
 
-    /**
-     * @type {EasyTabService}
-     * @private
-     */
-    private _easyTabService: EasyTabService;
+	/**
+	 * @type {EasyTabService}
+	 * @private
+	 */
+	private _easyTabService: EasyTabService;
 
-    /**
+	/**
 	 * @type {ValidationService}
 	 * @private
-     */
+	 */
 	private _validationService: ValidationService;
 
-    /**
+	/**
 	 * @type {boolean}
 	 * @private
-     */
+	 */
 	private _updating: boolean;
 
-    /**
+	/**
 	 * @type {Main}
 	 * @private
 	 * @static
-     */
+	 */
 	private static _instance: Main;
 
 	/**
@@ -99,9 +99,9 @@ export class Main {
 		this.setupAnimationListeners();
 
 		// Fix floating labels
-        this.tabContainer.setFloatLabelOnGarlicRetrieve();
+		this.tabContainer.setFloatLabelOnGarlicRetrieve();
 
-        // Set up credit card fields if there. Needs to happen before wrap
+		// Set up credit card fields if there. Needs to happen before wrap
 		this.tabContainer.setUpCreditCardFields();
 
 		/**
@@ -128,26 +128,26 @@ export class Main {
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
-    }
+	}
 
-    /**
-     * @returns {boolean}
-     */
-    static isPaymentRequired(): boolean {
-        return !$("#cfw-content").hasClass("cfw-payment-false");
-    }
+	/**
+	 * @returns {boolean}
+	 */
+	static isPaymentRequired(): boolean {
+		return !$("#cfw-content").hasClass("cfw-payment-false");
+	}
 
-    static togglePaymentRequired(isPaymentRequired: boolean): void {
-        let $cfw = $("#cfw-content");
-        let noPaymentCssClass = "cfw-payment-false";
+	static togglePaymentRequired(isPaymentRequired: boolean): void {
+		let $cfw = $("#cfw-content");
+		let noPaymentCssClass = "cfw-payment-false";
 
-        if(!isPaymentRequired) {
-            if(!$cfw.hasClass(noPaymentCssClass)) {
-                $cfw.addClass(noPaymentCssClass);
-            }
-        } else {
-            $cfw.removeClass(noPaymentCssClass);
-        }
+		if(!isPaymentRequired) {
+			if(!$cfw.hasClass(noPaymentCssClass)) {
+				$cfw.addClass(noPaymentCssClass);
+			}
+		} else {
+			$cfw.removeClass(noPaymentCssClass);
+		}
 	}
 
 	/**
@@ -159,15 +159,15 @@ export class Main {
 		});
 	}
 
-    get updating(): boolean {
-        return this._updating;
-    }
+	get updating(): boolean {
+		return this._updating;
+	}
 
-    set updating(value: boolean) {
-        this._updating = value;
-    }
+	set updating(value: boolean) {
+		this._updating = value;
+	}
 
-    /**
+	/**
 	 * @returns {TabContainer}
 	 */
 	get tabContainer() {
@@ -209,75 +209,75 @@ export class Main {
 		this._cart = value;
 	}
 
-    /**
-     * @returns {any}
-     */
-    get settings(): any {
-        return this._settings;
-    }
+	/**
+	 * @returns {any}
+	 */
+	get settings(): any {
+		return this._settings;
+	}
 
-    /**
-     * @param value
-     */
-    set settings(value: any) {
-        this._settings = value;
-    }
+	/**
+	 * @param value
+	 */
+	set settings(value: any) {
+		this._settings = value;
+	}
 
-    /**
-     * @returns {ParsleyService}
-     */
-    get parsleyService(): ParsleyService {
-        return this._parsleyService;
-    }
+	/**
+	 * @returns {ParsleyService}
+	 */
+	get parsleyService(): ParsleyService {
+		return this._parsleyService;
+	}
 
-    /**
-     * @param {ParsleyService} value
-     */
-    set parsleyService(value: ParsleyService) {
-        this._parsleyService = value;
-    }
+	/**
+	 * @param {ParsleyService} value
+	 */
+	set parsleyService(value: ParsleyService) {
+		this._parsleyService = value;
+	}
 
-    /**
-     * @returns {EasyTabService}
-     */
-    get easyTabService(): EasyTabService {
-        return this._easyTabService;
-    }
+	/**
+	 * @returns {EasyTabService}
+	 */
+	get easyTabService(): EasyTabService {
+		return this._easyTabService;
+	}
 
-    /**
-     * @param {EasyTabService} value
-     */
-    set easyTabService(value: EasyTabService) {
-        this._easyTabService = value;
-    }
+	/**
+	 * @param {EasyTabService} value
+	 */
+	set easyTabService(value: EasyTabService) {
+		this._easyTabService = value;
+	}
 
-    /**
-     * @returns {ValidationService}
-     */
-    get validationService(): ValidationService {
-        return this._validationService;
-    }
+	/**
+	 * @returns {ValidationService}
+	 */
+	get validationService(): ValidationService {
+		return this._validationService;
+	}
 
-    /**
-     * @param {ValidationService} value
-     */
-    set validationService(value: ValidationService) {
-        this._validationService = value;
-    }
+	/**
+	 * @param {ValidationService} value
+	 */
+	set validationService(value: ValidationService) {
+		this._validationService = value;
+	}
 
-    /**
-     * @returns {Main}
-     */
-    static get instance(): Main {
-        return Main._instance;
-    }
+	/**
+	 * @returns {Main}
+	 */
+	static get instance(): Main {
+		return Main._instance;
+	}
 
-    /**
-     * @param {Main} value
-     */
-    static set instance(value: Main) {
+	/**
+	 * @param {Main} value
+	 */
+	static set instance(value: Main) {
 		if(!Main._instance) {
-            Main._instance = value;
-        }
-    }
+			Main._instance = value;
+		}
+	}
 }

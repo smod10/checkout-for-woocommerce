@@ -347,6 +347,31 @@ class Main extends Singleton {
 
 		wp_enqueue_script('jquery');
 		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array('jquery'), $this->get_version(), true);
+
+		$this->handle_countries();
+	}
+
+	public function handle_countries() {
+		wp_localize_script('cfw_front_js', 'wc_country_select_params',  array(
+			'countries'                 => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) ),
+			'i18n_select_state_text'    => esc_attr__( 'Select an option&hellip;', 'woocommerce' ),
+			'i18n_no_matches'           => _x( 'No matches found', 'enhanced select', 'woocommerce' ),
+			'i18n_ajax_error'           => _x( 'Loading failed', 'enhanced select', 'woocommerce' ),
+			'i18n_input_too_short_1'    => _x( 'Please enter 1 or more characters', 'enhanced select', 'woocommerce' ),
+			'i18n_input_too_short_n'    => _x( 'Please enter %qty% or more characters', 'enhanced select', 'woocommerce' ),
+			'i18n_input_too_long_1'     => _x( 'Please delete 1 character', 'enhanced select', 'woocommerce' ),
+			'i18n_input_too_long_n'     => _x( 'Please delete %qty% characters', 'enhanced select', 'woocommerce' ),
+			'i18n_selection_too_long_1' => _x( 'You can only select 1 item', 'enhanced select', 'woocommerce' ),
+			'i18n_selection_too_long_n' => _x( 'You can only select %qty% items', 'enhanced select', 'woocommerce' ),
+			'i18n_load_more'            => _x( 'Loading more results&hellip;', 'enhanced select', 'woocommerce' ),
+			'i18n_searching'            => _x( 'Searching&hellip;', 'enhanced select', 'woocommerce' ),
+		));
+
+		wp_localize_script('cfw_front_js', 'wc_address_i18n_params', array(
+			'locale'             => json_encode( WC()->countries->get_country_locale() ),
+			'locale_fields'      => json_encode( WC()->countries->get_country_locale_field_selectors() ),
+			'i18n_required_text' => esc_attr__( 'required', 'woocommerce' ),
+		));
 	}
 
 	/**
@@ -476,19 +501,18 @@ class Main extends Singleton {
 	 */
 	function license_is_valid() {
 		// Get main
-//		$main = Main::instance();
-//
-//		$key_status = $main->updater->get_field_value('key_status');
-//		$license_key = $main->updater->get_field_value('license_key');
-//
-//		$valid = true;
-//
-//		// Validate Key Status
-//		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
-//			$valid = false;
-//		}
-//
-//		return $valid;
-		return true;
+		$main = Main::instance();
+
+		$key_status = $main->updater->get_field_value('key_status');
+		$license_key = $main->updater->get_field_value('license_key');
+
+		$valid = true;
+
+		// Validate Key Status
+		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
+			$valid = false;
+		}
+
+		return $valid;
 	}
 }

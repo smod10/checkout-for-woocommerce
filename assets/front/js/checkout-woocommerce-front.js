@@ -104,10 +104,10 @@ var Main = /** @class */ (function () {
         this.tabContainer.easyTabs();
         // Setup animation listeners
         this.setupAnimationListeners();
-        // Fix floating labels
-        this.tabContainer.setFloatLabelOnGarlicRetrieve();
         // Set up credit card fields if there. Needs to happen before wrap
         this.tabContainer.setUpCreditCardFields();
+        // Fix floating labels
+        this.tabContainer.setFloatLabelOnGarlicRetrieve();
         /**
          * NOTE: If you are doing any DOM manipulation (adding and removing classes specifically). Do it before the setWraps
          * call on the tab container sections. Once this is called all the setup of the different areas will have completed and
@@ -118,8 +118,8 @@ var Main = /** @class */ (function () {
         // Set up event handlers
         this.tabContainer.setAccountCheckListener(this.ajaxInfo);
         this.tabContainer.setLogInListener(this.ajaxInfo);
-        this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
-        this.tabContainer.setUpdateAllShippingFieldsListener(this.ajaxInfo, this.cart);
+        // this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
+        this.tabContainer.setUpdateAllShippingFieldsListener();
         this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
         this.tabContainer.setUpPaymentTabRadioButtons();
         this.tabContainer.setUpCreditCardRadioReveal();
@@ -1587,11 +1587,8 @@ var TabContainer = /** @class */ (function (_super) {
     };
     /**
      * Handles updating all the fields on a breadcrumb click or a move to the next section button
-     *
-     * @param ajaxInfo
-     * @param cart
      */
-    TabContainer.prototype.setUpdateAllShippingFieldsListener = function (ajaxInfo, cart) {
+    TabContainer.prototype.setUpdateAllShippingFieldsListener = function () {
         var continueBtn = $("#cfw-shipping-info-action .cfw-next-tab");
         var shipping_payment_bc = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
         var updateAllProcesses = this.getShippingFieldsUpdateCallback();
@@ -1606,8 +1603,8 @@ var TabContainer = /** @class */ (function (_super) {
         var customerInfoSection = this.tabContainerSectionBy("name", "customer_info");
         var formElements = customerInfoSection.getFormElementsByModule('cfw-shipping-info');
         var shippingFieldsInfo = this.getUpdateShippingRequiredItems();
-        return function (event) {
-            formElements.forEach(function (fe) { return TabContainer.genericUpdateShippingFieldsActionProcess(fe, fe.holder.jel.val(), Main_1.Main.instance.ajaxInfo, shippingFieldsInfo.action, shippingFieldsInfo.shipping_details_fields, Main_1.Main.instance.cart, _this, _this.getOrderDetails()).load(); });
+        return function () {
+            formElements.forEach(function (formElement) { return TabContainer.genericUpdateShippingFieldsActionProcess(formElement, formElement.holder.jel.val(), Main_1.Main.instance.ajaxInfo, shippingFieldsInfo.action, shippingFieldsInfo.shipping_details_fields, Main_1.Main.instance.cart, _this, _this.getOrderDetails()).load(); });
         };
     };
     /**
@@ -2562,10 +2559,11 @@ var ParsleyService = /** @class */ (function () {
         var stateResponseValue = json.places[0]["state abbreviation"];
         // Set the city response value
         var cityResponseValue = json.places[0]["place name"];
+        // Billing or Shipping?
         var fieldType = $(instance.element).attr("id").split("_")[1];
         // Set the city field
         cityElement.val(cityResponseValue);
-        cityElement.trigger(("DomAttrModified"));
+        cityElement.trigger("keyup");
         // If the country in question has a state
         if (stateElement) {
             // Set the state element if the field type is postcode
@@ -2574,6 +2572,7 @@ var ParsleyService = /** @class */ (function () {
                 stateElement.trigger("DOMAttrModified");
             }
         }
+        // Resets in case error labels.
         cityElement.parsley().reset();
         stateElement.parsley().reset();
         if (ParsleyService.updateShippingTabInfo && EasyTabService_1.EasyTabService.isThereAShippingTab()) {
@@ -3401,6 +3400,7 @@ var TabContainerSection = /** @class */ (function (_super) {
         jLabelWrap.each(function (index, wrap) {
             var moduleContainer = $(wrap).parents(".cfw-module");
             if ($(wrap).hasClass("cfw-select-input")) {
+                console.log("Wrap", $(wrap));
                 var slw = new SelectLabelWrap_1.SelectLabelWrap($(wrap));
                 slw.moduleContainer = moduleContainer;
                 selectLabelWraps.push(slw);

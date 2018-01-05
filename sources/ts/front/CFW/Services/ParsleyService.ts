@@ -186,7 +186,7 @@ export class ParsleyService {
             // Set the state element if the field type is postcode
             if(fieldType === "postcode") {
                 stateElement.val(stateResponseValue);
-                stateElement.trigger("DOMAttrModified");
+                stateElement.trigger("change");
             }
         }
 

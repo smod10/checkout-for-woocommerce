@@ -127,6 +127,7 @@ export class Main {
 		this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
 		this.tabContainer.setTermsAndConditions();
 		this.tabContainer.setUpdateCheckout();
+		this.tabContainer.setCountryChangeHandlers();
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();

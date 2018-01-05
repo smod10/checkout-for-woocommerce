@@ -15,6 +15,11 @@ import { Main }                             from "../Main";
 import { ValidationService }                from "../Services/ValidationService";
 import { UpdateCheckoutAction }             from "../Actions/UpdateCheckoutAction";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
+import { InfoType }                         from "../Services/ParsleyService";
+import { SelectLabelWrap }                  from "./SelectLabelWrap";
+
+declare let wc_address_i18n_params: any;
+declare let wc_country_select_params: any;
 
 /**
  *
@@ -501,6 +506,226 @@ export class TabContainer extends Element {
         };
 
         return fields;
+    }
+
+    /**
+     *  Handles localization information for countries and relevant states
+     */
+    setCountryChangeHandlers() {
+        let shipping_country: JQuery = $("#shipping_country");
+        let billing_country: JQuery = $("#billing_country");
+
+        // When the country (shipping or billing) get's changed
+        let country_change = (event) => {
+            let target: JQuery = $(event.target);
+            let target_country: string = target.val();
+            let info_type: InfoType = <InfoType>target.attr("id").split("_")[0];
+            let country_state_list = JSON.parse(wc_country_select_params.countries);
+            let state_list_for_country = country_state_list[target_country];
+            let locale_data = JSON.parse(wc_address_i18n_params.locale);
+
+            $(`#${info_type}_state`).parsley().reset();
+
+            // If there is a state list for the country and it actually has states in it. Handle the field generation
+            if(state_list_for_country && Object.keys(state_list_for_country).length > 0) {
+                this.handleFieldsIfStateListExistsForCountry(info_type, state_list_for_country, target_country);
+
+                // If the state list is either undefined or empty fire here.
+            } else {
+                /**
+                 * If the state list is undefined it means we need to reset everything to it's defaults and apply specific
+                 * settings
+                 */
+                if(state_list_for_country === undefined) {
+                    this.removeStateAndReplaceWithTextInput(locale_data[target_country], info_type);
+
+                /**
+                 * If there is a state list with nothing in it, we usually need to hide the state field.
+                 */
+                } else {
+                    this.removeStateAndReplaceWithHiddenInput(locale_data[target_country], info_type);
+
+                }
+            }
+
+            $(`#${info_type}_state`).parsley().reset();
+
+            // Re-register all the elements
+            $("#checkout").parsley();
+        };
+
+        shipping_country.on('change', country_change);
+        billing_country.on('change', country_change);
+    }
+
+    /**
+     *
+     * @param country_display_data
+     * @param info_type
+     */
+    removeStateAndReplaceWithTextInput(country_display_data, info_type) {
+        let current_state_field = $(`#${info_type}_state`);
+        let state_element_wrap: JQuery = current_state_field.parents(".cfw-input-wrap");
+        let group: string = info_type;
+        let tab_section: TabContainerSection = Main.instance
+            .tabContainer
+            .tabContainerSectionBy("name", (info_type === "shipping") ? "customer_info" : "payment_method");
+
+        // Remove old element
+        current_state_field.remove();
+
+        // Append and amend new element
+        state_element_wrap.append(`<input type="text" id="${info_type}_state" value="" />`);
+        state_element_wrap.removeClass("cfw-select-input");
+        state_element_wrap.addClass("cfw-text-input");
+        state_element_wrap.removeClass("cfw-floating-label");
+
+        // Get reference to new element
+        let new_state_input = $(`#${info_type}_state`);
+
+        // Amend new element further
+        new_state_input.attr("field_key", "state")
+            .attr("data-parsley-validate-if-empty", "")
+            .attr("data-parsley-trigger", "keyup change focusout")
+            .attr("data-parsley-group", group)
+            .attr("data-parsley-required", 'true');
+
+        tab_section.selectLabelWraps.forEach((select_label_wrap, index) => {
+            if(select_label_wrap.jel.is(state_element_wrap)) {
+                tab_section.selectLabelWraps.splice(index, 1);
+            }
+        });
+
+        tab_section.inputLabelWraps.push(new InputLabelWrap(state_element_wrap));
+    }
+
+    /**
+     *
+     * @param country_display_data
+     * @param info_type
+     */
+    removeStateAndReplaceWithHiddenInput(country_display_data, info_type) {
+        let current_state_field: JQuery = $(`#${info_type}_state`);
+        let state_element_wrap: JQuery = current_state_field.parents(".cfw-input-wrap");
+
+        current_state_field.remove();
+
+        if(country_display_data && Object.keys(country_display_data).length > 0) {
+            let is_required: boolean = country_display_data["state"]["required"] === "true";
+
+            if(!is_required) {
+                state_element_wrap.removeClass("cfw-select-input");
+                state_element_wrap.removeClass("cfw-text-input");
+                state_element_wrap.removeClass("cfw-floating-label");
+
+                state_element_wrap.append(`<input type="hidden" id="${info_type}_state" />`);
+            }
+        }
+    }
+
+    /**
+     * Removes the state input field and appends a select element for the state field. Returns a JQuery reference to the
+     * newly created select element
+     *
+     * @param {JQuery} state_input
+     * @param info_type
+     * @returns {JQuery}
+     */
+    removeInputAndAddSelect(state_input: JQuery, info_type): JQuery {
+        let id: string = state_input.attr("id");
+        let classes: string = state_input.attr("class");
+        let group: string = state_input.data("parsleyGroup");
+        let tab_section: TabContainerSection = Main.instance
+            .tabContainer
+            .tabContainerSectionBy("name", (info_type === "shipping") ? "customer_info" : "payment_method");
+        let state_input_wrap = state_input.parent(".cfw-input-wrap");
+
+        if(state_input) {
+            // Remove the old input
+            state_input.remove();
+        }
+
+        // Add the new input base (select field)
+        state_input_wrap.append(`<select id="${id}"></select>`);
+        state_input_wrap.removeClass("cfw-text-input");
+        state_input_wrap.addClass("cfw-select-input");
+
+        // Set the selects properties
+        let new_state_input = $(`#${id}`);
+
+        new_state_input.attr("field_key", "state")
+            .attr("class", classes)
+            .attr("data-parsley-validate-if-empty", "")
+            .attr("data-parsley-trigger", "keyup change focusout")
+            .attr("data-parsley-group", group)
+            .attr("data-parsley-required", 'true');
+
+        // Re-register all the elements
+        $("#checkout").parsley();
+
+        tab_section.inputLabelWraps.forEach((input_label_wrap, index) => {
+            if(input_label_wrap.jel.is(state_input_wrap)) {
+                tab_section.inputLabelWraps.splice(index, 1);
+            }
+        });
+
+        tab_section.selectLabelWraps.push(new SelectLabelWrap(state_input_wrap));
+
+        return new_state_input;
+    }
+
+    /**
+     * Given the current state element, if the state element is an input remove it and create the appropriate select
+     * element. Once there is a guaranteed select go ahead and populate it with the state list.
+     *
+     * @param info_type
+     * @param state_list_for_country
+     * @param target_country
+     */
+    handleFieldsIfStateListExistsForCountry(info_type, state_list_for_country, target_country): void {
+        // Get the current state handler field (either a select or input)
+        let current_state_field = $(`#${info_type}_state`);
+        let current_zip_field = $(`#${info_type}_postcode`);
+
+        // If the current state handler is an input field, we need to change it to a select
+        if (current_state_field.is('input')) {
+            current_state_field = this.removeInputAndAddSelect(current_state_field, info_type);
+        }
+
+        // Now that the state field is guaranteed to be a select, we need to populate it.
+        this.populateStates(current_state_field, state_list_for_country);
+        this.setCountryOnZipAndState(current_zip_field, current_state_field, target_country);
+    }
+
+    /**
+     *
+     * @param {JQuery} postcode
+     * @param {JQuery} state
+     * @param country
+     */
+    setCountryOnZipAndState(postcode: JQuery, state: JQuery, country) {
+        postcode.attr("data-parsley-state-and-zip", country);
+        state.attr("data-parsley-state-and-zip", country);
+    }
+
+
+    /**
+     * Given a state select field, populate it with the given list
+     *
+     * @param select
+     * @param state_list
+     */
+    populateStates(select, state_list) {
+        if(select.is("select")) {
+            select.empty();
+
+            select.append(`<option value="">Select a state...</option>`);
+
+            Object.getOwnPropertyNames(state_list)
+                .forEach(state => select.append(`<option value="${state}">${state_list[state]}</option>}`));
+
+            select.parents(".cfw-input-wrap").removeClass("cfw-floating-label");
+        }
     }
 
     /**

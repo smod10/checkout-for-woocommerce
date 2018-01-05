@@ -116,17 +116,13 @@ export class TabContainerSection extends Element {
         let jLabelWrap: JQuery = this.jel.find(this.getWrapSelector());
 
         jLabelWrap.each((index, wrap) => {
-            let moduleContainer: JQuery = $(wrap).parents(".cfw-module");
 
-            if($(wrap).hasClass("cfw-select-input")) {
-                console.log("Wrap", $(wrap));
+            if($(wrap).hasClass("cfw-select-input") && $(wrap).find("select").length > 0) {
                 let slw: SelectLabelWrap = new SelectLabelWrap( $(wrap) );
-                slw.moduleContainer = moduleContainer;
 
                 selectLabelWraps.push( slw );
             } else {
                 let ilw: InputLabelWrap = new InputLabelWrap( $(wrap) );
-                ilw.moduleContainer = moduleContainer;
 
                 inputLabelWraps.push( ilw );
             }

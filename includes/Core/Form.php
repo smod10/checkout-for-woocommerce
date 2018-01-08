@@ -153,7 +153,7 @@ class Form {
 					'wrap'         => $this->input_wrap('text', 4, 45),
 					'label_class'  => 'cfw-input-label',
 					'custom_attributes' => array(
-						"data-parsley-state-and-zip"        => "us",
+						"data-parsley-state-and-zip"        => "",
 						"data-parsley-validate-if-empty"    => "",
 						"data-parsley-type"                 => "alphanum",
 						"data-parsley-trigger"              => "change focusout"
@@ -173,7 +173,7 @@ class Form {
 					'label_class'  => 'cfw-input-label',
 					'input_class'  => array('garlic-auto-save'),
 					'custom_attributes' => array(
-						"data-parsley-state-and-zip"        => "us",
+						"data-parsley-state-and-zip"        => "",
 						"data-parsley-validate-if-empty"    => "",
 						"data-parsley-trigger"              => "keyup change focusout"
 					),

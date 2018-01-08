@@ -1904,6 +1904,10 @@ var TabContainer = /** @class */ (function (_super) {
         var _this = this;
         var shipping_country = $("#shipping_country");
         var billing_country = $("#billing_country");
+        var shipping_postcode = $("#shipping_postcode");
+        var billing_postcode = $("#billing_postcode");
+        var shipping_state = $("#shipping_state");
+        var billing_state = $("#billing_state");
         // When the country (shipping or billing) get's changed
         var country_change = function (event) {
             var target = $(event.target);
@@ -1939,6 +1943,10 @@ var TabContainer = /** @class */ (function (_super) {
         };
         shipping_country.on('change', country_change);
         billing_country.on('change', country_change);
+        shipping_postcode.attr("data-parsley-state-and-zip", shipping_country.val());
+        billing_postcode.attr("data-parsley-state-and-zip", billing_country.val());
+        shipping_state.attr("data-parsley-state-and-zip", shipping_country.val());
+        billing_state.attr("data-parsley-state-and-zip", billing_country.val());
     };
     /**
      *

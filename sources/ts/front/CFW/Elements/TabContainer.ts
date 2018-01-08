@@ -522,6 +522,12 @@ export class TabContainer extends Element {
         let shipping_country: JQuery = $("#shipping_country");
         let billing_country: JQuery = $("#billing_country");
 
+        let shipping_postcode: JQuery = $("#shipping_postcode");
+        let billing_postcode: JQuery = $("#billing_postcode");
+
+        let shipping_state: JQuery = $("#shipping_state");
+        let billing_state: JQuery = $("#billing_state");
+
         // When the country (shipping or billing) get's changed
         let country_change = (event) => {
             let target: JQuery = $(event.target);
@@ -563,6 +569,12 @@ export class TabContainer extends Element {
 
         shipping_country.on('change', country_change);
         billing_country.on('change', country_change);
+
+        shipping_postcode.attr("data-parsley-state-and-zip", shipping_country.val());
+        billing_postcode.attr("data-parsley-state-and-zip", billing_country.val());
+
+        shipping_state.attr("data-parsley-state-and-zip", shipping_country.val());
+        billing_state.attr("data-parsley-state-and-zip", billing_country.val());
     }
 
     /**

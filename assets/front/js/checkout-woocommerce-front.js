@@ -886,7 +886,6 @@ var ValidationService = /** @class */ (function () {
             if (easyTabDirection.current === EasyTabService_2.EasyTab.CUSTOMER && easyTabDirection.target > easyTabDirection.current) {
                 var validated = ValidationService.validateSectionsForCustomerTab();
                 var tabId = EasyTabService_1.EasyTabService.getTabId(easyTabDirection.current);
-                console.log("HEY: Am I Validated? " + validated + " " + tabId);
                 // Has to be done with the window.location.hash. Reason being is on false validation it somehow ignores
                 // the continue button going forward. This prevents that by "resetting" the page so to speak.
                 if (!validated) {
@@ -1571,32 +1570,14 @@ var TabContainer = /** @class */ (function (_super) {
         }
     };
     /**
-     * Handles on change events from the shipping input
-     *
-     * @param ajaxInfo
-     * @param cart
-     */
-    TabContainer.prototype.setUpdateShippingFieldsListener = function (ajaxInfo, cart) {
-        var _this = this;
-        var customer_info = this.tabContainerSectionBy("name", "customer_info");
-        var form_elements = customer_info.getFormElementsByModule('cfw-shipping-info');
-        var onEvent = "change";
-        var usfri = this.getUpdateShippingRequiredItems();
-        var tc = this;
-        var registerUpdateShippingFieldsActionOnChange = function (fe, action, ajaxInfo, shipping_details_fields, on) {
-            fe.holder.jel.on(on, function (event) { return TabContainer.genericUpdateShippingFieldsActionProcess(fe, event.target.value, ajaxInfo, action, shipping_details_fields, cart, tc, _this.getOrderDetails()).load(); });
-        };
-        form_elements.forEach(function (fe) { return registerUpdateShippingFieldsActionOnChange(fe, usfri.action, ajaxInfo, usfri.shipping_details_fields, onEvent); });
-    };
-    /**
      * Handles updating all the fields on a breadcrumb click or a move to the next section button
      */
     TabContainer.prototype.setUpdateAllShippingFieldsListener = function () {
+        var _this = this;
         var continueBtn = $("#cfw-shipping-info-action .cfw-next-tab");
         var shipping_payment_bc = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
-        var updateAllProcesses = this.getShippingFieldsUpdate();
-        continueBtn.on("click", function () { return updateAllProcesses.load(); });
-        shipping_payment_bc.on("click", function () { return updateAllProcesses.load(); });
+        continueBtn.on("click", function () { return _this.getShippingFieldsUpdate().load(); });
+        shipping_payment_bc.on("click", function () { return _this.getShippingFieldsUpdate().load(); });
     };
     /**
      * @returns {UpdateShippingFieldsAction}
@@ -1606,29 +1587,11 @@ var TabContainer = /** @class */ (function (_super) {
         var formElements = customerInfoSection.getFormElementsByModule('cfw-shipping-info');
         var shippingFieldsInfo = this.getUpdateShippingRequiredItems();
         var fieldTypeInfoData = [];
-        formElements.forEach(function (formElement) {
-            var type = formElement.holder.jel.attr("field_key");
-            var value = formElement.holder.jel.val();
-            console.log(type, value);
-            console.log(formElement);
-            fieldTypeInfoData.push({ field_type: type, field_value: value });
-        });
+        formElements.forEach(function (formElement) { return fieldTypeInfoData.push({
+            field_type: formElement.holder.jel.attr("field_key"),
+            field_value: formElement.holder.jel.val()
+        }); });
         return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(shippingFieldsInfo.action, Main_1.Main.instance.ajaxInfo, fieldTypeInfoData, shippingFieldsInfo.shipping_details_fields, Main_1.Main.instance.cart, this, this.getOrderDetails());
-    };
-    /**
-     * @param fe
-     * @param value
-     * @param ajaxInfo
-     * @param action
-     * @param shippingDetailFields
-     * @param cart
-     * @param tabContainer
-     * @param allFields
-     */
-    TabContainer.genericUpdateShippingFieldsActionProcess = function (fe, value, ajaxInfo, action, shippingDetailFields, cart, tabContainer, allFields) {
-        var type = fe.holder.jel.attr("field_key");
-        var cdi = { field_type: type, field_value: value };
-        return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shippingDetailFields, cart, tabContainer, allFields);
     };
     /**
      *
@@ -2840,7 +2803,6 @@ var ParsleyService = /** @class */ (function () {
      * @param {EasyTab} failLocation
      */
     ParsleyService.prototype.stateAndZipValidatorOnSuccess = function (json, instance, infoType, cityElement, stateElement, zipElement, failLocation) {
-        var updateShippingFieldsDetailsCallback = Main_1.Main.instance.tabContainer.getShippingFieldsUpdate();
         if (json.places.length === 1) {
             // Set the state response value
             var stateResponseValue = json.places[0]["state abbreviation"];
@@ -2863,7 +2825,7 @@ var ParsleyService = /** @class */ (function () {
             cityElement.parsley().reset();
             stateElement.parsley().reset();
             if (ParsleyService.updateShippingTabInfo && EasyTabService_1.EasyTabService.isThereAShippingTab()) {
-                updateShippingFieldsDetailsCallback.load();
+                Main_1.Main.instance.tabContainer.getShippingFieldsUpdate().load();
             }
             if (CompleteOrderAction_1.CompleteOrderAction.preppingOrder) {
                 var orderReadyEvent = new Event("cfw:checkout-validated");
@@ -3228,7 +3190,6 @@ var UpdateShippingFieldsAction = /** @class */ (function (_super) {
                 Object.keys(resp.updated_ship_methods).forEach(function (key) { return updated_shipping_methods_1.push(resp.updated_ship_methods[key]); });
                 // Sort them
                 ufi_arr_1.sort();
-                console.log(ufi_arr_1);
                 // Loop over and apply
                 ufi_arr_1.forEach(function (ufi) {
                     var ft = ufi.field_type;

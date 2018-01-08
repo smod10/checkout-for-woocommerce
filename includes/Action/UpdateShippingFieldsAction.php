@@ -46,9 +46,6 @@ class UpdateShippingFieldsAction extends Action {
 			$method_base = "set_shipping_";
 			$method_name = $method_base . $field_type;
 
-			$get_method_base = "get_shipping_";
-			$get_method_name = $get_method_base . $field_type;
-
 			try {
 				// Call the specified shipping method
 				WC()->customer->$method_name( $field_value );

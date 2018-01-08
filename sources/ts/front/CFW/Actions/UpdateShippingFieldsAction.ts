@@ -102,8 +102,6 @@ export class UpdateShippingFieldsAction extends Action {
                 // Sort them
                 ufi_arr.sort();
 
-                console.log(ufi_arr);
-
                 // Loop over and apply
                 ufi_arr.forEach((ufi: FieldTypeInfo) => {
                     let ft: string = ufi.field_type;

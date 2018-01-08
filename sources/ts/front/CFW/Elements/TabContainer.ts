@@ -109,37 +109,14 @@ export class TabContainer extends Element {
     }
 
     /**
-     * Handles on change events from the shipping input
-     *
-     * @param ajaxInfo
-     * @param cart
-     */
-    setUpdateShippingFieldsListener(ajaxInfo: AjaxInfo, cart: Cart) {
-        let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
-        let form_elements: Array<FormElement> = customer_info.getFormElementsByModule('cfw-shipping-info');
-        let onEvent: string = "change";
-        let usfri: UpdateShippingFieldsRI = this.getUpdateShippingRequiredItems();
-        let tc: TabContainer = this;
-
-        let registerUpdateShippingFieldsActionOnChange: Function = (fe: FormElement, action: string, ajaxInfo: AjaxInfo, shipping_details_fields: Array<JQuery>, on: string) => {
-            fe.holder.jel.on(on, (event: any) => TabContainer.genericUpdateShippingFieldsActionProcess(fe, event.target.value,
-                ajaxInfo, action, shipping_details_fields, cart, tc, this.getOrderDetails()).load());
-        };
-
-        form_elements.forEach((fe: FormElement) => registerUpdateShippingFieldsActionOnChange(fe, usfri.action, ajaxInfo,
-            usfri.shipping_details_fields, onEvent));
-    }
-
-    /**
      * Handles updating all the fields on a breadcrumb click or a move to the next section button
      */
     setUpdateAllShippingFieldsListener() {
         let continueBtn: JQuery = $("#cfw-shipping-info-action .cfw-next-tab");
         let shipping_payment_bc: JQuery = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
-        let updateAllProcesses: UpdateShippingFieldsAction = this.getShippingFieldsUpdate();
 
-        continueBtn.on("click", () => updateAllProcesses.load());
-        shipping_payment_bc.on("click", () => updateAllProcesses.load());
+        continueBtn.on("click", () => this.getShippingFieldsUpdate().load());
+        shipping_payment_bc.on("click", () => this.getShippingFieldsUpdate().load());
     }
 
     /**
@@ -151,15 +128,10 @@ export class TabContainer extends Element {
         let shippingFieldsInfo: UpdateShippingFieldsRI = this.getUpdateShippingRequiredItems();
         let fieldTypeInfoData: Array<FieldTypeInfo> = [];
 
-        formElements.forEach(formElement => {
-            let type = formElement.holder.jel.attr("field_key");
-            let value = formElement.holder.jel.val();
-
-            console.log(type, value);
-            console.log(formElement);
-
-            fieldTypeInfoData.push({field_type: type, field_value: value});
-        });
+        formElements.forEach(formElement => fieldTypeInfoData.push({
+            field_type: formElement.holder.jel.attr("field_key"),
+            field_value: formElement.holder.jel.val()
+        }));
 
         return new UpdateShippingFieldsAction(
             shippingFieldsInfo.action,
@@ -170,31 +142,6 @@ export class TabContainer extends Element {
             this,
             this.getOrderDetails()
         );
-    }
-
-    /**
-     * @param fe
-     * @param value
-     * @param ajaxInfo
-     * @param action
-     * @param shippingDetailFields
-     * @param cart
-     * @param tabContainer
-     * @param allFields
-     */
-    static genericUpdateShippingFieldsActionProcess(fe: FormElement,
-                                                    value: any,
-                                                    ajaxInfo: AjaxInfo,
-                                                    action: string,
-                                                    shippingDetailFields: Array<JQuery>,
-                                                    cart: Cart,
-                                                    tabContainer: TabContainer,
-                                                    allFields: any): UpdateShippingFieldsAction
-    {
-        let type = fe.holder.jel.attr("field_key");
-        let cdi: FieldTypeInfo = {field_type: type, field_value: value};
-
-        return new UpdateShippingFieldsAction(action, ajaxInfo, [cdi], shippingDetailFields, cart, tabContainer, allFields);
     }
 
     /**

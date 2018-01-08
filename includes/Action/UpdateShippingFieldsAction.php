@@ -49,7 +49,6 @@ class UpdateShippingFieldsAction extends Action {
 			try {
 				// Call the specified shipping method
 				WC()->customer->$method_name( $field_value );
-
 				WC()->cart->calculate_totals();
 				WC()->cart->persistent_cart_update();
 				WC()->customer->save();
@@ -111,6 +110,10 @@ class UpdateShippingFieldsAction extends Action {
 						checked( $method->id, $chosen_method, false ), wc_cart_totals_shipping_method_label( $method ) );
 				}
 			}
+		}
+
+		if(count($out) == 0) {
+			$out = apply_filters( 'woocommerce_no_shipping_available_html', wpautop( __( 'There are no shipping methods available. Please ensure that your address has been entered correctly, or contact us if you need any help.', 'woocommerce' ) ) );
 		}
 
 		return $out;

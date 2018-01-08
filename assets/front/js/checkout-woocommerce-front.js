@@ -120,7 +120,7 @@ var Main = /** @class */ (function () {
         this.tabContainer.setLogInListener(this.ajaxInfo);
         // this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
         this.tabContainer.setUpdateAllShippingFieldsListener();
-        this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
+        this.tabContainer.setShippingPaymentUpdate();
         this.tabContainer.setUpPaymentTabRadioButtons();
         this.tabContainer.setUpCreditCardRadioReveal();
         this.tabContainer.setUpMobileCartDetailsReveal();
@@ -1803,15 +1803,13 @@ var TabContainer = /** @class */ (function (_super) {
     };
     /**
      *
-     * @param ajaxInfo
-     * @param cart
      */
-    TabContainer.prototype.setShippingPaymentUpdate = function (ajaxInfo, cart) {
+    TabContainer.prototype.setShippingPaymentUpdate = function () {
         var _this = this;
         var shipping_method = this.tabContainerSectionBy("name", "shipping_method");
         var updateShippingMethod = function (event) {
             var shipMethodVal = event.target.value;
-            new UpdateShippingMethodAction_1.UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal, cart, this.getFields()).load();
+            new UpdateShippingMethodAction_1.UpdateShippingMethodAction("update_shipping_method", Main_1.Main.instance.ajaxInfo, shipMethodVal, Main_1.Main.instance.cart, this.getFields()).load();
         };
         shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each(function (index, el) {
             $(el).on("click", updateShippingMethod.bind(_this));
@@ -3187,7 +3185,6 @@ var UpdateShippingFieldsAction = /** @class */ (function (_super) {
             if (resp.updated_fields_info) {
                 // Push all the object values into an array
                 Object.keys(resp.updated_fields_info).forEach(function (key) { return ufi_arr_1.push(resp.updated_fields_info[key]); });
-                Object.keys(resp.updated_ship_methods).forEach(function (key) { return updated_shipping_methods_1.push(resp.updated_ship_methods[key]); });
                 // Sort them
                 ufi_arr_1.sort();
                 // Loop over and apply
@@ -3200,15 +3197,24 @@ var UpdateShippingFieldsAction = /** @class */ (function (_super) {
                         }
                     });
                 });
-                if (updated_shipping_methods_1.length > 0) {
-                    $("#shipping_method").html("");
+                if (typeof resp.updated_ship_methods !== "string") {
+                    Object.keys(resp.updated_ship_methods).forEach(function (key) { return updated_shipping_methods_1.push(resp.updated_ship_methods[key]); });
+                    if (updated_shipping_methods_1.length > 0) {
+                        console.log("THERE ARE MORE THAN 0", updated_shipping_methods_1);
+                        $("#shipping_method").html("");
+                        $("#shipping_method").append("<ul class='cfw-shipping-methods-list'></ul>");
+                        // Update shipping methods
+                        updated_shipping_methods_1.forEach(function (ship_method) {
+                            return $("#shipping_method ul").append($("<li>" + ship_method + "</li>"));
+                        });
+                    }
+                    // There is a message
                 }
-                // Update shipping methods
-                updated_shipping_methods_1.forEach(function (ship_method) {
-                    var item = $("<li>" + ship_method + "</li>");
-                    $("#shipping_method").append(item);
-                });
-                this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
+                else {
+                    $("#shipping_method").html("");
+                    $("#shipping_method").append("<div class=\"shipping-message\">" + resp.updated_ship_methods + "</div>");
+                }
+                this.tabContainer.setShippingPaymentUpdate();
                 // Update totals
                 Cart_1.Cart.outputValues(this.cart, resp.new_totals);
             }

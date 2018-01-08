@@ -97,7 +97,6 @@ export class UpdateShippingFieldsAction extends Action {
 
                 // Push all the object values into an array
                 Object.keys(resp.updated_fields_info).forEach((key) => ufi_arr.push(<FieldTypeInfo>resp.updated_fields_info[key]));
-                Object.keys(resp.updated_ship_methods).forEach((key) => updated_shipping_methods.push(resp.updated_ship_methods[key]));
 
                 // Sort them
                 ufi_arr.sort();
@@ -114,17 +113,26 @@ export class UpdateShippingFieldsAction extends Action {
                     });
                 });
 
-                if(updated_shipping_methods.length > 0) {
+                if(typeof resp.updated_ship_methods !== "string") {
+                    Object.keys(resp.updated_ship_methods).forEach((key) => updated_shipping_methods.push(resp.updated_ship_methods[key]));
+
+                    if(updated_shipping_methods.length > 0) {
+                        console.log("THERE ARE MORE THAN 0", updated_shipping_methods);
+                        $("#shipping_method").html("");
+                        $("#shipping_method").append("<ul class='cfw-shipping-methods-list'></ul>");
+
+                        // Update shipping methods
+                        updated_shipping_methods.forEach((ship_method: string) =>
+                            $("#shipping_method ul").append($(`<li>${ship_method}</li>`))
+                        );
+                    }
+                // There is a message
+                } else {
                     $("#shipping_method").html("");
+                    $("#shipping_method").append(`<div class="shipping-message">${resp.updated_ship_methods}</div>`);
                 }
 
-                // Update shipping methods
-                updated_shipping_methods.forEach((ship_method: string) => {
-                    let item: JQuery = $(`<li>${ship_method}</li>`);
-                    $("#shipping_method").append(item);
-                });
-
-                this.tabContainer.setShippingPaymentUpdate(this.ajaxInfo, this.cart);
+                this.tabContainer.setShippingPaymentUpdate();
 
                 // Update totals
                 Cart.outputValues(this.cart, resp.new_totals);

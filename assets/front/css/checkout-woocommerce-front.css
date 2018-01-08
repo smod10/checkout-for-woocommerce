@@ -932,6 +932,9 @@ fieldset .cfw-sg-container:last-child > * > .form-row {
       background-size: 12px 12px;
       padding-left: 15px; }
 
+.shipping-message {
+  padding-top: 10px; }
+
 .cfw-shipping-methods-list {
   border: 1px solid #ddd;
   border-radius: 4px;

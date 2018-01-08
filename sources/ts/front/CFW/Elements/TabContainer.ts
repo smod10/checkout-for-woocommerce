@@ -396,15 +396,19 @@ export class TabContainer extends Element {
 
     /**
      *
-     * @param ajaxInfo
-     * @param cart
      */
-    setShippingPaymentUpdate(ajaxInfo: AjaxInfo, cart: Cart): void {
+    setShippingPaymentUpdate(): void {
         let shipping_method: TabContainerSection = this.tabContainerSectionBy("name", "shipping_method");
         let updateShippingMethod: Function = function(event: any) {
             let shipMethodVal = event.target.value;
 
-            new UpdateShippingMethodAction("update_shipping_method", ajaxInfo, shipMethodVal, cart, this.getFields()).load();
+            new UpdateShippingMethodAction(
+                "update_shipping_method",
+                Main.instance.ajaxInfo,
+                shipMethodVal,
+                Main.instance.cart,
+                this.getFields()
+            ).load();
         };
 
         shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each((index, el) => {

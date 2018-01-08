@@ -178,7 +178,7 @@
                                         <?php echo apply_filters('cfw_shipping_method_heading', esc_html__( 'Shipping method', 'checkout-wc' ) ); ?>
                                     </h3>
                                     <span><?php esc_html_e( 'Select a shipping method:', 'checkout-wc' ); ?></span>
-                                    <div>
+                                    <div id="shipping_method">
                                         <?php cfw_cart_totals_shipping_html(); ?>
                                     </div>
                                 </div>

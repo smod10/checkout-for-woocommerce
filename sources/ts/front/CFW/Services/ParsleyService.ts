@@ -167,43 +167,45 @@ export class ParsleyService {
     stateAndZipValidatorOnSuccess(json, instance, infoType: InfoType, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab) {
         let updateShippingFieldsDetailsCallback = Main.instance.tabContainer.getShippingFieldsUpdateCallback();
 
-        // Set the state response value
-        let stateResponseValue = json.places[0]["state abbreviation"];
+        if(json.places.length === 1) {
+            // Set the state response value
+            let stateResponseValue = json.places[0]["state abbreviation"];
 
-        // Set the city response value
-        let cityResponseValue = json.places[0]["place name"];
+            // Set the city response value
+            let cityResponseValue = json.places[0]["place name"];
 
-        // Billing or Shipping?
-        let fieldType = $(instance.element).attr("id").split("_")[1];
+            // Billing or Shipping?
+            let fieldType = $(instance.element).attr("id").split("_")[1];
 
-        // Set the city field
-        cityElement.val(cityResponseValue);
-        cityElement.trigger("keyup");
+            // Set the city field
+            cityElement.val(cityResponseValue);
+            cityElement.trigger("keyup");
 
-        // If the country in question has a state
-        if(stateElement) {
+            // If the country in question has a state
+            if (stateElement) {
 
-            // Set the state element if the field type is postcode
-            if(fieldType === "postcode") {
-                stateElement.val(stateResponseValue);
-                stateElement.trigger("change");
+                // Set the state element if the field type is postcode
+                if (fieldType === "postcode") {
+                    stateElement.val(stateResponseValue);
+                    stateElement.trigger("change");
+                }
             }
+
+            // Resets in case error labels.
+            cityElement.parsley().reset();
+            stateElement.parsley().reset();
+
+            if (ParsleyService.updateShippingTabInfo && EasyTabService.isThereAShippingTab()) {
+                updateShippingFieldsDetailsCallback();
+            }
+
+            if (CompleteOrderAction.preppingOrder) {
+                let orderReadyEvent = new Event("cfw:checkout-validated");
+                window.dispatchEvent(orderReadyEvent);
+            }
+
+            ParsleyService.cityStateValidating = false;
         }
-
-        // Resets in case error labels.
-        cityElement.parsley().reset();
-        stateElement.parsley().reset();
-
-        if(ParsleyService.updateShippingTabInfo && EasyTabService.isThereAShippingTab()) {
-            updateShippingFieldsDetailsCallback();
-        }
-
-        if(CompleteOrderAction.preppingOrder) {
-            let orderReadyEvent = new Event("cfw:checkout-validated");
-            window.dispatchEvent(orderReadyEvent);
-        }
-
-        ParsleyService.cityStateValidating = false;
 
         // return ret;
         return true;

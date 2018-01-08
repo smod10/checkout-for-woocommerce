@@ -28,10 +28,6 @@ export class ValidationService {
         ValidationService.validateShippingOnLoadIfNotCustomerTab();
     }
 
-    ezTabBefore(event, clicked, target): void {
-
-    }
-
     /**
      * Execute validation checks before each easy tab easy tab switch.
      */
@@ -46,6 +42,8 @@ export class ValidationService {
 
                 let validated: boolean = ValidationService.validateSectionsForCustomerTab();
                 let tabId: string = EasyTabService.getTabId(easyTabDirection.current);
+
+                console.log(`HEY: Am I Validated? ${validated} ${tabId}`);
 
                 // Has to be done with the window.location.hash. Reason being is on false validation it somehow ignores
                 // the continue button going forward. This prevents that by "resetting" the page so to speak.

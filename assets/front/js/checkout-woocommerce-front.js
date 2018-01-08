@@ -1934,6 +1934,9 @@ var TabContainer = /** @class */ (function (_super) {
         };
         shipping_country.on('change', country_change);
         billing_country.on('change', country_change);
+        // Trigger for page load
+        shipping_country.trigger('change');
+        billing_country.trigger('change');
     };
     /**
      *
@@ -2858,7 +2861,6 @@ var ParsleyService = /** @class */ (function () {
             }
             ParsleyService.cityStateValidating = false;
         }
-        // return ret;
         return true;
     };
     /**

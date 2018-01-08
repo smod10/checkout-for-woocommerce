@@ -207,7 +207,6 @@ export class ParsleyService {
             ParsleyService.cityStateValidating = false;
         }
 
-        // return ret;
         return true;
     }
 

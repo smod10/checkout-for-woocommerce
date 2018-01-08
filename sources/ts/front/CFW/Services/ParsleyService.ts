@@ -165,7 +165,7 @@ export class ParsleyService {
      * @param {EasyTab} failLocation
      */
     stateAndZipValidatorOnSuccess(json, instance, infoType: InfoType, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab) {
-        let updateShippingFieldsDetailsCallback = Main.instance.tabContainer.getShippingFieldsUpdateCallback();
+        let updateShippingFieldsDetailsCallback = Main.instance.tabContainer.getShippingFieldsUpdate();
 
         if(json.places.length === 1) {
             // Set the state response value
@@ -196,7 +196,7 @@ export class ParsleyService {
             stateElement.parsley().reset();
 
             if (ParsleyService.updateShippingTabInfo && EasyTabService.isThereAShippingTab()) {
-                updateShippingFieldsDetailsCallback();
+                updateShippingFieldsDetailsCallback.load();
             }
 
             if (CompleteOrderAction.preppingOrder) {

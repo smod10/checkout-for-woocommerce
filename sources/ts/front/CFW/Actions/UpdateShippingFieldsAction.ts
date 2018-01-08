@@ -1,6 +1,6 @@
 import { Action }                                   from "./Action";
 import { AjaxInfo }                                 from "../Types/Types";
-import { CustomerDataInfo }                         from "../Types/Types";
+import { FieldTypeInfo }                         from "../Types/Types";
 import { ResponsePrep }                             from "../Decorators/ResponsePrep";
 import { UpdateCartTotalsData }                     from "../Elements/Cart";
 import { Cart }                                     from "../Elements/Cart";
@@ -11,7 +11,7 @@ import {UpdateCheckoutAction} from "./UpdateCheckoutAction";
 
 export type UpdateShippingFieldsResponse = {
     error: boolean,
-    updated_fields_info: Array<CustomerDataInfo>,
+    updated_fields_info: Array<FieldTypeInfo>,
     new_totals: UpdateCartTotalsData,
     needs_payment: boolean,
     updated_ship_methods: any
@@ -20,7 +20,7 @@ export type UpdateShippingFieldsResponse = {
 export type UpdateShippingFieldsData = {
     action: string,
     security: string,
-    shipping_fields_info: Array<CustomerDataInfo>
+    shipping_fields_info: Array<FieldTypeInfo>
 }
 
 export type UpdateShippingFieldsRI = {
@@ -68,7 +68,7 @@ export class UpdateShippingFieldsAction extends Action {
      * @param tabContainer
      * @param fields
      */
-    constructor(id:string, ajaxInfo: AjaxInfo, shipping_fields_info: Array<CustomerDataInfo>, shipping_details_fields: Array<JQuery>, cart: Cart, tabContainer: TabContainer, fields: any) {
+    constructor(id:string, ajaxInfo: AjaxInfo, shipping_fields_info: Array<FieldTypeInfo>, shipping_details_fields: Array<JQuery>, cart: Cart, tabContainer: TabContainer, fields: any) {
         let data: UpdateShippingFieldsData = {
             action: id,
             security: ajaxInfo.nonce,
@@ -90,20 +90,22 @@ export class UpdateShippingFieldsAction extends Action {
     @ResponsePrep
     public response(resp: UpdateShippingFieldsResponse): void {
         if(!resp.error) {
-            let ufi_arr: Array<CustomerDataInfo> = [];
+            let ufi_arr: Array<FieldTypeInfo> = [];
             let updated_shipping_methods: Array<any> = [];
 
             if(resp.updated_fields_info) {
 
                 // Push all the object values into an array
-                Object.keys(resp.updated_fields_info).forEach((key) => ufi_arr.push(<CustomerDataInfo>resp.updated_fields_info[key]));
+                Object.keys(resp.updated_fields_info).forEach((key) => ufi_arr.push(<FieldTypeInfo>resp.updated_fields_info[key]));
                 Object.keys(resp.updated_ship_methods).forEach((key) => updated_shipping_methods.push(resp.updated_ship_methods[key]));
 
                 // Sort them
                 ufi_arr.sort();
 
+                console.log(ufi_arr);
+
                 // Loop over and apply
-                ufi_arr.forEach((ufi: CustomerDataInfo) => {
+                ufi_arr.forEach((ufi: FieldTypeInfo) => {
                     let ft: string = ufi.field_type;
                     let fv: any = ufi.field_value;
 

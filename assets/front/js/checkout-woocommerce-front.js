@@ -1594,21 +1594,26 @@ var TabContainer = /** @class */ (function (_super) {
     TabContainer.prototype.setUpdateAllShippingFieldsListener = function () {
         var continueBtn = $("#cfw-shipping-info-action .cfw-next-tab");
         var shipping_payment_bc = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
-        var updateAllProcesses = this.getShippingFieldsUpdateCallback();
-        continueBtn.on("click", updateAllProcesses.bind(this));
-        shipping_payment_bc.on("click", updateAllProcesses.bind(this));
+        var updateAllProcesses = this.getShippingFieldsUpdate();
+        continueBtn.on("click", function () { return updateAllProcesses.load(); });
+        shipping_payment_bc.on("click", function () { return updateAllProcesses.load(); });
     };
     /**
-     * @returns {Function}
+     * @returns {UpdateShippingFieldsAction}
      */
-    TabContainer.prototype.getShippingFieldsUpdateCallback = function () {
-        var _this = this;
+    TabContainer.prototype.getShippingFieldsUpdate = function () {
         var customerInfoSection = this.tabContainerSectionBy("name", "customer_info");
         var formElements = customerInfoSection.getFormElementsByModule('cfw-shipping-info');
         var shippingFieldsInfo = this.getUpdateShippingRequiredItems();
-        return function () {
-            formElements.forEach(function (formElement) { return TabContainer.genericUpdateShippingFieldsActionProcess(formElement, formElement.holder.jel.val(), Main_1.Main.instance.ajaxInfo, shippingFieldsInfo.action, shippingFieldsInfo.shipping_details_fields, Main_1.Main.instance.cart, _this, _this.getOrderDetails()).load(); });
-        };
+        var fieldTypeInfoData = [];
+        formElements.forEach(function (formElement) {
+            var type = formElement.holder.jel.attr("field_key");
+            var value = formElement.holder.jel.val();
+            console.log(type, value);
+            console.log(formElement);
+            fieldTypeInfoData.push({ field_type: type, field_value: value });
+        });
+        return new UpdateShippingFieldsAction_1.UpdateShippingFieldsAction(shippingFieldsInfo.action, Main_1.Main.instance.ajaxInfo, fieldTypeInfoData, shippingFieldsInfo.shipping_details_fields, Main_1.Main.instance.cart, this, this.getOrderDetails());
     };
     /**
      * @param fe
@@ -1934,9 +1939,6 @@ var TabContainer = /** @class */ (function (_super) {
         };
         shipping_country.on('change', country_change);
         billing_country.on('change', country_change);
-        // Trigger for page load
-        shipping_country.trigger('change');
-        billing_country.trigger('change');
     };
     /**
      *
@@ -2830,7 +2832,7 @@ var ParsleyService = /** @class */ (function () {
      * @param {EasyTab} failLocation
      */
     ParsleyService.prototype.stateAndZipValidatorOnSuccess = function (json, instance, infoType, cityElement, stateElement, zipElement, failLocation) {
-        var updateShippingFieldsDetailsCallback = Main_1.Main.instance.tabContainer.getShippingFieldsUpdateCallback();
+        var updateShippingFieldsDetailsCallback = Main_1.Main.instance.tabContainer.getShippingFieldsUpdate();
         if (json.places.length === 1) {
             // Set the state response value
             var stateResponseValue = json.places[0]["state abbreviation"];
@@ -2853,7 +2855,7 @@ var ParsleyService = /** @class */ (function () {
             cityElement.parsley().reset();
             stateElement.parsley().reset();
             if (ParsleyService.updateShippingTabInfo && EasyTabService_1.EasyTabService.isThereAShippingTab()) {
-                updateShippingFieldsDetailsCallback();
+                updateShippingFieldsDetailsCallback.load();
             }
             if (CompleteOrderAction_1.CompleteOrderAction.preppingOrder) {
                 var orderReadyEvent = new Event("cfw:checkout-validated");
@@ -3218,6 +3220,7 @@ var UpdateShippingFieldsAction = /** @class */ (function (_super) {
                 Object.keys(resp.updated_ship_methods).forEach(function (key) { return updated_shipping_methods_1.push(resp.updated_ship_methods[key]); });
                 // Sort them
                 ufi_arr_1.sort();
+                console.log(ufi_arr_1);
                 // Loop over and apply
                 ufi_arr_1.forEach(function (ufi) {
                     var ft = ufi.field_type;

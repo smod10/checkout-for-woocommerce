@@ -177,13 +177,9 @@ export class ParsleyService {
             stateElement.parsley().reset();
         }
 
-        console.log("HELLLO");
-
         if (CompleteOrderAction.preppingOrder) {
             let orderReadyEvent = new Event("cfw:checkout-validated");
             window.dispatchEvent(orderReadyEvent);
-
-            console.log("TESTING1");
         }
 
         ParsleyService.cityStateValidating = false;

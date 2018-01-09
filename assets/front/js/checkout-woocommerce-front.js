@@ -1264,7 +1264,6 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
         customer_info_tab.getInputsFromSection(", select").forEach(function (item) {
             var value = item.jel.val();
             var key = item.jel.attr("field_key");
-            console.log(value, key, item);
             $(".cfw-shipping-details-field[field_type=\"" + key + "\"] .field_value").text(value);
         });
     };
@@ -1930,6 +1929,7 @@ var TabContainer = /** @class */ (function (_super) {
                     _this.removeStateAndReplaceWithHiddenInput(locale_data[target_country], info_type);
                 }
             }
+            _this.adjustLabelsPlaceholdersAndThings(target_country, locale_data, info_type);
             $("#" + info_type + "_state").parsley().reset();
             // Re-register all the elements
             $("#checkout").parsley();
@@ -1941,6 +1941,61 @@ var TabContainer = /** @class */ (function (_super) {
         billing_postcode.attr("data-parsley-state-and-zip", billing_country.val());
         shipping_state.attr("data-parsley-state-and-zip", shipping_country.val());
         billing_state.attr("data-parsley-state-and-zip", billing_country.val());
+    };
+    TabContainer.prototype.adjustLabelsPlaceholdersAndThings = function (target_country, locale_data, info_type) {
+        var locale_data_for_country = locale_data[target_country];
+        var default_locale_data = locale_data["default"];
+        if (locale_data_for_country !== undefined) {
+            var postcode = null;
+            var state = null;
+            var city = null;
+            var addr2 = null;
+            var input_label_selector = ".cfw-input-label";
+            if (locale_data_for_country.postcode !== undefined) {
+                var postcode_el = $("#" + info_type + "_postcode");
+                var postcode_field_wrap = $("#" + info_type + "_postcode_field");
+                var required = false;
+                postcode = locale_data_for_country.postcode;
+                // Check for required
+                if (postcode.required !== undefined) {
+                    postcode_el.attr("required", postcode.required);
+                    if (postcode.required === true) {
+                        required = true;
+                        postcode_field_wrap.addClass("validate-required");
+                        postcode_field_wrap.addClass("validate-" + default_locale_data.postcode.validate[0]);
+                    }
+                    else {
+                        required = false;
+                        postcode_field_wrap.removeClass("validate-required");
+                        postcode_field_wrap.removeClass("validate-" + default_locale_data.postcode.validate[0]);
+                    }
+                }
+                else {
+                    required = true;
+                    postcode_el.attr("required", default_locale_data.postcode.required);
+                    postcode_field_wrap.addClass("validate-required");
+                    postcode_field_wrap.addClass("validate-" + default_locale_data.postcode.validate[0]);
+                }
+                // Check for label
+                if (postcode.label !== undefined) {
+                    postcode_el.siblings(input_label_selector).html(postcode.label + (required) ? "<abbr class=\"required\" title=\"required\">*</abbr>" : "");
+                }
+                else {
+                    postcode_el.siblings(input_label_selector).html(default_locale_data.postcode.label + "<abbr class=\"required\" title=\"required\">*</abbr>");
+                }
+                // Check for auto complete
+                if (postcode.autocomplete !== undefined) {
+                    postcode_el.attr("autocomplete", postcode.autocomplete);
+                }
+                else {
+                    postcode_el.attr("autocomplete", default_locale_data.postcode.autocomplete);
+                }
+            }
+        }
+        else {
+            var postcode_el = $("#" + info_type + "_postcode");
+            var postcode_field_wrap = $("#" + info_type + "_postcode_field");
+        }
     };
     /**
      *
@@ -2832,11 +2887,8 @@ var ParsleyService = /** @class */ (function () {
                 cityElement.trigger("keyup");
                 // If the country in question has a state
                 if (stateElement) {
-                    // Set the state element if the field type is postcode
-                    if (fieldType === "postcode") {
-                        stateElement.val(stateResponseValue);
-                        stateElement.trigger("change");
-                    }
+                    stateElement.val(stateResponseValue);
+                    stateElement.trigger("change");
                 }
                 // Resets in case error labels.
                 cityElement.parsley().reset();

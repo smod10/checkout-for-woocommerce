@@ -485,6 +485,8 @@ export class TabContainer extends Element {
                 }
             }
 
+            this.adjustLabelsPlaceholdersAndThings(target_country, locale_data, info_type);
+
             $(`#${info_type}_state`).parsley().reset();
 
             // Re-register all the elements
@@ -501,6 +503,69 @@ export class TabContainer extends Element {
 
         shipping_state.attr("data-parsley-state-and-zip", shipping_country.val());
         billing_state.attr("data-parsley-state-and-zip", billing_country.val());
+    }
+
+    adjustLabelsPlaceholdersAndThings(target_country, locale_data, info_type): void {
+        let locale_data_for_country = locale_data[target_country];
+        let default_locale_data = locale_data["default"];
+
+        if(locale_data_for_country !== undefined) {
+            let postcode = null;
+            let state = null;
+            let city = null;
+            let addr2 = null;
+
+            let input_label_selector = ".cfw-input-label";
+
+            if(locale_data_for_country.postcode !== undefined) {
+                let postcode_el = $(`#${info_type}_postcode`);
+                let postcode_field_wrap = $(`#${info_type}_postcode_field`);
+                let required: boolean = false;
+
+                postcode = locale_data_for_country.postcode;
+
+                // Check for required
+                if(postcode.required !== undefined) {
+                    postcode_el.attr("required", postcode.required);
+
+                    if(postcode.required === true) {
+                        required = true;
+
+                        postcode_field_wrap.addClass("validate-required");
+                        postcode_field_wrap.addClass(`validate-${default_locale_data.postcode.validate[0]}`);
+                    } else {
+                        required = false;
+
+                        postcode_field_wrap.removeClass("validate-required");
+                        postcode_field_wrap.removeClass(`validate-${default_locale_data.postcode.validate[0]}`);
+                    }
+                } else {
+                    required = true;
+
+                    postcode_el.attr("required", default_locale_data.postcode.required);
+
+                    postcode_field_wrap.addClass("validate-required");
+                    postcode_field_wrap.addClass(`validate-${default_locale_data.postcode.validate[0]}`);
+                }
+
+                // Check for label
+                if(postcode.label !== undefined) {
+                    postcode_el.siblings(input_label_selector).html(postcode.label + (required) ? `<abbr class="required" title="required">*</abbr>` : "");
+                } else {
+                    postcode_el.siblings(input_label_selector).html(default_locale_data.postcode.label + `<abbr class="required" title="required">*</abbr>`);
+                }
+
+                // Check for auto complete
+                if(postcode.autocomplete !== undefined) {
+                    postcode_el.attr("autocomplete", postcode.autocomplete);
+                } else {
+                    postcode_el.attr("autocomplete", default_locale_data.postcode.autocomplete);
+                }
+            }
+        } else {
+            let postcode_el = $(`#${info_type}_postcode`);
+            let postcode_field_wrap = $(`#${info_type}_postcode_field`);
+        }
     }
 
     /**

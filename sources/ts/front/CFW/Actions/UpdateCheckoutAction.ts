@@ -72,8 +72,6 @@ export class UpdateCheckoutAction extends Action {
             let value = item.jel.val();
             let key = item.jel.attr("field_key");
 
-            console.log(value, key, item);
-
             $(`.cfw-shipping-details-field[field_type="${key}"] .field_value`).text(value);
         });
     }

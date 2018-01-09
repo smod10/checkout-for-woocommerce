@@ -167,11 +167,8 @@ export class ParsleyService {
                 // If the country in question has a state
                 if (stateElement) {
 
-                    // Set the state element if the field type is postcode
-                    if (fieldType === "postcode") {
-                        stateElement.val(stateResponseValue);
-                        stateElement.trigger("change");
-                    }
+                    stateElement.val(stateResponseValue);
+                    stateElement.trigger("change");
                 }
 
                 // Resets in case error labels.

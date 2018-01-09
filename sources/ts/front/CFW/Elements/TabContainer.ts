@@ -485,7 +485,7 @@ export class TabContainer extends Element {
                 }
             }
 
-            this.adjustLabelsPlaceholdersAndThings(target_country, locale_data, info_type);
+            this.layoutDefaultLabelsAndRequirements(target_country, locale_data, info_type, wc_address_i18n_params.add2_text);
 
             $(`#${info_type}_state`).parsley().reset();
 
@@ -505,66 +505,51 @@ export class TabContainer extends Element {
         billing_state.attr("data-parsley-state-and-zip", billing_country.val());
     }
 
-    adjustLabelsPlaceholdersAndThings(target_country, locale_data, info_type): void {
-        let locale_data_for_country = locale_data[target_country];
-        let default_locale_data = locale_data["default"];
+    layoutDefaultLabelsAndRequirements(target_country, locale_data, info_type, add2_text): void {
+        let default_postcode_data = locale_data.default.postcode;
+        let default_state_data = locale_data.default.state;
+        let default_city_data = locale_data.default.city;
+        let default_add2_data = locale_data.default.address_2;
 
-        if(locale_data_for_country !== undefined) {
-            let postcode = null;
-            let state = null;
-            let city = null;
-            let addr2 = null;
+        let label_class = "cfw-input-label";
+        let asterisk = ' <abbr class="required" title="required">*</abbr>';
 
-            let input_label_selector = ".cfw-input-label";
+        let $postcode = $(`#${info_type}_postcode`);
+        let $state = $(`#${info_type}_state`);
+        let $city = $(`#${info_type}_city`);
+        let $address_2 = $(`#${info_type}_address_2`);
 
-            if(locale_data_for_country.postcode !== undefined) {
-                let postcode_el = $(`#${info_type}_postcode`);
-                let postcode_field_wrap = $(`#${info_type}_postcode_field`);
-                let required: boolean = false;
+        // Handle Address 2
+        $address_2.attr("required", default_add2_data.required);
+        $address_2.attr("placeholder", default_add2_data.placeholder);
+        $address_2.attr("autocomplete", default_add2_data.autocomplete);
+        $address_2.siblings(`.${label_class}`).text(add2_text);
 
-                postcode = locale_data_for_country.postcode;
+        // Handle Postcode
+        $postcode.attr("required", default_postcode_data.required);
+        $postcode.attr("placeholder", default_postcode_data.label);
+        $postcode.attr("autocomplete", default_postcode_data.autocomplete);
+        $postcode.siblings(`.${label_class}`).text(default_postcode_data.label);
 
-                // Check for required
-                if(postcode.required !== undefined) {
-                    postcode_el.attr("required", postcode.required);
+        if(default_postcode_data.required == true) {
+            $postcode.siblings(`.${label_class}`).append(asterisk);
+        }
 
-                    if(postcode.required === true) {
-                        required = true;
+        $state.attr("required", default_state_data.required);
+        $state.attr("autocomplete", default_state_data.autocomplete);
+        $state.siblings(`.${label_class}`).text(default_state_data.label);
 
-                        postcode_field_wrap.addClass("validate-required");
-                        postcode_field_wrap.addClass(`validate-${default_locale_data.postcode.validate[0]}`);
-                    } else {
-                        required = false;
+        if(default_state_data.required == true) {
+            $state.siblings(`.${label_class}`).append(asterisk);
+        }
 
-                        postcode_field_wrap.removeClass("validate-required");
-                        postcode_field_wrap.removeClass(`validate-${default_locale_data.postcode.validate[0]}`);
-                    }
-                } else {
-                    required = true;
+        $city.attr("required", default_city_data.required);
+        $city.attr("placeholder", default_city_data.label);
+        $city.attr("autocomplete", default_city_data.autocomplete);
+        $city.siblings(`.${label_class}`).text(default_city_data.label);
 
-                    postcode_el.attr("required", default_locale_data.postcode.required);
-
-                    postcode_field_wrap.addClass("validate-required");
-                    postcode_field_wrap.addClass(`validate-${default_locale_data.postcode.validate[0]}`);
-                }
-
-                // Check for label
-                if(postcode.label !== undefined) {
-                    postcode_el.siblings(input_label_selector).html(postcode.label + (required) ? `<abbr class="required" title="required">*</abbr>` : "");
-                } else {
-                    postcode_el.siblings(input_label_selector).html(default_locale_data.postcode.label + `<abbr class="required" title="required">*</abbr>`);
-                }
-
-                // Check for auto complete
-                if(postcode.autocomplete !== undefined) {
-                    postcode_el.attr("autocomplete", postcode.autocomplete);
-                } else {
-                    postcode_el.attr("autocomplete", default_locale_data.postcode.autocomplete);
-                }
-            }
-        } else {
-            let postcode_el = $(`#${info_type}_postcode`);
-            let postcode_field_wrap = $(`#${info_type}_postcode_field`);
+        if(default_city_data.required == true) {
+            $city.siblings(`.${label_class}`).append(asterisk);
         }
     }
 

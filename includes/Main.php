@@ -365,7 +365,8 @@ class Main extends Singleton {
 		wp_localize_script('cfw_front_js', 'wc_address_i18n_params', array(
 			'locale'             => json_encode( WC()->countries->get_country_locale() ),
 			'locale_fields'      => json_encode( WC()->countries->get_country_locale_field_selectors() ),
-			'i18n_required_text' => esc_attr__( 'required', 'woocommerce' ),
+			'add2_text'          => esc_html__( 'Apartment, suite, unit etc.', 'checkout-wc' ),
+			'i18n_required_text' => esc_attr__( 'required', 'woocommerce' )
 		));
 	}
 

@@ -89,6 +89,7 @@ export class ParsleyService {
     stateAndZipValidator(): void {
         this.parsley.addValidator('stateAndZip', {
             validateString: function(_ignoreValue, country, instance) {
+                // We have a request already running? Yea let's kill that.
                 if(ParsleyService.zipRequest !== null) {
                     ParsleyService.zipRequest.abort();
                 }

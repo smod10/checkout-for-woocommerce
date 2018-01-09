@@ -24,6 +24,8 @@ export class ParsleyService {
      */
     private static _updateShippingTabInfo: boolean = false;
 
+    private static _zipRequest = null;
+
     /**
      * @type {any}
      * @private
@@ -87,6 +89,10 @@ export class ParsleyService {
     stateAndZipValidator(): void {
         this.parsley.addValidator('stateAndZip', {
             validateString: function(_ignoreValue, country, instance) {
+                if(ParsleyService.zipRequest !== null) {
+                    ParsleyService.zipRequest.abort();
+                }
+
                 // Is it shipping or billing type of state and zip
                 let infoType: InfoType = ParsleyService.getInfoType(instance.$element[0].getAttribute("id"));
 
@@ -118,10 +124,10 @@ export class ParsleyService {
                     let requestLocation = `//api.zippopotam.us/${country}/${zipElement.val()}`;
 
                     // Our request
-                    let xhr = $.ajax(requestLocation);
+                    ParsleyService.zipRequest = $.ajax(requestLocation);
 
                     // Setup our callbacks
-                    xhr
+                    ParsleyService.zipRequest
                         .then((response) => this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation))
                         .always(() => {
                             ParsleyService.cityStateValidating = false;
@@ -166,9 +172,10 @@ export class ParsleyService {
 
                 // If the country in question has a state
                 if (stateElement) {
-
-                    stateElement.val(stateResponseValue);
-                    stateElement.trigger("change");
+                    if (fieldType === "postcode") {
+                        stateElement.val(stateResponseValue);
+                        stateElement.trigger("change");
+                    }
                 }
 
                 // Resets in case error labels.
@@ -262,5 +269,13 @@ export class ParsleyService {
      */
     static set updateShippingTabInfo(value: boolean) {
         this._updateShippingTabInfo = value;
+    }
+
+    static get zipRequest(): any {
+        return this._zipRequest;
+    }
+
+    static set zipRequest(value: any) {
+        this._zipRequest = value;
     }
 }

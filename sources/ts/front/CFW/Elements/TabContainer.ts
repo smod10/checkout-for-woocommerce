@@ -519,6 +519,8 @@ export class TabContainer extends Element {
         let $city = $(`#${info_type}_city`);
         let $address_2 = $(`#${info_type}_address_2`);
 
+        let fields = [["postcode", $postcode], ["state", $state], ["city", $city], ["address_2", $address_2]];
+
         // Handle Address 2
         $address_2.attr("required", default_add2_data.required);
         $address_2.attr("placeholder", default_add2_data.placeholder);
@@ -536,6 +538,7 @@ export class TabContainer extends Element {
         }
 
         $state.attr("required", default_state_data.required);
+        $state.attr("placeholder", default_state_data.label);
         $state.attr("autocomplete", default_state_data.autocomplete);
         $state.siblings(`.${label_class}`).text(default_state_data.label);
 
@@ -551,6 +554,57 @@ export class TabContainer extends Element {
         if(default_city_data.required == true) {
             $city.siblings(`.${label_class}`).append(asterisk);
         }
+
+        this.findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data[target_country], label_class, locale_data.default);
+    }
+
+    findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data_for_country, label_class, default_lookup) {
+        fields.forEach(field_pair => {
+            let field_name = field_pair[0];
+            let field = field_pair[1];
+
+            if(locale_data_for_country !== undefined && Object.keys(locale_data_for_country).length > 0) {
+
+                if(locale_data_for_country[field_name] !== undefined) {
+                    let item = locale_data_for_country[field_name];
+                    let defaultItem = default_lookup[field_name];
+
+                    let label: string = "";
+
+                    if(field_name == "address_2") {
+                        label = item.placeholder;
+                    } else {
+                        label = item.label;
+                    }
+
+                    if(label !== undefined) {
+                        field.attr("placeholder", item.label);
+                        field.siblings(`.${label_class}`).html(item.label);
+                    } else {
+                        if(field_name == "address_2") {
+                            field.attr("placeholder", defaultItem.placeholder);
+                            field.siblings(`.${label_class}`).html(defaultItem.placeholder);
+                        } else {
+                            field.attr("placeholder", defaultItem.label);
+                            field.siblings(`.${label_class}`).html(defaultItem.label);
+                        }
+                    }
+
+                    if(item.required !== undefined && item.required == true) {
+                        field.attr("required", true);
+                        field.siblings(`.${label_class}`).append(asterisk);
+                    } else if (item.required == false) {
+                        field.attr("required", false);
+                    } else {
+                        field.attr("required", defaultItem.required);
+
+                        if(defaultItem.required == true) {
+                            field.siblings(`.${label_class}`).append(asterisk);
+                        }
+                    }
+                }
+            }
+        })
     }
 
     /**

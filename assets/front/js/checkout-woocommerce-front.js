@@ -1953,6 +1953,7 @@ var TabContainer = /** @class */ (function (_super) {
         var $state = $("#" + info_type + "_state");
         var $city = $("#" + info_type + "_city");
         var $address_2 = $("#" + info_type + "_address_2");
+        var fields = [["postcode", $postcode], ["state", $state], ["city", $city], ["address_2", $address_2]];
         // Handle Address 2
         $address_2.attr("required", default_add2_data.required);
         $address_2.attr("placeholder", default_add2_data.placeholder);
@@ -1967,6 +1968,7 @@ var TabContainer = /** @class */ (function (_super) {
             $postcode.siblings("." + label_class).append(asterisk);
         }
         $state.attr("required", default_state_data.required);
+        $state.attr("placeholder", default_state_data.label);
         $state.attr("autocomplete", default_state_data.autocomplete);
         $state.siblings("." + label_class).text(default_state_data.label);
         if (default_state_data.required == true) {
@@ -1979,6 +1981,53 @@ var TabContainer = /** @class */ (function (_super) {
         if (default_city_data.required == true) {
             $city.siblings("." + label_class).append(asterisk);
         }
+        this.findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data[target_country], label_class, locale_data.default);
+    };
+    TabContainer.prototype.findAndApplyDifferentLabelsAndRequirements = function (fields, asterisk, locale_data_for_country, label_class, default_lookup) {
+        fields.forEach(function (field_pair) {
+            var field_name = field_pair[0];
+            var field = field_pair[1];
+            if (locale_data_for_country !== undefined && Object.keys(locale_data_for_country).length > 0) {
+                if (locale_data_for_country[field_name] !== undefined) {
+                    var item = locale_data_for_country[field_name];
+                    var defaultItem = default_lookup[field_name];
+                    var label = "";
+                    if (field_name == "address_2") {
+                        label = item.placeholder;
+                    }
+                    else {
+                        label = item.label;
+                    }
+                    if (label !== undefined) {
+                        field.attr("placeholder", item.label);
+                        field.siblings("." + label_class).html(item.label);
+                    }
+                    else {
+                        if (field_name == "address_2") {
+                            field.attr("placeholder", defaultItem.placeholder);
+                            field.siblings("." + label_class).html(defaultItem.placeholder);
+                        }
+                        else {
+                            field.attr("placeholder", defaultItem.label);
+                            field.siblings("." + label_class).html(defaultItem.label);
+                        }
+                    }
+                    if (item.required !== undefined && item.required == true) {
+                        field.attr("required", true);
+                        field.siblings("." + label_class).append(asterisk);
+                    }
+                    else if (item.required == false) {
+                        field.attr("required", false);
+                    }
+                    else {
+                        field.attr("required", defaultItem.required);
+                        if (defaultItem.required == true) {
+                            field.siblings("." + label_class).append(asterisk);
+                        }
+                    }
+                }
+            }
+        });
     };
     /**
      *

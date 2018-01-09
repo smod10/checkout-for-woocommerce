@@ -8,7 +8,6 @@ import { AccountExistsAction }              from "../Actions/AccountExistsAction
 import { LoginAction }                      from "../Actions/LoginAction";
 import { FormElement }                      from "./FormElement";
 import { UpdateShippingMethodAction }       from "../Actions/UpdateShippingMethodAction";
-import { Cart }                             from "./Cart";
 import { Main }                             from "../Main";
 import { ValidationService }                from "../Services/ValidationService";
 import { UpdateCheckoutAction }             from "../Actions/UpdateCheckoutAction";
@@ -59,11 +58,12 @@ export class TabContainer extends Element {
     }
 
     /**
-     * @param ajaxInfo
+     *
      */
-    setAccountCheckListener(ajaxInfo: AjaxInfo) {
+    setAccountCheckListener() {
         let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
         let email_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
+        let ajax_info = Main.instance.ajaxInfo;
 
         if(email_input_wrap) {
 
@@ -71,9 +71,9 @@ export class TabContainer extends Element {
             let reg_email: JQuery = $("#createaccount");
 
             // Handles page onload use case
-            new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel).load();
+            new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
 
-            let handler = () => new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel).load();
+            let handler = () => new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
 
             // Add check to keyup event
             email_input.on("keyup", handler);
@@ -81,15 +81,15 @@ export class TabContainer extends Element {
             reg_email.on('change', handler);
 
             // On page load check
-            let onLoadAccCheck: AccountExistsAction = new AccountExistsAction("account_exists", ajaxInfo, email_input.val(), this.jel);
+            let onLoadAccCheck: AccountExistsAction = new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel);
             onLoadAccCheck.load();
         }
     }
 
     /**
-     * @param ajaxInfo
+     *
      */
-    setLogInListener(ajaxInfo: AjaxInfo) {
+    setLogInListener() {
         let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
         let email_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
 
@@ -102,7 +102,7 @@ export class TabContainer extends Element {
             let login_btn: JQuery = $("#cfw-login-btn");
 
             // Fire the login action on click
-            login_btn.on("click", () => new LoginAction("login", ajaxInfo, email_input.val(), password_input.val()).load() );
+            login_btn.on("click", () => new LoginAction("login", Main.instance.ajaxInfo, email_input.val(), password_input.val()).load() );
         }
     }
 
@@ -565,7 +565,7 @@ export class TabContainer extends Element {
                 state_element_wrap.removeClass("cfw-text-input");
                 state_element_wrap.removeClass("cfw-floating-label");
 
-                state_element_wrap.append(`<input type="hidden" id="${info_type}_state" />`);
+                state_element_wrap.append(`<input type="hidden" id="${info_type}_state" field_key="state" />`);
             }
         }
     }
@@ -859,12 +859,12 @@ export class TabContainer extends Element {
     }
 
     /**
-     * @param {AjaxInfo} ajaxInfo
+     *
      */
-    setCompleteOrderHandlers(ajaxInfo: AjaxInfo): void {
+    setCompleteOrderHandlers(): void {
         let completeOrderButton: Element = new Element($("#cfw-complete-order-button"));
 
-        completeOrderButton.jel.on('click', () => this.completeOrderClickListener(ajaxInfo));
+        completeOrderButton.jel.on('click', () => this.completeOrderClickListener(Main.instance.ajaxInfo));
     }
 
     /**
@@ -878,12 +878,11 @@ export class TabContainer extends Element {
     }
 
     /**
-     * @param {AjaxInfo} ajaxInfo
-     * @param {Cart} cart
+     *
      */
-    setApplyCouponListener(ajaxInfo: AjaxInfo, cart: Cart) {
+    setApplyCouponListener() {
         $("#cfw-promo-code-btn").on('click', () => {
-            new ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart, this.getFields()).load();
+            new ApplyCouponAction('apply_coupon', Main.instance.ajaxInfo, $("#cfw-promo-code").val(), Main.instance.cart, this.getFields()).load();
         })
     }
 

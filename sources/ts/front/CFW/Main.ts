@@ -101,8 +101,8 @@ export class Main {
 		// Set up credit card fields if there. Needs to happen before wrap
 		this.tabContainer.setUpCreditCardFields();
 
-        // Fix floating labels
-        this.tabContainer.setFloatLabelOnGarlicRetrieve();
+		// Fix floating labels
+		this.tabContainer.setFloatLabelOnGarlicRetrieve();
 
 		/**
 		 * NOTE: If you are doing any DOM manipulation (adding and removing classes specifically). Do it before the setWraps
@@ -113,18 +113,15 @@ export class Main {
 		this.tabContainer.tabContainerSections.forEach((tcs: TabContainerSection) => tcs.setWraps());
 
 		// Set up event handlers
-		this.tabContainer.setAccountCheckListener(this.ajaxInfo);
-		this.tabContainer.setLogInListener(this.ajaxInfo);
-
-		// this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
-
+		this.tabContainer.setAccountCheckListener();
+		this.tabContainer.setLogInListener();
 		this.tabContainer.setUpdateAllShippingFieldsListener();
 		this.tabContainer.setShippingPaymentUpdate();
 		this.tabContainer.setUpPaymentTabRadioButtons();
 		this.tabContainer.setUpCreditCardRadioReveal();
 		this.tabContainer.setUpMobileCartDetailsReveal();
-		this.tabContainer.setCompleteOrderHandlers(this.ajaxInfo);
-		this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
+		this.tabContainer.setCompleteOrderHandlers();
+		this.tabContainer.setApplyCouponListener();
 		this.tabContainer.setTermsAndConditions();
 		this.tabContainer.setUpdateCheckout();
 		this.tabContainer.setCountryChangeHandlers();

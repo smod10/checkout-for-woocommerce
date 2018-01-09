@@ -4,6 +4,8 @@ import { Main }                             from "../Main";
 import { Cart }                             from "../Elements/Cart";
 import { ResponsePrep }                     from "../Decorators/ResponsePrep";
 import { TabContainer }                     from "../Elements/TabContainer";
+import {TabContainerSection} from "../Elements/TabContainerSection";
+import {Element} from "../Elements/Element";
 
 export class UpdateCheckoutAction extends Action {
 
@@ -58,6 +60,19 @@ export class UpdateCheckoutAction extends Action {
 
         TabContainer.togglePaymentFields(resp.show_payment_fields);
 
+        this.updateShippingDetails();
+
         $(document.body).trigger( 'updated_checkout' );
+    }
+
+    public updateShippingDetails(): void {
+        let customer_info_tab: TabContainerSection = Main.instance.tabContainer.tabContainerSectionBy("name", "customer_info");
+
+        customer_info_tab.getInputsFromSection(", select").forEach((item: Element) => {
+            let value = item.jel.val();
+            let key = item.jel.attr("field_key");
+
+            $(`.cfw-shipping-details-field[field_type="${key}"] .field_value`).text(value);
+        });
     }
 }

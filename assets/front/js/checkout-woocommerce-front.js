@@ -116,16 +116,15 @@ var Main = /** @class */ (function () {
         // Loop through and set up the wraps on the tab container sections
         this.tabContainer.tabContainerSections.forEach(function (tcs) { return tcs.setWraps(); });
         // Set up event handlers
-        this.tabContainer.setAccountCheckListener(this.ajaxInfo);
-        this.tabContainer.setLogInListener(this.ajaxInfo);
-        // this.tabContainer.setUpdateShippingFieldsListener(this.ajaxInfo, this.cart);
+        this.tabContainer.setAccountCheckListener();
+        this.tabContainer.setLogInListener();
         this.tabContainer.setUpdateAllShippingFieldsListener();
         this.tabContainer.setShippingPaymentUpdate();
         this.tabContainer.setUpPaymentTabRadioButtons();
         this.tabContainer.setUpCreditCardRadioReveal();
         this.tabContainer.setUpMobileCartDetailsReveal();
-        this.tabContainer.setCompleteOrderHandlers(this.ajaxInfo);
-        this.tabContainer.setApplyCouponListener(this.ajaxInfo, this.cart);
+        this.tabContainer.setCompleteOrderHandlers();
+        this.tabContainer.setApplyCouponListener();
         this.tabContainer.setTermsAndConditions();
         this.tabContainer.setUpdateCheckout();
         this.tabContainer.setCountryChangeHandlers();
@@ -853,7 +852,16 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
         Cart_1.Cart.outputValues(main.cart, resp.new_totals);
         TabContainer_1.TabContainer.togglePaymentFields(resp.show_payment_fields);
+        this.updateShippingDetails();
         $(document.body).trigger('updated_checkout');
+    };
+    UpdateCheckoutAction.prototype.updateShippingDetails = function () {
+        var customer_info_tab = Main_1.Main.instance.tabContainer.tabContainerSectionBy("name", "customer_info");
+        customer_info_tab.getInputsFromSection(", select").forEach(function (item) {
+            var value = item.jel.val();
+            var key = item.jel.attr("field_key");
+            $(".cfw-shipping-details-field[field_type=\"" + key + "\"] .field_value").text(value);
+        });
     };
     __decorate([
         ResponsePrep_1.ResponsePrep
@@ -1551,31 +1559,32 @@ var TabContainer = /** @class */ (function (_super) {
         });
     };
     /**
-     * @param ajaxInfo
+     *
      */
-    TabContainer.prototype.setAccountCheckListener = function (ajaxInfo) {
+    TabContainer.prototype.setAccountCheckListener = function () {
         var _this = this;
         var customer_info = this.tabContainerSectionBy("name", "customer_info");
         var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
+        var ajax_info = Main_1.Main.instance.ajaxInfo;
         if (email_input_wrap) {
             var email_input_1 = email_input_wrap.holder.jel;
             var reg_email = $("#createaccount");
             // Handles page onload use case
-            new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val(), this.jel).load();
-            var handler = function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val(), _this.jel).load(); };
+            new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), this.jel).load();
+            var handler = function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), _this.jel).load(); };
             // Add check to keyup event
             email_input_1.on("keyup", handler);
             email_input_1.on("change", handler);
             reg_email.on('change', handler);
             // On page load check
-            var onLoadAccCheck = new AccountExistsAction_1.AccountExistsAction("account_exists", ajaxInfo, email_input_1.val(), this.jel);
+            var onLoadAccCheck = new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), this.jel);
             onLoadAccCheck.load();
         }
     };
     /**
-     * @param ajaxInfo
+     *
      */
-    TabContainer.prototype.setLogInListener = function (ajaxInfo) {
+    TabContainer.prototype.setLogInListener = function () {
         var customer_info = this.tabContainerSectionBy("name", "customer_info");
         var email_input_wrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
         if (email_input_wrap) {
@@ -1584,7 +1593,7 @@ var TabContainer = /** @class */ (function (_super) {
             var password_input_1 = password_input_wrap.holder.jel;
             var login_btn = $("#cfw-login-btn");
             // Fire the login action on click
-            login_btn.on("click", function () { return new LoginAction_1.LoginAction("login", ajaxInfo, email_input_2.val(), password_input_1.val()).load(); });
+            login_btn.on("click", function () { return new LoginAction_1.LoginAction("login", Main_1.Main.instance.ajaxInfo, email_input_2.val(), password_input_1.val()).load(); });
         }
     };
     /**
@@ -1964,7 +1973,7 @@ var TabContainer = /** @class */ (function (_super) {
                 state_element_wrap.removeClass("cfw-select-input");
                 state_element_wrap.removeClass("cfw-text-input");
                 state_element_wrap.removeClass("cfw-floating-label");
-                state_element_wrap.append("<input type=\"hidden\" id=\"" + info_type + "_state\" />");
+                state_element_wrap.append("<input type=\"hidden\" id=\"" + info_type + "_state\" field_key=\"state\" />");
             }
         }
     };
@@ -2214,12 +2223,12 @@ var TabContainer = /** @class */ (function (_super) {
         });
     };
     /**
-     * @param {AjaxInfo} ajaxInfo
+     *
      */
-    TabContainer.prototype.setCompleteOrderHandlers = function (ajaxInfo) {
+    TabContainer.prototype.setCompleteOrderHandlers = function () {
         var _this = this;
         var completeOrderButton = new Element_1.Element($("#cfw-complete-order-button"));
-        completeOrderButton.jel.on('click', function () { return _this.completeOrderClickListener(ajaxInfo); });
+        completeOrderButton.jel.on('click', function () { return _this.completeOrderClickListener(Main_1.Main.instance.ajaxInfo); });
     };
     /**
      *
@@ -2230,13 +2239,12 @@ var TabContainer = /** @class */ (function (_super) {
         ValidationService_1.ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, this.getOrderDetails());
     };
     /**
-     * @param {AjaxInfo} ajaxInfo
-     * @param {Cart} cart
+     *
      */
-    TabContainer.prototype.setApplyCouponListener = function (ajaxInfo, cart) {
+    TabContainer.prototype.setApplyCouponListener = function () {
         var _this = this;
         $("#cfw-promo-code-btn").on('click', function () {
-            new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', ajaxInfo, $("#cfw-promo-code").val(), cart, _this.getFields()).load();
+            new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', Main_1.Main.instance.ajaxInfo, $("#cfw-promo-code").val(), Main_1.Main.instance.cart, _this.getFields()).load();
         });
     };
     TabContainer.togglePaymentFields = function (show) {

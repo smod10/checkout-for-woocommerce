@@ -128,7 +128,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 					$field_container_start = '<div class="cfw-column-4 address-field %1$s" id="%2$s"><div class="cfw-input-wrap">%3$s</div></div>';
 
-					$field .= '<input type="hidden" class="hidden" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" value="" ' . implode( ' ', $custom_attributes ) . ' placeholder="' . esc_attr( $args['placeholder'] ) . '" />';
+					$field .= '<input type="hidden" field_key="' . $key_sans_type . '" class="hidden" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" value="" ' . implode( ' ', $custom_attributes ) . ' placeholder="' . esc_attr( $args['placeholder'] ) . '" />';
 
 				} elseif ( ! is_null( $current_cc ) && is_array( $states ) ) {
 

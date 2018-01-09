@@ -122,7 +122,7 @@ class UpdateCheckoutAction extends Action {
 			$package_name = apply_filters( 'woocommerce_shipping_package_name', sprintf( _nx( 'Shipping', 'Shipping %d', ( $i + 1 ), 'shipping packages', 'woocommerce' ), ( $i + 1 ) ), $i, $package );
 			$index = $i;
 
-			if(1 < count($available_methods)) {
+			if(0 < count($available_methods)) {
 				foreach($available_methods as $method) {
 					$out[] = sprintf( '<label for="shipping_method_%1$d_%2$s"><input type="radio" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" %4$s /> %5$s</label>', $index, sanitize_title( $method->id ), esc_attr( $method->id ),
 						checked( $method->id, $chosen_method, false ), wc_cart_totals_shipping_method_label( $method ) );

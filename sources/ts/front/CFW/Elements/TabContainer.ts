@@ -113,8 +113,8 @@ export class TabContainer extends Element {
         let continueBtn: JQuery = $("#cfw-shipping-info-action .cfw-next-tab");
         let shipping_payment_bc: JQuery = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
 
-        // continueBtn.on("click", () => $(document.body).trigger("update_checkout"));
-        // shipping_payment_bc.on("click", () => $(document.body).trigger("update_checkout"));
+        continueBtn.on("click", () => $(document.body).trigger("update_checkout"));
+        shipping_payment_bc.on("click", () => $(document.body).trigger("update_checkout"));
     }
 
     /**

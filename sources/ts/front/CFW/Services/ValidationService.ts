@@ -4,6 +4,7 @@ import { EasyTabDirection }                             from "./EasyTabService";
 import { EasyTab }                                      from "./EasyTabService";
 import { CompleteOrderAction }                          from "../Actions/CompleteOrderAction";
 import { AjaxInfo }                                     from "../Types/Types";
+import {UpdateCheckoutAction} from "../Actions/UpdateCheckoutAction";
 
 /**
  * Validation Sections Enum
@@ -53,6 +54,11 @@ export class ValidationService {
 
                 // Return the validation
                 return validated;
+            }
+
+            if(EasyTabService.isThereAShippingTab()) {
+                console.log("YO THERE IS A SHIPPING TAB HOMES");
+                UpdateCheckoutAction.updateShippingDetails();
             }
 
             // If we are moving forward / backwards, have a shipping easy tab, and are not on the customer tab then allow

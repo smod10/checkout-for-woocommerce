@@ -150,7 +150,6 @@ export class ParsleyService {
      */
     stateAndZipValidatorOnSuccess(json, instance, infoType: InfoType, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab) {
         if(ValidationService.validateZip) {
-            console.log(`Validate zip is on`);
             if (json.places.length === 1) {
                 // Set the state response value
                 let stateResponseValue = json.places[0]["state abbreviation"];

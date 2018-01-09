@@ -794,6 +794,7 @@ var Main_1 = __webpack_require__(0);
 var EasyTabService_1 = __webpack_require__(4);
 var EasyTabService_2 = __webpack_require__(4);
 var CompleteOrderAction_1 = __webpack_require__(11);
+var UpdateCheckoutAction_1 = __webpack_require__(10);
 /**
  * Validation Sections Enum
  */
@@ -832,6 +833,10 @@ var ValidationService = /** @class */ (function () {
                 }
                 // Return the validation
                 return validated;
+            }
+            if (EasyTabService_1.EasyTabService.isThereAShippingTab()) {
+                console.log("YO THERE IS A SHIPPING TAB HOMES");
+                UpdateCheckoutAction_1.UpdateCheckoutAction.updateShippingDetails();
             }
             // If we are moving forward / backwards, have a shipping easy tab, and are not on the customer tab then allow
             // the tab switch
@@ -1250,15 +1255,16 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
         Cart_1.Cart.outputValues(main.cart, resp.new_totals);
         TabContainer_1.TabContainer.togglePaymentFields(resp.show_payment_fields);
-        this.updateShippingDetails();
+        UpdateCheckoutAction.updateShippingDetails();
         Main_1.Main.instance.tabContainer.setShippingPaymentUpdate();
         $(document.body).trigger('updated_checkout');
     };
-    UpdateCheckoutAction.prototype.updateShippingDetails = function () {
+    UpdateCheckoutAction.updateShippingDetails = function () {
         var customer_info_tab = Main_1.Main.instance.tabContainer.tabContainerSectionBy("name", "customer_info");
         customer_info_tab.getInputsFromSection(", select").forEach(function (item) {
             var value = item.jel.val();
             var key = item.jel.attr("field_key");
+            console.log(value, key, item);
             $(".cfw-shipping-details-field[field_type=\"" + key + "\"] .field_value").text(value);
         });
     };
@@ -1616,8 +1622,8 @@ var TabContainer = /** @class */ (function (_super) {
     TabContainer.prototype.setUpdateAllShippingFieldsListener = function () {
         var continueBtn = $("#cfw-shipping-info-action .cfw-next-tab");
         var shipping_payment_bc = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
-        // continueBtn.on("click", () => $(document.body).trigger("update_checkout"));
-        // shipping_payment_bc.on("click", () => $(document.body).trigger("update_checkout"));
+        continueBtn.on("click", function () { return $(document.body).trigger("update_checkout"); });
+        shipping_payment_bc.on("click", function () { return $(document.body).trigger("update_checkout"); });
     };
     /**
      *
@@ -2814,7 +2820,6 @@ var ParsleyService = /** @class */ (function () {
      */
     ParsleyService.prototype.stateAndZipValidatorOnSuccess = function (json, instance, infoType, cityElement, stateElement, zipElement, failLocation) {
         if (ValidationService_1.ValidationService.validateZip) {
-            console.log("Validate zip is on");
             if (json.places.length === 1) {
                 // Set the state response value
                 var stateResponseValue = json.places[0]["state abbreviation"];

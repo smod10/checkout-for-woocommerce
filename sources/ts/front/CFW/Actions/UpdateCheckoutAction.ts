@@ -58,19 +58,21 @@ export class UpdateCheckoutAction extends Action {
 
         TabContainer.togglePaymentFields(resp.show_payment_fields);
 
-        this.updateShippingDetails();
+        UpdateCheckoutAction.updateShippingDetails();
 
         Main.instance.tabContainer.setShippingPaymentUpdate();
 
         $(document.body).trigger( 'updated_checkout' );
     }
 
-    public updateShippingDetails(): void {
+    public static updateShippingDetails(): void {
         let customer_info_tab: TabContainerSection = Main.instance.tabContainer.tabContainerSectionBy("name", "customer_info");
 
         customer_info_tab.getInputsFromSection(", select").forEach((item: Element) => {
             let value = item.jel.val();
             let key = item.jel.attr("field_key");
+
+            console.log(value, key, item);
 
             $(`.cfw-shipping-details-field[field_type="${key}"] .field_value`).text(value);
         });

@@ -43,6 +43,8 @@ export class ValidationService {
                 let validated: boolean = ValidationService.validateSectionsForCustomerTab();
                 let tabId: string = EasyTabService.getTabId(easyTabDirection.current);
 
+                console.log(validated);
+
                 // Has to be done with the window.location.hash. Reason being is on false validation it somehow ignores
                 // the continue button going forward. This prevents that by "resetting" the page so to speak.
                 if ( ! validated ) {
@@ -60,6 +62,8 @@ export class ValidationService {
     }
 
     static createOrder(difBilling: boolean = false, ajaxInfo: AjaxInfo, orderDetails: any): void {
+        console.log("Is dif billing?", difBilling);
+
         if(difBilling) {
 
             // Check the normal validation and kick off the ajax ones

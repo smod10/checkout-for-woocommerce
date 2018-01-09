@@ -122,7 +122,12 @@ export class ParsleyService {
                     // Setup our callbacks
                     xhr
                         .then((response) => this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation))
-                        .always(() => ParsleyService.cityStateValidating = false);
+                        .always(() => {
+                            ParsleyService.cityStateValidating = false;
+
+                            let event = new Event("cfw:checkout-validated");
+                            window.dispatchEvent(event);
+                        });
                 }
 
                 // Return true, if we fail we will go back.
@@ -130,28 +135,6 @@ export class ParsleyService {
             }.bind(this),
             // messages: {en: 'Zip is not valid for country "%s"'}
         });
-    }
-
-    /**
-     * @param {any} instance
-     * @param {JQuery} cityElement
-     * @param {JQuery} stateElement
-     * @param {JQuery} zipElement
-     * @param {EasyTab} failLocation
-     */
-    stateAndZipValidatorOnFail(instance: any, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab): void {
-        // Fire off the fail event for state and zip
-        let event = new Event("cfw:state-zip-failure");
-        window.dispatchEvent(event);
-
-        // Go to the fail location
-        EasyTabService.go(failLocation);
-
-        // Destroy the state garlic cache
-        cityElement.garlic('destroy');
-
-        // Set the validating to false to allow new validations
-        ParsleyService.cityStateValidating = false;
     }
 
     /**
@@ -192,14 +175,18 @@ export class ParsleyService {
             // Resets in case error labels.
             cityElement.parsley().reset();
             stateElement.parsley().reset();
-
-            if (CompleteOrderAction.preppingOrder) {
-                let orderReadyEvent = new Event("cfw:checkout-validated");
-                window.dispatchEvent(orderReadyEvent);
-            }
-
-            ParsleyService.cityStateValidating = false;
         }
+
+        console.log("HELLLO");
+
+        if (CompleteOrderAction.preppingOrder) {
+            let orderReadyEvent = new Event("cfw:checkout-validated");
+            window.dispatchEvent(orderReadyEvent);
+
+            console.log("TESTING1");
+        }
+
+        ParsleyService.cityStateValidating = false;
 
         return true;
     }

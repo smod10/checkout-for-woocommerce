@@ -913,6 +913,7 @@ var ValidationService = /** @class */ (function () {
             if (easyTabDirection.current === EasyTabService_2.EasyTab.CUSTOMER && easyTabDirection.target > easyTabDirection.current) {
                 var validated = ValidationService.validateSectionsForCustomerTab();
                 var tabId = EasyTabService_1.EasyTabService.getTabId(easyTabDirection.current);
+                console.log(validated);
                 // Has to be done with the window.location.hash. Reason being is on false validation it somehow ignores
                 // the continue button going forward. This prevents that by "resetting" the page so to speak.
                 if (!validated) {
@@ -928,6 +929,7 @@ var ValidationService = /** @class */ (function () {
     };
     ValidationService.createOrder = function (difBilling, ajaxInfo, orderDetails) {
         if (difBilling === void 0) { difBilling = false; }
+        console.log("Is dif billing?", difBilling);
         if (difBilling) {
             // Check the normal validation and kick off the ajax ones
             var validationResult_1 = true;
@@ -2778,30 +2780,16 @@ var ParsleyService = /** @class */ (function () {
                     // Setup our callbacks
                     xhr
                         .then(function (response) { return _this.stateAndZipValidatorOnSuccess(response, instance, infoType, cityElement, stateElement, zipElement, failLocation); })
-                        .always(function () { return ParsleyService.cityStateValidating = false; });
+                        .always(function () {
+                        ParsleyService.cityStateValidating = false;
+                        var event = new Event("cfw:checkout-validated");
+                        window.dispatchEvent(event);
+                    });
                 }
                 // Return true, if we fail we will go back.
                 return true;
             }.bind(this),
         });
-    };
-    /**
-     * @param {any} instance
-     * @param {JQuery} cityElement
-     * @param {JQuery} stateElement
-     * @param {JQuery} zipElement
-     * @param {EasyTab} failLocation
-     */
-    ParsleyService.prototype.stateAndZipValidatorOnFail = function (instance, cityElement, stateElement, zipElement, failLocation) {
-        // Fire off the fail event for state and zip
-        var event = new Event("cfw:state-zip-failure");
-        window.dispatchEvent(event);
-        // Go to the fail location
-        EasyTabService_1.EasyTabService.go(failLocation);
-        // Destroy the state garlic cache
-        cityElement.garlic('destroy');
-        // Set the validating to false to allow new validations
-        ParsleyService.cityStateValidating = false;
     };
     /**
      *
@@ -2835,12 +2823,14 @@ var ParsleyService = /** @class */ (function () {
             // Resets in case error labels.
             cityElement.parsley().reset();
             stateElement.parsley().reset();
-            if (CompleteOrderAction_1.CompleteOrderAction.preppingOrder) {
-                var orderReadyEvent = new Event("cfw:checkout-validated");
-                window.dispatchEvent(orderReadyEvent);
-            }
-            ParsleyService.cityStateValidating = false;
         }
+        console.log("HELLLO");
+        if (CompleteOrderAction_1.CompleteOrderAction.preppingOrder) {
+            var orderReadyEvent = new Event("cfw:checkout-validated");
+            window.dispatchEvent(orderReadyEvent);
+            console.log("TESTING1");
+        }
+        ParsleyService.cityStateValidating = false;
         return true;
     };
     /**

@@ -114,7 +114,7 @@ export class ParsleyService {
                     ParsleyService.cityStateValidating = true;
 
                     // Where to check the zip
-                    let requestLocation = `//www.zippopotam.us/${country}/${zipElement.val()}`;
+                    let requestLocation = `//api.zippopotam.us/${country}/${zipElement.val()}`;
 
                     // Our request
                     let xhr = $.ajax(requestLocation);
@@ -192,10 +192,6 @@ export class ParsleyService {
             // Resets in case error labels.
             cityElement.parsley().reset();
             stateElement.parsley().reset();
-
-            if (ParsleyService.updateShippingTabInfo && EasyTabService.isThereAShippingTab()) {
-                Main.instance.tabContainer.getShippingFieldsUpdate().load();
-            }
 
             if (CompleteOrderAction.preppingOrder) {
                 let orderReadyEvent = new Event("cfw:checkout-validated");

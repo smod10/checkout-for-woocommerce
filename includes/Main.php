@@ -17,12 +17,8 @@ use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 use Objectiv\Plugins\Checkout\Managers\AjaxManager;
 use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
-use Objectiv\Plugins\Checkout\Action\UpdateShippingFieldsAction;
 use Objectiv\Plugins\Checkout\Action\UpdateShippingMethodAction;
 use Objectiv\Plugins\Checkout\Core\Compatibility;
-
-use \Whoops\Run;
-use \Whoops\Handler\PrettyPageHandler;
 
 /**
  * The core plugin class.
@@ -327,7 +323,6 @@ class Main extends Singleton {
 		return array(
 			new AccountExistsAction("account_exists"),
 			new LogInAction("login"),
-			new UpdateShippingFieldsAction("update_shipping_fields"),
 			new UpdateShippingMethodAction("update_shipping_method"),
 			new CompleteOrderAction("complete_order"),
 			new ApplyCouponAction("apply_coupon"),

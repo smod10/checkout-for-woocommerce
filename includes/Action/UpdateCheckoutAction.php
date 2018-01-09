@@ -75,7 +75,9 @@ class UpdateCheckoutAction extends Action {
 				"new_taxes_total" => WC()->cart->get_cart_tax(),
 				"new_total" => WC()->cart->get_total()
 			),
-			"show_payment_fields" => WC()->cart->get_total('') > 0
+			"show_payment_fields" => WC()->cart->get_total('') > 0,
+			"needs_payment" => WC()->cart->needs_payment(),
+			"updated_ship_methods" => $this->get_shipping_methods()
 		));
 	}
 
@@ -90,5 +92,48 @@ class UpdateCheckoutAction extends Action {
 		}
 
 		return $fees;
+	}
+
+	/**
+	 * Returns the shipping methods available
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return array
+	 */
+	public function get_shipping_methods() {
+		$packages = WC()->shipping->get_packages();
+		$out = [];
+
+		foreach ( $packages as $i => $package ) {
+			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
+			$product_names = array();
+
+			if ( sizeof( $packages ) > 1 ) {
+				foreach ( $package['contents'] as $item_id => $values ) {
+					$product_names[ $item_id ] = $values['data']->get_name() . ' &times;' . $values['quantity'];
+				}
+				$product_names = apply_filters( 'woocommerce_shipping_package_details_array', $product_names, $package );
+			}
+
+			$available_methods = $package['rates'];
+			$show_package_details = sizeof($packages) > 1;
+			$package_details = implode(', ', $product_names);
+			$package_name = apply_filters( 'woocommerce_shipping_package_name', sprintf( _nx( 'Shipping', 'Shipping %d', ( $i + 1 ), 'shipping packages', 'woocommerce' ), ( $i + 1 ) ), $i, $package );
+			$index = $i;
+
+			if(1 < count($available_methods)) {
+				foreach($available_methods as $method) {
+					$out[] = sprintf( '<label for="shipping_method_%1$d_%2$s"><input type="radio" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" %4$s /> %5$s</label>', $index, sanitize_title( $method->id ), esc_attr( $method->id ),
+						checked( $method->id, $chosen_method, false ), wc_cart_totals_shipping_method_label( $method ) );
+				}
+			}
+		}
+
+		if(count($out) == 0) {
+			$out = apply_filters( 'woocommerce_no_shipping_available_html', wpautop( __( 'There are no shipping methods available. Please ensure that your address has been entered correctly, or contact us if you need any help.', 'woocommerce' ) ) );
+		}
+
+		return $out;
 	}
 }

@@ -90,34 +90,14 @@ export class UpdateShippingFieldsAction extends Action {
     @ResponsePrep
     public response(resp: UpdateShippingFieldsResponse): void {
         if(!resp.error) {
-            let ufi_arr: Array<FieldTypeInfo> = [];
             let updated_shipping_methods: Array<any> = [];
 
             if(resp.updated_fields_info) {
-
-                // Push all the object values into an array
-                Object.keys(resp.updated_fields_info).forEach((key) => ufi_arr.push(<FieldTypeInfo>resp.updated_fields_info[key]));
-
-                // Sort them
-                ufi_arr.sort();
-
-                // Loop over and apply
-                ufi_arr.forEach((ufi: FieldTypeInfo) => {
-                    let ft: string = ufi.field_type;
-                    let fv: any = ufi.field_value;
-
-                    this.shipping_details_fields.forEach((field: JQuery) => {
-                        if (field.attr("field_type") == ft) {
-                            field.children(".field_value").text(fv);
-                        }
-                    });
-                });
 
                 if(typeof resp.updated_ship_methods !== "string") {
                     Object.keys(resp.updated_ship_methods).forEach((key) => updated_shipping_methods.push(resp.updated_ship_methods[key]));
 
                     if(updated_shipping_methods.length > 0) {
-                        console.log("THERE ARE MORE THAN 0", updated_shipping_methods);
                         $("#shipping_method").html("");
                         $("#shipping_method").append("<ul class='cfw-shipping-methods-list'></ul>");
 

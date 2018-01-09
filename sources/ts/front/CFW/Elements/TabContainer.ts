@@ -2,13 +2,11 @@ import { Element }                          from "./Element";
 import { TabContainerBreadcrumb }           from "./TabContainerBreadcrumb";
 import { TabContainerSection }              from "./TabContainerSection";
 import { InputLabelWrap }                   from "./InputLabelWrap";
-import { FieldTypeInfo }                 from "../Types/Types";
 import { AjaxInfo }                         from "../Types/Types";
 import { UpdateShippingFieldsRI }           from "../Actions/UpdateShippingFieldsAction";
 import { AccountExistsAction }              from "../Actions/AccountExistsAction";
 import { LoginAction }                      from "../Actions/LoginAction";
 import { FormElement }                      from "./FormElement";
-import { UpdateShippingFieldsAction }       from "../Actions/UpdateShippingFieldsAction";
 import { UpdateShippingMethodAction }       from "../Actions/UpdateShippingMethodAction";
 import { Cart }                             from "./Cart";
 import { Main }                             from "../Main";
@@ -115,33 +113,10 @@ export class TabContainer extends Element {
         let continueBtn: JQuery = $("#cfw-shipping-info-action .cfw-next-tab");
         let shipping_payment_bc: JQuery = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
 
-        continueBtn.on("click", () => this.getShippingFieldsUpdate().load());
-        shipping_payment_bc.on("click", () => this.getShippingFieldsUpdate().load());
-    }
-
-    /**
-     * @returns {UpdateShippingFieldsAction}
-     */
-    getShippingFieldsUpdate(): UpdateShippingFieldsAction {
-        let customerInfoSection: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
-        let formElements: Array<FormElement> = customerInfoSection.getFormElementsByModule('cfw-shipping-info');
-        let shippingFieldsInfo: UpdateShippingFieldsRI = this.getUpdateShippingRequiredItems();
-        let fieldTypeInfoData: Array<FieldTypeInfo> = [];
-
-        formElements.forEach(formElement => fieldTypeInfoData.push({
-            field_type: formElement.holder.jel.attr("field_key"),
-            field_value: formElement.holder.jel.val()
-        }));
-
-        return new UpdateShippingFieldsAction(
-            shippingFieldsInfo.action,
-            Main.instance.ajaxInfo,
-            fieldTypeInfoData,
-            shippingFieldsInfo.shipping_details_fields,
-            Main.instance.cart,
-            this,
-            this.getOrderDetails()
-        );
+        // continueBtn.on("click", () => this.getShippingFieldsUpdate().load());
+        // shipping_payment_bc.on("click", () => this.getShippingFieldsUpdate().load());
+        continueBtn.on("click", () => $(document.body).trigger("update_checkout"));
+        shipping_payment_bc.on("click", () => $(document.body).trigger("update_checkout"));
     }
 
     /**
@@ -516,6 +491,8 @@ export class TabContainer extends Element {
 
             // Re-register all the elements
             $("#checkout").parsley();
+
+            $(document.body).trigger("update_checkout");
         };
 
         shipping_country.on('change', country_change);

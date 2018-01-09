@@ -30,6 +30,30 @@ export class UpdateCheckoutAction extends Action {
             Cart.outputFees(main.cart.fees, fees);
         }
 
+        let updated_shipping_methods: Array<any> = [];
+
+        if(typeof resp.updated_ship_methods !== "string") {
+            Object.keys(resp.updated_ship_methods).forEach((key) => updated_shipping_methods.push(resp.updated_ship_methods[key]));
+
+            if(updated_shipping_methods.length > 0) {
+                $("#shipping_method").html("");
+                $("#shipping_method").append("<ul class='cfw-shipping-methods-list'></ul>");
+
+                // Update shipping methods
+                updated_shipping_methods.forEach((ship_method: string) =>
+                    $("#shipping_method ul").append($(`<li>${ship_method}</li>`))
+                );
+            }
+            // There is a message
+        } else {
+            $("#shipping_method").html("");
+            $("#shipping_method").append(`<div class="shipping-message">${resp.updated_ship_methods}</div>`);
+        }
+
+        Main.instance.tabContainer.setShippingPaymentUpdate();
+
+        Main.togglePaymentRequired(resp.needs_payment);
+
         Cart.outputValues(main.cart, resp.new_totals);
 
         TabContainer.togglePaymentFields(resp.show_payment_fields);

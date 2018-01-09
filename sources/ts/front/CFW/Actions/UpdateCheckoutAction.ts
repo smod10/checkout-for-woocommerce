@@ -52,8 +52,6 @@ export class UpdateCheckoutAction extends Action {
             $("#shipping_method").append(`<div class="shipping-message">${resp.updated_ship_methods}</div>`);
         }
 
-        Main.instance.tabContainer.setShippingPaymentUpdate();
-
         Main.togglePaymentRequired(resp.needs_payment);
 
         Cart.outputValues(main.cart, resp.new_totals);
@@ -61,6 +59,8 @@ export class UpdateCheckoutAction extends Action {
         TabContainer.togglePaymentFields(resp.show_payment_fields);
 
         this.updateShippingDetails();
+
+        Main.instance.tabContainer.setShippingPaymentUpdate();
 
         $(document.body).trigger( 'updated_checkout' );
     }

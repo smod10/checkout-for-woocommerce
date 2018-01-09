@@ -19,6 +19,8 @@ export enum EValidationSections {
  */
 export class ValidationService {
 
+    private static _validateZip: boolean = true;
+
     /**
      *
      */
@@ -40,7 +42,7 @@ export class ValidationService {
             // If we are moving forward in the checkout process and we are currently on the customer tab
             if(easyTabDirection.current === EasyTab.CUSTOMER && easyTabDirection.target > easyTabDirection.current) {
 
-                let validated: boolean = ValidationService.validateSectionsForCustomerTab();
+                let validated: boolean = ValidationService.validateSectionsForCustomerTab(false);
                 let tabId: string = EasyTabService.getTabId(easyTabDirection.current);
 
                 // Has to be done with the window.location.hash. Reason being is on false validation it somehow ignores
@@ -86,10 +88,13 @@ export class ValidationService {
 
     /**
      *
+     * @param {boolean} validateZip
      * @returns {boolean}
      */
-    static validateSectionsForCustomerTab(): boolean {
+    static validateSectionsForCustomerTab(validateZip: boolean = true): boolean {
         let validated = false;
+
+        ValidationService.validateZip = validateZip;
 
         if ( !EasyTabService.isThereAShippingTab() ) {
             validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.BILLING);
@@ -140,5 +145,13 @@ export class ValidationService {
                 EasyTabService.go(EasyTab.CUSTOMER);
             }
         }
+    }
+
+    static get validateZip(): boolean {
+        return this._validateZip;
+    }
+
+    static set validateZip(value: boolean) {
+        this._validateZip = value;
     }
 }

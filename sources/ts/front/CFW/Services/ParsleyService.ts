@@ -2,6 +2,7 @@ import { EasyTabService }                           from "./EasyTabService";
 import { EasyTab }                                  from "./EasyTabService";
 import { CompleteOrderAction }                      from "../Actions/CompleteOrderAction";
 import { Main }                                     from "../Main";
+import {ValidationService} from "./ValidationService";
 
 let w: any = window;
 
@@ -54,7 +55,7 @@ export class ParsleyService {
 
         if ( $temp("#shipping_postcode").length !== 0 ) {
             $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
-            $temp("#shipping_state").parsley().on("field:error", shipping_action);
+            // $temp("#shipping_state").parsley().on("field:error", shipping_action);
         }
     }
 
@@ -148,33 +149,43 @@ export class ParsleyService {
      * @param {EasyTab} failLocation
      */
     stateAndZipValidatorOnSuccess(json, instance, infoType: InfoType, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab) {
-        if(json.places.length === 1) {
-            // Set the state response value
-            let stateResponseValue = json.places[0]["state abbreviation"];
+        if(ValidationService.validateZip) {
+            console.log(`Validate zip is on`);
+            if (json.places.length === 1) {
+                // Set the state response value
+                let stateResponseValue = json.places[0]["state abbreviation"];
 
-            // Set the city response value
-            let cityResponseValue = json.places[0]["place name"];
+                // Set the city response value
+                let cityResponseValue = json.places[0]["place name"];
 
-            // Billing or Shipping?
-            let fieldType = $(instance.element).attr("id").split("_")[1];
+                // Billing or Shipping?
+                let fieldType = $(instance.element).attr("id").split("_")[1];
 
-            // Set the city field
-            cityElement.val(cityResponseValue);
-            cityElement.trigger("keyup");
+                // Set the city field
+                cityElement.val(cityResponseValue);
+                cityElement.trigger("keyup");
 
-            // If the country in question has a state
-            if (stateElement) {
+                // If the country in question has a state
+                if (stateElement) {
 
-                // Set the state element if the field type is postcode
-                if (fieldType === "postcode") {
-                    stateElement.val(stateResponseValue);
-                    stateElement.trigger("change");
+                    // Set the state element if the field type is postcode
+                    if (fieldType === "postcode") {
+                        stateElement.val(stateResponseValue);
+                        stateElement.trigger("change");
+                    }
                 }
-            }
 
-            // Resets in case error labels.
-            cityElement.parsley().reset();
-            stateElement.parsley().reset();
+                // Resets in case error labels.
+                cityElement.parsley().reset();
+                stateElement.parsley().reset();
+            }
+        } else {
+            // Always reset to true if false. We want this to normally fire, but under certain conditions we want to ignore this
+            ValidationService.validateZip = true;
+        }
+
+        if(EasyTabService.isThereAShippingTab()) {
+            $(document.body).trigger("update_checkout");
         }
 
         if (CompleteOrderAction.preppingOrder) {

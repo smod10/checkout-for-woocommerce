@@ -156,7 +156,7 @@ class Form {
 						"data-parsley-state-and-zip"        => "",
 						"data-parsley-validate-if-empty"    => "",
 						"data-parsley-type"                 => "alphanum",
-						"data-parsley-trigger"              => "change focusout"
+						"data-parsley-trigger"              => "keyup change focusout"
 					),
 					'start'        => false,
 					'end'          => false

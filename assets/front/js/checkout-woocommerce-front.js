@@ -2042,7 +2042,7 @@ var TabContainer = /** @class */ (function (_super) {
         var fields = [["postcode", $postcode], ["state", $state], ["city", $city], ["address_2", $address_2]];
         // Handle Address 2
         $address_2.attr("required", default_add2_data.required);
-        $address_2.attr("placeholder", default_add2_data.placeholder);
+        $address_2.attr("placeholder", add2_text);
         $address_2.attr("autocomplete", default_add2_data.autocomplete);
         $address_2.siblings("." + label_class).text(add2_text);
         // Handle Postcode
@@ -2067,7 +2067,7 @@ var TabContainer = /** @class */ (function (_super) {
         if (default_city_data.required == true) {
             $city.siblings("." + label_class).append(asterisk);
         }
-        this.findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data[target_country], label_class, locale_data.default);
+        this.findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data[target_country], label_class, locale_data);
     };
     /**
      * This function is for override the defaults if the specified country has more information for the labels,
@@ -2077,9 +2077,11 @@ var TabContainer = /** @class */ (function (_super) {
      * @param asterisk
      * @param locale_data_for_country
      * @param label_class
-     * @param default_lookup
+     * @param locale_data
      */
-    TabContainer.prototype.findAndApplyDifferentLabelsAndRequirements = function (fields, asterisk, locale_data_for_country, label_class, default_lookup) {
+    TabContainer.prototype.findAndApplyDifferentLabelsAndRequirements = function (fields, asterisk, locale_data_for_country, label_class, locale_data) {
+        var default_lookup = locale_data.default;
+        var add2_text = locale_data.add2_text;
         fields.forEach(function (field_pair) {
             var field_name = field_pair[0];
             var field = field_pair[1];
@@ -2100,7 +2102,7 @@ var TabContainer = /** @class */ (function (_super) {
                      * we do here is simply assign the placeholder to the label if it's address_2
                      */
                     if (field_name == "address_2") {
-                        label = locale_data_for_field.placeholder;
+                        label = add2_text;
                     }
                     else {
                         label = locale_data_for_field.label;
@@ -2119,8 +2121,8 @@ var TabContainer = /** @class */ (function (_super) {
                     }
                     else {
                         if (field_name == "address_2") {
-                            field.attr("placeholder", defaultItem.placeholder);
-                            field_siblings.html(defaultItem.placeholder);
+                            field.attr("placeholder", add2_text);
+                            field_siblings.html(add2_text);
                             /**
                              * If we aren't acdress_2 we can simply procede as normal and set the label for both the
                              * placeholder and the label.

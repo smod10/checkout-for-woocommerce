@@ -365,7 +365,7 @@ class Main extends Singleton {
 		wp_localize_script('cfw_front_js', 'wc_address_i18n_params', array(
 			'locale'             => json_encode( WC()->countries->get_country_locale() ),
 			'locale_fields'      => json_encode( WC()->countries->get_country_locale_field_selectors() ),
-			'add2_text'          => esc_html__( 'Apartment, suite, unit etc.', 'checkout-wc' ),
+			'add2_text'          => _x('Apt, suite, etc. (optional)', 'checkout-wc'),
 			'i18n_required_text' => esc_attr__( 'required', 'woocommerce' )
 		));
 	}
@@ -409,7 +409,7 @@ class Main extends Singleton {
 		$this->i18n->load_plugin_textdomain($this->path_manager);
 
 		// Override some WooCommerce Options
-		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) ) {
 			// For some reason, using the loader add_filter here doesn't work *shrug*
 			add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
 		}

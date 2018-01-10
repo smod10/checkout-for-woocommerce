@@ -103,8 +103,8 @@ class Form {
 					)
 				),
 				'address_2' => array(
-					'label'        => __('Apartment, suite, unit etc.', 'checkout-woocommerce'),
-					'placeholder'  => esc_attr__( 'Apartment, suite, unit etc.', 'checkout-woocommerce' ),
+					'label'        => __('Apt, suite, etc. (optional)', 'checkout-woocommerce'),
+					'placeholder'  => esc_attr__('Apt, suite, etc. (optional)', 'checkout-woocommerce'),
 					'class'        => array( 'address-field' ),
 					'required'     => false,
 					'autocomplete' => 'address-line2',

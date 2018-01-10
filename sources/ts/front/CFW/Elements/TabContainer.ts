@@ -14,6 +14,7 @@ import { UpdateShippingFieldsRI }           from "../Actions/UpdateCheckoutActio
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { InfoType }                         from "../Services/ParsleyService";
 import { SelectLabelWrap }                  from "./SelectLabelWrap";
+import { Alert }                            from "./Alert";
 
 declare let wc_address_i18n_params: any;
 declare let wc_country_select_params: any;
@@ -1109,7 +1110,14 @@ export class TabContainer extends Element {
      */
     setApplyCouponListener() {
         $("#cfw-promo-code-btn").on('click', () => {
-            new ApplyCouponAction('apply_coupon', Main.instance.ajaxInfo, $("#cfw-promo-code").val(), Main.instance.cart, this.getFields()).load();
+            let coupon_field: JQuery = $("#cfw-promo-code");
+
+            if(coupon_field.val() !== "") {
+                new ApplyCouponAction('apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFields()).load();
+            } else {
+                // Remove alerts
+                Alert.removeAlerts();
+            }
         })
     }
 

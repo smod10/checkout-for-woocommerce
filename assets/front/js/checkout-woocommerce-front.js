@@ -1095,6 +1095,11 @@ var Alert = /** @class */ (function (_super) {
         window.scrollTo(0, 0);
         Alert.previousClass = this.alertInfo.cssClass;
     };
+    Alert.removeAlerts = function () {
+        $("#cfw-alert-container").find(".message").html("");
+        $("#cfw-alert-container").attr("class", "cfw-alert");
+        $("#cfw-alert-container").css("display", "none");
+    };
     Object.defineProperty(Alert.prototype, "alertInfo", {
         /**
          * @returns {AlertInfo}
@@ -1582,6 +1587,7 @@ var ValidationService_1 = __webpack_require__(6);
 var UpdateCheckoutAction_1 = __webpack_require__(7);
 var ApplyCouponAction_1 = __webpack_require__(35);
 var SelectLabelWrap_1 = __webpack_require__(15);
+var Alert_1 = __webpack_require__(9);
 /**
  *
  */
@@ -2488,7 +2494,14 @@ var TabContainer = /** @class */ (function (_super) {
     TabContainer.prototype.setApplyCouponListener = function () {
         var _this = this;
         $("#cfw-promo-code-btn").on('click', function () {
-            new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', Main_1.Main.instance.ajaxInfo, $("#cfw-promo-code").val(), Main_1.Main.instance.cart, _this.getFields()).load();
+            var coupon_field = $("#cfw-promo-code");
+            if (coupon_field.val() !== "") {
+                new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', Main_1.Main.instance.ajaxInfo, coupon_field.val(), Main_1.Main.instance.cart, _this.getFields()).load();
+            }
+            else {
+                // Remove alerts
+                Alert_1.Alert.removeAlerts();
+            }
         });
     };
     /**

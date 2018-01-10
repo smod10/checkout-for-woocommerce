@@ -89,8 +89,7 @@ class ApplyCouponAction extends Action {
 			));
 		} else {
 			$this->out(array(
-				"failure" => true,
-				"message" => "Please provide a coupon code"
+				"message" => array("error" => ["Please provide a coupon code"])
 			));
 		}
 	}

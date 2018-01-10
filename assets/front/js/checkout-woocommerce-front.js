@@ -1982,6 +1982,42 @@ var TabContainer = /** @class */ (function (_super) {
         billing_postcode.attr("data-parsley-state-and-zip", billing_country.val());
         shipping_state.attr("data-parsley-state-and-zip", shipping_country.val());
         billing_state.attr("data-parsley-state-and-zip", billing_country.val());
+        TabContainer.initStateMobileMargin();
+    };
+    /**
+     * Add mobile margin removal for state if it doesn't exist on page load. Also removes down arrow if no select state.
+     */
+    TabContainer.initStateMobileMargin = function () {
+        var shipping_state_field = $("#shipping_state_field");
+        var billing_state_field = $("#billing_state_field");
+        [shipping_state_field, billing_state_field].forEach(function (field) {
+            // If the field is hidden, remove the margin on mobile by adding the appropriate class.
+            if (field.find("input[type='hidden']").length > 0) {
+                TabContainer.addOrRemoveStateMarginForMobile("add", field.attr("id").split("_")[0]);
+            }
+            // While we are at it, let's remove the down arrow if no select is there
+            if (field.find("input").length > 0) {
+                field.addClass("remove-state-down-arrow");
+            }
+        });
+    };
+    /**
+     * Adds or removes the margin class for mobile on state if it's hidden
+     *
+     * @param {"add" | "remove"} type
+     * @param info_type
+     */
+    TabContainer.addOrRemoveStateMarginForMobile = function (type, info_type) {
+        var info_type_state_field = $("#" + info_type + "_state_field");
+        var state_gone_wrap_class = "state-gone-margin";
+        if (type === "remove") {
+            info_type_state_field.removeClass(state_gone_wrap_class);
+        }
+        if (type === "add") {
+            if (!info_type_state_field.hasClass(state_gone_wrap_class)) {
+                info_type_state_field.addClass(state_gone_wrap_class);
+            }
+        }
     };
     /**
      * Sets up the default labels, required items, and placeholders for the country after it has been changed. It also
@@ -2158,6 +2194,7 @@ var TabContainer = /** @class */ (function (_super) {
             }
         });
         tab_section.inputLabelWraps.push(new InputLabelWrap_1.InputLabelWrap(state_element_wrap));
+        TabContainer.addOrRemoveStateMarginForMobile("remove", info_type);
     };
     /**
      *
@@ -2175,6 +2212,7 @@ var TabContainer = /** @class */ (function (_super) {
                 state_element_wrap.removeClass("cfw-text-input");
                 state_element_wrap.removeClass("cfw-floating-label");
                 state_element_wrap.append("<input type=\"hidden\" id=\"" + info_type + "_state\" field_key=\"state\" />");
+                TabContainer.addOrRemoveStateMarginForMobile("add", info_type);
             }
         }
     };
@@ -2231,7 +2269,10 @@ var TabContainer = /** @class */ (function (_super) {
     TabContainer.prototype.handleFieldsIfStateListExistsForCountry = function (info_type, state_list_for_country, target_country) {
         // Get the current state handler field (either a select or input)
         var current_state_field = $("#" + info_type + "_state");
+        var current_state_field_wrap = $("#" + info_type + "_state_field");
         var current_zip_field = $("#" + info_type + "_postcode");
+        current_state_field_wrap.removeClass("remove-state-down-arrow");
+        TabContainer.addOrRemoveStateMarginForMobile("remove", info_type);
         // If the current state handler is an input field, we need to change it to a select
         if (current_state_field.is('input')) {
             current_state_field = this.removeInputAndAddSelect(current_state_field, info_type);

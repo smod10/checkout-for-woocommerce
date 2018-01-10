@@ -292,6 +292,18 @@ fieldset .cfw-sg-container:last-child > * > .form-row {
   padding-top: 10px;
 }
 
+@media(max-width: 600px) {
+  .state-gone-margin {
+    margin-bottom: 0 !important;
+  }
+}
+
+.remove-state-down-arrow {
+  & > .cfw-input-wrap:after {
+    content: none;
+  }
+}
+
 .cfw-shipping-methods-list {
   border: 1px solid #ddd;
   border-radius: 4px;

@@ -489,7 +489,6 @@ export class TabContainer extends Element {
                  */
                 } else {
                     this.removeStateAndReplaceWithHiddenInput(locale_data[target_country], info_type);
-
                 }
             }
 
@@ -514,6 +513,50 @@ export class TabContainer extends Element {
 
         shipping_state.attr("data-parsley-state-and-zip", shipping_country.val());
         billing_state.attr("data-parsley-state-and-zip", billing_country.val());
+
+        TabContainer.initStateMobileMargin();
+    }
+
+    /**
+     * Add mobile margin removal for state if it doesn't exist on page load. Also removes down arrow if no select state.
+     */
+    static initStateMobileMargin(): void {
+        let shipping_state_field: JQuery = $("#shipping_state_field");
+        let billing_state_field: JQuery = $("#billing_state_field");
+
+        [shipping_state_field, billing_state_field].forEach(field => {
+
+            // If the field is hidden, remove the margin on mobile by adding the appropriate class.
+            if(field.find("input[type='hidden']").length > 0) {
+                TabContainer.addOrRemoveStateMarginForMobile("add", field.attr("id").split("_")[0]);
+            }
+
+            // While we are at it, let's remove the down arrow if no select is there
+            if(field.find("input").length > 0) {
+                field.addClass("remove-state-down-arrow");
+            }
+        });
+    }
+
+    /**
+     * Adds or removes the margin class for mobile on state if it's hidden
+     *
+     * @param {"add" | "remove"} type
+     * @param info_type
+     */
+    static addOrRemoveStateMarginForMobile(type: "add" | "remove", info_type) {
+        let info_type_state_field = $(`#${info_type}_state_field`);
+        let state_gone_wrap_class = "state-gone-margin";
+
+        if(type === "remove") {
+            info_type_state_field.removeClass(state_gone_wrap_class);
+        }
+
+        if(type === "add") {
+            if(!info_type_state_field.hasClass(state_gone_wrap_class)) {
+                info_type_state_field.addClass(state_gone_wrap_class);
+            }
+        }
     }
 
     /**
@@ -693,6 +736,7 @@ export class TabContainer extends Element {
         // Remove old element
         current_state_field.remove();
 
+
         // Append and amend new element
         state_element_wrap.append(`<input type="text" id="${info_type}_state" value="" />`);
         state_element_wrap.removeClass("cfw-select-input");
@@ -716,6 +760,8 @@ export class TabContainer extends Element {
         });
 
         tab_section.inputLabelWraps.push(new InputLabelWrap(state_element_wrap));
+
+        TabContainer.addOrRemoveStateMarginForMobile("remove", info_type);
     }
 
     /**
@@ -738,6 +784,8 @@ export class TabContainer extends Element {
                 state_element_wrap.removeClass("cfw-floating-label");
 
                 state_element_wrap.append(`<input type="hidden" id="${info_type}_state" field_key="state" />`);
+
+                TabContainer.addOrRemoveStateMarginForMobile("add", info_type);
             }
         }
     }
@@ -804,7 +852,12 @@ export class TabContainer extends Element {
     handleFieldsIfStateListExistsForCountry(info_type, state_list_for_country, target_country): void {
         // Get the current state handler field (either a select or input)
         let current_state_field = $(`#${info_type}_state`);
-        let current_zip_field = $(`#${info_type}_postcode`);
+        let current_state_field_wrap = $(`#${info_type}_state_field`);
+        let current_zip_field = $(`#${info_type}_postcode`)
+
+        current_state_field_wrap.removeClass("remove-state-down-arrow");
+
+        TabContainer.addOrRemoveStateMarginForMobile("remove", info_type);
 
         // If the current state handler is an input field, we need to change it to a select
         if (current_state_field.is('input')) {
@@ -815,6 +868,8 @@ export class TabContainer extends Element {
         this.populateStates(current_state_field, state_list_for_country);
         this.setCountryOnZipAndState(current_zip_field, current_state_field, target_country);
     }
+
+    removePostcode
 
     /**
      *

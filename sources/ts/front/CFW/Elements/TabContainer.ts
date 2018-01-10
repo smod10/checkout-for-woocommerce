@@ -869,8 +869,6 @@ export class TabContainer extends Element {
         this.setCountryOnZipAndState(current_zip_field, current_state_field, target_country);
     }
 
-    removePostcode
-
     /**
      *
      * @param {JQuery} postcode

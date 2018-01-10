@@ -57,7 +57,7 @@ export class ParsleyService {
 
         if ( $temp("#shipping_postcode").length !== 0 ) {
             $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
-            // $temp("#shipping_state").parsley().on("field:error", shipping_action);
+            $temp("#shipping_state").parsley().on("field:error", shipping_action);
         }
     }
 
@@ -174,8 +174,23 @@ export class ParsleyService {
                 // If the country in question has a state
                 if (stateElement) {
                     if (fieldType === "postcode") {
-                        stateElement.val(stateResponseValue);
-                        stateElement.trigger("change");
+
+                        /**
+                         * If we have a state response value abbreviation go ahead and set the new state to the state
+                         * element
+                         */
+                        if(stateResponseValue) {
+                            stateElement.val(stateResponseValue);
+                            stateElement.trigger("change");
+
+                        /**
+                         * if the state doesn't have an abbreviation try to set it by the display name. If we can't find
+                         * it that way we just leave the state alone
+                         */
+                        }  else if(json.places[0].state && json.places[0].state !== "") {
+                            stateElement.val(stateElement.find(`option:contains(${json.places[0].state})`).val());
+                            stateElement.trigger("change");
+                        }
                     }
                 }
 

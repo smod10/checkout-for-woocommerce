@@ -485,6 +485,9 @@ export class TabContainer extends Element {
                 }
             }
 
+            /**
+             * After we have replaced and reset everything change the labels, required items, and placeholders
+             */
             this.layoutDefaultLabelsAndRequirements(target_country, locale_data, info_type, wc_address_i18n_params.add2_text);
 
             $(`#${info_type}_state`).parsley().reset();
@@ -505,6 +508,15 @@ export class TabContainer extends Element {
         billing_state.attr("data-parsley-state-and-zip", billing_country.val());
     }
 
+    /**
+     * Sets up the default labels, required items, and placeholders for the country after it has been changed. It also
+     * kicks off the overriding portion of the same task at the end.
+     *
+     * @param target_country
+     * @param locale_data
+     * @param info_type
+     * @param add2_text
+     */
     layoutDefaultLabelsAndRequirements(target_country, locale_data, info_type, add2_text): void {
         let default_postcode_data = locale_data.default.postcode;
         let default_state_data = locale_data.default.state;
@@ -558,48 +570,98 @@ export class TabContainer extends Element {
         this.findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data[target_country], label_class, locale_data.default);
     }
 
+    /**
+     * This function is for override the defaults if the specified country has more information for the labels,
+     * placeholders, and required items
+     *
+     * @param fields
+     * @param asterisk
+     * @param locale_data_for_country
+     * @param label_class
+     * @param default_lookup
+     */
     findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data_for_country, label_class, default_lookup) {
         fields.forEach(field_pair => {
             let field_name = field_pair[0];
             let field = field_pair[1];
 
+            /**
+             * If the locale data for the country exists and it has a length of greater than 0 we can override the
+             * defaults
+             */
             if(locale_data_for_country !== undefined && Object.keys(locale_data_for_country).length > 0) {
 
+                /**
+                 * If the field name exists on the locale for the country precede on overwriting the defaults.
+                 */
                 if(locale_data_for_country[field_name] !== undefined) {
-                    let item = locale_data_for_country[field_name];
+                    let locale_data_for_field = locale_data_for_country[field_name];
                     let defaultItem = default_lookup[field_name];
-
                     let label: string = "";
 
+                    /**
+                     * If the field is the address_2 it doesn't use label it uses placeholder for some reason. So what
+                     * we do here is simply assign the placeholder to the label if it's address_2
+                     */
                     if(field_name == "address_2") {
-                        label = item.placeholder;
+                        label = locale_data_for_field.placeholder;
                     } else {
-                        label = item.label;
+                        label = locale_data_for_field.label;
                     }
 
+                    let field_siblings = field.siblings(`.${label_class}`);
+
+                    /**
+                     * If the label for the locale isn't undefined. we need to set the placeholder and the label
+                     */
                     if(label !== undefined) {
-                        field.attr("placeholder", item.label);
-                        field.siblings(`.${label_class}`).html(item.label);
+                        field.attr("placeholder", locale_data_for_field.label);
+                        field_siblings.html(locale_data_for_field.label);
+
+                    /**
+                     * Otherwise we reset the defaults here for good measure. The field address_2 needs to have it's
+                     * label be set as the placeholder (because it doesn't use label for some reason)
+                     */
                     } else {
                         if(field_name == "address_2") {
                             field.attr("placeholder", defaultItem.placeholder);
-                            field.siblings(`.${label_class}`).html(defaultItem.placeholder);
+                            field_siblings.html(defaultItem.placeholder);
+
+                        /**
+                         * If we aren't acdress_2 we can simply procede as normal and set the label for both the
+                         * placeholder and the label.
+                         */
                         } else {
                             field.attr("placeholder", defaultItem.label);
-                            field.siblings(`.${label_class}`).html(defaultItem.label);
+                            field_siblings.html(defaultItem.label);
                         }
                     }
 
-                    if(item.required !== undefined && item.required == true) {
+                    /**
+                     * If the locale data for this field is not undefined and is true go ahead and set it's required
+                     * attribute to true, and append the asterisk to the label
+                     */
+                    if(locale_data_for_field.required !== undefined && locale_data_for_field.required == true) {
                         field.attr("required", true);
-                        field.siblings(`.${label_class}`).append(asterisk);
-                    } else if (item.required == false) {
+                        field_siblings.append(asterisk);
+
+                    /**
+                     * If the field is not required, go ahead and set it's required attribute to false
+                     */
+                    } else if (locale_data_for_field.required == false) {
                         field.attr("required", false);
+
+                    /**
+                     * Lastly if the field is undefined we need to revert back to the default (maybe we do?)
+                     *
+                     * TODO: Possibly refactor a lot of these default settings in this function. We may not have to do it.
+                     */
                     } else {
                         field.attr("required", defaultItem.required);
 
+                        // If the default item is required, append the asterisk.
                         if(defaultItem.required == true) {
-                            field.siblings(`.${label_class}`).append(asterisk);
+                            field_siblings.append(asterisk);
                         }
                     }
                 }

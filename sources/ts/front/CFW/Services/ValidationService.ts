@@ -57,7 +57,6 @@ export class ValidationService {
             }
 
             if(EasyTabService.isThereAShippingTab()) {
-                console.log("YO THERE IS A SHIPPING TAB HOMES");
                 UpdateCheckoutAction.updateShippingDetails();
             }
 
@@ -68,6 +67,7 @@ export class ValidationService {
     }
 
     static createOrder(difBilling: boolean = false, ajaxInfo: AjaxInfo, orderDetails: any): void {
+
         if(difBilling) {
 
             // Check the normal validation and kick off the ajax ones
@@ -75,13 +75,12 @@ export class ValidationService {
 
             CompleteOrderAction.preppingOrder = true;
 
-            (<any>window).addEventListener("cfw:checkout-validated",
-                () => {
-                    CompleteOrderAction.preppingOrder = false;
+            (<any>window).addEventListener("cfw:checkout-validated", () => {
+                CompleteOrderAction.preppingOrder = false;
 
-                    if(validationResult) {
-                        new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
-                    }
+                if(validationResult) {
+                    new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
+                }
             }, {once: true});
 
             (<any>window).addEventListener("cfw:state-zip-failure", () => CompleteOrderAction.preppingOrder = false);

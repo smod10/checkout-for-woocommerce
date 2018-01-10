@@ -619,7 +619,6 @@ var ValidationService = /** @class */ (function () {
                 return validated;
             }
             if (EasyTabService_1.EasyTabService.isThereAShippingTab()) {
-                console.log("YO THERE IS A SHIPPING TAB HOMES");
                 UpdateCheckoutAction_1.UpdateCheckoutAction.updateShippingDetails();
             }
             // If we are moving forward / backwards, have a shipping easy tab, and are not on the customer tab then allow

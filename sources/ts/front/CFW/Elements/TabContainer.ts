@@ -389,6 +389,9 @@ export class TabContainer extends Element {
         });
     }
 
+    /**
+     *
+     */
     setUpdateCheckout() {
         let main: Main = Main.instance;
 
@@ -403,6 +406,11 @@ export class TabContainer extends Element {
         $(document.body).trigger( 'update_checkout' );
     }
 
+    /**
+     * Get's all the necessary fields for updating / checkout
+     *
+     * @returns {any}
+     */
     getFields(): any {
         let checkout_form: JQuery = $("form[name='checkout']");
         let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );

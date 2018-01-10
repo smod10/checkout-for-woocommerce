@@ -16,6 +16,9 @@ export enum EasyTab {
  */
 export type EasyTabDirection = { current: EasyTab, target: EasyTab };
 
+/**
+ *
+ */
 export class EasyTabService {
     constructor() {
 

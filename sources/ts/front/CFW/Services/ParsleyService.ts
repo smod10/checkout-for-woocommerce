@@ -24,6 +24,10 @@ export class ParsleyService {
      */
     private static _updateShippingTabInfo: boolean = false;
 
+    /**
+     * @type {null}
+     * @private
+     */
     private static _zipRequest = null;
 
     /**
@@ -287,10 +291,16 @@ export class ParsleyService {
         this._updateShippingTabInfo = value;
     }
 
+    /**
+     * @returns {any}
+     */
     static get zipRequest(): any {
         return this._zipRequest;
     }
 
+    /**
+     * @param value
+     */
     static set zipRequest(value: any) {
         this._zipRequest = value;
     }

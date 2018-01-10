@@ -35,7 +35,14 @@ export abstract class Action {
         this.data = data;
     }
 
-
+    /**
+     * Automatically assign the items to the data
+     *
+     * @param {string} id
+     * @param {AjaxInfo} ajaxInfo
+     * @param items
+     * @returns {any}
+     */
     public static prep(id: string, ajaxInfo: AjaxInfo, items: any) {
         let data: any = {
             action: id,

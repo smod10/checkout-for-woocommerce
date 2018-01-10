@@ -84,6 +84,9 @@ export class UpdateCheckoutAction extends Action {
         $(document.body).trigger( 'updated_checkout' );
     }
 
+    /**
+     * Update the shipping details on the shipping panel
+     */
     public static updateShippingDetails(): void {
         let customer_info_tab: TabContainerSection = Main.instance.tabContainer.tabContainerSectionBy("name", "customer_info");
 

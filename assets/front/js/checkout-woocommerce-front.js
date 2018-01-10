@@ -324,6 +324,14 @@ var Action = /** @class */ (function () {
         this.url = url;
         this.data = data;
     }
+    /**
+     * Automatically assign the items to the data
+     *
+     * @param {string} id
+     * @param {AjaxInfo} ajaxInfo
+     * @param items
+     * @returns {any}
+     */
     Action.prep = function (id, ajaxInfo, items) {
         var data = {
             action: id,
@@ -479,6 +487,9 @@ var EasyTab;
     EasyTab[EasyTab["SHIPPING"] = 1] = "SHIPPING";
     EasyTab[EasyTab["PAYMENT"] = 2] = "PAYMENT";
 })(EasyTab = exports.EasyTab || (exports.EasyTab = {}));
+/**
+ *
+ */
 var EasyTabService = /** @class */ (function () {
     function EasyTabService() {
     }
@@ -626,6 +637,13 @@ var ValidationService = /** @class */ (function () {
             return true;
         }.bind(this));
     };
+    /**
+     * Kick off the order process and register it's event listener.
+     *
+     * @param {boolean} difBilling
+     * @param {AjaxInfo} ajaxInfo
+     * @param orderDetails
+     */
     ValidationService.createOrder = function (difBilling, ajaxInfo, orderDetails) {
         if (difBilling === void 0) { difBilling = false; }
         if (difBilling) {
@@ -698,15 +716,25 @@ var ValidationService = /** @class */ (function () {
         }
     };
     Object.defineProperty(ValidationService, "validateZip", {
+        /**
+         * @returns {boolean}
+         */
         get: function () {
             return this._validateZip;
         },
+        /**
+         * @param {boolean} value
+         */
         set: function (value) {
             this._validateZip = value;
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * @type {boolean}
+     * @private
+     */
     ValidationService._validateZip = true;
     return ValidationService;
 }());
@@ -785,6 +813,9 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
         Main_1.Main.instance.tabContainer.setShippingPaymentUpdate();
         $(document.body).trigger('updated_checkout');
     };
+    /**
+     * Update the shipping details on the shipping panel
+     */
     UpdateCheckoutAction.updateShippingDetails = function () {
         var customer_info_tab = Main_1.Main.instance.tabContainer.tabContainerSectionBy("name", "customer_info");
         customer_info_tab.getInputsFromSection(", select").forEach(function (item) {
@@ -1845,6 +1876,9 @@ var TabContainer = /** @class */ (function (_super) {
             $(el).on("click", updateShippingMethod.bind(_this));
         });
     };
+    /**
+     *
+     */
     TabContainer.prototype.setUpdateCheckout = function () {
         var _this = this;
         var main = Main_1.Main.instance;
@@ -1856,6 +1890,11 @@ var TabContainer = /** @class */ (function (_super) {
         });
         $(document.body).trigger('update_checkout');
     };
+    /**
+     * Get's all the necessary fields for updating / checkout
+     *
+     * @returns {any}
+     */
     TabContainer.prototype.getFields = function () {
         var checkout_form = $("form[name='checkout']");
         var $required_inputs = checkout_form.find('.address-field.validate-required:visible');
@@ -2409,6 +2448,9 @@ var TabContainer = /** @class */ (function (_super) {
             new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', Main_1.Main.instance.ajaxInfo, $("#cfw-promo-code").val(), Main_1.Main.instance.cart, _this.getFields()).load();
         });
     };
+    /**
+     * @param {boolean} show
+     */
     TabContainer.togglePaymentFields = function (show) {
         var togglePaymentClass = "cfw-payment-false";
         var mainEl = $("#cfw-content");
@@ -3106,9 +3148,15 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
         new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, this.fields).load();
     };
     Object.defineProperty(UpdateShippingMethodAction.prototype, "fields", {
+        /**
+         * @returns {any}
+         */
         get: function () {
             return this._fields;
         },
+        /**
+         * @param value
+         */
         set: function (value) {
             this._fields = value;
         },
@@ -3226,9 +3274,15 @@ var ApplyCouponAction = /** @class */ (function (_super) {
         new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, this.fields).load();
     };
     Object.defineProperty(ApplyCouponAction.prototype, "fields", {
+        /**
+         * @returns {any}
+         */
         get: function () {
             return this._fields;
         },
+        /**
+         * @param value
+         */
         set: function (value) {
             this._fields = value;
         },
@@ -3502,9 +3556,15 @@ var ParsleyService = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(ParsleyService, "zipRequest", {
+        /**
+         * @returns {any}
+         */
         get: function () {
             return this._zipRequest;
         },
+        /**
+         * @param value
+         */
         set: function (value) {
             this._zipRequest = value;
         },
@@ -3523,6 +3583,10 @@ var ParsleyService = /** @class */ (function () {
      * @private
      */
     ParsleyService._updateShippingTabInfo = false;
+    /**
+     * @type {null}
+     * @private
+     */
     ParsleyService._zipRequest = null;
     return ParsleyService;
 }());

@@ -17,6 +17,9 @@ export class ApplyCouponAction extends Action {
      */
     private _cart: Cart;
 
+    /**
+     *
+     */
     private _fields: any;
 
     /**
@@ -82,10 +85,16 @@ export class ApplyCouponAction extends Action {
         new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.fields).load();
     }
 
+    /**
+     * @returns {any}
+     */
     get fields(): any {
         return this._fields;
     }
 
+    /**
+     * @param value
+     */
     set fields(value: any) {
         this._fields = value;
     }

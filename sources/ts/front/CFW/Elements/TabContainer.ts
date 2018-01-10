@@ -827,7 +827,6 @@ export class TabContainer extends Element {
         state.attr("data-parsley-state-and-zip", country);
     }
 
-
     /**
      * Given a state select field, populate it with the given list
      *
@@ -1058,6 +1057,9 @@ export class TabContainer extends Element {
         })
     }
 
+    /**
+     * @param {boolean} show
+     */
     static togglePaymentFields(show: boolean) {
         let togglePaymentClass: string = "cfw-payment-false";
         let mainEl: JQuery = $("#cfw-content");

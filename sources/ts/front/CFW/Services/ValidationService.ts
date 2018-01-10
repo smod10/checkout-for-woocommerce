@@ -20,6 +20,10 @@ export enum EValidationSections {
  */
 export class ValidationService {
 
+    /**
+     * @type {boolean}
+     * @private
+     */
     private static _validateZip: boolean = true;
 
     /**
@@ -66,6 +70,13 @@ export class ValidationService {
         }.bind(this));
     }
 
+    /**
+     * Kick off the order process and register it's event listener.
+     *
+     * @param {boolean} difBilling
+     * @param {AjaxInfo} ajaxInfo
+     * @param orderDetails
+     */
     static createOrder(difBilling: boolean = false, ajaxInfo: AjaxInfo, orderDetails: any): void {
 
         if(difBilling) {
@@ -152,10 +163,16 @@ export class ValidationService {
         }
     }
 
+    /**
+     * @returns {boolean}
+     */
     static get validateZip(): boolean {
         return this._validateZip;
     }
 
+    /**
+     * @param {boolean} value
+     */
     static set validateZip(value: boolean) {
         this._validateZip = value;
     }

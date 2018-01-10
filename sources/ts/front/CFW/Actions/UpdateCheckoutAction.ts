@@ -1,11 +1,30 @@
 import { Action }                           from "./Action";
-import { AjaxInfo }                         from "../Types/Types";
+import {AjaxInfo, FieldTypeInfo} from "../Types/Types";
 import { Main }                             from "../Main";
-import { Cart }                             from "../Elements/Cart";
+import {Cart, UpdateCartTotalsData} from "../Elements/Cart";
 import { ResponsePrep }                     from "../Decorators/ResponsePrep";
 import { TabContainer }                     from "../Elements/TabContainer";
 import {TabContainerSection} from "../Elements/TabContainerSection";
 import {Element} from "../Elements/Element";
+
+export type UpdateShippingFieldsResponse = {
+    error: boolean,
+    updated_fields_info: Array<FieldTypeInfo>,
+    new_totals: UpdateCartTotalsData,
+    needs_payment: boolean,
+    updated_ship_methods: any
+}
+
+export type UpdateShippingFieldsData = {
+    action: string,
+    security: string,
+    shipping_fields_info: Array<FieldTypeInfo>
+}
+
+export type UpdateShippingFieldsRI = {
+    action: string,
+    shipping_details_fields: Array<JQuery>
+}
 
 export class UpdateCheckoutAction extends Action {
 

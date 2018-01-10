@@ -3,7 +3,6 @@ import { TabContainerBreadcrumb }           from "./TabContainerBreadcrumb";
 import { TabContainerSection }              from "./TabContainerSection";
 import { InputLabelWrap }                   from "./InputLabelWrap";
 import { AjaxInfo }                         from "../Types/Types";
-import { UpdateShippingFieldsRI }           from "../Actions/UpdateShippingFieldsAction";
 import { AccountExistsAction }              from "../Actions/AccountExistsAction";
 import { LoginAction }                      from "../Actions/LoginAction";
 import { FormElement }                      from "./FormElement";
@@ -11,6 +10,7 @@ import { UpdateShippingMethodAction }       from "../Actions/UpdateShippingMetho
 import { Main }                             from "../Main";
 import { ValidationService }                from "../Services/ValidationService";
 import { UpdateCheckoutAction }             from "../Actions/UpdateCheckoutAction";
+import { UpdateShippingFieldsRI }           from "../Actions/UpdateCheckoutAction";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { InfoType }                         from "../Services/ParsleyService";
 import { SelectLabelWrap }                  from "./SelectLabelWrap";

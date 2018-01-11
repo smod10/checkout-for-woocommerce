@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2018-01-10 21:23-0500\n"
-"PO-Revision-Date: 2018-01-10 21:38-0500\n"
+"POT-Creation-Date: 2018-01-11 10:30-0500\n"
+"PO-Revision-Date: 2018-01-11 10:30-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -21,26 +21,30 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: functions.php:48 includes/Main.php:369
+#: dist/checkout-for-woocommerce/functions.php:48
+#: dist/checkout-for-woocommerce/includes/Main.php:369 functions.php:48
+#: includes/Main.php:369
 msgid "required"
 msgstr "Pflichtfeld"
 
-#: functions.php:109
+#: dist/checkout-for-woocommerce/functions.php:109 functions.php:109
 msgid "Select a country&hellip;"
 msgstr "Land auswählen&hellip;"
 
-#: functions.php:117
+#: dist/checkout-for-woocommerce/functions.php:117 functions.php:117
 msgid "Update country"
 msgstr "Land aktualisieren"
 
-#: functions.php:136
+#: dist/checkout-for-woocommerce/functions.php:136 functions.php:136
 msgid "Select a state&hellip;"
 msgstr "Wählen sie ein Bundesland aus&hellip;"
 
-#: functions.php:181
+#: dist/checkout-for-woocommerce/functions.php:181 functions.php:181
 msgid "Choose an option"
 msgstr "Wähle eine Kombination"
 
+#: dist/checkout-for-woocommerce/functions.php:313
+#: dist/checkout-for-woocommerce/includes/Action/UpdateCheckoutAction.php:122
 #: functions.php:313 includes/Action/UpdateCheckoutAction.php:122
 #, php-format
 msgctxt "shipping packages"
@@ -49,7 +53,7 @@ msgid_plural "Shipping %d"
 msgstr[0] "Versand"
 msgstr[1] "Versand %d"
 
-#: functions.php:340
+#: dist/checkout-for-woocommerce/functions.php:340 functions.php:340
 msgid ""
 "There are no shipping methods available. Please double check your address, "
 "or contact us if you need any help."
@@ -57,7 +61,7 @@ msgstr ""
 "Es wurde keine Versandart ausgewählt. Bitte überprüfe Deine  Adresse, oder "
 "kontaktiere mich, wenn Du Hilfe benötigst."
 
-#: functions.php:426
+#: dist/checkout-for-woocommerce/functions.php:426 functions.php:426
 msgid ""
 "Sorry, it seems that there are no available payment methods for your "
 "location. Please contact us if you require assistance or wish to make "
@@ -67,6 +71,7 @@ msgstr ""
 "kontaktieren Sie uns, falls Sie Hilfe benötigen oder alternative Absprachen "
 "treffen möchten."
 
+#: dist/checkout-for-woocommerce/includes/Action/UpdateCheckoutAction.php:134
 #: includes/Action/UpdateCheckoutAction.php:134
 msgid ""
 "There are no shipping methods available. Please ensure that your address has "
@@ -76,27 +81,34 @@ msgstr ""
 "kontaktieren Sie uns, wenn Sie Hilfe benötigen."
 
 #. Plugin Name of the plugin/theme
-#: includes/Core/Admin.php:76 includes/Core/Admin.php:96
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:76
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:96
+#: includes/Core/Admin.php:79 includes/Core/Admin.php:99
 msgid "Checkout for WooCommerce"
 msgstr "Checkout für WooCommerce"
 
-#: includes/Core/Admin.php:79
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:79
+#: includes/Core/Admin.php:82
 msgid "General"
 msgstr "Allgemein"
 
-#: includes/Core/Admin.php:80
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:80
+#: includes/Core/Admin.php:83
 msgid "Design"
 msgstr "Design"
 
-#: includes/Core/Admin.php:81
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:81
+#: includes/Core/Admin.php:84
 msgid "License"
 msgstr "Lizenz"
 
-#: includes/Core/Admin.php:82
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:82
+#: includes/Core/Admin.php:85
 msgid "Support"
 msgstr "Support"
 
-#: includes/Core/Admin.php:97
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:97
+#: includes/Core/Admin.php:100
 msgid ""
 "Checkout for WooCommerce provides a beautiful, conversion optimized checkout "
 "template for WooCommerce."
@@ -104,15 +116,18 @@ msgstr ""
 "Checkout for WooCommerce bietet eine wunderschöne, Conversion-optimierte "
 "Checkout-Vorlage für WooCommerce."
 
-#: includes/Core/Admin.php:122
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:122
+#: includes/Core/Admin.php:125
 msgid "Enable / Disable"
 msgstr "Aktivieren / Deaktivieren"
 
-#: includes/Core/Admin.php:126
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:126
+#: includes/Core/Admin.php:129
 msgid "Use Checkout for WooCommerce Template"
 msgstr "Checkout für WooCommerce-Vorlage verwenden"
 
-#: includes/Core/Admin.php:127
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:127
+#: includes/Core/Admin.php:130
 msgid ""
 "Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always "
 "enabled for admin users.)"
@@ -120,11 +135,13 @@ msgstr ""
 "Aktivieren Sie oder deaktivieren Sie die Kasse für WooCommerce Thema. "
 "(Hinweis: Thema für Admin-Benutzer immer aktiviert ist.)"
 
-#: includes/Core/Admin.php:133
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:133
+#: includes/Core/Admin.php:136
 msgid "Header Scripts"
 msgstr "Header-Skripte"
 
-#: includes/Core/Admin.php:139
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:139
+#: includes/Core/Admin.php:142
 msgid ""
 "This code will output immediately before the closing <code>&lt;/head&gt;</"
 "code> tag in the document source."
@@ -132,11 +149,13 @@ msgstr ""
 "Dieser Code wird unmittelbar vor dem schließenden <code>&lt;/head &gt;</"
 "code> Tag in der Dokument-Quelle ausgegeben."
 
-#: includes/Core/Admin.php:147
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:147
+#: includes/Core/Admin.php:150
 msgid "Footer Scripts"
 msgstr "Footer-Skripte"
 
-#: includes/Core/Admin.php:153
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:153
+#: includes/Core/Admin.php:156
 msgid ""
 "This code will output immediately before the closing <code>&lt;/body&gt;</"
 "code> tag in the document source."
@@ -144,39 +163,48 @@ msgstr ""
 "Dieser Code wird unmittelbar vor dem schließenden <code>&lt;/body &gt;</"
 "code> Tag in der Dokument-Quelle ausgegeben."
 
-#: includes/Core/Admin.php:181
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:181
+#: includes/Core/Admin.php:184
 msgid "Logo"
 msgstr "Logo"
 
-#: includes/Core/Admin.php:187
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:187
+#: includes/Core/Admin.php:190
 msgid "Upload image"
 msgstr "Bild hochladen"
 
-#: includes/Core/Admin.php:190
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:190
+#: includes/Core/Admin.php:193
 msgid "Clear Logo"
 msgstr "Klar-Logo"
 
-#: includes/Core/Admin.php:196
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:196
+#: includes/Core/Admin.php:199
 msgid "Header Background Color"
 msgstr "Hintergrundfarbe Header"
 
-#: includes/Core/Admin.php:205
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:205
+#: includes/Core/Admin.php:208
 msgid "Header Text Color"
 msgstr "Header Text Farbe"
 
-#: includes/Core/Admin.php:214
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:214
+#: includes/Core/Admin.php:217
 msgid "Footer Background Color"
 msgstr "Footer Hintergrundfarbe"
 
-#: includes/Core/Admin.php:223
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:223
+#: includes/Core/Admin.php:226
 msgid "Footer Text Color"
 msgstr "Footer Textfarbe"
 
-#: includes/Core/Admin.php:232
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:232
+#: includes/Core/Admin.php:235
 msgid "Footer Text"
 msgstr "Fußzeilen Text"
 
-#: includes/Core/Admin.php:238
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:238
+#: includes/Core/Admin.php:241
 msgid ""
 "If left blank, a standard copyright notice will be displayed. Set to a "
 "single space to override this behavior."
@@ -185,31 +213,38 @@ msgstr ""
 "Hinweis angezeigt. Stellen Sie auf ein einzelnes Leerzeichen ein, um dieses "
 "Verhalten zu überschreiben."
 
-#: includes/Core/Admin.php:246
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:246
+#: includes/Core/Admin.php:249
 msgid "Primary Button Color"
 msgstr "Primäre Schaltflächen-Farbe"
 
-#: includes/Core/Admin.php:255
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:255
+#: includes/Core/Admin.php:258
 msgid "Primary Button Text Color"
 msgstr "Primäre Schaltfläche Text Color"
 
-#: includes/Core/Admin.php:264
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:264
+#: includes/Core/Admin.php:267
 msgid "Secondary Button Color"
 msgstr "Color der sekundären Schaltfläche"
 
-#: includes/Core/Admin.php:273
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:273
+#: includes/Core/Admin.php:276
 msgid "Secondary Button Text Color"
 msgstr "Textfarbe der sekundären Schaltfläche"
 
-#: includes/Core/Admin.php:282
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:282
+#: includes/Core/Admin.php:285
 msgid "Link Color"
 msgstr "Linkfarbe"
 
-#: includes/Core/Admin.php:291
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:291
+#: includes/Core/Admin.php:294
 msgid "Custom CSS"
 msgstr "Benutzerdefinierte CSS"
 
-#: includes/Core/Admin.php:297
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:297
+#: includes/Core/Admin.php:300
 msgid ""
 "Add Custom CSS rules to fully control the appearance of the checkout "
 "template."
@@ -217,7 +252,8 @@ msgstr ""
 "Fügen Sie benutzerdefinierte CSS-Regeln hinzu, um das Aussehen der Checkout-"
 "Vorlage vollständig zu steuern."
 
-#: includes/Core/Admin.php:332
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:332
+#: includes/Core/Admin.php:335
 msgid ""
 "We can't wait to help you with Checkout for WooCommerce! Please fill out the "
 "following form and one of our support staff will respond within 12-24 hours. "
@@ -228,23 +264,28 @@ msgstr ""
 "Supportmitarbeiter wird innerhalb von 12-24 Stunden antworten. "
 "(durchschnittlich)"
 
-#: includes/Core/Admin.php:336
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:336
+#: includes/Core/Admin.php:339
 msgid "Need help?"
 msgstr "Benötigen Sie Hilfe?"
 
-#: includes/Core/Admin.php:338
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:338
+#: includes/Core/Admin.php:341
 msgid "Excellent support is in our DNA."
 msgstr "Hervorragende Unterstützung ist in unserer DNA."
 
-#: includes/Core/Admin.php:340
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:340
+#: includes/Core/Admin.php:343
 msgid "Many issues are addressed in our documentation:"
 msgstr "Viele Fragen werden in unserer Dokumentation beantwortet:"
 
-#: includes/Core/Admin.php:341
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:341
+#: includes/Core/Admin.php:344
 msgid "View Documentation"
 msgstr "Dokumentation anzeigen"
 
-#: includes/Core/Admin.php:343
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:343
+#: includes/Core/Admin.php:346
 msgid ""
 "If you need help for something not covered in our documentation, please "
 "click this button to file a support request:"
@@ -253,11 +294,13 @@ msgstr ""
 "enthalten ist, klicken Sie bitte auf diese Schaltfläche, um eine "
 "Supportanfrage zu stellen:"
 
-#: includes/Core/Admin.php:344
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:344
+#: includes/Core/Admin.php:347
 msgid "Support Request"
 msgstr "Supportanfrage"
 
-#: includes/Core/Admin.php:458
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:458
+#: includes/Core/Admin.php:461
 #, php-format
 msgid ""
 "Checkout for WooCommerce: Your license key appears to have expired. Please "
@@ -271,7 +314,8 @@ msgstr ""
 "%s”>Ihre Lizenz jetzt verlängern</a>, um die volle Funktionalität "
 "wiederherzustellen."
 
-#: includes/Core/Admin.php:461
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:461
+#: includes/Core/Admin.php:464
 msgid ""
 "Checkout for WooCommerce: Your license key is missing or invalid. Please "
 "verify that your license key is valid or <a target=\"_blank\" href=\"https://"
@@ -282,7 +326,8 @@ msgstr ""
 "target=“_blank” href=“https://www.checkoutwc.com/“>eine Lizenz erwerben</a>, "
 "um die volle Funktionalität wiederherzustellen."
 
-#: includes/Core/Admin.php:466
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:466
+#: includes/Core/Admin.php:469
 msgid ""
 "Thank you for installing Checkout for WooCommerce! To get started, click on "
 "<strong>License</strong> below and activate your license key!"
@@ -291,111 +336,128 @@ msgstr ""
 "beginnen, klicken Sie auf <strong>Lizenz</ strong> und aktivieren Sie Ihren "
 "Lizenzschlüssel!"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:57
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:58
 #: includes/Core/Form.php:57 includes/Core/Form.php:58
 msgid "First name"
 msgstr "Vorname"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:74
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:75
 #: includes/Core/Form.php:74 includes/Core/Form.php:75
 msgid "Last name"
 msgstr "Nachname"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:90
 #: includes/Core/Form.php:90
 msgid "Address"
 msgstr "Adresse"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:91
 #: includes/Core/Form.php:91
 msgid "Street address"
 msgstr "Adresse"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:106
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:107
 #: includes/Core/Form.php:106 includes/Core/Form.php:107
 msgid "Apt, suite, etc. (optional)"
 msgstr "Apt, Suite usw. (optional)"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:119
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:120
 #: includes/Core/Form.php:119 includes/Core/Form.php:120
 msgid "Company name"
 msgstr "Firmenname"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:132
 #: includes/Core/Form.php:132
 msgid "Country"
 msgstr "Land"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:145
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:146
 #: includes/Core/Form.php:145 includes/Core/Form.php:146
 msgid "Postcode / ZIP"
 msgstr "Postleitzahl"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:166
 #: includes/Core/Form.php:166
 msgid "State / County"
 msgstr "Bundesland"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:185
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:186
 #: includes/Core/Form.php:185 includes/Core/Form.php:186
 msgid "Town / City"
 msgstr "Stadt"
 
+#: dist/checkout-for-woocommerce/includes/Core/Redirect.php:30
 #: includes/Core/Redirect.php:30
 msgid "Checkout is not available whilst your cart is empty."
 msgstr ""
 "Wenn der Anfragenkorb leer ist, steht das Einreichen nicht zu Verfügung."
 
-#: includes/Main.php:352
+#: dist/checkout-for-woocommerce/includes/Main.php:352 includes/Main.php:352
 msgid "Select an option&hellip;"
 msgstr "Wählen Sie eine Option &hellip;"
 
-#: includes/Main.php:353
+#: dist/checkout-for-woocommerce/includes/Main.php:353 includes/Main.php:353
 msgctxt "enhanced select"
 msgid "No matches found"
 msgstr ""
 
-#: includes/Main.php:354
+#: dist/checkout-for-woocommerce/includes/Main.php:354 includes/Main.php:354
 msgctxt "enhanced select"
 msgid "Loading failed"
 msgstr ""
 
-#: includes/Main.php:355
+#: dist/checkout-for-woocommerce/includes/Main.php:355 includes/Main.php:355
 msgctxt "enhanced select"
 msgid "Please enter 1 or more characters"
 msgstr ""
 
-#: includes/Main.php:356
+#: dist/checkout-for-woocommerce/includes/Main.php:356 includes/Main.php:356
 msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
 msgstr ""
 
-#: includes/Main.php:357
+#: dist/checkout-for-woocommerce/includes/Main.php:357 includes/Main.php:357
 msgctxt "enhanced select"
 msgid "Please delete 1 character"
 msgstr ""
 
-#: includes/Main.php:358
+#: dist/checkout-for-woocommerce/includes/Main.php:358 includes/Main.php:358
 msgctxt "enhanced select"
 msgid "Please delete %qty% characters"
 msgstr ""
 
-#: includes/Main.php:359
+#: dist/checkout-for-woocommerce/includes/Main.php:359 includes/Main.php:359
 msgctxt "enhanced select"
 msgid "You can only select 1 item"
 msgstr ""
 
-#: includes/Main.php:360
+#: dist/checkout-for-woocommerce/includes/Main.php:360 includes/Main.php:360
 msgctxt "enhanced select"
 msgid "You can only select %qty% items"
 msgstr ""
 
-#: includes/Main.php:361
+#: dist/checkout-for-woocommerce/includes/Main.php:361 includes/Main.php:361
 msgctxt "enhanced select"
 msgid "Loading more results&hellip;"
 msgstr ""
 
-#: includes/Main.php:362
-#| msgid "Select a country&hellip;"
+#: dist/checkout-for-woocommerce/includes/Main.php:362 includes/Main.php:362
 msgctxt "enhanced select"
 msgid "Searching&hellip;"
 msgstr ""
 
-#: includes/Main.php:368
+#: dist/checkout-for-woocommerce/includes/Main.php:368 includes/Main.php:368
 msgctxt "checkout-wc"
 msgid "Apt, suite, etc. (optional)"
 msgstr "Apt, Suite usw. (optional)"
 
+#: dist/checkout-for-woocommerce/includes/Utilities/Activator.php:47
 #: includes/Utilities/Activator.php:47
 msgid ""
 "Activation failed: Please activate WooCommerce in order to use Checkout for "
@@ -404,26 +466,35 @@ msgstr ""
 "Aktivierung fehlgeschlagen: Bitte aktivieren Sie WooCommerce um die Kasse "
 "für WooCommerce zu verwenden"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:26
+#: dist/checkout-for-woocommerce/templates/content/template.php:48
 #: templates/content/template.php:26 templates/content/template.php:48
 msgid "Customer information"
 msgstr "Kundeninformation"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:30
+#: dist/checkout-for-woocommerce/templates/content/template.php:178
 #: templates/content/template.php:30 templates/content/template.php:178
 msgid "Shipping method"
 msgstr "Versandart"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:34
+#: dist/checkout-for-woocommerce/templates/content/template.php:210
 #: templates/content/template.php:34 templates/content/template.php:210
 msgid "Payment method"
 msgstr "Zahlungsweise"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:55
 #: templates/content/template.php:55
 msgid "Already have an account with us?"
 msgstr "Bereits registriert bei uns?"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:59
 #: templates/content/template.php:59
 msgid "Log in."
 msgstr "Anmelden."
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:64
 #: templates/content/template.php:64
 msgid ""
 "If you do not have an account, the information provided here will be used to "
@@ -432,60 +503,77 @@ msgstr ""
 "Wenn Sie kein Konto haben, werden die hier angegebenen Informationen "
 "verwendet, um ein Konto bei der Kasse zu erstellen."
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:72
 #: templates/content/template.php:72
 msgid "Email"
 msgstr "E-Mail"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:79
 #: templates/content/template.php:79
 msgid "Password"
 msgstr "Passwort"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:84
 #: templates/content/template.php:84
 msgid "Login"
 msgstr "Anmeldung"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:87
 #: templates/content/template.php:87
 msgid "Login is optional. You may continue with your order below."
 msgstr "Login ist optional. Sie können bei Ihrer Bestellung unten fortsetzen."
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:102
 #: templates/content/template.php:102
 #, php-format
 msgid "Create a %s shopping account."
 msgstr "Erstellen Sie ein %s Konto einkaufen."
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:109
 #: templates/content/template.php:109
 #, php-format
 msgid "Welcome back, %s"
 msgstr "Willkommen zurück, %s"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:122
 #: templates/content/template.php:122
 msgid "Billing address"
 msgstr "Rechnungsadresse"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:124
+#: dist/checkout-for-woocommerce/templates/content/template.php:161
 #: templates/content/template.php:124 templates/content/template.php:161
 msgid "Shipping address"
 msgstr "Lieferanschrift"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:146
 #: templates/content/template.php:146
 msgid "Continue to shipping method"
 msgstr "Weiter zu Versandart"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:148
+#: dist/checkout-for-woocommerce/templates/content/template.php:196
 #: templates/content/template.php:148 templates/content/template.php:196
 msgid "Continue to payment method"
 msgstr "Weiter zu Zahlungsmethode"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:169
 #: templates/content/template.php:169
 msgid "Edit shipping address"
 msgstr "Lieferadresse bearbeiten"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:180
 #: templates/content/template.php:180
 msgid "Select a shipping method:"
 msgstr "Wählen Sie eine Versandart:"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:193
+#: dist/checkout-for-woocommerce/templates/content/template.php:271
 #: templates/content/template.php:193 templates/content/template.php:271
 msgid "Return to customer information"
 msgstr "Zurück zu Kundeninformationen"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:217
 #: templates/content/template.php:217
 msgid ""
 "All transactions are secure and encrypted. Credit card information is never "
@@ -494,54 +582,67 @@ msgstr ""
 "Alle Transaktionen sind sicher und verschlüsselt. Kreditkarten-Informationen "
 "werden nie auf unseren Servern gespeichert."
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:226
 #: templates/content/template.php:226
 msgid "Your order is free. No payment is required."
 msgstr "Ihre Bestellung ist kostenlos. Keine Zahlung ist erforderlich."
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:239
 #: templates/content/template.php:239
 msgid "Same as shipping address"
 msgstr "Gleicht Lieferadresse"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:247
 #: templates/content/template.php:247
 msgid "Use a different billing address"
 msgstr "Verwenden Sie eine andere Rechnungsadresse"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:269
 #: templates/content/template.php:269
 msgid "Return to shipping information"
 msgstr "Zurück zu Versandinformationen"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:275
 #: templates/content/template.php:275
 msgid "Complete Order"
 msgstr "Bestellung abschließen"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:292
 #: templates/content/template.php:292
 msgid "Show order summary"
 msgstr "Bestellungsübersicht anzeigen"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:313
 #: templates/content/template.php:313
 msgid "Enter Promo Code"
 msgstr "Promo-Code eingeben"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:318
 #: templates/content/template.php:318
 msgid "Apply"
 msgstr "Anwenden"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:328
 #: templates/content/template.php:328
 msgid "Subtotal"
 msgstr "Gesamt"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:340
 #: templates/content/template.php:340
 msgid "Shipping"
 msgstr "Versand"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:353
 #: templates/content/template.php:353
 msgid "Taxes"
 msgstr "Steuersätze"
 
+#: dist/checkout-for-woocommerce/templates/content/template.php:360
 #: templates/content/template.php:360
 msgid "Total"
 msgstr "Summe"
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
 #, php-format
 msgid ""
@@ -551,6 +652,7 @@ msgstr ""
 "Eine neue Version von %1$s ist erhältlich. <a target=\"_blank\" class="
 "\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
 #, php-format
 msgid ""
@@ -562,6 +664,8 @@ msgstr ""
 "\"thickbox\" href=\"%2$s\">Details von Version %3$s anzeigen</a> oder <a "
 "href=\"%4$s\">jetzt aktualisieren</a>."
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "You do not have permission to install plugin updates"
@@ -569,12 +673,14 @@ msgstr ""
 "Du hast keine Berechtigung, um Aktualisierungen für Erweiterungen "
 "durchzuführen"
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
 #, php-format
 msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
 msgstr "Es gibt eine neue Version von %1$s. %2$s %3$s Versionsdetails %4$s."
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
 #, php-format
 msgid ""
@@ -584,9 +690,14 @@ msgstr ""
 "Es ist eine neue Version von %1$s verfügbar. %2$s %3$s Versionsdetails %4$s "
 "anzeigen oder %5$sjetzt aktualisieren%6$s."
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "Error"
 msgstr "Fehler"
+
+#: includes/Core/Admin.php:493
+msgid "Settings"
+msgstr "Einstellungen"
 
 #. Plugin URI of the plugin/theme
 msgid "https://www.CheckoutWC.com"

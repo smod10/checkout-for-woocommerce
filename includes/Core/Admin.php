@@ -61,6 +61,9 @@ class Admin {
 
         // Welcome redirect
 		add_action( 'admin_init', array($this, 'welcome_screen_do_activation_redirect') );
+
+		// Add settings link
+		add_filter( 'plugin_action_links_' . plugin_basename( $this->plugin_instance->get_path_manager()->get_raw_file() ), array($this, 'add_action_links'), 10, 1 );
 	}
 
 	/**
@@ -483,5 +486,13 @@ class Admin {
 
 		// Redirect to bbPress about page
 		wp_safe_redirect( add_query_arg( array( 'page' => 'cfw-settings', 'cfw_welcome' => 'true' ), admin_url( 'options-general.php' ) ) );
+    }
+
+    function add_action_links( $links ) {
+	    $settings_link = array(
+		    '<a href="' . admin_url( 'options-general.php?page=cfw-settings' ) . '">' . __('Settings', 'checkout-wc') . '</a>',
+	    );
+
+	    return array_merge( $settings_link, $links );
     }
 }

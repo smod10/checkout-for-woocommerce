@@ -68,11 +68,32 @@ class PathManager {
 	public function __construct($base, $url_base, $main_file) {
 		$this->base = $base;
 		$this->url_base = $url_base;
-		$this->main_file = $main_file;
+		$this->main_file = basename($main_file); // TODO: Rename main_file to main_file_basename
+		$this->raw_file = $main_file;
 
 		$this->plugin_template = $this->base . "templates";
 		$this->assets = $this->url_base . "assets";
 		$this->theme_template = get_stylesheet_directory() . "/checkout-wc";
+	}
+
+	/**
+	 * Get raw file
+	 *
+	 * @since 1.0.0
+	 * @return string
+	 */
+	public function get_raw_file() {
+		return $this->raw_file;
+	}
+
+	/**
+	 * Set raw file
+	 *
+	 * @since 1.0.0
+	 * @param string $raw_file
+	 */
+	public function set_raw_file( $raw_file ) {
+		$this->raw_file = $raw_file;
 	}
 
 	/**

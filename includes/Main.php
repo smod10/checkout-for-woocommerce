@@ -293,7 +293,7 @@ class Main extends Singleton {
 		$this->i18n = new i18n();
 
 		// The path manager for the plugin
-		$this->path_manager = new PathManager(plugin_dir_path($file), plugin_dir_url($file), basename($file));
+		$this->path_manager = new PathManager(plugin_dir_path($file), plugin_dir_url($file), $file);
 
 		// Create the template manager
 		$this->template_manager = new TemplateManager();

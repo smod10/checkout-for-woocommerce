@@ -73,7 +73,7 @@ export class UpdateCheckoutAction extends Action {
 
         Main.togglePaymentRequired(resp.needs_payment);
 
-        Cart.outputValues(main.cart, resp.new_totals, resp.is_shipping_free);
+        Cart.outputValues(main.cart, resp.new_totals);
 
         TabContainer.togglePaymentFields(resp.show_payment_fields);
 

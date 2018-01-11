@@ -896,7 +896,7 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
             $("#shipping_method").append("<div class=\"shipping-message\">" + resp.updated_ship_methods + "</div>");
         }
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
-        Cart_1.Cart.outputValues(main.cart, resp.new_totals, resp.is_shipping_free);
+        Cart_1.Cart.outputValues(main.cart, resp.new_totals);
         TabContainer_1.TabContainer.togglePaymentFields(resp.show_payment_fields);
         UpdateCheckoutAction.updateShippingDetails();
         Main_1.Main.instance.tabContainer.setShippingPaymentUpdate();
@@ -965,34 +965,14 @@ var Cart = /** @class */ (function (_super) {
     /**
      * @param cart
      * @param values
-     * @param {boolean} is_shipping_free
      */
-    Cart.outputValues = function (cart, values, is_shipping_free) {
-        if (is_shipping_free === void 0) { is_shipping_free = false; }
+    Cart.outputValues = function (cart, values) {
         Cart.outputValue(cart.subTotal, values.new_subtotal);
         Cart.outputValue(cart.taxes, values.new_taxes_total);
+        Cart.outputValue(cart.shipping, values.new_shipping_total);
         Cart.outputValue(cart.fees, values.new_fees_total);
         Cart.outputValue(cart.total, values.new_total);
         Cart.outputValue(cart.reviewBarTotal, values.new_total);
-        Cart.outputShipping(cart.shipping, values.new_shipping_total, is_shipping_free);
-    };
-    /**
-     * Handles shipping output specifically.
-     *
-     * @param {Element} shipping
-     * @param value
-     * @param is_shipping_free
-     */
-    Cart.outputShipping = function (shipping, value, is_shipping_free) {
-        // If shipping is free, don't show
-        if (is_shipping_free) {
-            shipping.jel.css("display", "none");
-            // Otherwise show
-        }
-        else {
-            shipping.jel.css("display", "flex");
-            Cart.outputValue(shipping, value);
-        }
     };
     /**
      * @param {Element} cartLineItem
@@ -3218,7 +3198,7 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
      */
     UpdateShippingMethodAction.prototype.response = function (resp) {
         if (resp.new_totals) {
-            Cart_1.Cart.outputValues(this.cart, resp.new_totals, resp.is_shipping_free);
+            Cart_1.Cart.outputValues(this.cart, resp.new_totals);
         }
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
         new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, this.fields).load();

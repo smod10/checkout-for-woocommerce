@@ -589,7 +589,7 @@ var Main_1 = __webpack_require__(0);
 var EasyTabService_1 = __webpack_require__(4);
 var EasyTabService_2 = __webpack_require__(4);
 var CompleteOrderAction_1 = __webpack_require__(11);
-var UpdateCheckoutAction_1 = __webpack_require__(7);
+var UpdateCheckoutAction_1 = __webpack_require__(8);
 /**
  * Validation Sections Enum
  */
@@ -757,6 +757,95 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Element_1 = __webpack_require__(2);
+/**
+ *
+ */
+var Alert = /** @class */ (function (_super) {
+    __extends(Alert, _super);
+    /**
+     *
+     * @param alertContainer
+     * @param alertInfo
+     */
+    function Alert(alertContainer, alertInfo) {
+        var _this = _super.call(this, alertContainer) || this;
+        _this.alertInfo = alertInfo;
+        return _this;
+    }
+    /**
+     *
+     */
+    Alert.prototype.addAlert = function () {
+        if (Alert.previousClass) {
+            this.jel.removeClass(Alert.previousClass);
+        }
+        $("#cfw-content").removeClass("show-overlay");
+        this.jel.find(".message").html(this.alertInfo.message);
+        this.jel.addClass(this.alertInfo.cssClass);
+        this.jel.slideDown(300);
+        window.scrollTo(0, 0);
+        Alert.previousClass = this.alertInfo.cssClass;
+    };
+    Alert.removeAlerts = function () {
+        $("#cfw-alert-container").find(".message").html("");
+        $("#cfw-alert-container").attr("class", "cfw-alert");
+        $("#cfw-alert-container").css("display", "none");
+    };
+    Object.defineProperty(Alert.prototype, "alertInfo", {
+        /**
+         * @returns {AlertInfo}
+         */
+        get: function () {
+            return this._alertInfo;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._alertInfo = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Alert, "previousClass", {
+        /**
+         * @returns {string}
+         */
+        get: function () {
+            return this._previousClass;
+        },
+        /**
+         * @param {string} value
+         */
+        set: function (value) {
+            this._previousClass = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Alert;
+}(Element_1.Element));
+exports.Alert = Alert;
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -766,7 +855,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
 var Main_1 = __webpack_require__(0);
-var Cart_1 = __webpack_require__(8);
+var Cart_1 = __webpack_require__(9);
 var ResponsePrep_1 = __webpack_require__(5);
 var TabContainer_1 = __webpack_require__(12);
 var UpdateCheckoutAction = /** @class */ (function (_super) {
@@ -807,7 +896,7 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
             $("#shipping_method").append("<div class=\"shipping-message\">" + resp.updated_ship_methods + "</div>");
         }
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
-        Cart_1.Cart.outputValues(main.cart, resp.new_totals);
+        Cart_1.Cart.outputValues(main.cart, resp.new_totals, resp.is_shipping_free);
         TabContainer_1.TabContainer.togglePaymentFields(resp.show_payment_fields);
         UpdateCheckoutAction.updateShippingDetails();
         Main_1.Main.instance.tabContainer.setShippingPaymentUpdate();
@@ -833,7 +922,7 @@ exports.UpdateCheckoutAction = UpdateCheckoutAction;
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -876,14 +965,34 @@ var Cart = /** @class */ (function (_super) {
     /**
      * @param cart
      * @param values
+     * @param {boolean} is_shipping_free
      */
-    Cart.outputValues = function (cart, values) {
+    Cart.outputValues = function (cart, values, is_shipping_free) {
+        if (is_shipping_free === void 0) { is_shipping_free = false; }
         Cart.outputValue(cart.subTotal, values.new_subtotal);
-        Cart.outputValue(cart.shipping, values.new_shipping_total);
         Cart.outputValue(cart.taxes, values.new_taxes_total);
         Cart.outputValue(cart.fees, values.new_fees_total);
         Cart.outputValue(cart.total, values.new_total);
         Cart.outputValue(cart.reviewBarTotal, values.new_total);
+        Cart.outputShipping(cart.shipping, values.new_shipping_total, is_shipping_free);
+    };
+    /**
+     * Handles shipping output specifically.
+     *
+     * @param {Element} shipping
+     * @param value
+     * @param is_shipping_free
+     */
+    Cart.outputShipping = function (shipping, value, is_shipping_free) {
+        // If shipping is free, don't show
+        if (is_shipping_free) {
+            shipping.jel.css("display", "none");
+            // Otherwise show
+        }
+        else {
+            shipping.jel.css("display", "flex");
+            Cart.outputValue(shipping, value);
+        }
     };
     /**
      * @param {Element} cartLineItem
@@ -1046,95 +1155,6 @@ var Cart = /** @class */ (function (_super) {
     return Cart;
 }(Element_1.Element));
 exports.Cart = Cart;
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(2);
-/**
- *
- */
-var Alert = /** @class */ (function (_super) {
-    __extends(Alert, _super);
-    /**
-     *
-     * @param alertContainer
-     * @param alertInfo
-     */
-    function Alert(alertContainer, alertInfo) {
-        var _this = _super.call(this, alertContainer) || this;
-        _this.alertInfo = alertInfo;
-        return _this;
-    }
-    /**
-     *
-     */
-    Alert.prototype.addAlert = function () {
-        if (Alert.previousClass) {
-            this.jel.removeClass(Alert.previousClass);
-        }
-        $("#cfw-content").removeClass("show-overlay");
-        this.jel.find(".message").html(this.alertInfo.message);
-        this.jel.addClass(this.alertInfo.cssClass);
-        this.jel.slideDown(300);
-        window.scrollTo(0, 0);
-        Alert.previousClass = this.alertInfo.cssClass;
-    };
-    Alert.removeAlerts = function () {
-        $("#cfw-alert-container").find(".message").html("");
-        $("#cfw-alert-container").attr("class", "cfw-alert");
-        $("#cfw-alert-container").css("display", "none");
-    };
-    Object.defineProperty(Alert.prototype, "alertInfo", {
-        /**
-         * @returns {AlertInfo}
-         */
-        get: function () {
-            return this._alertInfo;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._alertInfo = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Alert, "previousClass", {
-        /**
-         * @returns {string}
-         */
-        get: function () {
-            return this._previousClass;
-        },
-        /**
-         * @param {string} value
-         */
-        set: function (value) {
-            this._previousClass = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Alert;
-}(Element_1.Element));
-exports.Alert = Alert;
 
 
 /***/ }),
@@ -1329,7 +1349,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
 var StripeService_1 = __webpack_require__(31);
-var Alert_1 = __webpack_require__(9);
+var Alert_1 = __webpack_require__(7);
 var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(6);
 var CompleteOrderAction = /** @class */ (function (_super) {
@@ -1584,10 +1604,10 @@ var FormElement_1 = __webpack_require__(10);
 var UpdateShippingMethodAction_1 = __webpack_require__(34);
 var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(6);
-var UpdateCheckoutAction_1 = __webpack_require__(7);
+var UpdateCheckoutAction_1 = __webpack_require__(8);
 var ApplyCouponAction_1 = __webpack_require__(35);
 var SelectLabelWrap_1 = __webpack_require__(15);
-var Alert_1 = __webpack_require__(9);
+var Alert_1 = __webpack_require__(7);
 /**
  *
  */
@@ -2792,7 +2812,7 @@ var Main_1 = __webpack_require__(0);
 var TabContainer_1 = __webpack_require__(12);
 var TabContainerBreadcrumb_1 = __webpack_require__(37);
 var TabContainerSection_1 = __webpack_require__(38);
-var Cart_1 = __webpack_require__(8);
+var Cart_1 = __webpack_require__(9);
 /**
  * This is our main kick off file. We used to do this in a require block in the Redirect file but since we've moved to
  * webpack this is the new lay of the land (commonjs). In order to make this work in a non node setup (wordpress) we need
@@ -3090,7 +3110,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
-var Alert_1 = __webpack_require__(9);
+var Alert_1 = __webpack_require__(7);
 var ResponsePrep_1 = __webpack_require__(5);
 /**
  *
@@ -3166,9 +3186,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
 var ResponsePrep_1 = __webpack_require__(5);
-var Cart_1 = __webpack_require__(8);
+var Cart_1 = __webpack_require__(9);
 var Main_1 = __webpack_require__(0);
-var UpdateCheckoutAction_1 = __webpack_require__(7);
+var UpdateCheckoutAction_1 = __webpack_require__(8);
 /**
  *
  */
@@ -3198,7 +3218,7 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
      */
     UpdateShippingMethodAction.prototype.response = function (resp) {
         if (resp.new_totals) {
-            Cart_1.Cart.outputValues(this.cart, resp.new_totals);
+            Cart_1.Cart.outputValues(this.cart, resp.new_totals, resp.is_shipping_free);
         }
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
         new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, this.fields).load();
@@ -3267,11 +3287,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(1);
-var Cart_1 = __webpack_require__(8);
-var Alert_1 = __webpack_require__(9);
+var Cart_1 = __webpack_require__(9);
+var Alert_1 = __webpack_require__(7);
 var ResponsePrep_1 = __webpack_require__(5);
 var Main_1 = __webpack_require__(0);
-var UpdateCheckoutAction_1 = __webpack_require__(7);
+var UpdateCheckoutAction_1 = __webpack_require__(8);
 /**
  *
  */

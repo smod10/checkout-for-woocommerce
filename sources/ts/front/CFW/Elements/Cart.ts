@@ -86,14 +86,37 @@ export class Cart extends Element {
     /**
      * @param cart
      * @param values
+     * @param {boolean} is_shipping_free
      */
-    static outputValues(cart: Cart, values: UpdateCartTotalsData) {
+    static outputValues(cart: Cart, values: UpdateCartTotalsData, is_shipping_free: boolean = false) {
         Cart.outputValue(cart.subTotal, values.new_subtotal);
-        Cart.outputValue(cart.shipping, values.new_shipping_total);
         Cart.outputValue(cart.taxes, values.new_taxes_total);
         Cart.outputValue(cart.fees, values.new_fees_total);
         Cart.outputValue(cart.total, values.new_total);
         Cart.outputValue(cart.reviewBarTotal, values.new_total);
+
+        Cart.outputShipping(cart.shipping, values.new_shipping_total, is_shipping_free);
+    }
+
+
+    /**
+     * Handles shipping output specifically.
+     *
+     * @param {Element} shipping
+     * @param value
+     * @param is_shipping_free
+     */
+    static outputShipping(shipping: Element, value, is_shipping_free) {
+
+        // If shipping is free, don't show
+        if(is_shipping_free) {
+            shipping.jel.css("display", "none");
+
+        // Otherwise show
+        } else {
+            shipping.jel.css("display", "flex");
+            Cart.outputValue(shipping, value);
+        }
     }
 
     /**

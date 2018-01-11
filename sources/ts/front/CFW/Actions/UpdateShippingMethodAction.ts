@@ -14,7 +14,8 @@ export type UpdateShippingMethodData = {
 
 export type UpdateShippingMethodResponse = {
     new_totals: UpdateCartTotalsData,
-    needs_payment: boolean
+    needs_payment: boolean,
+    is_shipping_free: boolean
 }
 
 /**
@@ -59,7 +60,7 @@ export class UpdateShippingMethodAction extends Action {
     @ResponsePrep
     public response(resp: UpdateShippingMethodResponse): void {
         if(resp.new_totals) {
-            Cart.outputValues(this.cart, resp.new_totals);
+            Cart.outputValues(this.cart, resp.new_totals, resp.is_shipping_free);
         }
 
         Main.togglePaymentRequired(resp.needs_payment);

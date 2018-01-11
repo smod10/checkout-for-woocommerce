@@ -77,7 +77,8 @@ class UpdateCheckoutAction extends Action {
 			),
 			"show_payment_fields" => WC()->cart->get_total('') > 0,
 			"needs_payment" => WC()->cart->needs_payment(),
-			"updated_ship_methods" => $this->get_shipping_methods()
+			"updated_ship_methods" => $this->get_shipping_methods(),
+			"is_shipping_free" => (WC()->cart->get_shipping_total() <= 0) ? true : false
 		));
 	}
 

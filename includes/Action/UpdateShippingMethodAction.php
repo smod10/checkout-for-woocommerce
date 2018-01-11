@@ -55,7 +55,8 @@ class UpdateShippingMethodAction extends Action {
 				"new_taxes_total" => WC()->cart->get_cart_tax(),
 				"new_total" => WC()->cart->get_total()
 			),
-			"needs_payment" => WC()->cart->needs_payment()
+			"needs_payment" => WC()->cart->needs_payment(),
+			"is_shipping_free" => (WC()->cart->get_shipping_total() <= 0) ? true : false
 		));
 	}
 }

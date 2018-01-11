@@ -36,6 +36,8 @@ export class FormElement extends Element {
      */
     constructor(jel: JQuery) {
         super(jel);
+
+        this.moduleContainer = this.jel.parents(".cfw-module");
     }
 
     /**

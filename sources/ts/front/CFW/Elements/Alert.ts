@@ -50,6 +50,12 @@ export class Alert extends Element {
         Alert.previousClass = this.alertInfo.cssClass;
     }
 
+    static removeAlerts(): void {
+        $("#cfw-alert-container").find(".message").html("")
+        $("#cfw-alert-container").attr("class", "cfw-alert");
+        $("#cfw-alert-container").css("display", "none");
+    }
+
     /**
      * @returns {AlertInfo}
      */

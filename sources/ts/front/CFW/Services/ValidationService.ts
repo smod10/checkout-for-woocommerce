@@ -1,234 +1,143 @@
-import { TabContainer }                         from "../Elements/TabContainer";
+import { Main }                                         from "../Main";
+import { EasyTabService }                               from "./EasyTabService";
+import { EasyTabDirection }                             from "./EasyTabService";
+import { EasyTab }                                      from "./EasyTabService";
+import { CompleteOrderAction }                          from "../Actions/CompleteOrderAction";
+import { AjaxInfo }                                     from "../Types/Types";
+import {UpdateCheckoutAction} from "../Actions/UpdateCheckoutAction";
 
-let w: any = window;
-
+/**
+ * Validation Sections Enum
+ */
 export enum EValidationSections {
     SHIPPING,
     BILLING,
     ACCOUNT
 }
 
+/**
+ *
+ */
 export class ValidationService {
-
-    /**
-     * @type {Array}
-     * @private
-     */
-    private _easyTabsOrder: Array<JQuery> = [];
-
-    /**
-     * @type {TabContainer}
-     * @private
-     */
-    private _tabContainer: TabContainer;
 
     /**
      * @type {boolean}
      * @private
      */
-    private static _cityStateValidating: boolean = false;
-
-    /**
-     * @param {TabContainer} tabContainer
-     */
-    constructor(tabContainer: TabContainer) {
-        this.tabContainer = tabContainer;
-        this.easyTabsOrder = [$("#cfw-customer-info"), $("#cfw-shipping-method"), $("#cfw-payment-method")];
-
-        this.setup();
-    }
+    private static _validateZip: boolean = true;
 
     /**
      *
      */
-    setup(): void {
-        this.setEventListeners();
-        let max_iterations = 1000;
-        let iterations = 0;
+    constructor() {
+        this.validateSectionsBeforeSwitch();
 
-        this.floatLabelOnGarlicRetrieve();
-
-        if(window.location.hash != "#cfw-customer-info" && window.location.hash != "") {
-            if(!this.validate(EValidationSections.SHIPPING)) {
-                window.location.hash = "#cfw-customer-info";
-            }
-        }
-
-        // Parsley isn't a jquery default, this gets around it.
-        let $temp: any = $;
-        let shipping_action: Function = function(element) {
-            $("#cfw-tab-container").easytabs("select", "#cfw-customer-info");
-        };
-
-        if ( $temp("#shipping_postcode").length !== 0 ) {
-            $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
-            $temp("#shipping_state").parsley().on("field:error", shipping_action);
-        }
-
-        let interval: any = setInterval(() => {
-            if ( w.Parsley !== undefined ) {
-                this.setParsleyCustomValidators(w.Parsley);
-                clearInterval(interval);
-            } else if( iterations >= max_iterations ) {
-                // Give up
-                clearInterval(interval);
-            } else {
-                iterations++;
-            }
-        }, 50);
+        ValidationService.validateShippingOnLoadIfNotCustomerTab();
     }
 
     /**
-     * Sometimes in some browsers (looking at you safari and chrome) the label doesn't float when the data is retrieved
-     * via garlic. This will fix this issue and float the label like it should.
+     * Execute validation checks before each easy tab easy tab switch.
      */
-    floatLabelOnGarlicRetrieve(): void {
-        $(".garlic-auto-save").each((index: number, elem: Element) => {
-            $(elem).garlic({
-                onRetrieve: (element, retrievedValue) => {
-                    $(element).parent().addClass("cfw-floating-label");
-                }
-            })
-        });
-    }
+    validateSectionsBeforeSwitch(): void {
 
-    /**
-     * @param parsley
-     */
-    setParsleyCustomValidators(parsley): void {
-        parsley.addValidator('stateAndZip', {
-            validateString: function(_ignoreValue, country, instance) {
-                let elementType = instance.$element[0].getAttribute("id").split("_")[0];
-                let stateElement = $("#" + elementType + "_state");
-                let zipElement = $("#" + elementType + "_postcode");
-                let cityElement = $("#" + elementType + "_city");
-                let failLocation = (elementType === "shipping") ? "#cfw-customer-info" : "#cfw-payment-method";
-                let xhr = $.ajax('//www.zippopotam.us/' + country + '/' + zipElement.val());
+        Main.instance.tabContainer.jel.bind('easytabs:before', function(event, clicked, target) {
+            // Where are we going?
+            let easyTabDirection: EasyTabDirection = EasyTabService.getTabDirection(target);
 
-                if(!ValidationService.cityStateValidating) {
-                    ValidationService.cityStateValidating = true;
+            // If we are moving forward in the checkout process and we are currently on the customer tab
+            if(easyTabDirection.current === EasyTab.CUSTOMER && easyTabDirection.target > easyTabDirection.current) {
 
-                    return xhr.then(function(json) {
-                        let ret = null;
-                        let stateResponseValue = "";
-                        let eventName = "";
-                        let cityResponseValue = "";
+                let validated: boolean = ValidationService.validateSectionsForCustomerTab(false);
+                let tabId: string = EasyTabService.getTabId(easyTabDirection.current);
 
-                        // Set the state response value
-                        stateResponseValue = json.places[0]["state abbreviation"];
-
-                        // Set the city response value and set the corresponding city field
-                        cityResponseValue = json.places[0]["place name"];
-                        cityElement.val(cityResponseValue);
-
-                        let fieldType = $(instance.element).attr("id").split("_")[1];
-
-                        if(fieldType === "postcode") {
-                            stateElement.val(stateResponseValue);
-                        }
-
-                        if (stateResponseValue !== stateElement.val()) {
-                            eventName = "cfw:state-zip-failure";
-
-                            $("#cfw-tab-container").easytabs("select", failLocation);
-
-                            ret = $.Deferred().reject("The zip code " + zipElement.val() + " is in " + stateResponseValue + ", not in " + stateElement.val());
-                        } else {
-                            eventName = "cfw:state-zip-success";
-
-                            $("#" + elementType + "_state").parsley().reset();
-                            $("#" + elementType + "_postcode").parsley().reset();
-
-                            ret = true;
-                        }
-
-                        if(w.CREATE_ORDER) {
-                            let event = new Event(eventName);
-                            window.dispatchEvent(event);
-                        }
-
-                        ValidationService.cityStateValidating = false;
-
-                        cityElement.parsley().reset();
-                        zipElement.parsley().reset();
-                        stateElement.parsley().reset();
-
-                        return ret;
-                    }).fail(function(){
-                        $("#cfw-tab-container").easytabs("select", failLocation);
-
-                        if(w.CREATE_ORDER) {
-                            let event = new Event("cfw:state-zip-failure");
-                            window.dispatchEvent(event);
-                        }
-
-                        ValidationService.cityStateValidating = false;
-                    })
+                // Has to be done with the window.location.hash. Reason being is on false validation it somehow ignores
+                // the continue button going forward. This prevents that by "resetting" the page so to speak.
+                if ( ! validated ) {
+                    window.location.hash = `#${tabId}`;
                 }
 
-                return true;
-            }.bind(this),
-            messages: {en: 'Zip is not valid for country "%s"'}
-        });
-    }
-
-    /**
-     *
-     */
-    setEventListeners(): void {
-        this.tabContainer.jel.bind('easytabs:before', function(event, clicked, target, settings) {
-            let currentPanelIndex: number;
-            let targetPanelIndex: number;
-
-            this.easyTabsOrder.forEach((tab, index) => {
-                if(tab.filter(":visible").length !== 0) {
-                    currentPanelIndex = index;
-                }
-
-                if(tab.is($(target))) {
-                    targetPanelIndex = index;
-                }
-            });
-
-            if(targetPanelIndex > currentPanelIndex) {
-                if(currentPanelIndex === 0) {
-                    let validated = false;
-
-                    if ( this.tabContainer.jel.find('.etabs > li').length == 2 ) {
-                        validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.BILLING);
-                    } else {
-                        validated = this.validate(EValidationSections.ACCOUNT) && this.validate(EValidationSections.SHIPPING);
-                    }
-
-                    if ( ! validated ) {
-                        window.location.hash = "#" + this.easyTabsOrder[currentPanelIndex].attr("id");
-                    }
-
-                    return validated;
-                }
+                // Return the validation
+                return validated;
             }
 
+            if(EasyTabService.isThereAShippingTab()) {
+                UpdateCheckoutAction.updateShippingDetails();
+            }
+
+            // If we are moving forward / backwards, have a shipping easy tab, and are not on the customer tab then allow
+            // the tab switch
             return true;
-
         }.bind(this));
+    }
+
+    /**
+     * Kick off the order process and register it's event listener.
+     *
+     * @param {boolean} difBilling
+     * @param {AjaxInfo} ajaxInfo
+     * @param orderDetails
+     */
+    static createOrder(difBilling: boolean = false, ajaxInfo: AjaxInfo, orderDetails: any): void {
+
+        if(difBilling) {
+
+            // Check the normal validation and kick off the ajax ones
+            let validationResult: boolean = true;
+
+            CompleteOrderAction.preppingOrder = true;
+
+            (<any>window).addEventListener("cfw:checkout-validated", () => {
+                CompleteOrderAction.preppingOrder = false;
+
+                if(validationResult) {
+                    new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
+                }
+            }, {once: true});
+
+            (<any>window).addEventListener("cfw:state-zip-failure", () => CompleteOrderAction.preppingOrder = false);
+
+            validationResult = ValidationService.validate(EValidationSections.BILLING);
+        } else {
+            new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
+        }
+    }
+
+    /**
+     *
+     * @param {boolean} validateZip
+     * @returns {boolean}
+     */
+    static validateSectionsForCustomerTab(validateZip: boolean = true): boolean {
+        let validated = false;
+
+        ValidationService.validateZip = validateZip;
+
+        if ( !EasyTabService.isThereAShippingTab() ) {
+            validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.BILLING);
+        } else {
+            validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.SHIPPING);
+        }
+
+        return validated;
     }
 
     /**
      * @param {EValidationSections} section
      * @returns {any}
      */
-    validate(section: EValidationSections): any {
+    static validate(section: EValidationSections): any {
         let validated: boolean;
+        let checkoutForm: JQuery = $("#checkout");
 
         switch(section) {
             case EValidationSections.SHIPPING:
-                validated = $("#cfw-checkout-form").parsley().validate("shipping");
+                validated = checkoutForm.parsley().validate("shipping");
                 break;
             case EValidationSections.BILLING:
-                validated = $("#cfw-checkout-form").parsley().validate("billing");
+                validated = checkoutForm.parsley().validate("billing");
                 break;
             case EValidationSections.ACCOUNT:
-                validated = $("#cfw-checkout-form").parsley().validate("account");
+                validated = checkoutForm.parsley().validate("account");
                 break;
         }
 
@@ -239,44 +148,32 @@ export class ValidationService {
     }
 
     /**
-     * @returns {Array<JQuery>}
+     * Handles non ajax cases
      */
-    get easyTabsOrder(): Array<JQuery> {
-        return this._easyTabsOrder;
-    }
+    static validateShippingOnLoadIfNotCustomerTab(): void {
+        let hash: string = window.location.hash;
+        let customerInfoId: string = "#cfw-customer-info";
+        let sectionToValidate: EValidationSections = (EasyTabService.isThereAShippingTab()) ? EValidationSections.SHIPPING : EValidationSections.BILLING;
 
-    /**
-     * @param {Array<JQuery>} value
-     */
-    set easyTabsOrder(value: Array<JQuery>) {
-        this._easyTabsOrder = value;
-    }
+        if(hash != customerInfoId && hash != "") {
 
-    /**
-     * @returns {TabContainer}
-     */
-    get tabContainer(): TabContainer {
-        return this._tabContainer;
-    }
-
-    /**
-     * @param {TabContainer} value
-     */
-    set tabContainer(value: TabContainer) {
-        this._tabContainer = value;
+            if(!ValidationService.validate(sectionToValidate)) {
+                EasyTabService.go(EasyTab.CUSTOMER);
+            }
+        }
     }
 
     /**
      * @returns {boolean}
      */
-    static get cityStateValidating(): boolean {
-        return this._cityStateValidating;
+    static get validateZip(): boolean {
+        return this._validateZip;
     }
 
     /**
      * @param {boolean} value
      */
-    static set cityStateValidating(value: boolean) {
-        this._cityStateValidating = value;
+    static set validateZip(value: boolean) {
+        this._validateZip = value;
     }
 }

@@ -32,11 +32,13 @@ class Redirect {
 				exit;
 			}
 
+			wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
+
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());
 
 			// Show non-cart errors
-			// wc_print_notices();
+            wc_print_notices();
 
 			// Check cart contents for errors
 			do_action( 'woocommerce_check_cart_items' );
@@ -44,14 +46,12 @@ class Redirect {
 			// Calc totals
 			WC()->cart->calculate_totals();
 
-			wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
-
 			// Template conveniences items
 			$global_template_parameters["woo"]          = \WooCommerce::instance();         // WooCommerce Instance
 			$global_template_parameters["checkout"]     = WC()->checkout();                 // Checkout Object
 			$global_template_parameters["cart"]         = WC()->cart;                       // Cart Object
 			$global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
-            $global_template_parameters["css_classes"]  = Redirect::get_css_classes();
+            $global_template_parameters["css_classes"]  = self::get_css_classes();
 
 			// Output the contents of the <head></head> section
 			self::head($path_manager, $version, ['checkout-wc'], $settings_manager);
@@ -97,17 +97,16 @@ class Redirect {
 		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
 
 		wp_enqueue_scripts();
-		self::remove_scripts();
-		print_head_scripts();
 
+		self::remove_scripts();
+		self::remove_styles();
+
+		print_head_scripts();
 		?>
         <script>
             window.$ = jQuery;
             $.fn.block = function(item) {};
             $.fn.unblock = function(item) {};
-
-            // TODO: Find out if we can remove this. Pretty sure we can
-            window.siteBase = "<?php echo $path_manager->get_url_base(); ?>";
 
             var breadCrumbElId = '#<?php echo apply_filters('cfw_template_breadcrumb_id', 'cfw-breadcrumb'); ?>';
             var customerInfoElId = '#<?php echo apply_filters('cfw_template_customer_info_el', 'cfw-customer-info'); ?>';
@@ -118,6 +117,7 @@ class Redirect {
             var cartSubtotalId = '#<?php echo apply_filters('cfw_template_cart_subtotal_el', 'cfw-cart-subtotal'); ?>';
             var cartShippingId = '#<?php echo apply_filters('cfw_template_cart_shipping_el', 'cfw-cart-shipping-total'); ?>';
             var cartTaxesId = '#<?php echo apply_filters('cfw_template_cart_taxes_el', 'cfw-cart-taxes'); ?>';
+            var cartFeesId = '#<?php echo apply_filters('cfw_template_cart_fees_el', 'cfw-cart-fees'); ?>';
             var cartTotalId = '#<?php echo apply_filters('cfw_template_cart_total_el','cfw-cart-total'); ?>';
             var cartCoupons = '#<?php echo apply_filters('cfw_template_cart_coupons_el', 'cfw-cart-coupons'); ?>';
             var cartReviewBarId = '#<?php echo apply_filters('cfw_template_cart_review_bar_id', 'cfw-cart-details-review-bar'); ?>';
@@ -133,6 +133,7 @@ class Redirect {
                 cartSubtotalId: cartSubtotalId,
                 cartShippingId: cartShippingId,
                 cartTaxesId: cartTaxesId,
+                cartFeesId: cartFeesId,
                 cartTotalId: cartTotalId,
                 cartCouponsId: cartCoupons,
                 cartReviewBarId: cartReviewBarId
@@ -144,7 +145,8 @@ class Redirect {
             };
 
             cfwEventData.settings = {
-                isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>
+                isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
+                user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>'
             };
 
             $(document).ready(function() {
@@ -154,7 +156,7 @@ class Redirect {
         </script>
 		<?php
 
-		wp_print_styles(array('cfw_front_css', 'admin-bar'));
+		wp_print_styles();
 	}
 
 	/**
@@ -263,7 +265,7 @@ class Redirect {
             'woocommerce_stripe',
             'stripe_apple_pay',
             'woocommerce_stripe_apple_pay',
-            'wc-jilt',
+            'woocommerce-tokenization-form',
         );
 
 		$ignore = apply_filters('cfw_allowed_script_handles', $ignore);
@@ -274,6 +276,24 @@ class Redirect {
 			    wp_deregister_script( $handle );
 		    }
         }
+    }
+
+    public static function remove_styles() {
+	    global $wp_styles;
+
+	    $ignore = array(
+		    'cfw_front_css',
+            'admin-bar',
+        );
+
+	    $ignore = apply_filters('cfw_allowed_style_handles', $ignore);
+
+	    foreach ( $wp_styles->queue as $handle ) {
+		    if ( ! in_array($handle, $ignore) ) {
+			    wp_dequeue_style( $handle );
+			    wp_deregister_style( $handle );
+		    }
+	    }
     }
 	/**
      * @since 1.0.0

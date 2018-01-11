@@ -1,3 +1,5 @@
+import {AjaxInfo} from "../Types/Types";
+
 /**
  * Base class for our ajax handling. Child classes will extend this and override the response function and implement their
  * own custom solutions for the php side of actions
@@ -31,6 +33,25 @@ export abstract class Action {
         this.id = id;
         this.url = url;
         this.data = data;
+    }
+
+    /**
+     * Automatically assign the items to the data
+     *
+     * @param {string} id
+     * @param {AjaxInfo} ajaxInfo
+     * @param items
+     * @returns {any}
+     */
+    public static prep(id: string, ajaxInfo: AjaxInfo, items: any) {
+        let data: any = {
+            action: id,
+            security: ajaxInfo.nonce,
+        };
+
+        (<any>Object).assign(data, items);
+
+        return data;
     }
 
     /**

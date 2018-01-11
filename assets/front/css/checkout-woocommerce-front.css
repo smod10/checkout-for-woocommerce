@@ -663,12 +663,12 @@ body {
   color: #737373; }
 
 .cfw-logo {
-  padding: 1.2em 0; }
+  padding: 2em 0; }
   .cfw-logo .logo {
     background: #ffffff;
     width: 100%;
     display: inline-block;
-    height: 40px;
+    height: 4em;
     position: relative; }
 
 .cfw-link {
@@ -677,6 +677,41 @@ body {
 
 .cfw-module-title {
   margin: 0; }
+
+.form-row {
+  margin: 0 0 1.5em;
+  padding: 0;
+  line-height: 1.5; }
+  .form-row label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: 600; }
+    .form-row label.checkbox {
+      font-weight: 400; }
+  .form-row input[type="radio"] + label, .form-row input[type="checkbox"] + label {
+    font-weight: 400; }
+  .form-row .input-text {
+    box-sizing: border-box;
+    width: 100%; }
+  .form-row select {
+    width: 100%; }
+  .form-row label.checkbox {
+    display: inline; }
+  .form-row input[type="radio"], .form-row input[type="checkbox"] {
+    margin-right: 0.5em; }
+  .form-row input[type="text"], .form-row input[type="email"], .form-row input[type="url"], .form-row input[type="password"], .form-row input[type="search"], .form-row input[type="number"], .form-row input[type="tel"], .form-row input[type="range"], .form-row input[type="date"], .form-row input[type="month"], .form-row input[type="week"], .form-row input[type="time"], .form-row input[type="datetime"], .form-row input[type="datetime-local"], .form-row input[type="color"], .form-row textarea {
+    padding: 0.7em;
+    border: 1px solid #ddd;
+    border-radius: 4px; }
+
+.input-file-plupload {
+  margin: 0 0 1.5em; }
+
+.wc_payment_choice_selection_wrapper {
+  margin-top: 10px; }
+
+#paytrace_payment_choices {
+  font-size: 0.825em; }
 
 #cfw-header {
   background: #222; }
@@ -736,6 +771,42 @@ body {
 .cfw-no-payment-method-wrap {
   margin-bottom: 60px;
   display: none; }
+
+.cfw-other-totals {
+  text-align: left;
+  color: #000;
+  font-size: 0.875em;
+  padding: 20px 0; }
+  .cfw-other-totals table, .cfw-other-totals tbody, .cfw-other-totals tr, .cfw-other-totals th, .cfw-other-totals td {
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+    table-layout: fixed; }
+  .cfw-other-totals table {
+    width: 100%; }
+    .cfw-other-totals table td, .cfw-other-totals table th {
+      vertical-align: top; }
+    .cfw-other-totals table tr:not(:first-child) td, .cfw-other-totals table tr:not(:first-child) th {
+      padding: 10px 0;
+      color: #666;
+      font-weight: normal; }
+    .cfw-other-totals table tr:last-child td, .cfw-other-totals table tr:last-child th {
+      color: #000;
+      padding: 10px 0;
+      border-top: #eee 1px solid;
+      border-bottom: 2px solid #333; }
+    .cfw-other-totals table tr:last-child th {
+      font-weight: 700; }
+  .cfw-other-totals .recurring-totals th {
+    padding: 10px 0;
+    padding-bottom: 20px;
+    border-bottom: #eee 1px solid; }
+  .cfw-other-totals .first-payment-date {
+    color: #666;
+    position: relative; }
+    .cfw-other-totals .first-payment-date small {
+      position: absolute;
+      top: 20px; }
 
 #cfw-billing-methods .cfw-radio-reveal-group, #cfw-shipping-same-billing .cfw-radio-reveal-group {
   line-height: 1;
@@ -814,7 +885,7 @@ body {
   #cfw-billing-methods #stripe-payment-data > *:last-child, #cfw-shipping-same-billing #stripe-payment-data > *:last-child {
     margin-bottom: 0; }
 
-#cfw-billing-methods #stripe-payment-data #wc-stripe-cc-form, #cfw-billing-methods #stripe-payment-data .woocommerce-SavedPaymentMethods-saveNew, #cfw-shipping-same-billing #stripe-payment-data #wc-stripe-cc-form, #cfw-shipping-same-billing #stripe-payment-data .woocommerce-SavedPaymentMethods-saveNew {
+#cfw-billing-methods #stripe-payment-data #wc-stripe-cc-form, #cfw-shipping-same-billing #stripe-payment-data #wc-stripe-cc-form {
   display: none; }
 
 #cfw-billing-methods #stripe-payment-data ul, #cfw-shipping-same-billing #stripe-payment-data ul {
@@ -826,6 +897,14 @@ body {
     margin-bottom: 8px; }
     #cfw-billing-methods #stripe-payment-data ul li:last-child, #cfw-shipping-same-billing #stripe-payment-data ul li:last-child {
       margin-bottom: 0; }
+
+fieldset .cfw-sg-container:last-child > * > .form-row {
+  margin-bottom: 0; }
+
+.paytrace-create-account {
+  margin-bottom: 0 !important; }
+  .paytrace-create-account .form-row {
+    margin-bottom: 0; }
 
 #cfw-cart-details-collapse-wrap {
   display: block; }
@@ -852,6 +931,16 @@ body {
       background: url(../../.././assets/front/img/arrow-right.svg?769b3ee330c31664920706c790b7492e) no-repeat 50% 50%;
       background-size: 12px 12px;
       padding-left: 15px; }
+
+.shipping-message {
+  padding-top: 10px; }
+
+@media (max-width: 600px) {
+  .state-gone-margin {
+    margin-bottom: 0 !important; } }
+
+.remove-state-down-arrow > .cfw-input-wrap:after {
+  content: none; }
 
 .cfw-shipping-methods-list {
   border: 1px solid #ddd;

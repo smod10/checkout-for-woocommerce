@@ -8,9 +8,16 @@ import { StripeService }                        from "../Services/StripeService"
 import { AlertInfo }                            from "../Elements/Alert";
 import { Alert }                                from "../Elements/Alert";
 import { Main }                                 from "../Main";
-import { EValidationSections }                  from "../Services/ValidationService";
+import {EValidationSections, ValidationService} from "../Services/ValidationService";
 
 export class CompleteOrderAction extends Action {
+
+    /**
+     * @type {boolean}
+     * @static
+     * @private
+     */
+    private static _preppingOrder: boolean = false;
 
     /**
      * Do we need a stripe token to continue load?
@@ -43,16 +50,7 @@ export class CompleteOrderAction extends Action {
      * @param checkoutData
      */
     constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: any) {
-        // TODO: Using assign we can combine this process pre-constructor. Probably best to move this for all actions
-        let data: {} = {
-            action: id,
-            security: ajaxInfo.nonce
-        };
-
-        // Copies our checkoutData properties to the object with the two pieces of differing data.
-        (<any>Object).assign(data, checkoutData);
-
-        super(id, ajaxInfo.admin_url, data);
+        super(id, ajaxInfo.admin_url, Action.prep(id, ajaxInfo, checkoutData));
 
         $("#cfw-content").addClass("show-overlay");
 
@@ -61,6 +59,9 @@ export class CompleteOrderAction extends Action {
                 this.stripeResponse = response;
                 this.addStripeTokenToData(response.id);
                 this.needsStripeToken = false;
+
+                $("#checkout").off('form:validate');
+
                 this.load();
             },
             noData: (response: StripeNoDataResponse) => {
@@ -116,6 +117,9 @@ export class CompleteOrderAction extends Action {
             StripeService.triggerStripe();
         } else {
             this.needsStripeToken = false;
+
+            $("#checkout").off('form:validate');
+
             this.load();
         }
     }
@@ -130,53 +134,14 @@ export class CompleteOrderAction extends Action {
     }
 
     /**
-     * @returns {boolean}
-     */
-    get needsStripeToken(): boolean {
-        return this._needsStripeToken;
-    }
-
-    /**
-     * @param {boolean} value
-     */
-    set needsStripeToken(value: boolean) {
-        this._needsStripeToken = value;
-    }
-
-    /**
-     * @returns {StripeServiceCallbacks}
-     */
-    get stripeServiceCallbacks(): StripeServiceCallbacks {
-        return this._stripeServiceCallbacks;
-    }
-
-    /**
-     * @param {StripeServiceCallbacks} value
-     */
-    set stripeServiceCallbacks(value: StripeServiceCallbacks) {
-        this._stripeServiceCallbacks = value;
-    }
-
-    /**
-     * @returns {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse}
-     */
-    get stripeResponse(): StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse {
-        return this._stripeResponse;
-    }
-
-    /**
-     * @param {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse} value
-     */
-    set stripeResponse(value: StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse) {
-        this._stripeResponse = value;
-    }
-
-    /**
      * @param resp
      */
     public response(resp: any): void {
 
         if(resp.result === "success") {
+            // Destroy all the cache!
+            $('.garlic-auto-save').each((index: number, elem: Element) => $(elem).garlic('destroy'));
+
             window.location.href = resp.redirect;
         }
 
@@ -226,9 +191,9 @@ export class CompleteOrderAction extends Action {
             }
         });
         $("[name='shipping_same']").each((index, elem) => {
-           if($(elem).val() == this.data.ship_to_different_address) {
-               $(elem).prop('checked', true);
-           }
+            if($(elem).val() == this.data.ship_to_different_address) {
+                $(elem).prop('checked', true);
+            }
         });
         $('[name="payment_method"]').each((index, elem) => {
             if($(elem).val() == this.data.payment_method) {
@@ -247,8 +212,64 @@ export class CompleteOrderAction extends Action {
         $("[name='_wp_http_referer']").val(this.data._wp_http_referer);
         $("#cfw-login-btn").val("Login");
 
-        Main.instance.validationService.validate(EValidationSections.SHIPPING);
-        Main.instance.validationService.validate(EValidationSections.BILLING);
-        Main.instance.validationService.validate(EValidationSections.ACCOUNT);
+        ValidationService.validate(EValidationSections.SHIPPING);
+        ValidationService.validate(EValidationSections.BILLING);
+        ValidationService.validate(EValidationSections.ACCOUNT);
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    get needsStripeToken(): boolean {
+        return this._needsStripeToken;
+    }
+
+    /**
+     * @param {boolean} value
+     */
+    set needsStripeToken(value: boolean) {
+        this._needsStripeToken = value;
+    }
+
+    /**
+     * @returns {StripeServiceCallbacks}
+     */
+    get stripeServiceCallbacks(): StripeServiceCallbacks {
+        return this._stripeServiceCallbacks;
+    }
+
+    /**
+     * @param {StripeServiceCallbacks} value
+     */
+    set stripeServiceCallbacks(value: StripeServiceCallbacks) {
+        this._stripeServiceCallbacks = value;
+    }
+
+    /**
+     * @returns {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse}
+     */
+    get stripeResponse(): StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse {
+        return this._stripeResponse;
+    }
+
+    /**
+     * @param {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse} value
+     */
+    set stripeResponse(value: StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse) {
+        this._stripeResponse = value;
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    static get preppingOrder(): boolean {
+        return this._preppingOrder;
+    }
+
+    /**
+     * @param {boolean} value
+     */
+    static set preppingOrder(value: boolean) {
+        this._preppingOrder = value;
     }
 }

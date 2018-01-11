@@ -4,6 +4,7 @@ namespace Objectiv\Plugins\Checkout;
 
 use Objectiv\Plugins\Checkout\Action\ApplyCouponAction;
 use Objectiv\Plugins\Checkout\Action\CompleteOrderAction;
+use Objectiv\Plugins\Checkout\Action\UpdateCheckoutAction;
 use Objectiv\Plugins\Checkout\Language\i18n;
 use Objectiv\Plugins\Checkout\Utilities\Activator;
 use Objectiv\Plugins\Checkout\Utilities\Deactivator;
@@ -16,11 +17,8 @@ use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 use Objectiv\Plugins\Checkout\Managers\AjaxManager;
 use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
-use Objectiv\Plugins\Checkout\Action\UpdateShippingFieldsAction;
 use Objectiv\Plugins\Checkout\Action\UpdateShippingMethodAction;
-
-use \Whoops\Run;
-use \Whoops\Handler\PrettyPageHandler;
+use Objectiv\Plugins\Checkout\Core\Compatibility;
 
 /**
  * The core plugin class.
@@ -241,11 +239,10 @@ class Main extends Singleton {
 		// Loads all the ajax handlers on the php side
 		$this->configure_objects();
 
-		// Adds the plugins hooks
-		$this->add_plugin_hooks();
-
-		// Add compatibility
-		$this->compatibility();
+		add_action('init', function() {
+			// Adds the plugins hooks
+			$this->add_plugin_hooks();
+		});
 	}
 
 	/**
@@ -296,7 +293,7 @@ class Main extends Singleton {
 		$this->i18n = new i18n();
 
 		// The path manager for the plugin
-		$this->path_manager = new PathManager(plugin_dir_path($file), plugin_dir_url($file), basename($file));
+		$this->path_manager = new PathManager(plugin_dir_path($file), plugin_dir_url($file), $file);
 
 		// Create the template manager
 		$this->template_manager = new TemplateManager();
@@ -326,10 +323,10 @@ class Main extends Singleton {
 		return array(
 			new AccountExistsAction("account_exists"),
 			new LogInAction("login"),
-			new UpdateShippingFieldsAction("update_shipping_fields"),
 			new UpdateShippingMethodAction("update_shipping_method"),
 			new CompleteOrderAction("complete_order"),
-			new ApplyCouponAction("apply_coupon")
+			new ApplyCouponAction("apply_coupon"),
+			new UpdateCheckoutAction("update_checkout")
 		);
 	}
 
@@ -345,6 +342,32 @@ class Main extends Singleton {
 
 		wp_enqueue_script('jquery');
 		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array('jquery'), $this->get_version(), true);
+
+		$this->handle_countries();
+	}
+
+	public function handle_countries() {
+		wp_localize_script('cfw_front_js', 'wc_country_select_params',  array(
+			'countries'                 => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) ),
+			'i18n_select_state_text'    => esc_attr__( 'Select an option&hellip;', 'woocommerce' ),
+			'i18n_no_matches'           => _x( 'No matches found', 'enhanced select', 'woocommerce' ),
+			'i18n_ajax_error'           => _x( 'Loading failed', 'enhanced select', 'woocommerce' ),
+			'i18n_input_too_short_1'    => _x( 'Please enter 1 or more characters', 'enhanced select', 'woocommerce' ),
+			'i18n_input_too_short_n'    => _x( 'Please enter %qty% or more characters', 'enhanced select', 'woocommerce' ),
+			'i18n_input_too_long_1'     => _x( 'Please delete 1 character', 'enhanced select', 'woocommerce' ),
+			'i18n_input_too_long_n'     => _x( 'Please delete %qty% characters', 'enhanced select', 'woocommerce' ),
+			'i18n_selection_too_long_1' => _x( 'You can only select 1 item', 'enhanced select', 'woocommerce' ),
+			'i18n_selection_too_long_n' => _x( 'You can only select %qty% items', 'enhanced select', 'woocommerce' ),
+			'i18n_load_more'            => _x( 'Loading more results&hellip;', 'enhanced select', 'woocommerce' ),
+			'i18n_searching'            => _x( 'Searching&hellip;', 'enhanced select', 'woocommerce' ),
+		));
+
+		wp_localize_script('cfw_front_js', 'wc_address_i18n_params', array(
+			'locale'             => json_encode( WC()->countries->get_country_locale() ),
+			'locale_fields'      => json_encode( WC()->countries->get_country_locale_field_selectors() ),
+			'add2_text'          => _x('Apt, suite, etc. (optional)', 'checkout-wc'),
+			'i18n_required_text' => esc_attr__( 'required', 'woocommerce' )
+		));
 	}
 
 	/**
@@ -358,12 +381,20 @@ class Main extends Singleton {
 		// Load the plugin filters
 		$this->load_filters();
 
+		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+			// Load Assets
+			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
+
+			// Load Compatibility Class
+			$this->compatibility();
+		}
+
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
 		$this->loader->run();
 	}
 
 	function compatibility() {
-		new \Objectiv\Plugins\Checkout\Core\Compatibility();
+		new Compatibility();
 	}
 
 	/**
@@ -373,17 +404,16 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function load_actions() {
-		$this->loader->add_action('wp_enqueue_scripts', array($this, 'set_assets'));
 
 		// Add the Language class
-		$this->loader->add_action('init', function() {
-			$this->i18n->load_plugin_textdomain($this->path_manager);
+		$this->i18n->load_plugin_textdomain($this->path_manager);
 
-			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
-				// For some reason, using the loader add_filter here doesn't work *shrug*
-				add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
-			}
-		});
+		// Override some WooCommerce Options
+		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) ) {
+			// For some reason, using the loader add_filter here doesn't work *shrug*
+			add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
+		}
+
 
 		// Handle the Activation notices
 		$this->loader->add_action('admin_notices', function() {
@@ -393,6 +423,7 @@ class Main extends Singleton {
 		// Setup the Checkout redirect
 		$this->loader->add_action('template_redirect', function() {
 			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+				// Call Redirect
 				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
 			}
 		});

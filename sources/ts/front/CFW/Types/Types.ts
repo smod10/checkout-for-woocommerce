@@ -94,4 +94,4 @@ export type StripeBadDataResponse = {
     error: {message: string, type: string, param: string, code: string}
 }
 
-export type CustomerDataInfo = { field_type: string, field_value: any };
+export type FieldTypeInfo = { field_type: string, field_value: any };

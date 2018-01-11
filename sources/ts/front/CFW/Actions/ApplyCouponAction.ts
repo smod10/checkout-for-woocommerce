@@ -4,6 +4,7 @@ import { Cart }                         from "../Elements/Cart";
 import { Alert, AlertInfo }             from "../Elements/Alert";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 import { Main }                         from "../Main";
+import { UpdateCheckoutAction }         from "./UpdateCheckoutAction";
 
 /**
  *
@@ -17,12 +18,18 @@ export class ApplyCouponAction extends Action {
     private _cart: Cart;
 
     /**
+     *
+     */
+    private _fields: any;
+
+    /**
      * @param {string} id
      * @param {AjaxInfo} ajaxInfo
      * @param {string} code
      * @param {Cart} cart
+     * @param {any} fields
      */
-    constructor(id: string, ajaxInfo: AjaxInfo, code: string, cart: Cart) {
+    constructor(id: string, ajaxInfo: AjaxInfo, code: string, cart: Cart, fields: any) {
         let data: {} = {
             action: id,
             security: ajaxInfo.nonce,
@@ -32,6 +39,7 @@ export class ApplyCouponAction extends Action {
         super(id, ajaxInfo.admin_url, data);
 
         this.cart = cart;
+        this.fields = fields;
     }
 
     /**
@@ -73,6 +81,22 @@ export class ApplyCouponAction extends Action {
         alert.addAlert();
 
         Main.togglePaymentRequired(resp.needs_payment);
+
+        new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.fields).load();
+    }
+
+    /**
+     * @returns {any}
+     */
+    get fields(): any {
+        return this._fields;
+    }
+
+    /**
+     * @param value
+     */
+    set fields(value: any) {
+        this._fields = value;
     }
 
     /**

@@ -64,6 +64,65 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
   display: none;
 }
 
+.cfw-other-totals {
+  text-align: left;
+  color: #000;
+  font-size: 0.875em;
+  padding: 20px 0;
+
+  table,tbody,tr,th,td {
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+
+  table {
+    width: 100%;
+
+    td, th {
+      vertical-align: top;
+    }
+
+    tr:not(:first-child) {
+      td, th {
+        padding: 10px 0;
+        color: #666;
+        font-weight: normal;
+      }
+    }
+
+    tr:last-child {
+      td, th {
+        color: #000;
+        padding: 10px 0;
+        border-top: #eee 1px solid;
+        border-bottom: 2px solid #333;
+      }
+
+      th {
+        font-weight: 700;
+      }
+    }
+  }
+
+  .recurring-totals th {
+    padding: 10px 0;
+    padding-bottom: 20px;
+    border-bottom: #eee 1px solid;
+  }
+
+  .first-payment-date {
+    color: #666;
+    position: relative;
+
+    small {
+      position: absolute;
+      top: 20px;
+    }
+  }
+}
+
 #cfw-billing-methods, #cfw-shipping-same-billing {
 
   .cfw-radio-reveal-group {
@@ -164,7 +223,7 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
       &:last-child { margin-bottom: 0; }
     }
 
-    #wc-stripe-cc-form, .woocommerce-SavedPaymentMethods-saveNew {
+    #wc-stripe-cc-form {
       display: none;
     }
 
@@ -181,6 +240,16 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
       }
     }
   }
+}
+
+fieldset .cfw-sg-container:last-child > * > .form-row {
+  margin-bottom: 0;
+}
+
+.paytrace-create-account {
+  margin-bottom: 0 !important;
+
+  .form-row { margin-bottom: 0; }
 }
 
 #cfw-cart-details-collapse-wrap {
@@ -216,6 +285,22 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
       background-size: 12px 12px;
       padding-left: 15px;
     }
+  }
+}
+
+.shipping-message {
+  padding-top: 10px;
+}
+
+@media(max-width: 600px) {
+  .state-gone-margin {
+    margin-bottom: 0 !important;
+  }
+}
+
+.remove-state-down-arrow {
+  & > .cfw-input-wrap:after {
+    content: none;
   }
 }
 

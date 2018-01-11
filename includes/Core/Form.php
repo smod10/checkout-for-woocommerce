@@ -39,13 +39,13 @@ class Form {
 			$gateways = WC()->payment_gateways->get_available_payment_gateways();
 
 			// Display button
-			add_action( 'cfw_checkout_before_customer_info', array(
+			add_action( 'cfw_checkout_before_customer_info_tab', array(
 				$this->wc_stripe_apple_pay,
 				'display_apple_pay_button'
 			), 1 );
 
 			// Display separator
-			add_action( 'cfw_checkout_before_customer_info', array(
+			add_action( 'cfw_checkout_before_customer_info_tab', array(
 				$this->wc_stripe_apple_pay,
 				'display_apple_pay_separator_html'
 			), 2 );
@@ -103,8 +103,8 @@ class Form {
 					)
 				),
 				'address_2' => array(
-					'label'        => __('Apartment, suite, unit etc.', 'checkout-woocommerce'),
-					'placeholder'  => esc_attr__( 'Apartment, suite, unit etc.', 'checkout-woocommerce' ),
+					'label'        => __('Apt, suite, etc. (optional)', 'checkout-woocommerce'),
+					'placeholder'  => esc_attr__('Apt, suite, etc. (optional)', 'checkout-woocommerce'),
 					'class'        => array( 'address-field' ),
 					'required'     => false,
 					'autocomplete' => 'address-line2',
@@ -153,10 +153,9 @@ class Form {
 					'wrap'         => $this->input_wrap('text', 4, 45),
 					'label_class'  => 'cfw-input-label',
 					'custom_attributes' => array(
-						"data-parsley-state-and-zip"        => "us",
+						"data-parsley-state-and-zip"        => "",
 						"data-parsley-validate-if-empty"    => "",
-						"data-parsley-type"                 => "digits",
-						"data-parsley-length"               => "[5,5]",
+						"data-parsley-type"                 => "alphanum",
 						"data-parsley-trigger"              => "keyup change focusout"
 					),
 					'start'        => false,
@@ -174,7 +173,7 @@ class Form {
 					'label_class'  => 'cfw-input-label',
 					'input_class'  => array('garlic-auto-save'),
 					'custom_attributes' => array(
-						"data-parsley-state-and-zip"        => "us",
+						"data-parsley-state-and-zip"        => "",
 						"data-parsley-validate-if-empty"    => "",
 						"data-parsley-trigger"              => "keyup change focusout"
 					),

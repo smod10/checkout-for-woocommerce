@@ -49,7 +49,7 @@ export class AccountExistsAction extends Action {
     @ResponsePrep
     public response(resp: AccountExistsResponse): void {
         let login_slide: any = $("#cfw-login-slide");
-        let register_user_checkbox: any = $("#cfw-acc-register-chk")[0];
+        let register_user_checkbox: any = $("#createaccount")[0];
         let register_container: any = $("#cfw-login-details .cfw-check-input");
 
         // If account exists slide down the password field, uncheck the register box, and hide the container for the checkbox
@@ -71,6 +71,8 @@ export class AccountExistsAction extends Action {
 
             register_container.css("display", "block");
         }
+
+        $(document.body).trigger( 'updated_checkout' );
     }
 
     /**

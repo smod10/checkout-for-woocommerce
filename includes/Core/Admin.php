@@ -329,13 +329,19 @@ class Admin {
         <script>
             HS.beacon.config({
                 modal: true,
-                instructions: 'We can\'t wait to help you with Checkout for WooCommerce! Please fill out the following form and one of our support staff will respond within 12-24 hours. (average)',
+                instructions: "<?php _e('We can\'t wait to help you with Checkout for WooCommerce! Please fill out the following form and one of our support staff will respond within 12-24 hours. (average)','checkout-wc'); ?>",
             });
         </script>
 
-        <h3>Need help?</h3>
-        <p>Excellent support is in our DNA.</p><p>If you need help with anything at all, please click this button to file a support request:</p>
-	    <?php submit_button('Support Request', 'primary', false, false, array('id'=> 'checkoutwc-support-button') ); ?>
+        <h3><?php _e('Need help?', 'checkout-wc'); ?></h3>
+
+        <p><?php _e('Excellent support is in our DNA.', 'checkout-wc'); ?></p>
+
+        <p><?php _e('Many issues are addressed in our documentation:', 'checkout-wc'); ?></p>
+        <a href="https://www.checkoutwc.com/docs/" target="_blank" class="button button-primary"><?php _e('View Documentation', 'checkout-wc'); ?></a>
+
+        <p><?php _e('If you need help for something not covered in our documentation, please click this button to file a support request:', 'checkout-wc'); ?></p>
+	    <?php submit_button( __('Support Request', 'checkout-wc'), 'primary', false, false, array('id'=> 'checkoutwc-support-button') ); ?>
 
         <script>
             jQuery("#checkoutwc-support-button").click(function() {

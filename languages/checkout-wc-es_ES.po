@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2017-10-23 21:42-0400\n"
-"PO-Revision-Date: 2017-10-23 21:46-0400\n"
+"POT-Creation-Date: 2018-01-10 21:38-0500\n"
+"PO-Revision-Date: 2018-01-10 21:42-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.5\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
@@ -21,41 +21,35 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: functions.php:48
+#: functions.php:48 includes/Main.php:369
 msgid "required"
 msgstr "obligatorio"
 
-#: functions.php:117
+#: functions.php:109
 msgid "Select a country&hellip;"
 msgstr "Seleccione una Región&hellip;"
 
-#: functions.php:125
+#: functions.php:117
 msgid "Update country"
 msgstr "Actualizar país"
 
-#: functions.php:146
+#: functions.php:136
 msgid "Select a state&hellip;"
 msgstr "Selecciona una província&hellip;"
 
-#: functions.php:191
+#: functions.php:181
 msgid "Choose an option"
 msgstr "Bir seçenek belirleyin"
 
-#: functions.php:317 includes/Action/UpdateShippingFieldsAction.php:93
+#: functions.php:313 includes/Action/UpdateCheckoutAction.php:122
 #, php-format
 msgctxt "shipping packages"
 msgid "Shipping"
 msgid_plural "Shipping %d"
 msgstr[0] "Envío"
-msgstr[1] ""
+msgstr[1] "Envío %d"
 
-#: functions.php:343
-msgid "Shipping costs will be calculated once you have provided your address."
-msgstr ""
-"Los gastos de envío se calcularán una vez que haya proporcionado su "
-"dirección."
-
-#: functions.php:345
+#: functions.php:340
 msgid ""
 "There are no shipping methods available. Please double check your address, "
 "or contact us if you need any help."
@@ -63,7 +57,7 @@ msgstr ""
 "No hay métodos de envío disponibles. Compruebe por favor su dirección,o  "
 "contactenos  si usted necesita alguna ayuda."
 
-#: functions.php:421
+#: functions.php:426
 msgid ""
 "Sorry, it seems that there are no available payment methods for your "
 "location. Please contact us if you require assistance or wish to make "
@@ -72,28 +66,36 @@ msgstr ""
 "Lo sentimos, parece que no existen formas de pago disponibles para tu "
 "ubicación. Por favor, ponte en contacto con nosotros si necesitas ayuda."
 
+#: includes/Action/UpdateCheckoutAction.php:134
+msgid ""
+"There are no shipping methods available. Please ensure that your address has "
+"been entered correctly, or contact us if you need any help."
+msgstr ""
+"No hay métodos de envío disponibles. Compruebe por favor su dirección,o  "
+"contactenos  si usted necesita alguna ayuda."
+
 #. Plugin Name of the plugin/theme
-#: includes/Core/Admin.php:38 includes/Core/Admin.php:52
+#: includes/Core/Admin.php:76 includes/Core/Admin.php:96
 msgid "Checkout for WooCommerce"
 msgstr "Checkout for WooCommerce"
 
-#: includes/Core/Admin.php:41
+#: includes/Core/Admin.php:79
 msgid "General"
 msgstr "General"
 
-#: includes/Core/Admin.php:42
+#: includes/Core/Admin.php:80
 msgid "Design"
 msgstr "Diseño"
 
-#: includes/Core/Admin.php:43
+#: includes/Core/Admin.php:81
 msgid "License"
 msgstr "Licencia"
 
-#: includes/Core/Admin.php:44
+#: includes/Core/Admin.php:82
 msgid "Support"
 msgstr "Soporte"
 
-#: includes/Core/Admin.php:53
+#: includes/Core/Admin.php:97
 msgid ""
 "Checkout for WooCommerce provides a beautiful, conversion optimized checkout "
 "template for WooCommerce."
@@ -101,15 +103,15 @@ msgstr ""
 "La comprobación para WooCommerce proporciona una plantilla hermosa, de la "
 "conversión optimizada de la comprobación para WooCommerce."
 
-#: includes/Core/Admin.php:72
+#: includes/Core/Admin.php:122
 msgid "Enable / Disable"
 msgstr "Activar / desactivar"
 
-#: includes/Core/Admin.php:76
+#: includes/Core/Admin.php:126
 msgid "Use Checkout for WooCommerce Template"
 msgstr "Utilice la Checkout para plantilla de WooCommerce"
 
-#: includes/Core/Admin.php:77
+#: includes/Core/Admin.php:127
 msgid ""
 "Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always "
 "enabled for admin users.)"
@@ -117,11 +119,11 @@ msgstr ""
 "Activar o desactivar la Checkout para WooCommerce tema. (Nota: Tema siempre "
 "está habilitado para usuarios admin.)"
 
-#: includes/Core/Admin.php:83
+#: includes/Core/Admin.php:133
 msgid "Header Scripts"
 msgstr "Scripts de encabezado"
 
-#: includes/Core/Admin.php:89
+#: includes/Core/Admin.php:139
 msgid ""
 "This code will output immediately before the closing <code>&lt;/head&gt;</"
 "code> tag in the document source."
@@ -129,11 +131,11 @@ msgstr ""
 "Este código aparecerá inmediatamente antes de la etiqueta de cierre "
 "<code>&lt;/head&gt;</code> en el origen del documento."
 
-#: includes/Core/Admin.php:97
+#: includes/Core/Admin.php:147
 msgid "Footer Scripts"
 msgstr "Scripts de pie de página"
 
-#: includes/Core/Admin.php:103
+#: includes/Core/Admin.php:153
 msgid ""
 "This code will output immediately before the closing <code>&lt;/body&gt;</"
 "code> tag in the document source."
@@ -141,39 +143,39 @@ msgstr ""
 "Este código aparecerá inmediatamente antes de la etiqueta de cierre "
 "<code>&lt;/body&gt;</code> en el origen del documento."
 
-#: includes/Core/Admin.php:125
+#: includes/Core/Admin.php:181
 msgid "Logo"
 msgstr "Logotipo"
 
-#: includes/Core/Admin.php:131
+#: includes/Core/Admin.php:187
 msgid "Upload image"
 msgstr "Subir imágenes"
 
-#: includes/Core/Admin.php:134
+#: includes/Core/Admin.php:190
 msgid "Clear Logo"
 msgstr "Logo clara"
 
-#: includes/Core/Admin.php:140
+#: includes/Core/Admin.php:196
 msgid "Header Background Color"
 msgstr "Color de Fondo del Encabezado"
 
-#: includes/Core/Admin.php:149
+#: includes/Core/Admin.php:205
 msgid "Header Text Color"
 msgstr "Color del texto de la cabecera"
 
-#: includes/Core/Admin.php:158
+#: includes/Core/Admin.php:214
 msgid "Footer Background Color"
 msgstr "Color de fondo pie de página"
 
-#: includes/Core/Admin.php:167
+#: includes/Core/Admin.php:223
 msgid "Footer Text Color"
 msgstr "Color del Texto del Pie de Página"
 
-#: includes/Core/Admin.php:176
+#: includes/Core/Admin.php:232
 msgid "Footer Text"
 msgstr "Texto de pie de página"
 
-#: includes/Core/Admin.php:182
+#: includes/Core/Admin.php:238
 msgid ""
 "If left blank, a standard copyright notice will be displayed. Set to a "
 "single space to override this behavior."
@@ -181,31 +183,31 @@ msgstr ""
 "Si se deja en blanco, se mostrará un aviso de copyright estándar. Establecer "
 "en un solo espacio para anular este comportamiento."
 
-#: includes/Core/Admin.php:190
+#: includes/Core/Admin.php:246
 msgid "Primary Button Color"
 msgstr "Color del botón principal"
 
-#: includes/Core/Admin.php:199
+#: includes/Core/Admin.php:255
 msgid "Primary Button Text Color"
 msgstr "Color del texto del botón principal"
 
-#: includes/Core/Admin.php:208
+#: includes/Core/Admin.php:264
 msgid "Secondary Button Color"
 msgstr "Color de botón secundario"
 
-#: includes/Core/Admin.php:217
+#: includes/Core/Admin.php:273
 msgid "Secondary Button Text Color"
 msgstr "Color de texto del botón secundario"
 
-#: includes/Core/Admin.php:226
+#: includes/Core/Admin.php:282
 msgid "Link Color"
 msgstr "Color del Enlace"
 
-#: includes/Core/Admin.php:235
+#: includes/Core/Admin.php:291
 msgid "Custom CSS"
 msgstr "CSS personalizado"
 
-#: includes/Core/Admin.php:241
+#: includes/Core/Admin.php:297
 msgid ""
 "Add Custom CSS rules to fully control the appearance of the checkout "
 "template."
@@ -213,7 +215,45 @@ msgstr ""
 "Agregue reglas CSS personalizadas para controlar completamente el aspecto de "
 "la plantilla de pago."
 
-#: includes/Core/Admin.php:352
+#: includes/Core/Admin.php:332
+msgid ""
+"We can't wait to help you with Checkout for WooCommerce! Please fill out the "
+"following form and one of our support staff will respond within 12-24 hours. "
+"(average)"
+msgstr ""
+"No podemos esperar para ayudarte con Checkout for WooCommerce. Complete el "
+"siguiente formulario y uno de nuestros empleados de soporte responderá "
+"dentro de las 12-24 horas. (promedio)"
+
+#: includes/Core/Admin.php:336
+msgid "Need help?"
+msgstr "¿Necesitas ayuda?"
+
+#: includes/Core/Admin.php:338
+msgid "Excellent support is in our DNA."
+msgstr "Excelente apoyo está en nuestro ADN."
+
+#: includes/Core/Admin.php:340
+msgid "Many issues are addressed in our documentation:"
+msgstr "Muchas cuestiones se tratan en la documentación:"
+
+#: includes/Core/Admin.php:341
+msgid "View Documentation"
+msgstr "Ver Documentación"
+
+#: includes/Core/Admin.php:343
+msgid ""
+"If you need help for something not covered in our documentation, please "
+"click this button to file a support request:"
+msgstr ""
+"Si necesita ayuda para algo que no está cubierto en nuestra documentación, "
+"haga clic en este botón para presentar una solicitud de asistencia técnica:"
+
+#: includes/Core/Admin.php:344
+msgid "Support Request"
+msgstr "Solicitud de soporte"
+
+#: includes/Core/Admin.php:458
 #, php-format
 msgid ""
 "Checkout for WooCommerce: Your license key appears to have expired. Please "
@@ -226,7 +266,7 @@ msgstr ""
 "href=“https://www.checkoutwc.com/checkout/?edd_license_key=%s”>renueve su "
 "licencia ahora </a> para restaurar la funcionalidad completa."
 
-#: includes/Core/Admin.php:355
+#: includes/Core/Admin.php:461
 msgid ""
 "Checkout for WooCommerce: Your license key is missing or invalid. Please "
 "verify that your license key is valid or <a target=\"_blank\" href=\"https://"
@@ -237,49 +277,116 @@ msgstr ""
 "href=“https://www.checkoutwc.com/“>compre una licencia</a> para restablecer "
 "la funcionalidad completa."
 
-#: includes/Core/Form.php:46 includes/Core/Form.php:47
+#: includes/Core/Admin.php:466
+msgid ""
+"Thank you for installing Checkout for WooCommerce! To get started, click on "
+"<strong>License</strong> below and activate your license key!"
+msgstr ""
+"¡Gracias por instalar Checkout for WooCommerce! Para comenzar, haga clic en "
+"<strong>Licencia</ strong> a continuación y active su clave de licencia."
+
+#: includes/Core/Form.php:57 includes/Core/Form.php:58
 msgid "First name"
 msgstr "Nombre"
 
-#: includes/Core/Form.php:63 includes/Core/Form.php:64
+#: includes/Core/Form.php:74 includes/Core/Form.php:75
 msgid "Last name"
 msgstr "Apellido"
 
-#: includes/Core/Form.php:79
+#: includes/Core/Form.php:90
 msgid "Address"
 msgstr "Dirección"
 
-#: includes/Core/Form.php:80
+#: includes/Core/Form.php:91
 msgid "Street address"
 msgstr "Dirección detallada"
 
-#: includes/Core/Form.php:95 includes/Core/Form.php:96
-msgid "Apartment, suite, unit etc."
-msgstr "Apartamento, suite, unidad, etcetera."
+#: includes/Core/Form.php:106 includes/Core/Form.php:107
+msgid "Apt, suite, etc. (optional)"
+msgstr "Apt, suite, etc. (opcional)"
 
-#: includes/Core/Form.php:108 includes/Core/Form.php:109
+#: includes/Core/Form.php:119 includes/Core/Form.php:120
 msgid "Company name"
 msgstr "Nombre de empresa"
 
-#: includes/Core/Form.php:121
+#: includes/Core/Form.php:132
 msgid "Country"
 msgstr "País"
 
-#: includes/Core/Form.php:134 includes/Core/Form.php:135
+#: includes/Core/Form.php:145 includes/Core/Form.php:146
 msgid "Postcode / ZIP"
 msgstr "Código postal"
 
-#: includes/Core/Form.php:156
+#: includes/Core/Form.php:166
 msgid "State / County"
 msgstr "Provincia"
 
-#: includes/Core/Form.php:175 includes/Core/Form.php:176
+#: includes/Core/Form.php:185 includes/Core/Form.php:186
 msgid "Town / City"
 msgstr "Delegación o Municipio"
 
-#: includes/Core/Redirect.php:19
+#: includes/Core/Redirect.php:30
 msgid "Checkout is not available whilst your cart is empty."
 msgstr "No se puede finalizar la compra con un carro vacío."
+
+#: includes/Main.php:352
+msgid "Select an option&hellip;"
+msgstr "Selecciona una opción & hellip;"
+
+#: includes/Main.php:353
+msgctxt "enhanced select"
+msgid "No matches found"
+msgstr ""
+
+#: includes/Main.php:354
+msgctxt "enhanced select"
+msgid "Loading failed"
+msgstr ""
+
+#: includes/Main.php:355
+msgctxt "enhanced select"
+msgid "Please enter 1 or more characters"
+msgstr ""
+
+#: includes/Main.php:356
+msgctxt "enhanced select"
+msgid "Please enter %qty% or more characters"
+msgstr ""
+
+#: includes/Main.php:357
+msgctxt "enhanced select"
+msgid "Please delete 1 character"
+msgstr ""
+
+#: includes/Main.php:358
+msgctxt "enhanced select"
+msgid "Please delete %qty% characters"
+msgstr ""
+
+#: includes/Main.php:359
+msgctxt "enhanced select"
+msgid "You can only select 1 item"
+msgstr ""
+
+#: includes/Main.php:360
+msgctxt "enhanced select"
+msgid "You can only select %qty% items"
+msgstr ""
+
+#: includes/Main.php:361
+msgctxt "enhanced select"
+msgid "Loading more results&hellip;"
+msgstr ""
+
+#: includes/Main.php:362
+msgctxt "enhanced select"
+msgid "Searching&hellip;"
+msgstr ""
+
+#: includes/Main.php:368
+msgctxt "checkout-wc"
+msgid "Apt, suite, etc. (optional)"
+msgstr "Apt, suite, etc. (opcional)"
 
 #: includes/Utilities/Activator.php:47
 msgid ""
@@ -289,27 +396,27 @@ msgstr ""
 "Error en la activación: active WooCommerce para usar Checkout para "
 "WooCommerce"
 
-#: templates/content/template.php:31 templates/content/template.php:50
+#: templates/content/template.php:26 templates/content/template.php:48
 msgid "Customer information"
 msgstr "Información del cliente"
 
-#: templates/content/template.php:35 templates/content/template.php:156
+#: templates/content/template.php:30 templates/content/template.php:178
 msgid "Shipping method"
 msgstr "Método de envío"
 
-#: templates/content/template.php:39 templates/content/template.php:178
+#: templates/content/template.php:34 templates/content/template.php:210
 msgid "Payment method"
 msgstr "Método de pago"
 
-#: templates/content/template.php:57
+#: templates/content/template.php:55
 msgid "Already have an account with us?"
 msgstr "¿Ya tienes una cuenta con nostros?"
 
-#: templates/content/template.php:61
+#: templates/content/template.php:59
 msgid "Log in."
 msgstr "Entrar."
 
-#: templates/content/template.php:66
+#: templates/content/template.php:64
 msgid ""
 "If you do not have an account, the information provided here will be used to "
 "create an account on checkout."
@@ -317,63 +424,63 @@ msgstr ""
 "De lo contrario, la información proporcionada aquí se utilizará para crear "
 "una cuenta al finalizar la compra."
 
-#: templates/content/template.php:73
+#: templates/content/template.php:72
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: templates/content/template.php:78
+#: templates/content/template.php:79
 msgid "Password"
 msgstr "Contraseña"
 
-#: templates/content/template.php:82
+#: templates/content/template.php:84
 msgid "Login"
 msgstr "Entrar"
 
-#: templates/content/template.php:85
+#: templates/content/template.php:87
 msgid "Login is optional. You may continue with your order below."
 msgstr ""
 "El inicio de sesión es opcional. Puede continuar con su pedido a "
 "continuación."
 
-#: templates/content/template.php:96
+#: templates/content/template.php:102
 #, php-format
 msgid "Create a %s shopping account."
 msgstr "Crear un %s cuenta de compras."
 
-#: templates/content/template.php:101
+#: templates/content/template.php:109
 #, php-format
 msgid "Welcome back, %s"
 msgstr "Bienvenido de nuevo, %s"
 
-#: templates/content/template.php:110
+#: templates/content/template.php:122
 msgid "Billing address"
 msgstr "Dirección de facturación"
 
-#: templates/content/template.php:112 templates/content/template.php:141
+#: templates/content/template.php:124 templates/content/template.php:161
 msgid "Shipping address"
 msgstr "Dirección de envío"
 
-#: templates/content/template.php:130
+#: templates/content/template.php:146
 msgid "Continue to shipping method"
 msgstr "Continuar con el método de envío"
 
-#: templates/content/template.php:132 templates/content/template.php:169
+#: templates/content/template.php:148 templates/content/template.php:196
 msgid "Continue to payment method"
 msgstr "Continuar con el método de pago"
 
-#: templates/content/template.php:150
+#: templates/content/template.php:169
 msgid "Edit shipping address"
 msgstr "Editar domicilio de envío"
 
-#: templates/content/template.php:157
+#: templates/content/template.php:180
 msgid "Select a shipping method:"
 msgstr "Seleccione un método de envío:"
 
-#: templates/content/template.php:166 templates/content/template.php:223
+#: templates/content/template.php:193 templates/content/template.php:271
 msgid "Return to customer information"
 msgstr "Regrese a la información del cliente"
 
-#: templates/content/template.php:183
+#: templates/content/template.php:217
 msgid ""
 "All transactions are secure and encrypted. Credit card information is never "
 "stored on our servers."
@@ -381,47 +488,51 @@ msgstr ""
 "Todas las transacciones son seguras y encriptadas. Información de tarjeta de "
 "crédito nunca se almacena en nuestros servidores."
 
-#: templates/content/template.php:197
+#: templates/content/template.php:226
+msgid "Your order is free. No payment is required."
+msgstr "Tu orden es gratis. No se requiere pago."
+
+#: templates/content/template.php:239
 msgid "Same as shipping address"
 msgstr "Mismo como dirección de envío"
 
-#: templates/content/template.php:205
+#: templates/content/template.php:247
 msgid "Use a different billing address"
 msgstr "Utilice una dirección de facturación diferente"
 
-#: templates/content/template.php:221
+#: templates/content/template.php:269
 msgid "Return to shipping information"
 msgstr "Regrese a la información de envío"
 
-#: templates/content/template.php:227
+#: templates/content/template.php:275
 msgid "Complete Order"
 msgstr "Finalizar Orden"
 
-#: templates/content/template.php:242
+#: templates/content/template.php:292
 msgid "Show order summary"
 msgstr "Mostrar el resumen del pedido"
 
-#: templates/content/template.php:263
+#: templates/content/template.php:313
 msgid "Enter Promo Code"
 msgstr "Introducir código promocional"
 
-#: templates/content/template.php:268
+#: templates/content/template.php:318
 msgid "Apply"
 msgstr "Aplicar"
 
-#: templates/content/template.php:278
+#: templates/content/template.php:328
 msgid "Subtotal"
 msgstr "Subtotal"
 
-#: templates/content/template.php:290
+#: templates/content/template.php:340
 msgid "Shipping"
 msgstr "Envío"
 
-#: templates/content/template.php:295
+#: templates/content/template.php:353
 msgid "Taxes"
 msgstr "Impuestos"
 
-#: templates/content/template.php:302
+#: templates/content/template.php:360
 msgid "Total"
 msgstr "Total"
 
@@ -486,6 +597,15 @@ msgstr "Objectiv"
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
 msgstr "https://objectiv.co"
+
+#~ msgid ""
+#~ "Shipping costs will be calculated once you have provided your address."
+#~ msgstr ""
+#~ "Los gastos de envío se calcularán una vez que haya proporcionado su "
+#~ "dirección."
+
+#~ msgid "Apartment, suite, unit etc."
+#~ msgstr "Apartamento, suite, unidad, etcetera."
 
 #~ msgid "Shipping Address"
 #~ msgstr "Dirección de envío"

@@ -53,11 +53,21 @@ export class UpdateShippingMethodAction extends Action {
         this.fields = fields;
     }
 
+    public load(): void {
+        if(Action.underlyingRequest !== null) {
+            Action.underlyingRequest.abort();
+        }
+
+        super.load();
+    }
+
     /**
      * @param resp
      */
     @ResponsePrep
     public response(resp: UpdateShippingMethodResponse): void {
+        UpdateShippingMethodAction.underlyingRequest = null;
+
         if(resp.new_totals) {
             Cart.outputValues(this.cart, resp.new_totals);
         }

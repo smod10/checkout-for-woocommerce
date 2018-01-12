@@ -344,8 +344,18 @@ var Action = /** @class */ (function () {
      * Fire ze ajax
      */
     Action.prototype.load = function () {
-        $.post(this.url.href, this.data, this.response.bind(this));
+        Action.underlyingRequest = $.post(this.url.href, this.data, this.response.bind(this));
     };
+    Object.defineProperty(Action, "underlyingRequest", {
+        get: function () {
+            return this._underlyingRequest;
+        },
+        set: function (value) {
+            this._underlyingRequest = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Action.prototype, "id", {
         /**
          * @returns {string}
@@ -857,7 +867,6 @@ var Action_1 = __webpack_require__(1);
 var Main_1 = __webpack_require__(0);
 var Cart_1 = __webpack_require__(9);
 var ResponsePrep_1 = __webpack_require__(5);
-var TabContainer_1 = __webpack_require__(12);
 var UpdateCheckoutAction = /** @class */ (function (_super) {
     __extends(UpdateCheckoutAction, _super);
     /**
@@ -897,7 +906,6 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
         }
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
         Cart_1.Cart.outputValues(main.cart, resp.new_totals);
-        TabContainer_1.TabContainer.togglePaymentFields(resp.show_payment_fields);
         UpdateCheckoutAction.updateShippingDetails();
         Main_1.Main.instance.tabContainer.setShippingPaymentUpdate();
         $(document.body).trigger('updated_checkout');
@@ -3193,10 +3201,17 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
         _this.fields = fields;
         return _this;
     }
+    UpdateShippingMethodAction.prototype.load = function () {
+        if (Action_1.Action.underlyingRequest !== null) {
+            Action_1.Action.underlyingRequest.abort();
+        }
+        _super.prototype.load.call(this);
+    };
     /**
      * @param resp
      */
     UpdateShippingMethodAction.prototype.response = function (resp) {
+        UpdateShippingMethodAction.underlyingRequest = null;
         if (resp.new_totals) {
             Cart_1.Cart.outputValues(this.cart, resp.new_totals);
         }

@@ -75,7 +75,6 @@ class UpdateCheckoutAction extends Action {
 				"new_taxes_total" => WC()->cart->get_cart_tax(),
 				"new_total" => WC()->cart->get_total()
 			),
-			"show_payment_fields" => WC()->cart->get_total('') > 0,
 			"needs_payment" => WC()->cart->needs_payment(),
 			"updated_ship_methods" => $this->get_shipping_methods()
 		));

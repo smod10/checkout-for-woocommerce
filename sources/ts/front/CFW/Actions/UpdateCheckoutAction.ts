@@ -75,8 +75,6 @@ export class UpdateCheckoutAction extends Action {
 
         Cart.outputValues(main.cart, resp.new_totals);
 
-        TabContainer.togglePaymentFields(resp.show_payment_fields);
-
         UpdateCheckoutAction.updateShippingDetails();
 
         Main.instance.tabContainer.setShippingPaymentUpdate();

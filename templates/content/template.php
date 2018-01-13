@@ -22,6 +22,9 @@
             <div id="cfw-tab-container" class="cfw-left-column cfw-column-7 tab-container">
 
                 <ul id="cfw-breadcrumb" class="etabs">
+                    <li>
+                        <a href="<?php echo wc_get_cart_url(); ?>#cart"><?php _e('Cart', 'woocommerce'); ?></a>
+                    </li>
                     <li class="tab">
                         <a href="#cfw-customer-info" class="cfw-small"><?php esc_html_e( 'Customer information', 'checkout-wc' ); ?></a>
                     </li>

@@ -145,6 +145,9 @@
 	                        <?php do_action('cfw_checkout_before_customer_info_tab_nav'); ?>
 
                             <div id="cfw-shipping-info-action" class="cfw-bottom-controls">
+                                <div class="previous-button">
+                                    <a href="<?php echo wc_get_cart_url(); ?>" class="cfw-prev-tab">« <?php esc_html_e( 'Return to cart', 'checkout-wc' ); ?></a>
+                                </div>
                                 <?php if ( WC()->cart->needs_shipping_address() ): ?>
                                     <a href="#cfw-shipping-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e('Continue to shipping method', 'checkout-wc'); ?></a>
                                 <?php else: ?>

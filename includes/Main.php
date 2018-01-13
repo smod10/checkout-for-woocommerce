@@ -334,6 +334,8 @@ class Main extends Singleton {
 	 * Set the plugin assets
 	 */
 	public function set_assets() {
+		if ( ! function_exists('is_checkout') || ! is_checkout() ) return;
+		
 		$front = "{$this->path_manager->get_assets_path()}/front";
 
 		$min = ( ! CO_DEV_MODE ) ? ".min" : "";

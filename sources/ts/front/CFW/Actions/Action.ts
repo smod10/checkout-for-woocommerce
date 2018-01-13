@@ -24,8 +24,6 @@ export abstract class Action {
      */
     private _data: any;
 
-    private static _underlyingRequest: any;
-
     /**
      * @param id
      * @param url
@@ -60,7 +58,7 @@ export abstract class Action {
      * Fire ze ajax
      */
     load(): void {
-        Action.underlyingRequest = $.post(this.url.href, this.data, this.response.bind(this));
+        $.post(this.url.href, this.data, this.response.bind(this));
     }
 
     /**
@@ -68,14 +66,6 @@ export abstract class Action {
      * @param resp
      */
     abstract response(resp: Object): void;
-
-    static get underlyingRequest(): any {
-        return this._underlyingRequest;
-    }
-
-    static set underlyingRequest(value: any) {
-        this._underlyingRequest = value;
-    }
 
     /**
      * @returns {string}

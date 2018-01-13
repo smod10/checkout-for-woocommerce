@@ -34,6 +34,11 @@ export class UpdateShippingMethodAction extends Action {
     private _fields: any;
 
     /**
+     *
+     */
+    private static _underlyingRequest: any = null;
+
+    /**
      * @param id
      * @param ajaxInfo
      * @param shipping_method
@@ -54,11 +59,11 @@ export class UpdateShippingMethodAction extends Action {
     }
 
     public load(): void {
-        if(Action.underlyingRequest !== null) {
-            Action.underlyingRequest.abort();
+        if(UpdateShippingMethodAction.underlyingRequest !== null) {
+            UpdateShippingMethodAction.underlyingRequest.abort();
         }
 
-        super.load();
+        UpdateShippingMethodAction.underlyingRequest = $.post(this.url.href, this.data, this.response.bind(this));
     }
 
     /**
@@ -75,6 +80,20 @@ export class UpdateShippingMethodAction extends Action {
         Main.togglePaymentRequired(resp.needs_payment);
 
         new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.fields).load();
+    }
+
+    /**
+     * @returns {any}
+     */
+    static get underlyingRequest(): any {
+        return this._underlyingRequest;
+    }
+
+    /**
+     * @param value
+     */
+    static set underlyingRequest(value: any) {
+        this._underlyingRequest = value;
     }
 
     /**

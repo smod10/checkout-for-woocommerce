@@ -9,7 +9,7 @@
             <div id="cfw-logo-container">
                 <!-- TODO: Find a way to inject certain backend settings as global params without having to put logic in the templates -->
                 <div class="cfw-logo">
-                    <div class="logo"></div>
+                    <a href="<?php echo get_site_url(); ?>" class="logo"></a>
                 </div>
             </div>
         </div>

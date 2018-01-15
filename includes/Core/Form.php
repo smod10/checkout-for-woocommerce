@@ -22,9 +22,9 @@ class Form {
 	/**
 	 * @since 1.0.0
 	 * @access public
-	 * @var object $wc_stripe_apple_pay
+	 * @var object $wc_stripe_payment_request
 	 */
-	public $wc_stripe_apple_pay;
+	public $wc_stripe_payment_request;
 
 	/**
 	 * Form constructor.
@@ -34,20 +34,45 @@ class Form {
 	 */
 	public function __construct() {
 		// Setup Apple Pay
+		$gateways = WC()->payment_gateways->get_available_payment_gateways();
+
+		/**
+		 * Apple Pay - Stripe Gateway 3.x
+		 */
 		if ( class_exists('\\WC_Stripe_Apple_Pay') ) {
-			$this->wc_stripe_apple_pay = new \WC_Stripe_Apple_Pay();
-			$gateways = WC()->payment_gateways->get_available_payment_gateways();
+			$this->wc_stripe_payment_request = new \WC_Stripe_Apple_Pay();
+
+			if ( method_exists($this->wc_stripe_payment_request, 'display_apple_pay_button') ) {
+				// Display button
+				add_action( 'cfw_checkout_before_customer_info_tab', array(
+					$this->wc_stripe_payment_request,
+					'display_apple_pay_button'
+				), 1 );
+
+				// Display separator
+				add_action( 'cfw_checkout_before_customer_info_tab', array(
+					$this->wc_stripe_payment_request,
+					'display_apple_pay_separator_html'
+				), 2 );
+			}
+		}
+
+		/**
+		 * Payment Request (Apple Pay, etc) - Stripe Gateway 4.x
+		 */
+		if ( class_exists('\\WC_Stripe_Payment_Request') ) {
+			$this->wc_stripe_payment_request = new \WC_Stripe_Payment_Request();
 
 			// Display button
 			add_action( 'cfw_checkout_before_customer_info_tab', array(
-				$this->wc_stripe_apple_pay,
-				'display_apple_pay_button'
+				$this->wc_stripe_payment_request,
+				'display_payment_request_button_html'
 			), 1 );
 
 			// Display separator
 			add_action( 'cfw_checkout_before_customer_info_tab', array(
-				$this->wc_stripe_apple_pay,
-				'display_apple_pay_separator_html'
+				$this->wc_stripe_payment_request,
+				'display_payment_request_button_separator_html'
 			), 2 );
 		}
 

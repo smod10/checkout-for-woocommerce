@@ -13,12 +13,16 @@ export class InputLabelWrap extends FormElement {
 
         this.setHolderAndLabel('input[type="%s"]', true);
 
-        this.eventCallbacks = [
-            { eventName: "keyup", func: function(){
-                this.wrapClassSwap(this.holder.jel.val());
-            }.bind(this), target: null }
-        ];
+        if(this.holder) {
+            this.eventCallbacks = [
+                {
+                    eventName: "keyup", func: function () {
+                        this.wrapClassSwap(this.holder.jel.val());
+                    }.bind(this), target: null
+                }
+            ];
 
-        this.regAndWrap();
+            this.regAndWrap();
+        }
     }
 }

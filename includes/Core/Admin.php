@@ -445,7 +445,11 @@ class Admin {
 
 		// Validate Key Status
 		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
-			echo "<div class='notice notice-error is-dismissible'> <p>" . $this->renew_or_purchase_nag($key_status, $license_key) . "</p></div>";
+			$important = '';
+		    if ( isset($_GET['page']) && $_GET['page'] == 'cfw-settings') {
+		        $important = "style='display:block !important'";
+            }
+			echo "<div $important class='notice notice-error is-dismissible checkout-wc'> <p>" . $this->renew_or_purchase_nag($key_status, $license_key) . "</p></div>";
 		}
 	}
 

@@ -356,7 +356,7 @@ fieldset .cfw-sg-container:last-child > * > .form-row {
 
 .cfw-alert {
   padding: 15px;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
   border: 1px solid transparent;
   border-radius: 4px;
   display: none;
@@ -574,7 +574,7 @@ fieldset .cfw-sg-container:last-child > * > .form-row {
 }
 
 #cfw-shipping-info-action {
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 #cfw-shipping-details-fields {

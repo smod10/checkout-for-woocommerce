@@ -536,7 +536,7 @@ var EasyTabService = /** @class */ (function () {
      * @returns {boolean}
      */
     EasyTabService.isThereAShippingTab = function () {
-        return Main_1.Main.instance.tabContainer.jel.find('.etabs > li').length !== 2;
+        return Main_1.Main.instance.tabContainer.jel.find('.etabs > li.tab').length !== 2;
     };
     return EasyTabService;
 }());
@@ -3176,7 +3176,10 @@ var TabContainer = /** @class */ (function (_super) {
      *
      */
     TabContainer.prototype.easyTabs = function () {
-        this.jel.easytabs();
+        this.jel.easytabs({
+            defaultTab: "li.tab:first",
+            tabs: "> ul > li.tab"
+        });
     };
     /**
      * @param by
@@ -3471,16 +3474,39 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
         _this.fields = fields;
         return _this;
     }
+    UpdateShippingMethodAction.prototype.load = function () {
+        if (UpdateShippingMethodAction.underlyingRequest !== null) {
+            UpdateShippingMethodAction.underlyingRequest.abort();
+        }
+        UpdateShippingMethodAction.underlyingRequest = $.post(this.url.href, this.data, this.response.bind(this));
+    };
     /**
      * @param resp
      */
     UpdateShippingMethodAction.prototype.response = function (resp) {
+        UpdateShippingMethodAction.underlyingRequest = null;
         if (resp.new_totals) {
             Cart_1.Cart.outputValues(this.cart, resp.new_totals);
         }
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
         new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, this.fields).load();
     };
+    Object.defineProperty(UpdateShippingMethodAction, "underlyingRequest", {
+        /**
+         * @returns {any}
+         */
+        get: function () {
+            return this._underlyingRequest;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._underlyingRequest = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(UpdateShippingMethodAction.prototype, "fields", {
         /**
          * @returns {any}
@@ -3513,6 +3539,10 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     *
+     */
+    UpdateShippingMethodAction._underlyingRequest = null;
     __decorate([
         ResponsePrep_1.ResponsePrep
     ], UpdateShippingMethodAction.prototype, "response", null);

@@ -75,6 +75,6 @@ export class EasyTabService {
      * @returns {boolean}
      */
     static isThereAShippingTab(): boolean {
-        return Main.instance.tabContainer.jel.find('.etabs > li').length !== 2;
+        return Main.instance.tabContainer.jel.find('.etabs > li.tab').length !== 2;
     }
 }

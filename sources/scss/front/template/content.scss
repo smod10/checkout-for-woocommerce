@@ -288,6 +288,27 @@ fieldset .cfw-sg-container:last-child > * > .form-row {
   }
 }
 
+#stripe-card-element, #stripe-exp-element, #stripe-cvc-element {
+  background: #fff !important;
+  padding: .94em .8em !important;
+  transition: all .2s ease !important;
+  color: #333 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  border: none !important;
+  font-size: 16px !important;
+  line-height: normal !important;
+  border-radius: 4px !important;
+  box-shadow: 0 0 0 1px #ddd !important;
+}
+
+#wc-stripe-cc-form .cfw-sg-container.cfw-input-wrap-row {
+  display: inline;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+}
+
 label[for="card-element"] {
   display: none;
 }

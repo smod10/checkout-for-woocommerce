@@ -140,7 +140,7 @@ class Redirect {
             };
 
             cfwEventData.ajaxInfo = {
-                admin_url: new URL('<?php echo admin_url('admin-ajax.php'); ?>'),
+                admin_url: ('<?php echo admin_url('admin-ajax.php'); ?>'),
                 nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
             };
 

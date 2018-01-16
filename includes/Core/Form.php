@@ -36,7 +36,8 @@ class Form {
 		// Setup Apple Pay
 		if ( class_exists('\\WC_Stripe_Apple_Pay') ) {
 			$this->wc_stripe_apple_pay = new \WC_Stripe_Apple_Pay();
-			$gateways = WC()->payment_gateways->get_available_payment_gateways();
+
+			if ( ! method_exists($this->wc_stripe_apple_pay, 'display_apple_pay_button') ) return;
 
 			// Display button
 			add_action( 'cfw_checkout_before_customer_info_tab', array(

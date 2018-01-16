@@ -13,15 +13,21 @@ export class SelectLabelWrap extends FormElement {
 
         this.setHolderAndLabel(this.jel.find('select'));
 
-        this.eventCallbacks = [
-            { eventName: "change", func: function(){
-                this.wrapClassSwap(this.holder.jel.val());
-            }.bind(this), target: null },
-            { eventName: "keyup", func: function(){
-                this.wrapClassSwap(this.holder.jel.val());
-            }.bind(this), target: null }
-        ];
+        if(this.holder) {
+            this.eventCallbacks = [
+                {
+                    eventName: "change", func: function () {
+                        this.wrapClassSwap(this.holder.jel.val());
+                    }.bind(this), target: null
+                },
+                {
+                    eventName: "keyup", func: function () {
+                        this.wrapClassSwap(this.holder.jel.val());
+                    }.bind(this), target: null
+                }
+            ];
 
-        this.regAndWrap();
+            this.regAndWrap();
+        }
     }
 }

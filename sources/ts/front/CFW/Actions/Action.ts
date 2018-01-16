@@ -13,10 +13,10 @@ export abstract class Action {
     private _id: string;
 
     /**
-     * @type {URL}
+     * @type {string}
      * @private
      */
-    private _url: URL;
+    private _url: string;
 
     /**
      * @type {Object}
@@ -29,7 +29,7 @@ export abstract class Action {
      * @param url
      * @param data
      */
-    constructor(id: string, url: URL, data: Object) {
+    constructor(id: string, url: string, data: Object) {
         this.id = id;
         this.url = url;
         this.data = data;
@@ -58,7 +58,7 @@ export abstract class Action {
      * Fire ze ajax
      */
     load(): void {
-        $.post(this.url.href, this.data, this.response.bind(this));
+        $.post(this.url, this.data, this.response.bind(this));
     }
 
     /**
@@ -82,16 +82,16 @@ export abstract class Action {
     }
 
     /**
-     * @returns {URL}
+     * @returns {string}
      */
-    get url(): URL {
+    get url(): string {
         return this._url;
     }
 
     /**
      * @param value
      */
-    set url(value: URL) {
+    set url(value: string) {
         this._url = value;
     }
 

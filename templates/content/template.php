@@ -25,7 +25,7 @@
                     <li>
                         <a href="<?php echo wc_get_cart_url(); ?>#cart"><?php _e('Cart', 'woocommerce'); ?></a>
                     </li>
-                    <li class="tab">
+                    <li class="tab" id="default-tab">
                         <a href="#cfw-customer-info" class="cfw-small"><?php esc_html_e( 'Customer information', 'checkout-wc' ); ?></a>
                     </li>
                     <?php if ( WC()->cart->needs_shipping_address() ): ?>
@@ -102,7 +102,7 @@
                                                 <input type="checkbox" id="createaccount" class="garlic-auto-save" name="cfw-acc-register-chk" disabled="disabled" checked />
                                             <?php endif; ?>
 
-                                            <label class="cfw-small" for="createaccount"><?php printf( esc_html__('Create a %s shopping account.', 'checkout-wc'), get_bloginfo('name') ); ?></label>
+                                            <label class="cfw-small" for="createaccount"><?php printf( esc_html__('Create %s shopping account.', 'checkout-wc'), get_bloginfo('name') ); ?></label>
                                         </div>
                                     </div>
 

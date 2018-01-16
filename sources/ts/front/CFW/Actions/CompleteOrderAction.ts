@@ -142,6 +142,10 @@ export class CompleteOrderAction extends Action {
             // Destroy all the cache!
             $('.garlic-auto-save').each((index: number, elem: Element) => $(elem).garlic('destroy'));
 
+            // Destroy all the parsley!
+            $("form").parsley().destroy();
+
+            // Redirect all the browsers! (well just the 1)
             window.location.href = resp.redirect;
         }
 

@@ -1156,8 +1156,8 @@ export class TabContainer extends Element {
      */
     easyTabs() {
         this.jel.easytabs({
-            defaultTab: "li.tab:first",
-            tabs: "> ul > li.tab"
+            defaultTab: "li.tab#default-tab",
+            tabs: "ul > li.tab"
         });
     }
 

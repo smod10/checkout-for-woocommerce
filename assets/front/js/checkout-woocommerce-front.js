@@ -344,7 +344,7 @@ var Action = /** @class */ (function () {
      * Fire ze ajax
      */
     Action.prototype.load = function () {
-        $.post(this.url.href, this.data, this.response.bind(this));
+        $.post(this.url, this.data, this.response.bind(this));
     };
     Object.defineProperty(Action.prototype, "id", {
         /**
@@ -364,7 +364,7 @@ var Action = /** @class */ (function () {
     });
     Object.defineProperty(Action.prototype, "url", {
         /**
-         * @returns {URL}
+         * @returns {string}
          */
         get: function () {
             return this._url;
@@ -1693,7 +1693,9 @@ __webpack_require__(19);
 __webpack_require__(21);
 __webpack_require__(23);
 __webpack_require__(25);
+__webpack_require__(45);
 __webpack_require__(27);
+
 
 /***/ }),
 /* 17 */
@@ -3187,8 +3189,8 @@ var TabContainer = /** @class */ (function (_super) {
      */
     TabContainer.prototype.easyTabs = function () {
         this.jel.easytabs({
-            defaultTab: "li.tab:first",
-            tabs: "> ul > li.tab"
+            defaultTab: "li.tab#default-tab",
+            tabs: "ul > li.tab"
         });
     };
     /**
@@ -3488,7 +3490,7 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
         if (UpdateShippingMethodAction.underlyingRequest !== null) {
             UpdateShippingMethodAction.underlyingRequest.abort();
         }
-        UpdateShippingMethodAction.underlyingRequest = $.post(this.url.href, this.data, this.response.bind(this));
+        UpdateShippingMethodAction.underlyingRequest = $.post(this.url, this.data, this.response.bind(this));
     };
     /**
      * @param resp
@@ -3967,6 +3969,24 @@ var TabContainerSection = /** @class */ (function (_super) {
 }(Element_1.Element));
 exports.TabContainerSection = TabContainerSection;
 
+
+/***/ }),
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(3)(__webpack_require__(46))
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports) {
+
+module.exports = "// Polyfill for creating CustomEvents on IE9/10/11\n\n// code pulled from:\n// https://github.com/d4tocchini/customevent-polyfill\n// https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent#Polyfill\n\ntry {\n    var ce = new window.CustomEvent('test');\n    ce.preventDefault();\n    if (ce.defaultPrevented !== true) {\n        // IE has problems with .preventDefault() on custom events\n        // http://stackoverflow.com/questions/23349191\n        throw new Error('Could not prevent default');\n    }\n} catch(e) {\n  var CustomEvent = function(event, params) {\n    var evt, origPrevent;\n    params = params || {\n      bubbles: false,\n      cancelable: false,\n      detail: undefined\n    };\n\n    evt = document.createEvent(\"CustomEvent\");\n    evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);\n    origPrevent = evt.preventDefault;\n    evt.preventDefault = function () {\n      origPrevent.call(this);\n      try {\n        Object.defineProperty(this, 'defaultPrevented', {\n          get: function () {\n            return true;\n          }\n        });\n      } catch(e) {\n        this.defaultPrevented = true;\n      }\n    };\n    return evt;\n  };\n\n  CustomEvent.prototype = window.Event.prototype;\n  window.CustomEvent = CustomEvent; // expose definition to window\n}\n"
 
 /***/ })
 /******/ ]);

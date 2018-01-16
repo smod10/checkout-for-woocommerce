@@ -63,7 +63,7 @@ export class UpdateShippingMethodAction extends Action {
             UpdateShippingMethodAction.underlyingRequest.abort();
         }
 
-        UpdateShippingMethodAction.underlyingRequest = $.post(this.url.href, this.data, this.response.bind(this));
+        UpdateShippingMethodAction.underlyingRequest = $.post(this.url, this.data, this.response.bind(this));
     }
 
     /**

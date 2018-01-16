@@ -102,7 +102,7 @@
                                                 <input type="checkbox" id="createaccount" class="garlic-auto-save" name="cfw-acc-register-chk" disabled="disabled" checked />
                                             <?php endif; ?>
 
-                                            <label class="cfw-small" for="createaccount"><?php printf( esc_html__('Create a %s shopping account.', 'checkout-wc'), get_bloginfo('name') ); ?></label>
+                                            <label class="cfw-small" for="createaccount"><?php printf( esc_html__('Create %s shopping account.', 'checkout-wc'), get_bloginfo('name') ); ?></label>
                                         </div>
                                     </div>
 

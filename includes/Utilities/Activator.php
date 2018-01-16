@@ -48,17 +48,6 @@ class Activator {
 			);
 		}
 
-		if( is_plugin_active('woocommerce-gateway-stripe/woocommerce-gateway-stripe.php') ) {
-
-			if(intval(explode(".", WC_STRIPE_VERSION)[0]) >= 4) {
-				$activation[] = array(
-					"success"           => false,
-					"class"             => "notice error",
-					"message"           => __("Activation failed: Please downgrade your version of WooCommerce Stripe Gateway to a version less than 4.0.0. You can download the latest version of the 3.0 line <a href='https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.3.2.3.zip' target='_blank'>here</a>", 'checkout-wc')
-				);
-			}
-		}
-
 		if( ! empty($activation) ) {
 			add_option(self::$anotice_op_name, $activation);
 		}

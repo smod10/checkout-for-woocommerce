@@ -1415,6 +1415,9 @@ var CompleteOrderAction = /** @class */ (function (_super) {
         if (resp.result === "success") {
             // Destroy all the cache!
             $('.garlic-auto-save').each(function (index, elem) { return $(elem).garlic('destroy'); });
+            // Destroy all the parsley!
+            $("form").parsley().destroy();
+            // Redirect all the browsers! (well just the 1)
             window.location.href = resp.redirect;
         }
         if (resp.result === "failure") {
@@ -2648,6 +2651,9 @@ var TabContainer = /** @class */ (function (_super) {
             $("#checkout").parsley();
             $(document.body).trigger("update_checkout");
         };
+        var locale_data = JSON.parse(wc_address_i18n_params.locale);
+        this.layoutDefaultLabelsAndRequirements(shipping_country.val(), locale_data, "shipping", wc_address_i18n_params.add2_text);
+        this.layoutDefaultLabelsAndRequirements(billing_country.val(), locale_data, "billing", wc_address_i18n_params.add2_text);
         shipping_country.on('change', country_change);
         billing_country.on('change', country_change);
         shipping_postcode.attr("data-parsley-state-and-zip", shipping_country.val());

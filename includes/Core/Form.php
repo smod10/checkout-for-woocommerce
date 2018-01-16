@@ -156,7 +156,7 @@ class Form {
 					'custom_attributes' => array(
 						"data-parsley-state-and-zip"        => "",
 						"data-parsley-validate-if-empty"    => "",
-						"data-parsley-type"                 => "alphanum",
+						"data-parsley-length"               => "[2,12]",
 						"data-parsley-trigger"              => "keyup change focusout"
 					),
 					'start'        => false,
@@ -165,6 +165,7 @@ class Form {
 				'state' => array(
 					'type'         => 'state',
 					'label'        => __( 'State / County', 'checkout-woocommerce' ),
+					'placeholder'  => __( 'State / County', 'checkout-woocommerce' ),
 					'required'     => true,
 					'class'        => array( 'address-field' ),
 					'validate'     => array( 'state' ),

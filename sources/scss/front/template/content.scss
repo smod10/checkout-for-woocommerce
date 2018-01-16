@@ -288,6 +288,10 @@ fieldset .cfw-sg-container:last-child > * > .form-row {
   }
 }
 
+label[for="card-element"] {
+  display: none;
+}
+
 .shipping-message {
   padding-top: 10px;
 }

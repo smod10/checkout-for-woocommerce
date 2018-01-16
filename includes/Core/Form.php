@@ -165,6 +165,7 @@ class Form {
 				'state' => array(
 					'type'         => 'state',
 					'label'        => __( 'State / County', 'checkout-woocommerce' ),
+					'placeholder'  => __( 'State / County', 'checkout-woocommerce' ),
 					'required'     => true,
 					'class'        => array( 'address-field' ),
 					'validate'     => array( 'state' ),

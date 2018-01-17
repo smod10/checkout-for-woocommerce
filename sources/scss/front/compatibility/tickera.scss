@@ -6,6 +6,10 @@
     display: none;
   }
 
+  input[type=text], textarea {
+    width: 100%;
+  }
+
   span {
     display: block;
     width: 100%;
@@ -16,6 +20,11 @@
       margin-top: 1em;
       font-weight: normal;
       font-size: 14px;
+    }
+
+    abbr {
+      color: red;
+      margin-left: 0.25em;
     }
   }
   
@@ -35,4 +44,19 @@
   padding: 0.7em;
   border: 1px solid #ddd;
   border-radius: 4px;
+}
+
+.tickera_owner_info h2 {
+  font-size: 1.25em;
+  color: #333;
+  font-weight: 300;
+  margin-bottom: 1em;
+}
+
+.tickera_owner_info h5 {
+  font-size: 1em;
+  color: #333;
+  font-weight: 300;
+  margin-top: 0;
+  margin-bottom: 1em;
 }

@@ -28,10 +28,17 @@ class Compatibility {
         add_filter('cfw_allowed_style_handles', array($this, 'allowed_styles') );
 
         // Add PayPal Express Checkout Button
-        add_action('wp', array($this, 'add_paypal_epxress_to_checkout') );
+        add_action('wp', array($this, 'add_paypal_express_to_checkout') );
 
         // Add Stripe apple pay (3.x)
         add_action('wp', array($this, 'add_stripe_apple_pay') );
+
+        // Tickera Attendee Forms
+        global $tc_woocommerce_bridge;
+
+        if ( ! empty($tc_woocommerce_bridge) ) {
+	        add_action('cfw_checkout_before_payment_method_terms_checkbox', array($tc_woocommerce_bridge, 'add_standard_tc_fields_to_checkout'));
+        }
 	}
 
 	function mixpanel_fixes() {
@@ -89,7 +96,7 @@ class Compatibility {
 	    return $styles;
     }
 
-    function add_paypal_epxress_to_checkout() {
+    function add_paypal_express_to_checkout() {
 	    if ( function_exists('wc_gateway_ppec') && wc_gateway_ppec()->settings->is_enabled() && is_checkout() ) {
 	        // Remove "OR" separator
 		    remove_all_actions( 'woocommerce_proceed_to_checkout');
@@ -101,7 +108,7 @@ class Compatibility {
 		    $gateways = WC()->payment_gateways->get_available_payment_gateways();
 		    $settings = wc_gateway_ppec()->settings;
 
-		    // billing details on checkout page to calculate shipping costs
+		    // Don't add the separator if PayPal Express isn't actually active
 		    if ( ! isset( $gateways['ppec_paypal'] ) || 'no' === $settings->cart_checkout_enabled ) {
 			    return;
 		    }
@@ -126,6 +133,7 @@ class Compatibility {
 			    'display_apple_pay_button'
 		    ), 1 );
 
+		    // If Apple Pay is off or stripe isn't enabled, bail
 		    if ( !  $this->wc_stripe_apple_pay->apple_pay || ! isset( $gateways['stripe'] ) ) {
 		        return;
             }

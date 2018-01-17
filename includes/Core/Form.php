@@ -33,25 +33,6 @@ class Form {
 	 * @access public
 	 */
 	public function __construct() {
-		// Setup Apple Pay
-		if ( class_exists('\\WC_Stripe_Apple_Pay') ) {
-			$this->wc_stripe_apple_pay = new \WC_Stripe_Apple_Pay();
-
-			if ( ! method_exists($this->wc_stripe_apple_pay, 'display_apple_pay_button') ) return;
-
-			// Display button
-			add_action( 'cfw_checkout_before_customer_info_tab', array(
-				$this->wc_stripe_apple_pay,
-				'display_apple_pay_button'
-			), 1 );
-
-			// Display separator
-			add_action( 'cfw_checkout_before_customer_info_tab', array(
-				$this->wc_stripe_apple_pay,
-				'display_apple_pay_separator_html'
-			), 2 );
-		}
-
 		$this->base_fields = add_filter('woocommerce_default_address_fields', function($defaults) {
 			return array(
 				'first_name' => array(

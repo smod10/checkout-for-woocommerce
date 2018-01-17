@@ -751,6 +751,24 @@ label[for="card-element"] {
   }
 }
 
+.pay-button-separator {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+
+  &:before, &:after {
+    content: '';
+    display: inline-block;
+    height: 1px;
+    background: #e6e6e6;
+    flex-grow: 1
+  }
+
+  span {
+    padding: 0 1em;
+  }
+}
+
 @media (max-width: 767px) {
   .cfw-prev-tab {
     margin-bottom: 1em;

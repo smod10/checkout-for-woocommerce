@@ -121,7 +121,7 @@ class Compatibility {
 
     function add_stripe_apple_pay() {
 	    // Setup Apple Pay
-	    if ( class_exists('\\WC_Stripe_Apple_Pay') ) {
+	    if ( class_exists('\\WC_Stripe_Apple_Pay') && is_checkout() ) {
 		    $this->wc_stripe_apple_pay = new \WC_Stripe_Apple_Pay();
 		    $gateways = WC()->payment_gateways->get_available_payment_gateways();
 

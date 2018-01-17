@@ -24,7 +24,7 @@ class Redirect {
 	 * @param $version
 	 */
 	public static function checkout($settings_manager, $path_manager, $template_manager, $version) {
-		if ( function_exists('is_checkout') && is_checkout() && ! is_order_received_page() ) {
+		if ( function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) {
 			// When on the checkout with an empty cart, redirect to cart page
 			if ( WC()->cart->is_empty() ) {
 				wc_add_notice( __( 'Checkout is not available whilst your cart is empty.', 'woocommerce' ), 'notice' );

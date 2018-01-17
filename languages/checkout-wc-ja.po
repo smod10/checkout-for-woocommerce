@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2018-01-15 23:05-0500\n"
-"PO-Revision-Date: 2018-01-15 23:05-0500\n"
+"POT-Creation-Date: 2018-01-17 11:50-0500\n"
+"PO-Revision-Date: 2018-01-17 11:50-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -21,30 +21,26 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: dist/checkout-for-woocommerce/functions.php:48
-#: dist/checkout-for-woocommerce/includes/Main.php:371 functions.php:48
-#: includes/Main.php:371
+#: functions.php:48 includes/Main.php:371
 msgid "required"
 msgstr "必須"
 
-#: dist/checkout-for-woocommerce/functions.php:109 functions.php:109
+#: functions.php:109
 msgid "Select a country&hellip;"
 msgstr "国を選択&hellip;"
 
-#: dist/checkout-for-woocommerce/functions.php:117 functions.php:117
+#: functions.php:117
 msgid "Update country"
 msgstr "更新语种"
 
-#: dist/checkout-for-woocommerce/functions.php:136 functions.php:136
+#: functions.php:136
 msgid "Select a state&hellip;"
 msgstr "郵便番号;"
 
-#: dist/checkout-for-woocommerce/functions.php:181 functions.php:181
+#: functions.php:181
 msgid "Choose an option"
 msgstr "オプションを選択してください"
 
-#: dist/checkout-for-woocommerce/functions.php:313
-#: dist/checkout-for-woocommerce/includes/Action/UpdateCheckoutAction.php:121
 #: functions.php:313 includes/Action/UpdateCheckoutAction.php:121
 #, php-format
 msgctxt "shipping packages"
@@ -52,13 +48,13 @@ msgid "Shipping"
 msgid_plural "Shipping %d"
 msgstr[0] "送料"
 
-#: dist/checkout-for-woocommerce/functions.php:340 functions.php:340
+#: functions.php:340
 msgid ""
 "There are no shipping methods available. Please double check your address, "
 "or contact us if you need any help."
 msgstr "利用可能な配送方法がありません。お問合わせください。"
 
-#: dist/checkout-for-woocommerce/functions.php:426 functions.php:426
+#: functions.php:426
 msgid ""
 "Sorry, it seems that there are no available payment methods for your "
 "location. Please contact us if you require assistance or wish to make "
@@ -68,7 +64,6 @@ msgstr ""
 "たがヘルプを必要とするか、または代替の手段を試したい場合は、運営管理にお問い"
 "合わせください。"
 
-#: dist/checkout-for-woocommerce/includes/Action/UpdateCheckoutAction.php:133
 #: includes/Action/UpdateCheckoutAction.php:133
 msgid ""
 "There are no shipping methods available. Please ensure that your address has "
@@ -76,34 +71,27 @@ msgid ""
 msgstr "利用可能な配送方法がありません。お問合わせください。"
 
 #. Plugin Name of the plugin/theme
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:79
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:99
 #: includes/Core/Admin.php:82 includes/Core/Admin.php:102
 #, fuzzy
 msgid "Checkout for WooCommerce"
 msgstr "Checkout for WooCommerce"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:82
 #: includes/Core/Admin.php:85
 msgid "General"
 msgstr "一般"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:83
 #: includes/Core/Admin.php:86
 msgid "Design"
 msgstr "デザイン"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:84
 #: includes/Core/Admin.php:87
 msgid "License"
 msgstr "ライセンス"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:85
 #: includes/Core/Admin.php:88
 msgid "Support"
 msgstr "サポート"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:100
 #: includes/Core/Admin.php:103
 msgid ""
 "Checkout for WooCommerce provides a beautiful, conversion optimized checkout "
@@ -112,17 +100,14 @@ msgstr ""
 "Woocommerce のためのチェックアウトは、Woocommerce のための美しい、変換最適化"
 "されたチェックアウトテンプレートを提供します."
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:125
 #: includes/Core/Admin.php:128
 msgid "Enable / Disable"
 msgstr "有効化/無効化"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:129
 #: includes/Core/Admin.php:132
 msgid "Use Checkout for WooCommerce Template"
 msgstr "WooCommerce テンプレートのチェック アウトを使用します。"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:130
 #: includes/Core/Admin.php:133
 msgid ""
 "Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always "
@@ -131,12 +116,10 @@ msgstr ""
 "WooCommerce テーマのチェックアウトを有効または無効にします。(注: テーマは常に"
 "管理者ユーザーに対して有効になります。"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:136
 #: includes/Core/Admin.php:139
 msgid "Header Scripts"
 msgstr "ヘッダー スクリプト"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:142
 #: includes/Core/Admin.php:145
 msgid ""
 "This code will output immediately before the closing <code>&lt;/head&gt;</"
@@ -145,12 +128,10 @@ msgstr ""
 "このコードは、ドキュメントソース内の <code>&lt;/head&gt;</code> タグを閉じる"
 "直前に出力されます。"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:150
 #: includes/Core/Admin.php:153
 msgid "Footer Scripts"
 msgstr "フッタースクリプト"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:156
 #: includes/Core/Admin.php:159
 msgid ""
 "This code will output immediately before the closing <code>&lt;/body&gt;</"
@@ -159,47 +140,38 @@ msgstr ""
 "このコードは、ドキュメントソース内の <code>&lt;/body&gt;</code> タグを閉じる"
 "直前に出力されます。"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:184
 #: includes/Core/Admin.php:187
 msgid "Logo"
 msgstr "ロゴ"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:190
 #: includes/Core/Admin.php:193
 msgid "Upload image"
 msgstr "画像のアップロード"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:193
 #: includes/Core/Admin.php:196
 msgid "Clear Logo"
 msgstr "明確なロゴ"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:199
 #: includes/Core/Admin.php:202
 msgid "Header Background Color"
 msgstr "ヘッダー 背景色"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:208
 #: includes/Core/Admin.php:211
 msgid "Header Text Color"
 msgstr "ヘッダーテキストの色"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:217
 #: includes/Core/Admin.php:220
 msgid "Footer Background Color"
 msgstr "フッターの背景色"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:226
 #: includes/Core/Admin.php:229
 msgid "Footer Text Color"
 msgstr "フッターテキスト色"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:235
 #: includes/Core/Admin.php:238
 msgid "Footer Text"
 msgstr "フッターテキスト"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:241
 #: includes/Core/Admin.php:244
 msgid ""
 "If left blank, a standard copyright notice will be displayed. Set to a "
@@ -208,37 +180,30 @@ msgstr ""
 "空白のままにすると、標準の著作権表記が表示されます。この動作をオーバーライド"
 "するには、1つの領域に設定します。"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:249
 #: includes/Core/Admin.php:252
 msgid "Primary Button Color"
 msgstr "主ボタンの色"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:258
 #: includes/Core/Admin.php:261
 msgid "Primary Button Text Color"
 msgstr "プライマリボタンのテキストの色"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:267
 #: includes/Core/Admin.php:270
 msgid "Secondary Button Color"
 msgstr "2次ボタンの色"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:276
 #: includes/Core/Admin.php:279
 msgid "Secondary Button Text Color"
 msgstr "セカンダリボタンのテキストの色"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:285
 #: includes/Core/Admin.php:288
 msgid "Link Color"
 msgstr "リンクの色"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:294
 #: includes/Core/Admin.php:297
 msgid "Custom CSS"
 msgstr "カスタム CSS"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:300
 #: includes/Core/Admin.php:303
 msgid ""
 "Add Custom CSS rules to fully control the appearance of the checkout "
@@ -247,7 +212,6 @@ msgstr ""
 "カスタム CSS ルールを追加して、チェックアウトテンプレートの外観を完全に制御し"
 "ます。"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:335
 #: includes/Core/Admin.php:338
 msgid ""
 "We can't wait to help you with Checkout for WooCommerce! Please fill out the "
@@ -257,27 +221,22 @@ msgstr ""
 "WooCommerceのCheckoutでお手伝いします。以下のフォームに記入し、当社のサポート"
 "スタッフの1人が12〜24時間以内に返答します。 （平均）"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:339
 #: includes/Core/Admin.php:342
 msgid "Need help?"
 msgstr "ヘルプが必要ですか?"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:341
 #: includes/Core/Admin.php:344
 msgid "Excellent support is in our DNA."
 msgstr "優れたサポートが私たちの DNA です。"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:343
 #: includes/Core/Admin.php:346
 msgid "Many issues are addressed in our documentation:"
 msgstr "私たちのドキュメントには、多くの問題が取り上げられています。"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:344
 #: includes/Core/Admin.php:347
 msgid "View Documentation"
 msgstr "ドキュメンテーションを表示"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:346
 #: includes/Core/Admin.php:349
 msgid ""
 "If you need help for something not covered in our documentation, please "
@@ -286,12 +245,16 @@ msgstr ""
 "ドキュメントに記載されていないものについて助けが必要な場合は、このボタンをク"
 "リックしてサポートリクエストを提出してください："
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:347
 #: includes/Core/Admin.php:350
 msgid "Support Request"
 msgstr "サポートリクエスト"
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:465
+#: includes/Core/Admin.php:465
+msgid ""
+"Checkout for WooCommerce requires WooCommerce Stripe Payment Gateway 3.2.x. "
+"You currently have version "
+msgstr ""
+
 #: includes/Core/Admin.php:478
 #, php-format
 msgid ""
@@ -301,7 +264,6 @@ msgid ""
 "to restore full functionality."
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:468
 #: includes/Core/Admin.php:481
 msgid ""
 "Checkout for WooCommerce: Your license key is missing or invalid. Please "
@@ -309,139 +271,123 @@ msgid ""
 "www.checkoutwc.com/\">purchase a license</a> to restore full functionality."
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:473
 #: includes/Core/Admin.php:486
 msgid ""
 "Thank you for installing Checkout for WooCommerce! To get started, click on "
 "<strong>License</strong> below and activate your license key!"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:497
 #: includes/Core/Admin.php:510
 msgid "Settings"
 msgstr "設定"
 
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:59
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:60
-#: includes/Core/Form.php:58 includes/Core/Form.php:59
+#: includes/Core/Compatibility.php:142
+msgid "Or"
+msgstr "それか"
+
+#: includes/Core/Form.php:39 includes/Core/Form.php:40
 msgid "First name"
 msgstr "名"
 
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:76
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:77
-#: includes/Core/Form.php:75 includes/Core/Form.php:76
+#: includes/Core/Form.php:56 includes/Core/Form.php:57
 msgid "Last name"
 msgstr "氏"
 
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:92
-#: includes/Core/Form.php:91
+#: includes/Core/Form.php:72
 msgid "Address"
 msgstr "住所"
 
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:93
-#: includes/Core/Form.php:92
+#: includes/Core/Form.php:73
 msgid "Street address"
 msgstr "住所"
 
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:108
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:109
-#: includes/Core/Form.php:107 includes/Core/Form.php:108
+#: includes/Core/Form.php:88 includes/Core/Form.php:89
 msgid "Apt, suite, etc. (optional)"
 msgstr "アパートメント、スイートなど（オプション）"
 
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:121
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:122
-#: includes/Core/Form.php:120 includes/Core/Form.php:121
+#: includes/Core/Form.php:101 includes/Core/Form.php:102
 msgid "Company name"
 msgstr "事業所名"
 
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:134
-#: includes/Core/Form.php:133
+#: includes/Core/Form.php:114
 msgid "Country"
 msgstr "国"
 
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:147
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:148
-#: includes/Core/Form.php:146 includes/Core/Form.php:147
+#: includes/Core/Form.php:127 includes/Core/Form.php:128
 msgid "Postcode / ZIP"
 msgstr "郵便番号"
 
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:168
-#: includes/Core/Form.php:167
+#: includes/Core/Form.php:148 includes/Core/Form.php:149
 msgid "State / County"
 msgstr "都道府県 (State / Prefecture)"
 
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:187
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:188
-#: includes/Core/Form.php:186 includes/Core/Form.php:187
+#: includes/Core/Form.php:168 includes/Core/Form.php:169
 msgid "Town / City"
 msgstr "市区町村 (City)"
 
-#: dist/checkout-for-woocommerce/includes/Core/Redirect.php:30
 #: includes/Core/Redirect.php:30
 msgid "Checkout is not available whilst your cart is empty."
 msgstr "カートが空の間、チェックアウトは利用できません。"
 
-#: dist/checkout-for-woocommerce/includes/Main.php:354 includes/Main.php:354
+#: includes/Main.php:354
 msgid "Select an option&hellip;"
 msgstr "オプションを選択&hellip;"
 
-#: dist/checkout-for-woocommerce/includes/Main.php:355 includes/Main.php:355
+#: includes/Main.php:355
 msgctxt "enhanced select"
 msgid "No matches found"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Main.php:356 includes/Main.php:356
+#: includes/Main.php:356
 msgctxt "enhanced select"
 msgid "Loading failed"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Main.php:357 includes/Main.php:357
+#: includes/Main.php:357
 msgctxt "enhanced select"
 msgid "Please enter 1 or more characters"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Main.php:358 includes/Main.php:358
+#: includes/Main.php:358
 msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Main.php:359 includes/Main.php:359
+#: includes/Main.php:359
 msgctxt "enhanced select"
 msgid "Please delete 1 character"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Main.php:360 includes/Main.php:360
+#: includes/Main.php:360
 msgctxt "enhanced select"
 msgid "Please delete %qty% characters"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Main.php:361 includes/Main.php:361
+#: includes/Main.php:361
 msgctxt "enhanced select"
 msgid "You can only select 1 item"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Main.php:362 includes/Main.php:362
+#: includes/Main.php:362
 msgctxt "enhanced select"
 msgid "You can only select %qty% items"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Main.php:363 includes/Main.php:363
+#: includes/Main.php:363
 msgctxt "enhanced select"
 msgid "Loading more results&hellip;"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Main.php:364 includes/Main.php:364
+#: includes/Main.php:364
 msgctxt "enhanced select"
 msgid "Searching&hellip;"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Main.php:370 includes/Main.php:370
+#: includes/Main.php:370
 msgctxt "checkout-wc"
 msgid "Apt, suite, etc. (optional)"
 msgstr "アパートメント、スイートなど（オプション）"
 
-#: dist/checkout-for-woocommerce/includes/Utilities/Activator.php:47
 #: includes/Utilities/Activator.php:47
 msgid ""
 "Activation failed: Please activate WooCommerce in order to use Checkout for "
@@ -450,40 +396,30 @@ msgstr ""
 "アクティベーションに失敗しました: WooCommerce のためのチェックアウトを使用す"
 "るために WooCommerce をアクティブにしてください"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:26
 #: templates/content/template.php:26
 msgid "Cart"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:29
-#: dist/checkout-for-woocommerce/templates/content/template.php:51
 #: templates/content/template.php:29 templates/content/template.php:51
 msgid "Customer information"
 msgstr "顧客情報"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:33
-#: dist/checkout-for-woocommerce/templates/content/template.php:184
 #: templates/content/template.php:33 templates/content/template.php:184
 msgid "Shipping method"
 msgstr "発送方法"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:37
-#: dist/checkout-for-woocommerce/templates/content/template.php:216
 #: templates/content/template.php:37 templates/content/template.php:216
 msgid "Payment method"
 msgstr "お支払方法"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:58
 #: templates/content/template.php:58
 msgid "Already have an account with us?"
 msgstr "既に私たちと口座をお持ちですか？"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:62
 #: templates/content/template.php:62
 msgid "Log in."
 msgstr "ログインして"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:67
 #: templates/content/template.php:67
 msgid ""
 "If you do not have an account, the information provided here will be used to "
@@ -492,81 +428,65 @@ msgstr ""
 "アカウントを持っていない場合、ここで提供される情報はチェック アウト時のアカウ"
 "ントを作成する使用されます。"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:75
 #: templates/content/template.php:75
 msgid "Email"
 msgstr "メール"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:82
 #: templates/content/template.php:82
 msgid "Password"
 msgstr "パスワード"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:87
 #: templates/content/template.php:87
 msgid "Login"
 msgstr "ログイン"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:90
 #: templates/content/template.php:90
 msgid "Login is optional. You may continue with your order below."
 msgstr "ログインはオプションです。以下のご注文の続行することがあります。"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:105
-#, php-format
-msgid "Create a %s shopping account."
+#: templates/content/template.php:105
+#, fuzzy, php-format
+#| msgid "Create a %s shopping account."
+msgid "Create %s shopping account."
 msgstr "ショッピング アカウント %s を作成します。"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:112
 #: templates/content/template.php:112
 #, php-format
 msgid "Welcome back, %s"
 msgstr "%sさん おかえりなさい！"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:125
 #: templates/content/template.php:125
 msgid "Billing address"
 msgstr "お客様情報"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:127
-#: dist/checkout-for-woocommerce/templates/content/template.php:167
 #: templates/content/template.php:127 templates/content/template.php:167
 msgid "Shipping address"
 msgstr "お届け先住所"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:149
 #: templates/content/template.php:149
 msgid "Return to cart"
 msgstr "戻る"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:152
 #: templates/content/template.php:152
 msgid "Continue to shipping method"
 msgstr "配送方法に進む"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:154
-#: dist/checkout-for-woocommerce/templates/content/template.php:202
 #: templates/content/template.php:154 templates/content/template.php:202
 msgid "Continue to payment method"
 msgstr "お支払い方法に進みます"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:175
 #: templates/content/template.php:175
 msgid "Edit shipping address"
 msgstr "配送先住所を編集する"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:186
 #: templates/content/template.php:186
 msgid "Select a shipping method:"
 msgstr "発送方法を選択してください。"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:199
-#: dist/checkout-for-woocommerce/templates/content/template.php:277
 #: templates/content/template.php:199 templates/content/template.php:277
 msgid "Return to customer information"
 msgstr "顧客情報に戻る"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:223
 #: templates/content/template.php:223
 msgid ""
 "All transactions are secure and encrypted. Credit card information is never "
@@ -575,67 +495,54 @@ msgstr ""
 "すべてのトランザクションは、安全で暗号化されたです。クレジット カード情報は、"
 "当社のサーバーに決して保存されます。"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:232
 #: templates/content/template.php:232
 msgid "Your order is free. No payment is required."
 msgstr "あなたの注文は無料です。支払いは必要ありません。"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:245
 #: templates/content/template.php:245
 msgid "Same as shipping address"
 msgstr "配送先住所と同じ"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:253
 #: templates/content/template.php:253
 msgid "Use a different billing address"
 msgstr "異なる請求先住所を使用します。"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:275
 #: templates/content/template.php:275
 msgid "Return to shipping information"
 msgstr "配送情報に戻る"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:281
 #: templates/content/template.php:281
 msgid "Complete Order"
 msgstr "完全な注文"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:298
 #: templates/content/template.php:298
 msgid "Show order summary"
 msgstr "注文の要約を表示する"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:319
 #: templates/content/template.php:319
 msgid "Enter Promo Code"
 msgstr "プロモーションコードを入力"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:324
 #: templates/content/template.php:324
 msgid "Apply"
 msgstr "許可"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:334
 #: templates/content/template.php:334
 msgid "Subtotal"
 msgstr "小計"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:346
 #: templates/content/template.php:346
 msgid "Shipping"
 msgstr "送料"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:359
 #: templates/content/template.php:359
 msgid "Taxes"
 msgstr "税金"
 
-#: dist/checkout-for-woocommerce/templates/content/template.php:366
 #: templates/content/template.php:366
 msgid "Total"
 msgstr "合計"
 
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
 #, php-format
 msgid ""
@@ -645,7 +552,6 @@ msgstr ""
 "利用可能な %1$s の新しいバージョンがあります。<a target=\"_blank\" class="
 "\"thickbox\" href=\"%2$s\">バージョン %3$s の詳細を表示</a>します。"
 
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
 #, php-format
 msgid ""
@@ -657,14 +563,11 @@ msgstr ""
 "\"thickbox\" href=\"%2$s\">%3$s バージョンの詳細を表示</a> か <a href=\"%4$s"
 "\">今すぐ更新</a>。"
 
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "You do not have permission to install plugin updates"
 msgstr "プラグインを更新する権限がありません"
 
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
 #, php-format
 msgid ""
@@ -673,7 +576,6 @@ msgstr ""
 "利用可能な%1$sの新しいバージョンがあります。 %2$sViewバージョン%3$sの詳"
 "細%4$s。"
 
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
 #, php-format
 msgid ""
@@ -683,22 +585,9 @@ msgstr ""
 "利用可能な %1$s の新しいバージョンがあります。%2$sバージョン %3$sの詳細%4$sを"
 "確認するか、%5$s今すぐ更新%6$sしてください。"
 
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "Error"
 msgstr "エラー"
-
-#: includes/Core/Admin.php:465
-msgid ""
-"Checkout for WooCommerce requires WooCommerce Stripe Payment Gateway 3.2.x. "
-"You currently have version "
-msgstr ""
-
-#: templates/content/template.php:105
-#, fuzzy, php-format
-#| msgid "Create a %s shopping account."
-msgid "Create %s shopping account."
-msgstr "ショッピング アカウント %s を作成します。"
 
 #. Plugin URI of the plugin/theme
 msgid "https://www.CheckoutWC.com"
@@ -715,6 +604,9 @@ msgstr "Objectiv"
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
 msgstr "https://objectiv.co"
+
+#~ msgid "Create a %s shopping account."
+#~ msgstr "ショッピング アカウント %s を作成します。"
 
 #~ msgid ""
 #~ "Shipping costs will be calculated once you have provided your address."

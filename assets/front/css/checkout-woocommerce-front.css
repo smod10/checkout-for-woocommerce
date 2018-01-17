@@ -713,6 +713,53 @@ body {
 #paytrace_payment_choices {
   font-size: 0.825em; }
 
+.wcppec-checkout-buttons {
+  text-align: center;
+  margin-bottom: 0.5em; }
+
+/* Functionally the row */
+.fields-wrap {
+  margin: 0 0 1.5em; }
+  .fields-wrap br {
+    display: none; }
+  .fields-wrap input[type=text], .fields-wrap textarea {
+    width: 100%; }
+  .fields-wrap span {
+    display: block;
+    width: 100%;
+    font-weight: 600;
+    margin-bottom: 0.5em; }
+    .fields-wrap span.description {
+      margin-top: 1em;
+      font-weight: normal;
+      font-size: 14px; }
+    .fields-wrap span abbr {
+      color: red;
+      margin-left: 0.25em; }
+  .fields-wrap.tc_checkbox_field label, .fields-wrap.tc_radio_field label {
+    display: block;
+    margin-bottom: 0.5em; }
+  .fields-wrap.tc_checkbox_field input, .fields-wrap.tc_radio_field input {
+    margin-right: 0.5em; }
+
+.tickera-input-field {
+  padding: 0.7em;
+  border: 1px solid #ddd;
+  border-radius: 4px; }
+
+.tickera_owner_info h2 {
+  font-size: 1.25em;
+  color: #333;
+  font-weight: 300;
+  margin-bottom: 1em; }
+
+.tickera_owner_info h5 {
+  font-size: 1em;
+  color: #333;
+  font-weight: 300;
+  margin-top: 0;
+  margin-bottom: 1em; }
+
 #cfw-header {
   background: #222; }
 
@@ -1285,6 +1332,19 @@ label[for="card-element"] {
 #cfw-main-container .apple-pay-button-wrapper {
   text-align: center;
   margin-bottom: 10px; }
+
+.pay-button-separator {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em; }
+  .pay-button-separator:before, .pay-button-separator:after {
+    content: '';
+    display: inline-block;
+    height: 1px;
+    background: #e6e6e6;
+    flex-grow: 1; }
+  .pay-button-separator span {
+    padding: 0 1em; }
 
 @media (max-width: 767px) {
   .cfw-prev-tab {

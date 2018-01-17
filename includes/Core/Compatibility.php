@@ -32,6 +32,13 @@ class Compatibility {
 
         // Add Stripe apple pay (3.x)
         add_action('wp', array($this, 'add_stripe_apple_pay') );
+
+        // Tickera Attendee Forms
+        global $tc_woocommerce_bridge;
+
+        if ( ! empty($tc_woocommerce_bridge) ) {
+	        add_action('cfw_checkout_before_payment_method_terms_checkbox', array($tc_woocommerce_bridge, 'add_standard_tc_fields_to_checkout'));
+        }
 	}
 
 	function mixpanel_fixes() {

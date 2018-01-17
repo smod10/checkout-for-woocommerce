@@ -1,0 +1,38 @@
+/* Functionally the row */
+.fields-wrap {
+  margin: 0 0 1.5em;
+
+  br {
+    display: none;
+  }
+
+  span {
+    display: block;
+    width: 100%;
+    font-weight: 600;
+    margin-bottom: 0.5em;
+
+    &.description {
+      margin-top: 1em;
+      font-weight: normal;
+      font-size: 14px;
+    }
+  }
+  
+  &.tc_checkbox_field, &.tc_radio_field {
+    label {
+      display: block;
+      margin-bottom: 0.5em;
+    }
+
+    input {
+      margin-right: 0.5em;
+    }
+  }
+}
+
+.tickera-input-field {
+  padding: 0.7em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

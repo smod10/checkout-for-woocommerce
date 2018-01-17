@@ -1,6 +1,6 @@
 {
   "name": "checkout-for-woocommerce",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "### Development installation instructions",
   "main": "index.js",
   "scripts": {

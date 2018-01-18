@@ -1344,7 +1344,8 @@ label[for="card-element"] {
     background: #e6e6e6;
     flex-grow: 1; }
   .pay-button-separator span {
-    padding: 0 1em; }
+    padding: 0 1em;
+    text-transform: none; }
 
 @media (max-width: 767px) {
   .cfw-prev-tab {

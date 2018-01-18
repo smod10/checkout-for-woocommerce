@@ -139,16 +139,22 @@ class Compatibility {
             }
 
 		    if ( ! has_action('cfw_checkout_before_customer_info_tab', array($this, 'add_separator') ) ) {
-		        add_action('cfw_checkout_before_customer_info_tab', array($this, 'add_separator'), 10);
+		        add_action('cfw_checkout_before_customer_info_tab', array($this, 'add_apple_pay_separator'), 10);
             }
 	    }
     }
 
-    function add_separator() {
+    function add_separator( $class = '' ) {
 	    ?>
-        <p class="pay-button-separator">
-            <span><?php esc_html_e( 'Or', 'checkout-wc' ); ?></span>
-        </p>
+        <div class="<?php echo $class; ?>">
+            <p class="pay-button-separator">
+                <span><?php esc_html_e( 'Or', 'checkout-wc' ); ?></span>
+            </p>
+        </div>
         <?php
+    }
+
+    function add_apple_pay_separator() {
+	    $this->add_separator('apple-pay-button-checkout-separator');
     }
 }

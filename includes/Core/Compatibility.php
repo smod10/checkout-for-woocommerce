@@ -39,6 +39,9 @@ class Compatibility {
         if ( ! empty($tc_woocommerce_bridge) ) {
 	        add_action('cfw_checkout_before_payment_method_terms_checkbox', array($tc_woocommerce_bridge, 'add_standard_tc_fields_to_checkout'));
         }
+
+        // WooCommerce add-to-cart URL parameter redirection
+        add_action('wp_loaded', array($this, 'add_to_cart_redirect'), 0 );
 	}
 
 	function mixpanel_fixes() {
@@ -156,5 +159,12 @@ class Compatibility {
 
     function add_apple_pay_separator() {
 	    $this->add_separator('apple-pay-button-checkout-separator');
+    }
+
+    function add_to_cart_redirect() {
+	    add_filter('woocommerce_add_to_cart_redirect', function($url) {
+		    $url = wc_get_checkout_url();
+		    return $url;
+	    } );
     }
 }

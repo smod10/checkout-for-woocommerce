@@ -37,9 +37,6 @@ class Redirect {
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());
 
-			// Show non-cart errors
-            wc_print_notices();
-
 			// Check cart contents for errors
 			do_action( 'woocommerce_check_cart_items' );
 

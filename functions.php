@@ -439,7 +439,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 		        $item_thumb_url = wp_get_attachment_url( $item_data->get_image_id() );
 		        $item_quantity  = $cart_item['quantity'];
-		        $item_title     = $item_data->get_title();
+		        $item_title     = $item_data->get_name();
 		        $item_url       = get_permalink( $cart_item['product_id'] );
 		        $item_subtotal  = $cart->get_product_subtotal( $_product, $cart_item['quantity'] );
 		        /**
@@ -464,18 +464,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                             <a href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
                             <strong><?php echo $item_quantity; ?></strong>
                         </div>
-                        <?php if($cart_item['variation']): ?>
-                            <?php foreach($cart_item['variation'] as $key => $variation): ?>
-                                <div class="cfw-cart-variation">
-                                <?php
-                                    // Remove attribute prefix and replace underscores with spaces (if any). Then upper case it
-                                    $name = ucwords(str_replace("_", " ", str_replace("attribute_", "", $key)));
-                                ?>
-                                    <strong><?php echo $name; ?>: </strong>
-                                    <span><?php echo $variation; ?></span>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
                     </div>
                     <div class="cfw-cart-item-subtotal cfw-cart-item-col <?php echo "${column_base}${columns["subtotal"]}"; ?>">
 				        <?php echo $item_subtotal; ?>

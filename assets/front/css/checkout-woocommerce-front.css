@@ -809,6 +809,9 @@ body {
   margin-bottom: 30px;
   padding: 20px; }
 
+.woocommerce-message {
+  display: none; }
+
 .cfw-payment-false .cfw-payment-method-information-wrap, .cfw-payment-false #cfw-shipping-same-billing {
   display: none; }
 

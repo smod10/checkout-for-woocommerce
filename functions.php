@@ -491,4 +491,14 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	    $path_manager     = $Main->get_path_manager();
 	    $template_manager->load_templates( $path_manager->get_template_information( array("content"), "{$template_part}.php" ), $global_template_parameters );
     }
+
+    function cfw_address_class_wrap( $shipping = true ) {
+	    $result = "woocommerce-billing-fields";
+
+	    if ( $shipping === true ) {
+	        $result = "woocommerce-shipping-fields";
+        }
+
+        echo $result;
+    }
 }

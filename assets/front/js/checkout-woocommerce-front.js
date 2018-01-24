@@ -3149,7 +3149,7 @@ var TabContainer = /** @class */ (function (_super) {
      */
     TabContainer.prototype.setCompleteOrderHandlers = function () {
         var _this = this;
-        var completeOrderButton = new Element_1.Element($("#cfw-complete-order-button"));
+        var completeOrderButton = new Element_1.Element($("#place_order"));
         completeOrderButton.jel.on('click', function () { return _this.completeOrderClickListener(Main_1.Main.instance.ajaxInfo); });
     };
     /**

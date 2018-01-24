@@ -129,7 +129,7 @@
                                     ?>
                                 </h3>
 
-                                <div class="cfw-shipping-info-container cfw-parsley-shipping-details">
+                                <div class="cfw-shipping-info-container cfw-parsley-shipping-details <?php cfw_address_class_wrap( WC()->cart->needs_shipping_address() ); ?>">
                                     <?php
                                         if ( ! WC()->cart->needs_shipping_address() ) {
                                             cfw_get_billing_checkout_fields($checkout);
@@ -254,7 +254,7 @@
                                                 </label>
                                             </div>
                                             <div class="cfw-radio-reveal-content-wrap" style="display: none">
-                                                <div id="cfw-billing-fields-container" class="cfw-radio-reveal-content">
+                                                <div id="cfw-billing-fields-container" class="cfw-radio-reveal-content <?php cfw_address_class_wrap( false ); ?>">
                                                     <?php cfw_get_billing_checkout_fields($checkout); ?>
                                                 </div>
                                             </div>

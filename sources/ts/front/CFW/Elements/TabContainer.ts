@@ -1095,7 +1095,7 @@ export class TabContainer extends Element {
      *
      */
     setCompleteOrderHandlers(): void {
-        let completeOrderButton: Element = new Element($("#cfw-complete-order-button"));
+        let completeOrderButton: Element = new Element($("#place_order"));
 
         completeOrderButton.jel.on('click', () => this.completeOrderClickListener(Main.instance.ajaxInfo));
     }

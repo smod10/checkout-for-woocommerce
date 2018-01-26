@@ -42,6 +42,11 @@ class Compatibility {
 
         // WooCommerce add-to-cart URL parameter redirection
         add_action('wp_loaded', array($this, 'add_to_cart_redirect'), 0 );
+
+        // Checkout Address Autocomplete
+        if ( function_exists('ecr_addrac_scripts') ) {
+	        add_action( 'cfw_wp_head', 'ecr_addrac_scripts' );
+        }
 	}
 
 	function mixpanel_fixes() {
@@ -87,6 +92,8 @@ class Compatibility {
 	    $scripts[] = 'wc-checkout-add-ons-frontend';
 	    $scripts[] = 'selectWoo';
 	    $scripts[] = 'paytrace-js';
+	    $scripts[] = 'google-autocomplete';
+	    $scripts[] = 'rp-autocomplete';
 
 	    return $scripts;
     }

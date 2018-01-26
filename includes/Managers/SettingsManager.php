@@ -4,7 +4,7 @@
  *
  * @link objectiv.co
  * @since 1.0.0
- * @package Objectiv\Plugins\Checkout\Core\Base
+ * @package Objectiv\Plugins\Checkout\Managers
  * @author Brandon Tassone <brandontassone@gmail.com>
  */
 

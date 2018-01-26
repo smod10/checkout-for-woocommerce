@@ -2,19 +2,22 @@
 
 namespace Objectiv\Plugins\Checkout;
 
+// Base package classes
+use Objectiv\BoosterSeat\Language\i18n;
+use Objectiv\BoosterSeat\Utilities\Activator;
+use Objectiv\BoosterSeat\Utilities\Deactivator;
+use Objectiv\BoosterSeat\Base\Singleton;
+
+// Checkout for WooCommerce
 use Objectiv\Plugins\Checkout\Action\ApplyCouponAction;
 use Objectiv\Plugins\Checkout\Action\CompleteOrderAction;
 use Objectiv\Plugins\Checkout\Action\UpdateCheckoutAction;
-use Objectiv\Plugins\Checkout\Language\i18n;
-use Objectiv\Plugins\Checkout\Utilities\Activator;
-use Objectiv\Plugins\Checkout\Utilities\Deactivator;
-use Objectiv\Plugins\Checkout\Core\Base\Singleton;
 use Objectiv\Plugins\Checkout\Core\Redirect;
 use Objectiv\Plugins\Checkout\Core\Loader;
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
-use Objectiv\Plugins\Checkout\Managers\PathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 use Objectiv\Plugins\Checkout\Managers\AjaxManager;
+use Objectiv\Plugins\Checkout\Managers\CFWPathManager;
 use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
 use Objectiv\Plugins\Checkout\Action\UpdateShippingMethodAction;
@@ -57,9 +60,9 @@ class Main extends Singleton {
 	private $template_manager;
 
 	/**
-	 * @since 1.0.0
+	 * @since 1.1.4
 	 * @access private
-	 * @var PathManager $path_manager Handles the path information for the plugin
+	 * @var CFWPathManager $path_manager Handles the path information for the plugin
 	 */
 	private $path_manager;
 
@@ -116,6 +119,24 @@ class Main extends Singleton {
 	private $updater;
 
 	/**
+	 * Settings class for accessing user defined settings.
+	 *
+	 * @since 1.1.4
+	 * @access private
+	 * @var Activator $activator Handles activation
+	 */
+	private $activator;
+
+	/**
+	 * Settings class for accessing user defined settings.
+	 *
+	 * @since 1.1.4
+	 * @access private
+	 * @var Deactivator $deactivator Handles deactivation
+	 */
+	private $deactivator;
+
+	/**
 	 * Main constructor.
 	 */
 	public function __construct() {
@@ -149,9 +170,9 @@ class Main extends Singleton {
 	/**
 	 * Returns the path manager
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.4
 	 * @access public
-	 * @return PathManager
+	 * @return CFWPathManager
 	 */
 	public function get_path_manager() {
 		return $this->path_manager;
@@ -224,6 +245,28 @@ class Main extends Singleton {
 	}
 
 	/**
+	 * Get the updater object
+	 *
+	 * @since 1.1.4
+	 * @access public
+	 * @return Activator The class handling activation of the plugin
+	 */
+	public function get_activator() {
+		return $this->activator;
+	}
+
+	/**
+	 * Get the updater object
+	 *
+	 * @since 1.1.4
+	 * @access public
+	 * @return Deactivator The class handling deactivation of the plugin
+	 */
+	public function get_deactivator() {
+		return $this->deactivator;
+	}
+
+	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
 	 * @since 1.0.0
@@ -290,10 +333,16 @@ class Main extends Singleton {
 		$this->loader = new Loader();
 
 		// Set up localization
-		$this->i18n = new i18n();
+		$this->i18n = new i18n('checkout-wc');
+
+		// Activator
+		$this->activator = new Activator($this->get_activator_checks());
+
+		// Deactivator
+		$this->deactivator = new Deactivator();
 
 		// The path manager for the plugin
-		$this->path_manager = new PathManager(plugin_dir_path($file), plugin_dir_url($file), $file);
+		$this->path_manager = new CFWPathManager(plugin_dir_path($file), plugin_dir_url($file), $file);
 
 		// Create the template manager
 		$this->template_manager = new TemplateManager();
@@ -306,6 +355,16 @@ class Main extends Singleton {
 
 		// License updater
 		$this->updater = new \CGD_EDDSL_Magic("_cfw_licensing", false, CFW_UPDATE_URL, $this->get_version(), CFW_NAME, "Objectiv", $file, $theme = false);
+	}
+
+	public function get_activator_checks() {
+		return array(
+			"woocommerce/woocommerce.php" => ["checkout-woocommerce_activation", array(
+				"success"           => false,
+				"class"             => "notice error",
+				"message"           => __("Activation failed: Please activate WooCommerce in order to use Checkout for WooCommerce", $this->get_i18n()->get_text_domain())
+			)]
+		);
 	}
 
 	/**
@@ -419,7 +478,7 @@ class Main extends Singleton {
 
 		// Handle the Activation notices
 		$this->loader->add_action('admin_notices', function() {
-			Activator::activate_admin_notice($this->path_manager);
+			$this->get_activator()->activate_admin_notice($this->get_path_manager());
 		});
 
 		// Setup the Checkout redirect
@@ -447,10 +506,10 @@ class Main extends Singleton {
 	 * This action is documented in includes/class-midas-activator.php
 	 */
 	public static function activation() {
-		$success = Activator::activate();
-
 		// Get main
 		$main = Main::instance();
+
+		$errors = $main->get_activator()->activate();
 
 		// Init settings
 		$main->settings_manager->add_setting('enable', 'no');
@@ -467,7 +526,8 @@ class Main extends Singleton {
 		// Updater license status cron
 		$main->updater->set_license_check_cron();
 
-		if ( $success ) {
+		if ( !$errors ) {
+
 			// Welcome screen transient
 			set_transient( '_cfw_welcome_screen_activation_redirect', true, 30 );
 		}
@@ -478,10 +538,10 @@ class Main extends Singleton {
 	 * This action is documented in includes/class-midas-deactivator.php
 	 */
 	public static function deactivation() {
-		Deactivator::deactivate();
-
 		// Get main
 		$main = Main::instance();
+
+		$main->get_deactivator()->deactivate();
 
 		// Remove cron for license update check
 		$main->updater->unset_license_check_cron();

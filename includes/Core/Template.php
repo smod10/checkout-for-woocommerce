@@ -2,7 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout\Core;
 
-use Objectiv\Plugins\Checkout\Core\Base\Tracked;
+use Objectiv\BoosterSeat\Base\Tracked;
 
 /**
  * Template handler for associated template piece. Typically there should only be 3 of these in total (header, footer,

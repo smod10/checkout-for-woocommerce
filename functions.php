@@ -382,32 +382,11 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 								$field_html = ob_get_clean();
 
 								/**
-								 * Garlic Exclusions and Gateway Compatability Patches
+								 * Gateway Compatibility Patches
 								 */
-								// PayPal Pro
-								$field_html = str_ireplace('name="paypal_pro-card-number"', 'name="paypal_pro-card-number" data-persist="false"', $field_html);
-								$field_html = str_ireplace('name="paypal_pro-card-cvc"', 'name="paypal_pro-card-cvc" data-persist="false"', $field_html);
-
-								// Authorize.net
-								$field_html = str_ireplace('name="wc-authorize-net-aim-account-number"', 'name="wc-authorize-net-aim-account-number" data-persist="false"', $field_html);
-								$field_html = str_ireplace('name="wc-authorize-net-aim-csc"', 'name="wc-authorize-net-aim-csc" data-persist="false"', $field_html);
-
 								// Expiration field fix
 								$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-expiry', 'js-sv-wc-payment-gateway-credit-card-form-expiry  wc-credit-card-form-card-expiry', $field_html);
 								$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-account-number', 'js-sv-wc-payment-gateway-credit-card-form-account-number  wc-credit-card-form-card-number', $field_html);
-
-								// PayFlow Pro
-								$field_html = str_ireplace('name="paypal_pro_payflow-card-number"', 'name="paypal_pro_payflow-card-number" data-persist="false"', $field_html);
-								$field_html = str_ireplace('name="paypal_pro_payflow-card-cvc"', 'name="paypal_pro_payflow-card-cvc" data-persist="false"', $field_html);
-
-								// PayTrace
-								$field_html = str_ireplace('name="paytrace-card-number"', 'name="paytrace-card-number" data-persist="false"', $field_html);
-								$field_html = str_ireplace('name="paytrace-card-cvc"', 'name="paytrace-card-cvc" data-persist="false"', $field_html);
-
-								// Stripe
-								$field_html = str_ireplace('id="stripe-card-number"', 'id="stripe-card-number" data-persist="false"', $field_html);
-								$field_html = str_ireplace('id="stripe-card-expiry"', 'id="stripe-card-expiry" data-persist="false"', $field_html);
-								$field_html = str_ireplace('id="stripe-card-cvc"', 'id="stripe-card-cvc" data-persist="false"', $field_html);
 
                                 // Credit Card Field Placeholders
                                 $field_html = str_ireplace('•••• •••• •••• ••••', 'Card Number', $field_html);

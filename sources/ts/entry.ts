@@ -17,6 +17,8 @@ import { Cart }                             from "./front/CFW/Elements/Cart";
  */
 
 let w: any = window;
+(<any>window).$ = ($ === undefined) ? jQuery : $;
+
 w.addEventListener("cfw-initialize", (eventData) => {
     let data = eventData.detail;
 

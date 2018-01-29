@@ -60,7 +60,7 @@ export class CompleteOrderAction extends Action {
                 this.addStripeTokenToData(response.id);
                 this.needsStripeToken = false;
 
-                $("#checkout").off('form:validate');
+                $("form.checkout").off('form:validate');
 
                 this.load();
             },
@@ -118,7 +118,7 @@ export class CompleteOrderAction extends Action {
         } else {
             this.needsStripeToken = false;
 
-            $("#checkout").off('form:validate');
+            $("form.checkout").off('form:validate');
 
             this.load();
         }

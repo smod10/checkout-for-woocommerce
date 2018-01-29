@@ -87,7 +87,7 @@ var Main = /** @class */ (function () {
      */
     function Main(tabContainer, ajaxInfo, cart, settings) {
         Main.instance = this;
-        $("#checkout").garlic({ destroy: false });
+        $("form.checkout").garlic({ destroy: false });
         this.tabContainer = tabContainer;
         this.ajaxInfo = ajaxInfo;
         this.cart = cart;
@@ -687,7 +687,7 @@ var ValidationService = /** @class */ (function () {
      */
     ValidationService.validate = function (section) {
         var validated;
-        var checkoutForm = $("#checkout");
+        var checkoutForm = $("form.checkout");
         switch (section) {
             case EValidationSections.SHIPPING:
                 validated = checkoutForm.parsley().validate("shipping");
@@ -1347,7 +1347,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
                 _this.stripeResponse = response;
                 _this.addStripeTokenToData(response.id);
                 _this.needsStripeToken = false;
-                $("#checkout").off('form:validate');
+                $("form.checkout").off('form:validate');
                 _this.load();
             },
             noData: function (response) {
@@ -1397,7 +1397,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
         }
         else {
             this.needsStripeToken = false;
-            $("#checkout").off('form:validate');
+            $("form.checkout").off('form:validate');
             this.load();
         }
     };
@@ -2650,7 +2650,7 @@ var TabContainer = /** @class */ (function (_super) {
             _this.layoutDefaultLabelsAndRequirements(target_country, locale_data, info_type, wc_address_i18n_params.add2_text);
             $("#" + info_type + "_state").parsley().reset();
             // Re-register all the elements
-            $("#checkout").parsley();
+            $("form.checkout").parsley();
             $(document.body).trigger("update_checkout");
         };
         var locale_data = JSON.parse(wc_address_i18n_params.locale);
@@ -2931,7 +2931,7 @@ var TabContainer = /** @class */ (function (_super) {
             .attr("data-parsley-group", group)
             .attr("data-parsley-required", 'true');
         // Re-register all the elements
-        $("#checkout").parsley();
+        $("form.checkout").parsley();
         tab_section.inputLabelWraps.forEach(function (input_label_wrap, index) {
             if (input_label_wrap.jel.is(state_input_wrap)) {
                 tab_section.inputLabelWraps.splice(index, 1);
@@ -3152,11 +3152,11 @@ var TabContainer = /** @class */ (function (_super) {
     TabContainer.prototype.setCompleteOrderHandlers = function () {
         var _this = this;
         var completeOrderButton = new Element_1.Element($("#place_order"));
-        $("#checkout").on('submit', function (e) {
+        $("form.checkout").on('submit', function (e) {
             _this.completeOrderClickListener(Main_1.Main.instance.ajaxInfo);
             e.preventDefault();
         });
-        completeOrderButton.jel.on('click', function () { return $("#checkout").trigger('submit'); });
+        completeOrderButton.jel.on('click', function () { return $("form.checkout").trigger('submit'); });
     };
     /**
      *

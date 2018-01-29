@@ -501,7 +501,7 @@ export class TabContainer extends Element {
             $(`#${info_type}_state`).parsley().reset();
 
             // Re-register all the elements
-            $("#checkout").parsley();
+            $("form.checkout").parsley();
 
             $(document.body).trigger("update_checkout");
         };
@@ -837,7 +837,7 @@ export class TabContainer extends Element {
             .attr("data-parsley-required", 'true');
 
         // Re-register all the elements
-        $("#checkout").parsley();
+        $("form.checkout").parsley();
 
         tab_section.inputLabelWraps.forEach((input_label_wrap, index) => {
             if(input_label_wrap.jel.is(state_input_wrap)) {
@@ -1097,12 +1097,12 @@ export class TabContainer extends Element {
     setCompleteOrderHandlers(): void {
         let completeOrderButton: Element = new Element($("#place_order"));
 
-        $("#checkout").on('submit', (e) => {
+        $("form.checkout").on('submit', (e) => {
             this.completeOrderClickListener(Main.instance.ajaxInfo);
             e.preventDefault();
         });
 
-        completeOrderButton.jel.on('click', () => $("#checkout").trigger('submit'));
+        completeOrderButton.jel.on('click', () => $("form.checkout").trigger('submit'));
     }
 
     /**

@@ -78,7 +78,7 @@ export class Main {
 	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
 		Main.instance = this;
 
-		$("#checkout").garlic({destroy: false});
+		$("form.checkout").garlic({destroy: false});
 
 		this.tabContainer = tabContainer;
 		this.ajaxInfo = ajaxInfo;

@@ -117,16 +117,16 @@
         },
         {
             "name": "objectivco/booster-seat",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Objectivco/booster-seat.git",
-                "reference": "e365f8c87f2659e342788dcc860543ead8e6e2ae"
+                "reference": "dbccd0b28775c2303f42fff43b6b1db0d01b3746"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Objectivco/booster-seat/zipball/e365f8c87f2659e342788dcc860543ead8e6e2ae",
-                "reference": "e365f8c87f2659e342788dcc860543ead8e6e2ae",
+                "url": "https://api.github.com/repos/Objectivco/booster-seat/zipball/dbccd0b28775c2303f42fff43b6b1db0d01b3746",
+                "reference": "dbccd0b28775c2303f42fff43b6b1db0d01b3746",
                 "shasum": ""
             },
             "require": {
@@ -154,7 +154,7 @@
                 "package",
                 "template"
             ],
-            "time": "2018-01-26T17:08:44+00:00"
+            "time": "2018-01-29T16:55:44+00:00"
         },
         {
             "name": "objectivco/cgd_eddsl_magic",

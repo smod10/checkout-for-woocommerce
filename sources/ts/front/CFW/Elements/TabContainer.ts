@@ -1097,8 +1097,9 @@ export class TabContainer extends Element {
     setCompleteOrderHandlers(): void {
         let completeOrderButton: Element = new Element($("#place_order"));
 
-        $("#checkout").on('submit', () => {
+        $("#checkout").on('submit', (e) => {
             this.completeOrderClickListener(Main.instance.ajaxInfo);
+            e.preventDefault();
         });
 
         completeOrderButton.jel.on('click', () => $("#checkout").trigger('submit'));

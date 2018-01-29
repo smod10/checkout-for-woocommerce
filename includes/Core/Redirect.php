@@ -2,7 +2,7 @@
 namespace Objectiv\Plugins\Checkout\Core;
 
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
-use Objectiv\Plugins\Checkout\Managers\PathManager;
+use Objectiv\Plugins\Checkout\Managers\CFWPathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 
 /**
@@ -19,7 +19,7 @@ class Redirect {
      * @since 1.0.0
      * @access public
      * @param SettingsManager $settings_manager
-	 * @param PathManager $path_manager
+	 * @param CFWPathManager $path_manager
 	 * @param TemplateManager $template_manager
 	 * @param $version
 	 */
@@ -90,7 +90,7 @@ class Redirect {
      * @since 1.0.0
      * @access public
 	 * @param $env_extension
-     * @param PathManager $path_manager
+     * @param CFWPathManager $path_manager
 	 */
 	public static function init_block($env_extension, $path_manager) {
 		// We use this instead of _wp_render_title_tag because it requires the theme support title-tag capability.
@@ -162,7 +162,7 @@ class Redirect {
 	/**
      * @since 1.0.0
      * @access public
-     * @param PathManager $path_manager
+     * @param CFWPathManager $path_manager
 	 * @param string $version
 	 * @param array $classes
 	 */
@@ -298,7 +298,7 @@ class Redirect {
 	/**
      * @since 1.0.0
      * @access public
-	 * @param PathManager $path_manager
+	 * @param CFWPathManager $path_manager
 	 * @param TemplateManager $template_manager
 	 * @param array $global_template_parameters
 	 */
@@ -319,7 +319,7 @@ class Redirect {
 	/**
      * @since 1.0.0
      * @access public
-     * @param PathManager $path_manager
+     * @param CFWPathManager $path_manager
 	 */
 	public static function footer($path_manager, $settings_manager) {
 		print_footer_scripts();

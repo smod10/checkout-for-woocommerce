@@ -51,7 +51,7 @@ class Compatibility {
 
 	function mixpanel_fixes() {
 		$all_integrations = WC()->integrations->get_integrations();
-		$WC_Mixpanel = $all_integrations['mixpanel'];
+		$WC_Mixpanel = isset($all_integrations['mixpanel']) ? $all_integrations['mixpanel'] : null;
 
 		if($WC_Mixpanel) {
 			$WC_Mixpanel->output_head();
@@ -158,7 +158,7 @@ class Compatibility {
 	    ?>
         <div class="<?php echo $class; ?>">
             <p class="pay-button-separator">
-                <span><?php esc_html_e( 'Or', 'checkout-wc' ); ?></span>
+                <span><?php esc_html_e( 'Or', CFW_TEXT_DOMAIN ); ?></span>
             </p>
         </div>
         <?php

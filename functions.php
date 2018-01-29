@@ -91,7 +91,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		$sort            = $args['priority'] ? $args['priority'] : '';
 		$field_container_start = '';
 
-		if(isset($args['wrap'])) {
+		if( isset($args['wrap']) && !empty($args['wrap']) ) {
 			$field_container_start = $args['wrap']->start . $args['wrap']->end;
 		}
 

@@ -45,6 +45,7 @@ define('CFW_URL', plugins_url('/', __FILE__) );
 require_once "vendor/autoload.php";
 
 use Objectiv\Plugins\Checkout\Main;
+use Objectiv\Plugins\Checkout\Core\Admin;
 
 /**
  * Kint disabled by default. Enable by enabling developer mode (see docs)
@@ -90,6 +91,6 @@ register_deactivation_hook( __FILE__, array($cfw, 'deactivation') );
 if ( is_admin() && ! wp_doing_ajax() ) {
 	global $cfw_admin, $cfw;
 
-	$cfw_admin = new \Objectiv\Plugins\Checkout\Core\Admin( $cfw );
+	$cfw_admin = new Admin( $cfw );
 	$cfw_admin->start();
 }

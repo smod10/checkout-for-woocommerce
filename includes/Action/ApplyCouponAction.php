@@ -2,7 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout\Action;
 
-use Objectiv\Plugins\Checkout\Core\Base\Action;
+use Objectiv\BoosterSeat\Base\Action;
 
 /**
  * Class ApplyCouponAction

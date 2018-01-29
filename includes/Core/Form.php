@@ -36,8 +36,8 @@ class Form {
 		$this->base_fields = add_filter('woocommerce_default_address_fields', function($defaults) {
 			return array(
 				'first_name' => array(
-					'label'        => __( 'First name', 'checkout-woocommerce' ),
-					'placeholder'  => esc_attr__('First name', 'checkout-woocommerce'),
+					'label'        => __( 'First name', CFW_TEXT_DOMAIN ),
+					'placeholder'  => esc_attr__('First name', CFW_TEXT_DOMAIN),
 					'required'     => true,
 					'class'        => array(),
 					'autocomplete' => 'given-name',
@@ -53,8 +53,8 @@ class Form {
 					)
 				),
 				'last_name' => array(
-					'label'        => __( 'Last name', 'checkout-woocommerce' ),
-					'placeholder'  => esc_attr__('Last name', 'checkout-woocommerce'),
+					'label'        => __( 'Last name', CFW_TEXT_DOMAIN ),
+					'placeholder'  => esc_attr__('Last name', CFW_TEXT_DOMAIN),
 					'required'     => true,
 					'class'        => array(),
 					'autocomplete' => 'family-name',
@@ -69,8 +69,8 @@ class Form {
 					)
 				),
 				'address_1' => array(
-					'label'        => __( 'Address', 'checkout-woocommerce' ),
-					'placeholder'  => esc_attr__( 'Street address', 'checkout-woocommerce' ),
+					'label'        => __( 'Address', CFW_TEXT_DOMAIN ),
+					'placeholder'  => esc_attr__( 'Street address', CFW_TEXT_DOMAIN ),
 					'required'     => true,
 					'class'        => array( 'address-field' ),
 					'autocomplete' => 'address-line1',
@@ -85,8 +85,8 @@ class Form {
 					)
 				),
 				'address_2' => array(
-					'label'        => __('Apt, suite, etc. (optional)', 'checkout-woocommerce'),
-					'placeholder'  => esc_attr__('Apt, suite, etc. (optional)', 'checkout-woocommerce'),
+					'label'        => __('Apt, suite, etc. (optional)', CFW_TEXT_DOMAIN),
+					'placeholder'  => esc_attr__('Apt, suite, etc. (optional)', CFW_TEXT_DOMAIN),
 					'class'        => array( 'address-field' ),
 					'required'     => false,
 					'autocomplete' => 'address-line2',
@@ -98,8 +98,8 @@ class Form {
 					'end'          => true
 				),
 				'company' => array(
-					'label'        => __( 'Company name', 'checkout-woocommerce' ),
-					'placeholder'  => esc_attr__('Company name', 'checkout-woocommerce'),
+					'label'        => __( 'Company name', CFW_TEXT_DOMAIN ),
+					'placeholder'  => esc_attr__('Company name', CFW_TEXT_DOMAIN),
 					'class'        => array( ),
 					'autocomplete' => 'organization',
 					'input_class'  => array('garlic-auto-save'),
@@ -111,7 +111,7 @@ class Form {
 				),
 				'country' => array(
 					'type'         => 'country',
-					'label'        => __( 'Country', 'checkout-woocommerce' ),
+					'label'        => __( 'Country', CFW_TEXT_DOMAIN ),
 					'required'     => true,
 					'class'        => array( 'address-field', 'update_totals_on_change' ),
 					'autocomplete' => 'country',
@@ -124,8 +124,8 @@ class Form {
 					'is_select'    => true
 				),
 				'postcode' => array(
-					'label'        => __( 'Postcode / ZIP', 'checkout-woocommerce' ),
-					'placeholder'  => esc_attr__('Postcode / ZIP', 'checkout-woocommerce'),
+					'label'        => __( 'Postcode / ZIP', CFW_TEXT_DOMAIN ),
+					'placeholder'  => esc_attr__('Postcode / ZIP', CFW_TEXT_DOMAIN),
 					'required'     => true,
 					'class'        => array( 'address-field' ),
 					'validate'     => array( 'postcode' ),
@@ -145,8 +145,8 @@ class Form {
 				),
 				'state' => array(
 					'type'         => 'state',
-					'label'        => __( 'State / County', 'checkout-woocommerce' ),
-					'placeholder'  => __( 'State / County', 'checkout-woocommerce' ),
+					'label'        => __( 'State / County', CFW_TEXT_DOMAIN ),
+					'placeholder'  => __( 'State / County', CFW_TEXT_DOMAIN ),
 					'required'     => true,
 					'class'        => array( 'address-field' ),
 					'validate'     => array( 'state' ),
@@ -165,8 +165,8 @@ class Form {
 					'is_select'    => true
 				),
 				'city' => array(
-					'label'        => __( 'Town / City', 'checkout-woocommerce' ),
-					'placeholder'  => esc_attr__('Town / City', 'checkout-woocommerce'),
+					'label'        => __( 'Town / City', CFW_TEXT_DOMAIN ),
+					'placeholder'  => esc_attr__('Town / City', CFW_TEXT_DOMAIN),
 					'required'     => true,
 					'class'        => array( 'address-field' ),
 					'autocomplete' => 'address-level2',

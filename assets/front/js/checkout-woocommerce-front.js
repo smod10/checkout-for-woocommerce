@@ -87,6 +87,7 @@ var Main = /** @class */ (function () {
      */
     function Main(tabContainer, ajaxInfo, cart, settings) {
         Main.instance = this;
+        $("#checkout").garlic({ destroy: false });
         this.tabContainer = tabContainer;
         this.ajaxInfo = ajaxInfo;
         this.cart = cart;
@@ -1808,6 +1809,7 @@ var Cart_1 = __webpack_require__(9);
  * @type {Window}
  */
 var w = window;
+window.$ = ($ === undefined) ? jQuery : $;
 w.addEventListener("cfw-initialize", function (eventData) {
     var data = eventData.detail;
     var breadCrumbEl = $(data.elements.breadCrumbElId);
@@ -3150,7 +3152,10 @@ var TabContainer = /** @class */ (function (_super) {
     TabContainer.prototype.setCompleteOrderHandlers = function () {
         var _this = this;
         var completeOrderButton = new Element_1.Element($("#place_order"));
-        completeOrderButton.jel.on('click', function () { return _this.completeOrderClickListener(Main_1.Main.instance.ajaxInfo); });
+        $("#checkout").on('submit', function () {
+            _this.completeOrderClickListener(Main_1.Main.instance.ajaxInfo);
+        });
+        completeOrderButton.jel.on('click', function () { return $("#checkout").trigger('submit'); });
     };
     /**
      *

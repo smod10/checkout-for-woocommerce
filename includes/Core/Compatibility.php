@@ -169,9 +169,11 @@ class Compatibility {
     }
 
     function add_to_cart_redirect() {
-	    add_filter('woocommerce_add_to_cart_redirect', function($url) {
-		    $url = wc_get_checkout_url();
-		    return $url;
-	    } );
+	    if ( ! empty($_GET['add-to-cart']) ) {
+		    add_filter('woocommerce_add_to_cart_redirect', function($url) {
+			    $url = wc_get_checkout_url();
+			    return $url;
+		    } );
+        }
     }
 }

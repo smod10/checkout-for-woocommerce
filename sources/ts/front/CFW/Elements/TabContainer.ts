@@ -1096,13 +1096,19 @@ export class TabContainer extends Element {
      */
     setCompleteOrderHandlers(): void {
         let completeOrderButton: Element = new Element($("#place_order"));
+        let form: JQuery = $("form.woocommerce-checkout");
 
-        $("form.checkout").on('submit', (e) => {
-            this.completeOrderClickListener(Main.instance.ajaxInfo);
+        form.on('submit', (e) => {
             e.preventDefault();
+
+            if(form.triggerHandler( 'checkout_place_order' ) !== false && form.triggerHandler( 'checkout_place_order_' + form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
+                this.completeOrderClickListener(Main.instance.ajaxInfo);
+            }
         });
 
-        completeOrderButton.jel.on('click', () => $("form.checkout").trigger('submit'));
+        completeOrderButton.jel.on('click', () => {
+            form.trigger('submit');
+        });
     }
 
     /**

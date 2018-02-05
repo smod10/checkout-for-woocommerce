@@ -169,6 +169,7 @@ class Redirect {
 	public static function head($path_manager, $version, $classes, $settings_manager) {
 		?>
 		<!DOCTYPE html>
+        <html <?php language_attributes(); ?>>
 		<head>
             <?php
 
@@ -233,6 +234,7 @@ class Redirect {
                 <?php endif; ?>
                 <?php echo $settings_manager->get_setting('custom_css'); ?>;
             </style>
+            <meta charset="<?php bloginfo( 'charset' ); ?>">
             <meta name="viewport" content="width=device-width">
 
             <?php echo $settings_manager->get_setting('header_scripts'); ?>

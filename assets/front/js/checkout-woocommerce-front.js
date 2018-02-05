@@ -1330,10 +1330,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(2);
-var StripeService_1 = __webpack_require__(32);
 var Alert_1 = __webpack_require__(7);
-var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(6);
+var ValidationService_2 = __webpack_require__(6);
 var CompleteOrderAction = /** @class */ (function (_super) {
     __extends(CompleteOrderAction, _super);
     /**
@@ -1344,73 +1343,22 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      */
     function CompleteOrderAction(id, ajaxInfo, checkoutData) {
         var _this = _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, checkoutData)) || this;
-        $("#cfw-content").addClass("show-overlay");
-        _this.stripeServiceCallbacks = {
-            success: function (response) {
-                _this.stripeResponse = response;
-                _this.addStripeTokenToData(response.id);
-                _this.needsStripeToken = false;
-                $("form.checkout").off('form:validate');
-                _this.load();
-            },
-            noData: function (response) {
-                var alertInfo = {
-                    type: "StripeNoDataError",
-                    message: "Stripe: " + response.error.message,
-                    cssClass: "cfw-alert-danger"
-                };
-                var alert = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
-                alert.addAlert();
-            },
-            badData: function (response) {
-                var alertInfo = {
-                    type: "StripeBadDataError",
-                    message: "Stripe: " + response.error.message,
-                    cssClass: "cfw-alert-danger"
-                };
-                var alert = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
-                alert.addAlert();
-                _this.resetData();
-            }
-        };
+        _this.addOverlay();
         _this.setup();
         return _this;
     }
     /**
-     * Provided a Stripe Token was given add it to the data that will be sent with the request
-     *
-     * @param {string} stripeToken
+     * Adds a visual indicator that the checkout is doing something
      */
-    CompleteOrderAction.prototype.addStripeTokenToData = function (stripeToken) {
-        if (stripeToken) {
-            this.data["stripe_token"] = stripeToken;
-            if (!this.data["payment_method"]) {
-                this.data["payment_method"] = "stripe";
-            }
-        }
+    CompleteOrderAction.prototype.addOverlay = function () {
+        $("#cfw-content").addClass("show-overlay");
     };
     /**
      * The setup function which mainly determines if we need a stripe token to continue
      */
     CompleteOrderAction.prototype.setup = function () {
-        if (StripeService_1.StripeService.hasStripe() && StripeService_1.StripeService.hasNewPayment() && Main_1.Main.isPaymentRequired()) {
-            this.needsStripeToken = true;
-            StripeService_1.StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);
-            StripeService_1.StripeService.triggerStripe();
-        }
-        else {
-            this.needsStripeToken = false;
-            $("form.checkout").off('form:validate');
-            this.load();
-        }
-    };
-    /**
-     * Overridden to handle if we need a stripe token or not.
-     */
-    CompleteOrderAction.prototype.load = function () {
-        if (!this.needsStripeToken) {
-            _super.prototype.load.call(this);
-        }
+        $("form.checkout").off('form:validate');
+        this.load();
     };
     /**
      * @param resp
@@ -1485,58 +1433,10 @@ var CompleteOrderAction = /** @class */ (function (_super) {
         $("#_wpnonce").val(this.data._wpnonce);
         $("[name='_wp_http_referer']").val(this.data._wp_http_referer);
         $("#cfw-login-btn").val("Login");
-        ValidationService_1.ValidationService.validate(ValidationService_1.EValidationSections.SHIPPING);
-        ValidationService_1.ValidationService.validate(ValidationService_1.EValidationSections.BILLING);
-        ValidationService_1.ValidationService.validate(ValidationService_1.EValidationSections.ACCOUNT);
+        ValidationService_1.ValidationService.validate(ValidationService_2.EValidationSections.SHIPPING);
+        ValidationService_1.ValidationService.validate(ValidationService_2.EValidationSections.BILLING);
+        ValidationService_1.ValidationService.validate(ValidationService_2.EValidationSections.ACCOUNT);
     };
-    Object.defineProperty(CompleteOrderAction.prototype, "needsStripeToken", {
-        /**
-         * @returns {boolean}
-         */
-        get: function () {
-            return this._needsStripeToken;
-        },
-        /**
-         * @param {boolean} value
-         */
-        set: function (value) {
-            this._needsStripeToken = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CompleteOrderAction.prototype, "stripeServiceCallbacks", {
-        /**
-         * @returns {StripeServiceCallbacks}
-         */
-        get: function () {
-            return this._stripeServiceCallbacks;
-        },
-        /**
-         * @param {StripeServiceCallbacks} value
-         */
-        set: function (value) {
-            this._stripeServiceCallbacks = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CompleteOrderAction.prototype, "stripeResponse", {
-        /**
-         * @returns {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse}
-         */
-        get: function () {
-            return this._stripeResponse;
-        },
-        /**
-         * @param {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse} value
-         */
-        set: function (value) {
-            this._stripeResponse = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(CompleteOrderAction, "preppingOrder", {
         /**
          * @returns {boolean}
@@ -1842,118 +1742,7 @@ w.addEventListener("cfw-initialize", function (eventData) {
 
 
 /***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * Handles intercepting the stripe javascript to and from data. Performs various actions based on the data returned
- */
-var StripeService = /** @class */ (function () {
-    function StripeService() {
-    }
-    /**
-     * Setup the stripe message listener with our callbacks
-     *
-     * @param {StripeServiceCallbacks} callbacks
-     */
-    StripeService.setupStripeMessageListener = function (callbacks) {
-        window.addEventListener("message", function (event) { return StripeService.stripeMessageListener(event, callbacks); }, { once: true });
-    };
-    /**
-     * Based on the data passed via message, if it's the correct URL handle the data.
-     *
-     * @param {MessageEvent} event
-     * @param {StripeServiceCallbacks} callbacks
-     */
-    StripeService.stripeMessageListener = function (event, callbacks) {
-        var origin = event.origin;
-        if (this.serviceUrls.find(function (serviceUrl) { return origin == serviceUrl; })) {
-            if (typeof event.data == "string") {
-                var stripeResponse = StripeService.parseStripeMessage(event.data);
-                switch (stripeResponse.code) {
-                    case 200:
-                        callbacks.success(stripeResponse.resp);
-                        break;
-                    case 400:
-                        callbacks.noData(stripeResponse.resp);
-                        break;
-                    case 402:
-                        callbacks.badData(stripeResponse.resp);
-                        break;
-                }
-            }
-        }
-    };
-    /**
-     * Trigger the stripe event that checks the credit card ata
-     */
-    StripeService.triggerStripe = function () {
-        var checkoutForm = $("form.woocommerce-checkout");
-        checkoutForm.trigger('checkout_place_order_stripe');
-        checkoutForm.on('submit', function (event) { return event.preventDefault(); });
-    };
-    /**
-     * Parse the data returned by stripe. This mainly removes the random string that comes before the JSON object.
-     *
-     * @param {string} message
-     * @returns {StripeResponse}
-     */
-    StripeService.parseStripeMessage = function (message) {
-        var matchResults = message.match('default\\d{0,}(?:(?!{).)*');
-        var out = null;
-        if (matchResults.length > 0) {
-            var match = matchResults[0];
-            var dataString = message.substr(match.length, message.length);
-            out = JSON.parse(dataString);
-        }
-        return out;
-    };
-    /**
-     * Is the stripe method checked?
-     *
-     * @returns {boolean}
-     */
-    StripeService.hasStripe = function () {
-        return $("#payment_method_stripe:checked").length > 0;
-    };
-    /**
-     * Is the new payment option checked?
-     *
-     * @returns {boolean}
-     */
-    StripeService.hasNewPayment = function () {
-        return $("#wc-stripe-payment-token-new:checked").length > 0;
-    };
-    Object.defineProperty(StripeService, "serviceUrls", {
-        /**
-         * @returns {Array<string>}
-         */
-        get: function () {
-            return this._serviceUrls;
-        },
-        /**
-         * @param {Array<string>} value
-         */
-        set: function (value) {
-            this._serviceUrls = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * @type {[string]}
-     * @private
-     */
-    StripeService._serviceUrls = ["https://js.stripe.com"];
-    return StripeService;
-}());
-exports.StripeService = StripeService;
-
-
-/***/ }),
+/* 32 */,
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3155,11 +2944,16 @@ var TabContainer = /** @class */ (function (_super) {
     TabContainer.prototype.setCompleteOrderHandlers = function () {
         var _this = this;
         var completeOrderButton = new Element_1.Element($("#place_order"));
-        $("form.checkout").on('submit', function (e) {
-            _this.completeOrderClickListener(Main_1.Main.instance.ajaxInfo);
+        var form = $("form.woocommerce-checkout");
+        form.on('submit', function (e) {
             e.preventDefault();
+            if (form.triggerHandler('checkout_place_order') !== false && form.triggerHandler('checkout_place_order_' + form.find('input[name="payment_method"]:checked').val()) !== false) {
+                _this.completeOrderClickListener(Main_1.Main.instance.ajaxInfo);
+            }
         });
-        completeOrderButton.jel.on('click', function () { return $("form.checkout").trigger('submit'); });
+        completeOrderButton.jel.on('click', function () {
+            form.trigger('submit');
+        });
     };
     /**
      *

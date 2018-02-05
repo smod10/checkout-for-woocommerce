@@ -2339,7 +2339,7 @@ var TabContainer = /** @class */ (function (_super) {
         var shipping_method = this.tabContainerSectionBy("name", "shipping_method");
         var updateShippingMethod = function (event) {
             var shipMethodVal = event.target.value;
-            new UpdateShippingMethodAction_1.UpdateShippingMethodAction("update_shipping_method", Main_1.Main.instance.ajaxInfo, shipMethodVal, Main_1.Main.instance.cart, this.getFields()).load();
+            new UpdateShippingMethodAction_1.UpdateShippingMethodAction("update_shipping_method", Main_1.Main.instance.ajaxInfo, shipMethodVal, Main_1.Main.instance.cart, this.getFormObject()).load();
         };
         shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each(function (index, el) {
             $(el).on("click", updateShippingMethod.bind(_this));
@@ -2354,47 +2354,10 @@ var TabContainer = /** @class */ (function (_super) {
         $(document.body).on("update_checkout", function () {
             if (!main.updating) {
                 main.updating = true;
-                new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", main.ajaxInfo, _this.getFields()).load();
+                new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", main.ajaxInfo, _this.getFormObject()).load();
             }
         });
         $(document.body).trigger('update_checkout');
-    };
-    /**
-     * Get's all the necessary fields for updating / checkout
-     *
-     * @returns {any}
-     */
-    TabContainer.prototype.getFields = function () {
-        var checkout_form = $("form[name='checkout']");
-        var $required_inputs = checkout_form.find('.address-field.validate-required:visible');
-        var has_full_address = true;
-        if ($required_inputs.length) {
-            $required_inputs.each(function () {
-                if ($(this).find(':input').val() === '') {
-                    has_full_address = false;
-                }
-            });
-        }
-        var details = this.getOrderDetails();
-        var fields = {
-            payment_method: details.payment_method,
-            country: details.billing_country,
-            state: details.billing_state,
-            postcode: details.billing_postcode,
-            city: details.billing_city,
-            address: details.billing_address_1,
-            address_2: details.billing_address_2,
-            s_country: details.shipping_country,
-            s_state: details.shipping_state,
-            s_postcode: details.shipping_postcode,
-            s_city: details.shipping_city,
-            s_address: details.shipping_address_1,
-            s_address_2: details.shipping_address_2,
-            has_full_address: has_full_address,
-            post_data: details.post_data,
-            shipping_method: details["shipping_method[0]"]
-        };
-        return fields;
     };
     /**
      *  Handles localization information for countries and relevant states
@@ -2815,91 +2778,9 @@ var TabContainer = /** @class */ (function (_super) {
     /**
      * @returns {{}}
      */
-    TabContainer.prototype.getOrderDetails = function () {
+    TabContainer.prototype.getFormObject = function () {
         var checkout_form = $("form[name='checkout']");
-        var ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
-        var payment_method = $('[name="payment_method"]:checked').val();
-        var account_password = $('#cfw-password').val();
-        var billing_email = $("#billing_email").val();
-        var billing_first_name = $("#billing_first_name").val();
-        var billing_last_name = $("#billing_last_name").val();
-        var billing_company = $("#billing_company").val();
-        var billing_country = $("#billing_country").val();
-        var billing_address_1 = $("#billing_address_1").val();
-        var billing_address_2 = $("#billing_address_2").val();
-        var billing_city = $("#billing_city").val();
-        var billing_state = $("#billing_state").val();
-        var billing_postcode = $("#billing_postcode").val();
-        var shipping_first_name = $("#shipping_first_name").val();
-        var shipping_last_name = $("#shipping_last_name").val();
-        var shipping_company = $("#shipping_company").val();
-        var shipping_country = $("#shipping_country").val();
-        var shipping_address_1 = $("#shipping_address_1").val();
-        var shipping_address_2 = $("#shipping_address_2").val();
-        var shipping_city = $("#shipping_city").val();
-        var shipping_state = $("#shipping_state").val();
-        var shipping_postcode = $("#shipping_postcode").val();
-        var shipping_method = $("[name='shipping_method[0]']:checked").val();
-        var _wpnonce = $("#_wpnonce").val();
-        var _wp_http_referer = $("[name='_wp_http_referer']").val();
-        var wc_stripe_payment_token = $("[name='wc-stripe-payment-token']").val();
-        var wc_authorize_net_aim_account_number = $("[name='wc-authorize-net-aim-account-number']").val();
-        var wc_authorize_net_aim_expiry = $("[name='wc-authorize-net-aim-expiry']").val();
-        var wc_authorize_net_aim_csc = $("[name='wc-authorize-net-aim-csc']").val();
-        var paypal_pro_payflow_card_number = $("[name='paypal_pro_payflow-card-number']").val();
-        var paypal_pro_payflow_card_expiry = $("[name='paypal_pro_payflow-card-expiry']").val();
-        var paypal_pro_payflow_card_cvc = $("[name='paypal_pro_payflow-card-cvc']").val();
-        var paypal_pro_card_number = $("[name='paypal_pro-card-number']").val();
-        var paypal_pro_card_expiry = $("[name='paypal_pro-card-expiry']").val();
-        var paypal_pro_card_cvc = $("[name='paypal_pro-card-cvc']").val();
-        if (ship_to_different_address === 0) {
-            billing_first_name = shipping_first_name;
-            billing_last_name = shipping_last_name;
-            billing_company = shipping_company;
-            billing_country = shipping_country;
-            billing_address_1 = shipping_address_1;
-            billing_address_2 = shipping_address_2;
-            billing_city = shipping_city;
-            billing_state = shipping_state;
-            billing_postcode = shipping_postcode;
-        }
         var completeOrderCheckoutData = {
-            billing_first_name: billing_first_name,
-            billing_last_name: billing_last_name,
-            billing_company: billing_company,
-            billing_country: billing_country,
-            billing_address_1: billing_address_1,
-            billing_address_2: billing_address_2,
-            billing_city: billing_city,
-            billing_state: billing_state,
-            billing_postcode: billing_postcode,
-            billing_phone: 0,
-            billing_email: billing_email,
-            ship_to_different_address: ship_to_different_address,
-            shipping_first_name: shipping_first_name,
-            shipping_last_name: shipping_last_name,
-            shipping_company: shipping_company,
-            shipping_country: shipping_country,
-            shipping_address_1: shipping_address_1,
-            shipping_address_2: shipping_address_2,
-            shipping_city: shipping_city,
-            shipping_state: shipping_state,
-            shipping_postcode: shipping_postcode,
-            order_comments: '',
-            "shipping_method[0]": shipping_method,
-            payment_method: payment_method,
-            "wc-stripe-payment-token": wc_stripe_payment_token,
-            _wpnonce: _wpnonce,
-            _wp_http_referer: _wp_http_referer,
-            "wc-authorize-net-aim-account-number": wc_authorize_net_aim_account_number,
-            "wc-authorize-net-aim-expiry": wc_authorize_net_aim_expiry,
-            "wc-authorize-net-aim-csc": wc_authorize_net_aim_csc,
-            "paypal_pro_payflow-card-number": paypal_pro_payflow_card_number,
-            "paypal_pro_payflow-card-expiry": paypal_pro_payflow_card_expiry,
-            "paypal_pro_payflow-card-cvc": paypal_pro_payflow_card_cvc,
-            "paypal_pro-card-number": paypal_pro_card_number,
-            "paypal_pro-card-expiry": paypal_pro_card_expiry,
-            "paypal_pro-card-cvc": paypal_pro_card_cvc,
             post_data: checkout_form.serialize()
         };
         var formArr = checkout_form.serializeArray();
@@ -2908,21 +2789,6 @@ var TabContainer = /** @class */ (function (_super) {
                 completeOrderCheckoutData[item.name] = item.value;
             }
         });
-        if (account_password && account_password.length > 0) {
-            completeOrderCheckoutData["account_password"] = account_password;
-        }
-        if ($("#createaccount:checked").length > 0) {
-            completeOrderCheckoutData["createaccount"] = 1;
-        }
-        if ($("#wc-stripe-new-payment-method:checked").length > 0) {
-            completeOrderCheckoutData["wc-stripe-new-payment-method"] = true;
-        }
-        if ($("#terms").length > 0) {
-            completeOrderCheckoutData["terms-field"] = 1;
-            if ($("#terms:checked").length > 0) {
-                completeOrderCheckoutData["terms"] = "on";
-            }
-        }
         return completeOrderCheckoutData;
     };
     /**
@@ -2961,7 +2827,7 @@ var TabContainer = /** @class */ (function (_super) {
      */
     TabContainer.prototype.completeOrderClickListener = function (ajaxInfo) {
         var isShippingDifferentFromBilling = $("#shipping_dif_from_billing:checked").length !== 0;
-        ValidationService_1.ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, this.getOrderDetails());
+        ValidationService_1.ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, this.getFormObject());
     };
     /**
      *
@@ -2971,7 +2837,7 @@ var TabContainer = /** @class */ (function (_super) {
         $("#cfw-promo-code-btn").on('click', function () {
             var coupon_field = $("#cfw-promo-code");
             if (coupon_field.val() !== "") {
-                new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', Main_1.Main.instance.ajaxInfo, coupon_field.val(), Main_1.Main.instance.cart, _this.getFields()).load();
+                new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', Main_1.Main.instance.ajaxInfo, coupon_field.val(), Main_1.Main.instance.cart, _this.getFormObject()).load();
             }
             else {
                 // Remove alerts

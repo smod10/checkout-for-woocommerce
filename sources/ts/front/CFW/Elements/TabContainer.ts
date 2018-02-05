@@ -381,7 +381,7 @@ export class TabContainer extends Element {
                 Main.instance.ajaxInfo,
                 shipMethodVal,
                 Main.instance.cart,
-                this.getFields()
+                this.getFormObject()
             ).load();
         };
 
@@ -400,52 +400,11 @@ export class TabContainer extends Element {
             if(!main.updating) {
                 main.updating = true;
 
-                new UpdateCheckoutAction("update_checkout", main.ajaxInfo, this.getFields()).load();
+                new UpdateCheckoutAction("update_checkout", main.ajaxInfo, this.getFormObject()).load();
             }
         });
 
         $(document.body).trigger( 'update_checkout' );
-    }
-
-    /**
-     * Get's all the necessary fields for updating / checkout
-     *
-     * @returns {any}
-     */
-    getFields(): any {
-        let checkout_form: JQuery = $("form[name='checkout']");
-        let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
-        let has_full_address: boolean = true;
-
-        if ( $required_inputs.length ) {
-            $required_inputs.each( function() {
-                if ( $( this ).find( ':input' ).val() === '' ) {
-                    has_full_address = false;
-                }
-            });
-        }
-
-        let details: any = this.getOrderDetails();
-        let fields: any = {
-            payment_method: details.payment_method,
-            country: details.billing_country,
-            state: details.billing_state,
-            postcode: details.billing_postcode,
-            city: details.billing_city,
-            address: details.billing_address_1,
-            address_2: details.billing_address_2,
-            s_country: details.shipping_country,
-            s_state: details.shipping_state,
-            s_postcode: details.shipping_postcode,
-            s_city: details.shipping_city,
-            s_address: details.shipping_address_1,
-            s_address_2: details.shipping_address_2,
-            has_full_address: has_full_address,
-            post_data: details.post_data,
-            shipping_method: details["shipping_method[0]"]
-        };
-
-        return fields;
     }
 
     /**
@@ -948,99 +907,10 @@ export class TabContainer extends Element {
     /**
      * @returns {{}}
      */
-    getOrderDetails() {
+    getFormObject() {
         let checkout_form: JQuery = $("form[name='checkout']");
-        let ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
-        let payment_method = $('[name="payment_method"]:checked').val();
-        let account_password = $('#cfw-password').val();
-        let billing_email = $("#billing_email").val();
-
-        let billing_first_name = $("#billing_first_name").val();
-        let billing_last_name = $("#billing_last_name").val();
-        let billing_company = $("#billing_company").val();
-        let billing_country = $("#billing_country").val();
-        let billing_address_1 = $("#billing_address_1").val();
-        let billing_address_2 = $("#billing_address_2").val();
-        let billing_city = $("#billing_city").val();
-        let billing_state = $("#billing_state").val();
-        let billing_postcode = $("#billing_postcode").val();
-
-        let shipping_first_name = $("#shipping_first_name").val();
-        let shipping_last_name = $("#shipping_last_name").val();
-        let shipping_company = $("#shipping_company").val();
-        let shipping_country = $("#shipping_country").val();
-        let shipping_address_1 = $("#shipping_address_1").val();
-        let shipping_address_2 = $("#shipping_address_2").val();
-        let shipping_city = $("#shipping_city").val();
-        let shipping_state = $("#shipping_state").val();
-        let shipping_postcode = $("#shipping_postcode").val();
-        let shipping_method = $("[name='shipping_method[0]']:checked").val();
-
-        let _wpnonce = $("#_wpnonce").val();
-        let _wp_http_referer = $("[name='_wp_http_referer']").val();
-        let wc_stripe_payment_token = $("[name='wc-stripe-payment-token']").val();
-
-        let wc_authorize_net_aim_account_number = $("[name='wc-authorize-net-aim-account-number']").val();
-        let wc_authorize_net_aim_expiry = $("[name='wc-authorize-net-aim-expiry']").val();
-        let wc_authorize_net_aim_csc = $("[name='wc-authorize-net-aim-csc']").val();
-
-        let paypal_pro_payflow_card_number = $("[name='paypal_pro_payflow-card-number']").val();
-        let paypal_pro_payflow_card_expiry = $("[name='paypal_pro_payflow-card-expiry']").val();
-        let paypal_pro_payflow_card_cvc = $("[name='paypal_pro_payflow-card-cvc']").val();
-
-        let paypal_pro_card_number = $("[name='paypal_pro-card-number']").val();
-        let paypal_pro_card_expiry = $("[name='paypal_pro-card-expiry']").val();
-        let paypal_pro_card_cvc = $("[name='paypal_pro-card-cvc']").val();
-
-        if(ship_to_different_address === 0) {
-            billing_first_name = shipping_first_name;
-            billing_last_name = shipping_last_name;
-            billing_company = shipping_company;
-            billing_country = shipping_country;
-            billing_address_1 = shipping_address_1;
-            billing_address_2 = shipping_address_2;
-            billing_city = shipping_city;
-            billing_state = shipping_state;
-            billing_postcode = shipping_postcode;
-        }
 
         let completeOrderCheckoutData = {
-            billing_first_name: billing_first_name,
-            billing_last_name: billing_last_name,
-            billing_company: billing_company,
-            billing_country: billing_country,
-            billing_address_1: billing_address_1,
-            billing_address_2: billing_address_2,
-            billing_city: billing_city,
-            billing_state: billing_state,
-            billing_postcode: billing_postcode,
-            billing_phone: 0,
-            billing_email: billing_email,
-            ship_to_different_address: ship_to_different_address,
-            shipping_first_name: shipping_first_name,
-            shipping_last_name: shipping_last_name,
-            shipping_company: shipping_company,
-            shipping_country: shipping_country,
-            shipping_address_1: shipping_address_1,
-            shipping_address_2: shipping_address_2,
-            shipping_city: shipping_city,
-            shipping_state: shipping_state,
-            shipping_postcode: shipping_postcode,
-            order_comments: '',
-            "shipping_method[0]": shipping_method,
-            payment_method: payment_method,
-            "wc-stripe-payment-token": wc_stripe_payment_token,
-            _wpnonce: _wpnonce,
-            _wp_http_referer: _wp_http_referer,
-            "wc-authorize-net-aim-account-number": wc_authorize_net_aim_account_number,
-            "wc-authorize-net-aim-expiry": wc_authorize_net_aim_expiry,
-            "wc-authorize-net-aim-csc": wc_authorize_net_aim_csc,
-            "paypal_pro_payflow-card-number": paypal_pro_payflow_card_number,
-            "paypal_pro_payflow-card-expiry": paypal_pro_payflow_card_expiry,
-            "paypal_pro_payflow-card-cvc": paypal_pro_payflow_card_cvc,
-            "paypal_pro-card-number": paypal_pro_card_number,
-            "paypal_pro-card-expiry": paypal_pro_card_expiry,
-            "paypal_pro-card-cvc": paypal_pro_card_cvc,
             post_data: checkout_form.serialize()
         };
 
@@ -1050,26 +920,6 @@ export class TabContainer extends Element {
                 completeOrderCheckoutData[item.name] = item.value;
             }
         });
-
-        if(account_password && account_password.length > 0) {
-            completeOrderCheckoutData["account_password"] = account_password;
-        }
-
-        if($("#createaccount:checked").length > 0) {
-            completeOrderCheckoutData["createaccount"] = 1;
-        }
-
-        if($("#wc-stripe-new-payment-method:checked").length > 0) {
-            completeOrderCheckoutData["wc-stripe-new-payment-method"] = true;
-        }
-
-        if($("#terms").length > 0) {
-            completeOrderCheckoutData["terms-field"] = 1;
-
-            if($("#terms:checked").length > 0) {
-                completeOrderCheckoutData["terms"] = "on";
-            }
-        }
 
         return completeOrderCheckoutData;
     }
@@ -1118,7 +968,7 @@ export class TabContainer extends Element {
     completeOrderClickListener(ajaxInfo: AjaxInfo): void {
         let isShippingDifferentFromBilling: boolean = $("#shipping_dif_from_billing:checked").length !== 0;
 
-        ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, this.getOrderDetails());
+        ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, this.getFormObject());
     }
 
     /**
@@ -1129,7 +979,7 @@ export class TabContainer extends Element {
             let coupon_field: JQuery = $("#cfw-promo-code");
 
             if(coupon_field.val() !== "") {
-                new ApplyCouponAction('apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFields()).load();
+                new ApplyCouponAction('apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFormObject()).load();
             } else {
                 // Remove alerts
                 Alert.removeAlerts();

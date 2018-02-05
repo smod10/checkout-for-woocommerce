@@ -2784,7 +2784,7 @@ var TabContainer = /** @class */ (function (_super) {
             post_data: checkout_form.serialize()
         };
         var formArr = checkout_form.serializeArray();
-        formArr.forEach(function (item) { return (!completeOrderCheckoutData[item.name]) ? completeOrderCheckoutData[item.name] = item.value : null; });
+        formArr.forEach(function (item) { return completeOrderCheckoutData[item.name] = item.value; });
         return completeOrderCheckoutData;
     };
     /**

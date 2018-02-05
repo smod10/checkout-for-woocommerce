@@ -915,7 +915,7 @@ export class TabContainer extends Element {
         };
 
         let formArr: Array<Object> = checkout_form.serializeArray();
-        formArr.forEach((item: any) => (!completeOrderCheckoutData[item.name]) ? completeOrderCheckoutData[item.name] = item.value : null);
+        formArr.forEach((item: any) => completeOrderCheckoutData[item.name] = item.value);
 
         return completeOrderCheckoutData;
     }

@@ -60,7 +60,7 @@ class Admin {
 		add_action('admin_notices', array($this, 'add_welcome_notice') );
 
 		// Stripe 4.x warning
-        add_action('admin_notices', array($this, 'add_stripe4x_notice') );
+		add_action('admin_notices', array($this, 'add_stripe_wrong_version_notice') );
 
         // Welcome redirect
 		add_action( 'admin_init', array($this, 'welcome_screen_do_activation_redirect') );
@@ -456,13 +456,13 @@ class Admin {
 		}
 	}
 
-	public function add_stripe4x_notice() {
-	    if ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) {
+	public function add_stripe_wrong_version_notice() {
+	    if ( defined('WC_STRIPE_VERSION') && version_compare(WC_STRIPE_VERSION, '4.0.0', '<') ) {
 		    $important = '';
 		    if ( isset($_GET['page']) && $_GET['page'] == 'cfw-settings') {
 			    $important = "style='display:block !important'";
 		    }
-		    echo "<div $important class='notice notice-error is-dismissible checkout-wc'> <p>" . __( 'Checkout for WooCommerce requires WooCommerce Stripe Payment Gateway 3.2.x. You currently have version ' . WC_STRIPE_VERSION . ' installed. Please <a target="_blank" href="https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.3.2.3.zip">install version 3.2.3</a> for best results.', CFW_TEXT_DOMAIN) . "</p></div>";
+		    echo "<div $important class='notice notice-error is-dismissible checkout-wc'> <p>" . __( 'Checkout for WooCommerce requires WooCommerce Stripe Payment Gateway 4.x.x or higher. You currently have version ' . WC_STRIPE_VERSION . ' installed. Stripe will not work correctly.', CFW_TEXT_DOMAIN) . "</p></div>";
         }
     }
 

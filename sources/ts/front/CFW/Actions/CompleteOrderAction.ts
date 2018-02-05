@@ -105,7 +105,7 @@ export class CompleteOrderAction extends Action {
                 $(elem).prop('checked', true);
             }
         });
-        $("[name='shipping_same']").each((index, elem) => {
+        $("[name='ship_to_different_address']").each((index, elem) => {
             if($(elem).val() == this.data.ship_to_different_address) {
                 $(elem).prop('checked', true);
             }

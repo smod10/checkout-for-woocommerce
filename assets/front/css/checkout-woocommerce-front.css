@@ -935,9 +935,6 @@ body {
   #cfw-billing-methods #stripe-payment-data > *:last-child, #cfw-shipping-same-billing #stripe-payment-data > *:last-child {
     margin-bottom: 0; }
 
-#cfw-billing-methods #stripe-payment-data #wc-stripe-cc-form, #cfw-shipping-same-billing #stripe-payment-data #wc-stripe-cc-form {
-  display: none; }
-
 #cfw-billing-methods #stripe-payment-data ul, #cfw-shipping-same-billing #stripe-payment-data ul {
   padding: 0;
   margin-left: 0;

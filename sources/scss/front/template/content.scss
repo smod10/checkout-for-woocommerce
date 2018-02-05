@@ -227,10 +227,6 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
       &:last-child { margin-bottom: 0; }
     }
 
-    #wc-stripe-cc-form {
-      display: none;
-    }
-
     ul {
       padding: 0;
       margin-left: 0;

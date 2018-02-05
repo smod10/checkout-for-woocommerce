@@ -1413,7 +1413,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
                 $(elem).prop('checked', true);
             }
         });
-        $("[name='shipping_same']").each(function (index, elem) {
+        $("[name='ship_to_different_address']").each(function (index, elem) {
             if ($(elem).val() == _this.data.ship_to_different_address) {
                 $(elem).prop('checked', true);
             }
@@ -2271,11 +2271,11 @@ var TabContainer = /** @class */ (function (_super) {
         var payment_radio_buttons = this
             .tabContainerSectionBy("name", "payment_method")
             .getInputsFromSection('[type="radio"][name="payment_method"]');
-        var shipping_same_radio_buttons = this
+        var ship_to_different_address_radio_buttons = this
             .tabContainerSectionBy("name", "payment_method")
-            .getInputsFromSection('[type="radio"][name="shipping_same"]');
+            .getInputsFromSection('[type="radio"][name="ship_to_different_address"]');
         this.setRevealOnRadioButtonGroup(payment_radio_buttons);
-        this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons, true);
+        this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, true);
     };
     /**
      * Handles the payment method revealing and registering the click events.
@@ -2780,12 +2780,38 @@ var TabContainer = /** @class */ (function (_super) {
      */
     TabContainer.prototype.getFormObject = function () {
         var checkout_form = $("form[name='checkout']");
-        var completeOrderCheckoutData = {
+        var ship_to_different_address = parseInt($("[name='ship_to_different_address']:checked").val());
+        var $required_inputs = checkout_form.find('.address-field.validate-required:visible');
+        var has_full_address = true;
+        var lookFor = [
+            "first_name",
+            "last_name",
+            "address_1",
+            "address_2",
+            "company",
+            "country",
+            "postcode",
+            "state",
+            "city"
+        ];
+        var formData = {
             post_data: checkout_form.serialize()
         };
+        if ($required_inputs.length) {
+            $required_inputs.each(function () {
+                if ($(this).find(':input').val() === '') {
+                    has_full_address = false;
+                }
+            });
+        }
         var formArr = checkout_form.serializeArray();
-        formArr.forEach(function (item) { return completeOrderCheckoutData[item.name] = item.value; });
-        return completeOrderCheckoutData;
+        formArr.forEach(function (item) { return formData[item.name] = item.value; });
+        formArr["has_full_address"] = has_full_address;
+        formArr["ship_to_different_address"] = ship_to_different_address;
+        if (ship_to_different_address === 0) {
+            lookFor.forEach(function (field) { return formArr["billing_" + field] = formArr["shipping_" + field]; });
+        }
+        return formData;
     };
     /**
      *
@@ -2807,23 +2833,51 @@ var TabContainer = /** @class */ (function (_super) {
         var _this = this;
         var completeOrderButton = new Element_1.Element($("#place_order"));
         var form = $("form.woocommerce-checkout");
+        var preSwapData = {};
         form.on('submit', function (e) {
+            // Prevent any weirdness by preventing default
             e.preventDefault();
+            // If all the payment stuff has finished any ajax calls, run the complete order.
             if (form.triggerHandler('checkout_place_order') !== false && form.triggerHandler('checkout_place_order_' + form.find('input[name="payment_method"]:checked').val()) !== false) {
-                _this.completeOrderClickListener(Main_1.Main.instance.ajaxInfo);
+                // Reset data
+                for (var field in preSwapData) {
+                    var billing = $("#billing_" + field);
+                    billing.val(preSwapData[field]);
+                }
+                _this.completeOrderClickListener(Main_1.Main.instance.ajaxInfo, _this.getFormObject());
             }
         });
         completeOrderButton.jel.on('click', function () {
+            var lookFor = [
+                "first_name",
+                "last_name",
+                "address_1",
+                "address_2",
+                "company",
+                "country",
+                "postcode",
+                "state",
+                "city"
+            ];
+            if (parseInt(form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
+                lookFor.forEach(function (field) {
+                    var billing = $("#billing_" + field);
+                    var shipping = $("#shipping_" + field);
+                    preSwapData[field] = billing.val();
+                    billing.val(shipping.val());
+                });
+            }
             form.trigger('submit');
         });
     };
     /**
      *
      * @param {AjaxInfo} ajaxInfo
+     * @param data
      */
-    TabContainer.prototype.completeOrderClickListener = function (ajaxInfo) {
+    TabContainer.prototype.completeOrderClickListener = function (ajaxInfo, data) {
         var isShippingDifferentFromBilling = $("#shipping_dif_from_billing:checked").length !== 0;
-        ValidationService_1.ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, this.getFormObject());
+        ValidationService_1.ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, data);
     };
     /**
      *

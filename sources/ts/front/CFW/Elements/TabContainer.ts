@@ -300,12 +300,12 @@ export class TabContainer extends Element {
             .tabContainerSectionBy("name", "payment_method")
             .getInputsFromSection('[type="radio"][name="payment_method"]');
 
-        let shipping_same_radio_buttons: Array<Element> = this
+        let ship_to_different_address_radio_buttons: Array<Element> = this
             .tabContainerSectionBy("name", "payment_method")
-            .getInputsFromSection('[type="radio"][name="shipping_same"]');
+            .getInputsFromSection('[type="radio"][name="ship_to_different_address"]');
 
         this.setRevealOnRadioButtonGroup(payment_radio_buttons);
-        this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons, true);
+        this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, true);
     }
 
     /**
@@ -909,15 +909,44 @@ export class TabContainer extends Element {
      */
     getFormObject() {
         let checkout_form: JQuery = $("form[name='checkout']");
+        let ship_to_different_address = parseInt($("[name='ship_to_different_address']:checked").val());
+        let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
+        let has_full_address: boolean = true;
+        let lookFor: Array<string> = [
+            "first_name",
+            "last_name",
+            "address_1",
+            "address_2",
+            "company",
+            "country",
+            "postcode",
+            "state",
+            "city"
+        ];
 
-        let completeOrderCheckoutData = {
+        let formData = {
             post_data: checkout_form.serialize()
         };
 
-        let formArr: Array<Object> = checkout_form.serializeArray();
-        formArr.forEach((item: any) => completeOrderCheckoutData[item.name] = item.value);
+        if ( $required_inputs.length ) {
+            $required_inputs.each( function() {
+                if ( $( this ).find( ':input' ).val() === '' ) {
+                    has_full_address = false;
+                }
+            });
+        }
 
-        return completeOrderCheckoutData;
+        let formArr: Array<Object> = checkout_form.serializeArray();
+        formArr.forEach((item: any) => formData[item.name] = item.value);
+
+        formArr["has_full_address"] = has_full_address;
+        formArr["ship_to_different_address"] = ship_to_different_address;
+
+        if(ship_to_different_address === 0) {
+            lookFor.forEach(field => formArr[`billing_${field}`] = formArr[`shipping_${field}`]);
+        }
+
+        return formData;
     }
 
     /**
@@ -943,16 +972,51 @@ export class TabContainer extends Element {
     setCompleteOrderHandlers(): void {
         let completeOrderButton: Element = new Element($("#place_order"));
         let form: JQuery = $("form.woocommerce-checkout");
+        let preSwapData = {};
 
         form.on('submit', (e) => {
+            // Prevent any weirdness by preventing default
             e.preventDefault();
 
+            // If all the payment stuff has finished any ajax calls, run the complete order.
             if(form.triggerHandler( 'checkout_place_order' ) !== false && form.triggerHandler( 'checkout_place_order_' + form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
-                this.completeOrderClickListener(Main.instance.ajaxInfo);
+
+                // Reset data
+                for(let field in preSwapData) {
+                    let billing = $(`#billing_${field}`);
+
+                    billing.val(preSwapData[field]);
+                }
+
+                this.completeOrderClickListener(Main.instance.ajaxInfo, this.getFormObject());
             }
         });
 
         completeOrderButton.jel.on('click', () => {
+
+            let lookFor: Array<string> = [
+                "first_name",
+                "last_name",
+                "address_1",
+                "address_2",
+                "company",
+                "country",
+                "postcode",
+                "state",
+                "city"
+            ];
+
+            if(parseInt(form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
+                lookFor.forEach( field => {
+                    let billing = $(`#billing_${field}`);
+                    let shipping = $(`#shipping_${field}`);
+
+                    preSwapData[field] = billing.val();
+
+                    billing.val( shipping.val() );
+                });
+            }
+
             form.trigger('submit');
         });
     }
@@ -960,11 +1024,12 @@ export class TabContainer extends Element {
     /**
      *
      * @param {AjaxInfo} ajaxInfo
+     * @param data
      */
-    completeOrderClickListener(ajaxInfo: AjaxInfo): void {
+    completeOrderClickListener(ajaxInfo: AjaxInfo, data): void {
         let isShippingDifferentFromBilling: boolean = $("#shipping_dif_from_billing:checked").length !== 0;
 
-        ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, this.getFormObject());
+        ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, data);
     }
 
     /**

@@ -266,6 +266,7 @@ class Redirect {
             'bsnp-ex-cookie',
             'bsnp-cse',
             'stripe',
+            'wc_stripe_payment_request',
             'woocommerce_stripe',
             'stripe_apple_pay',
             'woocommerce_stripe_apple_pay',

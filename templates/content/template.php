@@ -39,7 +39,7 @@
                 </ul>
 
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
-
+                    <input type="hidden" name="billing_phone" value="9999999999" id="billing_phone" />
                     <div id="order_review" class="woocommerce-checkout-review-order">
                         <!-- Customer Info Panel -->
                         <div id="cfw-customer-info" class="cfw-panel">
@@ -241,7 +241,7 @@
                                         <li class="cfw-radio-reveal-li cfw-no-reveal">
                                             <div class="cfw-radio-reveal-title-wrap">
                                                 <label class="cfw-radio-reveal-title-wrap cfw-radio-reveal-label">
-                                                    <input type="radio" name="shipping_same" id="shipping_same_as_billing" value="0" class="garlic-auto-save" checked />
+                                                    <input type="radio" name="ship_to_different_address" id="ship_to_different_address_as_billing" value="0" class="garlic-auto-save" checked />
                                                     <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Same as shipping address', CFW_TEXT_DOMAIN ); ?></span>
                                                 </label>
                                             </div>
@@ -249,7 +249,7 @@
                                         <li class="cfw-radio-reveal-li">
                                             <div class="cfw-radio-reveal-title-wrap">
                                                 <label class="cfw-radio-reveal-label">
-                                                    <input type="radio" name="shipping_same" id="shipping_dif_from_billing" value="1" class="garlic-auto-save" />
+                                                    <input type="radio" name="ship_to_different_address" id="shipping_dif_from_billing" value="1" class="garlic-auto-save" />
                                                     <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Use a different billing address', CFW_TEXT_DOMAIN ); ?></span>
                                                 </label>
                                             </div>

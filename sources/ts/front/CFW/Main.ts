@@ -33,7 +33,7 @@ export class Main {
 	private _ajaxInfo: AjaxInfo;
 
 	/**
-	 * @type {AjaxInfo}
+	 * @type {any}
 	 * @private
 	 */
 	private _settings: any;

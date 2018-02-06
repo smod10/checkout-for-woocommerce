@@ -1,14 +1,9 @@
 import { Action }                               from "./Action";
 import { AjaxInfo }                             from "../Types/Types";
-import { StripeNoDataResponse }                 from "../Types/Types";
-import { StripeBadDataResponse }                from "../Types/Types";
-import { StripeValidResponse }                  from "../Types/Types";
-import { StripeServiceCallbacks }               from "../Types/Types"
-import { StripeService }                        from "../Services/StripeService";
 import { AlertInfo }                            from "../Elements/Alert";
 import { Alert }                                from "../Elements/Alert";
-import { Main }                                 from "../Main";
-import {EValidationSections, ValidationService} from "../Services/ValidationService";
+import { ValidationService }                    from "../Services/ValidationService";
+import { EValidationSections }                  from "../Services/ValidationService";
 
 export class CompleteOrderAction extends Action {
 
@@ -20,30 +15,6 @@ export class CompleteOrderAction extends Action {
     private static _preppingOrder: boolean = false;
 
     /**
-     * Do we need a stripe token to continue load?
-     *
-     * @type {boolean}
-     * @private
-     */
-    private _needsStripeToken: boolean;
-
-    /**
-     * Stripe service callbacks for various response types
-     *
-     * @type {StripeServiceCallbacks}
-     * @private
-     */
-    private _stripeServiceCallbacks: StripeServiceCallbacks;
-
-    /**
-     * Current stripe response data
-     *
-     * @type {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse}
-     * @private
-     */
-    private _stripeResponse: StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse;
-
-    /**
      *
      * @param id
      * @param ajaxInfo
@@ -52,85 +23,25 @@ export class CompleteOrderAction extends Action {
     constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: any) {
         super(id, ajaxInfo.admin_url, Action.prep(id, ajaxInfo, checkoutData));
 
-        $("#cfw-content").addClass("show-overlay");
-
-        this.stripeServiceCallbacks = {
-            success: (response: StripeValidResponse) => {
-                this.stripeResponse = response;
-                this.addStripeTokenToData(response.id);
-                this.needsStripeToken = false;
-
-                $("form.checkout").off('form:validate');
-
-                this.load();
-            },
-            noData: (response: StripeNoDataResponse) => {
-                let alertInfo: AlertInfo = {
-                    type: "StripeNoDataError",
-                    message: "Stripe: " + response.error.message,
-                    cssClass: "cfw-alert-danger"
-                };
-
-                let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
-                alert.addAlert();
-            },
-            badData: (response: StripeBadDataResponse) => {
-                let alertInfo: AlertInfo = {
-                    type: "StripeBadDataError",
-                    message: "Stripe: " + response.error.message,
-                    cssClass: "cfw-alert-danger"
-                };
-
-                let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
-                alert.addAlert();
-
-                this.resetData();
-            }
-        };
+        this.addOverlay();
 
         this.setup();
     }
 
     /**
-     * Provided a Stripe Token was given add it to the data that will be sent with the request
-     *
-     * @param {string} stripeToken
+     * Adds a visual indicator that the checkout is doing something
      */
-    addStripeTokenToData(stripeToken: string): void {
-        if(stripeToken) {
-            this.data["stripe_token"] = stripeToken;
-
-            if(!this.data["payment_method"]) {
-                this.data["payment_method"] = "stripe";
-            }
-        }
+    addOverlay(): void {
+        $("#cfw-content").addClass("show-overlay");
     }
 
     /**
      * The setup function which mainly determines if we need a stripe token to continue
      */
     setup(): void {
-        if(StripeService.hasStripe() && StripeService.hasNewPayment() && Main.isPaymentRequired()) {
-            this.needsStripeToken = true;
+        $("form.checkout").off('form:validate');
 
-            StripeService.setupStripeMessageListener(this.stripeServiceCallbacks);
-            StripeService.triggerStripe();
-        } else {
-            this.needsStripeToken = false;
-
-            $("form.checkout").off('form:validate');
-
-            this.load();
-        }
-    }
-
-    /**
-     * Overridden to handle if we need a stripe token or not.
-     */
-    load(): void {
-        if(!this.needsStripeToken) {
-            super.load();
-        }
+        this.load();
     }
 
     /**
@@ -194,7 +105,7 @@ export class CompleteOrderAction extends Action {
                 $(elem).prop('checked', true);
             }
         });
-        $("[name='shipping_same']").each((index, elem) => {
+        $("[name='ship_to_different_address']").each((index, elem) => {
             if($(elem).val() == this.data.ship_to_different_address) {
                 $(elem).prop('checked', true);
             }
@@ -219,48 +130,6 @@ export class CompleteOrderAction extends Action {
         ValidationService.validate(EValidationSections.SHIPPING);
         ValidationService.validate(EValidationSections.BILLING);
         ValidationService.validate(EValidationSections.ACCOUNT);
-    }
-
-    /**
-     * @returns {boolean}
-     */
-    get needsStripeToken(): boolean {
-        return this._needsStripeToken;
-    }
-
-    /**
-     * @param {boolean} value
-     */
-    set needsStripeToken(value: boolean) {
-        this._needsStripeToken = value;
-    }
-
-    /**
-     * @returns {StripeServiceCallbacks}
-     */
-    get stripeServiceCallbacks(): StripeServiceCallbacks {
-        return this._stripeServiceCallbacks;
-    }
-
-    /**
-     * @param {StripeServiceCallbacks} value
-     */
-    set stripeServiceCallbacks(value: StripeServiceCallbacks) {
-        this._stripeServiceCallbacks = value;
-    }
-
-    /**
-     * @returns {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse}
-     */
-    get stripeResponse(): StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse {
-        return this._stripeResponse;
-    }
-
-    /**
-     * @param {StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse} value
-     */
-    set stripeResponse(value: StripeValidResponse | StripeBadDataResponse | StripeNoDataResponse) {
-        this._stripeResponse = value;
     }
 
     /**

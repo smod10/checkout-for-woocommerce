@@ -369,8 +369,8 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                         </label>
 
                         <span class="payment_method_icons">
-                                    <?php echo $gateway->get_icon(); ?>
-                                </span>
+                            <?php echo $gateway->get_icon(); ?>
+                        </span>
                     </div>
 					<?php if ( $gateway->has_fields() || $gateway->get_description() ) : ?>
                         <div class="payment_box_wrap cfw-radio-reveal-content-wrap" <?php if ( ! $gateway->chosen ) : ?>style="display:none;"<?php endif; ?>>

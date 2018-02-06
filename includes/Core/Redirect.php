@@ -146,8 +146,10 @@ class Redirect {
 
             cfwEventData.settings = {
                 isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
-                user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>'
+                user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
+                is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>
             };
+
 
             $(document).ready(function() {
                 var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
@@ -169,6 +171,7 @@ class Redirect {
 	public static function head($path_manager, $version, $classes, $settings_manager) {
 		?>
 		<!DOCTYPE html>
+        <html <?php language_attributes(); ?>>
 		<head>
             <?php
 
@@ -233,6 +236,7 @@ class Redirect {
                 <?php endif; ?>
                 <?php echo $settings_manager->get_setting('custom_css'); ?>;
             </style>
+            <meta charset="<?php bloginfo( 'charset' ); ?>">
             <meta name="viewport" content="width=device-width">
 
             <?php echo $settings_manager->get_setting('header_scripts'); ?>
@@ -266,10 +270,13 @@ class Redirect {
             'bsnp-ex-cookie',
             'bsnp-cse',
             'stripe',
+            'stripe_checkout',
+            'wc_stripe_payment_request',
             'woocommerce_stripe',
             'stripe_apple_pay',
             'woocommerce_stripe_apple_pay',
             'woocommerce-tokenization-form',
+            'wc-credit-card-form',
         );
 
 		$ignore = apply_filters('cfw_allowed_script_handles', $ignore);

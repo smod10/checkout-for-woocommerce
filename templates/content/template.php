@@ -39,7 +39,7 @@
                 </ul>
 
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
-
+                    <input type="hidden" name="billing_phone" value="9999999999" id="billing_phone" />
                     <div id="order_review" class="woocommerce-checkout-review-order">
                         <!-- Customer Info Panel -->
                         <div id="cfw-customer-info" class="cfw-panel">

@@ -14,10 +14,11 @@ import { UpdateShippingFieldsRI }           from "../Actions/UpdateCheckoutActio
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { InfoType }                         from "../Services/ParsleyService";
 import { SelectLabelWrap }                  from "./SelectLabelWrap";
-import { Alert }                            from "./Alert";
+import {Alert, AlertInfo} from "./Alert";
 
 declare let wc_address_i18n_params: any;
 declare let wc_country_select_params: any;
+declare let wc_stripe_params: any;
 
 /**
  *
@@ -584,6 +585,39 @@ export class TabContainer extends Element {
         }
 
         this.findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data[target_country], label_class, locale_data);
+    }
+
+    setStripeThreeErrorHandlers(): void {
+        $(document).on('stripeError', this.onStripeThreeError );
+    }
+
+    onStripeThreeError( e, responseObject ): void {
+        let message = responseObject.response.error.message;
+
+        // Customers do not need to know the specifics of the below type of errors
+        // therefore return a generic localizable error message.
+        if (
+            'invalid_request_error' === responseObject.response.error.type ||
+            'api_connection_error'  === responseObject.response.error.type ||
+            'api_error'             === responseObject.response.error.type ||
+            'authentication_error'  === responseObject.response.error.type ||
+            'rate_limit_error'      === responseObject.response.error.type
+        ) {
+            message = wc_stripe_params.invalid_request_error;
+        }
+
+        if ( 'card_error' === responseObject.response.error.type && wc_stripe_params.hasOwnProperty( responseObject.response.error.code ) ) {
+            message = wc_stripe_params[ responseObject.response.error.code ];
+        }
+
+        let alertInfo: AlertInfo = {
+            type: "AccPassRequiredField",
+            message: message,
+            cssClass: "cfw-alert-danger"
+        };
+
+        let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+        alert.addAlert();
     }
 
     /**

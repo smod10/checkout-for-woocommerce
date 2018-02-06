@@ -38,6 +38,12 @@ export class TabContainer extends Element {
     private _tabContainerSections: Array<TabContainerSection>;
 
     /**
+     * @type {MutationObserver}
+     * @private
+     */
+    private _errorObserver: MutationObserver;
+
+    /**
      * @param jel
      * @param tabContainerBreadcrumb
      * @param tabContainerSections
@@ -587,41 +593,6 @@ export class TabContainer extends Element {
         this.findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data[target_country], label_class, locale_data);
     }
 
-    setStripeThreeErrorHandlers(): void {
-        if ( Main.instance.settings.is_stripe_three ) {
-            $(document).on('stripeError', this.onStripeThreeError );
-        }
-    }
-
-    onStripeThreeError( e, responseObject ): void {
-        let message = responseObject.response.error.message;
-
-        // Customers do not need to know the specifics of the below type of errors
-        // therefore return a generic localizable error message.
-        if (
-            'invalid_request_error' === responseObject.response.error.type ||
-            'api_connection_error'  === responseObject.response.error.type ||
-            'api_error'             === responseObject.response.error.type ||
-            'authentication_error'  === responseObject.response.error.type ||
-            'rate_limit_error'      === responseObject.response.error.type
-        ) {
-            message = wc_stripe_params.invalid_request_error;
-        }
-
-        if ( 'card_error' === responseObject.response.error.type && wc_stripe_params.hasOwnProperty( responseObject.response.error.code ) ) {
-            message = wc_stripe_params[ responseObject.response.error.code ];
-        }
-
-        let alertInfo: AlertInfo = {
-            type: "AccPassRequiredField",
-            message: message,
-            cssClass: "cfw-alert-danger"
-        };
-
-        let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
-        alert.addAlert();
-    }
-
     /**
      * This function is for override the defaults if the specified country has more information for the labels,
      * placeholders, and required items
@@ -1009,8 +980,7 @@ export class TabContainer extends Element {
         let completeOrderButton: Element = new Element($("#place_order"));
         let form: JQuery = $("form.woocommerce-checkout");
         let preSwapData = {};
-
-        form.on('submit', (e) => {
+        let submitHandler = function(e) {
             // Prevent any weirdness by preventing default
             e.preventDefault();
 
@@ -1024,9 +994,14 @@ export class TabContainer extends Element {
                     billing.val(preSwapData[field]);
                 }
 
+                if(this.errorObserver) {
+                    this.errorObserver.disconnect();
+                }
                 this.completeOrderClickListener(Main.instance.ajaxInfo, this.getFormObject());
             }
-        });
+        };
+
+        form.on('submit', submitHandler.bind(this));
 
         completeOrderButton.jel.on('click', () => {
 
@@ -1051,6 +1026,61 @@ export class TabContainer extends Element {
 
                     billing.val( shipping.val() );
                 });
+            }
+
+            // Select the node that will be observed for mutations
+            let targetNode = document.getElementById('checkout');
+            console.log("Found a target node", targetNode);
+
+            // Options for the observer (which mutations to observe)
+            let config = { childList: true, characterData: true, subtree: true };
+
+            // Callback function to execute when mutations are observed
+            let callback = (mutationsList) => {
+                for(let mutation of mutationsList) {
+                    if(mutation.type === "childList") {
+                        let addedNodes = mutation.addedNodes;
+                        let $errorNode: JQuery = null;
+
+                        addedNodes.forEach(node => {
+                           let $node: JQuery = $(node);
+                           let hasClass: boolean = $node.hasClass("woocommerce-error");
+
+                           if(hasClass) {
+                               $errorNode = $node;
+                               $errorNode.attr("class", "");
+                           }
+                        });
+
+                        if($errorNode) {
+                            console.log("RAN");
+
+                            let alertInfo: AlertInfo = {
+                                type: "AccPassRequiredField",
+                                message: $errorNode,
+                                cssClass: "cfw-alert-danger"
+                            };
+                            let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+
+                            alert.addAlert();
+
+                            if(this.errorObserver) {
+                                this.errorObserver.disconnect();
+                                this.errorObserver = null;
+                            }
+                        }
+                    }
+                }
+            };
+
+            if(!this.errorObserver) {
+                // Create an observer instance linked to the callback function
+                let observer = new MutationObserver(callback);
+
+                // Start observing the target node for configured mutations
+                observer.observe(targetNode, config);
+
+                this.errorObserver = observer;
             }
 
             form.trigger('submit');
@@ -1159,5 +1189,19 @@ export class TabContainer extends Element {
      */
     set tabContainerSections(value: Array<TabContainerSection>) {
         this._tabContainerSections = value;
+    }
+
+    /**
+     * @returns {MutationObserver}
+     */
+    get errorObserver(): MutationObserver {
+        return this._errorObserver;
+    }
+
+    /**
+     * @param {MutationObserver} value
+     */
+    set errorObserver(value: MutationObserver) {
+        this._errorObserver = value;
     }
 }

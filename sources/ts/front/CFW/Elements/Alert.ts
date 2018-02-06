@@ -1,6 +1,6 @@
 import { Element }              from "./Element";
 
-export type AlertInfo = { type: string, message: string, cssClass: string };
+export type AlertInfo = { type: string, message: any, cssClass: string };
 
 /**
  *

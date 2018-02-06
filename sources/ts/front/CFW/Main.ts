@@ -130,7 +130,6 @@ export class Main {
 		this.tabContainer.setTermsAndConditions();
 		this.tabContainer.setUpdateCheckout();
 		this.tabContainer.setCountryChangeHandlers();
-		this.tabContainer.setStripeThreeErrorHandlers();
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();

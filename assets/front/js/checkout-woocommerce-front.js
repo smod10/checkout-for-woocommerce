@@ -2505,7 +2505,9 @@ var TabContainer = /** @class */ (function (_super) {
         this.findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data[target_country], label_class, locale_data);
     };
     TabContainer.prototype.setStripeThreeErrorHandlers = function () {
-        $(document).on('stripeError', this.onStripeThreeError);
+        if (Main_1.Main.instance.settings.is_stripe_three) {
+            $(document).on('stripeError', this.onStripeThreeError);
+        }
     };
     TabContainer.prototype.onStripeThreeError = function (e, responseObject) {
         var message = responseObject.response.error.message;

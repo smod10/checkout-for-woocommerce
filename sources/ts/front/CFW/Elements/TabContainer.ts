@@ -588,7 +588,9 @@ export class TabContainer extends Element {
     }
 
     setStripeThreeErrorHandlers(): void {
-        $(document).on('stripeError', this.onStripeThreeError );
+        if ( Main.instance.settings.is_stripe_three ) {
+            $(document).on('stripeError', this.onStripeThreeError );
+        }
     }
 
     onStripeThreeError( e, responseObject ): void {

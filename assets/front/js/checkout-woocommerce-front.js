@@ -2804,7 +2804,8 @@ var TabContainer = /** @class */ (function (_super) {
             "country",
             "postcode",
             "state",
-            "city"
+            "city",
+            "phone"
         ];
         var formData = {
             post_data: checkout_form.serialize()
@@ -2821,7 +2822,11 @@ var TabContainer = /** @class */ (function (_super) {
         formArr["has_full_address"] = has_full_address;
         formArr["ship_to_different_address"] = ship_to_different_address;
         if (ship_to_different_address === 0) {
-            lookFor.forEach(function (field) { return formArr["billing_" + field] = formArr["shipping_" + field]; });
+            lookFor.forEach(function (field) {
+                if ($("billing_" + field).length > 0) {
+                    formArr["billing_" + field] = formArr["shipping_" + field];
+                }
+            });
         }
         return formData;
     };
@@ -2873,14 +2878,17 @@ var TabContainer = /** @class */ (function (_super) {
                 "country",
                 "postcode",
                 "state",
-                "city"
+                "city",
+                "phone"
             ];
             if (parseInt(form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
                 lookFor.forEach(function (field) {
                     var billing = $("#billing_" + field);
                     var shipping = $("#shipping_" + field);
-                    preSwapData[field] = billing.val();
-                    billing.val(shipping.val());
+                    if (billing.length > 0) {
+                        preSwapData[field] = billing.val();
+                        billing.val(shipping.val());
+                    }
                 });
             }
             // Select the node that will be observed for mutations
@@ -3778,6 +3786,7 @@ var TabContainerSection = /** @class */ (function (_super) {
      */
     TabContainerSection._inputLabelTypes = [
         { type: LabelType_1.LabelType.TEXT, cssClass: "cfw-text-input" },
+        { type: LabelType_1.LabelType.TEL, cssClass: "cfw-tel-input" },
         { type: LabelType_1.LabelType.PASSWORD, cssClass: "cfw-password-input" },
         { type: LabelType_1.LabelType.SELECT, cssClass: "cfw-select-input" }
     ];

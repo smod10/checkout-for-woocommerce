@@ -1113,7 +1113,7 @@ label[for="card-element"] {
 #cfw-deductors-list .cfw-input-wrap-row {
   margin-bottom: 1.25em; }
 
-#cfw-deductors-list .cfw-input-wrap > input[type="text"], #cfw-deductors-list .cfw-input-wrap > input[type="email"], #cfw-deductors-list .cfw-input-wrap > input[type="password"] {
+#cfw-deductors-list .cfw-input-wrap > input[type="text"], #cfw-deductors-list .cfw-input-wrap > input[type="tel"], #cfw-deductors-list .cfw-input-wrap > input[type="email"], #cfw-deductors-list .cfw-input-wrap > input[type="password"] {
   font-size: 14px; }
 
 .parsley-errors-list {

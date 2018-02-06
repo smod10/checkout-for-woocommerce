@@ -45,6 +45,7 @@ export class TabContainerSection extends Element {
      */
     private static _inputLabelTypes: Array<InputLabelType> = [
         { type: LabelType.TEXT, cssClass: "cfw-text-input" },
+        { type: LabelType.TEL, cssClass: "cfw-tel-input"},
         { type: LabelType.PASSWORD, cssClass: "cfw-password-input"},
         { type: LabelType.SELECT, cssClass: "cfw-select-input"}
     ];

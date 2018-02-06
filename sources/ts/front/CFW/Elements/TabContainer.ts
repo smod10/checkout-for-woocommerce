@@ -928,7 +928,8 @@ export class TabContainer extends Element {
             "country",
             "postcode",
             "state",
-            "city"
+            "city",
+            "phone"
         ];
 
         let formData = {
@@ -950,7 +951,11 @@ export class TabContainer extends Element {
         formArr["ship_to_different_address"] = ship_to_different_address;
 
         if(ship_to_different_address === 0) {
-            lookFor.forEach(field => formArr[`billing_${field}`] = formArr[`shipping_${field}`]);
+            lookFor.forEach(field => {
+                if($(`billing_${field}`).length > 0) {
+                    formArr[`billing_${field}`] = formArr[`shipping_${field}`]
+                }
+            });
         }
 
         return formData;
@@ -1014,7 +1019,8 @@ export class TabContainer extends Element {
                 "country",
                 "postcode",
                 "state",
-                "city"
+                "city",
+                "phone"
             ];
 
             if(parseInt(form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
@@ -1022,9 +1028,11 @@ export class TabContainer extends Element {
                     let billing = $(`#billing_${field}`);
                     let shipping = $(`#shipping_${field}`);
 
-                    preSwapData[field] = billing.val();
+                    if(billing.length > 0) {
+                        preSwapData[field] = billing.val();
 
-                    billing.val( shipping.val() );
+                        billing.val(shipping.val());
+                    }
                 });
             }
 

@@ -462,7 +462,7 @@ label[for="card-element"] {
   }
 
   .cfw-input-wrap {
-    & > input[type="text"], & > input[type="email"], & > input[type="password"] {
+    & > input[type="text"], & > input[type="tel"], & > input[type="email"], & > input[type="password"] {
       font-size: 14px;
     }
   }

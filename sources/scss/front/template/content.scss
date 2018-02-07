@@ -317,12 +317,6 @@ label[for="card-element"] {
   padding-top: 10px;
 }
 
-@media(max-width: 600px) {
-  .state-gone-margin {
-    margin-bottom: 0 !important;
-  }
-}
-
 .remove-state-down-arrow {
   & > .cfw-input-wrap:after {
     content: none;
@@ -898,6 +892,16 @@ label[for="card-element"] {
       width: 100%;
       text-align: center;
     }
+  }
+}
+
+@media(max-width: 600px) {
+  .state-gone-margin {
+    margin-bottom: 0 !important;
+  }
+
+  #cfw-billing-fields-container .cfw-input-wrap-row:last-child > .address-field {
+    margin-bottom: 0;
   }
 }
 

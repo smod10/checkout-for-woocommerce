@@ -16,7 +16,7 @@
  * Plugin Name:       Checkout for WooCommerce
  * Plugin URI:        https://www.CheckoutWC.com
  * Description:       Beautiful, conversion optimized checkout template for WooCommerce.
- * Version:           1.1.5
+ * Version:           1.2.0
  * Author:            Objectiv
  * Author URI:        https://objectiv.co
  * License:           GPL-2.0+
@@ -36,7 +36,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define('CFW_NAME', 'Checkout for WooCommerce');
 define('CFW_UPDATE_URL', 'https://www.checkoutwc.com');
-define('CFW_VERSION', '1.1.5');
+define('CFW_VERSION', '1.2.0');
 define('CFW_PATH', dirname(__FILE__) );
 define('CFW_URL', plugins_url('/', __FILE__) );
 

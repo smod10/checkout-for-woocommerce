@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2018-01-17 11:51-0500\n"
-"PO-Revision-Date: 2018-01-17 11:51-0500\n"
+"POT-Creation-Date: 2018-02-07 14:15-0500\n"
+"PO-Revision-Date: 2018-02-07 14:15-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
@@ -21,41 +21,41 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: functions.php:48 includes/Main.php:371
+#: functions.php:45 includes/Main.php:447
 msgid "required"
 msgstr "必要的"
 
-#: functions.php:109
+#: functions.php:106
 msgid "Select a country&hellip;"
 msgstr "选择一个国家＆hellip;"
 
-#: functions.php:117
+#: functions.php:114
 msgid "Update country"
 msgstr "更新国家"
 
-#: functions.php:136
+#: functions.php:133
 msgid "Select a state&hellip;"
 msgstr "选择一个地区&hellip;"
 
-#: functions.php:181
+#: functions.php:178
 msgid "Choose an option"
 msgstr "选择一个选项"
 
-#: functions.php:313 includes/Action/UpdateCheckoutAction.php:121
+#: functions.php:317 includes/Action/UpdateCheckoutAction.php:121
 #, php-format
 msgctxt "shipping packages"
 msgid "Shipping"
 msgid_plural "Shipping %d"
 msgstr[0] "运输"
 
-#: functions.php:340
+#: functions.php:344
 msgid ""
 "There are no shipping methods available. Please double check your address, "
 "or contact us if you need any help."
 msgstr ""
 "没有可用的运送方式。请仔细检查您的地址，如果您需要任何帮助，请联系我们。"
 
-#: functions.php:426
+#: functions.php:409
 msgid ""
 "Sorry, it seems that there are no available payment methods for your "
 "location. Please contact us if you require assistance or wish to make "
@@ -73,136 +73,136 @@ msgstr ""
 "们。"
 
 #. Plugin Name of the plugin/theme
-#: includes/Core/Admin.php:82 includes/Core/Admin.php:102
+#: includes/Core/Admin.php:79 includes/Core/Admin.php:99
 #, fuzzy
 msgid "Checkout for WooCommerce"
 msgstr "Checkout for WooCommerce"
 
-#: includes/Core/Admin.php:85
+#: includes/Core/Admin.php:82
 msgid "General"
 msgstr "一般"
 
-#: includes/Core/Admin.php:86
+#: includes/Core/Admin.php:83
 msgid "Design"
 msgstr "设计"
 
-#: includes/Core/Admin.php:87
+#: includes/Core/Admin.php:84
 msgid "License"
 msgstr "许可证"
 
-#: includes/Core/Admin.php:88
+#: includes/Core/Admin.php:85
 msgid "Support"
 msgstr "支持"
 
-#: includes/Core/Admin.php:103
+#: includes/Core/Admin.php:100
 msgid ""
 "Checkout for WooCommerce provides a beautiful, conversion optimized checkout "
 "template for WooCommerce."
 msgstr "结帐 WooCommerce 提供了一个美丽的, 转换优化的 WooCommerce 结帐模板."
 
-#: includes/Core/Admin.php:128
+#: includes/Core/Admin.php:125
 msgid "Enable / Disable"
 msgstr "启用/停用"
 
-#: includes/Core/Admin.php:132
+#: includes/Core/Admin.php:129
 msgid "Use Checkout for WooCommerce Template"
 msgstr "使用Checkout进行WooCommerce模板"
 
-#: includes/Core/Admin.php:133
+#: includes/Core/Admin.php:130
 msgid ""
 "Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always "
 "enabled for admin users.)"
 msgstr "启用或禁用 WooCommerce 主题的签出。(注： 主题始终为管理员用户启用。)"
 
-#: includes/Core/Admin.php:139
+#: includes/Core/Admin.php:136
 msgid "Header Scripts"
 msgstr "页眉脚本"
 
-#: includes/Core/Admin.php:145
+#: includes/Core/Admin.php:142
 msgid ""
 "This code will output immediately before the closing <code>&lt;/head&gt;</"
 "code> tag in the document source."
 msgstr "此代码将在文档源中的关闭 <code>&lt;/head&gt;</code> 标记之前立即输出。"
 
-#: includes/Core/Admin.php:153
+#: includes/Core/Admin.php:150
 msgid "Footer Scripts"
 msgstr "頁尾腳本"
 
-#: includes/Core/Admin.php:159
+#: includes/Core/Admin.php:156
 msgid ""
 "This code will output immediately before the closing <code>&lt;/body&gt;</"
 "code> tag in the document source."
 msgstr "此代码将在文档源中的关闭 <code>&lt;/body&gt;</code> 标记之前立即输出。"
 
-#: includes/Core/Admin.php:187
+#: includes/Core/Admin.php:184
 msgid "Logo"
 msgstr "标识"
 
-#: includes/Core/Admin.php:193
+#: includes/Core/Admin.php:190
 msgid "Upload image"
 msgstr "上传图片"
 
-#: includes/Core/Admin.php:196
+#: includes/Core/Admin.php:193
 msgid "Clear Logo"
 msgstr "删除徽标"
 
-#: includes/Core/Admin.php:202
+#: includes/Core/Admin.php:199
 msgid "Header Background Color"
 msgstr "页眉背景色"
 
-#: includes/Core/Admin.php:211
+#: includes/Core/Admin.php:208
 msgid "Header Text Color"
 msgstr "页眉文本颜色"
 
-#: includes/Core/Admin.php:220
+#: includes/Core/Admin.php:217
 msgid "Footer Background Color"
 msgstr "页脚背景颜色"
 
-#: includes/Core/Admin.php:229
+#: includes/Core/Admin.php:226
 msgid "Footer Text Color"
 msgstr "页脚文字颜色"
 
-#: includes/Core/Admin.php:238
+#: includes/Core/Admin.php:235
 msgid "Footer Text"
 msgstr "页脚文本"
 
-#: includes/Core/Admin.php:244
+#: includes/Core/Admin.php:241
 msgid ""
 "If left blank, a standard copyright notice will be displayed. Set to a "
 "single space to override this behavior."
 msgstr "如果保留空白, 将显示标准版权声明。设置为单个空格以覆盖此行为。"
 
-#: includes/Core/Admin.php:252
+#: includes/Core/Admin.php:249
 msgid "Primary Button Color"
 msgstr "主按钮颜色"
 
-#: includes/Core/Admin.php:261
+#: includes/Core/Admin.php:258
 msgid "Primary Button Text Color"
 msgstr "主按钮文字颜色"
 
-#: includes/Core/Admin.php:270
+#: includes/Core/Admin.php:267
 msgid "Secondary Button Color"
 msgstr "次级按钮颜色"
 
-#: includes/Core/Admin.php:279
+#: includes/Core/Admin.php:276
 msgid "Secondary Button Text Color"
 msgstr "次要按钮文字颜色"
 
-#: includes/Core/Admin.php:288
+#: includes/Core/Admin.php:285
 msgid "Link Color"
 msgstr "链接颜色"
 
-#: includes/Core/Admin.php:297
+#: includes/Core/Admin.php:294
 msgid "Custom CSS"
 msgstr "自定义样式"
 
-#: includes/Core/Admin.php:303
+#: includes/Core/Admin.php:300
 msgid ""
 "Add Custom CSS rules to fully control the appearance of the checkout "
 "template."
 msgstr "添加自定义 CSS 规则以完全控制签出模板的外观。"
 
-#: includes/Core/Admin.php:338
+#: includes/Core/Admin.php:335
 msgid ""
 "We can't wait to help you with Checkout for WooCommerce! Please fill out the "
 "following form and one of our support staff will respond within 12-24 hours. "
@@ -211,39 +211,33 @@ msgstr ""
 "我们迫不及待要帮你结帐 WooCommerce!请填写以下表格, 我们的一名支持人员将在"
 "12-24 小时内回复。平均)"
 
-#: includes/Core/Admin.php:342
+#: includes/Core/Admin.php:339
 msgid "Need help?"
 msgstr "需要幫助？"
 
-#: includes/Core/Admin.php:344
+#: includes/Core/Admin.php:341
 msgid "Excellent support is in our DNA."
 msgstr "我们的 DNA 有很好的支持"
 
-#: includes/Core/Admin.php:346
+#: includes/Core/Admin.php:343
 msgid "Many issues are addressed in our documentation:"
 msgstr "我们的文档中讨论了许多问题:"
 
-#: includes/Core/Admin.php:347
+#: includes/Core/Admin.php:344
 msgid "View Documentation"
 msgstr "查看文档"
 
-#: includes/Core/Admin.php:349
+#: includes/Core/Admin.php:346
 msgid ""
 "If you need help for something not covered in our documentation, please "
 "click this button to file a support request:"
 msgstr "如果您需要我们文档中未涉及的内容的帮助, 请单击此按钮以提交支持请求:"
 
-#: includes/Core/Admin.php:350
+#: includes/Core/Admin.php:347
 msgid "Support Request"
 msgstr "要求支持"
 
 #: includes/Core/Admin.php:465
-msgid ""
-"Checkout for WooCommerce requires WooCommerce Stripe Payment Gateway 3.2.x. "
-"You currently have version "
-msgstr ""
-
-#: includes/Core/Admin.php:478
 #, php-format
 msgid ""
 "Checkout for WooCommerce: Your license key appears to have expired. Please "
@@ -255,7 +249,7 @@ msgstr ""
 "有效，或<a target=\"_blank\" href=\"https://www.checkoutwc.com/checkout/?"
 "edd_license_key=%s\">立即续订许可证</a>以恢复完整功能。"
 
-#: includes/Core/Admin.php:481
+#: includes/Core/Admin.php:468
 msgid ""
 "Checkout for WooCommerce: Your license key is missing or invalid. Please "
 "verify that your license key is valid or <a target=\"_blank\" href=\"https://"
@@ -265,7 +259,7 @@ msgstr ""
 "有效，或<a target=\"_blank\" href=\"https://www.checkoutwc.com/\">购买许可证"
 "</a>以恢复完整功能。"
 
-#: includes/Core/Admin.php:486
+#: includes/Core/Admin.php:473
 msgid ""
 "Thank you for installing Checkout for WooCommerce! To get started, click on "
 "<strong>License</strong> below and activate your license key!"
@@ -273,51 +267,56 @@ msgstr ""
 "感谢您为 WooCommerce 安装结帐!要开始, 请单击下面的<strong>许可证</strong>并激"
 "活您的许可证密钥!"
 
-#: includes/Core/Admin.php:510
+#: includes/Core/Admin.php:497
 msgid "Settings"
 msgstr "设置"
 
-#: includes/Core/Compatibility.php:142
+#: includes/Core/Compatibility.php:161
 msgid "Or"
 msgstr "或"
 
-#: includes/Core/Form.php:39 includes/Core/Form.php:40
+#: includes/Core/Form.php:73 includes/Core/Form.php:243
+#: includes/Core/Form.php:245
+msgid "Phone"
+msgstr ""
+
+#: includes/Core/Form.php:93 includes/Core/Form.php:94
 msgid "First name"
 msgstr "姓氏"
 
-#: includes/Core/Form.php:56 includes/Core/Form.php:57
+#: includes/Core/Form.php:110 includes/Core/Form.php:111
 msgid "Last name"
 msgstr "名字"
 
-#: includes/Core/Form.php:72
+#: includes/Core/Form.php:126
 msgid "Address"
 msgstr "地址"
 
-#: includes/Core/Form.php:73
+#: includes/Core/Form.php:127
 msgid "Street address"
 msgstr "街道地址"
 
-#: includes/Core/Form.php:88 includes/Core/Form.php:89
+#: includes/Core/Form.php:142 includes/Core/Form.php:143
 msgid "Apt, suite, etc. (optional)"
 msgstr "Apt，Suite，Bldg。 （可选）"
 
-#: includes/Core/Form.php:101 includes/Core/Form.php:102
+#: includes/Core/Form.php:155 includes/Core/Form.php:156
 msgid "Company name"
 msgstr "公司名称"
 
-#: includes/Core/Form.php:114
+#: includes/Core/Form.php:168
 msgid "Country"
 msgstr "國家"
 
-#: includes/Core/Form.php:127 includes/Core/Form.php:128
+#: includes/Core/Form.php:181 includes/Core/Form.php:182
 msgid "Postcode / ZIP"
 msgstr "邮政编码"
 
-#: includes/Core/Form.php:148 includes/Core/Form.php:149
+#: includes/Core/Form.php:202 includes/Core/Form.php:203
 msgid "State / County"
 msgstr "省/市"
 
-#: includes/Core/Form.php:168 includes/Core/Form.php:169
+#: includes/Core/Form.php:222 includes/Core/Form.php:224
 msgid "Town / City"
 msgstr "城市"
 
@@ -325,211 +324,211 @@ msgstr "城市"
 msgid "Checkout is not available whilst your cart is empty."
 msgstr "当您的购物车为空时, 结帐不可用。"
 
-#: includes/Main.php:354
-msgid "Select an option&hellip;"
-msgstr "选择一个选项&hellip；"
-
-#: includes/Main.php:355
-msgctxt "enhanced select"
-msgid "No matches found"
-msgstr ""
-
-#: includes/Main.php:356
-msgctxt "enhanced select"
-msgid "Loading failed"
-msgstr ""
-
-#: includes/Main.php:357
-msgctxt "enhanced select"
-msgid "Please enter 1 or more characters"
-msgstr ""
-
-#: includes/Main.php:358
-msgctxt "enhanced select"
-msgid "Please enter %qty% or more characters"
-msgstr ""
-
-#: includes/Main.php:359
-msgctxt "enhanced select"
-msgid "Please delete 1 character"
-msgstr ""
-
-#: includes/Main.php:360
-msgctxt "enhanced select"
-msgid "Please delete %qty% characters"
-msgstr ""
-
-#: includes/Main.php:361
-msgctxt "enhanced select"
-msgid "You can only select 1 item"
-msgstr ""
-
-#: includes/Main.php:362
-msgctxt "enhanced select"
-msgid "You can only select %qty% items"
-msgstr ""
-
-#: includes/Main.php:363
-msgctxt "enhanced select"
-msgid "Loading more results&hellip;"
-msgstr ""
-
-#: includes/Main.php:364
-msgctxt "enhanced select"
-msgid "Searching&hellip;"
-msgstr ""
-
-#: includes/Main.php:370
-msgctxt "checkout-wc"
-msgid "Apt, suite, etc. (optional)"
-msgstr "Apt，Suite，Bldg。 （可选）"
-
-#: includes/Utilities/Activator.php:47
+#: includes/Main.php:382
 msgid ""
 "Activation failed: Please activate WooCommerce in order to use Checkout for "
 "WooCommerce"
 msgstr "激活失败：请激活WooCommerce以便为WooCommerce使用Checkout"
 
+#: includes/Main.php:430
+msgid "Select an option&hellip;"
+msgstr "选择一个选项&hellip；"
+
+#: includes/Main.php:431
+msgctxt "enhanced select"
+msgid "No matches found"
+msgstr ""
+
+#: includes/Main.php:432
+msgctxt "enhanced select"
+msgid "Loading failed"
+msgstr ""
+
+#: includes/Main.php:433
+msgctxt "enhanced select"
+msgid "Please enter 1 or more characters"
+msgstr ""
+
+#: includes/Main.php:434
+msgctxt "enhanced select"
+msgid "Please enter %qty% or more characters"
+msgstr ""
+
+#: includes/Main.php:435
+msgctxt "enhanced select"
+msgid "Please delete 1 character"
+msgstr ""
+
+#: includes/Main.php:436
+msgctxt "enhanced select"
+msgid "Please delete %qty% characters"
+msgstr ""
+
+#: includes/Main.php:437
+msgctxt "enhanced select"
+msgid "You can only select 1 item"
+msgstr ""
+
+#: includes/Main.php:438
+msgctxt "enhanced select"
+msgid "You can only select %qty% items"
+msgstr ""
+
+#: includes/Main.php:439
+msgctxt "enhanced select"
+msgid "Loading more results&hellip;"
+msgstr ""
+
+#: includes/Main.php:440
+msgctxt "enhanced select"
+msgid "Searching&hellip;"
+msgstr ""
+
+#: includes/Main.php:446
+msgctxt "checkout-wc"
+msgid "Apt, suite, etc. (optional)"
+msgstr "Apt，Suite，Bldg。 （可选）"
+
 #: templates/content/template.php:26
 msgid "Cart"
 msgstr ""
 
-#: templates/content/template.php:29 templates/content/template.php:51
+#: templates/content/template.php:29 templates/content/template.php:50
 msgid "Customer information"
 msgstr "客户信息"
 
-#: templates/content/template.php:33 templates/content/template.php:184
+#: templates/content/template.php:33 templates/content/template.php:183
 msgid "Shipping method"
 msgstr "يەتكۈزۈش ئۇسۇلى"
 
-#: templates/content/template.php:37 templates/content/template.php:216
+#: templates/content/template.php:37 templates/content/template.php:215
 msgid "Payment method"
 msgstr "付款方法"
 
-#: templates/content/template.php:58
+#: templates/content/template.php:57
 msgid "Already have an account with us?"
 msgstr "已经拥有账户?"
 
-#: templates/content/template.php:62
+#: templates/content/template.php:61
 msgid "Log in."
 msgstr "登录."
 
-#: templates/content/template.php:67
+#: templates/content/template.php:66
 msgid ""
 "If you do not have an account, the information provided here will be used to "
 "create an account on checkout."
 msgstr "如果您没有帐户，这里提供的信息将用于在结帐时创建一个帐户。"
 
-#: templates/content/template.php:75
+#: templates/content/template.php:74
 msgid "Email"
 msgstr "电子邮件"
 
-#: templates/content/template.php:82
+#: templates/content/template.php:81
 msgid "Password"
 msgstr "密码"
 
-#: templates/content/template.php:87
+#: templates/content/template.php:86
 msgid "Login"
 msgstr "登录"
 
-#: templates/content/template.php:90
+#: templates/content/template.php:89
 msgid "Login is optional. You may continue with your order below."
 msgstr "登录是可选的。你可以继续你按以下的顺序。"
 
-#: templates/content/template.php:105
+#: templates/content/template.php:104
 #, fuzzy, php-format
 #| msgid "Create a %s shopping account."
 msgid "Create %s shopping account."
 msgstr "创建购物帐户 %s。"
 
-#: templates/content/template.php:112
+#: templates/content/template.php:111
 #, php-format
 msgid "Welcome back, %s"
 msgstr "欢迎回来, %s"
 
-#: templates/content/template.php:125
+#: templates/content/template.php:124
 msgid "Billing address"
 msgstr "帳單地址"
 
-#: templates/content/template.php:127 templates/content/template.php:167
+#: templates/content/template.php:126 templates/content/template.php:166
 msgid "Shipping address"
 msgstr "配送地址"
 
-#: templates/content/template.php:149
+#: templates/content/template.php:148
 msgid "Return to cart"
 msgstr "返回到购物车"
 
-#: templates/content/template.php:152
+#: templates/content/template.php:151
 msgid "Continue to shipping method"
 msgstr "继续运送方式"
 
-#: templates/content/template.php:154 templates/content/template.php:202
+#: templates/content/template.php:153 templates/content/template.php:201
 msgid "Continue to payment method"
 msgstr "继续付款方式"
 
-#: templates/content/template.php:175
+#: templates/content/template.php:174
 msgid "Edit shipping address"
 msgstr "编辑送货地址"
 
-#: templates/content/template.php:186
+#: templates/content/template.php:185
 msgid "Select a shipping method:"
 msgstr "選擇其它配送方式:"
 
-#: templates/content/template.php:199 templates/content/template.php:277
+#: templates/content/template.php:198 templates/content/template.php:292
 msgid "Return to customer information"
 msgstr "返回到客户信息"
 
-#: templates/content/template.php:223
+#: templates/content/template.php:222
 msgid ""
 "All transactions are secure and encrypted. Credit card information is never "
 "stored on our servers."
 msgstr "所有的交易都是安全和加密。信用卡信息永远不会存储在我们的服务器上。"
 
-#: templates/content/template.php:232
+#: templates/content/template.php:231
 msgid "Your order is free. No payment is required."
 msgstr "您的订单是免费的。不需要付款。"
 
-#: templates/content/template.php:245
+#: templates/content/template.php:244
 msgid "Same as shipping address"
 msgstr "跟邮寄地址一样"
 
-#: templates/content/template.php:253
+#: templates/content/template.php:252
 msgid "Use a different billing address"
 msgstr "使用不同的帐单地址"
 
-#: templates/content/template.php:275
+#: templates/content/template.php:290
 msgid "Return to shipping information"
 msgstr "返回到发货信息"
 
-#: templates/content/template.php:281
+#: templates/content/template.php:296
 msgid "Complete Order"
 msgstr "已完成的订单"
 
-#: templates/content/template.php:298
+#: templates/content/template.php:313
 msgid "Show order summary"
 msgstr "显示订单总结"
 
-#: templates/content/template.php:319
+#: templates/content/template.php:334
 msgid "Enter Promo Code"
 msgstr "输入促销代码"
 
-#: templates/content/template.php:324
+#: templates/content/template.php:339
 msgid "Apply"
 msgstr "应用"
 
-#: templates/content/template.php:334
+#: templates/content/template.php:349
 msgid "Subtotal"
 msgstr "小计"
 
-#: templates/content/template.php:346
+#: templates/content/template.php:361
 msgid "Shipping"
 msgstr "运输"
 
-#: templates/content/template.php:359
+#: templates/content/template.php:374
 msgid "Taxes"
 msgstr "税额"
 
-#: templates/content/template.php:366
+#: templates/content/template.php:381
 msgid "Total"
 msgstr "共计"
 

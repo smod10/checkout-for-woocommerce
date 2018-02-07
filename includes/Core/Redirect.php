@@ -318,9 +318,6 @@ class Redirect {
 		// Fire off an action before we load the template pieces
 		do_action('cfw_template_before_load');
 
-		// Required to render form fields
-		$form = new Form();
-
 		// Load the template pieces
 		$template_manager->load_templates( $path_manager->get_template_information( $template_manager->get_template_sub_folders() ), $global_template_parameters );
 

@@ -2,6 +2,8 @@
 
 namespace Objectiv\Plugins\Checkout\Core;
 
+use Objectiv\Plugins\Checkout\Main;
+
 /**
  * Class Form
  *
@@ -13,18 +15,11 @@ namespace Objectiv\Plugins\Checkout\Core;
 class Form {
 
 	/**
-	 * @since 1.0.0
-	 * @access public
-	 * @var true|void $base_fields
+	 * @since 1.1.5
+	 * @access private
+	 * @var string Is the phone enabled in the settings?
 	 */
-	public $base_fields;
-
-	/**
-	 * @since 1.0.0
-	 * @access public
-	 * @var object $wc_stripe_apple_pay
-	 */
-	public $wc_stripe_apple_pay;
+	private $phone_enabled;
 
 	/**
 	 * Form constructor.
@@ -33,17 +28,44 @@ class Form {
 	 * @access public
 	 */
 	public function __construct() {
-		$this->base_fields = add_filter('woocommerce_default_address_fields', array($this, 'get_custom_default_address_fields'));
+		$this->phone_enabled = apply_filters('cfw_enable_phone', false);
 
-		add_filter('woocommerce_billing_fields', function($address_fields, $country) {
-			$address_fields["billing_phone"] = $this->get_custom_default_address_fields()["phone"];
+		add_filter('woocommerce_default_address_fields', array($this, 'get_custom_default_address_fields'));
 
-			return $address_fields;
-		}, 10, 2);
+		if($this->phone_enabled) {
+			add_filter( 'woocommerce_billing_fields', array( $this, 'enforce_billing_phone_options_from_default' ), 10, 2 );
+			add_action( 'woocommerce_checkout_create_order', array( $this, 'update_shipping_phone_on_order_create' ), 10, 2 );
+			add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $this, 'shipping_phone_display_admin_order_meta' ), 10, 1 );
+		}
+	}
+
+	function enforce_billing_phone_options_from_default($address_fields, $country) {
+		$address_fields["billing_phone"] = $this->get_custom_default_address_fields()["phone"];
+
+		return $address_fields;
+	}
+
+	/**
+	 * @param $order
+	 */
+	function shipping_phone_display_admin_order_meta($order){
+		$shipping_phone = get_post_meta( $order->get_id(), '_shipping_phone', true );
+
+		echo '<p><strong>'.__('Phone').':</strong><br /><a href="tel:' . $shipping_phone . '">' . $shipping_phone . '</a></p>';
+	}
+
+	/**
+	 * @param $order
+	 * @param $data
+	 */
+	function update_shipping_phone_on_order_create( $order, $data ) {
+		if ( ! empty( $_POST['shipping_phone'] ) ) {
+			$order->update_meta_data( '_shipping_phone', sanitize_text_field( $_POST['shipping_phone'] ) );
+		}
 	}
 
 	public function get_custom_default_address_fields() {
-		return array(
+		$defaults = array(
 			'first_name' => array(
 				'label'        => __( 'First name', CFW_TEXT_DOMAIN ),
 				'placeholder'  => esc_attr__('First name', CFW_TEXT_DOMAIN),
@@ -188,23 +210,29 @@ class Form {
 				'custom_attributes' => array(
 					"data-parsley-trigger"              => "change focusout"
 				)
-			),
-			'phone' => array(
+			)
+		);
+
+		// If the phone is enabled in the settings
+		if($this->phone_enabled) {
+			$defaults['phone'] = array(
 				'type'         => 'tel',
 				'label'        => __( 'Phone', 'woocommerce' ),
 				'required'     => true,
-				'placeholder'  => esc_attr__('Phone', CFW_TEXT_DOMAIN),
+				'placeholder'  => esc_attr__( 'Phone', CFW_TEXT_DOMAIN ),
 				'class'        => array( 'address-field' ),
 				'autocomplete' => 'tel',
-				'input_class'  => array('garlic-auto-save'),
+				'input_class'  => array( 'garlic-auto-save' ),
 				'priority'     => 70,
-				'wrap'         => $this->input_wrap('tel', 12, 70),
+				'wrap'         => $this->input_wrap( 'tel', 12, 70 ),
 				'label_class'  => 'cfw-input-label',
 				'start'        => true,
 				'end'          => true,
 				'validate'     => array( 'phone' ),
-			)
-		);
+			);
+		}
+
+		return $defaults;
 	}
 
 	/**

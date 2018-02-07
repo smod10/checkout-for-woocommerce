@@ -12,6 +12,7 @@ use Objectiv\BoosterSeat\Base\Singleton;
 use Objectiv\Plugins\Checkout\Action\ApplyCouponAction;
 use Objectiv\Plugins\Checkout\Action\CompleteOrderAction;
 use Objectiv\Plugins\Checkout\Action\UpdateCheckoutAction;
+use Objectiv\Plugins\Checkout\Core\Form;
 use Objectiv\Plugins\Checkout\Core\Redirect;
 use Objectiv\Plugins\Checkout\Core\Loader;
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
@@ -135,6 +136,13 @@ class Main extends Singleton {
 	 * @var Deactivator $deactivator Handles deactivation
 	 */
 	private $deactivator;
+
+	/**
+	 * @since 1.1.5
+	 * @access private
+	 * @var Form $form Handles the WooCommerce form changes
+	 */
+	private $form;
 
 	/**
 	 * Main constructor.
@@ -264,6 +272,15 @@ class Main extends Singleton {
 	 */
 	public function get_deactivator() {
 		return $this->deactivator;
+	}
+
+	/**
+	 * @since 1.1.5
+	 * @access public
+	 * @return Form The form object
+	 */
+	public function get_form() {
+		return $this->form;
 	}
 
 	/**
@@ -448,6 +465,9 @@ class Main extends Singleton {
 
 			// Load Compatibility Class
 			$this->compatibility();
+
+			// Required to render form fields
+			$this->form = new Form();
 		}
 
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
@@ -473,8 +493,6 @@ class Main extends Singleton {
 		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) ) {
 			// For some reason, using the loader add_filter here doesn't work *shrug*
 			add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
-			add_action( 'woocommerce_checkout_create_order', array($this, 'update_shipping_phone_on_order_create'), 10, 2);
-			add_action( 'woocommerce_admin_order_data_after_shipping_address', array($this, 'shipping_phone_display_admin_order_meta'), 10, 1 );
 		}
 
 
@@ -490,18 +508,6 @@ class Main extends Singleton {
 				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
 			}
 		});
-	}
-
-	function shipping_phone_display_admin_order_meta($order){
-		$shipping_phone = get_post_meta( $order->get_id(), '_shipping_phone', true );
-
-		echo '<p><strong>'.__('Phone').':</strong><br /><a href="tel:' . $shipping_phone . '">' . $shipping_phone . '</a></p>';
-	}
-
-	function update_shipping_phone_on_order_create( $order, $data ) {
-		if ( ! empty( $_POST['shipping_phone'] ) ) {
-			$order->update_meta_data( '_shipping_phone', sanitize_text_field( $_POST['shipping_phone'] ) );
-		}
 	}
 
 	/**

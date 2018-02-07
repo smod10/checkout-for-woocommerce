@@ -1044,6 +1044,7 @@ export class TabContainer extends Element {
 
             // Callback function to execute when mutations are observed
             let callback = (mutationsList) => {
+
                 for(let mutation of mutationsList) {
                     if(mutation.type === "childList") {
                         let addedNodes = mutation.addedNodes;
@@ -1052,8 +1053,9 @@ export class TabContainer extends Element {
                         addedNodes.forEach(node => {
                            let $node: JQuery = $(node);
                            let hasClass: boolean = $node.hasClass("woocommerce-error");
+                           let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
 
-                           if(hasClass) {
+                           if(hasClass || hasGroupCheckoutClass) {
                                $errorNode = $node;
                                $errorNode.attr("class", "");
                            }

@@ -2,8 +2,6 @@
 
 namespace Objectiv\Plugins\Checkout\Core;
 
-use Objectiv\Plugins\Checkout\Main;
-
 /**
  * Class Form
  *

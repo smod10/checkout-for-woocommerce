@@ -1061,7 +1061,7 @@ export class TabContainer extends Element {
 
                         if($errorNode) {
                             let alertInfo: AlertInfo = {
-                                type: "AccPassRequiredField",
+                                type: "CFWSubmitError",
                                 message: $errorNode,
                                 cssClass: "cfw-alert-danger"
                             };

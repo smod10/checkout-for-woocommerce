@@ -1038,7 +1038,6 @@ export class TabContainer extends Element {
 
             // Select the node that will be observed for mutations
             let targetNode = document.getElementById('checkout');
-            console.log("Found a target node", targetNode);
 
             // Options for the observer (which mutations to observe)
             let config = { childList: true, characterData: true, subtree: true };
@@ -1061,8 +1060,6 @@ export class TabContainer extends Element {
                         });
 
                         if($errorNode) {
-                            console.log("RAN");
-
                             let alertInfo: AlertInfo = {
                                 type: "AccPassRequiredField",
                                 message: $errorNode,

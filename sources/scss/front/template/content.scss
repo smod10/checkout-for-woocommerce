@@ -227,10 +227,6 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
       &:last-child { margin-bottom: 0; }
     }
 
-    #wc-stripe-cc-form {
-      display: none;
-    }
-
     ul {
       padding: 0;
       margin-left: 0;
@@ -319,12 +315,6 @@ label[for="card-element"] {
 
 .shipping-message {
   padding-top: 10px;
-}
-
-@media(max-width: 600px) {
-  .state-gone-margin {
-    margin-bottom: 0 !important;
-  }
 }
 
 .remove-state-down-arrow {
@@ -466,7 +456,7 @@ label[for="card-element"] {
   }
 
   .cfw-input-wrap {
-    & > input[type="text"], & > input[type="email"], & > input[type="password"] {
+    & > input[type="text"], & > input[type="tel"], & > input[type="email"], & > input[type="password"] {
       font-size: 14px;
     }
   }
@@ -774,6 +764,26 @@ label[for="card-element"] {
   }
 }
 
+textarea {
+  width: 100%;
+  height: 75px;
+  line-height: 1;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.cfw-additional-information {
+  margin-bottom: 20px;
+
+  &:last-child { margin-bottom: 0; }
+}
+
+.cfw-additional-fields-container {
+  margin-bottom: 20px;
+}
+
 @media (max-width: 767px) {
   .cfw-prev-tab {
     margin-bottom: 1em;
@@ -902,6 +912,16 @@ label[for="card-element"] {
       width: 100%;
       text-align: center;
     }
+  }
+}
+
+@media(max-width: 600px) {
+  .state-gone-margin {
+    margin-bottom: 0 !important;
+  }
+
+  #cfw-billing-fields-container .cfw-input-wrap-row:last-child > .address-field {
+    margin-bottom: 0;
   }
 }
 

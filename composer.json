@@ -16,9 +16,10 @@
     },
     "require": {
         "filp/whoops": "1.1.10",
-        "raveren/kint": "1.0.10",
+        "kint-php/kint": "1.0.10",
         "objectivco/wordpress-simple-settings": "^0.5.0",
         "objectivco/cgd_eddsl_magic": "^0.3.3",
-        "objectivco/wp_tabbed_navigation": "^0.1.0"
+        "objectivco/wp_tabbed_navigation": "^0.1.0",
+        "objectivco/booster-seat": "^1.0"
     }
 }

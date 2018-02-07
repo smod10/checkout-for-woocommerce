@@ -2,7 +2,7 @@
 namespace Objectiv\Plugins\Checkout\Core;
 
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
-use Objectiv\Plugins\Checkout\Managers\PathManager;
+use Objectiv\Plugins\Checkout\Managers\CFWPathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 
 /**
@@ -19,7 +19,7 @@ class Redirect {
      * @since 1.0.0
      * @access public
      * @param SettingsManager $settings_manager
-	 * @param PathManager $path_manager
+	 * @param CFWPathManager $path_manager
 	 * @param TemplateManager $template_manager
 	 * @param $version
 	 */
@@ -90,7 +90,7 @@ class Redirect {
      * @since 1.0.0
      * @access public
 	 * @param $env_extension
-     * @param PathManager $path_manager
+     * @param CFWPathManager $path_manager
 	 */
 	public static function init_block($env_extension, $path_manager) {
 		// We use this instead of _wp_render_title_tag because it requires the theme support title-tag capability.
@@ -146,8 +146,10 @@ class Redirect {
 
             cfwEventData.settings = {
                 isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
-                user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>'
+                user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
+                is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>
             };
+
 
             $(document).ready(function() {
                 var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
@@ -162,13 +164,14 @@ class Redirect {
 	/**
      * @since 1.0.0
      * @access public
-     * @param PathManager $path_manager
+     * @param CFWPathManager $path_manager
 	 * @param string $version
 	 * @param array $classes
 	 */
 	public static function head($path_manager, $version, $classes, $settings_manager) {
 		?>
 		<!DOCTYPE html>
+        <html <?php language_attributes(); ?>>
 		<head>
             <?php
 
@@ -233,6 +236,7 @@ class Redirect {
                 <?php endif; ?>
                 <?php echo $settings_manager->get_setting('custom_css'); ?>;
             </style>
+            <meta charset="<?php bloginfo( 'charset' ); ?>">
             <meta name="viewport" content="width=device-width">
 
             <?php echo $settings_manager->get_setting('header_scripts'); ?>
@@ -261,11 +265,18 @@ class Redirect {
             'cfw_front_js_garlic',
 			'cfw_front_js_parsley',
             'cfw_front_js_array_find_poly',
+            'bsnp-cc',
+            'bsnp-ex',
+            'bsnp-ex-cookie',
+            'bsnp-cse',
             'stripe',
+            'stripe_checkout',
+            'wc_stripe_payment_request',
             'woocommerce_stripe',
             'stripe_apple_pay',
             'woocommerce_stripe_apple_pay',
             'woocommerce-tokenization-form',
+            'wc-credit-card-form',
         );
 
 		$ignore = apply_filters('cfw_allowed_script_handles', $ignore);
@@ -283,6 +294,7 @@ class Redirect {
 
 	    $ignore = array(
 		    'cfw_front_css',
+            'bsnp-css',
             'admin-bar',
         );
 
@@ -298,16 +310,13 @@ class Redirect {
 	/**
      * @since 1.0.0
      * @access public
-	 * @param PathManager $path_manager
+	 * @param CFWPathManager $path_manager
 	 * @param TemplateManager $template_manager
 	 * @param array $global_template_parameters
 	 */
 	public static function body($path_manager, $template_manager, $global_template_parameters, $settings_manager) {
 		// Fire off an action before we load the template pieces
 		do_action('cfw_template_before_load');
-
-		// Required to render form fields
-		$form = new Form();
 
 		// Load the template pieces
 		$template_manager->load_templates( $path_manager->get_template_information( $template_manager->get_template_sub_folders() ), $global_template_parameters );
@@ -319,7 +328,7 @@ class Redirect {
 	/**
      * @since 1.0.0
      * @access public
-     * @param PathManager $path_manager
+     * @param CFWPathManager $path_manager
 	 */
 	public static function footer($path_manager, $settings_manager) {
 		print_footer_scripts();

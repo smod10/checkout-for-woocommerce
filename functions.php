@@ -34,10 +34,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 			'wrap'              => ''
 		);
 		$key_sans_type = cfw_strip_key_type($key);
-
 		$ship_or_bill_key = explode("_", $key)[0];
-
-
 
 		$args = wp_parse_args( $args, $defaults );
 		$args = apply_filters( 'woocommerce_form_field_args', $args, $key, $value );
@@ -60,7 +57,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 		// Custom attribute handling
 		$custom_attributes         = array();
-		$args['custom_attributes'] = array_filter( (array) $args['custom_attributes'] );
+		$args['custom_attributes'] = array_filter( (array) $args['custom_attributes'], 'strlen' );
 
 		if ( $args['maxlength'] ) {
 			$args['custom_attributes']['maxlength'] = absint( $args['maxlength'] );
@@ -91,7 +88,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		$sort            = $args['priority'] ? $args['priority'] : '';
 		$field_container_start = '';
 
-		if(isset($args['wrap'])) {
+		if( isset($args['wrap']) && !empty($args['wrap']) ) {
 			$field_container_start = $args['wrap']->start . $args['wrap']->end;
 		}
 
@@ -216,29 +213,36 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 			$field_html = '';
 
-			if ( $args['label'] && 'checkbox' != $args['type'] ) {
-				$field_html .= '<label for="' . esc_attr( $label_id ) . '" class="' . esc_attr( implode( ' ', $args['label_class'] ) ) . '">' . $args['label'] . $required . '</label>';
-			}
+			if($args['label'] != "Order notes") {
+				if ( $args['label'] && 'checkbox' != $args['type'] ) {
+					$field_html .= '<label for="' . esc_attr( $label_id ) . '" class="' . esc_attr( implode( ' ', $args['label_class'] ) ) . '">' . $args['label'] . $required . '</label>';
+				}
 
-			$field_html .= $field;
+                $field_html .= $field;
 
-//			if ( $args['description'] ) {
-//				$field_html .= '<span class="description">' . esc_html( $args['description'] ) . '</span>';
-//			}
+    //			if ( $args['description'] ) {
+    //				$field_html .= '<span class="description">' . esc_html( $args['description'] ) . '</span>';
+    //			}
 
-			$container_class = esc_attr( implode( ' ', $args['class'] ) );
-			$container_id    = esc_attr( $args['id'] ) . '_field';
-			$row_wrap = '';
+                $container_class = esc_attr( implode( ' ', $args['class'] ) );
+                $container_id    = esc_attr( $args['id'] ) . '_field';
+                $row_wrap = '';
 
 
-			if(isset($args['start']) && $args['start']) {
-				$row_wrap = '<div class="cfw-sg-container cfw-input-wrap-row">';
-			}
+                if(isset($args['start']) && $args['start']) {
+                    $row_wrap = '<div class="cfw-sg-container cfw-input-wrap-row">';
+                }
 
-			$field = $row_wrap . sprintf( $field_container_start, $container_class, $container_id, $field_html );
+                $field = $row_wrap . sprintf( $field_container_start, $container_class, $container_id, $field_html );
 
-			if(isset($args['end']) && $args['end']) {
-				$field .= "</div>";
+                if(isset($args['end']) && $args['end']) {
+                    $field .= "</div>";
+                }
+
+			} else {
+				$field_html .= '<h3 class="cfw-module-title">' . $args['label'] . '</h3>';
+				$field_html .= $field;
+				$field = $field_html;
 			}
 		}
 
@@ -369,8 +373,8 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                         </label>
 
                         <span class="payment_method_icons">
-                                    <?php echo $gateway->get_icon(); ?>
-                                </span>
+                            <?php echo $gateway->get_icon(); ?>
+                        </span>
                     </div>
 					<?php if ( $gateway->has_fields() || $gateway->get_description() ) : ?>
                         <div class="payment_box_wrap cfw-radio-reveal-content-wrap" <?php if ( ! $gateway->chosen ) : ?>style="display:none;"<?php endif; ?>>
@@ -382,32 +386,11 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 								$field_html = ob_get_clean();
 
 								/**
-								 * Garlic Exclusions and Gateway Compatability Patches
+								 * Gateway Compatibility Patches
 								 */
-								// PayPal Pro
-								$field_html = str_ireplace('name="paypal_pro-card-number"', 'name="paypal_pro-card-number" data-persist="false"', $field_html);
-								$field_html = str_ireplace('name="paypal_pro-card-cvc"', 'name="paypal_pro-card-cvc" data-persist="false"', $field_html);
-
-								// Authorize.net
-								$field_html = str_ireplace('name="wc-authorize-net-aim-account-number"', 'name="wc-authorize-net-aim-account-number" data-persist="false"', $field_html);
-								$field_html = str_ireplace('name="wc-authorize-net-aim-csc"', 'name="wc-authorize-net-aim-csc" data-persist="false"', $field_html);
-
 								// Expiration field fix
 								$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-expiry', 'js-sv-wc-payment-gateway-credit-card-form-expiry  wc-credit-card-form-card-expiry', $field_html);
 								$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-account-number', 'js-sv-wc-payment-gateway-credit-card-form-account-number  wc-credit-card-form-card-number', $field_html);
-
-								// PayFlow Pro
-								$field_html = str_ireplace('name="paypal_pro_payflow-card-number"', 'name="paypal_pro_payflow-card-number" data-persist="false"', $field_html);
-								$field_html = str_ireplace('name="paypal_pro_payflow-card-cvc"', 'name="paypal_pro_payflow-card-cvc" data-persist="false"', $field_html);
-
-								// PayTrace
-								$field_html = str_ireplace('name="paytrace-card-number"', 'name="paytrace-card-number" data-persist="false"', $field_html);
-								$field_html = str_ireplace('name="paytrace-card-cvc"', 'name="paytrace-card-cvc" data-persist="false"', $field_html);
-
-								// Stripe
-								$field_html = str_ireplace('id="stripe-card-number"', 'id="stripe-card-number" data-persist="false"', $field_html);
-								$field_html = str_ireplace('id="stripe-card-expiry"', 'id="stripe-card-expiry" data-persist="false"', $field_html);
-								$field_html = str_ireplace('id="stripe-card-cvc"', 'id="stripe-card-cvc" data-persist="false"', $field_html);
 
                                 // Credit Card Field Placeholders
                                 $field_html = str_ireplace('•••• •••• •••• ••••', 'Card Number', $field_html);

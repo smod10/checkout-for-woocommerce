@@ -33,7 +33,7 @@ export class Main {
 	private _ajaxInfo: AjaxInfo;
 
 	/**
-	 * @type {AjaxInfo}
+	 * @type {any}
 	 * @private
 	 */
 	private _settings: any;
@@ -77,6 +77,11 @@ export class Main {
 	 */
 	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
 		Main.instance = this;
+
+		$("form.checkout").garlic({
+			destroy: false,
+            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"]'
+		});
 
 		this.tabContainer = tabContainer;
 		this.ajaxInfo = ajaxInfo;

@@ -678,6 +678,12 @@ body {
 .cfw-module-title {
   margin: 0; }
 
+a.bsnp_new_card {
+  text-decoration: underline;
+  color: #0000EE;
+  font-size: 14px;
+  cursor: pointer; }
+
 .form-row {
   margin: 0 0 1.5em;
   padding: 0;
@@ -935,9 +941,6 @@ body {
   #cfw-billing-methods #stripe-payment-data > *:last-child, #cfw-shipping-same-billing #stripe-payment-data > *:last-child {
     margin-bottom: 0; }
 
-#cfw-billing-methods #stripe-payment-data #wc-stripe-cc-form, #cfw-shipping-same-billing #stripe-payment-data #wc-stripe-cc-form {
-  display: none; }
-
 #cfw-billing-methods #stripe-payment-data ul, #cfw-shipping-same-billing #stripe-payment-data ul {
   padding: 0;
   margin-left: 0;
@@ -1006,10 +1009,6 @@ label[for="card-element"] {
 
 .shipping-message {
   padding-top: 10px; }
-
-@media (max-width: 600px) {
-  .state-gone-margin {
-    margin-bottom: 0 !important; } }
 
 .remove-state-down-arrow > .cfw-input-wrap:after {
   content: none; }
@@ -1110,7 +1109,7 @@ label[for="card-element"] {
 #cfw-deductors-list .cfw-input-wrap-row {
   margin-bottom: 1.25em; }
 
-#cfw-deductors-list .cfw-input-wrap > input[type="text"], #cfw-deductors-list .cfw-input-wrap > input[type="email"], #cfw-deductors-list .cfw-input-wrap > input[type="password"] {
+#cfw-deductors-list .cfw-input-wrap > input[type="text"], #cfw-deductors-list .cfw-input-wrap > input[type="tel"], #cfw-deductors-list .cfw-input-wrap > input[type="email"], #cfw-deductors-list .cfw-input-wrap > input[type="password"] {
   font-size: 14px; }
 
 .parsley-errors-list {
@@ -1350,6 +1349,23 @@ label[for="card-element"] {
     padding: 0 1em;
     text-transform: none; }
 
+textarea {
+  width: 100%;
+  height: 75px;
+  line-height: 1;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  box-sizing: border-box; }
+
+.cfw-additional-information {
+  margin-bottom: 20px; }
+  .cfw-additional-information:last-child {
+    margin-bottom: 0; }
+
+.cfw-additional-fields-container {
+  margin-bottom: 20px; }
+
 @media (max-width: 767px) {
   .cfw-prev-tab {
     margin-bottom: 1em;
@@ -1423,6 +1439,12 @@ label[for="card-element"] {
     .cfw-bottom-controls .cfw-primary-btn {
       width: 100%;
       text-align: center; } }
+
+@media (max-width: 600px) {
+  .state-gone-margin {
+    margin-bottom: 0 !important; }
+  #cfw-billing-fields-container .cfw-input-wrap-row:last-child > .address-field {
+    margin-bottom: 0; } }
 
 @media (max-width: 445px) {
   #cfw-cart-details-review-bar {

@@ -14,10 +14,11 @@ import { UpdateShippingFieldsRI }           from "../Actions/UpdateCheckoutActio
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { InfoType }                         from "../Services/ParsleyService";
 import { SelectLabelWrap }                  from "./SelectLabelWrap";
-import { Alert }                            from "./Alert";
+import {Alert, AlertInfo} from "./Alert";
 
 declare let wc_address_i18n_params: any;
 declare let wc_country_select_params: any;
+declare let wc_stripe_params: any;
 
 /**
  *
@@ -35,6 +36,12 @@ export class TabContainer extends Element {
      * @private
      */
     private _tabContainerSections: Array<TabContainerSection>;
+
+    /**
+     * @type {MutationObserver}
+     * @private
+     */
+    private _errorObserver: MutationObserver;
 
     /**
      * @param jel
@@ -300,12 +307,12 @@ export class TabContainer extends Element {
             .tabContainerSectionBy("name", "payment_method")
             .getInputsFromSection('[type="radio"][name="payment_method"]');
 
-        let shipping_same_radio_buttons: Array<Element> = this
+        let ship_to_different_address_radio_buttons: Array<Element> = this
             .tabContainerSectionBy("name", "payment_method")
-            .getInputsFromSection('[type="radio"][name="shipping_same"]');
+            .getInputsFromSection('[type="radio"][name="ship_to_different_address"]');
 
         this.setRevealOnRadioButtonGroup(payment_radio_buttons);
-        this.setRevealOnRadioButtonGroup(shipping_same_radio_buttons, true);
+        this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, true);
     }
 
     /**
@@ -381,7 +388,7 @@ export class TabContainer extends Element {
                 Main.instance.ajaxInfo,
                 shipMethodVal,
                 Main.instance.cart,
-                this.getFields()
+                this.getFormObject()
             ).load();
         };
 
@@ -400,52 +407,11 @@ export class TabContainer extends Element {
             if(!main.updating) {
                 main.updating = true;
 
-                new UpdateCheckoutAction("update_checkout", main.ajaxInfo, this.getFields()).load();
+                new UpdateCheckoutAction("update_checkout", main.ajaxInfo, this.getFormObject()).load();
             }
         });
 
         $(document.body).trigger( 'update_checkout' );
-    }
-
-    /**
-     * Get's all the necessary fields for updating / checkout
-     *
-     * @returns {any}
-     */
-    getFields(): any {
-        let checkout_form: JQuery = $("form[name='checkout']");
-        let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
-        let has_full_address: boolean = true;
-
-        if ( $required_inputs.length ) {
-            $required_inputs.each( function() {
-                if ( $( this ).find( ':input' ).val() === '' ) {
-                    has_full_address = false;
-                }
-            });
-        }
-
-        let details: any = this.getOrderDetails();
-        let fields: any = {
-            payment_method: details.payment_method,
-            country: details.billing_country,
-            state: details.billing_state,
-            postcode: details.billing_postcode,
-            city: details.billing_city,
-            address: details.billing_address_1,
-            address_2: details.billing_address_2,
-            s_country: details.shipping_country,
-            s_state: details.shipping_state,
-            s_postcode: details.shipping_postcode,
-            s_city: details.shipping_city,
-            s_address: details.shipping_address_1,
-            s_address_2: details.shipping_address_2,
-            has_full_address: has_full_address,
-            post_data: details.post_data,
-            shipping_method: details["shipping_method[0]"]
-        };
-
-        return fields;
     }
 
     /**
@@ -501,7 +467,7 @@ export class TabContainer extends Element {
             $(`#${info_type}_state`).parsley().reset();
 
             // Re-register all the elements
-            $("#checkout").parsley();
+            $("form.checkout").parsley();
 
             $(document.body).trigger("update_checkout");
         };
@@ -837,7 +803,7 @@ export class TabContainer extends Element {
             .attr("data-parsley-required", 'true');
 
         // Re-register all the elements
-        $("#checkout").parsley();
+        $("form.checkout").parsley();
 
         tab_section.inputLabelWraps.forEach((input_label_wrap, index) => {
             if(input_label_wrap.jel.is(state_input_wrap)) {
@@ -948,130 +914,51 @@ export class TabContainer extends Element {
     /**
      * @returns {{}}
      */
-    getOrderDetails() {
+    getFormObject() {
         let checkout_form: JQuery = $("form[name='checkout']");
-        let ship_to_different_address = parseInt($("[name='shipping_same']:checked").val());
-        let payment_method = $('[name="payment_method"]:checked').val();
-        let account_password = $('#cfw-password').val();
-        let billing_email = $("#billing_email").val();
+        let ship_to_different_address = parseInt($("[name='ship_to_different_address']:checked").val());
+        let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
+        let has_full_address: boolean = true;
+        let lookFor: Array<string> = [
+            "first_name",
+            "last_name",
+            "address_1",
+            "address_2",
+            "company",
+            "country",
+            "postcode",
+            "state",
+            "city",
+            "phone"
+        ];
 
-        let billing_first_name = $("#billing_first_name").val();
-        let billing_last_name = $("#billing_last_name").val();
-        let billing_company = $("#billing_company").val();
-        let billing_country = $("#billing_country").val();
-        let billing_address_1 = $("#billing_address_1").val();
-        let billing_address_2 = $("#billing_address_2").val();
-        let billing_city = $("#billing_city").val();
-        let billing_state = $("#billing_state").val();
-        let billing_postcode = $("#billing_postcode").val();
-
-        let shipping_first_name = $("#shipping_first_name").val();
-        let shipping_last_name = $("#shipping_last_name").val();
-        let shipping_company = $("#shipping_company").val();
-        let shipping_country = $("#shipping_country").val();
-        let shipping_address_1 = $("#shipping_address_1").val();
-        let shipping_address_2 = $("#shipping_address_2").val();
-        let shipping_city = $("#shipping_city").val();
-        let shipping_state = $("#shipping_state").val();
-        let shipping_postcode = $("#shipping_postcode").val();
-        let shipping_method = $("[name='shipping_method[0]']:checked").val();
-
-        let _wpnonce = $("#_wpnonce").val();
-        let _wp_http_referer = $("[name='_wp_http_referer']").val();
-        let wc_stripe_payment_token = $("[name='wc-stripe-payment-token']").val();
-
-        let wc_authorize_net_aim_account_number = $("[name='wc-authorize-net-aim-account-number']").val();
-        let wc_authorize_net_aim_expiry = $("[name='wc-authorize-net-aim-expiry']").val();
-        let wc_authorize_net_aim_csc = $("[name='wc-authorize-net-aim-csc']").val();
-
-        let paypal_pro_payflow_card_number = $("[name='paypal_pro_payflow-card-number']").val();
-        let paypal_pro_payflow_card_expiry = $("[name='paypal_pro_payflow-card-expiry']").val();
-        let paypal_pro_payflow_card_cvc = $("[name='paypal_pro_payflow-card-cvc']").val();
-
-        let paypal_pro_card_number = $("[name='paypal_pro-card-number']").val();
-        let paypal_pro_card_expiry = $("[name='paypal_pro-card-expiry']").val();
-        let paypal_pro_card_cvc = $("[name='paypal_pro-card-cvc']").val();
-
-        if(ship_to_different_address === 0) {
-            billing_first_name = shipping_first_name;
-            billing_last_name = shipping_last_name;
-            billing_company = shipping_company;
-            billing_country = shipping_country;
-            billing_address_1 = shipping_address_1;
-            billing_address_2 = shipping_address_2;
-            billing_city = shipping_city;
-            billing_state = shipping_state;
-            billing_postcode = shipping_postcode;
-        }
-
-        let completeOrderCheckoutData = {
-            billing_first_name: billing_first_name,
-            billing_last_name: billing_last_name,
-            billing_company: billing_company,
-            billing_country: billing_country,
-            billing_address_1: billing_address_1,
-            billing_address_2: billing_address_2,
-            billing_city: billing_city,
-            billing_state: billing_state,
-            billing_postcode: billing_postcode,
-            billing_phone: 0,
-            billing_email: billing_email,
-            ship_to_different_address: ship_to_different_address,
-            shipping_first_name: shipping_first_name,
-            shipping_last_name: shipping_last_name,
-            shipping_company: shipping_company,
-            shipping_country: shipping_country,
-            shipping_address_1: shipping_address_1,
-            shipping_address_2: shipping_address_2,
-            shipping_city: shipping_city,
-            shipping_state: shipping_state,
-            shipping_postcode: shipping_postcode,
-            order_comments: '',
-            "shipping_method[0]": shipping_method,
-            payment_method: payment_method,
-            "wc-stripe-payment-token": wc_stripe_payment_token,
-            _wpnonce: _wpnonce,
-            _wp_http_referer: _wp_http_referer,
-            "wc-authorize-net-aim-account-number": wc_authorize_net_aim_account_number,
-            "wc-authorize-net-aim-expiry": wc_authorize_net_aim_expiry,
-            "wc-authorize-net-aim-csc": wc_authorize_net_aim_csc,
-            "paypal_pro_payflow-card-number": paypal_pro_payflow_card_number,
-            "paypal_pro_payflow-card-expiry": paypal_pro_payflow_card_expiry,
-            "paypal_pro_payflow-card-cvc": paypal_pro_payflow_card_cvc,
-            "paypal_pro-card-number": paypal_pro_card_number,
-            "paypal_pro-card-expiry": paypal_pro_card_expiry,
-            "paypal_pro-card-cvc": paypal_pro_card_cvc,
+        let formData = {
             post_data: checkout_form.serialize()
         };
 
+        if ( $required_inputs.length ) {
+            $required_inputs.each( function() {
+                if ( $( this ).find( ':input' ).val() === '' ) {
+                    has_full_address = false;
+                }
+            });
+        }
+
         let formArr: Array<Object> = checkout_form.serializeArray();
-        formArr.forEach((item: any) => {
-            if(!completeOrderCheckoutData[item.name]) {
-                completeOrderCheckoutData[item.name] = item.value;
-            }
-        });
+        formArr.forEach((item: any) => formData[item.name] = item.value);
 
-        if(account_password && account_password.length > 0) {
-            completeOrderCheckoutData["account_password"] = account_password;
+        formArr["has_full_address"] = has_full_address;
+        formArr["ship_to_different_address"] = ship_to_different_address;
+
+        if(ship_to_different_address === 0) {
+            lookFor.forEach(field => {
+                if($(`billing_${field}`).length > 0) {
+                    formArr[`billing_${field}`] = formArr[`shipping_${field}`]
+                }
+            });
         }
 
-        if($("#createaccount:checked").length > 0) {
-            completeOrderCheckoutData["createaccount"] = 1;
-        }
-
-        if($("#wc-stripe-new-payment-method:checked").length > 0) {
-            completeOrderCheckoutData["wc-stripe-new-payment-method"] = true;
-        }
-
-        if($("#terms").length > 0) {
-            completeOrderCheckoutData["terms-field"] = 1;
-
-            if($("#terms:checked").length > 0) {
-                completeOrderCheckoutData["terms"] = "on";
-            }
-        }
-
-        return completeOrderCheckoutData;
+        return formData;
     }
 
     /**
@@ -1096,18 +983,126 @@ export class TabContainer extends Element {
      */
     setCompleteOrderHandlers(): void {
         let completeOrderButton: Element = new Element($("#place_order"));
+        let form: JQuery = $("form.woocommerce-checkout");
+        let preSwapData = {};
+        let submitHandler = function(e) {
+            // Prevent any weirdness by preventing default
+            e.preventDefault();
 
-        completeOrderButton.jel.on('click', () => this.completeOrderClickListener(Main.instance.ajaxInfo));
+            // If all the payment stuff has finished any ajax calls, run the complete order.
+            if(form.triggerHandler( 'checkout_place_order' ) !== false && form.triggerHandler( 'checkout_place_order_' + form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
+
+                // Reset data
+                for(let field in preSwapData) {
+                    let billing = $(`#billing_${field}`);
+
+                    billing.val(preSwapData[field]);
+                }
+
+                if(this.errorObserver) {
+                    this.errorObserver.disconnect();
+                }
+                this.completeOrderClickListener(Main.instance.ajaxInfo, this.getFormObject());
+            }
+        };
+
+        form.on('submit', submitHandler.bind(this));
+
+        completeOrderButton.jel.on('click', () => {
+
+            let lookFor: Array<string> = [
+                "first_name",
+                "last_name",
+                "address_1",
+                "address_2",
+                "company",
+                "country",
+                "postcode",
+                "state",
+                "city",
+                "phone"
+            ];
+
+            if(parseInt(form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
+                lookFor.forEach( field => {
+                    let billing = $(`#billing_${field}`);
+                    let shipping = $(`#shipping_${field}`);
+
+                    if(billing.length > 0) {
+                        preSwapData[field] = billing.val();
+
+                        billing.val(shipping.val());
+                    }
+                });
+            }
+
+            // Select the node that will be observed for mutations
+            let targetNode = document.getElementById('checkout');
+
+            // Options for the observer (which mutations to observe)
+            let config = { childList: true, characterData: true, subtree: true };
+
+            // Callback function to execute when mutations are observed
+            let callback = (mutationsList) => {
+
+                for(let mutation of mutationsList) {
+                    if(mutation.type === "childList") {
+                        let addedNodes = mutation.addedNodes;
+                        let $errorNode: JQuery = null;
+
+                        addedNodes.forEach(node => {
+                           let $node: JQuery = $(node);
+                           let hasClass: boolean = $node.hasClass("woocommerce-error");
+                           let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
+
+                           if(hasClass || hasGroupCheckoutClass) {
+                               $errorNode = $node;
+                               $errorNode.attr("class", "");
+                           }
+                        });
+
+                        if($errorNode) {
+                            let alertInfo: AlertInfo = {
+                                type: "CFWSubmitError",
+                                message: $errorNode,
+                                cssClass: "cfw-alert-danger"
+                            };
+                            let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+
+                            alert.addAlert();
+
+                            if(this.errorObserver) {
+                                this.errorObserver.disconnect();
+                                this.errorObserver = null;
+                            }
+                        }
+                    }
+                }
+            };
+
+            if(!this.errorObserver) {
+                // Create an observer instance linked to the callback function
+                let observer = new MutationObserver(callback);
+
+                // Start observing the target node for configured mutations
+                observer.observe(targetNode, config);
+
+                this.errorObserver = observer;
+            }
+
+            form.trigger('submit');
+        });
     }
 
     /**
      *
      * @param {AjaxInfo} ajaxInfo
+     * @param data
      */
-    completeOrderClickListener(ajaxInfo: AjaxInfo): void {
+    completeOrderClickListener(ajaxInfo: AjaxInfo, data): void {
         let isShippingDifferentFromBilling: boolean = $("#shipping_dif_from_billing:checked").length !== 0;
 
-        ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, this.getOrderDetails());
+        ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, data);
     }
 
     /**
@@ -1118,7 +1113,7 @@ export class TabContainer extends Element {
             let coupon_field: JQuery = $("#cfw-promo-code");
 
             if(coupon_field.val() !== "") {
-                new ApplyCouponAction('apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFields()).load();
+                new ApplyCouponAction('apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFormObject()).load();
             } else {
                 // Remove alerts
                 Alert.removeAlerts();
@@ -1201,5 +1196,19 @@ export class TabContainer extends Element {
      */
     set tabContainerSections(value: Array<TabContainerSection>) {
         this._tabContainerSections = value;
+    }
+
+    /**
+     * @returns {MutationObserver}
+     */
+    get errorObserver(): MutationObserver {
+        return this._errorObserver;
+    }
+
+    /**
+     * @param {MutationObserver} value
+     */
+    set errorObserver(value: MutationObserver) {
+        this._errorObserver = value;
     }
 }

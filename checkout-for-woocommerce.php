@@ -16,7 +16,7 @@
  * Plugin Name:       Checkout for WooCommerce
  * Plugin URI:        https://www.CheckoutWC.com
  * Description:       Beautiful, conversion optimized checkout template for WooCommerce.
- * Version:           1.1.5
+ * Version:           1.2.0
  * Author:            Objectiv
  * Author URI:        https://objectiv.co
  * License:           GPL-2.0+
@@ -24,6 +24,7 @@
  * Text Domain:       checkout-wc
  * Domain Path:       /languages
  * Tested up to: 4.8
+ * WC tested up to: 3.3.1
  */
 
 /**
@@ -35,7 +36,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define('CFW_NAME', 'Checkout for WooCommerce');
 define('CFW_UPDATE_URL', 'https://www.checkoutwc.com');
-define('CFW_VERSION', '1.1.5');
+define('CFW_VERSION', '1.2.0');
 define('CFW_PATH', dirname(__FILE__) );
 define('CFW_URL', plugins_url('/', __FILE__) );
 
@@ -45,6 +46,7 @@ define('CFW_URL', plugins_url('/', __FILE__) );
 require_once "vendor/autoload.php";
 
 use Objectiv\Plugins\Checkout\Main;
+use Objectiv\Plugins\Checkout\Core\Admin;
 
 /**
  * Kint disabled by default. Enable by enabling developer mode (see docs)
@@ -90,6 +92,6 @@ register_deactivation_hook( __FILE__, array($cfw, 'deactivation') );
 if ( is_admin() && ! wp_doing_ajax() ) {
 	global $cfw_admin, $cfw;
 
-	$cfw_admin = new \Objectiv\Plugins\Checkout\Core\Admin( $cfw );
+	$cfw_admin = new Admin( $cfw );
 	$cfw_admin->start();
 }

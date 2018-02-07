@@ -264,6 +264,22 @@
 
 	                        <?php do_action('cfw_checkout_before_payment_method_terms_checkbox'); ?>
 
+                            <div class="cfw-additional-fields-container">
+		                        <?php do_action( 'woocommerce_before_order_notes', $checkout ); ?>
+
+		                        <?php if ( apply_filters( 'woocommerce_enable_order_notes_field', false ) ) : ?>
+
+                                    <div class="cfw-additional-information">
+				                        <?php foreach ( $checkout->get_checkout_fields( 'order' ) as $key => $field ) : ?>
+					                        <?php woocommerce_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
+				                        <?php endforeach; ?>
+                                    </div>
+
+		                        <?php endif; ?>
+
+		                        <?php do_action( 'woocommerce_after_order_notes', $checkout ); ?>
+                            </div>
+
                             <?php wc_get_template('checkout/terms.php'); ?>
 
 	                        <?php do_action('cfw_checkout_before_payment_method_tab_nav'); ?>

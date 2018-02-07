@@ -130,7 +130,7 @@ class Admin {
                             <p><span class="description"><?php _e('Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always enabled for admin users.)', CFW_TEXT_DOMAIN); ?></span></p>
                         </td>
                     </tr>
-                    
+
                     <tr>
                         <th scope="row" valign="top">
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts'); ?>"><?php _e('Header Scripts', CFW_TEXT_DOMAIN); ?></label>

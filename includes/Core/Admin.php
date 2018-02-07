@@ -130,7 +130,22 @@ class Admin {
                             <p><span class="description"><?php _e('Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always enabled for admin users.)', CFW_TEXT_DOMAIN); ?></span></p>
                         </td>
                     </tr>
-
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable_phone') ?>"><?php _e('Phone', CFW_TEXT_DOMAIN) ?></label>
+                        </th>
+                        <td>
+                            <input type="hidden" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable_phone'); ?>" value="no" />
+                            <label>
+                                <input type="checkbox"
+                                       name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable_phone'); ?>"
+                                       id="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable_phone'); ?>"
+                                       value="yes" <?php if ( $this->plugin_instance->get_settings_manager()->get_setting('enable_phone') == "yes" ) echo "checked"; ?> />
+                                <?php _e('Enable the shipping and billing phone field', CFW_TEXT_DOMAIN); ?>
+                            </label>
+                            <p><span class="description"><?php _e('Enable or disable the shipping and billing phone field.', CFW_TEXT_DOMAIN); ?></span></p>
+                        </td>
+                    </tr>
                     <tr>
                         <th scope="row" valign="top">
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts'); ?>"><?php _e('Header Scripts', CFW_TEXT_DOMAIN); ?></label>

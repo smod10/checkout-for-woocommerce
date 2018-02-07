@@ -26,17 +26,15 @@ class Form {
 	 * @access public
 	 */
 	public function __construct() {
-		$this->phone_enabled = apply_filters('cfw_enable_phone', false);
+		$this->phone_enabled = apply_filters('cfw_enable_phone_fields', false);
 
-		add_filter('woocommerce_default_address_fields', array($this, 'get_custom_default_address_fields'));
+		add_filter('woocommerce_default_address_fields', array($this, 'get_custom_default_address_fields') );
 
-		if($this->phone_enabled) {
+		if ( $this->phone_enabled ) {
 			add_filter( 'woocommerce_billing_fields', array( $this, 'enforce_billing_phone_options_from_default' ), 10, 2 );
 
 			add_action( 'woocommerce_checkout_create_order', array( $this, 'update_shipping_phone_on_order_create' ), 10, 2 );
 			add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $this, 'shipping_phone_display_admin_order_meta' ), 10, 1 );
-		} else {
-			add_action( 'woocommerce_admin_billing_fields', array($this, 'remove_phone_from_billing_fields_admin'), 10, 1 );
 		}
 	}
 

@@ -14,6 +14,12 @@ import { ParsleyService }						from "./Services/ParsleyService";
  */
 export class Main {
 
+    /**
+     * @type {JQuery}
+     * @private
+     */
+    private _checkoutForm: JQuery;
+
 	/**
 	 * @type {TabContainer}
 	 * @private
@@ -70,19 +76,21 @@ export class Main {
 	private static _instance: Main;
 
 	/**
+     * @param checkoutFormEl
 	 * @param tabContainer
 	 * @param ajaxInfo
 	 * @param cart
 	 * @param settings
 	 */
-	constructor(tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
+	constructor( checkoutFormEl: JQuery, tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
 		Main.instance = this;
 
-		$("form.checkout").garlic({
+        checkoutFormEl.garlic({
 			destroy: false,
             excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"]'
 		});
 
+        this.checkoutForm = checkoutFormEl;
 		this.tabContainer = tabContainer;
 		this.ajaxInfo = ajaxInfo;
 		this.cart = cart;
@@ -142,6 +150,9 @@ export class Main {
 		return !$("#cfw-content").hasClass("cfw-payment-false");
 	}
 
+    /**
+     * @param {boolean} isPaymentRequired
+     */
 	static togglePaymentRequired(isPaymentRequired: boolean): void {
 		let $cfw = $("#cfw-content");
 		let noPaymentCssClass = "cfw-payment-false";
@@ -164,15 +175,35 @@ export class Main {
 		});
 	}
 
+    /**
+     * @returns {boolean}
+     */
 	get updating(): boolean {
 		return this._updating;
 	}
 
+    /**
+     * @param {boolean} value
+     */
 	set updating(value: boolean) {
 		this._updating = value;
 	}
 
-	/**
+    /**
+     * @returns {JQuery}
+     */
+    get checkoutForm(): JQuery {
+        return this._checkoutForm;
+    }
+
+    /**
+     * @param {JQuery} value
+     */
+    set checkoutForm(value: JQuery) {
+        this._checkoutForm = value;
+    }
+
+    /**
 	 * @returns {TabContainer}
 	 */
 	get tabContainer() {

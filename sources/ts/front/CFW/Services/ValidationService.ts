@@ -127,7 +127,7 @@ export class ValidationService {
      */
     static validate(section: EValidationSections): any {
         let validated: boolean;
-        let checkoutForm: JQuery = $("form.checkout");
+        let checkoutForm: JQuery = Main.instance.checkoutForm;
 
         switch(section) {
             case EValidationSections.SHIPPING:

@@ -4,6 +4,7 @@ import { AlertInfo }                            from "../Elements/Alert";
 import { Alert }                                from "../Elements/Alert";
 import { ValidationService }                    from "../Services/ValidationService";
 import { EValidationSections }                  from "../Services/ValidationService";
+import { Main }                                 from "../Main";
 
 export class CompleteOrderAction extends Action {
 
@@ -39,7 +40,7 @@ export class CompleteOrderAction extends Action {
      * The setup function which mainly determines if we need a stripe token to continue
      */
     setup(): void {
-        $("form.checkout").off('form:validate');
+        Main.instance.checkoutForm.off('form:validate');
 
         this.load();
     }
@@ -54,7 +55,7 @@ export class CompleteOrderAction extends Action {
             $('.garlic-auto-save').each((index: number, elem: Element) => $(elem).garlic('destroy'));
 
             // Destroy all the parsley!
-            $("form").parsley().destroy();
+            Main.instance.checkoutForm.parsley().destroy();
 
             // Redirect all the browsers! (well just the 1)
             window.location.href = resp.redirect;

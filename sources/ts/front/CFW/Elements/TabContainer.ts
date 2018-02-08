@@ -467,7 +467,7 @@ export class TabContainer extends Element {
             $(`#${info_type}_state`).parsley().reset();
 
             // Re-register all the elements
-            $("form.checkout").parsley();
+            Main.instance.checkoutForm.parsley();
 
             $(document.body).trigger("update_checkout");
         };
@@ -803,7 +803,7 @@ export class TabContainer extends Element {
             .attr("data-parsley-required", 'true');
 
         // Re-register all the elements
-        $("form.checkout").parsley();
+        Main.instance.checkoutForm.parsley();
 
         tab_section.inputLabelWraps.forEach((input_label_wrap, index) => {
             if(input_label_wrap.jel.is(state_input_wrap)) {
@@ -915,7 +915,7 @@ export class TabContainer extends Element {
      * @returns {{}}
      */
     getFormObject() {
-        let checkout_form: JQuery = $("form[name='checkout']");
+        let checkout_form: JQuery = Main.instance.checkoutForm;
         let ship_to_different_address = parseInt($("[name='ship_to_different_address']:checked").val());
         let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
         let has_full_address: boolean = true;
@@ -982,16 +982,15 @@ export class TabContainer extends Element {
      *
      */
     setCompleteOrderHandlers(): void {
-        let checkout_form: JQuery = $("form[name='checkout']");
+        let checkout_form: JQuery = Main.instance.checkoutForm;
         let completeOrderButton: Element = new Element($("#place_order"));
-        let form: JQuery = $("form.woocommerce-checkout");
         let preSwapData = {};
         let submitHandler = function(e) {
             // Prevent any weirdness by preventing default
             e.preventDefault();
 
             // If all the payment stuff has finished any ajax calls, run the complete order.
-            if(form.triggerHandler( 'checkout_place_order' ) !== false && form.triggerHandler( 'checkout_place_order_' + form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
+            if(checkout_form.triggerHandler( 'checkout_place_order' ) !== false && checkout_form.triggerHandler( 'checkout_place_order_' + checkout_form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
 
                 // Reset data
                 for(let field in preSwapData) {
@@ -1007,7 +1006,7 @@ export class TabContainer extends Element {
             }
         };
 
-        form.on('submit', submitHandler.bind(this));
+        checkout_form.on('submit', submitHandler.bind(this));
 
         completeOrderButton.jel.on('click', () => {
 
@@ -1024,7 +1023,7 @@ export class TabContainer extends Element {
                 "phone"
             ];
 
-            if(parseInt(form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
+            if(parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
                 lookFor.forEach( field => {
                     let billing = $(`#billing_${field}`);
                     let shipping = $(`#shipping_${field}`);
@@ -1091,7 +1090,7 @@ export class TabContainer extends Element {
                 this.errorObserver = observer;
             }
 
-            form.trigger('submit');
+            checkout_form.trigger('submit');
         });
     }
 

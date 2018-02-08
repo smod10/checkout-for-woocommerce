@@ -22,6 +22,7 @@ let w: any = window;
 w.addEventListener("cfw-initialize", (eventData) => {
     let data = eventData.detail;
 
+    let checkoutFormEl = $(data.elements.checkoutFormSelector);
     let breadCrumbEl = $(data.elements.breadCrumbElId);
     let customerInfoEl = $(data.elements.customerInfoElId);
     let shippingMethodEl = $(data.elements.shippingMethodElId);
@@ -46,6 +47,6 @@ w.addEventListener("cfw-initialize", (eventData) => {
 
     let cart = new Cart(cartContainer, cartSubtotal, cartShipping, cartTaxes, cartFees, cartTotal, cartCoupons, cartReviewBar);
 
-    let main = new Main( tabContainer, data.ajaxInfo, cart, data.settings );
+    let main = new Main( checkoutFormEl, tabContainer, data.ajaxInfo, cart, data.settings );
     main.setup();
 }, { once: true });

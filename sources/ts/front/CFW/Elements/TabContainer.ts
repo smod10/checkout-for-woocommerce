@@ -1031,7 +1031,7 @@ export class TabContainer extends Element {
                 this.errorObserver.disconnect();
             }
 
-            this.orderKickOff(Main.instance.ajaxInfo, this.getFormObject());
+            this.orderKickOff(main.ajaxInfo, this.getFormObject());
         }
     }
 

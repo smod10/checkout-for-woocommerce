@@ -75,6 +75,7 @@ export class ParsleyService {
         let interval: any = setInterval(() => {
             if ( w.Parsley !== undefined ) {
                 this.parsley = w.Parsley;
+                this.parsley.on('form:error', () => Main.removeOverlay());
                 this.setParsleyCustomValidators();
 
                 clearInterval(interval);

@@ -169,7 +169,7 @@ class Compatibility {
     }
 
     function add_to_cart_redirect() {
-	    if ( ! empty($_GET['add-to-cart']) ) {
+	    if ( ! empty($_GET['add-to-cart']) && ! empty($_GET['checkout-redirect']) ) {
 		    add_filter('woocommerce_add_to_cart_redirect', function($url) {
 			    $url = wc_get_checkout_url();
 			    return $url;

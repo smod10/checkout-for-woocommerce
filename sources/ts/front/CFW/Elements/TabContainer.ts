@@ -1092,7 +1092,6 @@ export class TabContainer extends Element {
 
                 addedNodes.forEach(node => {
                     let $node: JQuery = $(node);
-                    console.log($node);
                     let hasClass: boolean = $node.hasClass("woocommerce-error");
                     let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
 

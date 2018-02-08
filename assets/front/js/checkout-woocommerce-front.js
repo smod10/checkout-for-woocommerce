@@ -2957,7 +2957,6 @@ var TabContainer = /** @class */ (function (_super) {
                 var $errorNode_1 = null;
                 addedNodes.forEach(function (node) {
                     var $node = $(node);
-                    console.log($node);
                     var hasClass = $node.hasClass("woocommerce-error");
                     var hasGroupCheckoutClass = $node.hasClass("woocommerce-NoticeGroup-checkout");
                     if (hasClass || hasGroupCheckoutClass) {

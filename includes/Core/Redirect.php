@@ -93,6 +93,8 @@ class Redirect {
      * @param CFWPathManager $path_manager
 	 */
 	public static function init_block($env_extension, $path_manager) {
+	    $default_fields = json_encode(array_keys(WC()->countries->get_default_address_fields()));
+
 		// We use this instead of _wp_render_title_tag because it requires the theme support title-tag capability.
 		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
 
@@ -147,7 +149,8 @@ class Redirect {
                 settings: {
                     isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
                     user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
-                    is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>
+                    is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>,
+                    default_address_fields: <?php echo $default_fields; ?>
                 }
             };
 

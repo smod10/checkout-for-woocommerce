@@ -915,22 +915,12 @@ export class TabContainer extends Element {
      * @returns {{}}
      */
     getFormObject() {
-        let checkout_form: JQuery = Main.instance.checkoutForm;
+        let main: Main = Main.instance;
+        let checkout_form: JQuery = main.checkoutForm;
         let ship_to_different_address = parseInt($("[name='ship_to_different_address']:checked").val());
         let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
         let has_full_address: boolean = true;
-        let lookFor: Array<string> = [
-            "first_name",
-            "last_name",
-            "address_1",
-            "address_2",
-            "company",
-            "country",
-            "postcode",
-            "state",
-            "city",
-            "phone"
-        ];
+        let lookFor: Array<string> = main.settings.default_address_fields;
 
         let formData = {
             post_data: checkout_form.serialize()
@@ -1010,18 +1000,7 @@ export class TabContainer extends Element {
 
         completeOrderButton.jel.on('click', () => {
 
-            let lookFor: Array<string> = [
-                "first_name",
-                "last_name",
-                "address_1",
-                "address_2",
-                "company",
-                "country",
-                "postcode",
-                "state",
-                "city",
-                "phone"
-            ];
+            let lookFor: Array<string> = Main.instance.settings.default_address_fields;
 
             if(parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
                 lookFor.forEach( field => {

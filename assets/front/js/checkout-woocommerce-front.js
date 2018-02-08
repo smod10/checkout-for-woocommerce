@@ -2820,22 +2820,12 @@ var TabContainer = /** @class */ (function (_super) {
      * @returns {{}}
      */
     TabContainer.prototype.getFormObject = function () {
-        var checkout_form = Main_1.Main.instance.checkoutForm;
+        var main = Main_1.Main.instance;
+        var checkout_form = main.checkoutForm;
         var ship_to_different_address = parseInt($("[name='ship_to_different_address']:checked").val());
         var $required_inputs = checkout_form.find('.address-field.validate-required:visible');
         var has_full_address = true;
-        var lookFor = [
-            "first_name",
-            "last_name",
-            "address_1",
-            "address_2",
-            "company",
-            "country",
-            "postcode",
-            "state",
-            "city",
-            "phone"
-        ];
+        var lookFor = main.settings.default_address_fields;
         var formData = {
             post_data: checkout_form.serialize()
         };
@@ -2898,18 +2888,7 @@ var TabContainer = /** @class */ (function (_super) {
         };
         checkout_form.on('submit', submitHandler.bind(this));
         completeOrderButton.jel.on('click', function () {
-            var lookFor = [
-                "first_name",
-                "last_name",
-                "address_1",
-                "address_2",
-                "company",
-                "country",
-                "postcode",
-                "state",
-                "city",
-                "phone"
-            ];
+            var lookFor = Main_1.Main.instance.settings.default_address_fields;
             if (parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
                 lookFor.forEach(function (field) {
                     var billing = $("#billing_" + field);

@@ -2848,6 +2848,7 @@ var TabContainer = /** @class */ (function (_super) {
      */
     TabContainer.prototype.setCompleteOrderHandlers = function () {
         var _this = this;
+        var checkout_form = $("form[name='checkout']");
         var completeOrderButton = new Element_1.Element($("#place_order"));
         var form = $("form.woocommerce-checkout");
         var preSwapData = {};
@@ -2892,7 +2893,7 @@ var TabContainer = /** @class */ (function (_super) {
                 });
             }
             // Select the node that will be observed for mutations
-            var targetNode = document.getElementById('checkout');
+            var targetNode = checkout_form[0];
             // Options for the observer (which mutations to observe)
             var config = { childList: true, characterData: true, subtree: true };
             // Callback function to execute when mutations are observed

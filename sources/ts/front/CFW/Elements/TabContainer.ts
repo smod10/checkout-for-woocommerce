@@ -982,6 +982,7 @@ export class TabContainer extends Element {
      *
      */
     setCompleteOrderHandlers(): void {
+        let checkout_form: JQuery = $("form[name='checkout']");
         let completeOrderButton: Element = new Element($("#place_order"));
         let form: JQuery = $("form.woocommerce-checkout");
         let preSwapData = {};
@@ -1037,7 +1038,7 @@ export class TabContainer extends Element {
             }
 
             // Select the node that will be observed for mutations
-            let targetNode = document.getElementById('checkout');
+            let targetNode = checkout_form[0];
 
             // Options for the observer (which mutations to observe)
             let config = { childList: true, characterData: true, subtree: true };

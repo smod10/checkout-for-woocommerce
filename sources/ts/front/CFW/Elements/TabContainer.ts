@@ -1010,6 +1010,7 @@ export class TabContainer extends Element {
      *
      */
     completeOrderSubmitHandler(e) {
+        let main: Main = Main.instance;
         let checkout_form: JQuery = Main.instance.checkoutForm;
         let preSwapData = this.checkoutDataAtSubmitClick;
 
@@ -1017,16 +1018,16 @@ export class TabContainer extends Element {
         e.preventDefault();
 
         // If all the payment stuff has finished any ajax calls, run the complete order.
-        if(checkout_form.triggerHandler( 'checkout_place_order' ) !== false && checkout_form.triggerHandler( 'checkout_place_order_' + checkout_form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
+        if ( checkout_form.triggerHandler( 'checkout_place_order' ) !== false && checkout_form.triggerHandler( 'checkout_place_order_' + checkout_form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
 
             // Reset data
-            for(let field in preSwapData) {
+            for ( let field in preSwapData ) {
                 let billing = $(`#billing_${field}`);
 
                 billing.val(preSwapData[field]);
             }
 
-            if(this.errorObserver) {
+            if ( this.errorObserver ) {
                 this.errorObserver.disconnect();
             }
 
@@ -1043,7 +1044,9 @@ export class TabContainer extends Element {
         let lookFor: Array<string> = main.settings.default_address_fields;
         let preSwapData = this.checkoutDataAtSubmitClick = {};
 
-        if(parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
+        Main.addOverlay();
+
+        if ( parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0 ) {
             lookFor.forEach( field => {
                 let billing = $(`#billing_${field}`);
                 let shipping = $(`#shipping_${field}`);
@@ -1063,7 +1066,7 @@ export class TabContainer extends Element {
         // Options for the observer (which mutations to observe)
         let config = { childList: true, characterData: true, subtree: true };
 
-        if(!this.errorObserver) {
+        if ( ! this.errorObserver ) {
             // Create an observer instance linked to the callback function
             let observer = new MutationObserver(this.submitOrderErrorMutationListener);
 
@@ -1080,17 +1083,21 @@ export class TabContainer extends Element {
      * @param mutationsList
      */
     submitOrderErrorMutationListener(mutationsList) {
-        for(let mutation of mutationsList) {
+        let main: Main = Main.instance;
+
+        for ( let mutation of mutationsList ) {
             if(mutation.type === "childList") {
                 let addedNodes = mutation.addedNodes;
                 let $errorNode: JQuery = null;
 
                 addedNodes.forEach(node => {
                     let $node: JQuery = $(node);
+                    console.log($node);
                     let hasClass: boolean = $node.hasClass("woocommerce-error");
                     let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
 
-                    if(hasClass || hasGroupCheckoutClass) {
+                    if ( hasClass || hasGroupCheckoutClass ) {
+                        Main.removeOverlay();
                         $errorNode = $node;
                         $errorNode.attr("class", "");
                     }

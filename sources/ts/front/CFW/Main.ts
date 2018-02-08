@@ -68,6 +68,13 @@ export class Main {
 	 */
 	private _updating: boolean;
 
+    /**
+     * @type {boolean}
+     * @static
+     * @private
+     */
+	private static _checkoutStarted: boolean = false;
+
 	/**
 	 * @type {Main}
 	 * @private
@@ -142,6 +149,17 @@ export class Main {
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
 	}
+
+    /**
+     * Adds a visual indicator that the checkout is doing something
+     */
+    static addOverlay(): void {
+        $("#cfw-content").addClass("show-overlay");
+    }
+
+    static removeOverlay(): void {
+        $("#cfw-content").removeClass("show-overlay");
+    }
 
 	/**
 	 * @returns {boolean}
@@ -301,7 +319,21 @@ export class Main {
 		this._validationService = value;
 	}
 
-	/**
+    /**
+     * @returns {boolean}
+     */
+    static get checkoutStarted(): boolean {
+        return this._checkoutStarted;
+    }
+
+    /**
+     * @param {boolean} value
+     */
+    static set checkoutStarted(value: boolean) {
+        this._checkoutStarted = value;
+    }
+
+    /**
 	 * @returns {Main}
 	 */
 	static get instance(): Main {

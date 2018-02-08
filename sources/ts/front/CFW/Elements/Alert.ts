@@ -1,4 +1,5 @@
 import { Element }              from "./Element";
+import { Main }                 from "../Main";
 
 export type AlertInfo = { type: string, message: any, cssClass: string };
 
@@ -39,7 +40,8 @@ export class Alert extends Element {
             this.jel.removeClass(Alert.previousClass);
         }
 
-        $("#cfw-content").removeClass("show-overlay");
+        Main.removeOverlay();
+        Main.checkoutStarted = false;
 
         this.jel.find(".message").html(this.alertInfo.message);
         this.jel.addClass(this.alertInfo.cssClass);

@@ -24,16 +24,9 @@ export class CompleteOrderAction extends Action {
     constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: any) {
         super(id, ajaxInfo.admin_url, Action.prep(id, ajaxInfo, checkoutData));
 
-        this.addOverlay();
+        Main.addOverlay();
 
         this.setup();
-    }
-
-    /**
-     * Adds a visual indicator that the checkout is doing something
-     */
-    addOverlay(): void {
-        $("#cfw-content").addClass("show-overlay");
     }
 
     /**

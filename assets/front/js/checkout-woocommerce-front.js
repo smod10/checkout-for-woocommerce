@@ -171,6 +171,15 @@ var Main = /** @class */ (function () {
         this.tabContainer.setShippingFieldsOnLoad();
     };
     /**
+     * Adds a visual indicator that the checkout is doing something
+     */
+    Main.addOverlay = function () {
+        $("#cfw-content").addClass("show-overlay");
+    };
+    Main.removeOverlay = function () {
+        $("#cfw-content").removeClass("show-overlay");
+    };
+    /**
      * @returns {boolean}
      */
     Main.isPaymentRequired = function () {
@@ -343,6 +352,22 @@ var Main = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Main, "checkoutStarted", {
+        /**
+         * @returns {boolean}
+         */
+        get: function () {
+            return this._checkoutStarted;
+        },
+        /**
+         * @param {boolean} value
+         */
+        set: function (value) {
+            this._checkoutStarted = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Main, "instance", {
         /**
          * @returns {Main}
@@ -361,6 +386,12 @@ var Main = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @type {boolean}
+     * @static
+     * @private
+     */
+    Main._checkoutStarted = false;
     return Main;
 }());
 exports.Main = Main;
@@ -790,6 +821,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Element_1 = __webpack_require__(3);
+var Main_1 = __webpack_require__(1);
 /**
  *
  */
@@ -812,7 +844,8 @@ var Alert = /** @class */ (function (_super) {
         if (Alert.previousClass) {
             this.jel.removeClass(Alert.previousClass);
         }
-        $("#cfw-content").removeClass("show-overlay");
+        Main_1.Main.removeOverlay();
+        Main_1.Main.checkoutStarted = false;
         this.jel.find(".message").html(this.alertInfo.message);
         this.jel.addClass(this.alertInfo.cssClass);
         this.jel.slideDown(300);
@@ -1371,16 +1404,10 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      */
     function CompleteOrderAction(id, ajaxInfo, checkoutData) {
         var _this = _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, checkoutData)) || this;
-        _this.addOverlay();
+        Main_1.Main.addOverlay();
         _this.setup();
         return _this;
     }
-    /**
-     * Adds a visual indicator that the checkout is doing something
-     */
-    CompleteOrderAction.prototype.addOverlay = function () {
-        $("#cfw-content").addClass("show-overlay");
-    };
     /**
      * The setup function which mainly determines if we need a stripe token to continue
      */
@@ -2838,12 +2865,12 @@ var TabContainer = /** @class */ (function (_super) {
         }
         var formArr = checkout_form.serializeArray();
         formArr.forEach(function (item) { return formData[item.name] = item.value; });
-        formArr["has_full_address"] = has_full_address;
-        formArr["ship_to_different_address"] = ship_to_different_address;
+        formData["has_full_address"] = has_full_address;
+        formData["ship_to_different_address"] = ship_to_different_address;
         if (ship_to_different_address === 0) {
             lookFor.forEach(function (field) {
-                if ($("billing_" + field).length > 0) {
-                    formArr["billing_" + field] = formArr["shipping_" + field];
+                if ($("#billing_" + field).length > 0) {
+                    formData["billing_" + field] = formData["shipping_" + field];
                 }
             });
         }
@@ -2866,94 +2893,112 @@ var TabContainer = /** @class */ (function (_super) {
      *
      */
     TabContainer.prototype.setCompleteOrderHandlers = function () {
-        var _this = this;
         var checkout_form = Main_1.Main.instance.checkoutForm;
         var completeOrderButton = new Element_1.Element($("#place_order"));
-        var preSwapData = {};
-        var submitHandler = function (e) {
-            // Prevent any weirdness by preventing default
-            e.preventDefault();
-            // If all the payment stuff has finished any ajax calls, run the complete order.
-            if (checkout_form.triggerHandler('checkout_place_order') !== false && checkout_form.triggerHandler('checkout_place_order_' + checkout_form.find('input[name="payment_method"]:checked').val()) !== false) {
-                // Reset data
-                for (var field in preSwapData) {
-                    var billing = $("#billing_" + field);
-                    billing.val(preSwapData[field]);
-                }
-                if (this.errorObserver) {
-                    this.errorObserver.disconnect();
-                }
-                this.completeOrderClickListener(Main_1.Main.instance.ajaxInfo, this.getFormObject());
+        checkout_form.on('submit', this.completeOrderSubmitHandler.bind(this));
+        completeOrderButton.jel.on('click', this.completeOrderClickHandler.bind(this));
+    };
+    /**
+     *
+     */
+    TabContainer.prototype.completeOrderSubmitHandler = function (e) {
+        var checkout_form = Main_1.Main.instance.checkoutForm;
+        var preSwapData = this.checkoutDataAtSubmitClick;
+        // Prevent any weirdness by preventing default
+        e.preventDefault();
+        // If all the payment stuff has finished any ajax calls, run the complete order.
+        if (checkout_form.triggerHandler('checkout_place_order') !== false && checkout_form.triggerHandler('checkout_place_order_' + checkout_form.find('input[name="payment_method"]:checked').val()) !== false) {
+            // Reset data
+            for (var field in preSwapData) {
+                var billing = $("#billing_" + field);
+                billing.val(preSwapData[field]);
             }
-        };
-        checkout_form.on('submit', submitHandler.bind(this));
-        completeOrderButton.jel.on('click', function () {
-            var lookFor = Main_1.Main.instance.settings.default_address_fields;
-            if (parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
-                lookFor.forEach(function (field) {
-                    var billing = $("#billing_" + field);
-                    var shipping = $("#shipping_" + field);
-                    if (billing.length > 0) {
-                        preSwapData[field] = billing.val();
-                        billing.val(shipping.val());
+            if (this.errorObserver) {
+                this.errorObserver.disconnect();
+            }
+            Main_1.Main.checkoutStarted = true;
+            this.orderKickOff(Main_1.Main.instance.ajaxInfo, this.getFormObject());
+        }
+    };
+    /**
+     *
+     */
+    TabContainer.prototype.completeOrderClickHandler = function () {
+        var main = Main_1.Main.instance;
+        var checkout_form = main.checkoutForm;
+        var lookFor = main.settings.default_address_fields;
+        var preSwapData = this.checkoutDataAtSubmitClick = {};
+        console.log("Complete order clicked. Checkout started?: " + Main_1.Main.checkoutStarted);
+        if (Main_1.Main.checkoutStarted) {
+            return;
+        }
+        if (parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
+            lookFor.forEach(function (field) {
+                var billing = $("#billing_" + field);
+                var shipping = $("#shipping_" + field);
+                if (billing.length > 0) {
+                    preSwapData[field] = billing.val();
+                    billing.val(shipping.val());
+                }
+            });
+        }
+        // Select the node that will be observed for mutations
+        var targetNode = checkout_form[0];
+        // Options for the observer (which mutations to observe)
+        var config = { childList: true, characterData: true, subtree: true };
+        if (!this.errorObserver) {
+            // Create an observer instance linked to the callback function
+            var observer = new MutationObserver(this.submitOrderErrorMutationListener);
+            // Start observing the target node for configured mutations
+            observer.observe(targetNode, config);
+            this.errorObserver = observer;
+        }
+        checkout_form.trigger('submit');
+    };
+    /**
+     * @param mutationsList
+     */
+    TabContainer.prototype.submitOrderErrorMutationListener = function (mutationsList) {
+        var _loop_1 = function (mutation) {
+            if (mutation.type === "childList") {
+                var addedNodes = mutation.addedNodes;
+                var $errorNode_1 = null;
+                addedNodes.forEach(function (node) {
+                    var $node = $(node);
+                    var hasClass = $node.hasClass("woocommerce-error");
+                    var hasGroupCheckoutClass = $node.hasClass("woocommerce-NoticeGroup-checkout");
+                    if (hasClass || hasGroupCheckoutClass) {
+                        $errorNode_1 = $node;
+                        $errorNode_1.attr("class", "");
                     }
                 });
-            }
-            // Select the node that will be observed for mutations
-            var targetNode = checkout_form[0];
-            // Options for the observer (which mutations to observe)
-            var config = { childList: true, characterData: true, subtree: true };
-            // Callback function to execute when mutations are observed
-            var callback = function (mutationsList) {
-                var _loop_1 = function (mutation) {
-                    if (mutation.type === "childList") {
-                        var addedNodes = mutation.addedNodes;
-                        var $errorNode_1 = null;
-                        addedNodes.forEach(function (node) {
-                            var $node = $(node);
-                            var hasClass = $node.hasClass("woocommerce-error");
-                            var hasGroupCheckoutClass = $node.hasClass("woocommerce-NoticeGroup-checkout");
-                            if (hasClass || hasGroupCheckoutClass) {
-                                $errorNode_1 = $node;
-                                $errorNode_1.attr("class", "");
-                            }
-                        });
-                        if ($errorNode_1) {
-                            var alertInfo = {
-                                type: "CFWSubmitError",
-                                message: $errorNode_1,
-                                cssClass: "cfw-alert-danger"
-                            };
-                            var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
-                            alert_1.addAlert();
-                            if (_this.errorObserver) {
-                                _this.errorObserver.disconnect();
-                                _this.errorObserver = null;
-                            }
-                        }
+                if ($errorNode_1) {
+                    var alertInfo = {
+                        type: "CFWSubmitError",
+                        message: $errorNode_1,
+                        cssClass: "cfw-alert-danger"
+                    };
+                    var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
+                    alert_1.addAlert();
+                    if (this_1.errorObserver) {
+                        this_1.errorObserver.disconnect();
+                        this_1.errorObserver = null;
                     }
-                };
-                for (var _i = 0, mutationsList_1 = mutationsList; _i < mutationsList_1.length; _i++) {
-                    var mutation = mutationsList_1[_i];
-                    _loop_1(mutation);
                 }
-            };
-            if (!_this.errorObserver) {
-                // Create an observer instance linked to the callback function
-                var observer = new MutationObserver(callback);
-                // Start observing the target node for configured mutations
-                observer.observe(targetNode, config);
-                _this.errorObserver = observer;
             }
-            checkout_form.trigger('submit');
-        });
+        };
+        var this_1 = this;
+        for (var _i = 0, mutationsList_1 = mutationsList; _i < mutationsList_1.length; _i++) {
+            var mutation = mutationsList_1[_i];
+            _loop_1(mutation);
+        }
     };
     /**
      *
      * @param {AjaxInfo} ajaxInfo
      * @param data
      */
-    TabContainer.prototype.completeOrderClickListener = function (ajaxInfo, data) {
+    TabContainer.prototype.orderKickOff = function (ajaxInfo, data) {
         var isShippingDifferentFromBilling = $("#shipping_dif_from_billing:checked").length !== 0;
         ValidationService_1.ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, data);
     };
@@ -3060,6 +3105,22 @@ var TabContainer = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._errorObserver = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TabContainer.prototype, "checkoutDataAtSubmitClick", {
+        /**
+         * @returns {any}
+         */
+        get: function () {
+            return this._checkoutDataAtSubmitClick;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._checkoutDataAtSubmitClick = value;
         },
         enumerable: true,
         configurable: true

@@ -41,7 +41,6 @@ export class Alert extends Element {
         }
 
         Main.removeOverlay();
-        Main.checkoutStarted = false;
 
         this.jel.find(".message").html(this.alertInfo.message);
         this.jel.addClass(this.alertInfo.cssClass);

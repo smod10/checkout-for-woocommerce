@@ -68,13 +68,6 @@ export class Main {
 	 */
 	private _updating: boolean;
 
-    /**
-     * @type {boolean}
-     * @static
-     * @private
-     */
-	private static _checkoutStarted: boolean = false;
-
 	/**
 	 * @type {Main}
 	 * @private
@@ -318,20 +311,6 @@ export class Main {
 	set validationService(value: ValidationService) {
 		this._validationService = value;
 	}
-
-    /**
-     * @returns {boolean}
-     */
-    static get checkoutStarted(): boolean {
-        return this._checkoutStarted;
-    }
-
-    /**
-     * @param {boolean} value
-     */
-    static set checkoutStarted(value: boolean) {
-        this._checkoutStarted = value;
-    }
 
     /**
 	 * @returns {Main}

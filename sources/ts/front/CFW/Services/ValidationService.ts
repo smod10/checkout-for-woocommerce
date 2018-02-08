@@ -141,8 +141,9 @@ export class ValidationService {
                 break;
         }
 
-        if(validated == null)
+        if(validated == null) {
             validated = true;
+        }
 
         return validated;
     }

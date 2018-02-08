@@ -352,22 +352,6 @@ var Main = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Main, "checkoutStarted", {
-        /**
-         * @returns {boolean}
-         */
-        get: function () {
-            return this._checkoutStarted;
-        },
-        /**
-         * @param {boolean} value
-         */
-        set: function (value) {
-            this._checkoutStarted = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(Main, "instance", {
         /**
          * @returns {Main}
@@ -386,12 +370,6 @@ var Main = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    /**
-     * @type {boolean}
-     * @static
-     * @private
-     */
-    Main._checkoutStarted = false;
     return Main;
 }());
 exports.Main = Main;
@@ -652,8 +630,9 @@ var ValidationService = /** @class */ (function () {
                 validated = checkoutForm.parsley().validate("account");
                 break;
         }
-        if (validated == null)
+        if (validated == null) {
             validated = true;
+        }
         return validated;
     };
     /**
@@ -845,7 +824,6 @@ var Alert = /** @class */ (function (_super) {
             this.jel.removeClass(Alert.previousClass);
         }
         Main_1.Main.removeOverlay();
-        Main_1.Main.checkoutStarted = false;
         this.jel.find(".message").html(this.alertInfo.message);
         this.jel.addClass(this.alertInfo.cssClass);
         this.jel.slideDown(300);
@@ -2931,7 +2909,6 @@ var TabContainer = /** @class */ (function (_super) {
             if (this.errorObserver) {
                 this.errorObserver.disconnect();
             }
-            Main_1.Main.checkoutStarted = true;
             this.orderKickOff(Main_1.Main.instance.ajaxInfo, this.getFormObject());
         }
     };
@@ -2943,10 +2920,6 @@ var TabContainer = /** @class */ (function (_super) {
         var checkout_form = main.checkoutForm;
         var lookFor = main.settings.default_address_fields;
         var preSwapData = this.checkoutDataAtSubmitClick = {};
-        console.log("Complete order clicked. Checkout started?: " + Main_1.Main.checkoutStarted);
-        if (Main_1.Main.checkoutStarted) {
-            return;
-        }
         if (parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
             lookFor.forEach(function (field) {
                 var billing = $("#billing_" + field);
@@ -2954,6 +2927,7 @@ var TabContainer = /** @class */ (function (_super) {
                 if (billing.length > 0) {
                     preSwapData[field] = billing.val();
                     billing.val(shipping.val());
+                    billing.trigger("keyup");
                 }
             });
         }

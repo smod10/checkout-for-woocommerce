@@ -1030,8 +1030,6 @@ export class TabContainer extends Element {
                 this.errorObserver.disconnect();
             }
 
-            Main.checkoutStarted = true;
-
             this.orderKickOff(Main.instance.ajaxInfo, this.getFormObject());
         }
     }
@@ -1045,12 +1043,6 @@ export class TabContainer extends Element {
         let lookFor: Array<string> = main.settings.default_address_fields;
         let preSwapData = this.checkoutDataAtSubmitClick = {};
 
-        console.log(`Complete order clicked. Checkout started?: ${Main.checkoutStarted}`);
-
-        if(Main.checkoutStarted) {
-            return;
-        }
-
         if(parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
             lookFor.forEach( field => {
                 let billing = $(`#billing_${field}`);
@@ -1060,6 +1052,7 @@ export class TabContainer extends Element {
                     preSwapData[field] = billing.val();
 
                     billing.val(shipping.val());
+                    billing.trigger("keyup");
                 }
             });
         }

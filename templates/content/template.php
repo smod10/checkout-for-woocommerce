@@ -96,9 +96,9 @@
                                         <div class="cfw-input-wrap cfw-check-input">
 
                                             <?php if( ! WC()->checkout->is_registration_required() ): ?>
-                                                <input type="checkbox" id="createaccount" class="garlic-auto-save" name="cfw-acc-register-chk" />
+                                                <input type="checkbox" id="createaccount" class="garlic-auto-save" name="createaccount" />
                                             <?php else: ?>
-                                                <input type="checkbox" id="createaccount" class="garlic-auto-save" name="cfw-acc-register-chk" disabled="disabled" checked />
+                                                <input type="checkbox" id="createaccount" class="garlic-auto-save" name="createaccount" disabled="disabled" checked />
                                             <?php endif; ?>
 
                                             <label class="cfw-small" for="createaccount"><?php printf( esc_html__('Create %s shopping account.', CFW_TEXT_DOMAIN), get_bloginfo('name') ); ?></label>

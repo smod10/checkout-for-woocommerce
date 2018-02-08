@@ -669,7 +669,8 @@ body {
     width: 100%;
     display: inline-block;
     height: 4em;
-    position: relative; }
+    position: relative;
+    text-decoration: none; }
 
 .cfw-link {
   color: #e9a81d;

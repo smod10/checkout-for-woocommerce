@@ -93,6 +93,8 @@ class Redirect {
      * @param CFWPathManager $path_manager
 	 */
 	public static function init_block($env_extension, $path_manager) {
+	    $default_fields = json_encode(array_keys(WC()->countries->get_default_address_fields()));
+
 		// We use this instead of _wp_render_title_tag because it requires the theme support title-tag capability.
 		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
 
@@ -108,6 +110,7 @@ class Redirect {
             $.fn.block = function(item) {};
             $.fn.unblock = function(item) {};
 
+            var checkoutFormSelector = '<?php echo apply_filters('cfw_checkout_form_selector', '.woocommerce-checkout'); ?>';
             var breadCrumbElId = '#<?php echo apply_filters('cfw_template_breadcrumb_id', 'cfw-breadcrumb'); ?>';
             var customerInfoElId = '#<?php echo apply_filters('cfw_template_customer_info_el', 'cfw-customer-info'); ?>';
             var shippingMethodElId = '#<?php echo apply_filters('cfw_template_shipping_method_el', 'cfw-shipping-method'); ?>';
@@ -122,34 +125,34 @@ class Redirect {
             var cartCoupons = '#<?php echo apply_filters('cfw_template_cart_coupons_el', 'cfw-cart-coupons'); ?>';
             var cartReviewBarId = '#<?php echo apply_filters('cfw_template_cart_review_bar_id', 'cfw-cart-details-review-bar'); ?>';
 
-            var cfwEventData = {};
-            cfwEventData.elements = {
-                breadCrumbElId: breadCrumbElId,
-                customerInfoElId: customerInfoElId,
-                shippingMethodElId: shippingMethodElId,
-                paymentMethodElId: paymentMethodElId,
-                tabContainerElId: tabContainerElId,
-                cartContainerId: cartContainerId,
-                cartSubtotalId: cartSubtotalId,
-                cartShippingId: cartShippingId,
-                cartTaxesId: cartTaxesId,
-                cartFeesId: cartFeesId,
-                cartTotalId: cartTotalId,
-                cartCouponsId: cartCoupons,
-                cartReviewBarId: cartReviewBarId
+            var cfwEventData = {
+                elements: {
+                    breadCrumbElId: breadCrumbElId,
+                    customerInfoElId: customerInfoElId,
+                    shippingMethodElId: shippingMethodElId,
+                    paymentMethodElId: paymentMethodElId,
+                    tabContainerElId: tabContainerElId,
+                    cartContainerId: cartContainerId,
+                    cartSubtotalId: cartSubtotalId,
+                    cartShippingId: cartShippingId,
+                    cartTaxesId: cartTaxesId,
+                    cartFeesId: cartFeesId,
+                    cartTotalId: cartTotalId,
+                    cartCouponsId: cartCoupons,
+                    cartReviewBarId: cartReviewBarId,
+                    checkoutFormSelector: checkoutFormSelector
+                },
+                ajaxInfo: {
+                    admin_url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
+                },
+                settings: {
+                    isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
+                    user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
+                    is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>,
+                    default_address_fields: <?php echo $default_fields; ?>
+                }
             };
-
-            cfwEventData.ajaxInfo = {
-                admin_url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
-            };
-
-            cfwEventData.settings = {
-                isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
-                user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
-                is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>
-            };
-
 
             $(document).ready(function() {
                 var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });

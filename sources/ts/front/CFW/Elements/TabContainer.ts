@@ -15,6 +15,7 @@ import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { InfoType }                         from "../Services/ParsleyService";
 import { SelectLabelWrap }                  from "./SelectLabelWrap";
 import {Alert, AlertInfo} from "./Alert";
+import {CompleteOrderAction} from "../Actions/CompleteOrderAction";
 
 declare let wc_address_i18n_params: any;
 declare let wc_country_select_params: any;
@@ -42,6 +43,12 @@ export class TabContainer extends Element {
      * @private
      */
     private _errorObserver: MutationObserver;
+
+    /**
+     * @type {any}
+     * @private
+     */
+    private _checkoutDataAtSubmitClick: any;
 
     /**
      * @param jel
@@ -194,12 +201,32 @@ export class TabContainer extends Element {
             }
         });
 
-        // Authorize.net
-        let authorizenet_form_wraps = $("#wc-authorize-net-aim-credit-card-form .form-row");
+        // Authorize.net - AIM
+        let authorizenet_aim_form_wraps = $("#wc-authorize-net-aim-credit-card-form .form-row");
 
         $("#wc-authorize-net-aim-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
 
-        authorizenet_form_wraps.each(function(index, elem) {
+        authorizenet_aim_form_wraps.each(function(index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label").addClass("cfw-input-label");
+            $(elem).find("input").css("width", "100%");
+
+            if( $(elem).hasClass("form-row-wide") ) {
+                $(elem).wrap("<div class='cfw-column-6'></div>")
+            }
+
+            if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
+                $(elem).wrap("<div class='cfw-column-3'></div>")
+            }
+        });
+
+        // Authorize.net - AIM
+        let authorizenet_cim_form_wraps = $("#wc-authorize-net-cim-credit-card-credit-card-form .form-row");
+
+        $("#wc-authorize-net-cim-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+
+        authorizenet_cim_form_wraps.each(function(index, elem) {
             $(elem).addClass("cfw-input-wrap");
             $(elem).addClass("cfw-text-input");
             $(elem).find("label").addClass("cfw-input-label");
@@ -467,7 +494,7 @@ export class TabContainer extends Element {
             $(`#${info_type}_state`).parsley().reset();
 
             // Re-register all the elements
-            $("form.checkout").parsley();
+            Main.instance.checkoutForm.parsley();
 
             $(document.body).trigger("update_checkout");
         };
@@ -803,7 +830,7 @@ export class TabContainer extends Element {
             .attr("data-parsley-required", 'true');
 
         // Re-register all the elements
-        $("form.checkout").parsley();
+        Main.instance.checkoutForm.parsley();
 
         tab_section.inputLabelWraps.forEach((input_label_wrap, index) => {
             if(input_label_wrap.jel.is(state_input_wrap)) {
@@ -915,22 +942,12 @@ export class TabContainer extends Element {
      * @returns {{}}
      */
     getFormObject() {
-        let checkout_form: JQuery = $("form[name='checkout']");
+        let main: Main = Main.instance;
+        let checkout_form: JQuery = main.checkoutForm;
         let ship_to_different_address = parseInt($("[name='ship_to_different_address']:checked").val());
         let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
         let has_full_address: boolean = true;
-        let lookFor: Array<string> = [
-            "first_name",
-            "last_name",
-            "address_1",
-            "address_2",
-            "company",
-            "country",
-            "postcode",
-            "state",
-            "city",
-            "phone"
-        ];
+        let lookFor: Array<string> = main.settings.default_address_fields;
 
         let formData = {
             post_data: checkout_form.serialize()
@@ -947,13 +964,13 @@ export class TabContainer extends Element {
         let formArr: Array<Object> = checkout_form.serializeArray();
         formArr.forEach((item: any) => formData[item.name] = item.value);
 
-        formArr["has_full_address"] = has_full_address;
-        formArr["ship_to_different_address"] = ship_to_different_address;
+        formData["has_full_address"] = has_full_address;
+        formData["ship_to_different_address"] = ship_to_different_address;
 
         if(ship_to_different_address === 0) {
             lookFor.forEach(field => {
-                if($(`billing_${field}`).length > 0) {
-                    formArr[`billing_${field}`] = formArr[`shipping_${field}`]
+                if($(`#billing_${field}`).length > 0) {
+                    formData[`billing_${field}`] = formData[`shipping_${field}`];
                 }
             });
         }
@@ -982,116 +999,126 @@ export class TabContainer extends Element {
      *
      */
     setCompleteOrderHandlers(): void {
+        let checkout_form: JQuery = Main.instance.checkoutForm;
         let completeOrderButton: Element = new Element($("#place_order"));
-        let form: JQuery = $("form.woocommerce-checkout");
-        let preSwapData = {};
-        let submitHandler = function(e) {
-            // Prevent any weirdness by preventing default
-            e.preventDefault();
 
-            // If all the payment stuff has finished any ajax calls, run the complete order.
-            if(form.triggerHandler( 'checkout_place_order' ) !== false && form.triggerHandler( 'checkout_place_order_' + form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
+        checkout_form.on('submit', this.completeOrderSubmitHandler.bind(this));
+        completeOrderButton.jel.on('click', this.completeOrderClickHandler.bind(this));
+    }
 
-                // Reset data
-                for(let field in preSwapData) {
-                    let billing = $(`#billing_${field}`);
+    /**
+     *
+     */
+    completeOrderSubmitHandler(e) {
+        let main: Main = Main.instance;
+        let checkout_form: JQuery = Main.instance.checkoutForm;
+        let preSwapData = this.checkoutDataAtSubmitClick;
 
-                    billing.val(preSwapData[field]);
-                }
+        // Prevent any weirdness by preventing default
+        e.preventDefault();
 
-                if(this.errorObserver) {
-                    this.errorObserver.disconnect();
-                }
-                this.completeOrderClickListener(Main.instance.ajaxInfo, this.getFormObject());
+        // If all the payment stuff has finished any ajax calls, run the complete order.
+        if ( checkout_form.triggerHandler( 'checkout_place_order' ) !== false && checkout_form.triggerHandler( 'checkout_place_order_' + checkout_form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
+
+            // Reset data
+            for ( let field in preSwapData ) {
+                let billing = $(`#billing_${field}`);
+
+                billing.val(preSwapData[field]);
             }
-        };
 
-        form.on('submit', submitHandler.bind(this));
+            if ( this.errorObserver ) {
+                this.errorObserver.disconnect();
+            }
 
-        completeOrderButton.jel.on('click', () => {
+            this.orderKickOff(main.ajaxInfo, this.getFormObject());
+        }
+    }
 
-            let lookFor: Array<string> = [
-                "first_name",
-                "last_name",
-                "address_1",
-                "address_2",
-                "company",
-                "country",
-                "postcode",
-                "state",
-                "city",
-                "phone"
-            ];
+    /**
+     *
+     */
+    completeOrderClickHandler() {
+        let main: Main = Main.instance;
+        let checkout_form: JQuery = main.checkoutForm;
+        let lookFor: Array<string> = main.settings.default_address_fields;
+        let preSwapData = this.checkoutDataAtSubmitClick = {};
 
-            if(parseInt(form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
-                lookFor.forEach( field => {
-                    let billing = $(`#billing_${field}`);
-                    let shipping = $(`#shipping_${field}`);
+        Main.addOverlay();
 
-                    if(billing.length > 0) {
-                        preSwapData[field] = billing.val();
+        if ( parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0 ) {
+            lookFor.forEach( field => {
+                let billing = $(`#billing_${field}`);
+                let shipping = $(`#shipping_${field}`);
 
-                        billing.val(shipping.val());
+                if(billing.length > 0) {
+                    preSwapData[field] = billing.val();
+
+                    billing.val(shipping.val());
+                    billing.trigger("keyup");
+                }
+            });
+        }
+
+        // Select the node that will be observed for mutations
+        let targetNode = checkout_form[0];
+
+        // Options for the observer (which mutations to observe)
+        let config = { childList: true, characterData: true, subtree: true };
+
+        if ( ! this.errorObserver ) {
+            // Create an observer instance linked to the callback function
+            let observer = new MutationObserver(this.submitOrderErrorMutationListener);
+
+            // Start observing the target node for configured mutations
+            observer.observe(targetNode, config);
+
+            this.errorObserver = observer;
+        }
+
+        checkout_form.trigger('submit');
+    }
+
+    /**
+     * @param mutationsList
+     */
+    submitOrderErrorMutationListener(mutationsList) {
+        let main: Main = Main.instance;
+
+        for ( let mutation of mutationsList ) {
+            if(mutation.type === "childList") {
+                let addedNodes = mutation.addedNodes;
+                let $errorNode: JQuery = null;
+
+                addedNodes.forEach(node => {
+                    let $node: JQuery = $(node);
+                    let hasClass: boolean = $node.hasClass("woocommerce-error");
+                    let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
+
+                    if ( hasClass || hasGroupCheckoutClass ) {
+                        Main.removeOverlay();
+                        $errorNode = $node;
+                        $errorNode.attr("class", "");
                     }
                 });
-            }
 
-            // Select the node that will be observed for mutations
-            let targetNode = document.getElementById('checkout');
+                if($errorNode) {
+                    let alertInfo: AlertInfo = {
+                        type: "CFWSubmitError",
+                        message: $errorNode,
+                        cssClass: "cfw-alert-danger"
+                    };
 
-            // Options for the observer (which mutations to observe)
-            let config = { childList: true, characterData: true, subtree: true };
+                    let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+                    alert.addAlert();
 
-            // Callback function to execute when mutations are observed
-            let callback = (mutationsList) => {
-
-                for(let mutation of mutationsList) {
-                    if(mutation.type === "childList") {
-                        let addedNodes = mutation.addedNodes;
-                        let $errorNode: JQuery = null;
-
-                        addedNodes.forEach(node => {
-                           let $node: JQuery = $(node);
-                           let hasClass: boolean = $node.hasClass("woocommerce-error");
-                           let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
-
-                           if(hasClass || hasGroupCheckoutClass) {
-                               $errorNode = $node;
-                               $errorNode.attr("class", "");
-                           }
-                        });
-
-                        if($errorNode) {
-                            let alertInfo: AlertInfo = {
-                                type: "CFWSubmitError",
-                                message: $errorNode,
-                                cssClass: "cfw-alert-danger"
-                            };
-                            let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
-
-                            alert.addAlert();
-
-                            if(this.errorObserver) {
-                                this.errorObserver.disconnect();
-                                this.errorObserver = null;
-                            }
-                        }
+                    if(this.errorObserver) {
+                        this.errorObserver.disconnect();
+                        this.errorObserver = null;
                     }
                 }
-            };
-
-            if(!this.errorObserver) {
-                // Create an observer instance linked to the callback function
-                let observer = new MutationObserver(callback);
-
-                // Start observing the target node for configured mutations
-                observer.observe(targetNode, config);
-
-                this.errorObserver = observer;
             }
-
-            form.trigger('submit');
-        });
+        }
     }
 
     /**
@@ -1099,7 +1126,7 @@ export class TabContainer extends Element {
      * @param {AjaxInfo} ajaxInfo
      * @param data
      */
-    completeOrderClickListener(ajaxInfo: AjaxInfo, data): void {
+    orderKickOff(ajaxInfo: AjaxInfo, data): void {
         let isShippingDifferentFromBilling: boolean = $("#shipping_dif_from_billing:checked").length !== 0;
 
         ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, data);
@@ -1210,5 +1237,19 @@ export class TabContainer extends Element {
      */
     set errorObserver(value: MutationObserver) {
         this._errorObserver = value;
+    }
+
+    /**
+     * @returns {any}
+     */
+    get checkoutDataAtSubmitClick(): any {
+        return this._checkoutDataAtSubmitClick;
+    }
+
+    /**
+     * @param value
+     */
+    set checkoutDataAtSubmitClick(value: any) {
+        this._checkoutDataAtSubmitClick = value;
     }
 }

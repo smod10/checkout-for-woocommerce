@@ -35,19 +35,21 @@ class Form {
 
 			add_action( 'woocommerce_checkout_create_order', array( $this, 'update_shipping_phone_on_order_create' ), 10, 2 );
 			add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $this, 'shipping_phone_display_admin_order_meta' ), 10, 1 );
+		} else {
+			add_filter( 'woocommerce_billing_fields', array($this, 'unrequire_billing_phone'), 10, 1 );
 		}
 	}
 
 	/**
-	 * @since 1.1.5
-	 * @param $billing_fields
+	 * @since 1.2.0
+	 * @param $address_fields
 	 *
 	 * @return mixed
 	 */
-	public function remove_phone_from_billing_fields_admin($billing_fields) {
-		unset($billing_fields['phone']);
+	public function unrequire_billing_phone( $address_fields ) {
+		$address_fields['billing_phone']['required'] = false;
 
-		return $billing_fields;
+		return $address_fields;
 	}
 
 	/**

@@ -91,10 +91,12 @@ export class ValidationService {
 
                 if(validationResult) {
                     new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
+                } else {
+                    Main.removeOverlay();
                 }
             }, {once: true});
 
-            (<any>window).addEventListener("cfw:state-zip-failure", () => CompleteOrderAction.preppingOrder = false);
+            (<any>window).addEventListener("cfw:state-zip-failure", () => CompleteOrderAction.preppingOrder = false );
 
             validationResult = ValidationService.validate(EValidationSections.BILLING);
         } else {
@@ -127,7 +129,7 @@ export class ValidationService {
      */
     static validate(section: EValidationSections): any {
         let validated: boolean;
-        let checkoutForm: JQuery = $("form.checkout");
+        let checkoutForm: JQuery = Main.instance.checkoutForm;
 
         switch(section) {
             case EValidationSections.SHIPPING:
@@ -141,8 +143,9 @@ export class ValidationService {
                 break;
         }
 
-        if(validated == null)
+        if(validated == null) {
             validated = true;
+        }
 
         return validated;
     }

@@ -65,39 +65,6 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-module.exports = function(src) {
-	function log(error) {
-		(typeof console !== "undefined")
-		&& (console.error || console.log)("[Script Loader]", error);
-	}
-
-	// Check for IE =< 8
-	function isIE() {
-		return typeof attachEvent !== "undefined" && typeof addEventListener === "undefined";
-	}
-
-	try {
-		if (typeof execScript !== "undefined" && isIE()) {
-			execScript(src);
-		} else if (typeof eval !== "undefined") {
-			eval.call(null, src);
-		} else {
-			log("EvalError: No eval function available");
-		}
-	} catch (error) {
-		log(error);
-	}
-}
-
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -113,17 +80,19 @@ var ParsleyService_1 = __webpack_require__(34);
  */
 var Main = /** @class */ (function () {
     /**
+     * @param checkoutFormEl
      * @param tabContainer
      * @param ajaxInfo
      * @param cart
      * @param settings
      */
-    function Main(tabContainer, ajaxInfo, cart, settings) {
+    function Main(checkoutFormEl, tabContainer, ajaxInfo, cart, settings) {
         Main.instance = this;
-        $("form.checkout").garlic({
+        checkoutFormEl.garlic({
             destroy: false,
-            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"]'
+            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"]'
         });
+        this.checkoutForm = checkoutFormEl;
         this.tabContainer = tabContainer;
         this.ajaxInfo = ajaxInfo;
         this.cart = cart;
@@ -169,11 +138,23 @@ var Main = /** @class */ (function () {
         this.tabContainer.setShippingFieldsOnLoad();
     };
     /**
+     * Adds a visual indicator that the checkout is doing something
+     */
+    Main.addOverlay = function () {
+        $("#cfw-content").addClass("show-overlay");
+    };
+    Main.removeOverlay = function () {
+        $("#cfw-content").removeClass("show-overlay");
+    };
+    /**
      * @returns {boolean}
      */
     Main.isPaymentRequired = function () {
         return !$("#cfw-content").hasClass("cfw-payment-false");
     };
+    /**
+     * @param {boolean} isPaymentRequired
+     */
     Main.togglePaymentRequired = function (isPaymentRequired) {
         var $cfw = $("#cfw-content");
         var noPaymentCssClass = "cfw-payment-false";
@@ -195,11 +176,33 @@ var Main = /** @class */ (function () {
         });
     };
     Object.defineProperty(Main.prototype, "updating", {
+        /**
+         * @returns {boolean}
+         */
         get: function () {
             return this._updating;
         },
+        /**
+         * @param {boolean} value
+         */
         set: function (value) {
             this._updating = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Main.prototype, "checkoutForm", {
+        /**
+         * @returns {JQuery}
+         */
+        get: function () {
+            return this._checkoutForm;
+        },
+        /**
+         * @param {JQuery} value
+         */
+        set: function (value) {
+            this._checkoutForm = value;
         },
         enumerable: true,
         configurable: true
@@ -337,6 +340,39 @@ var Main = /** @class */ (function () {
     return Main;
 }());
 exports.Main = Main;
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+module.exports = function(src) {
+	function log(error) {
+		(typeof console !== "undefined")
+		&& (console.error || console.log)("[Script Loader]", error);
+	}
+
+	// Check for IE =< 8
+	function isIE() {
+		return typeof attachEvent !== "undefined" && typeof addEventListener === "undefined";
+	}
+
+	try {
+		if (typeof execScript !== "undefined" && isIE()) {
+			execScript(src);
+		} else if (typeof eval !== "undefined") {
+			eval.call(null, src);
+		} else {
+			log("EvalError: No eval function available");
+		}
+	} catch (error) {
+		log(error);
+	}
+}
 
 
 /***/ }),
@@ -481,7 +517,7 @@ exports.Element = Element;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Main_1 = __webpack_require__(1);
+var Main_1 = __webpack_require__(0);
 var EasyTabService_1 = __webpack_require__(5);
 var EasyTabService_2 = __webpack_require__(5);
 var CompleteOrderAction_1 = __webpack_require__(11);
@@ -551,6 +587,9 @@ var ValidationService = /** @class */ (function () {
                 if (validationResult_1) {
                     new CompleteOrderAction_1.CompleteOrderAction('complete_order', ajaxInfo, orderDetails);
                 }
+                else {
+                    Main_1.Main.removeOverlay();
+                }
             }, { once: true });
             window.addEventListener("cfw:state-zip-failure", function () { return CompleteOrderAction_1.CompleteOrderAction.preppingOrder = false; });
             validationResult_1 = ValidationService.validate(EValidationSections.BILLING);
@@ -582,7 +621,7 @@ var ValidationService = /** @class */ (function () {
      */
     ValidationService.validate = function (section) {
         var validated;
-        var checkoutForm = $("form.checkout");
+        var checkoutForm = Main_1.Main.instance.checkoutForm;
         switch (section) {
             case EValidationSections.SHIPPING:
                 validated = checkoutForm.parsley().validate("shipping");
@@ -594,8 +633,9 @@ var ValidationService = /** @class */ (function () {
                 validated = checkoutForm.parsley().validate("account");
                 break;
         }
-        if (validated == null)
+        if (validated == null) {
             validated = true;
+        }
         return validated;
     };
     /**
@@ -644,7 +684,7 @@ exports.ValidationService = ValidationService;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Main_1 = __webpack_require__(1);
+var Main_1 = __webpack_require__(0);
 /**
  * EzTab Enum
  */
@@ -763,6 +803,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Element_1 = __webpack_require__(3);
+var Main_1 = __webpack_require__(0);
 /**
  *
  */
@@ -785,7 +826,7 @@ var Alert = /** @class */ (function (_super) {
         if (Alert.previousClass) {
             this.jel.removeClass(Alert.previousClass);
         }
-        $("#cfw-content").removeClass("show-overlay");
+        Main_1.Main.removeOverlay();
         this.jel.find(".message").html(this.alertInfo.message);
         this.jel.addClass(this.alertInfo.cssClass);
         this.jel.slideDown(300);
@@ -858,7 +899,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(2);
-var Main_1 = __webpack_require__(1);
+var Main_1 = __webpack_require__(0);
 var Cart_1 = __webpack_require__(9);
 var ResponsePrep_1 = __webpack_require__(6);
 var UpdateCheckoutAction = /** @class */ (function (_super) {
@@ -1333,6 +1374,7 @@ var Action_1 = __webpack_require__(2);
 var Alert_1 = __webpack_require__(7);
 var ValidationService_1 = __webpack_require__(4);
 var ValidationService_2 = __webpack_require__(4);
+var Main_1 = __webpack_require__(0);
 var CompleteOrderAction = /** @class */ (function (_super) {
     __extends(CompleteOrderAction, _super);
     /**
@@ -1343,21 +1385,15 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      */
     function CompleteOrderAction(id, ajaxInfo, checkoutData) {
         var _this = _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, checkoutData)) || this;
-        _this.addOverlay();
+        Main_1.Main.addOverlay();
         _this.setup();
         return _this;
     }
     /**
-     * Adds a visual indicator that the checkout is doing something
-     */
-    CompleteOrderAction.prototype.addOverlay = function () {
-        $("#cfw-content").addClass("show-overlay");
-    };
-    /**
      * The setup function which mainly determines if we need a stripe token to continue
      */
     CompleteOrderAction.prototype.setup = function () {
-        $("form.checkout").off('form:validate');
+        Main_1.Main.instance.checkoutForm.off('form:validate');
         this.load();
     };
     /**
@@ -1368,7 +1404,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
             // Destroy all the cache!
             $('.garlic-auto-save').each(function (index, elem) { return $(elem).garlic('destroy'); });
             // Destroy all the parsley!
-            $("form").parsley().destroy();
+            Main_1.Main.instance.checkoutForm.parsley().destroy();
             // Redirect all the browsers! (well just the 1)
             window.location.href = resp.redirect;
         }
@@ -1621,7 +1657,7 @@ __webpack_require__(31);
 /* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(0)(__webpack_require__(20))
+__webpack_require__(1)(__webpack_require__(20))
 
 /***/ }),
 /* 20 */
@@ -1633,7 +1669,7 @@ module.exports = "/*\n * jQuery hashchange event - v1.3 - 7/21/2010\n * http://b
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(0)(__webpack_require__(22))
+__webpack_require__(1)(__webpack_require__(22))
 
 /***/ }),
 /* 22 */
@@ -1645,7 +1681,7 @@ module.exports = "/*\n * jQuery EasyTabs plugin 3.2.0\n *\n * Copyright (c) 2010
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(0)(__webpack_require__(24))
+__webpack_require__(1)(__webpack_require__(24))
 
 /***/ }),
 /* 24 */
@@ -1657,7 +1693,7 @@ module.exports = "/* Garlicjs dist/garlic.min.js build version 1.3.1-cgd http://
 /* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(0)(__webpack_require__(26))
+__webpack_require__(1)(__webpack_require__(26))
 
 /***/ }),
 /* 26 */
@@ -1669,7 +1705,7 @@ module.exports = "(function(){/*\n\n Copyright (c) 2016 The Polymer Project Auth
 /* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(0)(__webpack_require__(28))
+__webpack_require__(1)(__webpack_require__(28))
 
 /***/ }),
 /* 28 */
@@ -1681,7 +1717,7 @@ module.exports = "/*!\n* Parsley.js\n* Version 2.8.0 - built Wed, Sep 13th 2017,
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(0)(__webpack_require__(30))
+__webpack_require__(1)(__webpack_require__(30))
 
 /***/ }),
 /* 30 */
@@ -1693,7 +1729,7 @@ module.exports = "// Polyfill for creating CustomEvents on IE9/10/11\n\n// code 
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(0)(__webpack_require__(32))
+__webpack_require__(1)(__webpack_require__(32))
 
 /***/ }),
 /* 32 */
@@ -1708,7 +1744,7 @@ module.exports = "// Find polyfill\nif (!Array.prototype.find) {\n\tArray.protot
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Main_1 = __webpack_require__(1);
+var Main_1 = __webpack_require__(0);
 var TabContainer_1 = __webpack_require__(35);
 var TabContainerBreadcrumb_1 = __webpack_require__(40);
 var TabContainerSection_1 = __webpack_require__(41);
@@ -1728,6 +1764,7 @@ var w = window;
 window.$ = ($ === undefined) ? jQuery : $;
 w.addEventListener("cfw-initialize", function (eventData) {
     var data = eventData.detail;
+    var checkoutFormEl = $(data.elements.checkoutFormSelector);
     var breadCrumbEl = $(data.elements.breadCrumbElId);
     var customerInfoEl = $(data.elements.customerInfoElId);
     var shippingMethodEl = $(data.elements.shippingMethodElId);
@@ -1749,7 +1786,7 @@ w.addEventListener("cfw-initialize", function (eventData) {
     ];
     var tabContainer = new TabContainer_1.TabContainer(tabContainerEl, tabContainerBreadcrumb, tabContainerSections);
     var cart = new Cart_1.Cart(cartContainer, cartSubtotal, cartShipping, cartTaxes, cartFees, cartTotal, cartCoupons, cartReviewBar);
-    var main = new Main_1.Main(tabContainer, data.ajaxInfo, cart, data.settings);
+    var main = new Main_1.Main(checkoutFormEl, tabContainer, data.ajaxInfo, cart, data.settings);
     main.setup();
 }, { once: true });
 
@@ -1764,6 +1801,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var EasyTabService_1 = __webpack_require__(5);
 var EasyTabService_2 = __webpack_require__(5);
 var CompleteOrderAction_1 = __webpack_require__(11);
+var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(4);
 var w = window;
 var ParsleyService = /** @class */ (function () {
@@ -1802,6 +1840,7 @@ var ParsleyService = /** @class */ (function () {
         var interval = setInterval(function () {
             if (w.Parsley !== undefined) {
                 _this.parsley = w.Parsley;
+                _this.parsley.on('form:error', function () { return Main_1.Main.removeOverlay(); });
                 _this.setParsleyCustomValidators();
                 clearInterval(interval);
             }
@@ -2057,7 +2096,7 @@ var AccountExistsAction_1 = __webpack_require__(36);
 var LoginAction_1 = __webpack_require__(37);
 var FormElement_1 = __webpack_require__(10);
 var UpdateShippingMethodAction_1 = __webpack_require__(38);
-var Main_1 = __webpack_require__(1);
+var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(4);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
 var ApplyCouponAction_1 = __webpack_require__(39);
@@ -2194,10 +2233,25 @@ var TabContainer = /** @class */ (function (_super) {
                 $(elem).wrap("<div class='cfw-column-3'></div>");
             }
         });
-        // Authorize.net
-        var authorizenet_form_wraps = $("#wc-authorize-net-aim-credit-card-form .form-row");
+        // Authorize.net - AIM
+        var authorizenet_aim_form_wraps = $("#wc-authorize-net-aim-credit-card-form .form-row");
         $("#wc-authorize-net-aim-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-        authorizenet_form_wraps.each(function (index, elem) {
+        authorizenet_aim_form_wraps.each(function (index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label").addClass("cfw-input-label");
+            $(elem).find("input").css("width", "100%");
+            if ($(elem).hasClass("form-row-wide")) {
+                $(elem).wrap("<div class='cfw-column-6'></div>");
+            }
+            if ($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
+                $(elem).wrap("<div class='cfw-column-3'></div>");
+            }
+        });
+        // Authorize.net - AIM
+        var authorizenet_cim_form_wraps = $("#wc-authorize-net-cim-credit-card-credit-card-form .form-row");
+        $("#wc-authorize-net-cim-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        authorizenet_cim_form_wraps.each(function (index, elem) {
             $(elem).addClass("cfw-input-wrap");
             $(elem).addClass("cfw-text-input");
             $(elem).find("label").addClass("cfw-input-label");
@@ -2417,7 +2471,7 @@ var TabContainer = /** @class */ (function (_super) {
             _this.layoutDefaultLabelsAndRequirements(target_country, locale_data, info_type, wc_address_i18n_params.add2_text);
             $("#" + info_type + "_state").parsley().reset();
             // Re-register all the elements
-            $("form.checkout").parsley();
+            Main_1.Main.instance.checkoutForm.parsley();
             $(document.body).trigger("update_checkout");
         };
         var locale_data = JSON.parse(wc_address_i18n_params.locale);
@@ -2698,7 +2752,7 @@ var TabContainer = /** @class */ (function (_super) {
             .attr("data-parsley-group", group)
             .attr("data-parsley-required", 'true');
         // Re-register all the elements
-        $("form.checkout").parsley();
+        Main_1.Main.instance.checkoutForm.parsley();
         tab_section.inputLabelWraps.forEach(function (input_label_wrap, index) {
             if (input_label_wrap.jel.is(state_input_wrap)) {
                 tab_section.inputLabelWraps.splice(index, 1);
@@ -2791,22 +2845,12 @@ var TabContainer = /** @class */ (function (_super) {
      * @returns {{}}
      */
     TabContainer.prototype.getFormObject = function () {
-        var checkout_form = $("form[name='checkout']");
+        var main = Main_1.Main.instance;
+        var checkout_form = main.checkoutForm;
         var ship_to_different_address = parseInt($("[name='ship_to_different_address']:checked").val());
         var $required_inputs = checkout_form.find('.address-field.validate-required:visible');
         var has_full_address = true;
-        var lookFor = [
-            "first_name",
-            "last_name",
-            "address_1",
-            "address_2",
-            "company",
-            "country",
-            "postcode",
-            "state",
-            "city",
-            "phone"
-        ];
+        var lookFor = main.settings.default_address_fields;
         var formData = {
             post_data: checkout_form.serialize()
         };
@@ -2819,12 +2863,12 @@ var TabContainer = /** @class */ (function (_super) {
         }
         var formArr = checkout_form.serializeArray();
         formArr.forEach(function (item) { return formData[item.name] = item.value; });
-        formArr["has_full_address"] = has_full_address;
-        formArr["ship_to_different_address"] = ship_to_different_address;
+        formData["has_full_address"] = has_full_address;
+        formData["ship_to_different_address"] = ship_to_different_address;
         if (ship_to_different_address === 0) {
             lookFor.forEach(function (field) {
-                if ($("billing_" + field).length > 0) {
-                    formArr["billing_" + field] = formArr["shipping_" + field];
+                if ($("#billing_" + field).length > 0) {
+                    formData["billing_" + field] = formData["shipping_" + field];
                 }
             });
         }
@@ -2847,105 +2891,112 @@ var TabContainer = /** @class */ (function (_super) {
      *
      */
     TabContainer.prototype.setCompleteOrderHandlers = function () {
-        var _this = this;
+        var checkout_form = Main_1.Main.instance.checkoutForm;
         var completeOrderButton = new Element_1.Element($("#place_order"));
-        var form = $("form.woocommerce-checkout");
-        var preSwapData = {};
-        var submitHandler = function (e) {
-            // Prevent any weirdness by preventing default
-            e.preventDefault();
-            // If all the payment stuff has finished any ajax calls, run the complete order.
-            if (form.triggerHandler('checkout_place_order') !== false && form.triggerHandler('checkout_place_order_' + form.find('input[name="payment_method"]:checked').val()) !== false) {
-                // Reset data
-                for (var field in preSwapData) {
-                    var billing = $("#billing_" + field);
-                    billing.val(preSwapData[field]);
-                }
-                if (this.errorObserver) {
-                    this.errorObserver.disconnect();
-                }
-                this.completeOrderClickListener(Main_1.Main.instance.ajaxInfo, this.getFormObject());
+        checkout_form.on('submit', this.completeOrderSubmitHandler.bind(this));
+        completeOrderButton.jel.on('click', this.completeOrderClickHandler.bind(this));
+    };
+    /**
+     *
+     */
+    TabContainer.prototype.completeOrderSubmitHandler = function (e) {
+        var main = Main_1.Main.instance;
+        var checkout_form = Main_1.Main.instance.checkoutForm;
+        var preSwapData = this.checkoutDataAtSubmitClick;
+        // Prevent any weirdness by preventing default
+        e.preventDefault();
+        // If all the payment stuff has finished any ajax calls, run the complete order.
+        if (checkout_form.triggerHandler('checkout_place_order') !== false && checkout_form.triggerHandler('checkout_place_order_' + checkout_form.find('input[name="payment_method"]:checked').val()) !== false) {
+            // Reset data
+            for (var field in preSwapData) {
+                var billing = $("#billing_" + field);
+                billing.val(preSwapData[field]);
             }
-        };
-        form.on('submit', submitHandler.bind(this));
-        completeOrderButton.jel.on('click', function () {
-            var lookFor = [
-                "first_name",
-                "last_name",
-                "address_1",
-                "address_2",
-                "company",
-                "country",
-                "postcode",
-                "state",
-                "city",
-                "phone"
-            ];
-            if (parseInt(form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
-                lookFor.forEach(function (field) {
-                    var billing = $("#billing_" + field);
-                    var shipping = $("#shipping_" + field);
-                    if (billing.length > 0) {
-                        preSwapData[field] = billing.val();
-                        billing.val(shipping.val());
+            if (this.errorObserver) {
+                this.errorObserver.disconnect();
+            }
+            this.orderKickOff(main.ajaxInfo, this.getFormObject());
+        }
+    };
+    /**
+     *
+     */
+    TabContainer.prototype.completeOrderClickHandler = function () {
+        var main = Main_1.Main.instance;
+        var checkout_form = main.checkoutForm;
+        var lookFor = main.settings.default_address_fields;
+        var preSwapData = this.checkoutDataAtSubmitClick = {};
+        Main_1.Main.addOverlay();
+        if (parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0) {
+            lookFor.forEach(function (field) {
+                var billing = $("#billing_" + field);
+                var shipping = $("#shipping_" + field);
+                if (billing.length > 0) {
+                    preSwapData[field] = billing.val();
+                    billing.val(shipping.val());
+                    billing.trigger("keyup");
+                }
+            });
+        }
+        // Select the node that will be observed for mutations
+        var targetNode = checkout_form[0];
+        // Options for the observer (which mutations to observe)
+        var config = { childList: true, characterData: true, subtree: true };
+        if (!this.errorObserver) {
+            // Create an observer instance linked to the callback function
+            var observer = new MutationObserver(this.submitOrderErrorMutationListener);
+            // Start observing the target node for configured mutations
+            observer.observe(targetNode, config);
+            this.errorObserver = observer;
+        }
+        checkout_form.trigger('submit');
+    };
+    /**
+     * @param mutationsList
+     */
+    TabContainer.prototype.submitOrderErrorMutationListener = function (mutationsList) {
+        var main = Main_1.Main.instance;
+        var _loop_1 = function (mutation) {
+            if (mutation.type === "childList") {
+                var addedNodes = mutation.addedNodes;
+                var $errorNode_1 = null;
+                addedNodes.forEach(function (node) {
+                    var $node = $(node);
+                    var hasClass = $node.hasClass("woocommerce-error");
+                    var hasGroupCheckoutClass = $node.hasClass("woocommerce-NoticeGroup-checkout");
+                    if (hasClass || hasGroupCheckoutClass) {
+                        Main_1.Main.removeOverlay();
+                        $errorNode_1 = $node;
+                        $errorNode_1.attr("class", "");
                     }
                 });
-            }
-            // Select the node that will be observed for mutations
-            var targetNode = document.getElementById('checkout');
-            // Options for the observer (which mutations to observe)
-            var config = { childList: true, characterData: true, subtree: true };
-            // Callback function to execute when mutations are observed
-            var callback = function (mutationsList) {
-                var _loop_1 = function (mutation) {
-                    if (mutation.type === "childList") {
-                        var addedNodes = mutation.addedNodes;
-                        var $errorNode_1 = null;
-                        addedNodes.forEach(function (node) {
-                            var $node = $(node);
-                            var hasClass = $node.hasClass("woocommerce-error");
-                            var hasGroupCheckoutClass = $node.hasClass("woocommerce-NoticeGroup-checkout");
-                            if (hasClass || hasGroupCheckoutClass) {
-                                $errorNode_1 = $node;
-                                $errorNode_1.attr("class", "");
-                            }
-                        });
-                        if ($errorNode_1) {
-                            var alertInfo = {
-                                type: "CFWSubmitError",
-                                message: $errorNode_1,
-                                cssClass: "cfw-alert-danger"
-                            };
-                            var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
-                            alert_1.addAlert();
-                            if (_this.errorObserver) {
-                                _this.errorObserver.disconnect();
-                                _this.errorObserver = null;
-                            }
-                        }
+                if ($errorNode_1) {
+                    var alertInfo = {
+                        type: "CFWSubmitError",
+                        message: $errorNode_1,
+                        cssClass: "cfw-alert-danger"
+                    };
+                    var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
+                    alert_1.addAlert();
+                    if (this_1.errorObserver) {
+                        this_1.errorObserver.disconnect();
+                        this_1.errorObserver = null;
                     }
-                };
-                for (var _i = 0, mutationsList_1 = mutationsList; _i < mutationsList_1.length; _i++) {
-                    var mutation = mutationsList_1[_i];
-                    _loop_1(mutation);
                 }
-            };
-            if (!_this.errorObserver) {
-                // Create an observer instance linked to the callback function
-                var observer = new MutationObserver(callback);
-                // Start observing the target node for configured mutations
-                observer.observe(targetNode, config);
-                _this.errorObserver = observer;
             }
-            form.trigger('submit');
-        });
+        };
+        var this_1 = this;
+        for (var _i = 0, mutationsList_1 = mutationsList; _i < mutationsList_1.length; _i++) {
+            var mutation = mutationsList_1[_i];
+            _loop_1(mutation);
+        }
     };
     /**
      *
      * @param {AjaxInfo} ajaxInfo
      * @param data
      */
-    TabContainer.prototype.completeOrderClickListener = function (ajaxInfo, data) {
+    TabContainer.prototype.orderKickOff = function (ajaxInfo, data) {
         var isShippingDifferentFromBilling = $("#shipping_dif_from_billing:checked").length !== 0;
         ValidationService_1.ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, data);
     };
@@ -3052,6 +3103,22 @@ var TabContainer = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._errorObserver = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TabContainer.prototype, "checkoutDataAtSubmitClick", {
+        /**
+         * @returns {any}
+         */
+        get: function () {
+            return this._checkoutDataAtSubmitClick;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._checkoutDataAtSubmitClick = value;
         },
         enumerable: true,
         configurable: true
@@ -3283,7 +3350,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(2);
 var ResponsePrep_1 = __webpack_require__(6);
 var Cart_1 = __webpack_require__(9);
-var Main_1 = __webpack_require__(1);
+var Main_1 = __webpack_require__(0);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
 /**
  *
@@ -3413,7 +3480,7 @@ var Action_1 = __webpack_require__(2);
 var Cart_1 = __webpack_require__(9);
 var Alert_1 = __webpack_require__(7);
 var ResponsePrep_1 = __webpack_require__(6);
-var Main_1 = __webpack_require__(1);
+var Main_1 = __webpack_require__(0);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
 /**
  *

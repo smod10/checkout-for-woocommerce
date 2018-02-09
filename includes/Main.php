@@ -570,8 +570,12 @@ class Main extends Singleton {
 	/**
 	 * @return string
 	 */
-	function override_woocommerce_registration_generate_password() {
-		return "yes";
+	function override_woocommerce_registration_generate_password( $result ) {
+		if ( is_checkout() ) {
+			return "yes";
+		}
+
+		return $result;
 	}
 
 	/**

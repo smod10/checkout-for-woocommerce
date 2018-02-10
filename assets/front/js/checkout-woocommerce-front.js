@@ -90,7 +90,7 @@ var Main = /** @class */ (function () {
         Main.instance = this;
         checkoutFormEl.garlic({
             destroy: false,
-            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"]'
+            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc'
         });
         this.checkoutForm = checkoutFormEl;
         this.tabContainer = tabContainer;
@@ -2327,6 +2327,26 @@ var TabContainer = /** @class */ (function (_super) {
             var checked_radio = $("input[type='radio'][name='paytrace_type_choice']:checked");
             checked_radio.trigger("change");
             jQuery(document.body).trigger('wc-credit-card-form-init');
+        });
+        // One Click Upsells - Stripe Form
+        var ocu_stripe_form_wraps = $("#wc-ocustripe-cc-form .form-row");
+        var ocu_stripe_container = $("#wc-ocustripe-cc-form");
+        ocu_stripe_container.wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        ocu_stripe_container.find(".clear").remove();
+        ocu_stripe_form_wraps.each(function (index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label").addClass("cfw-input-label");
+            $(elem).find("input").css("width", "100%");
+            if ($(elem).hasClass("form-row-wide") && $(elem).index() !== 0) {
+                $(elem).wrap("<div class='cfw-column-6'></div>");
+            }
+            else if ($(elem).hasClass("form-row-wide") && $(elem).index() === 0) {
+                $(elem).wrap("<div class='cfw-column-12'></div>");
+            }
+            if ($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
+                $(elem).wrap("<div class='cfw-column-3'></div>");
+            }
         });
     };
     /**

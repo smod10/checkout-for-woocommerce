@@ -91,9 +91,19 @@ class Compatibility {
 	    $scripts[] = 'plupload-all';
 	    $scripts[] = 'wc-checkout-add-ons-frontend';
 	    $scripts[] = 'selectWoo';
+
+	    // Paytrace
 	    $scripts[] = 'paytrace-js';
+
+	    // Checkout Address AutoComplete
 	    $scripts[] = 'google-autocomplete';
 	    $scripts[] = 'rp-autocomplete';
+
+	    // One Click Upsell Stripe
+        $scripts[] = 'ocustripe';
+	    $scripts[] = 'ocuadyen';
+	    $scripts[] = 'ocuamazon';
+	    $scripts[] = 'ocubraintree';
 
 	    return $scripts;
     }

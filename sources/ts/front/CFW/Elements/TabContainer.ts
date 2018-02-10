@@ -323,6 +323,30 @@ export class TabContainer extends Element {
 
             jQuery(document.body).trigger('wc-credit-card-form-init');
         });
+
+        // One Click Upsells - Stripe Form
+        let ocu_stripe_form_wraps = $("#wc-ocustripe-cc-form .form-row");
+        let ocu_stripe_container = $("#wc-ocustripe-cc-form");
+
+        ocu_stripe_container.wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        ocu_stripe_container.find(".clear").remove();
+
+        ocu_stripe_form_wraps.each(function(index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label").addClass("cfw-input-label");
+            $(elem).find("input").css("width", "100%");
+
+            if( $(elem).hasClass("form-row-wide") && $(elem).index() !== 0 ) {
+                $(elem).wrap("<div class='cfw-column-6'></div>")
+            } else if ( $(elem).hasClass("form-row-wide") && $(elem).index() === 0 ) {
+                $(elem).wrap("<div class='cfw-column-12'></div>")
+            }
+
+            if($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
+                $(elem).wrap("<div class='cfw-column-3'></div>")
+            }
+        });
     }
 
     /**

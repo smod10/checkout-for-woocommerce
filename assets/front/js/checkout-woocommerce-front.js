@@ -394,7 +394,7 @@ var Action = /** @class */ (function () {
      */
     function Action(id, url, data) {
         this.id = id;
-        this.url = url;
+        this.url = url + '?' + 'wc-ajax=' + id;
         this.data = data;
     }
     /**

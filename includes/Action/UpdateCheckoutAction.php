@@ -6,8 +6,8 @@ use Objectiv\BoosterSeat\Base\Action;
 
 class UpdateCheckoutAction extends Action {
 
-	public function __construct( $id ) {
-		parent::__construct( $id );
+	public function __construct( $id, $no_privilege, $action_prefix ) {
+		parent::__construct( $id, $no_privilege, $action_prefix );
 	}
 
 	public function action() {

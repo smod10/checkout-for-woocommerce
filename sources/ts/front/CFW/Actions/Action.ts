@@ -31,7 +31,7 @@ export abstract class Action {
      */
     constructor(id: string, url: string, data: Object) {
         this.id = id;
-        this.url = url;
+        this.url = url + '?' + 'wc-ajax=' + id;
         this.data = data;
     }
 

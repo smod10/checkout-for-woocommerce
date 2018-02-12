@@ -521,7 +521,7 @@ var Main_1 = __webpack_require__(0);
 var EasyTabService_1 = __webpack_require__(5);
 var EasyTabService_2 = __webpack_require__(5);
 var CompleteOrderAction_1 = __webpack_require__(11);
-var UpdateCheckoutAction_1 = __webpack_require__(8);
+var UpdateCheckoutAction_1 = __webpack_require__(9);
 /**
  * Validation Sections Enum
  */
@@ -891,121 +891,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(2);
-var Main_1 = __webpack_require__(0);
-var Cart_1 = __webpack_require__(9);
-var ResponsePrep_1 = __webpack_require__(6);
-var UpdateCheckoutAction = /** @class */ (function (_super) {
-    __extends(UpdateCheckoutAction, _super);
-    /**
-     * @param {string} id
-     * @param {AjaxInfo} ajaxInfo
-     * @param fields
-     */
-    function UpdateCheckoutAction(id, ajaxInfo, fields) {
-        return _super.call(this, id, ajaxInfo.url, Action_1.Action.prep(id, ajaxInfo, fields)) || this;
-    }
-    UpdateCheckoutAction.prototype.load = function () {
-        if (UpdateCheckoutAction.underlyingRequest !== null) {
-            UpdateCheckoutAction.underlyingRequest.abort();
-        }
-        UpdateCheckoutAction.underlyingRequest = $.post(this.url, this.data, this.response.bind(this));
-    };
-    /**
-     * @param resp
-     */
-    UpdateCheckoutAction.prototype.response = function (resp) {
-        var main = Main_1.Main.instance;
-        main.updating = false;
-        if (resp.fees) {
-            var fees = $.map(resp.fees, function (value) { return [value]; });
-            Cart_1.Cart.outputFees(main.cart.fees, fees);
-        }
-        var updated_shipping_methods = [];
-        if (typeof resp.updated_ship_methods !== "string") {
-            Object.keys(resp.updated_ship_methods).forEach(function (key) { return updated_shipping_methods.push(resp.updated_ship_methods[key]); });
-            if (updated_shipping_methods.length > 0) {
-                $("#shipping_method").html("");
-                $("#shipping_method").append("<ul class='cfw-shipping-methods-list'></ul>");
-                // Update shipping methods
-                updated_shipping_methods.forEach(function (ship_method) {
-                    return $("#shipping_method ul").append($("<li>" + ship_method + "</li>"));
-                });
-            }
-            // There is a message
-        }
-        else {
-            $("#shipping_method").html("");
-            $("#shipping_method").append("<div class=\"shipping-message\">" + resp.updated_ship_methods + "</div>");
-        }
-        Main_1.Main.togglePaymentRequired(resp.needs_payment);
-        Cart_1.Cart.outputValues(main.cart, resp.new_totals);
-        UpdateCheckoutAction.updateShippingDetails();
-        Main_1.Main.instance.tabContainer.setShippingPaymentUpdate();
-        $(document.body).trigger('updated_checkout');
-    };
-    Object.defineProperty(UpdateCheckoutAction, "underlyingRequest", {
-        /**
-         * @returns {any}
-         */
-        get: function () {
-            return this._underlyingRequest;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._underlyingRequest = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Update the shipping details on the shipping panel
-     */
-    UpdateCheckoutAction.updateShippingDetails = function () {
-        var customer_info_tab = Main_1.Main.instance.tabContainer.tabContainerSectionBy("name", "customer_info");
-        customer_info_tab.getInputsFromSection(", select").forEach(function (item) {
-            var value = item.jel.val();
-            var key = item.jel.attr("field_key");
-            $(".cfw-shipping-details-field[field_type=\"" + key + "\"] .field_value").text(value);
-        });
-    };
-    /**
-     *
-     */
-    UpdateCheckoutAction._underlyingRequest = null;
-    __decorate([
-        ResponsePrep_1.ResponsePrep
-    ], UpdateCheckoutAction.prototype, "response", null);
-    return UpdateCheckoutAction;
-}(Action_1.Action));
-exports.UpdateCheckoutAction = UpdateCheckoutAction;
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Element_1 = __webpack_require__(3);
 var Cart = /** @class */ (function (_super) {
@@ -1204,6 +1089,121 @@ var Cart = /** @class */ (function (_super) {
     return Cart;
 }(Element_1.Element));
 exports.Cart = Cart;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var Action_1 = __webpack_require__(2);
+var Main_1 = __webpack_require__(0);
+var Cart_1 = __webpack_require__(8);
+var ResponsePrep_1 = __webpack_require__(6);
+var UpdateCheckoutAction = /** @class */ (function (_super) {
+    __extends(UpdateCheckoutAction, _super);
+    /**
+     * @param {string} id
+     * @param {AjaxInfo} ajaxInfo
+     * @param fields
+     */
+    function UpdateCheckoutAction(id, ajaxInfo, fields) {
+        return _super.call(this, id, ajaxInfo.url, Action_1.Action.prep(id, ajaxInfo, fields)) || this;
+    }
+    UpdateCheckoutAction.prototype.load = function () {
+        if (UpdateCheckoutAction.underlyingRequest !== null) {
+            UpdateCheckoutAction.underlyingRequest.abort();
+        }
+        UpdateCheckoutAction.underlyingRequest = $.post(this.url, this.data, this.response.bind(this));
+    };
+    /**
+     * @param resp
+     */
+    UpdateCheckoutAction.prototype.response = function (resp) {
+        var main = Main_1.Main.instance;
+        main.updating = false;
+        if (resp.fees) {
+            var fees = $.map(resp.fees, function (value) { return [value]; });
+            Cart_1.Cart.outputFees(main.cart.fees, fees);
+        }
+        var updated_shipping_methods = [];
+        if (typeof resp.updated_ship_methods !== "string") {
+            Object.keys(resp.updated_ship_methods).forEach(function (key) { return updated_shipping_methods.push(resp.updated_ship_methods[key]); });
+            if (updated_shipping_methods.length > 0) {
+                $("#shipping_method").html("");
+                $("#shipping_method").append("<ul class='cfw-shipping-methods-list'></ul>");
+                // Update shipping methods
+                updated_shipping_methods.forEach(function (ship_method) {
+                    return $("#shipping_method ul").append($("<li>" + ship_method + "</li>"));
+                });
+            }
+            // There is a message
+        }
+        else {
+            $("#shipping_method").html("");
+            $("#shipping_method").append("<div class=\"shipping-message\">" + resp.updated_ship_methods + "</div>");
+        }
+        Main_1.Main.togglePaymentRequired(resp.needs_payment);
+        Cart_1.Cart.outputValues(main.cart, resp.new_totals);
+        UpdateCheckoutAction.updateShippingDetails();
+        Main_1.Main.instance.tabContainer.setShippingPaymentUpdate();
+        $(document.body).trigger('updated_checkout');
+    };
+    Object.defineProperty(UpdateCheckoutAction, "underlyingRequest", {
+        /**
+         * @returns {any}
+         */
+        get: function () {
+            return this._underlyingRequest;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._underlyingRequest = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Update the shipping details on the shipping panel
+     */
+    UpdateCheckoutAction.updateShippingDetails = function () {
+        var customer_info_tab = Main_1.Main.instance.tabContainer.tabContainerSectionBy("name", "customer_info");
+        customer_info_tab.getInputsFromSection(", select").forEach(function (item) {
+            var value = item.jel.val();
+            var key = item.jel.attr("field_key");
+            $(".cfw-shipping-details-field[field_type=\"" + key + "\"] .field_value").text(value);
+        });
+    };
+    /**
+     *
+     */
+    UpdateCheckoutAction._underlyingRequest = null;
+    __decorate([
+        ResponsePrep_1.ResponsePrep
+    ], UpdateCheckoutAction.prototype, "response", null);
+    return UpdateCheckoutAction;
+}(Action_1.Action));
+exports.UpdateCheckoutAction = UpdateCheckoutAction;
 
 
 /***/ }),
@@ -1774,7 +1774,7 @@ var Main_1 = __webpack_require__(0);
 var TabContainer_1 = __webpack_require__(35);
 var TabContainerBreadcrumb_1 = __webpack_require__(40);
 var TabContainerSection_1 = __webpack_require__(41);
-var Cart_1 = __webpack_require__(9);
+var Cart_1 = __webpack_require__(8);
 /**
  * This is our main kick off file. We used to do this in a require block in the Redirect file but since we've moved to
  * webpack this is the new lay of the land (commonjs). In order to make this work in a non node setup (wordpress) we need
@@ -2124,7 +2124,7 @@ var FormElement_1 = __webpack_require__(10);
 var UpdateShippingMethodAction_1 = __webpack_require__(38);
 var Main_1 = __webpack_require__(0);
 var ValidationService_1 = __webpack_require__(4);
-var UpdateCheckoutAction_1 = __webpack_require__(8);
+var UpdateCheckoutAction_1 = __webpack_require__(9);
 var ApplyCouponAction_1 = __webpack_require__(39);
 var SelectLabelWrap_1 = __webpack_require__(14);
 var Alert_1 = __webpack_require__(7);
@@ -2451,7 +2451,7 @@ var TabContainer = /** @class */ (function (_super) {
         var shipping_method = this.tabContainerSectionBy("name", "shipping_method");
         var updateShippingMethod = function (event) {
             var shipMethodVal = event.target.value;
-            new UpdateShippingMethodAction_1.UpdateShippingMethodAction("update_shipping_method", Main_1.Main.instance.ajaxInfo, shipMethodVal, Main_1.Main.instance.cart, this.getFormObject()).load();
+            new UpdateShippingMethodAction_1.UpdateShippingMethodAction("cfw_update_shipping_method", Main_1.Main.instance.ajaxInfo, shipMethodVal, Main_1.Main.instance.cart, this.getFormObject()).load();
         };
         shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each(function (index, el) {
             $(el).on("click", updateShippingMethod.bind(_this));
@@ -3395,9 +3395,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(2);
 var ResponsePrep_1 = __webpack_require__(6);
-var Cart_1 = __webpack_require__(9);
+var Cart_1 = __webpack_require__(8);
 var Main_1 = __webpack_require__(0);
-var UpdateCheckoutAction_1 = __webpack_require__(8);
 /**
  *
  */
@@ -3437,7 +3436,6 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
             Cart_1.Cart.outputValues(this.cart, resp.new_totals);
         }
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
-        new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, this.fields).load();
     };
     Object.defineProperty(UpdateShippingMethodAction, "underlyingRequest", {
         /**
@@ -3523,11 +3521,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Action_1 = __webpack_require__(2);
-var Cart_1 = __webpack_require__(9);
+var Cart_1 = __webpack_require__(8);
 var Alert_1 = __webpack_require__(7);
 var ResponsePrep_1 = __webpack_require__(6);
 var Main_1 = __webpack_require__(0);
-var UpdateCheckoutAction_1 = __webpack_require__(8);
+var UpdateCheckoutAction_1 = __webpack_require__(9);
 /**
  *
  */

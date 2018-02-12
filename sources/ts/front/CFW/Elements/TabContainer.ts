@@ -435,7 +435,7 @@ export class TabContainer extends Element {
             let shipMethodVal = event.target.value;
 
             new UpdateShippingMethodAction(
-                "update_shipping_method",
+                "cfw_update_shipping_method",
                 Main.instance.ajaxInfo,
                 shipMethodVal,
                 Main.instance.cart,

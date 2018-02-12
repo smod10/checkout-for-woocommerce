@@ -34,7 +34,7 @@ class UpdateShippingMethodAction extends Action {
 	public function action() {
 		check_ajax_referer("some-seed-word", "security");
 
-		wc_maybe_define_constant( 'WOOCOMMERCE_CART', true );
+		wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
 		$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
 

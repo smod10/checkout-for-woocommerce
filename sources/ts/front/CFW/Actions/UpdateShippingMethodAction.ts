@@ -78,8 +78,6 @@ export class UpdateShippingMethodAction extends Action {
         }
 
         Main.togglePaymentRequired(resp.needs_payment);
-
-        new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.fields).load();
     }
 
     /**

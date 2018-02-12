@@ -42,10 +42,8 @@
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^1.1.0",
     "EasyTabs": "git+https://github.com/JangoSteve/jQuery-EasyTabs.git#v3.2.0",
-    "Garlic.js": "git+https://github.com/objectivco/Garlic.js.git#1.4.0-cgd",
     "argv": "0.0.2",
     "custom-event-polyfill": "^0.3.0",
-    "garlic": "0.0.3",
     "garlicjs": "git+https://github.com/objectivco/Garlic.js.git#1.4.0-cgd",
     "moment": "^2.20.1",
     "normalize.css": "^7.0.0",

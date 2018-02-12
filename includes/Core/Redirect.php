@@ -143,7 +143,7 @@ class Redirect {
                     checkoutFormSelector: checkoutFormSelector
                 },
                 ajaxInfo: {
-                    admin_url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    url: '<?php echo get_home_url(); ?>',
                     nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
                 },
                 settings: {

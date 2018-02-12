@@ -49,7 +49,7 @@ class AjaxManager {
 	 */
 	public function load_all() {
 		foreach($this->ajax_modules as $ajax) {
-			$ajax->load($this->get_loader());
+			$ajax->load();
 		}
 	}
 

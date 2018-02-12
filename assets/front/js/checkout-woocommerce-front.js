@@ -394,7 +394,7 @@ var Action = /** @class */ (function () {
      */
     function Action(id, url, data) {
         this.id = id;
-        this.url = url;
+        this.url = url + '?' + 'wc-ajax=' + id;
         this.data = data;
     }
     /**
@@ -407,7 +407,7 @@ var Action = /** @class */ (function () {
      */
     Action.prep = function (id, ajaxInfo, items) {
         var data = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
         };
         Object.assign(data, items);
@@ -910,7 +910,7 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
      * @param fields
      */
     function UpdateCheckoutAction(id, ajaxInfo, fields) {
-        return _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, fields)) || this;
+        return _super.call(this, id, ajaxInfo.url, Action_1.Action.prep(id, ajaxInfo, fields)) || this;
     }
     /**
      * @param resp
@@ -1384,7 +1384,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      * @param checkoutData
      */
     function CompleteOrderAction(id, ajaxInfo, checkoutData) {
-        var _this = _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, checkoutData)) || this;
+        var _this = _super.call(this, id, ajaxInfo.url, Action_1.Action.prep(id, ajaxInfo, checkoutData)) || this;
         Main_1.Main.addOverlay();
         _this.setup();
         return _this;
@@ -3189,12 +3189,12 @@ var AccountExistsAction = /** @class */ (function (_super) {
         var _this = this;
         // Object prep
         var data = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
             email: email
         };
         // Call parent
-        _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+        _this = _super.call(this, id, ajaxInfo.url, data) || this;
         // Setup our container
         _this.ezTabContainer = ezTabContainer;
         return _this;
@@ -3310,12 +3310,12 @@ var LoginAction = /** @class */ (function (_super) {
     function LoginAction(id, ajaxInfo, email, password) {
         var _this = this;
         var data = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
             email: email,
             password: password
         };
-        _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+        _this = _super.call(this, id, ajaxInfo.url, data) || this;
         return _this;
     }
     /**
@@ -3387,11 +3387,11 @@ var UpdateShippingMethodAction = /** @class */ (function (_super) {
     function UpdateShippingMethodAction(id, ajaxInfo, shipping_method, cart, fields) {
         var _this = this;
         var data = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
             shipping_method: [shipping_method]
         };
-        _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+        _this = _super.call(this, id, ajaxInfo.url, data) || this;
         _this.cart = cart;
         _this.fields = fields;
         return _this;
@@ -3517,11 +3517,11 @@ var ApplyCouponAction = /** @class */ (function (_super) {
     function ApplyCouponAction(id, ajaxInfo, code, cart, fields) {
         var _this = this;
         var data = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
             coupon_code: code
         };
-        _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+        _this = _super.call(this, id, ajaxInfo.url, data) || this;
         _this.cart = cart;
         _this.fields = fields;
         return _this;

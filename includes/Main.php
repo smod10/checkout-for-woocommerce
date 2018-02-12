@@ -396,13 +396,14 @@ class Main extends Singleton {
 	 * @return array
 	 */
 	public function get_ajax_actions() {
+		// Setting no_privilege to false because wc_ajax doesn't have a no privilege endpoint.
 		return array(
-			new AccountExistsAction("account_exists"),
-			new LogInAction("login"),
-			new UpdateShippingMethodAction("update_shipping_method"),
-			new CompleteOrderAction("complete_order"),
-			new ApplyCouponAction("apply_coupon"),
-			new UpdateCheckoutAction("update_checkout")
+			new AccountExistsAction("account_exists", false, "wc_ajax_"),
+			new LogInAction("login", false, "wc_ajax_"),
+			new UpdateShippingMethodAction("update_shipping_method", false, "wc_ajax_"),
+			new CompleteOrderAction("complete_order", false, "wc_ajax_"),
+			new ApplyCouponAction("apply_coupon", false, "wc_ajax_"),
+			new UpdateCheckoutAction("update_checkout", false, "wc_ajax_"),
 		);
 	}
 

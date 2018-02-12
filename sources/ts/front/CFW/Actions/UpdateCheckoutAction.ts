@@ -27,6 +27,10 @@ export type UpdateShippingFieldsRI = {
 }
 
 export class UpdateCheckoutAction extends Action {
+    /**
+     *
+     */
+    private static _underlyingRequest: any = null;
 
     /**
      * @param {string} id
@@ -35,6 +39,14 @@ export class UpdateCheckoutAction extends Action {
      */
     constructor(id: string, ajaxInfo: AjaxInfo, fields: any) {
         super(id, ajaxInfo.url, Action.prep(id, ajaxInfo, fields));
+    }
+
+    public load(): void {
+        if(UpdateCheckoutAction.underlyingRequest !== null) {
+            UpdateCheckoutAction.underlyingRequest.abort();
+        }
+
+        UpdateCheckoutAction.underlyingRequest = $.post(this.url, this.data, this.response.bind(this));
     }
 
     /**
@@ -80,6 +92,20 @@ export class UpdateCheckoutAction extends Action {
         Main.instance.tabContainer.setShippingPaymentUpdate();
 
         $(document.body).trigger( 'updated_checkout' );
+    }
+
+    /**
+     * @returns {any}
+     */
+    static get underlyingRequest(): any {
+        return this._underlyingRequest;
+    }
+
+    /**
+     * @param value
+     */
+    static set underlyingRequest(value: any) {
+        this._underlyingRequest = value;
     }
 
     /**

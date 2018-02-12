@@ -912,6 +912,12 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
     function UpdateCheckoutAction(id, ajaxInfo, fields) {
         return _super.call(this, id, ajaxInfo.url, Action_1.Action.prep(id, ajaxInfo, fields)) || this;
     }
+    UpdateCheckoutAction.prototype.load = function () {
+        if (UpdateCheckoutAction.underlyingRequest !== null) {
+            UpdateCheckoutAction.underlyingRequest.abort();
+        }
+        UpdateCheckoutAction.underlyingRequest = $.post(this.url, this.data, this.response.bind(this));
+    };
     /**
      * @param resp
      */
@@ -945,6 +951,22 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
         Main_1.Main.instance.tabContainer.setShippingPaymentUpdate();
         $(document.body).trigger('updated_checkout');
     };
+    Object.defineProperty(UpdateCheckoutAction, "underlyingRequest", {
+        /**
+         * @returns {any}
+         */
+        get: function () {
+            return this._underlyingRequest;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._underlyingRequest = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Update the shipping details on the shipping panel
      */
@@ -956,6 +978,10 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
             $(".cfw-shipping-details-field[field_type=\"" + key + "\"] .field_value").text(value);
         });
     };
+    /**
+     *
+     */
+    UpdateCheckoutAction._underlyingRequest = null;
     __decorate([
         ResponsePrep_1.ResponsePrep
     ], UpdateCheckoutAction.prototype, "response", null);

@@ -7,7 +7,7 @@ import { Main }                             from "../Main";
 import { UpdateCheckoutAction }             from "./UpdateCheckoutAction";
 
 export type UpdateShippingMethodData = {
-    action: string,
+    "wc-ajax": string,
     security: string,
     shipping_method: any
 }
@@ -47,12 +47,12 @@ export class UpdateShippingMethodAction extends Action {
      */
     constructor(id: string, ajaxInfo: AjaxInfo, shipping_method: any, cart: Cart, fields: any) {
         let data: UpdateShippingMethodData = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
             shipping_method: [shipping_method]
         };
 
-        super(id, ajaxInfo.admin_url, data);
+        super(id, ajaxInfo.url, data);
 
         this.cart = cart;
         this.fields = fields;

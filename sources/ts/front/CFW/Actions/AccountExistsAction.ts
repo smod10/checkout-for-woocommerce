@@ -31,13 +31,13 @@ export class AccountExistsAction extends Action {
     constructor(id: string, ajaxInfo: AjaxInfo, email: string, ezTabContainer: JQuery) {
         // Object prep
         let data: AccountExistsData = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
             email: email
         };
 
         // Call parent
-        super(id, ajaxInfo.admin_url, data);
+        super(id, ajaxInfo.url, data);
 
         // Setup our container
         this.ezTabContainer = ezTabContainer;

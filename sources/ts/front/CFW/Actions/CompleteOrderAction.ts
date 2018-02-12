@@ -22,7 +22,7 @@ export class CompleteOrderAction extends Action {
      * @param checkoutData
      */
     constructor(id: string, ajaxInfo: AjaxInfo, checkoutData: any) {
-        super(id, ajaxInfo.admin_url, Action.prep(id, ajaxInfo, checkoutData));
+        super(id, ajaxInfo.url, Action.prep(id, ajaxInfo, checkoutData));
 
         Main.addOverlay();
 

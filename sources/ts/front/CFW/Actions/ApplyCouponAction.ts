@@ -31,12 +31,12 @@ export class ApplyCouponAction extends Action {
      */
     constructor(id: string, ajaxInfo: AjaxInfo, code: string, cart: Cart, fields: any) {
         let data: {} = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
             coupon_code: code
         };
 
-        super(id, ajaxInfo.admin_url, data);
+        super(id, ajaxInfo.url, data);
 
         this.cart = cart;
         this.fields = fields;

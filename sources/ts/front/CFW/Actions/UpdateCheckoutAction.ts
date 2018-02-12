@@ -34,7 +34,7 @@ export class UpdateCheckoutAction extends Action {
      * @param fields
      */
     constructor(id: string, ajaxInfo: AjaxInfo, fields: any) {
-        super(id, ajaxInfo.admin_url, Action.prep(id, ajaxInfo, fields));
+        super(id, ajaxInfo.url, Action.prep(id, ajaxInfo, fields));
     }
 
     /**

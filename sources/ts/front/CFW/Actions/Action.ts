@@ -45,7 +45,7 @@ export abstract class Action {
      */
     public static prep(id: string, ajaxInfo: AjaxInfo, items: any) {
         let data: any = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
         };
 

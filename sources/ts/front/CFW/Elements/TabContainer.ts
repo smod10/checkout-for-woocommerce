@@ -6,7 +6,6 @@ import { AjaxInfo }                         from "../Types/Types";
 import { AccountExistsAction }              from "../Actions/AccountExistsAction";
 import { LoginAction }                      from "../Actions/LoginAction";
 import { FormElement }                      from "./FormElement";
-import { UpdateShippingMethodAction }       from "../Actions/UpdateShippingMethodAction";
 import { Main }                             from "../Main";
 import { ValidationService }                from "../Services/ValidationService";
 import { UpdateCheckoutAction }             from "../Actions/UpdateCheckoutAction";
@@ -14,8 +13,8 @@ import { UpdateShippingFieldsRI }           from "../Actions/UpdateCheckoutActio
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { InfoType }                         from "../Services/ParsleyService";
 import { SelectLabelWrap }                  from "./SelectLabelWrap";
-import {Alert, AlertInfo} from "./Alert";
-import {CompleteOrderAction} from "../Actions/CompleteOrderAction";
+import { Alert }                            from "./Alert";
+import { AlertInfo }                        from "./Alert";
 
 declare let wc_address_i18n_params: any;
 declare let wc_country_select_params: any;
@@ -431,20 +430,9 @@ export class TabContainer extends Element {
      */
     setShippingPaymentUpdate(): void {
         let shipping_method: TabContainerSection = this.tabContainerSectionBy("name", "shipping_method");
-        let updateShippingMethod: Function = function(event: any) {
-            let shipMethodVal = event.target.value;
-
-            new UpdateShippingMethodAction(
-                "cfw_update_shipping_method",
-                Main.instance.ajaxInfo,
-                shipMethodVal,
-                Main.instance.cart,
-                this.getFormObject()
-            ).load();
-        };
 
         shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each((index, el) => {
-            $(el).on("click", updateShippingMethod.bind(this));
+            $(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
         });
     }
 

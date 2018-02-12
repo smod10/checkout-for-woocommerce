@@ -338,7 +338,12 @@ class Redirect {
 		echo $settings_manager->get_setting('footer_scripts');
 		do_action('cfw_wp_footer');
 		?>
-		</body>
+        <!--- disable Stripe's block and unblock commands -->
+        <script type="text/javascript">
+            $.blockUI = function(item) {};
+            $.unblockUI = function(item) {};
+        </script>
+        </body>
 		</html>
 		<?php
 	}

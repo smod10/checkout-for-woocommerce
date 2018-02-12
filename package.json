@@ -44,7 +44,7 @@
     "EasyTabs": "git+https://github.com/JangoSteve/jQuery-EasyTabs.git#v3.2.0",
     "argv": "0.0.2",
     "custom-event-polyfill": "^0.3.0",
-    "garlicjs": "git+https://github.com/objectivco/Garlic.js.git#1.4.0-cgd",
+    "garlicjs": "git+https://github.com/objectivco/Garlic.js.git#1.4.1-cgd",
     "moment": "^2.20.1",
     "normalize.css": "^7.0.0",
     "parsleyjs": "^2.8.1",

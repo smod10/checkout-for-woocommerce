@@ -21,7 +21,6 @@ use Objectiv\Plugins\Checkout\Managers\AjaxManager;
 use Objectiv\Plugins\Checkout\Managers\CFWPathManager;
 use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
-use Objectiv\Plugins\Checkout\Action\UpdateShippingMethodAction;
 use Objectiv\Plugins\Checkout\Core\Compatibility;
 
 /**
@@ -400,7 +399,6 @@ class Main extends Singleton {
 		return array(
 			new AccountExistsAction("account_exists", false, "wc_ajax_"),
 			new LogInAction("login", false, "wc_ajax_"),
-			new UpdateShippingMethodAction("cfw_update_shipping_method", false, "wc_ajax_"),
 			new CompleteOrderAction("complete_order", false, "wc_ajax_"),
 			new ApplyCouponAction("apply_coupon", false, "wc_ajax_"),
 			new UpdateCheckoutAction("update_checkout", false, "wc_ajax_"),

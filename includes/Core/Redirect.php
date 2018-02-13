@@ -344,7 +344,9 @@ class Redirect {
         <!--- disable Stripe's block and unblock commands -->
         <script type="text/javascript">
             $.blockUI = function(item) {};
-            $.unblockUI = function(item) {};
+            $.unblockUI = function(item) {
+                $("#cfw-content").removeClass("show-overlay");
+            };
         </script>
         </body>
 		</html>

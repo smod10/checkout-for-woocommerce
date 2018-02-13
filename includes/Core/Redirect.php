@@ -54,7 +54,7 @@ class Redirect {
             $global_template_parameters["css_classes"]  = self::get_css_classes();
 
 			// Output the contents of the <head></head> section
-			self::head($path_manager, $version, ['checkout-wc'], $settings_manager);
+			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc')), $settings_manager);
 
 			// Output the contents of the <body></body> section
 			self::body($path_manager, $template_manager, $global_template_parameters, $settings_manager);
@@ -334,6 +334,7 @@ class Redirect {
      * @param CFWPathManager $path_manager
 	 */
 	public static function footer($path_manager, $settings_manager) {
+		do_action('cfw_wp_footer_before_scripts');
 		print_footer_scripts();
 		echo $settings_manager->get_setting('footer_scripts');
 		do_action('cfw_wp_footer');

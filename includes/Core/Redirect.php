@@ -107,10 +107,6 @@ class Redirect {
 		?>
         <script>
             window.$ = jQuery;
-            $.fn.block = function(item) {};
-            $.fn.unblock = function(item) {
-                $("#cfw-content").removeClass("show-overlay");
-            };
 
             var checkoutFormSelector = '<?php echo apply_filters('cfw_checkout_form_selector', '.woocommerce-checkout'); ?>';
             var breadCrumbElId = '#<?php echo apply_filters('cfw_template_breadcrumb_id', 'cfw-breadcrumb'); ?>';
@@ -341,13 +337,6 @@ class Redirect {
 		echo $settings_manager->get_setting('footer_scripts');
 		do_action('cfw_wp_footer');
 		?>
-        <!--- disable Stripe's block and unblock commands -->
-        <script type="text/javascript">
-            $.blockUI = function(item) {};
-            $.unblockUI = function(item) {
-                $("#cfw-content").removeClass("show-overlay");
-            };
-        </script>
         </body>
 		</html>
 		<?php

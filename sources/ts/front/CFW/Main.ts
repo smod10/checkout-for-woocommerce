@@ -99,6 +99,19 @@ export class Main {
 		this.parsleyService = new ParsleyService();
 		this.easyTabService = new EasyTabService();
 		this.validationService = new ValidationService();
+
+		// Handle Stripe gateway UI blocking function
+		// Otherwise we throw errors
+		// Also discard our overlay when the modal is closed on desktop and mobile
+        $.fn.block = function(item) {};
+        $.fn.unblock = function(item) {
+            Main.removeOverlay();
+        };
+
+        $.fn.blockUI = function(item) {};
+        $.fn.unblockUI = function(item) {
+            Main.removeOverlay();
+        };
 	}
 
 	/**

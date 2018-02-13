@@ -101,6 +101,14 @@ var Main = /** @class */ (function () {
         this.parsleyService = new ParsleyService_1.ParsleyService();
         this.easyTabService = new EasyTabService_1.EasyTabService();
         this.validationService = new ValidationService_1.ValidationService();
+        $.fn.block = function (item) { };
+        $.fn.unblock = function (item) {
+            Main.removeOverlay();
+        };
+        $.fn.blockUI = function (item) { };
+        $.fn.unblockUI = function (item) {
+            Main.removeOverlay();
+        };
     }
     /**
      * Sets up the tab container by running easy tabs, setting up animation listeners, and setting up events and on load

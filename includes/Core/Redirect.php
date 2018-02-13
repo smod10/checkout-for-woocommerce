@@ -108,7 +108,9 @@ class Redirect {
         <script>
             window.$ = jQuery;
             $.fn.block = function(item) {};
-            $.fn.unblock = function(item) {};
+            $.fn.unblock = function(item) {
+                $("#cfw-content").removeClass("show-overlay");
+            };
 
             var checkoutFormSelector = '<?php echo apply_filters('cfw_checkout_form_selector', '.woocommerce-checkout'); ?>';
             var breadCrumbElId = '#<?php echo apply_filters('cfw_template_breadcrumb_id', 'cfw-breadcrumb'); ?>';

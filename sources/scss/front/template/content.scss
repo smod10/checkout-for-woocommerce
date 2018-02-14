@@ -644,7 +644,7 @@ label[for="card-element"] {
   }
 }
 
-.cfw-def-action-btn {
+.cfw-def-action-btn, a.button {
   border: none;
   box-shadow: none;
   border-radius: 4px;
@@ -660,6 +660,11 @@ label[for="card-element"] {
   &:hover {
     background: #000;
   }
+}
+
+a.button {
+  width: auto;
+  text-decoration: none;
 }
 
 .cfw-cart-row {
@@ -782,6 +787,10 @@ textarea {
 
 .cfw-additional-fields-container {
   margin-bottom: 20px;
+}
+
+.cfw-input-wrap-row > div > .form-row {
+  margin-left: 10px;
 }
 
 @media (max-width: 767px) {

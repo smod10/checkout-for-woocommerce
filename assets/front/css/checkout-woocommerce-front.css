@@ -689,11 +689,11 @@ a.bsnp_new_card {
   margin: 0 0 1.5em;
   padding: 0;
   line-height: 1.5; }
-  .form-row label {
+  .form-row label:not('.sv-wc-payment-gateway-payment-form-saved-payment-method') {
     display: block;
     margin-bottom: 0.5em;
     font-weight: 600; }
-    .form-row label.checkbox {
+    .form-row label:not('.sv-wc-payment-gateway-payment-form-saved-payment-method').checkbox {
       font-weight: 400; }
   .form-row input[type="radio"] + label, .form-row input[type="checkbox"] + label {
     font-weight: 400; }
@@ -766,6 +766,9 @@ a.bsnp_new_card {
   font-weight: 300;
   margin-top: 0;
   margin-bottom: 1em; }
+
+input.js-sv-wc-payment-token, input.js-sv-wc-payment-gateway-payment-token {
+  margin-bottom: 10px; }
 
 #cfw-header {
   background: #222; }
@@ -1259,7 +1262,7 @@ label[for="card-element"] {
       background: #ddd;
       color: #666; }
 
-.cfw-def-action-btn {
+.cfw-def-action-btn, a.button {
   border: none;
   box-shadow: none;
   border-radius: 4px;
@@ -1271,8 +1274,12 @@ label[for="card-element"] {
   text-align: center;
   width: 100%;
   transition: all .1s ease-in-out; }
-  .cfw-def-action-btn:hover {
+  .cfw-def-action-btn:hover, a.button:hover {
     background: #000; }
+
+a.button {
+  width: auto;
+  text-decoration: none; }
 
 .cfw-cart-row {
   display: flex;
@@ -1366,6 +1373,9 @@ textarea {
 
 .cfw-additional-fields-container {
   margin-bottom: 20px; }
+
+.cfw-input-wrap-row > div > .form-row {
+  margin-left: 10px; }
 
 @media (max-width: 767px) {
   .cfw-prev-tab {

@@ -36,6 +36,8 @@ export class Alert extends Element {
      *
      */
     addAlert(): void {
+        $( document.body ).trigger( 'checkout_error' );
+        
         if(Alert.previousClass) {
             this.jel.removeClass(Alert.previousClass);
         }

@@ -16,7 +16,7 @@
  * Plugin Name:       Checkout for WooCommerce
  * Plugin URI:        https://www.CheckoutWC.com
  * Description:       Beautiful, conversion optimized checkout template for WooCommerce.
- * Version:           1.2.4
+ * Version:           1.2.5beta2
  * Author:            Objectiv
  * Author URI:        https://objectiv.co
  * License:           GPL-2.0+

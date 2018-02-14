@@ -416,9 +416,7 @@ class Main extends Singleton {
 		$min = ( ! CO_DEV_MODE ) ? ".min" : "";
 
 		wp_enqueue_style('cfw_front_css', "${front}/css/checkout-woocommerce-front${min}.css", array(), $this->get_version());
-
-		wp_enqueue_script('jquery');
-		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array('jquery'), $this->get_version(), true);
+		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array('jquery','jquery-blockui'), $this->get_version(), true);
 
 		$this->handle_countries();
 	}

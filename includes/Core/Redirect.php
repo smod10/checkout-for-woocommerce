@@ -278,6 +278,8 @@ class Redirect {
             'woocommerce_stripe_apple_pay',
             'woocommerce-tokenization-form',
             'wc-credit-card-form',
+            'jquery-payment',
+            'jquery-blockui',
         );
 
 		$ignore = apply_filters('cfw_allowed_script_handles', $ignore);

@@ -222,7 +222,7 @@
                                         <span class="cfw-small"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', CFW_TEXT_DOMAIN ); ?></span>
                                     </div>
 
-                                    <div class="cfw-payment-methods-wrap">
+                                    <div id="order_review" class="cfw-payment-methods-wrap">
                                         <?php cfw_get_payment_methods_html(); ?>
                                     </div>
                                 </div>

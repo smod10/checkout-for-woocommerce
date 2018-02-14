@@ -88,7 +88,7 @@ export class Main {
         checkoutFormEl.garlic({
 			events: ['textInput', 'input', 'change', 'click', 'keypress', 'paste', 'focus'],
 			destroy: false,
-            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc'
+            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc, input.js-sv-wc-payment-gateway-credit-card-form-account-number, input.js-sv-wc-payment-gateway-credit-card-form-csc'
 		});
 
         this.checkoutForm = checkoutFormEl;
@@ -103,15 +103,15 @@ export class Main {
 		// Handle Stripe gateway UI blocking function
 		// Otherwise we throw errors
 		// Also discard our overlay when the modal is closed on desktop and mobile
-        $.fn.block = function(item) {};
-        $.fn.unblock = function(item) {
-            Main.removeOverlay();
-        };
-
-        $.fn.blockUI = function(item) {};
-        $.fn.unblockUI = function(item) {
-            Main.removeOverlay();
-        };
+        // $.fn.block = function(item) {};
+        // $.fn.unblock = function(item) {
+         //    Main.removeOverlay();
+        // };
+        //
+        // $.fn.blockUI = function(item) {};
+        // $.fn.unblockUI = function(item) {
+         //    Main.removeOverlay();
+        // };
 	}
 
 	/**

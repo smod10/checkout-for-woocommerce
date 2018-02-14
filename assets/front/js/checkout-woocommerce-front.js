@@ -72,8 +72,8 @@
 /// <reference path="../../../../typings/index.d.ts" />
 /// <reference path="Definitions/ArrayFind.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
-var ValidationService_1 = __webpack_require__(3);
-var EasyTabService_1 = __webpack_require__(4);
+var ValidationService_1 = __webpack_require__(7);
+var EasyTabService_1 = __webpack_require__(3);
 var ParsleyService_1 = __webpack_require__(34);
 /**
  * The main class of the front end checkout system
@@ -91,7 +91,7 @@ var Main = /** @class */ (function () {
         checkoutFormEl.garlic({
             events: ['textInput', 'input', 'change', 'click', 'keypress', 'paste', 'focus'],
             destroy: false,
-            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc'
+            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc, input.js-sv-wc-payment-gateway-credit-card-form-account-number, input.js-sv-wc-payment-gateway-credit-card-form-csc'
         });
         this.checkoutForm = checkoutFormEl;
         this.tabContainer = tabContainer;
@@ -104,14 +104,15 @@ var Main = /** @class */ (function () {
         // Handle Stripe gateway UI blocking function
         // Otherwise we throw errors
         // Also discard our overlay when the modal is closed on desktop and mobile
-        $.fn.block = function (item) { };
-        $.fn.unblock = function (item) {
-            Main.removeOverlay();
-        };
-        $.fn.blockUI = function (item) { };
-        $.fn.unblockUI = function (item) {
-            Main.removeOverlay();
-        };
+        // $.fn.block = function(item) {};
+        // $.fn.unblock = function(item) {
+        //    Main.removeOverlay();
+        // };
+        //
+        // $.fn.blockUI = function(item) {};
+        // $.fn.unblockUI = function(item) {
+        //    Main.removeOverlay();
+        // };
     }
     /**
      * Sets up the tab container by running easy tabs, setting up animation listeners, and setting up events and on load
@@ -433,8 +434,303 @@ exports.Element = Element;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Main_1 = __webpack_require__(0);
-var EasyTabService_1 = __webpack_require__(4);
-var EasyTabService_2 = __webpack_require__(4);
+/**
+ * EzTab Enum
+ */
+var EasyTab;
+(function (EasyTab) {
+    EasyTab[EasyTab["CUSTOMER"] = 0] = "CUSTOMER";
+    EasyTab[EasyTab["SHIPPING"] = 1] = "SHIPPING";
+    EasyTab[EasyTab["PAYMENT"] = 2] = "PAYMENT";
+})(EasyTab = exports.EasyTab || (exports.EasyTab = {}));
+/**
+ *
+ */
+var EasyTabService = /** @class */ (function () {
+    function EasyTabService() {
+    }
+    /**
+     * Returns the current and target tab indexes
+     *
+     * @param target
+     * @returns {EasyTabDirection}
+     */
+    EasyTabService.getTabDirection = function (target) {
+        var currentTabIndex = 0;
+        var targetTabIndex = 0;
+        Main_1.Main.instance.tabContainer.tabContainerSections.forEach(function (tab, index) {
+            var $tab = tab.jel;
+            if ($tab.filter(":visible").length !== 0) {
+                currentTabIndex = index;
+            }
+            if ($tab.is($(target))) {
+                targetTabIndex = index;
+            }
+        });
+        return { current: currentTabIndex, target: targetTabIndex };
+    };
+    /**
+     * @param {EasyTab} tab
+     */
+    EasyTabService.go = function (tab) {
+        Main_1.Main.instance.tabContainer.jel.easytabs("select", EasyTabService.getTabId(tab));
+    };
+    /**
+     * Returns the id of the tab passed in
+     *
+     * @param {EasyTab} tab
+     * @returns {string}
+     */
+    EasyTabService.getTabId = function (tab) {
+        var tabContainer = Main_1.Main.instance.tabContainer;
+        var easyTabs = tabContainer.tabContainerSections;
+        return easyTabs[tab].jel.attr("id");
+    };
+    /**
+     * Is there a shipping easy tab present?
+     *
+     * @returns {boolean}
+     */
+    EasyTabService.isThereAShippingTab = function () {
+        return Main_1.Main.instance.tabContainer.jel.find('.etabs > li.tab').length !== 2;
+    };
+    return EasyTabService;
+}());
+exports.EasyTabService = EasyTabService;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Base class for our ajax handling. Child classes will extend this and override the response function and implement their
+ * own custom solutions for the php side of actions
+ */
+var Action = /** @class */ (function () {
+    /**
+     * @param id
+     * @param url
+     * @param data
+     */
+    function Action(id, url, data) {
+        this.id = id;
+        this.url = url + '?' + 'wc-ajax=' + id;
+        this.data = data;
+    }
+    /**
+     * Automatically assign the items to the data
+     *
+     * @param {string} id
+     * @param {AjaxInfo} ajaxInfo
+     * @param items
+     * @returns {any}
+     */
+    Action.prep = function (id, ajaxInfo, items) {
+        var data = {
+            "wc-ajax": id,
+            security: ajaxInfo.nonce,
+        };
+        Object.assign(data, items);
+        return data;
+    };
+    /**
+     * Fire ze ajax
+     */
+    Action.prototype.load = function () {
+        $.post(this.url, this.data, this.response.bind(this));
+    };
+    Object.defineProperty(Action.prototype, "id", {
+        /**
+         * @returns {string}
+         */
+        get: function () {
+            return this._id;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._id = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Action.prototype, "url", {
+        /**
+         * @returns {string}
+         */
+        get: function () {
+            return this._url;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._url = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Action.prototype, "data", {
+        /**
+         * @returns {Object}
+         */
+        get: function () {
+            return this._data;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._data = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Action;
+}());
+exports.Action = Action;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Element_1 = __webpack_require__(2);
+var Main_1 = __webpack_require__(0);
+/**
+ *
+ */
+var Alert = /** @class */ (function (_super) {
+    __extends(Alert, _super);
+    /**
+     *
+     * @param alertContainer
+     * @param alertInfo
+     */
+    function Alert(alertContainer, alertInfo) {
+        var _this = _super.call(this, alertContainer) || this;
+        _this.alertInfo = alertInfo;
+        return _this;
+    }
+    /**
+     *
+     */
+    Alert.prototype.addAlert = function () {
+        if (Alert.previousClass) {
+            this.jel.removeClass(Alert.previousClass);
+        }
+        Main_1.Main.removeOverlay();
+        this.jel.find(".message").html(this.alertInfo.message);
+        this.jel.addClass(this.alertInfo.cssClass);
+        this.jel.slideDown(300);
+        window.scrollTo(0, 0);
+        Alert.previousClass = this.alertInfo.cssClass;
+    };
+    Alert.removeAlerts = function () {
+        $("#cfw-alert-container").find(".message").html("");
+        $("#cfw-alert-container").attr("class", "cfw-alert");
+        $("#cfw-alert-container").css("display", "none");
+    };
+    Object.defineProperty(Alert.prototype, "alertInfo", {
+        /**
+         * @returns {AlertInfo}
+         */
+        get: function () {
+            return this._alertInfo;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._alertInfo = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Alert, "previousClass", {
+        /**
+         * @returns {string}
+         */
+        get: function () {
+            return this._previousClass;
+        },
+        /**
+         * @param {string} value
+         */
+        set: function (value) {
+            this._previousClass = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Alert;
+}(Element_1.Element));
+exports.Alert = Alert;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * First argument of success response is the data object. What we do since on the PHP side it's prepped as a json object
+ * we intercept the argument and parse the JSON. On the overloaded function side we specify the object type.
+ *
+ * @param target {Object}
+ * @param propertyKey {string}
+ * @param descriptor {PropertyDescriptor}
+ * @returns {PropertyDescriptor}
+ * @constructor
+ */
+function ResponsePrep(target, propertyKey, descriptor) {
+    // save a reference to the original method this way we keep the values currently in the
+    // descriptor and don't overwrite what another decorator might have done to the descriptor.
+    if (descriptor === undefined) {
+        descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
+    }
+    var originalMethod = descriptor.value;
+    //editing the descriptor/value parameter
+    descriptor.value = function () {
+        arguments[0] = JSON.parse(arguments[0]);
+        return originalMethod.apply(this, arguments);
+    };
+    // return edited descriptor as opposed to overwriting the descriptor
+    return descriptor;
+}
+exports.ResponsePrep = ResponsePrep;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Main_1 = __webpack_require__(0);
+var EasyTabService_1 = __webpack_require__(3);
+var EasyTabService_2 = __webpack_require__(3);
 var CompleteOrderAction_1 = __webpack_require__(11);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
 /**
@@ -593,301 +889,6 @@ exports.ValidationService = ValidationService;
 
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Main_1 = __webpack_require__(0);
-/**
- * EzTab Enum
- */
-var EasyTab;
-(function (EasyTab) {
-    EasyTab[EasyTab["CUSTOMER"] = 0] = "CUSTOMER";
-    EasyTab[EasyTab["SHIPPING"] = 1] = "SHIPPING";
-    EasyTab[EasyTab["PAYMENT"] = 2] = "PAYMENT";
-})(EasyTab = exports.EasyTab || (exports.EasyTab = {}));
-/**
- *
- */
-var EasyTabService = /** @class */ (function () {
-    function EasyTabService() {
-    }
-    /**
-     * Returns the current and target tab indexes
-     *
-     * @param target
-     * @returns {EasyTabDirection}
-     */
-    EasyTabService.getTabDirection = function (target) {
-        var currentTabIndex = 0;
-        var targetTabIndex = 0;
-        Main_1.Main.instance.tabContainer.tabContainerSections.forEach(function (tab, index) {
-            var $tab = tab.jel;
-            if ($tab.filter(":visible").length !== 0) {
-                currentTabIndex = index;
-            }
-            if ($tab.is($(target))) {
-                targetTabIndex = index;
-            }
-        });
-        return { current: currentTabIndex, target: targetTabIndex };
-    };
-    /**
-     * @param {EasyTab} tab
-     */
-    EasyTabService.go = function (tab) {
-        Main_1.Main.instance.tabContainer.jel.easytabs("select", EasyTabService.getTabId(tab));
-    };
-    /**
-     * Returns the id of the tab passed in
-     *
-     * @param {EasyTab} tab
-     * @returns {string}
-     */
-    EasyTabService.getTabId = function (tab) {
-        var tabContainer = Main_1.Main.instance.tabContainer;
-        var easyTabs = tabContainer.tabContainerSections;
-        return easyTabs[tab].jel.attr("id");
-    };
-    /**
-     * Is there a shipping easy tab present?
-     *
-     * @returns {boolean}
-     */
-    EasyTabService.isThereAShippingTab = function () {
-        return Main_1.Main.instance.tabContainer.jel.find('.etabs > li.tab').length !== 2;
-    };
-    return EasyTabService;
-}());
-exports.EasyTabService = EasyTabService;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * Base class for our ajax handling. Child classes will extend this and override the response function and implement their
- * own custom solutions for the php side of actions
- */
-var Action = /** @class */ (function () {
-    /**
-     * @param id
-     * @param url
-     * @param data
-     */
-    function Action(id, url, data) {
-        this.id = id;
-        this.url = url + '?' + 'wc-ajax=' + id;
-        this.data = data;
-    }
-    /**
-     * Automatically assign the items to the data
-     *
-     * @param {string} id
-     * @param {AjaxInfo} ajaxInfo
-     * @param items
-     * @returns {any}
-     */
-    Action.prep = function (id, ajaxInfo, items) {
-        var data = {
-            "wc-ajax": id,
-            security: ajaxInfo.nonce,
-        };
-        Object.assign(data, items);
-        return data;
-    };
-    /**
-     * Fire ze ajax
-     */
-    Action.prototype.load = function () {
-        $.post(this.url, this.data, this.response.bind(this));
-    };
-    Object.defineProperty(Action.prototype, "id", {
-        /**
-         * @returns {string}
-         */
-        get: function () {
-            return this._id;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._id = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Action.prototype, "url", {
-        /**
-         * @returns {string}
-         */
-        get: function () {
-            return this._url;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._url = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Action.prototype, "data", {
-        /**
-         * @returns {Object}
-         */
-        get: function () {
-            return this._data;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._data = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Action;
-}());
-exports.Action = Action;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(2);
-var Main_1 = __webpack_require__(0);
-/**
- *
- */
-var Alert = /** @class */ (function (_super) {
-    __extends(Alert, _super);
-    /**
-     *
-     * @param alertContainer
-     * @param alertInfo
-     */
-    function Alert(alertContainer, alertInfo) {
-        var _this = _super.call(this, alertContainer) || this;
-        _this.alertInfo = alertInfo;
-        return _this;
-    }
-    /**
-     *
-     */
-    Alert.prototype.addAlert = function () {
-        if (Alert.previousClass) {
-            this.jel.removeClass(Alert.previousClass);
-        }
-        Main_1.Main.removeOverlay();
-        this.jel.find(".message").html(this.alertInfo.message);
-        this.jel.addClass(this.alertInfo.cssClass);
-        this.jel.slideDown(300);
-        window.scrollTo(0, 0);
-        Alert.previousClass = this.alertInfo.cssClass;
-    };
-    Alert.removeAlerts = function () {
-        $("#cfw-alert-container").find(".message").html("");
-        $("#cfw-alert-container").attr("class", "cfw-alert");
-        $("#cfw-alert-container").css("display", "none");
-    };
-    Object.defineProperty(Alert.prototype, "alertInfo", {
-        /**
-         * @returns {AlertInfo}
-         */
-        get: function () {
-            return this._alertInfo;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._alertInfo = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Alert, "previousClass", {
-        /**
-         * @returns {string}
-         */
-        get: function () {
-            return this._previousClass;
-        },
-        /**
-         * @param {string} value
-         */
-        set: function (value) {
-            this._previousClass = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Alert;
-}(Element_1.Element));
-exports.Alert = Alert;
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * First argument of success response is the data object. What we do since on the PHP side it's prepped as a json object
- * we intercept the argument and parse the JSON. On the overloaded function side we specify the object type.
- *
- * @param target {Object}
- * @param propertyKey {string}
- * @param descriptor {PropertyDescriptor}
- * @returns {PropertyDescriptor}
- * @constructor
- */
-function ResponsePrep(target, propertyKey, descriptor) {
-    // save a reference to the original method this way we keep the values currently in the
-    // descriptor and don't overwrite what another decorator might have done to the descriptor.
-    if (descriptor === undefined) {
-        descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
-    }
-    var originalMethod = descriptor.value;
-    //editing the descriptor/value parameter
-    descriptor.value = function () {
-        arguments[0] = JSON.parse(arguments[0]);
-        return originalMethod.apply(this, arguments);
-    };
-    // return edited descriptor as opposed to overwriting the descriptor
-    return descriptor;
-}
-exports.ResponsePrep = ResponsePrep;
-
-
-/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -910,10 +911,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(5);
+var Action_1 = __webpack_require__(4);
 var Main_1 = __webpack_require__(0);
 var Cart_1 = __webpack_require__(9);
-var ResponsePrep_1 = __webpack_require__(7);
+var ResponsePrep_1 = __webpack_require__(6);
 var UpdateCheckoutAction = /** @class */ (function (_super) {
     __extends(UpdateCheckoutAction, _super);
     /**
@@ -1408,8 +1409,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(5);
-var Alert_1 = __webpack_require__(6);
+var Action_1 = __webpack_require__(4);
+var Alert_1 = __webpack_require__(5);
 var Main_1 = __webpack_require__(0);
 var CompleteOrderAction = /** @class */ (function (_super) {
     __extends(CompleteOrderAction, _super);
@@ -1779,11 +1780,11 @@ w.addEventListener("cfw-initialize", function (eventData) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var EasyTabService_1 = __webpack_require__(4);
-var EasyTabService_2 = __webpack_require__(4);
+var EasyTabService_1 = __webpack_require__(3);
+var EasyTabService_2 = __webpack_require__(3);
 var CompleteOrderAction_1 = __webpack_require__(11);
 var Main_1 = __webpack_require__(0);
-var ValidationService_1 = __webpack_require__(3);
+var ValidationService_1 = __webpack_require__(7);
 var w = window;
 var ParsleyService = /** @class */ (function () {
     /**
@@ -2077,11 +2078,11 @@ var AccountExistsAction_1 = __webpack_require__(36);
 var LoginAction_1 = __webpack_require__(37);
 var FormElement_1 = __webpack_require__(10);
 var Main_1 = __webpack_require__(0);
-var ValidationService_1 = __webpack_require__(3);
+var ValidationService_1 = __webpack_require__(7);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
 var ApplyCouponAction_1 = __webpack_require__(38);
 var SelectLabelWrap_1 = __webpack_require__(14);
-var Alert_1 = __webpack_require__(6);
+var Alert_1 = __webpack_require__(5);
 /**
  *
  */
@@ -2228,21 +2229,25 @@ var TabContainer = /** @class */ (function (_super) {
                 $(elem).wrap("<div class='cfw-column-3'></div>");
             }
         });
-        // Authorize.net - AIM
-        var authorizenet_cim_form_wraps = $("#wc-authorize-net-cim-credit-card-credit-card-form .form-row");
-        $("#wc-authorize-net-cim-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-        authorizenet_cim_form_wraps.each(function (index, elem) {
-            $(elem).addClass("cfw-input-wrap");
-            $(elem).addClass("cfw-text-input");
-            $(elem).find("label").addClass("cfw-input-label");
-            $(elem).find("input").css("width", "100%");
-            if ($(elem).hasClass("form-row-wide")) {
-                $(elem).wrap("<div class='cfw-column-6'></div>");
-            }
-            if ($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
-                $(elem).wrap("<div class='cfw-column-3'></div>");
-            }
-        });
+        // Authorize.net - CIM
+        // let authorizenet_cim_form_wraps = $("#wc-authorize-net-cim-credit-card-credit-card-form .form-row").not(':last');
+        //
+        // $("#wc-authorize-net-cim-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        //
+        // authorizenet_cim_form_wraps.each(function(index, elem) {
+        //     $(elem).addClass("cfw-input-wrap");
+        //     $(elem).addClass("cfw-text-input");
+        //     $(elem).find("label").addClass("cfw-input-label");
+        //     $(elem).find("input").css("width", "100%");
+        //
+        //     if( $(elem).hasClass("form-row-wide") ) {
+        //         $(elem).wrap("<div class='cfw-column-6'></div>")
+        //     }
+        //
+        //     if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
+        //         $(elem).wrap("<div class='cfw-column-3'></div>")
+        //     }
+        // });
         // PayFlow Pro
         var payflow_pro_form_wraps = $(".payment_method_paypal_pro_payflow > fieldset > .form-row");
         $(".payment_method_paypal_pro_payflow > fieldset").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
@@ -3147,8 +3152,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(5);
-var ResponsePrep_1 = __webpack_require__(7);
+var Action_1 = __webpack_require__(4);
+var ResponsePrep_1 = __webpack_require__(6);
 /**
  * Ajax does the account exist action. Takes the information from email box and fires of a request to see if the account
  * exists
@@ -3268,9 +3273,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(5);
-var Alert_1 = __webpack_require__(6);
-var ResponsePrep_1 = __webpack_require__(7);
+var Action_1 = __webpack_require__(4);
+var Alert_1 = __webpack_require__(5);
+var ResponsePrep_1 = __webpack_require__(6);
 /**
  *
  */
@@ -3343,10 +3348,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(5);
+var Action_1 = __webpack_require__(4);
 var Cart_1 = __webpack_require__(9);
-var Alert_1 = __webpack_require__(6);
-var ResponsePrep_1 = __webpack_require__(7);
+var Alert_1 = __webpack_require__(5);
+var ResponsePrep_1 = __webpack_require__(6);
 var Main_1 = __webpack_require__(0);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
 /**

@@ -220,25 +220,25 @@ export class TabContainer extends Element {
             }
         });
 
-        // Authorize.net - AIM
-        let authorizenet_cim_form_wraps = $("#wc-authorize-net-cim-credit-card-credit-card-form .form-row");
-
-        $("#wc-authorize-net-cim-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-
-        authorizenet_cim_form_wraps.each(function(index, elem) {
-            $(elem).addClass("cfw-input-wrap");
-            $(elem).addClass("cfw-text-input");
-            $(elem).find("label").addClass("cfw-input-label");
-            $(elem).find("input").css("width", "100%");
-
-            if( $(elem).hasClass("form-row-wide") ) {
-                $(elem).wrap("<div class='cfw-column-6'></div>")
-            }
-
-            if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
-                $(elem).wrap("<div class='cfw-column-3'></div>")
-            }
-        });
+        // Authorize.net - CIM
+        // let authorizenet_cim_form_wraps = $("#wc-authorize-net-cim-credit-card-credit-card-form .form-row").not(':last');
+        //
+        // $("#wc-authorize-net-cim-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        //
+        // authorizenet_cim_form_wraps.each(function(index, elem) {
+        //     $(elem).addClass("cfw-input-wrap");
+        //     $(elem).addClass("cfw-text-input");
+        //     $(elem).find("label").addClass("cfw-input-label");
+        //     $(elem).find("input").css("width", "100%");
+        //
+        //     if( $(elem).hasClass("form-row-wide") ) {
+        //         $(elem).wrap("<div class='cfw-column-6'></div>")
+        //     }
+        //
+        //     if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
+        //         $(elem).wrap("<div class='cfw-column-3'></div>")
+        //     }
+        // });
 
         // PayFlow Pro
         let payflow_pro_form_wraps = $(".payment_method_paypal_pro_payflow > fieldset > .form-row");

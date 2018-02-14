@@ -4,7 +4,11 @@
     }
 ?>
 <main id="cfw-content" class="<?php echo $css_classes; ?>">
-    <div class="overlay"></div>
+    <div class="overlay">
+        <div class="spinner-wrap">
+            <div class="loader">Loading...</div>
+        </div>
+    </div>
     <div class="wrap">
 
         <div class="cfw-container">

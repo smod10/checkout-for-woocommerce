@@ -104,15 +104,18 @@ var Main = /** @class */ (function () {
         // Handle Stripe gateway UI blocking function
         // Otherwise we throw errors
         // Also discard our overlay when the modal is closed on desktop and mobile
-        // $.fn.block = function(item) {};
-        // $.fn.unblock = function(item) {
-        //    Main.removeOverlay();
-        // };
-        //
-        // $.fn.blockUI = function(item) {};
-        // $.fn.unblockUI = function(item) {
-        //    Main.removeOverlay();
-        // };
+        $.fn.block = function (item) {
+            Main.addOverlay();
+        };
+        $.fn.unblock = function (item) {
+            Main.removeOverlay();
+        };
+        $.fn.blockUI = function (item) {
+            Main.addOverlay();
+        };
+        $.fn.unblockUI = function (item) {
+            Main.removeOverlay();
+        };
     }
     /**
      * Sets up the tab container by running easy tabs, setting up animation listeners, and setting up events and on load

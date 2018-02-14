@@ -336,6 +336,7 @@ class Redirect {
 	public static function footer($path_manager, $settings_manager) {
 		do_action('cfw_wp_footer_before_scripts');
 		print_footer_scripts();
+		wc_print_js();
 		echo $settings_manager->get_setting('footer_scripts');
 		do_action('cfw_wp_footer');
 		?>

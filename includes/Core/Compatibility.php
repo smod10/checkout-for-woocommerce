@@ -186,6 +186,11 @@ class Compatibility {
 	    // Pixel Caffeine
         $scripts[] = 'aepc-pixel-events';
 
+        // Authorize.net - CIM
+        $scripts[] = 'wc-authorize-net-cim';
+        $scripts[] = 'wc-authorize-net-cim-accept-js';
+        $scripts[] = 'sv-wc-payment-gateway-payment-form';
+
 	    return $scripts;
     }
 
@@ -193,6 +198,10 @@ class Compatibility {
 	    // Checkout Add-ons
 	    $styles[] = 'wc-checkout-add-ons-frontend';
 	    $styles[] = 'select2';
+
+	    // Authorize.net - CIM
+	    $styles[] = 'sv-wc-payment-gateway-my-payment-methods';
+	    $styles[] = 'sv-wc-payment-gateway-payment-form';
 
 	    return $styles;
     }

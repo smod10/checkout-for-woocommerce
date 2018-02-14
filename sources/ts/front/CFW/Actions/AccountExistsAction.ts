@@ -66,6 +66,7 @@ export class AccountExistsAction extends Action {
 
             if(AccountExistsAction.checkBox) {
                 register_user_checkbox.checked = true;
+                $(register_user_checkbox).trigger('change');
                 AccountExistsAction.checkBox = false;
             }
 

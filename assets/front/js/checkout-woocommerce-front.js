@@ -3199,6 +3199,7 @@ var AccountExistsAction = /** @class */ (function (_super) {
             login_slide.slideUp(300);
             if (AccountExistsAction.checkBox) {
                 register_user_checkbox.checked = true;
+                $(register_user_checkbox).trigger('change');
                 AccountExistsAction.checkBox = false;
             }
             register_container.css("display", "block");

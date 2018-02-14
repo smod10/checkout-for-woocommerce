@@ -186,6 +186,10 @@ class Compatibility {
 	    // Pixel Caffeine
         $scripts[] = 'aepc-pixel-events';
 
+        // Authorize.net - AIM
+	    $scripts[] = 'wc-authorize-net-aim';
+	    $scripts[] = 'wc-authorize-net-aim-accept-js';
+
         // Authorize.net - CIM
         $scripts[] = 'wc-authorize-net-cim';
         $scripts[] = 'wc-authorize-net-cim-accept-js';

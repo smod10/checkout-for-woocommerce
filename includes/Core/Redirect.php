@@ -256,7 +256,7 @@ class Redirect {
      */
 	public static function remove_scripts() {
 		global $wp_scripts;
-		$ignore = array(
+        $ignore = array(
             'jquery',
             'admin-bar',
             'cfw_front_js',
@@ -264,7 +264,7 @@ class Redirect {
             'cfw_front_js_hash_change',
             'cfw_front_js_easy_tabs',
             'cfw_front_js_garlic',
-			'cfw_front_js_parsley',
+            'cfw_front_js_parsley',
             'cfw_front_js_array_find_poly',
             'woocommerce-tokenization-form',
             'wc-credit-card-form',

@@ -7,6 +7,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\SkyVerge;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe3x;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe4x;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Jilt;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MonsterInsights;
@@ -49,10 +50,13 @@ class Manager {
         new PixelCaffeine();
 
         // One Click Upsells
-        new OneClickUpsells( $this );
+        new OneClickUpsells();
 
         // Jilt
 		new Jilt();
+
+		// Google Analytics Pro
+		new GoogleAnalyticsPro();
 
 		/**
 		 * Gateways
@@ -65,10 +69,10 @@ class Manager {
         new PayPalExpress( $this );
 
         // Stripe 3.x
-        new Stripe3x( $this );
+        new Stripe3x();
 
         // Stripe 4.x
-        new Stripe4x( $this );
+        new Stripe4x();
 
         // Authorize.net AIM
         new AuthorizeNetAIM();

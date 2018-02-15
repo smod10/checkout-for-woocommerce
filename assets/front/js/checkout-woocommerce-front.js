@@ -637,6 +637,7 @@ var Alert = /** @class */ (function (_super) {
      *
      */
     Alert.prototype.addAlert = function () {
+        $(document.body).trigger('checkout_error');
         if (Alert.previousClass) {
             this.jel.removeClass(Alert.previousClass);
         }

@@ -16,6 +16,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\BlueSnap;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnalytics;
 
 /**
  * Class Compatibility
@@ -85,6 +86,9 @@ class Manager {
 
         // BlueSnap
         new BlueSnap();
+
+        // Enhanced Ecommerce Google Analytics
+		new EnhancedEcommerceGoogleAnalytics();
 
 		/**
 		 * Misc

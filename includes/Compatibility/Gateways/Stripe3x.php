@@ -48,14 +48,12 @@ class Stripe3x extends Base {
 				return;
 			}
 
-			if ( ! has_action('cfw_checkout_before_customer_info_tab', array($this, 'parent::add_separator') ) ) {
-				add_action('cfw_checkout_before_customer_info_tab', array($this, 'add_apple_pay_separator'), 10);
-			}
+			add_action('cfw_checkout_before_customer_info_tab', array($this, 'add_apple_pay_separator'), 10);
 		}
 	}
 
 	function add_apple_pay_separator() {
-		parent::add_separator('apple-pay-button-checkout-separator');
+		$this->add_separator('apple-pay-button-checkout-separator');
 	}
 
 	function allowed_scripts( $scripts ) {

@@ -39,9 +39,7 @@ class PayPalExpress extends Base {
 				return;
 			}
 
-			if ( ! has_action('cfw_checkout_before_customer_info_tab', array($this, 'parent::add_separator') ) ) {
-				add_action('cfw_checkout_before_customer_info_tab', array($this, 'parent::add_separator'), 10);
-			}
+			add_action('cfw_checkout_before_customer_info_tab', array($this, 'add_separator'), 10);
 		}
 	}
 

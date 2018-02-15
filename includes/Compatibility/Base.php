@@ -60,6 +60,11 @@ abstract class Base {
 	 * @param string $class
 	 */
 	function add_separator( $class = '' ) {
+	    if ( ! defined('CFW_PAYMENT_BUTTON_SEPARATOR') ) {
+		    define('CFW_PAYMENT_BUTTON_SEPARATOR', true);
+        } else {
+	        return;
+        }
 		?>
 		<div class="<?php echo $class; ?>">
 			<p class="pay-button-separator">

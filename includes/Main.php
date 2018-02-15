@@ -21,7 +21,7 @@ use Objectiv\Plugins\Checkout\Managers\AjaxManager;
 use Objectiv\Plugins\Checkout\Managers\CFWPathManager;
 use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
-use Objectiv\Plugins\Checkout\Core\Compatibility;
+use Objectiv\Plugins\Checkout\Compatibility\Manager as CompatibilityManager;
 
 /**
  * The core plugin class.
@@ -472,7 +472,7 @@ class Main extends Singleton {
 	}
 
 	function compatibility() {
-		new Compatibility();
+		new CompatibilityManager();
 	}
 
 	/**

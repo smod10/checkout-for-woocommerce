@@ -1,8 +1,8 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Compatibility;
+namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
-class GatewayStripe3x {
+class Stripe3x {
 	private $_CompatibilityManager;
 	public $wc_stripe_apple_pay;
 

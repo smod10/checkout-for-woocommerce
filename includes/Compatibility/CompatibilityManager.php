@@ -1,5 +1,19 @@
 <?php
 namespace Objectiv\Plugins\Checkout\Compatibility;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetAIM;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayTrace;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\SkyVerge;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe3x;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\Jilt;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\MonsterInsights;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
+use Objectiv\Plugins\Checkout\CompatibilityGateways\BlueSnap;
 
 /**
  * Class Compatibility
@@ -28,7 +42,7 @@ class CompatibilityManager {
         new Tickera();
 
         // Checkout Address Autocomplete
-        new eCreationsCheckoutAddressAutoComplete();
+        new CheckoutAddressAutoComplete();
 
         // Pixel Caffeine
         new PixelCaffeine();
@@ -44,25 +58,25 @@ class CompatibilityManager {
 		 */
 
 		// SkyVerge Gateway Framework
-        new GatewaySkyVerge();
+        new SkyVerge();
 
 		// PayPal Express
-        new GatewayPayPalExpress( $this );
+        new PayPalExpress( $this );
 
         // Stripe 3.x
-        new GatewayStripe3x( $this );
+        new Stripe3x( $this );
 
         // Authorize.net AIM
-        new GatewayAuthorizeNetAIM();
+        new AuthorizeNetAIM();
 
 		// Authorize.net CIM
-        new GatewayAuthorizeNetCIM();
+        new AuthorizeNetAIM();
 
         // PayTrace
-        new GatewayPayTrace();
+        new PayTrace();
 
         // BlueSnap
-        new GatewayBlueSnap();
+        new BlueSnap();
 
 		/**
 		 * Misc

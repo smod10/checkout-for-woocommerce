@@ -1,8 +1,8 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Compatibility;
+namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
-class GatewayPayPalExpress {
+class PayPalExpress {
 	private $_CompatibilityManager;
 
 	public function __construct( $CompatibilityManager ) {

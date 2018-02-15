@@ -1,17 +1,17 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Compatibility;
+namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
-class GatewayAuthorizeNetAIM {
+class AuthorizeNetCIM {
 	public function __construct() {
 		// Scripts
 		add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts') );
 	}
 
 	function allowed_scripts( $scripts ) {
-		// Authorize.net - AIM
-		$scripts[] = 'wc-authorize-net-aim';
-		$scripts[] = 'wc-authorize-net-aim-accept-js';
+		// Authorize.net - CIM
+		$scripts[] = 'wc-authorize-net-cim';
+		$scripts[] = 'wc-authorize-net-cim-accept-js';
 
 		return $scripts;
 	}

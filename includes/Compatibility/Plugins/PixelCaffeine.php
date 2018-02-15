@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Compatibility;
+namespace Objectiv\Plugins\Checkout\Compatibility\Plugins;
 
 class PixelCaffeine {
 	public function __construct() {

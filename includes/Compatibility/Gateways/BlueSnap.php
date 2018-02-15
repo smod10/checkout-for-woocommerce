@@ -1,8 +1,8 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Compatibility;
+namespace Objectiv\Plugins\Checkout\CompatibilityGateways;
 
-class GatewayBlueSnap {
+class BlueSnap {
 	public function __construct() {
 		// Scripts
 		add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts') );

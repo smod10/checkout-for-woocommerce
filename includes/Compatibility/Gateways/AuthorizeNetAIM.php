@@ -1,16 +1,17 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Compatibility;
+namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
-class Jilt {
+class AuthorizeNetAIM {
 	public function __construct() {
 		// Scripts
 		add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts') );
 	}
 
 	function allowed_scripts( $scripts ) {
-		// Jilt
-		$scripts[] = 'wc-jilt';
+		// Authorize.net - AIM
+		$scripts[] = 'wc-authorize-net-aim';
+		$scripts[] = 'wc-authorize-net-aim-accept-js';
 
 		return $scripts;
 	}

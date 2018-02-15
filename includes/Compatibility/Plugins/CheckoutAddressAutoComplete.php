@@ -1,8 +1,8 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Compatibility;
+namespace Objectiv\Plugins\Checkout\Compatibility\Plugins;
 
-class eCreationsCheckoutAddressAutoComplete {
+class CheckoutAddressAutoComplete {
 	public function __construct() {
 		// Checkout Address Autocomplete
 		if ( function_exists('ecr_addrac_scripts') ) {

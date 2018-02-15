@@ -1,8 +1,8 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\Compatibility;
+namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
-class GatewayPayTrace {
+class PayTrace {
 	public function __construct() {
 		// Scripts
 		add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts') );

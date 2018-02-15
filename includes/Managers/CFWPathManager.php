@@ -34,7 +34,7 @@ class CFWPathManager extends PathManager {
 	 * @param string $url_base
 	 * @param string $main_file
 	 */
-	public function __construct( string $base, string $url_base, string $main_file ) {
+	public function __construct( $base, $url_base, $main_file ) {
 		parent::__construct( $base, $url_base, $main_file );
 
 		$this->plugin_template = $this->get_base() . "templates";

@@ -5,12 +5,8 @@ namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 use Objectiv\Plugins\Checkout\Compatibility\Base;
 
 class Stripe4x extends Base {
-	private $_CompatibilityManager;
-
-	public function __construct( $CompatibilityManager ) {
+	public function __construct() {
 		parent::__construct();
-
-		$this->_CompatibilityManager = $CompatibilityManager;
 	}
 
 	function is_available() {
@@ -27,7 +23,7 @@ class Stripe4x extends Base {
 	 * TODO: Implement this when Stripe implements it
 	 */
 	function add_apple_pay_separator() {
-		$this->_CompatibilityManager->add_separator('apple-pay-button-checkout-separator');
+		$this->add_separator('apple-pay-button-checkout-separator');
 	}
 
 	function allowed_scripts( $scripts ) {

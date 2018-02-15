@@ -12,6 +12,7 @@ use Objectiv\BoosterSeat\Base\Singleton;
 use Objectiv\Plugins\Checkout\Action\ApplyCouponAction;
 use Objectiv\Plugins\Checkout\Action\CompleteOrderAction;
 use Objectiv\Plugins\Checkout\Action\UpdateCheckoutAction;
+use Objectiv\Plugins\Checkout\Compatibility\CompatibilityManager;
 use Objectiv\Plugins\Checkout\Core\Form;
 use Objectiv\Plugins\Checkout\Core\Redirect;
 use Objectiv\Plugins\Checkout\Core\Loader;
@@ -472,7 +473,7 @@ class Main extends Singleton {
 	}
 
 	function compatibility() {
-		new Compatibility();
+		new CompatibilityManager();
 	}
 
 	/**

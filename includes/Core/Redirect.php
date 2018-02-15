@@ -266,16 +266,6 @@ class Redirect {
             'cfw_front_js_garlic',
 			'cfw_front_js_parsley',
             'cfw_front_js_array_find_poly',
-            'bsnp-cc',
-            'bsnp-ex',
-            'bsnp-ex-cookie',
-            'bsnp-cse',
-            'stripe',
-            'stripe_checkout',
-            'wc_stripe_payment_request',
-            'woocommerce_stripe',
-            'stripe_apple_pay',
-            'woocommerce_stripe_apple_pay',
             'woocommerce-tokenization-form',
             'wc-credit-card-form',
             'jquery-payment',
@@ -296,7 +286,6 @@ class Redirect {
 
 	    $ignore = array(
 		    'cfw_front_css',
-            'bsnp-css',
             'admin-bar',
         );
 

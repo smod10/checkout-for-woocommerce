@@ -2,18 +2,28 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
-class PayPalExpress {
+use Objectiv\Plugins\Checkout\Compatibility\Base;
+
+class PayPalExpress extends Base {
 	private $_CompatibilityManager;
 
 	public function __construct( $CompatibilityManager ) {
-		$this->_CompatibilityManager = $CompatibilityManager;
+		parent::__construct();
 
+		$this->_CompatibilityManager = $CompatibilityManager;
+	}
+
+	function is_available() {
+		return ( function_exists('wc_gateway_ppec') && wc_gateway_ppec()->settings->is_enabled() );
+	}
+
+	function run() {
 		// Add PayPal Express Checkout Button
 		add_action('wp', array($this, 'add_paypal_express_to_checkout') );
 	}
 
 	function add_paypal_express_to_checkout() {
-		if ( function_exists('wc_gateway_ppec') && wc_gateway_ppec()->settings->is_enabled() && is_checkout() ) {
+		if ( is_checkout() ) {
 			// Remove "OR" separator
 			remove_all_actions( 'woocommerce_proceed_to_checkout');
 
@@ -29,9 +39,22 @@ class PayPalExpress {
 				return;
 			}
 
-			if ( ! has_action('cfw_checkout_before_customer_info_tab', array($this->_CompatibilityManager, 'add_separator') ) ) {
-				add_action('cfw_checkout_before_customer_info_tab', array($this->_CompatibilityManager, 'add_separator'), 10);
+			if ( ! has_action('cfw_checkout_before_customer_info_tab', array($this, 'parent::add_separator') ) ) {
+				add_action('cfw_checkout_before_customer_info_tab', array($this, 'parent::add_separator'), 10);
 			}
 		}
+	}
+
+	function allowed_scripts( $scripts ) {
+		$scripts[] = 'wc-gateway-ppec-frontend-in-context-checkout';
+		$scripts[] = 'paypal-checkout-js';
+
+		return $scripts;
+	}
+
+	function allowed_styles( $styles ) {
+		$styles[] = 'wc-gateway-ppec-frontend-cart';
+
+		return $styles;
 	}
 }

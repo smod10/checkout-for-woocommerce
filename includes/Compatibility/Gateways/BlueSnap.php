@@ -2,13 +2,15 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
-class BlueSnap {
-	public function __construct() {
-		// Scripts
-		add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts') );
+use Objectiv\Plugins\Checkout\Compatibility\Base;
 
-		// Styles
-		add_filter('cfw_allowed_style_handles', array($this, 'allowed_styles') );
+class BlueSnap extends Base {
+	public function __construct() {
+		parent::__construct();
+	}
+
+	function is_available() {
+		return class_exists('\\Bsnp_Payment_Gateway');
 	}
 
 	function allowed_scripts( $scripts ) {

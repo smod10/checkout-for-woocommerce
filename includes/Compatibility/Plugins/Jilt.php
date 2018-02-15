@@ -2,10 +2,15 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility\Plugins;
 
-class Jilt {
+use Objectiv\Plugins\Checkout\Compatibility\Base;
+
+class Jilt extends Base {
 	public function __construct() {
-		// Scripts
-		add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts') );
+		parent::__construct();
+	}
+
+	public function is_available() {
+		return function_exists('wc_jilt');
 	}
 
 	function allowed_scripts( $scripts ) {

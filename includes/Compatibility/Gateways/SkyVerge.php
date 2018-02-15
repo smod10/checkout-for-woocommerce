@@ -2,10 +2,15 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
-class SkyVerge {
+use Objectiv\Plugins\Checkout\Compatibility\Base;
+
+class SkyVerge extends Base {
 	public function __construct() {
-		// Scripts
-		add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts') );
+		parent::__construct();
+	}
+
+	public function is_available() {
+		return class_exists('\\SV_WC_Payment_Gateway');
 	}
 
 	function allowed_scripts( $scripts ) {
@@ -14,7 +19,7 @@ class SkyVerge {
 		return $scripts;
 	}
 
-	function allowed_styles() {
+	function allowed_styles( $styles ) {
 		$styles[] = 'sv-wc-payment-gateway-my-payment-methods';
 		$styles[] = 'sv-wc-payment-gateway-payment-form';
 

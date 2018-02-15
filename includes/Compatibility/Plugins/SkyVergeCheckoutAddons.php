@@ -2,13 +2,19 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility\Plugins;
 
-class SkyVergeCheckoutAddons {
-	public function __construct() {
-		add_filter('wc_checkout_add_ons_position', array($this, 'set_checkout_add_ons_position') );
+use Objectiv\Plugins\Checkout\Compatibility\Base;
 
-		// Allow scripts and styles for certain plugins
-		add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts') );
-		add_filter('cfw_allowed_style_handles', array($this, 'allowed_styles') );
+class SkyVergeCheckoutAddons extends Base {
+	public function __construct() {
+		parent::__construct();
+	}
+
+	public function is_available() {
+		return function_exists('init_woocommerce_checkout_add_ons');
+	}
+
+	public function run() {
+		add_filter('wc_checkout_add_ons_position', array($this, 'set_checkout_add_ons_position') );
 	}
 
 	function set_checkout_add_ons_position() {

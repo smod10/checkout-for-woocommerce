@@ -2,10 +2,15 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
-class AuthorizeNetCIM {
+use Objectiv\Plugins\Checkout\Compatibility\Base;
+
+class AuthorizeNetCIM extends Base {
 	public function __construct() {
-		// Scripts
-		add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts') );
+		parent::__construct();
+	}
+
+	function is_available() {
+		return class_exists('\\WC_Authorize_Net_CIM');
 	}
 
 	function allowed_scripts( $scripts ) {

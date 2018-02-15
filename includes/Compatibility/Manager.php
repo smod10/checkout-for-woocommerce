@@ -24,7 +24,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\BlueSnap;
  * @package Objectiv\Plugins\Checkout\Core
  * @author Clifton Griffin <clif@objectiv.co>
  */
-class CompatibilityManager {
+class Manager {
 	public function __construct() {
 		/**
 		 * Plugins
@@ -85,21 +85,10 @@ class CompatibilityManager {
 		/**
 		 * Misc
 		 */
-
+        // TODO: Move this somewhere better
 		// WooCommerce add-to-cart URL parameter redirection
 		add_action('wp_loaded', array($this, 'add_to_cart_redirect'), 0 );
 	}
-
-
-    function add_separator( $class = '' ) {
-	    ?>
-        <div class="<?php echo $class; ?>">
-            <p class="pay-button-separator">
-                <span><?php esc_html_e( 'Or', CFW_TEXT_DOMAIN ); ?></span>
-            </p>
-        </div>
-        <?php
-    }
 
     function add_to_cart_redirect() {
 	    if ( ! empty($_GET['add-to-cart']) && ! empty($_GET['checkout-redirect']) ) {

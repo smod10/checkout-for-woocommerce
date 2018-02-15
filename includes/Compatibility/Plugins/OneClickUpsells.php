@@ -2,18 +2,19 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility\Plugins;
 
-class OneClickUpsells {
-	private $_CompatibilityManager;
+use Objectiv\Plugins\Checkout\Compatibility\Base;
 
-	public function __construct( $CompatibilityManager ) {
-		$this->_CompatibilityManager = $CompatibilityManager;
+class OneClickUpsells extends Base {
+	public function __construct() {
+		parent::__construct();
+	}
 
-		/**
-		 * One Click Upsells
-		 */
-		if ( defined('GB_OCU_VER') ) {
-			add_action('wp', array($this, 'add_ocu_checkout_buttons' ) );
-		}
+	function is_available() {
+		return defined('GB_OCU_VER');
+	}
+
+	function run() {
+		add_action('wp', array($this, 'add_ocu_checkout_buttons' ) );
 	}
 
 	function add_ocu_checkout_buttons() {
@@ -37,8 +38,8 @@ class OneClickUpsells {
 		}
 
 		if ( $add_sep ) {
-			if ( ! has_action('cfw_checkout_before_customer_info_tab', array($this->_CompatibilityManager, 'add_separator') ) ) {
-				add_action('cfw_checkout_before_customer_info_tab', array($this->_CompatibilityManager, 'add_separator'), 10);
+			if ( ! has_action('cfw_checkout_before_customer_info_tab', array($this, 'add_separator') ) ) {
+				add_action('cfw_checkout_before_customer_info_tab', array($this, 'add_separator'), 10);
 			}
 		}
 	}

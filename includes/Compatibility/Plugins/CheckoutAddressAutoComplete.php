@@ -2,15 +2,19 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility\Plugins;
 
-class CheckoutAddressAutoComplete {
-	public function __construct() {
-		// Checkout Address Autocomplete
-		if ( function_exists('ecr_addrac_scripts') ) {
-			add_action( 'cfw_wp_head', 'ecr_addrac_scripts' );
-		}
+use Objectiv\Plugins\Checkout\Compatibility\Base;
 
-		// Allow scripts and styles for certain plugins
-		add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts') );
+class CheckoutAddressAutoComplete extends Base {
+	public function __construct() {
+		parent::__construct();
+	}
+
+	function is_available() {
+		return function_exists('ecr_addrac_scripts');
+	}
+
+	function run() {
+		add_action( 'cfw_wp_head', 'ecr_addrac_scripts' );
 	}
 
 	function allowed_scripts( $scripts ) {

@@ -2,16 +2,26 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility\Plugins;
 
-class MixPanel {
+use Objectiv\Plugins\Checkout\Compatibility\Base;
+
+class MixPanel extends Base {
 	public function __construct() {
-		add_action('cfw_wp_head', array($this, 'mixpanel_head') );
+	    parent::__construct();
 	}
+
+	public function is_available() {
+		return function_exists('init_woocommerce_mixpanel');
+	}
+
+	function run() {
+		add_action('cfw_wp_head', array($this, 'mixpanel_head') );
+    }
 
 	function mixpanel_head() {
 		$all_integrations = WC()->integrations->get_integrations();
 		$WC_Mixpanel = isset($all_integrations['mixpanel']) ? $all_integrations['mixpanel'] : null;
 
-		if($WC_Mixpanel) {
+		if ( $WC_Mixpanel ) {
 			$WC_Mixpanel->output_head();
 			$WC_Mixpanel->started_checkout();
 

@@ -2,10 +2,15 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
-class PayTrace {
+use Objectiv\Plugins\Checkout\Compatibility\Base;
+
+class PayTrace extends Base {
 	public function __construct() {
-		// Scripts
-		add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts') );
+		parent::__construct();
+	}
+
+	function is_available() {
+		return function_exists('wc_paytrace_load_plugin');
 	}
 
 	function allowed_scripts( $scripts ) {

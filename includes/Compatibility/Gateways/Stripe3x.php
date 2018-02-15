@@ -5,13 +5,10 @@ namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 use Objectiv\Plugins\Checkout\Compatibility\Base;
 
 class Stripe3x extends Base {
-	private $_CompatibilityManager;
 	public $wc_stripe_apple_pay;
 
-	public function __construct( $CompatibilityManager ) {
+	public function __construct() {
 		parent::__construct();
-
-		$this->_CompatibilityManager = $CompatibilityManager;
 	}
 
 	function is_available() {

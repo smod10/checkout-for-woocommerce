@@ -1,6 +1,6 @@
 <?php
 
-namespace Objectiv\Plugins\Checkout\CompatibilityGateways;
+namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
 class BlueSnap {
 	public function __construct() {
@@ -21,7 +21,7 @@ class BlueSnap {
 	}
 
 	function allowed_styles( $styles ) {
-		$styles = 'bsnp-css';
+		$styles[] = 'bsnp-css';
 
 		return $styles;
 	}

@@ -208,10 +208,6 @@ export class ParsleyService {
             ValidationService.validateZip = true;
         }
 
-        if(EasyTabService.isThereAShippingTab()) {
-            // $(document.body).trigger("update_checkout");
-        }
-
         if (CompleteOrderAction.preppingOrder) {
             let orderReadyEvent = new Event("cfw:checkout-validated");
             window.dispatchEvent(orderReadyEvent);

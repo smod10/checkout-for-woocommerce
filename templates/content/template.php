@@ -42,6 +42,8 @@
                     </li>
                 </ul>
 
+	            <?php do_action('cfw_checkout_before_form'); ?>
+
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
                     <div id="order_review" class="woocommerce-checkout-review-order">
                         <!-- Customer Info Panel -->
@@ -315,6 +317,8 @@
 
                     <?php wp_nonce_field( 'woocommerce-process_checkout' ); ?>
                 </form>
+
+	            <?php do_action('cfw_checkout_after_form'); ?>
             </div>
 
                 <!-- Cart / Sidebar Column -->

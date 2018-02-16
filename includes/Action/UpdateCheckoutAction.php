@@ -68,6 +68,7 @@ class UpdateCheckoutAction extends Action {
 		unset( WC()->session->refresh_totals, WC()->session->reload_checkout );
 
 		$this->out(array(
+			"coupons" => $this->prep_coupons(),
 			"fees" => $this->prep_fees(),
 			"new_totals" => array(
 				"new_subtotal" => WC()->cart->get_cart_subtotal(),
@@ -78,6 +79,28 @@ class UpdateCheckoutAction extends Action {
 			"needs_payment" => WC()->cart->needs_payment(),
 			"updated_ship_methods" => $this->get_shipping_methods()
 		));
+	}
+
+	function prep_coupons() {
+		$discount_amounts = array();
+
+		foreach(WC()->cart->get_coupons() as $code => $coupon) {
+			ob_start();
+			wc_cart_totals_coupon_html($coupon);
+			$coupon_html = ob_get_contents();
+			ob_clean();
+			wc_cart_totals_coupon_label( $coupon );
+			$coupon_label_html = ob_get_contents();
+			ob_end_clean();
+
+			array_push($discount_amounts, array(
+				"label" => $coupon_label_html,
+				"amount" => $coupon_html,
+				"code" => $code
+			));
+		}
+
+		return $discount_amounts;
 	}
 
 	function prep_fees() {

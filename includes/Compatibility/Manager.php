@@ -13,6 +13,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MonsterInsights;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\BlueSnap;
@@ -89,6 +90,9 @@ class Manager {
 
         // Enhanced Ecommerce Google Analytics
 		new EnhancedEcommerceGoogleAnalytics();
+
+		// Points and Rewards
+		new PointsRewards();
 
 		/**
 		 * Misc

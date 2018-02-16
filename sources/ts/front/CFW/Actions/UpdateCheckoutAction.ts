@@ -1,11 +1,11 @@
 import { Action }                           from "./Action";
-import {AjaxInfo, FieldTypeInfo} from "../Types/Types";
+import { AjaxInfo, FieldTypeInfo } from "../Types/Types";
 import { Main }                             from "../Main";
-import {Cart, UpdateCartTotalsData} from "../Elements/Cart";
+import { Cart, UpdateCartTotalsData } from "../Elements/Cart";
 import { ResponsePrep }                     from "../Decorators/ResponsePrep";
 import { TabContainer }                     from "../Elements/TabContainer";
-import {TabContainerSection} from "../Elements/TabContainerSection";
-import {Element} from "../Elements/Element";
+import { TabContainerSection } from "../Elements/TabContainerSection";
+import { Element } from "../Elements/Element";
 
 export type UpdateShippingFieldsResponse = {
     error: boolean,
@@ -62,6 +62,15 @@ export class UpdateCheckoutAction extends Action {
 
             Cart.outputFees(main.cart.fees, fees);
         }
+
+        if(resp.coupons) {
+            let coupons = $.map(resp.coupons, function(value, index) {
+                return [value];
+            });
+
+            Cart.outputCoupons(main.cart.coupons, coupons);
+        }
+
 
         let updated_shipping_methods: Array<any> = [];
 

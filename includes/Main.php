@@ -410,6 +410,8 @@ class Main extends Singleton {
 	 */
 	public function set_assets() {
 		if ( ! function_exists('is_checkout') || ! is_checkout() ) return;
+
+		global $wp;
 		
 		$front = "{$this->path_manager->get_assets_path()}/front";
 
@@ -417,6 +419,19 @@ class Main extends Singleton {
 
 		wp_enqueue_style('cfw_front_css', "${front}/css/checkout-woocommerce-front${min}.css", array(), $this->get_version());
 		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array('jquery'), $this->get_version(), true);
+
+		wp_localize_script( 'cfw_front_js', 'woocommerce_params', array(
+			'ajax_url'                  => WC()->ajax_url(),
+			'wc_ajax_url'               => \WC_AJAX::get_endpoint( "%%endpoint%%" ),
+			'update_order_review_nonce' => wp_create_nonce( 'update-order-review' ),
+			'apply_coupon_nonce'        => wp_create_nonce( 'apply-coupon' ),
+			'remove_coupon_nonce'       => wp_create_nonce( 'remove-coupon' ),
+			'option_guest_checkout'     => get_option( 'woocommerce_enable_guest_checkout' ),
+			'checkout_url'              => \WC_AJAX::get_endpoint( "checkout" ),
+			'is_checkout'               => is_page( wc_get_page_id( 'checkout' ) ) && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
+			'debug_mode'                => defined( 'WP_DEBUG' ) && WP_DEBUG,
+			'i18n_checkout_error'       => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
+		) );
 
 		$this->handle_countries();
 	}

@@ -235,6 +235,55 @@ class Redirect {
                     font-size: 30px;
                 }
                 <?php endif; ?>
+
+                .woocommerce-info {
+                    padding: 1em 1.618em;
+                    margin-bottom: 1.3em;
+                    background-color: <?php echo $settings_manager->get_setting('secondary_button_color'); ?>;
+                    margin-left: 0;
+                    border-radius: 2px;
+                    color: #fff;
+                    clear: both;
+                    border-left: .6180469716em solid rgba(0, 0, 0, 0.15);
+                }
+                .woocommerce-info a {
+                    color: #fff;
+                }
+
+                .woocommerce-info:hover {
+                    color: #fff;
+                    opacity: 0.7;
+                }
+
+                .woocommerce-info .button:hover {
+                    opacity: 1;
+                }
+
+                .woocommerce-info .button {
+                    float: right;
+                    padding: 0;
+                    background: none;
+                    color: #fff;
+                    box-shadow: none;
+                    line-height: 1.3em;
+                    padding-left: 1em;
+                    border-width: 0;
+                    border-left-width: 1px;
+                    border-left-style: solid;
+                    border-left-color: rgba(255, 255, 255, 0.25) !important;
+                    border-radius: 0;
+                }
+
+                .woocommerce-info .button:hover {
+                    background: none;
+                    color: #fff;
+                    opacity: 0.7;
+                    cursor: pointer;
+                }
+
+                .woocommerce-info pre {
+                    background-color: rgba(0,0,0,.1);
+                }
                 <?php echo $settings_manager->get_setting('custom_css'); ?>;
             </style>
             <meta charset="<?php bloginfo( 'charset' ); ?>">

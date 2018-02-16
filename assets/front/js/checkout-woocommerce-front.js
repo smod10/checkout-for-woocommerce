@@ -945,6 +945,12 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
             var fees = $.map(resp.fees, function (value) { return [value]; });
             Cart_1.Cart.outputFees(main.cart.fees, fees);
         }
+        if (resp.coupons) {
+            var coupons = $.map(resp.coupons, function (value, index) {
+                return [value];
+            });
+            Cart_1.Cart.outputCoupons(main.cart.coupons, coupons);
+        }
         var updated_shipping_methods = [];
         if (typeof resp.updated_ship_methods !== "string") {
             Object.keys(resp.updated_ship_methods).forEach(function (key) { return updated_shipping_methods.push(resp.updated_ship_methods[key]); });

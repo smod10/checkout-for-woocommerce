@@ -209,7 +209,7 @@ export class ParsleyService {
         }
 
         if(EasyTabService.isThereAShippingTab()) {
-            $(document.body).trigger("update_checkout");
+            // $(document.body).trigger("update_checkout");
         }
 
         if (CompleteOrderAction.preppingOrder) {

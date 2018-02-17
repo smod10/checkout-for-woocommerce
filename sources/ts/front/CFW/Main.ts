@@ -8,6 +8,7 @@ import { TabContainerSection }					from "./Elements/TabContainerSection";
 import { ValidationService }					from "./Services/ValidationService";
 import { EasyTabService }						from "./Services/EasyTabService";
 import { ParsleyService }						from "./Services/ParsleyService";
+import {LocalizationService} from "./Services/LocalizationService";
 
 /**
  * The main class of the front end checkout system
@@ -62,6 +63,12 @@ export class Main {
 	 */
 	private _validationService: ValidationService;
 
+    /**
+     * @type {LocalizationService}
+     * @private
+     */
+    private _localizationService: LocalizationService;
+
 	/**
 	 * @type {boolean}
 	 * @private
@@ -99,6 +106,7 @@ export class Main {
         this.parsleyService = new ParsleyService();
         this.easyTabService = new EasyTabService();
         this.validationService = new ValidationService();
+        this.localizationService = new LocalizationService();
 
         // Handle Stripe gateway UI blocking function
         // Otherwise we throw errors
@@ -156,7 +164,9 @@ export class Main {
 		this.tabContainer.setApplyCouponListener();
 		this.tabContainer.setTermsAndConditions();
 		this.tabContainer.setUpdateCheckout();
-		this.tabContainer.setCountryChangeHandlers();
+
+		// Localization
+		this.localizationService.setCountryChangeHandlers();
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
@@ -330,6 +340,20 @@ export class Main {
 	set validationService(value: ValidationService) {
 		this._validationService = value;
 	}
+
+    /**
+     * @returns {LocalizationService}
+     */
+    get localizationService(): LocalizationService {
+        return this._localizationService;
+    }
+
+    /**
+     * @param {LocalizationService} value
+     */
+    set localizationService(value: LocalizationService) {
+        this._localizationService = value;
+    }
 
     /**
 	 * @returns {Main}

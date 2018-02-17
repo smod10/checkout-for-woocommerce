@@ -8,7 +8,7 @@ import { TabContainerSection }					from "./Elements/TabContainerSection";
 import { ValidationService }					from "./Services/ValidationService";
 import { EasyTabService }						from "./Services/EasyTabService";
 import { ParsleyService }						from "./Services/ParsleyService";
-import {LocalizationService} from "./Services/LocalizationService";
+import { LocalizationService }                  from "./Services/LocalizationService";
 
 /**
  * The main class of the front end checkout system

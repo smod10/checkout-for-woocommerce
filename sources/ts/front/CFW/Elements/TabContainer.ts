@@ -11,8 +11,6 @@ import { ValidationService }                from "../Services/ValidationService"
 import { UpdateCheckoutAction }             from "../Actions/UpdateCheckoutAction";
 import { UpdateShippingFieldsRI }           from "../Actions/UpdateCheckoutAction";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
-import { InfoType }                         from "../Services/ParsleyService";
-import { SelectLabelWrap }                  from "./SelectLabelWrap";
 import { Alert }                            from "./Alert";
 import { AlertInfo }                        from "./Alert";
 

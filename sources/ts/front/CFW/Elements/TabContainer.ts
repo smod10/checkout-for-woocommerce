@@ -616,7 +616,7 @@ export class TabContainer extends Element {
 
         if ( ! this.errorObserver ) {
             // Create an observer instance linked to the callback function
-            let observer = new MutationObserver(this.submitOrderErrorMutationListener);
+            let observer = new MutationObserver(this.submitOrderErrorMutationListener.bind(this));
 
             // Start observing the target node for configured mutations
             observer.observe(targetNode, config);
@@ -659,11 +659,11 @@ export class TabContainer extends Element {
 
                     let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
                     alert.addAlert();
+                }
 
-                    if(this.errorObserver) {
-                        this.errorObserver.disconnect();
-                        this.errorObserver = null;
-                    }
+                if(this.errorObserver !== undefined && this.errorObserver !== null) {
+                    this.errorObserver.disconnect();
+                    this.errorObserver = null;
                 }
             }
         }

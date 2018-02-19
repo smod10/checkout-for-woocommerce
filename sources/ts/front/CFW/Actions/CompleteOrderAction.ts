@@ -5,6 +5,7 @@ import { Alert }                                from "../Elements/Alert";
 import { ValidationService }                    from "../Services/ValidationService";
 import { EValidationSections }                  from "../Services/ValidationService";
 import { Main }                                 from "../Main";
+import {TabContainer} from "../Elements/TabContainer";
 
 export class CompleteOrderAction extends Action {
 
@@ -43,6 +44,8 @@ export class CompleteOrderAction extends Action {
      */
     public response(resp: any): void {
 
+        let tabContainer: TabContainer = Main.instance.tabContainer;
+
         if(resp.result === "success") {
             // Destroy all the cache!
             $('.garlic-auto-save').each((index: number, elem: Element) => $(elem).garlic('destroy'));
@@ -63,6 +66,11 @@ export class CompleteOrderAction extends Action {
 
             let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
             alert.addAlert();
+
+            if(tabContainer.errorObserver !== undefined && tabContainer.errorObserver !== null) {
+                tabContainer.errorObserver.disconnect();
+                tabContainer.errorObserver = null;
+            }
         }
     }
 

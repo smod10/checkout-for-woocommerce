@@ -1482,6 +1482,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      * @param resp
      */
     CompleteOrderAction.prototype.response = function (resp) {
+        var tabContainer = Main_1.Main.instance.tabContainer;
         if (resp.result === "success") {
             // Destroy all the cache!
             $('.garlic-auto-save').each(function (index, elem) { return $(elem).garlic('destroy'); });
@@ -1498,6 +1499,10 @@ var CompleteOrderAction = /** @class */ (function (_super) {
             };
             var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
             alert_1.addAlert();
+            if (tabContainer.errorObserver !== undefined && tabContainer.errorObserver !== null) {
+                tabContainer.errorObserver.disconnect();
+                tabContainer.errorObserver = null;
+            }
         }
     };
     Object.defineProperty(CompleteOrderAction, "preppingOrder", {
@@ -2924,7 +2929,6 @@ var TabContainer = /** @class */ (function (_super) {
         formArr.forEach(function (item) { return formData[item.name] = item.value; });
         formData["has_full_address"] = has_full_address;
         formData["ship_to_different_address"] = ship_to_different_address;
-        console.log(formData);
         if (ship_to_different_address === 0) {
             lookFor.forEach(function (field) {
                 if ($("#billing_" + field).length > 0) {
@@ -3004,7 +3008,7 @@ var TabContainer = /** @class */ (function (_super) {
         var config = { childList: true, characterData: true, subtree: true };
         if (!this.errorObserver) {
             // Create an observer instance linked to the callback function
-            var observer = new MutationObserver(this.submitOrderErrorMutationListener);
+            var observer = new MutationObserver(this.submitOrderErrorMutationListener.bind(this));
             // Start observing the target node for configured mutations
             observer.observe(targetNode, config);
             this.errorObserver = observer;
@@ -3038,10 +3042,10 @@ var TabContainer = /** @class */ (function (_super) {
                     };
                     var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
                     alert_1.addAlert();
-                    if (this_1.errorObserver) {
-                        this_1.errorObserver.disconnect();
-                        this_1.errorObserver = null;
-                    }
+                }
+                if (this_1.errorObserver !== undefined && this_1.errorObserver !== null) {
+                    this_1.errorObserver.disconnect();
+                    this_1.errorObserver = null;
                 }
             }
         };

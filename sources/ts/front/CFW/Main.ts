@@ -95,7 +95,7 @@ export class Main {
         checkoutFormEl.garlic({
 			events: ['textInput', 'input', 'change', 'click', 'keypress', 'paste', 'focus'],
 			destroy: false,
-            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc, input.js-sv-wc-payment-gateway-credit-card-form-account-number, input.js-sv-wc-payment-gateway-credit-card-form-csc'
+            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc, input.js-sv-wc-payment-gateway-credit-card-form-account-number, input.js-sv-wc-payment-gateway-credit-card-form-csc, input.shipping_method'
 		});
 
         this.checkoutForm = checkoutFormEl;
@@ -197,13 +197,21 @@ export class Main {
 		let $cfw = $("#cfw-content");
 		let noPaymentCssClass = "cfw-payment-false";
 
-		if(!isPaymentRequired) {
-			if(!$cfw.hasClass(noPaymentCssClass)) {
+		if( ! isPaymentRequired ) {
+			if( ! $cfw.hasClass(noPaymentCssClass) ) {
 				$cfw.addClass(noPaymentCssClass);
 			}
+            this.toggleBillingFieldsAbility(true);
 		} else {
+            this.toggleBillingFieldsAbility(false);
 			$cfw.removeClass(noPaymentCssClass);
 		}
+	}
+
+	static toggleBillingFieldsAbility( enabled: boolean ) {
+        Main.instance.settings.default_address_fields.forEach( function( field_name ) {
+			$(`[name="billing_${field_name}"]`).prop('disabled', enabled);
+		} );
 	}
 
 	/**

@@ -492,15 +492,17 @@ class Main extends Singleton {
 	 * @return bool
 	 */
 	function is_enabled() {
+		$result = false;
+
 		if ( ! function_exists('WC') ) {
-			return false;
+			$result = false; // superfluous, but sure
 		}
 
 		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
-			return true;
+			$result = true;
 		}
 
-		return false;
+		return apply_filters('cfw_checkout_is_enabled', $result);
 	}
 
 	function compatibility() {

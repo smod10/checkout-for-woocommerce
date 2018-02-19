@@ -471,7 +471,7 @@ class Main extends Singleton {
 		// Load the plugin filters
 		$this->load_filters();
 
-		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+		if ( $this->is_enabled() ) {
 			// Load Assets
 			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
 
@@ -484,6 +484,23 @@ class Main extends Singleton {
 
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
 		$this->loader->run();
+	}
+
+	/**
+	 * Check if theme should enabled
+	 *
+	 * @return bool
+	 */
+	function is_enabled() {
+		if ( ! function_exists('WC') ) {
+			return false;
+		}
+
+		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	function compatibility() {
@@ -515,7 +532,7 @@ class Main extends Singleton {
 
 		// Setup the Checkout redirect
 		$this->loader->add_action('template_redirect', function() {
-			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+			if ( $this->is_enabled() ) {
 				// Call Redirect
 				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
 			}

@@ -160,10 +160,10 @@ var Main = /** @class */ (function () {
      * Adds a visual indicator that the checkout is doing something
      */
     Main.addOverlay = function () {
-        $("#cfw-content").addClass("show-overlay");
+        $("body").addClass("show-overlay");
     };
     Main.removeOverlay = function () {
-        $("#cfw-content").removeClass("show-overlay");
+        $("body").removeClass("show-overlay");
     };
     /**
      * @returns {boolean}

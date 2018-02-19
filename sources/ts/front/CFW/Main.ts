@@ -176,11 +176,11 @@ export class Main {
      * Adds a visual indicator that the checkout is doing something
      */
     static addOverlay(): void {
-        $("#cfw-content").addClass("show-overlay");
+        $("body").addClass("show-overlay");
     }
 
     static removeOverlay(): void {
-        $("#cfw-content").removeClass("show-overlay");
+        $("body").removeClass("show-overlay");
     }
 
 	/**

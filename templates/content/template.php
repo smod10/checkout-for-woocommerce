@@ -3,12 +3,12 @@
         exit; // Exit if accessed directly
     }
 ?>
-<main id="cfw-content" class="<?php echo $css_classes; ?>">
-    <div class="overlay">
-        <div class="spinner-wrap">
-            <div class="loader">Loading...</div>
-        </div>
+<div class="overlay">
+    <div class="spinner-wrap">
+        <div class="loader">Loading...</div>
     </div>
+</div>
+<main id="cfw-content" class="<?php echo $css_classes; ?>">
     <div class="wrap">
 
         <div class="cfw-container">

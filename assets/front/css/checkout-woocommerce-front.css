@@ -782,6 +782,9 @@ input.js-sv-wc-payment-token, input.js-sv-wc-payment-gateway-payment-token {
   #cfw-logo {
     display: inline-block; } }
 
+body {
+  position: relative; }
+
 #cfw-main-container {
   display: flex;
   flex-wrap: wrap; }

@@ -2565,12 +2565,10 @@ var TabContainer = /** @class */ (function (_super) {
         var ajax_info = Main_1.Main.instance.ajaxInfo;
         if (email_input_wrap) {
             var email_input_1 = email_input_wrap.holder.jel;
-            var reg_email = $("#createaccount");
             var handler = function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), _this.jel).load(); };
             // Add check to keyup event
             email_input_1.on("keyup", handler);
             email_input_1.on("change", handler);
-            reg_email.on('change', handler);
             // Handles page onload use case
             new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), this.jel).load();
         }
@@ -3253,6 +3251,7 @@ var AccountExistsAction = /** @class */ (function (_super) {
             register_user_checkbox.checked = false;
             register_container.css("display", "none");
             AccountExistsAction.checkBox = true;
+            $(register_user_checkbox).trigger('change');
             // If account does not exist, reverse
         }
         else {

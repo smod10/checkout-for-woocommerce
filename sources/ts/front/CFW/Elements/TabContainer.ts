@@ -76,16 +76,13 @@ export class TabContainer extends Element {
         let ajax_info = Main.instance.ajaxInfo;
 
         if(email_input_wrap) {
-
             let email_input: JQuery = email_input_wrap.holder.jel;
-            let reg_email: JQuery = $("#createaccount");
 
             let handler = () => new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
 
             // Add check to keyup event
             email_input.on("keyup", handler);
             email_input.on("change", handler);
-            reg_email.on('change', handler);
 
             // Handles page onload use case
             new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();

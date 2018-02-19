@@ -60,6 +60,7 @@ export class AccountExistsAction extends Action {
 
             AccountExistsAction.checkBox = true;
 
+            $(register_user_checkbox).trigger('change');
         // If account does not exist, reverse
         } else {
             login_slide.slideUp(300);

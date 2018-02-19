@@ -14,6 +14,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\Jilt;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MonsterInsights;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\OnePageCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCat;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
@@ -62,6 +63,9 @@ class Manager {
 
 		// Google Analytics Pro
 		new GoogleAnalyticsPro();
+
+		// One Page Checkout
+		new OnePageCheckout();
 
 		/**
 		 * Gateways

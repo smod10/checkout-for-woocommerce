@@ -192,6 +192,10 @@ var Main = /** @class */ (function () {
         Main.instance.settings.default_address_fields.forEach(function (field_name) {
             $("[name=\"billing_" + field_name + "\"]").prop('disabled', enabled);
         });
+        $('[name="payment_method"]:checked').prop("checked", !enabled);
+        if (enabled) {
+            $("#ship_to_different_address_as_billing").prop("checked", true);
+        }
     };
     /**
      * Sets up animation listeners
@@ -1962,10 +1966,10 @@ var ParsleyService = /** @class */ (function () {
                             stateElement.trigger("change");
                         }
                     }
+                    stateElement.parsley().reset();
                 }
                 // Resets in case error labels.
                 cityElement.parsley().reset();
-                stateElement.parsley().reset();
             }
         }
         else {

@@ -197,11 +197,12 @@ export class ParsleyService {
                             stateElement.trigger("change");
                         }
                     }
+
+                    stateElement.parsley().reset();
                 }
 
                 // Resets in case error labels.
                 cityElement.parsley().reset();
-                stateElement.parsley().reset();
             }
         } else {
             // Always reset to true if false. We want this to normally fire, but under certain conditions we want to ignore this

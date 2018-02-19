@@ -212,6 +212,12 @@ export class Main {
         Main.instance.settings.default_address_fields.forEach( function( field_name ) {
 			$(`[name="billing_${field_name}"]`).prop('disabled', enabled);
 		} );
+
+        $('[name="payment_method"]:checked').prop("checked", !enabled);
+
+        if(enabled) {
+        	$("#ship_to_different_address_as_billing").prop("checked", true);
+		}
 	}
 
 	/**

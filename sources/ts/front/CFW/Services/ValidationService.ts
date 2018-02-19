@@ -4,7 +4,7 @@ import { EasyTabDirection }                             from "./EasyTabService";
 import { EasyTab }                                      from "./EasyTabService";
 import { CompleteOrderAction }                          from "../Actions/CompleteOrderAction";
 import { AjaxInfo }                                     from "../Types/Types";
-import {UpdateCheckoutAction} from "../Actions/UpdateCheckoutAction";
+import { UpdateCheckoutAction }                         from "../Actions/UpdateCheckoutAction";
 
 /**
  * Validation Sections Enum

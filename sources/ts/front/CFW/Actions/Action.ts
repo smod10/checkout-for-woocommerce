@@ -31,7 +31,7 @@ export abstract class Action {
      */
     constructor(id: string, url: string, data: Object) {
         this.id = id;
-        this.url = url;
+        this.url = url + '?' + 'wc-ajax=' + id;
         this.data = data;
     }
 
@@ -45,7 +45,7 @@ export abstract class Action {
      */
     public static prep(id: string, ajaxInfo: AjaxInfo, items: any) {
         let data: any = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
         };
 

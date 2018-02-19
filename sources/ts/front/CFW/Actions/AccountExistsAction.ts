@@ -31,13 +31,13 @@ export class AccountExistsAction extends Action {
     constructor(id: string, ajaxInfo: AjaxInfo, email: string, ezTabContainer: JQuery) {
         // Object prep
         let data: AccountExistsData = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
             email: email
         };
 
         // Call parent
-        super(id, ajaxInfo.admin_url, data);
+        super(id, ajaxInfo.url, data);
 
         // Setup our container
         this.ezTabContainer = ezTabContainer;
@@ -60,19 +60,19 @@ export class AccountExistsAction extends Action {
 
             AccountExistsAction.checkBox = true;
 
+            $(register_user_checkbox).trigger('change');
         // If account does not exist, reverse
         } else {
             login_slide.slideUp(300);
 
             if(AccountExistsAction.checkBox) {
                 register_user_checkbox.checked = true;
+                $(register_user_checkbox).trigger('change');
                 AccountExistsAction.checkBox = false;
             }
 
             register_container.css("display", "block");
         }
-
-        $(document.body).trigger( 'updated_checkout' );
     }
 
     /**

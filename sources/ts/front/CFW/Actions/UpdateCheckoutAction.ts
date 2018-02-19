@@ -1,11 +1,11 @@
 import { Action }                           from "./Action";
-import {AjaxInfo, FieldTypeInfo} from "../Types/Types";
+import { AjaxInfo, FieldTypeInfo } from "../Types/Types";
 import { Main }                             from "../Main";
-import {Cart, UpdateCartTotalsData} from "../Elements/Cart";
+import { Cart, UpdateCartTotalsData } from "../Elements/Cart";
 import { ResponsePrep }                     from "../Decorators/ResponsePrep";
 import { TabContainer }                     from "../Elements/TabContainer";
-import {TabContainerSection} from "../Elements/TabContainerSection";
-import {Element} from "../Elements/Element";
+import { TabContainerSection } from "../Elements/TabContainerSection";
+import { Element } from "../Elements/Element";
 
 export type UpdateShippingFieldsResponse = {
     error: boolean,
@@ -27,6 +27,10 @@ export type UpdateShippingFieldsRI = {
 }
 
 export class UpdateCheckoutAction extends Action {
+    /**
+     *
+     */
+    private static _underlyingRequest: any = null;
 
     /**
      * @param {string} id
@@ -34,7 +38,15 @@ export class UpdateCheckoutAction extends Action {
      * @param fields
      */
     constructor(id: string, ajaxInfo: AjaxInfo, fields: any) {
-        super(id, ajaxInfo.admin_url, Action.prep(id, ajaxInfo, fields));
+        super(id, ajaxInfo.url, Action.prep(id, ajaxInfo, fields));
+    }
+
+    public load(): void {
+        if(UpdateCheckoutAction.underlyingRequest !== null) {
+            UpdateCheckoutAction.underlyingRequest.abort();
+        }
+
+        UpdateCheckoutAction.underlyingRequest = $.post(this.url, this.data, this.response.bind(this));
     }
 
     /**
@@ -50,6 +62,15 @@ export class UpdateCheckoutAction extends Action {
 
             Cart.outputFees(main.cart.fees, fees);
         }
+
+        if(resp.coupons) {
+            let coupons = $.map(resp.coupons, function(value, index) {
+                return [value];
+            });
+
+            Cart.outputCoupons(main.cart.coupons, coupons);
+        }
+
 
         let updated_shipping_methods: Array<any> = [];
 
@@ -80,6 +101,20 @@ export class UpdateCheckoutAction extends Action {
         Main.instance.tabContainer.setShippingPaymentUpdate();
 
         $(document.body).trigger( 'updated_checkout' );
+    }
+
+    /**
+     * @returns {any}
+     */
+    static get underlyingRequest(): any {
+        return this._underlyingRequest;
+    }
+
+    /**
+     * @param value
+     */
+    static set underlyingRequest(value: any) {
+        this._underlyingRequest = value;
     }
 
     /**

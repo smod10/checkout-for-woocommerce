@@ -3,8 +3,12 @@
         exit; // Exit if accessed directly
     }
 ?>
+<div class="overlay">
+    <div class="spinner-wrap">
+        <div class="loader">Loading...</div>
+    </div>
+</div>
 <main id="cfw-content" class="<?php echo $css_classes; ?>">
-    <div class="overlay"></div>
     <div class="wrap">
 
         <div class="cfw-container">
@@ -37,6 +41,8 @@
                         <a href="#cfw-payment-method" class="cfw-small"><?php esc_html_e( 'Payment method', CFW_TEXT_DOMAIN ); ?></a>
                     </li>
                 </ul>
+
+	            <?php do_action('cfw_checkout_before_form'); ?>
 
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
                     <div id="order_review" class="woocommerce-checkout-review-order">
@@ -131,9 +137,17 @@
                                 <div class="cfw-shipping-info-container cfw-parsley-shipping-details <?php cfw_address_class_wrap( WC()->cart->needs_shipping_address() ); ?>">
                                     <?php
                                         if ( ! WC()->cart->needs_shipping_address() ) {
+	                                        do_action('cfw_checkout_before_billing_address');
+
                                             cfw_get_billing_checkout_fields($checkout);
+
+	                                        do_action('cfw_checkout_after_billing_address');
                                         } else {
+	                                        do_action('cfw_checkout_before_shipping_address');
+
                                             cfw_get_shipping_checkout_fields($checkout);
+
+	                                        do_action('cfw_checkout_after_shipping_address');
                                         }
                                     ?>
                                 </div>
@@ -222,7 +236,7 @@
                                         <span class="cfw-small"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', CFW_TEXT_DOMAIN ); ?></span>
                                     </div>
 
-                                    <div class="cfw-payment-methods-wrap">
+                                    <div id="order_review" class="cfw-payment-methods-wrap">
                                         <?php cfw_get_payment_methods_html(); ?>
                                     </div>
                                 </div>
@@ -303,6 +317,8 @@
 
                     <?php wp_nonce_field( 'woocommerce-process_checkout' ); ?>
                 </form>
+
+	            <?php do_action('cfw_checkout_after_form'); ?>
             </div>
 
                 <!-- Cart / Sidebar Column -->

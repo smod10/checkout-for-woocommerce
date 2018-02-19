@@ -8,6 +8,7 @@ import { TabContainerSection }					from "./Elements/TabContainerSection";
 import { ValidationService }					from "./Services/ValidationService";
 import { EasyTabService }						from "./Services/EasyTabService";
 import { ParsleyService }						from "./Services/ParsleyService";
+import { LocalizationService }                  from "./Services/LocalizationService";
 
 /**
  * The main class of the front end checkout system
@@ -62,6 +63,12 @@ export class Main {
 	 */
 	private _validationService: ValidationService;
 
+    /**
+     * @type {LocalizationService}
+     * @private
+     */
+    private _localizationService: LocalizationService;
+
 	/**
 	 * @type {boolean}
 	 * @private
@@ -86,19 +93,39 @@ export class Main {
 		Main.instance = this;
 
         checkoutFormEl.garlic({
+			events: ['textInput', 'input', 'change', 'click', 'keypress', 'paste', 'focus'],
 			destroy: false,
-            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc'
+            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc, input.js-sv-wc-payment-gateway-credit-card-form-account-number, input.js-sv-wc-payment-gateway-credit-card-form-csc, input.shipping_method'
 		});
 
         this.checkoutForm = checkoutFormEl;
-		this.tabContainer = tabContainer;
-		this.ajaxInfo = ajaxInfo;
-		this.cart = cart;
-		this.settings = settings;
-		this.parsleyService = new ParsleyService();
-		this.easyTabService = new EasyTabService();
-		this.validationService = new ValidationService();
-	}
+        this.tabContainer = tabContainer;
+        this.ajaxInfo = ajaxInfo;
+        this.cart = cart;
+        this.settings = settings;
+        this.parsleyService = new ParsleyService();
+        this.easyTabService = new EasyTabService();
+        this.validationService = new ValidationService();
+        this.localizationService = new LocalizationService();
+
+        // Handle Stripe gateway UI blocking function
+        // Otherwise we throw errors
+        // Also discard our overlay when the modal is closed on desktop and mobile
+        $.fn.block = function (item) {
+			Main.addOverlay();
+        };
+        $.fn.unblock = function (item) {
+            Main.removeOverlay();
+        };
+
+        $.fn.blockUI = function (item) {
+            Main.addOverlay();
+        };
+        $.fn.unblockUI = function (item) {
+            Main.removeOverlay();
+        };
+    }
+
 
 	/**
 	 * Sets up the tab container by running easy tabs, setting up animation listeners, and setting up events and on load
@@ -137,7 +164,9 @@ export class Main {
 		this.tabContainer.setApplyCouponListener();
 		this.tabContainer.setTermsAndConditions();
 		this.tabContainer.setUpdateCheckout();
-		this.tabContainer.setCountryChangeHandlers();
+
+		// Localization
+		this.localizationService.setCountryChangeHandlers();
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
@@ -147,11 +176,11 @@ export class Main {
      * Adds a visual indicator that the checkout is doing something
      */
     static addOverlay(): void {
-        $("#cfw-content").addClass("show-overlay");
+        $("body").addClass("show-overlay");
     }
 
     static removeOverlay(): void {
-        $("#cfw-content").removeClass("show-overlay");
+        $("body").removeClass("show-overlay");
     }
 
 	/**
@@ -168,12 +197,33 @@ export class Main {
 		let $cfw = $("#cfw-content");
 		let noPaymentCssClass = "cfw-payment-false";
 
-		if(!isPaymentRequired) {
-			if(!$cfw.hasClass(noPaymentCssClass)) {
+		if( ! isPaymentRequired ) {
+			if( ! $cfw.hasClass(noPaymentCssClass) ) {
 				$cfw.addClass(noPaymentCssClass);
 			}
+
+			if(EasyTabService.isThereAShippingTab()) {
+                this.toggleBillingFieldsAbility(true);
+            }
+
+            // Always uncheck the payment method if order does not require payment
+            $('[name="payment_method"]:checked').prop("checked", false);
 		} else {
+            if(EasyTabService.isThereAShippingTab()) {
+                this.toggleBillingFieldsAbility(false);
+			}
+
 			$cfw.removeClass(noPaymentCssClass);
+		}
+	}
+
+	static toggleBillingFieldsAbility( enabled: boolean ) {
+        Main.instance.settings.default_address_fields.forEach( function( field_name ) {
+			$(`[name="billing_${field_name}"]`).prop('disabled', enabled);
+		} );
+
+        if(enabled) {
+        	$("#ship_to_different_address_as_billing").prop("checked", true);
 		}
 	}
 
@@ -311,6 +361,20 @@ export class Main {
 	set validationService(value: ValidationService) {
 		this._validationService = value;
 	}
+
+    /**
+     * @returns {LocalizationService}
+     */
+    get localizationService(): LocalizationService {
+        return this._localizationService;
+    }
+
+    /**
+     * @param {LocalizationService} value
+     */
+    set localizationService(value: LocalizationService) {
+        this._localizationService = value;
+    }
 
     /**
 	 * @returns {Main}

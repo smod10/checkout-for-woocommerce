@@ -54,7 +54,7 @@ class Redirect {
             $global_template_parameters["css_classes"]  = self::get_css_classes();
 
 			// Output the contents of the <head></head> section
-			self::head($path_manager, $version, ['checkout-wc'], $settings_manager);
+			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc')), $settings_manager);
 
 			// Output the contents of the <body></body> section
 			self::body($path_manager, $template_manager, $global_template_parameters, $settings_manager);
@@ -107,8 +107,6 @@ class Redirect {
 		?>
         <script>
             window.$ = jQuery;
-            $.fn.block = function(item) {};
-            $.fn.unblock = function(item) {};
 
             var checkoutFormSelector = '<?php echo apply_filters('cfw_checkout_form_selector', '.woocommerce-checkout'); ?>';
             var breadCrumbElId = '#<?php echo apply_filters('cfw_template_breadcrumb_id', 'cfw-breadcrumb'); ?>';
@@ -143,7 +141,7 @@ class Redirect {
                     checkoutFormSelector: checkoutFormSelector
                 },
                 ajaxInfo: {
-                    admin_url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    url: '<?php echo get_home_url(); ?>',
                     nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
                 },
                 settings: {
@@ -237,6 +235,55 @@ class Redirect {
                     font-size: 30px;
                 }
                 <?php endif; ?>
+
+                .woocommerce-info {
+                    padding: 1em 1.618em;
+                    margin-bottom: 1.3em;
+                    background-color: <?php echo $settings_manager->get_setting('secondary_button_color'); ?>;
+                    margin-left: 0;
+                    border-radius: 2px;
+                    color: #fff;
+                    clear: both;
+                    border-left: .6180469716em solid rgba(0, 0, 0, 0.15);
+                }
+                .woocommerce-info a {
+                    color: #fff;
+                }
+
+                .woocommerce-info:hover {
+                    color: #fff;
+                    opacity: 0.7;
+                }
+
+                .woocommerce-info .button:hover {
+                    opacity: 1;
+                }
+
+                .woocommerce-info .button {
+                    float: right;
+                    padding: 0;
+                    background: none;
+                    color: #fff;
+                    box-shadow: none;
+                    line-height: 1.3em;
+                    padding-left: 1em;
+                    border-width: 0;
+                    border-left-width: 1px;
+                    border-left-style: solid;
+                    border-left-color: rgba(255, 255, 255, 0.25) !important;
+                    border-radius: 0;
+                }
+
+                .woocommerce-info .button:hover {
+                    background: none;
+                    color: #fff;
+                    opacity: 0.7;
+                    cursor: pointer;
+                }
+
+                .woocommerce-info pre {
+                    background-color: rgba(0,0,0,.1);
+                }
                 <?php echo $settings_manager->get_setting('custom_css'); ?>;
             </style>
             <meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -258,7 +305,7 @@ class Redirect {
      */
 	public static function remove_scripts() {
 		global $wp_scripts;
-		$ignore = array(
+        $ignore = array(
             'jquery',
             'admin-bar',
             'cfw_front_js',
@@ -266,20 +313,11 @@ class Redirect {
             'cfw_front_js_hash_change',
             'cfw_front_js_easy_tabs',
             'cfw_front_js_garlic',
-			'cfw_front_js_parsley',
+            'cfw_front_js_parsley',
             'cfw_front_js_array_find_poly',
-            'bsnp-cc',
-            'bsnp-ex',
-            'bsnp-ex-cookie',
-            'bsnp-cse',
-            'stripe',
-            'stripe_checkout',
-            'wc_stripe_payment_request',
-            'woocommerce_stripe',
-            'stripe_apple_pay',
-            'woocommerce_stripe_apple_pay',
             'woocommerce-tokenization-form',
             'wc-credit-card-form',
+            'jquery-payment',
         );
 
 		$ignore = apply_filters('cfw_allowed_script_handles', $ignore);
@@ -297,7 +335,6 @@ class Redirect {
 
 	    $ignore = array(
 		    'cfw_front_css',
-            'bsnp-css',
             'admin-bar',
         );
 
@@ -334,15 +371,12 @@ class Redirect {
      * @param CFWPathManager $path_manager
 	 */
 	public static function footer($path_manager, $settings_manager) {
+		do_action('cfw_wp_footer_before_scripts');
 		print_footer_scripts();
+		wc_print_js();
 		echo $settings_manager->get_setting('footer_scripts');
 		do_action('cfw_wp_footer');
 		?>
-        <!--- disable Stripe's block and unblock commands -->
-        <script type="text/javascript">
-            $.blockUI = function(item) {};
-            $.unblockUI = function(item) {};
-        </script>
         </body>
 		</html>
 		<?php

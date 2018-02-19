@@ -21,8 +21,7 @@ use Objectiv\Plugins\Checkout\Managers\AjaxManager;
 use Objectiv\Plugins\Checkout\Managers\CFWPathManager;
 use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
-use Objectiv\Plugins\Checkout\Action\UpdateShippingMethodAction;
-use Objectiv\Plugins\Checkout\Core\Compatibility;
+use Objectiv\Plugins\Checkout\Compatibility\Manager as CompatibilityManager;
 
 /**
  * The core plugin class.
@@ -396,13 +395,13 @@ class Main extends Singleton {
 	 * @return array
 	 */
 	public function get_ajax_actions() {
+		// Setting no_privilege to false because wc_ajax doesn't have a no privilege endpoint.
 		return array(
-			new AccountExistsAction("account_exists"),
-			new LogInAction("login"),
-			new UpdateShippingMethodAction("update_shipping_method"),
-			new CompleteOrderAction("complete_order"),
-			new ApplyCouponAction("apply_coupon"),
-			new UpdateCheckoutAction("update_checkout")
+			new AccountExistsAction("account_exists", false, "wc_ajax_"),
+			new LogInAction("login", false, "wc_ajax_"),
+			new CompleteOrderAction("complete_order", false, "wc_ajax_"),
+			new ApplyCouponAction("apply_coupon", false, "wc_ajax_"),
+			new UpdateCheckoutAction("update_checkout", false, "wc_ajax_"),
 		);
 	}
 
@@ -411,15 +410,28 @@ class Main extends Singleton {
 	 */
 	public function set_assets() {
 		if ( ! function_exists('is_checkout') || ! is_checkout() ) return;
+
+		global $wp;
 		
 		$front = "{$this->path_manager->get_assets_path()}/front";
 
 		$min = ( ! CO_DEV_MODE ) ? ".min" : "";
 
 		wp_enqueue_style('cfw_front_css', "${front}/css/checkout-woocommerce-front${min}.css", array(), $this->get_version());
-
-		wp_enqueue_script('jquery');
 		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array('jquery'), $this->get_version(), true);
+
+		wp_localize_script( 'cfw_front_js', 'woocommerce_params', array(
+			'ajax_url'                  => WC()->ajax_url(),
+			'wc_ajax_url'               => \WC_AJAX::get_endpoint( "%%endpoint%%" ),
+			'update_order_review_nonce' => wp_create_nonce( 'update-order-review' ),
+			'apply_coupon_nonce'        => wp_create_nonce( 'apply-coupon' ),
+			'remove_coupon_nonce'       => wp_create_nonce( 'remove-coupon' ),
+			'option_guest_checkout'     => get_option( 'woocommerce_enable_guest_checkout' ),
+			'checkout_url'              => \WC_AJAX::get_endpoint( "checkout" ),
+			'is_checkout'               => is_page( wc_get_page_id( 'checkout' ) ) && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
+			'debug_mode'                => defined( 'WP_DEBUG' ) && WP_DEBUG,
+			'i18n_checkout_error'       => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
+		) );
 
 		$this->handle_countries();
 	}
@@ -459,7 +471,7 @@ class Main extends Singleton {
 		// Load the plugin filters
 		$this->load_filters();
 
-		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+		if ( $this->is_enabled() ) {
 			// Load Assets
 			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
 
@@ -474,8 +486,27 @@ class Main extends Singleton {
 		$this->loader->run();
 	}
 
+	/**
+	 * Check if theme should enabled
+	 *
+	 * @return bool
+	 */
+	function is_enabled() {
+		$result = false;
+
+		if ( ! function_exists('WC') ) {
+			$result = false; // superfluous, but sure
+		}
+
+		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+			$result = true;
+		}
+
+		return apply_filters('cfw_checkout_is_enabled', $result);
+	}
+
 	function compatibility() {
-		new Compatibility();
+		new CompatibilityManager();
 	}
 
 	/**
@@ -503,7 +534,7 @@ class Main extends Singleton {
 
 		// Setup the Checkout redirect
 		$this->loader->add_action('template_redirect', function() {
-			if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+			if ( $this->is_enabled() ) {
 				// Call Redirect
 				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
 			}

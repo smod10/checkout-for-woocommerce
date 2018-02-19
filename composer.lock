@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4bec861a8a77338efe027cfcf52bab83",
+    "content-hash": "f03b9663128940753fa036b07ff5aaf6",
     "packages": [
         {
             "name": "filp/whoops",
@@ -117,16 +117,16 @@
         },
         {
             "name": "objectivco/booster-seat",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Objectivco/booster-seat.git",
-                "reference": "dbccd0b28775c2303f42fff43b6b1db0d01b3746"
+                "reference": "52596c64bb48e10ae5f36ee369756b9c9e4b6daa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Objectivco/booster-seat/zipball/dbccd0b28775c2303f42fff43b6b1db0d01b3746",
-                "reference": "dbccd0b28775c2303f42fff43b6b1db0d01b3746",
+                "url": "https://api.github.com/repos/Objectivco/booster-seat/zipball/52596c64bb48e10ae5f36ee369756b9c9e4b6daa",
+                "reference": "52596c64bb48e10ae5f36ee369756b9c9e4b6daa",
                 "shasum": ""
             },
             "require": {
@@ -154,7 +154,7 @@
                 "package",
                 "template"
             ],
-            "time": "2018-01-29T16:55:44+00:00"
+            "time": "2018-02-12T20:10:39+00:00"
         },
         {
             "name": "objectivco/cgd_eddsl_magic",

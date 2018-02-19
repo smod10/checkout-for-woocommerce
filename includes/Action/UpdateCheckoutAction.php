@@ -6,8 +6,8 @@ use Objectiv\BoosterSeat\Base\Action;
 
 class UpdateCheckoutAction extends Action {
 
-	public function __construct( $id ) {
-		parent::__construct( $id );
+	public function __construct( $id, $no_privilege, $action_prefix ) {
+		parent::__construct( $id, $no_privilege, $action_prefix );
 	}
 
 	public function action() {
@@ -28,31 +28,31 @@ class UpdateCheckoutAction extends Action {
 		WC()->session->set( 'chosen_shipping_methods', $chosen_shipping_methods );
 		WC()->session->set( 'chosen_payment_method', empty( $_POST['payment_method'] ) ? '' : $_POST['payment_method'] );
 		WC()->customer->set_props( array(
-			'billing_country'   => isset( $_POST['country'] ) ? wp_unslash( $_POST['country'] )    	: null,
-			'billing_state'     => isset( $_POST['state'] ) ? wp_unslash( $_POST['state'] )        	: null,
-			'billing_postcode'  => isset( $_POST['postcode'] ) ? wp_unslash( $_POST['postcode'] )  	: null,
-			'billing_city'      => isset( $_POST['city'] ) ? wp_unslash( $_POST['city'] )           : null,
-			'billing_address_1' => isset( $_POST['address'] ) ? wp_unslash( $_POST['address'] )    	: null,
-			'billing_address_2' => isset( $_POST['address_2'] ) ? wp_unslash( $_POST['address_2'] ) : null,
+			'billing_country'   => isset( $_POST['billing_country'] ) ? wp_unslash( $_POST['billing_country'] )    	: null,
+			'billing_state'     => isset( $_POST['billing_state'] ) ? wp_unslash( $_POST['billing_state'] )        	: null,
+			'billing_postcode'  => isset( $_POST['billing_postcode'] ) ? wp_unslash( $_POST['billing_postcode'] )  	: null,
+			'billing_city'      => isset( $_POST['billing_city'] ) ? wp_unslash( $_POST['billing_city'] )           : null,
+			'billing_address_1' => isset( $_POST['billing_address_1'] ) ? wp_unslash( $_POST['billing_address_1'] )    	: null,
+			'billing_address_2' => isset( $_POST['billing_address_2'] ) ? wp_unslash( $_POST['billing_address_2'] ) : null,
 		) );
 
 		if ( wc_ship_to_billing_address_only() ) {
 			WC()->customer->set_props( array(
-				'shipping_country'   => isset( $_POST['country'] ) ? wp_unslash( $_POST['country'] )    : null,
-				'shipping_state'     => isset( $_POST['state'] ) ? wp_unslash( $_POST['state'] )        : null,
-				'shipping_postcode'  => isset( $_POST['postcode'] ) ? wp_unslash( $_POST['postcode'] )  : null,
-				'shipping_city'      => isset( $_POST['city'] ) ? wp_unslash( $_POST['city'] )          : null,
-				'shipping_address_1' => isset( $_POST['address'] ) ? wp_unslash( $_POST['address'] )    : null,
-				'shipping_address_2' => isset( $_POST['address_2'] ) ? wp_unslash( $_POST['address_2'] ): null,
+				'shipping_country'   => isset( $_POST['billing_country'] ) ? wp_unslash( $_POST['billing_country'] )    : null,
+				'shipping_state'     => isset( $_POST['billing_state'] ) ? wp_unslash( $_POST['billing_state'] )        : null,
+				'shipping_postcode'  => isset( $_POST['billing_postcode'] ) ? wp_unslash( $_POST['billing_postcode'] )  : null,
+				'shipping_city'      => isset( $_POST['billing_city'] ) ? wp_unslash( $_POST['billing_city'] )          : null,
+				'shipping_address_1' => isset( $_POST['billing_address_1'] ) ? wp_unslash( $_POST['billing_address_1'] )    : null,
+				'shipping_address_2' => isset( $_POST['billing_address_2'] ) ? wp_unslash( $_POST['billing_address_2'] ): null,
 			) );
 		} else {
 			WC()->customer->set_props( array(
-				'shipping_country'   => isset( $_POST['s_country'] ) ? wp_unslash( $_POST['s_country'] )    : null,
-				'shipping_state'     => isset( $_POST['s_state'] ) ? wp_unslash( $_POST['s_state'] )        : null,
-				'shipping_postcode'  => isset( $_POST['s_postcode'] ) ? wp_unslash( $_POST['s_postcode'] )  : null,
-				'shipping_city'      => isset( $_POST['s_city'] ) ? wp_unslash( $_POST['s_city'] )          : null,
-				'shipping_address_1' => isset( $_POST['s_address'] ) ? wp_unslash( $_POST['s_address'] )    : null,
-				'shipping_address_2' => isset( $_POST['s_address_2'] ) ? wp_unslash( $_POST['s_address_2'] ): null,
+				'shipping_country'   => isset( $_POST['shipping_country'] ) ? wp_unslash( $_POST['shipping_country'] )    : null,
+				'shipping_state'     => isset( $_POST['shipping_state'] ) ? wp_unslash( $_POST['shipping_state'] )        : null,
+				'shipping_postcode'  => isset( $_POST['shipping_postcode'] ) ? wp_unslash( $_POST['shipping_postcode'] )  : null,
+				'shipping_city'      => isset( $_POST['shipping_city'] ) ? wp_unslash( $_POST['shipping_city'] )          : null,
+				'shipping_address_1' => isset( $_POST['shipping_address_1'] ) ? wp_unslash( $_POST['shipping_address_1'] )    : null,
+				'shipping_address_2' => isset( $_POST['shipping_address_2'] ) ? wp_unslash( $_POST['shipping_address_2'] ): null,
 			) );
 		}
 
@@ -68,6 +68,7 @@ class UpdateCheckoutAction extends Action {
 		unset( WC()->session->refresh_totals, WC()->session->reload_checkout );
 
 		$this->out(array(
+			"coupons" => $this->prep_coupons(),
 			"fees" => $this->prep_fees(),
 			"new_totals" => array(
 				"new_subtotal" => WC()->cart->get_cart_subtotal(),
@@ -78,6 +79,28 @@ class UpdateCheckoutAction extends Action {
 			"needs_payment" => WC()->cart->needs_payment(),
 			"updated_ship_methods" => $this->get_shipping_methods()
 		));
+	}
+
+	function prep_coupons() {
+		$discount_amounts = array();
+
+		foreach(WC()->cart->get_coupons() as $code => $coupon) {
+			ob_start();
+			wc_cart_totals_coupon_html($coupon);
+			$coupon_html = ob_get_contents();
+			ob_clean();
+			wc_cart_totals_coupon_label( $coupon );
+			$coupon_label_html = ob_get_contents();
+			ob_end_clean();
+
+			array_push($discount_amounts, array(
+				"label" => $coupon_label_html,
+				"amount" => $coupon_html,
+				"code" => $code
+			));
+		}
+
+		return $discount_amounts;
 	}
 
 	function prep_fees() {

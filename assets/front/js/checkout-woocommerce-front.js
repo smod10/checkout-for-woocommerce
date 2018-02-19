@@ -72,9 +72,10 @@
 /// <reference path="../../../../typings/index.d.ts" />
 /// <reference path="Definitions/ArrayFind.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
-var ValidationService_1 = __webpack_require__(4);
-var EasyTabService_1 = __webpack_require__(5);
+var ValidationService_1 = __webpack_require__(7);
+var EasyTabService_1 = __webpack_require__(3);
 var ParsleyService_1 = __webpack_require__(34);
+var LocalizationService_1 = __webpack_require__(35);
 /**
  * The main class of the front end checkout system
  */
@@ -89,8 +90,9 @@ var Main = /** @class */ (function () {
     function Main(checkoutFormEl, tabContainer, ajaxInfo, cart, settings) {
         Main.instance = this;
         checkoutFormEl.garlic({
+            events: ['textInput', 'input', 'change', 'click', 'keypress', 'paste', 'focus'],
             destroy: false,
-            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc'
+            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc, input.js-sv-wc-payment-gateway-credit-card-form-account-number, input.js-sv-wc-payment-gateway-credit-card-form-csc, input.shipping_method'
         });
         this.checkoutForm = checkoutFormEl;
         this.tabContainer = tabContainer;
@@ -100,6 +102,22 @@ var Main = /** @class */ (function () {
         this.parsleyService = new ParsleyService_1.ParsleyService();
         this.easyTabService = new EasyTabService_1.EasyTabService();
         this.validationService = new ValidationService_1.ValidationService();
+        this.localizationService = new LocalizationService_1.LocalizationService();
+        // Handle Stripe gateway UI blocking function
+        // Otherwise we throw errors
+        // Also discard our overlay when the modal is closed on desktop and mobile
+        $.fn.block = function (item) {
+            Main.addOverlay();
+        };
+        $.fn.unblock = function (item) {
+            Main.removeOverlay();
+        };
+        $.fn.blockUI = function (item) {
+            Main.addOverlay();
+        };
+        $.fn.unblockUI = function (item) {
+            Main.removeOverlay();
+        };
     }
     /**
      * Sets up the tab container by running easy tabs, setting up animation listeners, and setting up events and on load
@@ -133,7 +151,8 @@ var Main = /** @class */ (function () {
         this.tabContainer.setApplyCouponListener();
         this.tabContainer.setTermsAndConditions();
         this.tabContainer.setUpdateCheckout();
-        this.tabContainer.setCountryChangeHandlers();
+        // Localization
+        this.localizationService.setCountryChangeHandlers();
         // Handles the shipping fields on load if the user happens to land on the shipping method page.
         this.tabContainer.setShippingFieldsOnLoad();
     };
@@ -141,10 +160,10 @@ var Main = /** @class */ (function () {
      * Adds a visual indicator that the checkout is doing something
      */
     Main.addOverlay = function () {
-        $("#cfw-content").addClass("show-overlay");
+        $("body").addClass("show-overlay");
     };
     Main.removeOverlay = function () {
-        $("#cfw-content").removeClass("show-overlay");
+        $("body").removeClass("show-overlay");
     };
     /**
      * @returns {boolean}
@@ -162,9 +181,25 @@ var Main = /** @class */ (function () {
             if (!$cfw.hasClass(noPaymentCssClass)) {
                 $cfw.addClass(noPaymentCssClass);
             }
+            if (EasyTabService_1.EasyTabService.isThereAShippingTab()) {
+                this.toggleBillingFieldsAbility(true);
+            }
+            // Always uncheck the payment method if order does not require payment
+            $('[name="payment_method"]:checked').prop("checked", false);
         }
         else {
+            if (EasyTabService_1.EasyTabService.isThereAShippingTab()) {
+                this.toggleBillingFieldsAbility(false);
+            }
             $cfw.removeClass(noPaymentCssClass);
+        }
+    };
+    Main.toggleBillingFieldsAbility = function (enabled) {
+        Main.instance.settings.default_address_fields.forEach(function (field_name) {
+            $("[name=\"billing_" + field_name + "\"]").prop('disabled', enabled);
+        });
+        if (enabled) {
+            $("#ship_to_different_address_as_billing").prop("checked", true);
         }
     };
     /**
@@ -319,6 +354,22 @@ var Main = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Main.prototype, "localizationService", {
+        /**
+         * @returns {LocalizationService}
+         */
+        get: function () {
+            return this._localizationService;
+        },
+        /**
+         * @param {LocalizationService} value
+         */
+        set: function (value) {
+            this._localizationService = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Main, "instance", {
         /**
          * @returns {Main}
@@ -383,6 +434,117 @@ module.exports = function(src) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
+ *
+ */
+var Element = /** @class */ (function () {
+    /**
+     * @param jel
+     */
+    function Element(jel) {
+        this.jel = jel;
+    }
+    Object.defineProperty(Element.prototype, "jel", {
+        /**
+         * @returns {JQuery}
+         */
+        get: function () {
+            return this._jel;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._jel = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Element;
+}());
+exports.Element = Element;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Main_1 = __webpack_require__(0);
+/**
+ * EzTab Enum
+ */
+var EasyTab;
+(function (EasyTab) {
+    EasyTab[EasyTab["CUSTOMER"] = 0] = "CUSTOMER";
+    EasyTab[EasyTab["SHIPPING"] = 1] = "SHIPPING";
+    EasyTab[EasyTab["PAYMENT"] = 2] = "PAYMENT";
+})(EasyTab = exports.EasyTab || (exports.EasyTab = {}));
+/**
+ *
+ */
+var EasyTabService = /** @class */ (function () {
+    function EasyTabService() {
+    }
+    /**
+     * Returns the current and target tab indexes
+     *
+     * @param target
+     * @returns {EasyTabDirection}
+     */
+    EasyTabService.getTabDirection = function (target) {
+        var currentTabIndex = 0;
+        var targetTabIndex = 0;
+        Main_1.Main.instance.tabContainer.tabContainerSections.forEach(function (tab, index) {
+            var $tab = tab.jel;
+            if ($tab.filter(":visible").length !== 0) {
+                currentTabIndex = index;
+            }
+            if ($tab.is($(target))) {
+                targetTabIndex = index;
+            }
+        });
+        return { current: currentTabIndex, target: targetTabIndex };
+    };
+    /**
+     * @param {EasyTab} tab
+     */
+    EasyTabService.go = function (tab) {
+        Main_1.Main.instance.tabContainer.jel.easytabs("select", EasyTabService.getTabId(tab));
+    };
+    /**
+     * Returns the id of the tab passed in
+     *
+     * @param {EasyTab} tab
+     * @returns {string}
+     */
+    EasyTabService.getTabId = function (tab) {
+        var tabContainer = Main_1.Main.instance.tabContainer;
+        var easyTabs = tabContainer.tabContainerSections;
+        return easyTabs[tab].jel.attr("id");
+    };
+    /**
+     * Is there a shipping easy tab present?
+     *
+     * @returns {boolean}
+     */
+    EasyTabService.isThereAShippingTab = function () {
+        return Main_1.Main.instance.tabContainer.jel.find('.etabs > li.tab').length !== 2;
+    };
+    return EasyTabService;
+}());
+exports.EasyTabService = EasyTabService;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
  * Base class for our ajax handling. Child classes will extend this and override the response function and implement their
  * own custom solutions for the php side of actions
  */
@@ -394,7 +556,7 @@ var Action = /** @class */ (function () {
      */
     function Action(id, url, data) {
         this.id = id;
-        this.url = url;
+        this.url = url + '?' + 'wc-ajax=' + id;
         this.data = data;
     }
     /**
@@ -407,7 +569,7 @@ var Action = /** @class */ (function () {
      */
     Action.prep = function (id, ajaxInfo, items) {
         var data = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
         };
         Object.assign(data, items);
@@ -473,53 +635,141 @@ exports.Action = Action;
 
 
 /***/ }),
-/* 3 */
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Element_1 = __webpack_require__(2);
+var Main_1 = __webpack_require__(0);
+/**
+ *
+ */
+var Alert = /** @class */ (function (_super) {
+    __extends(Alert, _super);
+    /**
+     *
+     * @param alertContainer
+     * @param alertInfo
+     */
+    function Alert(alertContainer, alertInfo) {
+        var _this = _super.call(this, alertContainer) || this;
+        _this.alertInfo = alertInfo;
+        return _this;
+    }
+    /**
+     *
+     */
+    Alert.prototype.addAlert = function () {
+        $(document.body).trigger('checkout_error');
+        if (Alert.previousClass) {
+            this.jel.removeClass(Alert.previousClass);
+        }
+        Main_1.Main.removeOverlay();
+        this.jel.find(".message").html(this.alertInfo.message);
+        this.jel.addClass(this.alertInfo.cssClass);
+        this.jel.slideDown(300);
+        window.scrollTo(0, 0);
+        Alert.previousClass = this.alertInfo.cssClass;
+    };
+    Alert.removeAlerts = function () {
+        $("#cfw-alert-container").find(".message").html("");
+        $("#cfw-alert-container").attr("class", "cfw-alert");
+        $("#cfw-alert-container").css("display", "none");
+    };
+    Object.defineProperty(Alert.prototype, "alertInfo", {
+        /**
+         * @returns {AlertInfo}
+         */
+        get: function () {
+            return this._alertInfo;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._alertInfo = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Alert, "previousClass", {
+        /**
+         * @returns {string}
+         */
+        get: function () {
+            return this._previousClass;
+        },
+        /**
+         * @param {string} value
+         */
+        set: function (value) {
+            this._previousClass = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Alert;
+}(Element_1.Element));
+exports.Alert = Alert;
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
+ * First argument of success response is the data object. What we do since on the PHP side it's prepped as a json object
+ * we intercept the argument and parse the JSON. On the overloaded function side we specify the object type.
  *
+ * @param target {Object}
+ * @param propertyKey {string}
+ * @param descriptor {PropertyDescriptor}
+ * @returns {PropertyDescriptor}
+ * @constructor
  */
-var Element = /** @class */ (function () {
-    /**
-     * @param jel
-     */
-    function Element(jel) {
-        this.jel = jel;
+function ResponsePrep(target, propertyKey, descriptor) {
+    // save a reference to the original method this way we keep the values currently in the
+    // descriptor and don't overwrite what another decorator might have done to the descriptor.
+    if (descriptor === undefined) {
+        descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
     }
-    Object.defineProperty(Element.prototype, "jel", {
-        /**
-         * @returns {JQuery}
-         */
-        get: function () {
-            return this._jel;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._jel = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Element;
-}());
-exports.Element = Element;
+    var originalMethod = descriptor.value;
+    //editing the descriptor/value parameter
+    descriptor.value = function () {
+        arguments[0] = JSON.parse(arguments[0]);
+        return originalMethod.apply(this, arguments);
+    };
+    // return edited descriptor as opposed to overwriting the descriptor
+    return descriptor;
+}
+exports.ResponsePrep = ResponsePrep;
 
 
 /***/ }),
-/* 4 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Main_1 = __webpack_require__(0);
-var EasyTabService_1 = __webpack_require__(5);
-var EasyTabService_2 = __webpack_require__(5);
+var EasyTabService_1 = __webpack_require__(3);
+var EasyTabService_2 = __webpack_require__(3);
 var CompleteOrderAction_1 = __webpack_require__(11);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
 /**
@@ -678,204 +928,6 @@ exports.ValidationService = ValidationService;
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Main_1 = __webpack_require__(0);
-/**
- * EzTab Enum
- */
-var EasyTab;
-(function (EasyTab) {
-    EasyTab[EasyTab["CUSTOMER"] = 0] = "CUSTOMER";
-    EasyTab[EasyTab["SHIPPING"] = 1] = "SHIPPING";
-    EasyTab[EasyTab["PAYMENT"] = 2] = "PAYMENT";
-})(EasyTab = exports.EasyTab || (exports.EasyTab = {}));
-/**
- *
- */
-var EasyTabService = /** @class */ (function () {
-    function EasyTabService() {
-    }
-    /**
-     * Returns the current and target tab indexes
-     *
-     * @param target
-     * @returns {EasyTabDirection}
-     */
-    EasyTabService.getTabDirection = function (target) {
-        var currentTabIndex = 0;
-        var targetTabIndex = 0;
-        Main_1.Main.instance.tabContainer.tabContainerSections.forEach(function (tab, index) {
-            var $tab = tab.jel;
-            if ($tab.filter(":visible").length !== 0) {
-                currentTabIndex = index;
-            }
-            if ($tab.is($(target))) {
-                targetTabIndex = index;
-            }
-        });
-        return { current: currentTabIndex, target: targetTabIndex };
-    };
-    /**
-     * @param {EasyTab} tab
-     */
-    EasyTabService.go = function (tab) {
-        Main_1.Main.instance.tabContainer.jel.easytabs("select", EasyTabService.getTabId(tab));
-    };
-    /**
-     * Returns the id of the tab passed in
-     *
-     * @param {EasyTab} tab
-     * @returns {string}
-     */
-    EasyTabService.getTabId = function (tab) {
-        var tabContainer = Main_1.Main.instance.tabContainer;
-        var easyTabs = tabContainer.tabContainerSections;
-        return easyTabs[tab].jel.attr("id");
-    };
-    /**
-     * Is there a shipping easy tab present?
-     *
-     * @returns {boolean}
-     */
-    EasyTabService.isThereAShippingTab = function () {
-        return Main_1.Main.instance.tabContainer.jel.find('.etabs > li.tab').length !== 2;
-    };
-    return EasyTabService;
-}());
-exports.EasyTabService = EasyTabService;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * First argument of success response is the data object. What we do since on the PHP side it's prepped as a json object
- * we intercept the argument and parse the JSON. On the overloaded function side we specify the object type.
- *
- * @param target {Object}
- * @param propertyKey {string}
- * @param descriptor {PropertyDescriptor}
- * @returns {PropertyDescriptor}
- * @constructor
- */
-function ResponsePrep(target, propertyKey, descriptor) {
-    // save a reference to the original method this way we keep the values currently in the
-    // descriptor and don't overwrite what another decorator might have done to the descriptor.
-    if (descriptor === undefined) {
-        descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
-    }
-    var originalMethod = descriptor.value;
-    //editing the descriptor/value parameter
-    descriptor.value = function () {
-        arguments[0] = JSON.parse(arguments[0]);
-        return originalMethod.apply(this, arguments);
-    };
-    // return edited descriptor as opposed to overwriting the descriptor
-    return descriptor;
-}
-exports.ResponsePrep = ResponsePrep;
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(3);
-var Main_1 = __webpack_require__(0);
-/**
- *
- */
-var Alert = /** @class */ (function (_super) {
-    __extends(Alert, _super);
-    /**
-     *
-     * @param alertContainer
-     * @param alertInfo
-     */
-    function Alert(alertContainer, alertInfo) {
-        var _this = _super.call(this, alertContainer) || this;
-        _this.alertInfo = alertInfo;
-        return _this;
-    }
-    /**
-     *
-     */
-    Alert.prototype.addAlert = function () {
-        if (Alert.previousClass) {
-            this.jel.removeClass(Alert.previousClass);
-        }
-        Main_1.Main.removeOverlay();
-        this.jel.find(".message").html(this.alertInfo.message);
-        this.jel.addClass(this.alertInfo.cssClass);
-        this.jel.slideDown(300);
-        window.scrollTo(0, 0);
-        Alert.previousClass = this.alertInfo.cssClass;
-    };
-    Alert.removeAlerts = function () {
-        $("#cfw-alert-container").find(".message").html("");
-        $("#cfw-alert-container").attr("class", "cfw-alert");
-        $("#cfw-alert-container").css("display", "none");
-    };
-    Object.defineProperty(Alert.prototype, "alertInfo", {
-        /**
-         * @returns {AlertInfo}
-         */
-        get: function () {
-            return this._alertInfo;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._alertInfo = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Alert, "previousClass", {
-        /**
-         * @returns {string}
-         */
-        get: function () {
-            return this._previousClass;
-        },
-        /**
-         * @param {string} value
-         */
-        set: function (value) {
-            this._previousClass = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Alert;
-}(Element_1.Element));
-exports.Alert = Alert;
-
-
-/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -898,7 +950,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(2);
+var Action_1 = __webpack_require__(4);
 var Main_1 = __webpack_require__(0);
 var Cart_1 = __webpack_require__(9);
 var ResponsePrep_1 = __webpack_require__(6);
@@ -910,8 +962,14 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
      * @param fields
      */
     function UpdateCheckoutAction(id, ajaxInfo, fields) {
-        return _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, fields)) || this;
+        return _super.call(this, id, ajaxInfo.url, Action_1.Action.prep(id, ajaxInfo, fields)) || this;
     }
+    UpdateCheckoutAction.prototype.load = function () {
+        if (UpdateCheckoutAction.underlyingRequest !== null) {
+            UpdateCheckoutAction.underlyingRequest.abort();
+        }
+        UpdateCheckoutAction.underlyingRequest = $.post(this.url, this.data, this.response.bind(this));
+    };
     /**
      * @param resp
      */
@@ -921,6 +979,12 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
         if (resp.fees) {
             var fees = $.map(resp.fees, function (value) { return [value]; });
             Cart_1.Cart.outputFees(main.cart.fees, fees);
+        }
+        if (resp.coupons) {
+            var coupons = $.map(resp.coupons, function (value, index) {
+                return [value];
+            });
+            Cart_1.Cart.outputCoupons(main.cart.coupons, coupons);
         }
         var updated_shipping_methods = [];
         if (typeof resp.updated_ship_methods !== "string") {
@@ -945,6 +1009,22 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
         Main_1.Main.instance.tabContainer.setShippingPaymentUpdate();
         $(document.body).trigger('updated_checkout');
     };
+    Object.defineProperty(UpdateCheckoutAction, "underlyingRequest", {
+        /**
+         * @returns {any}
+         */
+        get: function () {
+            return this._underlyingRequest;
+        },
+        /**
+         * @param value
+         */
+        set: function (value) {
+            this._underlyingRequest = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Update the shipping details on the shipping panel
      */
@@ -956,6 +1036,10 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
             $(".cfw-shipping-details-field[field_type=\"" + key + "\"] .field_value").text(value);
         });
     };
+    /**
+     *
+     */
+    UpdateCheckoutAction._underlyingRequest = null;
     __decorate([
         ResponsePrep_1.ResponsePrep
     ], UpdateCheckoutAction.prototype, "response", null);
@@ -981,7 +1065,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(3);
+var Element_1 = __webpack_require__(2);
 var Cart = /** @class */ (function (_super) {
     __extends(Cart, _super);
     /**
@@ -1197,7 +1281,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(3);
+var Element_1 = __webpack_require__(2);
 var LabelType_1 = __webpack_require__(13);
 /**
  *
@@ -1370,10 +1454,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(2);
-var Alert_1 = __webpack_require__(7);
-var ValidationService_1 = __webpack_require__(4);
-var ValidationService_2 = __webpack_require__(4);
+var Action_1 = __webpack_require__(4);
+var Alert_1 = __webpack_require__(5);
 var Main_1 = __webpack_require__(0);
 var CompleteOrderAction = /** @class */ (function (_super) {
     __extends(CompleteOrderAction, _super);
@@ -1384,7 +1466,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      * @param checkoutData
      */
     function CompleteOrderAction(id, ajaxInfo, checkoutData) {
-        var _this = _super.call(this, id, ajaxInfo.admin_url, Action_1.Action.prep(id, ajaxInfo, checkoutData)) || this;
+        var _this = _super.call(this, id, ajaxInfo.url, Action_1.Action.prep(id, ajaxInfo, checkoutData)) || this;
         Main_1.Main.addOverlay();
         _this.setup();
         return _this;
@@ -1400,6 +1482,7 @@ var CompleteOrderAction = /** @class */ (function (_super) {
      * @param resp
      */
     CompleteOrderAction.prototype.response = function (resp) {
+        var tabContainer = Main_1.Main.instance.tabContainer;
         if (resp.result === "success") {
             // Destroy all the cache!
             $('.garlic-auto-save').each(function (index, elem) { return $(elem).garlic('destroy'); });
@@ -1416,62 +1499,11 @@ var CompleteOrderAction = /** @class */ (function (_super) {
             };
             var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
             alert_1.addAlert();
-            this.resetData();
+            if (tabContainer.errorObserver !== undefined && tabContainer.errorObserver !== null) {
+                tabContainer.errorObserver.disconnect();
+                tabContainer.errorObserver = null;
+            }
         }
-    };
-    /**
-     *
-     */
-    CompleteOrderAction.prototype.resetData = function () {
-        var _this = this;
-        $('#cfw-password').val(this.data["account_password"]);
-        $("#billing_email").val(this.data.billing_email);
-        $("#billing_first_name").val(this.data.billing_first_name);
-        $("#billing_last_name").val(this.data.billing_last_name);
-        $("#billing_company").val(this.data.billing_company);
-        $("#billing_country").val(this.data.billing_country);
-        $("#billing_address_1").val(this.data.billing_address_1);
-        $("#billing_address_2").val(this.data.billing_address_2);
-        $("#billing_city").val(this.data.billing_city);
-        $("#billing_state").val(this.data.billing_state);
-        $("#billing_postcode").val(this.data.billing_postcode);
-        $("#shipping_first_name").val(this.data.shipping_first_name);
-        $("#shipping_last_name").val(this.data.shipping_last_name);
-        $("#shipping_company").val(this.data.shipping_company);
-        $("#shipping_country").val(this.data.shipping_country);
-        $("#shipping_address_1").val(this.data.shipping_address_1);
-        $("#shipping_address_2").val(this.data.shipping_address_2);
-        $("#shipping_city").val(this.data.shipping_city);
-        $("#shipping_state").val(this.data.shipping_state);
-        $("#shipping_postcode").val(this.data.shipping_postcode);
-        $("[name='shipping_method[0]']").each(function (index, elem) {
-            if ($(elem).val() == _this.data["shipping_method[0]"]) {
-                $(elem).prop('checked', true);
-            }
-        });
-        $("[name='ship_to_different_address']").each(function (index, elem) {
-            if ($(elem).val() == _this.data.ship_to_different_address) {
-                $(elem).prop('checked', true);
-            }
-        });
-        $('[name="payment_method"]').each(function (index, elem) {
-            if ($(elem).val() == _this.data.payment_method) {
-                $(elem).prop('checked', true);
-            }
-        });
-        $("[name='wc-stripe-payment-token']").each(function (index, elem) {
-            if ($(elem).val() == _this.data["wc-stripe-payment-token"]) {
-                $(elem).prop('checked', true);
-            }
-        });
-        $("#terms").attr("checked", (this.data.terms === "on"));
-        $("[name='stripe_token']").remove();
-        $("#_wpnonce").val(this.data._wpnonce);
-        $("[name='_wp_http_referer']").val(this.data._wp_http_referer);
-        $("#cfw-login-btn").val("Login");
-        ValidationService_1.ValidationService.validate(ValidationService_2.EValidationSections.SHIPPING);
-        ValidationService_1.ValidationService.validate(ValidationService_2.EValidationSections.BILLING);
-        ValidationService_1.ValidationService.validate(ValidationService_2.EValidationSections.ACCOUNT);
     };
     Object.defineProperty(CompleteOrderAction, "preppingOrder", {
         /**
@@ -1745,7 +1777,7 @@ module.exports = "// Find polyfill\nif (!Array.prototype.find) {\n\tArray.protot
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Main_1 = __webpack_require__(0);
-var TabContainer_1 = __webpack_require__(35);
+var TabContainer_1 = __webpack_require__(36);
 var TabContainerBreadcrumb_1 = __webpack_require__(40);
 var TabContainerSection_1 = __webpack_require__(41);
 var Cart_1 = __webpack_require__(9);
@@ -1798,11 +1830,11 @@ w.addEventListener("cfw-initialize", function (eventData) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var EasyTabService_1 = __webpack_require__(5);
-var EasyTabService_2 = __webpack_require__(5);
+var EasyTabService_1 = __webpack_require__(3);
+var EasyTabService_2 = __webpack_require__(3);
 var CompleteOrderAction_1 = __webpack_require__(11);
 var Main_1 = __webpack_require__(0);
-var ValidationService_1 = __webpack_require__(4);
+var ValidationService_1 = __webpack_require__(7);
 var w = window;
 var ParsleyService = /** @class */ (function () {
     /**
@@ -1944,18 +1976,15 @@ var ParsleyService = /** @class */ (function () {
                             stateElement.trigger("change");
                         }
                     }
+                    stateElement.parsley().reset();
                 }
                 // Resets in case error labels.
                 cityElement.parsley().reset();
-                stateElement.parsley().reset();
             }
         }
         else {
             // Always reset to true if false. We want this to normally fire, but under certain conditions we want to ignore this
             ValidationService_1.ValidationService.validateZip = true;
-        }
-        if (EasyTabService_1.EasyTabService.isThereAShippingTab()) {
-            $(document.body).trigger("update_checkout");
         }
         if (CompleteOrderAction_1.CompleteOrderAction.preppingOrder) {
             var orderReadyEvent = new Event("cfw:checkout-validated");
@@ -2079,6 +2108,408 @@ exports.ParsleyService = ParsleyService;
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
+var Main_1 = __webpack_require__(0);
+var InputLabelWrap_1 = __webpack_require__(12);
+var SelectLabelWrap_1 = __webpack_require__(14);
+var LocalizationService = /** @class */ (function () {
+    function LocalizationService() {
+    }
+    /**
+     *  Handles localization information for countries and relevant states
+     */
+    LocalizationService.prototype.setCountryChangeHandlers = function () {
+        var _this = this;
+        var shipping_country = $("#shipping_country");
+        var billing_country = $("#billing_country");
+        var shipping_postcode = $("#shipping_postcode");
+        var billing_postcode = $("#billing_postcode");
+        var shipping_state = $("#shipping_state");
+        var billing_state = $("#billing_state");
+        // When the country (shipping or billing) get's changed
+        var country_change = function (event) {
+            var target = $(event.target);
+            var target_country = target.val();
+            var info_type = target.attr("id").split("_")[0];
+            var country_state_list = JSON.parse(wc_country_select_params.countries);
+            var state_list_for_country = country_state_list[target_country];
+            var locale_data = JSON.parse(wc_address_i18n_params.locale);
+            $("#" + info_type + "_state").parsley().reset();
+            // If there is a state list for the country and it actually has states in it. Handle the field generation
+            if (state_list_for_country && Object.keys(state_list_for_country).length > 0) {
+                _this.handleFieldsIfStateListExistsForCountry(info_type, state_list_for_country, target_country);
+                // If the state list is either undefined or empty fire here.
+            }
+            else {
+                /**
+                 * If the state list is undefined it means we need to reset everything to it's defaults and apply specific
+                 * settings
+                 */
+                if (state_list_for_country === undefined) {
+                    _this.removeStateAndReplaceWithTextInput(locale_data[target_country], info_type);
+                    /**
+                     * If there is a state list with nothing in it, we usually need to hide the state field.
+                     */
+                }
+                else {
+                    _this.removeStateAndReplaceWithHiddenInput(locale_data[target_country], info_type);
+                }
+            }
+            /**
+             * After we have replaced and reset everything change the labels, required items, and placeholders
+             */
+            _this.layoutDefaultLabelsAndRequirements(target_country, locale_data, info_type, wc_address_i18n_params.add2_text);
+            $("#" + info_type + "_state").parsley().reset();
+            // Re-register all the elements
+            Main_1.Main.instance.checkoutForm.parsley();
+            $(document.body).trigger("update_checkout");
+        };
+        var locale_data = JSON.parse(wc_address_i18n_params.locale);
+        this.layoutDefaultLabelsAndRequirements(shipping_country.val(), locale_data, "shipping", wc_address_i18n_params.add2_text);
+        this.layoutDefaultLabelsAndRequirements(billing_country.val(), locale_data, "billing", wc_address_i18n_params.add2_text);
+        shipping_country.on('change', country_change);
+        billing_country.on('change', country_change);
+        shipping_postcode.attr("data-parsley-state-and-zip", shipping_country.val());
+        billing_postcode.attr("data-parsley-state-and-zip", billing_country.val());
+        shipping_state.attr("data-parsley-state-and-zip", shipping_country.val());
+        billing_state.attr("data-parsley-state-and-zip", billing_country.val());
+        LocalizationService.initStateMobileMargin();
+    };
+    /**
+     * Add mobile margin removal for state if it doesn't exist on page load. Also removes down arrow if no select state.
+     */
+    LocalizationService.initStateMobileMargin = function () {
+        var shipping_state_field = $("#shipping_state_field");
+        var billing_state_field = $("#billing_state_field");
+        [shipping_state_field, billing_state_field].forEach(function (field) {
+            // If the field is hidden, remove the margin on mobile by adding the appropriate class.
+            if (field.find("input[type='hidden']").length > 0) {
+                LocalizationService.addOrRemoveStateMarginForMobile("add", field.attr("id").split("_")[0]);
+            }
+            // While we are at it, let's remove the down arrow if no select is there
+            if (field.find("input").length > 0) {
+                field.addClass("remove-state-down-arrow");
+            }
+        });
+    };
+    /**
+     * Adds or removes the margin class for mobile on state if it's hidden
+     *
+     * @param {"add" | "remove"} type
+     * @param info_type
+     */
+    LocalizationService.addOrRemoveStateMarginForMobile = function (type, info_type) {
+        var info_type_state_field = $("#" + info_type + "_state_field");
+        var state_gone_wrap_class = "state-gone-margin";
+        if (type === "remove") {
+            info_type_state_field.removeClass(state_gone_wrap_class);
+        }
+        if (type === "add") {
+            if (!info_type_state_field.hasClass(state_gone_wrap_class)) {
+                info_type_state_field.addClass(state_gone_wrap_class);
+            }
+        }
+    };
+    /**
+     * Sets up the default labels, required items, and placeholders for the country after it has been changed. It also
+     * kicks off the overriding portion of the same task at the end.
+     *
+     * @param target_country
+     * @param locale_data
+     * @param info_type
+     * @param add2_text
+     */
+    LocalizationService.prototype.layoutDefaultLabelsAndRequirements = function (target_country, locale_data, info_type, add2_text) {
+        var default_postcode_data = locale_data.default.postcode;
+        var default_state_data = locale_data.default.state;
+        var default_city_data = locale_data.default.city;
+        var default_add2_data = locale_data.default.address_2;
+        var label_class = "cfw-input-label";
+        var asterisk = ' <abbr class="required" title="required">*</abbr>';
+        var $postcode = $("#" + info_type + "_postcode");
+        var $state = $("#" + info_type + "_state");
+        var $city = $("#" + info_type + "_city");
+        var $address_2 = $("#" + info_type + "_address_2");
+        var fields = [["postcode", $postcode], ["state", $state], ["city", $city], ["address_2", $address_2]];
+        // Handle Address 2
+        $address_2.attr("required", default_add2_data.required);
+        $address_2.attr("placeholder", add2_text);
+        $address_2.attr("autocomplete", default_add2_data.autocomplete);
+        $address_2.siblings("." + label_class).text(add2_text);
+        // Handle Postcode
+        $postcode.attr("required", default_postcode_data.required);
+        $postcode.attr("placeholder", default_postcode_data.label);
+        $postcode.attr("autocomplete", default_postcode_data.autocomplete);
+        $postcode.siblings("." + label_class).text(default_postcode_data.label);
+        if (default_postcode_data.required == true) {
+            $postcode.siblings("." + label_class).append(asterisk);
+        }
+        $state.attr("required", default_state_data.required);
+        $state.attr("placeholder", default_state_data.label);
+        $state.attr("autocomplete", default_state_data.autocomplete);
+        $state.siblings("." + label_class).text(default_state_data.label);
+        if (default_state_data.required == true) {
+            $state.siblings("." + label_class).append(asterisk);
+        }
+        $city.attr("required", default_city_data.required);
+        $city.attr("placeholder", default_city_data.label);
+        $city.attr("autocomplete", default_city_data.autocomplete);
+        $city.siblings("." + label_class).text(default_city_data.label);
+        if (default_city_data.required == true) {
+            $city.siblings("." + label_class).append(asterisk);
+        }
+        this.findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data[target_country], label_class, locale_data);
+    };
+    /**
+     * This function is for override the defaults if the specified country has more information for the labels,
+     * placeholders, and required items
+     *
+     * @param fields
+     * @param asterisk
+     * @param locale_data_for_country
+     * @param label_class
+     * @param locale_data
+     */
+    LocalizationService.prototype.findAndApplyDifferentLabelsAndRequirements = function (fields, asterisk, locale_data_for_country, label_class, locale_data) {
+        var default_lookup = locale_data.default;
+        var add2_text = locale_data.add2_text;
+        fields.forEach(function (field_pair) {
+            var field_name = field_pair[0];
+            var field = field_pair[1];
+            /**
+             * If the locale data for the country exists and it has a length of greater than 0 we can override the
+             * defaults
+             */
+            if (locale_data_for_country !== undefined && Object.keys(locale_data_for_country).length > 0) {
+                /**
+                 * If the field name exists on the locale for the country precede on overwriting the defaults.
+                 */
+                if (locale_data_for_country[field_name] !== undefined) {
+                    var locale_data_for_field = locale_data_for_country[field_name];
+                    var defaultItem = default_lookup[field_name];
+                    var label = "";
+                    /**
+                     * If the field is the address_2 it doesn't use label it uses placeholder for some reason. So what
+                     * we do here is simply assign the placeholder to the label if it's address_2
+                     */
+                    if (field_name == "address_2") {
+                        label = add2_text;
+                    }
+                    else {
+                        label = locale_data_for_field.label;
+                    }
+                    var field_siblings = field.siblings("." + label_class);
+                    /**
+                     * If the label for the locale isn't undefined. we need to set the placeholder and the label
+                     */
+                    if (label !== undefined) {
+                        field.attr("placeholder", locale_data_for_field.label);
+                        field_siblings.html(locale_data_for_field.label);
+                        /**
+                         * Otherwise we reset the defaults here for good measure. The field address_2 needs to have it's
+                         * label be set as the placeholder (because it doesn't use label for some reason)
+                         */
+                    }
+                    else {
+                        if (field_name == "address_2") {
+                            field.attr("placeholder", add2_text);
+                            field_siblings.html(add2_text);
+                            /**
+                             * If we aren't acdress_2 we can simply procede as normal and set the label for both the
+                             * placeholder and the label.
+                             */
+                        }
+                        else {
+                            field.attr("placeholder", defaultItem.label);
+                            field_siblings.html(defaultItem.label);
+                        }
+                    }
+                    /**
+                     * If the locale data for this field is not undefined and is true go ahead and set it's required
+                     * attribute to true, and append the asterisk to the label
+                     */
+                    if (locale_data_for_field.required !== undefined && locale_data_for_field.required == true) {
+                        field.attr("required", true);
+                        field_siblings.append(asterisk);
+                        /**
+                         * If the field is not required, go ahead and set it's required attribute to false
+                         */
+                    }
+                    else if (locale_data_for_field.required == false) {
+                        field.attr("required", false);
+                        /**
+                         * Lastly if the field is undefined we need to revert back to the default (maybe we do?)
+                         *
+                         * TODO: Possibly refactor a lot of these default settings in this function. We may not have to do it.
+                         */
+                    }
+                    else {
+                        field.attr("required", defaultItem.required);
+                        // If the default item is required, append the asterisk.
+                        if (defaultItem.required == true) {
+                            field_siblings.append(asterisk);
+                        }
+                    }
+                }
+            }
+        });
+    };
+    /**
+     *
+     * @param country_display_data
+     * @param info_type
+     */
+    LocalizationService.prototype.removeStateAndReplaceWithTextInput = function (country_display_data, info_type) {
+        var current_state_field = $("#" + info_type + "_state");
+        var state_element_wrap = current_state_field.parents(".cfw-input-wrap");
+        var group = info_type;
+        var tab_section = Main_1.Main.instance
+            .tabContainer
+            .tabContainerSectionBy("name", (info_type === "shipping") ? "customer_info" : "payment_method");
+        // Remove old element
+        current_state_field.remove();
+        // Append and amend new element
+        state_element_wrap.append("<input type=\"text\" id=\"" + info_type + "_state\" value=\"\" />");
+        state_element_wrap.removeClass("cfw-select-input");
+        state_element_wrap.addClass("cfw-text-input");
+        state_element_wrap.removeClass("cfw-floating-label");
+        // Get reference to new element
+        var new_state_input = $("#" + info_type + "_state");
+        // Amend new element further
+        new_state_input.attr("field_key", "state")
+            .attr("data-parsley-validate-if-empty", "")
+            .attr("data-parsley-trigger", "keyup change focusout")
+            .attr("data-parsley-group", group)
+            .attr("data-parsley-required", 'true');
+        tab_section.selectLabelWraps.forEach(function (select_label_wrap, index) {
+            if (select_label_wrap.jel.is(state_element_wrap)) {
+                tab_section.selectLabelWraps.splice(index, 1);
+            }
+        });
+        tab_section.inputLabelWraps.push(new InputLabelWrap_1.InputLabelWrap(state_element_wrap));
+        LocalizationService.addOrRemoveStateMarginForMobile("remove", info_type);
+    };
+    /**
+     *
+     * @param country_display_data
+     * @param info_type
+     */
+    LocalizationService.prototype.removeStateAndReplaceWithHiddenInput = function (country_display_data, info_type) {
+        var current_state_field = $("#" + info_type + "_state");
+        var state_element_wrap = current_state_field.parents(".cfw-input-wrap");
+        current_state_field.remove();
+        if (country_display_data && Object.keys(country_display_data).length > 0) {
+            var is_required = country_display_data["state"]["required"] === "true";
+            if (!is_required) {
+                state_element_wrap.removeClass("cfw-select-input");
+                state_element_wrap.removeClass("cfw-text-input");
+                state_element_wrap.removeClass("cfw-floating-label");
+                state_element_wrap.append("<input type=\"hidden\" id=\"" + info_type + "_state\" field_key=\"state\" />");
+                LocalizationService.addOrRemoveStateMarginForMobile("add", info_type);
+            }
+        }
+    };
+    /**
+     * Removes the state input field and appends a select element for the state field. Returns a JQuery reference to the
+     * newly created select element
+     *
+     * @param {JQuery} state_input
+     * @param info_type
+     * @returns {JQuery}
+     */
+    LocalizationService.prototype.removeInputAndAddSelect = function (state_input, info_type) {
+        var id = state_input.attr("id");
+        var classes = state_input.attr("class");
+        var group = state_input.data("parsleyGroup");
+        var tab_section = Main_1.Main.instance
+            .tabContainer
+            .tabContainerSectionBy("name", (info_type === "shipping") ? "customer_info" : "payment_method");
+        var state_input_wrap = state_input.parent(".cfw-input-wrap");
+        if (state_input) {
+            // Remove the old input
+            state_input.remove();
+        }
+        // Add the new input base (select field)
+        state_input_wrap.append("<select id=\"" + id + "\"></select>");
+        state_input_wrap.removeClass("cfw-text-input");
+        state_input_wrap.addClass("cfw-select-input");
+        // Set the selects properties
+        var new_state_input = $("#" + id);
+        new_state_input.attr("field_key", "state")
+            .attr("class", classes)
+            .attr("data-parsley-validate-if-empty", "")
+            .attr("data-parsley-trigger", "keyup change focusout")
+            .attr("data-parsley-group", group)
+            .attr("data-parsley-required", 'true');
+        // Re-register all the elements
+        Main_1.Main.instance.checkoutForm.parsley();
+        tab_section.inputLabelWraps.forEach(function (input_label_wrap, index) {
+            if (input_label_wrap.jel.is(state_input_wrap)) {
+                tab_section.inputLabelWraps.splice(index, 1);
+            }
+        });
+        tab_section.selectLabelWraps.push(new SelectLabelWrap_1.SelectLabelWrap(state_input_wrap));
+        return new_state_input;
+    };
+    /**
+     * Given the current state element, if the state element is an input remove it and create the appropriate select
+     * element. Once there is a guaranteed select go ahead and populate it with the state list.
+     *
+     * @param info_type
+     * @param state_list_for_country
+     * @param target_country
+     */
+    LocalizationService.prototype.handleFieldsIfStateListExistsForCountry = function (info_type, state_list_for_country, target_country) {
+        // Get the current state handler field (either a select or input)
+        var current_state_field = $("#" + info_type + "_state");
+        var current_state_field_wrap = $("#" + info_type + "_state_field");
+        var current_zip_field = $("#" + info_type + "_postcode");
+        current_state_field_wrap.removeClass("remove-state-down-arrow");
+        LocalizationService.addOrRemoveStateMarginForMobile("remove", info_type);
+        // If the current state handler is an input field, we need to change it to a select
+        if (current_state_field.is('input')) {
+            current_state_field = this.removeInputAndAddSelect(current_state_field, info_type);
+        }
+        // Now that the state field is guaranteed to be a select, we need to populate it.
+        this.populateStates(current_state_field, state_list_for_country);
+        this.setCountryOnZipAndState(current_zip_field, current_state_field, target_country);
+    };
+    /**
+     *
+     * @param {JQuery} postcode
+     * @param {JQuery} state
+     * @param country
+     */
+    LocalizationService.prototype.setCountryOnZipAndState = function (postcode, state, country) {
+        postcode.attr("data-parsley-state-and-zip", country);
+        state.attr("data-parsley-state-and-zip", country);
+    };
+    /**
+     * Given a state select field, populate it with the given list
+     *
+     * @param select
+     * @param state_list
+     */
+    LocalizationService.prototype.populateStates = function (select, state_list) {
+        if (select.is("select")) {
+            select.empty();
+            select.append("<option value=\"\">Select a state...</option>");
+            Object.getOwnPropertyNames(state_list)
+                .forEach(function (state) { return select.append("<option value=\"" + state + "\">" + state_list[state] + "</option>}"); });
+            select.parents(".cfw-input-wrap").removeClass("cfw-floating-label");
+        }
+    };
+    return LocalizationService;
+}());
+exports.LocalizationService = LocalizationService;
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -2090,18 +2521,15 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(3);
-var InputLabelWrap_1 = __webpack_require__(12);
-var AccountExistsAction_1 = __webpack_require__(36);
-var LoginAction_1 = __webpack_require__(37);
+var Element_1 = __webpack_require__(2);
+var AccountExistsAction_1 = __webpack_require__(37);
+var LoginAction_1 = __webpack_require__(38);
 var FormElement_1 = __webpack_require__(10);
-var UpdateShippingMethodAction_1 = __webpack_require__(38);
 var Main_1 = __webpack_require__(0);
-var ValidationService_1 = __webpack_require__(4);
+var ValidationService_1 = __webpack_require__(7);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
 var ApplyCouponAction_1 = __webpack_require__(39);
-var SelectLabelWrap_1 = __webpack_require__(14);
-var Alert_1 = __webpack_require__(7);
+var Alert_1 = __webpack_require__(5);
 /**
  *
  */
@@ -2137,17 +2565,12 @@ var TabContainer = /** @class */ (function (_super) {
         var ajax_info = Main_1.Main.instance.ajaxInfo;
         if (email_input_wrap) {
             var email_input_1 = email_input_wrap.holder.jel;
-            var reg_email = $("#createaccount");
-            // Handles page onload use case
-            new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), this.jel).load();
             var handler = function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), _this.jel).load(); };
             // Add check to keyup event
             email_input_1.on("keyup", handler);
             email_input_1.on("change", handler);
-            reg_email.on('change', handler);
-            // On page load check
-            var onLoadAccCheck = new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), this.jel);
-            onLoadAccCheck.load();
+            // Handles page onload use case
+            new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), this.jel).load();
         }
     };
     /**
@@ -2248,21 +2671,25 @@ var TabContainer = /** @class */ (function (_super) {
                 $(elem).wrap("<div class='cfw-column-3'></div>");
             }
         });
-        // Authorize.net - AIM
-        var authorizenet_cim_form_wraps = $("#wc-authorize-net-cim-credit-card-credit-card-form .form-row");
-        $("#wc-authorize-net-cim-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-        authorizenet_cim_form_wraps.each(function (index, elem) {
-            $(elem).addClass("cfw-input-wrap");
-            $(elem).addClass("cfw-text-input");
-            $(elem).find("label").addClass("cfw-input-label");
-            $(elem).find("input").css("width", "100%");
-            if ($(elem).hasClass("form-row-wide")) {
-                $(elem).wrap("<div class='cfw-column-6'></div>");
-            }
-            if ($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
-                $(elem).wrap("<div class='cfw-column-3'></div>");
-            }
-        });
+        // Authorize.net - CIM
+        // let authorizenet_cim_form_wraps = $("#wc-authorize-net-cim-credit-card-credit-card-form .form-row").not(':last');
+        //
+        // $("#wc-authorize-net-cim-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        //
+        // authorizenet_cim_form_wraps.each(function(index, elem) {
+        //     $(elem).addClass("cfw-input-wrap");
+        //     $(elem).addClass("cfw-text-input");
+        //     $(elem).find("label").addClass("cfw-input-label");
+        //     $(elem).find("input").css("width", "100%");
+        //
+        //     if( $(elem).hasClass("form-row-wide") ) {
+        //         $(elem).wrap("<div class='cfw-column-6'></div>")
+        //     }
+        //
+        //     if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
+        //         $(elem).wrap("<div class='cfw-column-3'></div>")
+        //     }
+        // });
         // PayFlow Pro
         var payflow_pro_form_wraps = $(".payment_method_paypal_pro_payflow > fieldset > .form-row");
         $(".payment_method_paypal_pro_payflow > fieldset").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
@@ -2423,12 +2850,8 @@ var TabContainer = /** @class */ (function (_super) {
     TabContainer.prototype.setShippingPaymentUpdate = function () {
         var _this = this;
         var shipping_method = this.tabContainerSectionBy("name", "shipping_method");
-        var updateShippingMethod = function (event) {
-            var shipMethodVal = event.target.value;
-            new UpdateShippingMethodAction_1.UpdateShippingMethodAction("update_shipping_method", Main_1.Main.instance.ajaxInfo, shipMethodVal, Main_1.Main.instance.cart, this.getFormObject()).load();
-        };
         shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each(function (index, el) {
-            $(el).on("click", updateShippingMethod.bind(_this));
+            $(el).on("click", function () { return new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, _this.getFormObject()).load(); });
         });
     };
     /**
@@ -2444,390 +2867,6 @@ var TabContainer = /** @class */ (function (_super) {
             }
         });
         $(document.body).trigger('update_checkout');
-    };
-    /**
-     *  Handles localization information for countries and relevant states
-     */
-    TabContainer.prototype.setCountryChangeHandlers = function () {
-        var _this = this;
-        var shipping_country = $("#shipping_country");
-        var billing_country = $("#billing_country");
-        var shipping_postcode = $("#shipping_postcode");
-        var billing_postcode = $("#billing_postcode");
-        var shipping_state = $("#shipping_state");
-        var billing_state = $("#billing_state");
-        // When the country (shipping or billing) get's changed
-        var country_change = function (event) {
-            var target = $(event.target);
-            var target_country = target.val();
-            var info_type = target.attr("id").split("_")[0];
-            var country_state_list = JSON.parse(wc_country_select_params.countries);
-            var state_list_for_country = country_state_list[target_country];
-            var locale_data = JSON.parse(wc_address_i18n_params.locale);
-            $("#" + info_type + "_state").parsley().reset();
-            // If there is a state list for the country and it actually has states in it. Handle the field generation
-            if (state_list_for_country && Object.keys(state_list_for_country).length > 0) {
-                _this.handleFieldsIfStateListExistsForCountry(info_type, state_list_for_country, target_country);
-                // If the state list is either undefined or empty fire here.
-            }
-            else {
-                /**
-                 * If the state list is undefined it means we need to reset everything to it's defaults and apply specific
-                 * settings
-                 */
-                if (state_list_for_country === undefined) {
-                    _this.removeStateAndReplaceWithTextInput(locale_data[target_country], info_type);
-                    /**
-                     * If there is a state list with nothing in it, we usually need to hide the state field.
-                     */
-                }
-                else {
-                    _this.removeStateAndReplaceWithHiddenInput(locale_data[target_country], info_type);
-                }
-            }
-            /**
-             * After we have replaced and reset everything change the labels, required items, and placeholders
-             */
-            _this.layoutDefaultLabelsAndRequirements(target_country, locale_data, info_type, wc_address_i18n_params.add2_text);
-            $("#" + info_type + "_state").parsley().reset();
-            // Re-register all the elements
-            Main_1.Main.instance.checkoutForm.parsley();
-            $(document.body).trigger("update_checkout");
-        };
-        var locale_data = JSON.parse(wc_address_i18n_params.locale);
-        this.layoutDefaultLabelsAndRequirements(shipping_country.val(), locale_data, "shipping", wc_address_i18n_params.add2_text);
-        this.layoutDefaultLabelsAndRequirements(billing_country.val(), locale_data, "billing", wc_address_i18n_params.add2_text);
-        shipping_country.on('change', country_change);
-        billing_country.on('change', country_change);
-        shipping_postcode.attr("data-parsley-state-and-zip", shipping_country.val());
-        billing_postcode.attr("data-parsley-state-and-zip", billing_country.val());
-        shipping_state.attr("data-parsley-state-and-zip", shipping_country.val());
-        billing_state.attr("data-parsley-state-and-zip", billing_country.val());
-        TabContainer.initStateMobileMargin();
-    };
-    /**
-     * Add mobile margin removal for state if it doesn't exist on page load. Also removes down arrow if no select state.
-     */
-    TabContainer.initStateMobileMargin = function () {
-        var shipping_state_field = $("#shipping_state_field");
-        var billing_state_field = $("#billing_state_field");
-        [shipping_state_field, billing_state_field].forEach(function (field) {
-            // If the field is hidden, remove the margin on mobile by adding the appropriate class.
-            if (field.find("input[type='hidden']").length > 0) {
-                TabContainer.addOrRemoveStateMarginForMobile("add", field.attr("id").split("_")[0]);
-            }
-            // While we are at it, let's remove the down arrow if no select is there
-            if (field.find("input").length > 0) {
-                field.addClass("remove-state-down-arrow");
-            }
-        });
-    };
-    /**
-     * Adds or removes the margin class for mobile on state if it's hidden
-     *
-     * @param {"add" | "remove"} type
-     * @param info_type
-     */
-    TabContainer.addOrRemoveStateMarginForMobile = function (type, info_type) {
-        var info_type_state_field = $("#" + info_type + "_state_field");
-        var state_gone_wrap_class = "state-gone-margin";
-        if (type === "remove") {
-            info_type_state_field.removeClass(state_gone_wrap_class);
-        }
-        if (type === "add") {
-            if (!info_type_state_field.hasClass(state_gone_wrap_class)) {
-                info_type_state_field.addClass(state_gone_wrap_class);
-            }
-        }
-    };
-    /**
-     * Sets up the default labels, required items, and placeholders for the country after it has been changed. It also
-     * kicks off the overriding portion of the same task at the end.
-     *
-     * @param target_country
-     * @param locale_data
-     * @param info_type
-     * @param add2_text
-     */
-    TabContainer.prototype.layoutDefaultLabelsAndRequirements = function (target_country, locale_data, info_type, add2_text) {
-        var default_postcode_data = locale_data.default.postcode;
-        var default_state_data = locale_data.default.state;
-        var default_city_data = locale_data.default.city;
-        var default_add2_data = locale_data.default.address_2;
-        var label_class = "cfw-input-label";
-        var asterisk = ' <abbr class="required" title="required">*</abbr>';
-        var $postcode = $("#" + info_type + "_postcode");
-        var $state = $("#" + info_type + "_state");
-        var $city = $("#" + info_type + "_city");
-        var $address_2 = $("#" + info_type + "_address_2");
-        var fields = [["postcode", $postcode], ["state", $state], ["city", $city], ["address_2", $address_2]];
-        // Handle Address 2
-        $address_2.attr("required", default_add2_data.required);
-        $address_2.attr("placeholder", add2_text);
-        $address_2.attr("autocomplete", default_add2_data.autocomplete);
-        $address_2.siblings("." + label_class).text(add2_text);
-        // Handle Postcode
-        $postcode.attr("required", default_postcode_data.required);
-        $postcode.attr("placeholder", default_postcode_data.label);
-        $postcode.attr("autocomplete", default_postcode_data.autocomplete);
-        $postcode.siblings("." + label_class).text(default_postcode_data.label);
-        if (default_postcode_data.required == true) {
-            $postcode.siblings("." + label_class).append(asterisk);
-        }
-        $state.attr("required", default_state_data.required);
-        $state.attr("placeholder", default_state_data.label);
-        $state.attr("autocomplete", default_state_data.autocomplete);
-        $state.siblings("." + label_class).text(default_state_data.label);
-        if (default_state_data.required == true) {
-            $state.siblings("." + label_class).append(asterisk);
-        }
-        $city.attr("required", default_city_data.required);
-        $city.attr("placeholder", default_city_data.label);
-        $city.attr("autocomplete", default_city_data.autocomplete);
-        $city.siblings("." + label_class).text(default_city_data.label);
-        if (default_city_data.required == true) {
-            $city.siblings("." + label_class).append(asterisk);
-        }
-        this.findAndApplyDifferentLabelsAndRequirements(fields, asterisk, locale_data[target_country], label_class, locale_data);
-    };
-    /**
-     * This function is for override the defaults if the specified country has more information for the labels,
-     * placeholders, and required items
-     *
-     * @param fields
-     * @param asterisk
-     * @param locale_data_for_country
-     * @param label_class
-     * @param locale_data
-     */
-    TabContainer.prototype.findAndApplyDifferentLabelsAndRequirements = function (fields, asterisk, locale_data_for_country, label_class, locale_data) {
-        var default_lookup = locale_data.default;
-        var add2_text = locale_data.add2_text;
-        fields.forEach(function (field_pair) {
-            var field_name = field_pair[0];
-            var field = field_pair[1];
-            /**
-             * If the locale data for the country exists and it has a length of greater than 0 we can override the
-             * defaults
-             */
-            if (locale_data_for_country !== undefined && Object.keys(locale_data_for_country).length > 0) {
-                /**
-                 * If the field name exists on the locale for the country precede on overwriting the defaults.
-                 */
-                if (locale_data_for_country[field_name] !== undefined) {
-                    var locale_data_for_field = locale_data_for_country[field_name];
-                    var defaultItem = default_lookup[field_name];
-                    var label = "";
-                    /**
-                     * If the field is the address_2 it doesn't use label it uses placeholder for some reason. So what
-                     * we do here is simply assign the placeholder to the label if it's address_2
-                     */
-                    if (field_name == "address_2") {
-                        label = add2_text;
-                    }
-                    else {
-                        label = locale_data_for_field.label;
-                    }
-                    var field_siblings = field.siblings("." + label_class);
-                    /**
-                     * If the label for the locale isn't undefined. we need to set the placeholder and the label
-                     */
-                    if (label !== undefined) {
-                        field.attr("placeholder", locale_data_for_field.label);
-                        field_siblings.html(locale_data_for_field.label);
-                        /**
-                         * Otherwise we reset the defaults here for good measure. The field address_2 needs to have it's
-                         * label be set as the placeholder (because it doesn't use label for some reason)
-                         */
-                    }
-                    else {
-                        if (field_name == "address_2") {
-                            field.attr("placeholder", add2_text);
-                            field_siblings.html(add2_text);
-                            /**
-                             * If we aren't acdress_2 we can simply procede as normal and set the label for both the
-                             * placeholder and the label.
-                             */
-                        }
-                        else {
-                            field.attr("placeholder", defaultItem.label);
-                            field_siblings.html(defaultItem.label);
-                        }
-                    }
-                    /**
-                     * If the locale data for this field is not undefined and is true go ahead and set it's required
-                     * attribute to true, and append the asterisk to the label
-                     */
-                    if (locale_data_for_field.required !== undefined && locale_data_for_field.required == true) {
-                        field.attr("required", true);
-                        field_siblings.append(asterisk);
-                        /**
-                         * If the field is not required, go ahead and set it's required attribute to false
-                         */
-                    }
-                    else if (locale_data_for_field.required == false) {
-                        field.attr("required", false);
-                        /**
-                         * Lastly if the field is undefined we need to revert back to the default (maybe we do?)
-                         *
-                         * TODO: Possibly refactor a lot of these default settings in this function. We may not have to do it.
-                         */
-                    }
-                    else {
-                        field.attr("required", defaultItem.required);
-                        // If the default item is required, append the asterisk.
-                        if (defaultItem.required == true) {
-                            field_siblings.append(asterisk);
-                        }
-                    }
-                }
-            }
-        });
-    };
-    /**
-     *
-     * @param country_display_data
-     * @param info_type
-     */
-    TabContainer.prototype.removeStateAndReplaceWithTextInput = function (country_display_data, info_type) {
-        var current_state_field = $("#" + info_type + "_state");
-        var state_element_wrap = current_state_field.parents(".cfw-input-wrap");
-        var group = info_type;
-        var tab_section = Main_1.Main.instance
-            .tabContainer
-            .tabContainerSectionBy("name", (info_type === "shipping") ? "customer_info" : "payment_method");
-        // Remove old element
-        current_state_field.remove();
-        // Append and amend new element
-        state_element_wrap.append("<input type=\"text\" id=\"" + info_type + "_state\" value=\"\" />");
-        state_element_wrap.removeClass("cfw-select-input");
-        state_element_wrap.addClass("cfw-text-input");
-        state_element_wrap.removeClass("cfw-floating-label");
-        // Get reference to new element
-        var new_state_input = $("#" + info_type + "_state");
-        // Amend new element further
-        new_state_input.attr("field_key", "state")
-            .attr("data-parsley-validate-if-empty", "")
-            .attr("data-parsley-trigger", "keyup change focusout")
-            .attr("data-parsley-group", group)
-            .attr("data-parsley-required", 'true');
-        tab_section.selectLabelWraps.forEach(function (select_label_wrap, index) {
-            if (select_label_wrap.jel.is(state_element_wrap)) {
-                tab_section.selectLabelWraps.splice(index, 1);
-            }
-        });
-        tab_section.inputLabelWraps.push(new InputLabelWrap_1.InputLabelWrap(state_element_wrap));
-        TabContainer.addOrRemoveStateMarginForMobile("remove", info_type);
-    };
-    /**
-     *
-     * @param country_display_data
-     * @param info_type
-     */
-    TabContainer.prototype.removeStateAndReplaceWithHiddenInput = function (country_display_data, info_type) {
-        var current_state_field = $("#" + info_type + "_state");
-        var state_element_wrap = current_state_field.parents(".cfw-input-wrap");
-        current_state_field.remove();
-        if (country_display_data && Object.keys(country_display_data).length > 0) {
-            var is_required = country_display_data["state"]["required"] === "true";
-            if (!is_required) {
-                state_element_wrap.removeClass("cfw-select-input");
-                state_element_wrap.removeClass("cfw-text-input");
-                state_element_wrap.removeClass("cfw-floating-label");
-                state_element_wrap.append("<input type=\"hidden\" id=\"" + info_type + "_state\" field_key=\"state\" />");
-                TabContainer.addOrRemoveStateMarginForMobile("add", info_type);
-            }
-        }
-    };
-    /**
-     * Removes the state input field and appends a select element for the state field. Returns a JQuery reference to the
-     * newly created select element
-     *
-     * @param {JQuery} state_input
-     * @param info_type
-     * @returns {JQuery}
-     */
-    TabContainer.prototype.removeInputAndAddSelect = function (state_input, info_type) {
-        var id = state_input.attr("id");
-        var classes = state_input.attr("class");
-        var group = state_input.data("parsleyGroup");
-        var tab_section = Main_1.Main.instance
-            .tabContainer
-            .tabContainerSectionBy("name", (info_type === "shipping") ? "customer_info" : "payment_method");
-        var state_input_wrap = state_input.parent(".cfw-input-wrap");
-        if (state_input) {
-            // Remove the old input
-            state_input.remove();
-        }
-        // Add the new input base (select field)
-        state_input_wrap.append("<select id=\"" + id + "\"></select>");
-        state_input_wrap.removeClass("cfw-text-input");
-        state_input_wrap.addClass("cfw-select-input");
-        // Set the selects properties
-        var new_state_input = $("#" + id);
-        new_state_input.attr("field_key", "state")
-            .attr("class", classes)
-            .attr("data-parsley-validate-if-empty", "")
-            .attr("data-parsley-trigger", "keyup change focusout")
-            .attr("data-parsley-group", group)
-            .attr("data-parsley-required", 'true');
-        // Re-register all the elements
-        Main_1.Main.instance.checkoutForm.parsley();
-        tab_section.inputLabelWraps.forEach(function (input_label_wrap, index) {
-            if (input_label_wrap.jel.is(state_input_wrap)) {
-                tab_section.inputLabelWraps.splice(index, 1);
-            }
-        });
-        tab_section.selectLabelWraps.push(new SelectLabelWrap_1.SelectLabelWrap(state_input_wrap));
-        return new_state_input;
-    };
-    /**
-     * Given the current state element, if the state element is an input remove it and create the appropriate select
-     * element. Once there is a guaranteed select go ahead and populate it with the state list.
-     *
-     * @param info_type
-     * @param state_list_for_country
-     * @param target_country
-     */
-    TabContainer.prototype.handleFieldsIfStateListExistsForCountry = function (info_type, state_list_for_country, target_country) {
-        // Get the current state handler field (either a select or input)
-        var current_state_field = $("#" + info_type + "_state");
-        var current_state_field_wrap = $("#" + info_type + "_state_field");
-        var current_zip_field = $("#" + info_type + "_postcode");
-        current_state_field_wrap.removeClass("remove-state-down-arrow");
-        TabContainer.addOrRemoveStateMarginForMobile("remove", info_type);
-        // If the current state handler is an input field, we need to change it to a select
-        if (current_state_field.is('input')) {
-            current_state_field = this.removeInputAndAddSelect(current_state_field, info_type);
-        }
-        // Now that the state field is guaranteed to be a select, we need to populate it.
-        this.populateStates(current_state_field, state_list_for_country);
-        this.setCountryOnZipAndState(current_zip_field, current_state_field, target_country);
-    };
-    /**
-     *
-     * @param {JQuery} postcode
-     * @param {JQuery} state
-     * @param country
-     */
-    TabContainer.prototype.setCountryOnZipAndState = function (postcode, state, country) {
-        postcode.attr("data-parsley-state-and-zip", country);
-        state.attr("data-parsley-state-and-zip", country);
-    };
-    /**
-     * Given a state select field, populate it with the given list
-     *
-     * @param select
-     * @param state_list
-     */
-    TabContainer.prototype.populateStates = function (select, state_list) {
-        if (select.is("select")) {
-            select.empty();
-            select.append("<option value=\"\">Select a state...</option>");
-            Object.getOwnPropertyNames(state_list)
-                .forEach(function (state) { return select.append("<option value=\"" + state + "\">" + state_list[state] + "</option>}"); });
-            select.parents(".cfw-input-wrap").removeClass("cfw-floating-label");
-        }
     };
     /**
      *
@@ -2964,7 +3003,7 @@ var TabContainer = /** @class */ (function (_super) {
         var config = { childList: true, characterData: true, subtree: true };
         if (!this.errorObserver) {
             // Create an observer instance linked to the callback function
-            var observer = new MutationObserver(this.submitOrderErrorMutationListener);
+            var observer = new MutationObserver(this.submitOrderErrorMutationListener.bind(this));
             // Start observing the target node for configured mutations
             observer.observe(targetNode, config);
             this.errorObserver = observer;
@@ -2998,10 +3037,10 @@ var TabContainer = /** @class */ (function (_super) {
                     };
                     var alert_1 = new Alert_1.Alert($("#cfw-alert-container"), alertInfo);
                     alert_1.addAlert();
-                    if (this_1.errorObserver) {
-                        this_1.errorObserver.disconnect();
-                        this_1.errorObserver = null;
-                    }
+                }
+                if (this_1.errorObserver !== undefined && this_1.errorObserver !== null) {
+                    this_1.errorObserver.disconnect();
+                    this_1.errorObserver = null;
                 }
             }
         };
@@ -3149,7 +3188,7 @@ exports.TabContainer = TabContainer;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3171,7 +3210,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(2);
+var Action_1 = __webpack_require__(4);
 var ResponsePrep_1 = __webpack_require__(6);
 /**
  * Ajax does the account exist action. Takes the information from email box and fires of a request to see if the account
@@ -3189,12 +3228,12 @@ var AccountExistsAction = /** @class */ (function (_super) {
         var _this = this;
         // Object prep
         var data = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
             email: email
         };
         // Call parent
-        _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+        _this = _super.call(this, id, ajaxInfo.url, data) || this;
         // Setup our container
         _this.ezTabContainer = ezTabContainer;
         return _this;
@@ -3212,17 +3251,18 @@ var AccountExistsAction = /** @class */ (function (_super) {
             register_user_checkbox.checked = false;
             register_container.css("display", "none");
             AccountExistsAction.checkBox = true;
+            $(register_user_checkbox).trigger('change');
             // If account does not exist, reverse
         }
         else {
             login_slide.slideUp(300);
             if (AccountExistsAction.checkBox) {
                 register_user_checkbox.checked = true;
+                $(register_user_checkbox).trigger('change');
                 AccountExistsAction.checkBox = false;
             }
             register_container.css("display", "block");
         }
-        $(document.body).trigger('updated_checkout');
     };
     Object.defineProperty(AccountExistsAction.prototype, "ezTabContainer", {
         /**
@@ -3270,7 +3310,7 @@ exports.AccountExistsAction = AccountExistsAction;
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3292,8 +3332,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(2);
-var Alert_1 = __webpack_require__(7);
+var Action_1 = __webpack_require__(4);
+var Alert_1 = __webpack_require__(5);
 var ResponsePrep_1 = __webpack_require__(6);
 /**
  *
@@ -3310,12 +3350,12 @@ var LoginAction = /** @class */ (function (_super) {
     function LoginAction(id, ajaxInfo, email, password) {
         var _this = this;
         var data = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
             email: email,
             password: password
         };
-        _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+        _this = _super.call(this, id, ajaxInfo.url, data) || this;
         return _this;
     }
     /**
@@ -3345,135 +3385,6 @@ exports.LoginAction = LoginAction;
 
 
 /***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(2);
-var ResponsePrep_1 = __webpack_require__(6);
-var Cart_1 = __webpack_require__(9);
-var Main_1 = __webpack_require__(0);
-var UpdateCheckoutAction_1 = __webpack_require__(8);
-/**
- *
- */
-var UpdateShippingMethodAction = /** @class */ (function (_super) {
-    __extends(UpdateShippingMethodAction, _super);
-    /**
-     * @param id
-     * @param ajaxInfo
-     * @param shipping_method
-     * @param cart
-     * @param fields
-     */
-    function UpdateShippingMethodAction(id, ajaxInfo, shipping_method, cart, fields) {
-        var _this = this;
-        var data = {
-            action: id,
-            security: ajaxInfo.nonce,
-            shipping_method: [shipping_method]
-        };
-        _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
-        _this.cart = cart;
-        _this.fields = fields;
-        return _this;
-    }
-    UpdateShippingMethodAction.prototype.load = function () {
-        if (UpdateShippingMethodAction.underlyingRequest !== null) {
-            UpdateShippingMethodAction.underlyingRequest.abort();
-        }
-        UpdateShippingMethodAction.underlyingRequest = $.post(this.url, this.data, this.response.bind(this));
-    };
-    /**
-     * @param resp
-     */
-    UpdateShippingMethodAction.prototype.response = function (resp) {
-        UpdateShippingMethodAction.underlyingRequest = null;
-        if (resp.new_totals) {
-            Cart_1.Cart.outputValues(this.cart, resp.new_totals);
-        }
-        Main_1.Main.togglePaymentRequired(resp.needs_payment);
-        new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, this.fields).load();
-    };
-    Object.defineProperty(UpdateShippingMethodAction, "underlyingRequest", {
-        /**
-         * @returns {any}
-         */
-        get: function () {
-            return this._underlyingRequest;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._underlyingRequest = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(UpdateShippingMethodAction.prototype, "fields", {
-        /**
-         * @returns {any}
-         */
-        get: function () {
-            return this._fields;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._fields = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(UpdateShippingMethodAction.prototype, "cart", {
-        /**
-         * @returns {Cart}
-         */
-        get: function () {
-            return this._cart;
-        },
-        /**
-         * @param value
-         */
-        set: function (value) {
-            this._cart = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     *
-     */
-    UpdateShippingMethodAction._underlyingRequest = null;
-    __decorate([
-        ResponsePrep_1.ResponsePrep
-    ], UpdateShippingMethodAction.prototype, "response", null);
-    return UpdateShippingMethodAction;
-}(Action_1.Action));
-exports.UpdateShippingMethodAction = UpdateShippingMethodAction;
-
-
-/***/ }),
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3496,9 +3407,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Action_1 = __webpack_require__(2);
+var Action_1 = __webpack_require__(4);
 var Cart_1 = __webpack_require__(9);
-var Alert_1 = __webpack_require__(7);
+var Alert_1 = __webpack_require__(5);
 var ResponsePrep_1 = __webpack_require__(6);
 var Main_1 = __webpack_require__(0);
 var UpdateCheckoutAction_1 = __webpack_require__(8);
@@ -3517,11 +3428,11 @@ var ApplyCouponAction = /** @class */ (function (_super) {
     function ApplyCouponAction(id, ajaxInfo, code, cart, fields) {
         var _this = this;
         var data = {
-            action: id,
+            "wc-ajax": id,
             security: ajaxInfo.nonce,
             coupon_code: code
         };
-        _this = _super.call(this, id, ajaxInfo.admin_url, data) || this;
+        _this = _super.call(this, id, ajaxInfo.url, data) || this;
         _this.cart = cart;
         _this.fields = fields;
         return _this;
@@ -3616,7 +3527,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(3);
+var Element_1 = __webpack_require__(2);
 /**
  *
  */
@@ -3651,7 +3562,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Element_1 = __webpack_require__(3);
+var Element_1 = __webpack_require__(2);
 var InputLabelWrap_1 = __webpack_require__(12);
 var LabelType_1 = __webpack_require__(13);
 var SelectLabelWrap_1 = __webpack_require__(14);

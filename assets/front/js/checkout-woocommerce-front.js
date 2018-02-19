@@ -2566,16 +2566,13 @@ var TabContainer = /** @class */ (function (_super) {
         if (email_input_wrap) {
             var email_input_1 = email_input_wrap.holder.jel;
             var reg_email = $("#createaccount");
-            // Handles page onload use case
-            new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), this.jel).load();
             var handler = function () { return new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), _this.jel).load(); };
             // Add check to keyup event
             email_input_1.on("keyup", handler);
             email_input_1.on("change", handler);
             reg_email.on('change', handler);
-            // On page load check
-            var onLoadAccCheck = new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), this.jel);
-            onLoadAccCheck.load();
+            // Handles page onload use case
+            new AccountExistsAction_1.AccountExistsAction("account_exists", ajax_info, email_input_1.val(), this.jel).load();
         }
     };
     /**
@@ -3267,7 +3264,6 @@ var AccountExistsAction = /** @class */ (function (_super) {
             }
             register_container.css("display", "block");
         }
-        $(document.body).trigger('updated_checkout');
     };
     Object.defineProperty(AccountExistsAction.prototype, "ezTabContainer", {
         /**

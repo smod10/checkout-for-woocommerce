@@ -80,9 +80,6 @@ export class TabContainer extends Element {
             let email_input: JQuery = email_input_wrap.holder.jel;
             let reg_email: JQuery = $("#createaccount");
 
-            // Handles page onload use case
-            new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
-
             let handler = () => new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
 
             // Add check to keyup event
@@ -90,9 +87,8 @@ export class TabContainer extends Element {
             email_input.on("change", handler);
             reg_email.on('change', handler);
 
-            // On page load check
-            let onLoadAccCheck: AccountExistsAction = new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel);
-            onLoadAccCheck.load();
+            // Handles page onload use case
+            new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
         }
     }
 

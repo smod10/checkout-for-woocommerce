@@ -72,8 +72,6 @@ export class AccountExistsAction extends Action {
 
             register_container.css("display", "block");
         }
-
-        $(document.body).trigger( 'updated_checkout' );
     }
 
     /**

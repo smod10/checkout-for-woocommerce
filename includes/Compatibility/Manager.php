@@ -13,6 +13,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MonsterInsights;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCat;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
@@ -93,6 +94,9 @@ class Manager {
 
 		// Points and Rewards
 		new PointsRewards();
+
+		// Pixel Cat
+		new PixelCat();
 
 		/**
 		 * Misc

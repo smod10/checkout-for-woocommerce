@@ -1,6 +1,7 @@
 <?php
 namespace Objectiv\Plugins\Checkout\Compatibility;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetAIM;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetCIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayTrace;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\SkyVerge;
@@ -82,7 +83,7 @@ class Manager {
         new AuthorizeNetAIM();
 
 		// Authorize.net CIM
-        new AuthorizeNetAIM();
+        new AuthorizeNetCIM();
 
         // PayTrace
         new PayTrace();

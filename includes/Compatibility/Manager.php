@@ -6,6 +6,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayTrace;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\SkyVerge;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe3x;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe4x;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\AutomateWoo;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Jilt;
@@ -97,6 +98,9 @@ class Manager {
 
 		// Pixel Cat
 		new PixelCat();
+
+		// AutomateWoo
+		new AutomateWoo();
 
 		/**
 		 * Misc

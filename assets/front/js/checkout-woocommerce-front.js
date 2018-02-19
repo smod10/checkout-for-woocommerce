@@ -181,10 +181,16 @@ var Main = /** @class */ (function () {
             if (!$cfw.hasClass(noPaymentCssClass)) {
                 $cfw.addClass(noPaymentCssClass);
             }
-            this.toggleBillingFieldsAbility(true);
+            if (EasyTabService_1.EasyTabService.isThereAShippingTab()) {
+                this.toggleBillingFieldsAbility(true);
+            }
+            // Always uncheck the payment method if order does not require payment
+            $('[name="payment_method"]:checked').prop("checked", false);
         }
         else {
-            this.toggleBillingFieldsAbility(false);
+            if (EasyTabService_1.EasyTabService.isThereAShippingTab()) {
+                this.toggleBillingFieldsAbility(false);
+            }
             $cfw.removeClass(noPaymentCssClass);
         }
     };
@@ -192,7 +198,6 @@ var Main = /** @class */ (function () {
         Main.instance.settings.default_address_fields.forEach(function (field_name) {
             $("[name=\"billing_" + field_name + "\"]").prop('disabled', enabled);
         });
-        $('[name="payment_method"]:checked').prop("checked", !enabled);
         if (enabled) {
             $("#ship_to_different_address_as_billing").prop("checked", true);
         }
@@ -2919,6 +2924,7 @@ var TabContainer = /** @class */ (function (_super) {
         formArr.forEach(function (item) { return formData[item.name] = item.value; });
         formData["has_full_address"] = has_full_address;
         formData["ship_to_different_address"] = ship_to_different_address;
+        console.log(formData);
         if (ship_to_different_address === 0) {
             lookFor.forEach(function (field) {
                 if ($("#billing_" + field).length > 0) {

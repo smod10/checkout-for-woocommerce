@@ -201,9 +201,18 @@ export class Main {
 			if( ! $cfw.hasClass(noPaymentCssClass) ) {
 				$cfw.addClass(noPaymentCssClass);
 			}
-            this.toggleBillingFieldsAbility(true);
+
+			if(EasyTabService.isThereAShippingTab()) {
+                this.toggleBillingFieldsAbility(true);
+            }
+
+            // Always uncheck the payment method if order does not require payment
+            $('[name="payment_method"]:checked').prop("checked", false);
 		} else {
-            this.toggleBillingFieldsAbility(false);
+            if(EasyTabService.isThereAShippingTab()) {
+                this.toggleBillingFieldsAbility(false);
+			}
+
 			$cfw.removeClass(noPaymentCssClass);
 		}
 	}
@@ -212,8 +221,6 @@ export class Main {
         Main.instance.settings.default_address_fields.forEach( function( field_name ) {
 			$(`[name="billing_${field_name}"]`).prop('disabled', enabled);
 		} );
-
-        $('[name="payment_method"]:checked').prop("checked", !enabled);
 
         if(enabled) {
         	$("#ship_to_different_address_as_billing").prop("checked", true);

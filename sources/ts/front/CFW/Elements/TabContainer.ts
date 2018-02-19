@@ -515,6 +515,8 @@ export class TabContainer extends Element {
         formData["has_full_address"] = has_full_address;
         formData["ship_to_different_address"] = ship_to_different_address;
 
+        console.log(formData);
+
         if(ship_to_different_address === 0) {
             lookFor.forEach(field => {
                 if($(`#billing_${field}`).length > 0) {

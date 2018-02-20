@@ -1006,10 +1006,14 @@ fieldset .cfw-sg-container:last-child > * > .form-row {
   box-shadow: 0 0 0 1px #ddd !important; }
 
 #wc-stripe-cc-form .cfw-sg-container.cfw-input-wrap-row {
-  display: inline;
   box-sizing: border-box;
-  width: 100%;
+  width: 100%; }
+
+#stripe-payment-data .cfw-sg-container {
   margin: 0; }
+
+#stripe-payment-data .cfw-sg-container .cfw-column-6 {
+  margin-left: 0; }
 
 label[for="card-element"] {
   display: none; }
@@ -1431,6 +1435,9 @@ textarea {
 
 .cfw-input-wrap-row > div > .form-row {
   margin-left: 10px; }
+
+#wc-stripe-cc-form .form-row {
+  margin-left: 0px; }
 
 @media (max-width: 767px) {
   .cfw-prev-tab {

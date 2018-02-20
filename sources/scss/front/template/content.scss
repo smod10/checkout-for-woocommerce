@@ -306,10 +306,19 @@ fieldset .cfw-sg-container:last-child > * > .form-row {
 }
 
 #wc-stripe-cc-form .cfw-sg-container.cfw-input-wrap-row {
-  display: inline;
+  //display: inline;
   box-sizing: border-box;
   width: 100%;
+  //margin: 0;
+}
+
+// fix for inline form field
+#stripe-payment-data .cfw-sg-container {
   margin: 0;
+}
+
+#stripe-payment-data .cfw-sg-container .cfw-column-6 {
+  margin-left: 0;
 }
 
 label[for="card-element"] {
@@ -865,6 +874,10 @@ textarea {
 
 .cfw-input-wrap-row > div > .form-row {
   margin-left: 10px;
+}
+
+#wc-stripe-cc-form .form-row {
+  margin-left: 0px;
 }
 
 @media (max-width: 767px) {

@@ -9,5 +9,5 @@
  */
 
 // Dev Mode
-define( 'CO_DEV_MODE', true );
+define( 'CO_DEV_MODE', false );
 define( 'CFW_TEXT_DOMAIN', 'checkout-wc' );

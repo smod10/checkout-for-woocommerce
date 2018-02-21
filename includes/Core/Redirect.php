@@ -322,8 +322,8 @@ class Redirect {
 
 		$ignore = apply_filters('cfw_allowed_script_handles', $ignore);
 
-		foreach($wp_scripts->queue as $handle) {
-		    if(!in_array($handle, $ignore)) {
+		foreach ( $wp_scripts->queue as $handle ) {
+		    if ( ! in_array($handle, $ignore) ) {
 			    wp_dequeue_script( $handle );
 			    wp_deregister_script( $handle );
 		    }

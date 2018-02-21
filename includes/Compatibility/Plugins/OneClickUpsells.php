@@ -55,7 +55,7 @@ class OneClickUpsells extends Base {
 			$checkout_page = $gateways[ 'ocupaypal' ]->checkout_page;
 
 			if( $checkout_page == 'top' || $checkout_page == 'both' ) {
-				echo '<div class="woocommerce-info" style="text-align: center;">';
+				echo '<div class="ocu-woocommerce-info" style="text-align: center;">';
 
 				$gateways[ 'ocupaypal' ]->paypal_display_button();
 
@@ -66,6 +66,7 @@ class OneClickUpsells extends Base {
 
 	function allowed_scripts( $scripts ) {
 		// One Click Upsell Stripe
+		$scripts[] = 'stripe';
 		$scripts[] = 'ocustripe';
 		$scripts[] = 'ocuadyen';
 		$scripts[] = 'ocuamazon';

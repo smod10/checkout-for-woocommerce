@@ -17,6 +17,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OnePageCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCat;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelYourSitePro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
@@ -66,6 +67,9 @@ class Manager {
 
 		// One Page Checkout
 		new OnePageCheckout();
+
+		// PixelYourSite Pro
+		new PixelYourSitePro();
 
 		/**
 		 * Gateways

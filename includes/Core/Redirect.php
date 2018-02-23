@@ -25,8 +25,6 @@ class Redirect {
 	 */
 	public static function checkout($settings_manager, $path_manager, $template_manager, $version) {
 		if ( function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) {
-		    $self = get_called_class();
-
 			// When on the checkout with an empty cart, redirect to cart page
 			if ( WC()->cart->is_empty() ) {
 				wc_add_notice( __( 'Checkout is not available whilst your cart is empty.', 'woocommerce' ), 'notice' );
@@ -57,10 +55,10 @@ class Redirect {
 
             // Setup default cfw_wp_head actions
             add_action('cfw_wp_head', 'wp_enqueue_scripts', 0, 0);
-            add_action('cfw_wp_head', array($self, 'output_meta_tags'), 10, 4);
-            add_action('cfw_wp_head', array($self, 'output_custom_scripts'), 20, 4);
-            add_action('cfw_wp_head', array($self, 'output_init_block'), 30, 4);
-			add_action('cfw_wp_head', array($self, 'output_custom_styles'), 40, 4);
+            add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_meta_tags'), 10, 4);
+            add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_scripts'), 20, 4);
+            add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_init_block'), 30, 4);
+			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_styles'), 40, 4);
 
 			// Output the contents of the <head></head> section
 			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc')), $settings_manager);

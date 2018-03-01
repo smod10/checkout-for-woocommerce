@@ -1,5 +1,7 @@
 <?php
+
 namespace Objectiv\Plugins\Checkout\Compatibility;
+
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetAIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetCIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
@@ -7,6 +9,9 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayTrace;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\SkyVerge;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe3x;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe4x;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\BlueSnap;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Square;
+
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\AutomateWoo;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
@@ -21,7 +26,6 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelYourSitePro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\BlueSnap;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnalytics;
 
 /**
@@ -110,6 +114,9 @@ class Manager {
 
 		// AutomateWoo
 		new AutomateWoo();
+
+		// Square
+		new Square();
 
 		/**
 		 * Misc

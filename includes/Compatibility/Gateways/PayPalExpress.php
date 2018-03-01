@@ -5,6 +5,7 @@ namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 use Objectiv\Plugins\Checkout\Compatibility\Base;
 
 class PayPalExpress extends Base {
+
 	private $_CompatibilityManager;
 
 	public function __construct( $CompatibilityManager ) {
@@ -13,16 +14,16 @@ class PayPalExpress extends Base {
 		$this->_CompatibilityManager = $CompatibilityManager;
 	}
 
-	function is_available() {
+	public function is_available() {
 		return ( function_exists('wc_gateway_ppec') && wc_gateway_ppec()->settings->is_enabled() );
 	}
 
-	function run() {
+	public function run() {
 		// Add PayPal Express Checkout Button
 		add_action('wp', array($this, 'add_paypal_express_to_checkout') );
 	}
 
-	function add_paypal_express_to_checkout() {
+	public function add_paypal_express_to_checkout() {
 		if ( is_checkout() ) {
 			// Remove "OR" separator
 			remove_all_actions( 'woocommerce_proceed_to_checkout');
@@ -43,14 +44,14 @@ class PayPalExpress extends Base {
 		}
 	}
 
-	function allowed_scripts( $scripts ) {
+	public function allowed_scripts( $scripts ) {
 		$scripts[] = 'wc-gateway-ppec-frontend-in-context-checkout';
 		$scripts[] = 'paypal-checkout-js';
 
 		return $scripts;
 	}
 
-	function allowed_styles( $styles ) {
+	public function allowed_styles( $styles ) {
 		$styles[] = 'wc-gateway-ppec-frontend-cart';
 
 		return $styles;

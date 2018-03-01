@@ -2247,6 +2247,7 @@ var LocalizationService = /** @class */ (function () {
         $state.attr("required", default_state_data.required);
         $state.attr("placeholder", default_state_data.label);
         $state.attr("autocomplete", default_state_data.autocomplete);
+        $state.attr("name", info_type + "_state");
         $state.siblings("." + label_class).text(default_state_data.label);
         if (default_state_data.required == true) {
             $state.siblings("." + label_class).append(asterisk);

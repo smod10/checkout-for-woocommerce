@@ -124,6 +124,9 @@ class UpdateCheckoutAction extends Action {
 	 * @return array
 	 */
 	public function get_shipping_methods() {
+		ob_start();
+		cfw_cart_totals_shipping_html();
+		return ob_get_clean();
 		$packages = WC()->shipping->get_packages();
 		$out = [];
 

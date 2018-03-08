@@ -420,7 +420,7 @@ export class TabContainer extends Element {
     setShippingPaymentUpdate(): void {
         let shipping_method: TabContainerSection = this.tabContainerSectionBy("name", "shipping_method");
 
-        shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each((index, el) => {
+        shipping_method.jel.find('#cfw-shipping-method-list input[type="radio"]').each((index, el) => {
             $(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
         });
     }

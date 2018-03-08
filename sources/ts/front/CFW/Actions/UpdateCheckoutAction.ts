@@ -78,7 +78,7 @@ export class UpdateCheckoutAction extends Action {
         let shipping_method_container = $("#shipping_method");
 
         shipping_method_container.html("");
-        shipping_method_container.append(`<div class="shipping-message">${resp.updated_ship_methods}</div>`);
+        shipping_method_container.append(`${resp.updated_ship_methods}`);
 
         Main.togglePaymentRequired(resp.needs_payment);
 

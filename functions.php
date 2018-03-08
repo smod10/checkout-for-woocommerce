@@ -321,7 +321,9 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 			?>
 
 			<?php if ( 1 < count( $available_methods ) ) : ?>
+				<?php if ( 1 < count( $packages ) ) : ?>
                 <h4 class="cfw-shipping-package-title"><?php echo $package_name; ?></h4>
+                <?php endif; ?>
 				<ul class="cfw-shipping-methods-list">
 					<?php foreach ( $available_methods as $method ) : ?>
 						<li>

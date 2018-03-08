@@ -990,7 +990,7 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
         // Update shipping methods
         var shipping_method_container = $("#shipping_method");
         shipping_method_container.html("");
-        shipping_method_container.append("<div class=\"shipping-message\">" + resp.updated_ship_methods + "</div>");
+        shipping_method_container.append("" + resp.updated_ship_methods);
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
         Cart_1.Cart.outputValues(main.cart, resp.new_totals);
         UpdateCheckoutAction.updateShippingDetails();

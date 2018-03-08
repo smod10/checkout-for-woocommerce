@@ -987,22 +987,10 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
             Cart_1.Cart.outputCoupons(main.cart.coupons, coupons);
         }
         var updated_shipping_methods = [];
-        if (typeof resp.updated_ship_methods !== "string") {
-            Object.keys(resp.updated_ship_methods).forEach(function (key) { return updated_shipping_methods.push(resp.updated_ship_methods[key]); });
-            if (updated_shipping_methods.length > 0) {
-                $("#shipping_method").html("");
-                $("#shipping_method").append("<ul class='cfw-shipping-methods-list'></ul>");
-                // Update shipping methods
-                updated_shipping_methods.forEach(function (ship_method) {
-                    return $("#shipping_method ul").append($("<li>" + ship_method + "</li>"));
-                });
-            }
-            // There is a message
-        }
-        else {
-            $("#shipping_method").html("");
-            $("#shipping_method").append("<div class=\"shipping-message\">" + resp.updated_ship_methods + "</div>");
-        }
+        // Update shipping methods
+        var shipping_method_container = $("#shipping_method");
+        shipping_method_container.html("");
+        shipping_method_container.append("<div class=\"shipping-message\">" + resp.updated_ship_methods + "</div>");
         Main_1.Main.togglePaymentRequired(resp.needs_payment);
         Cart_1.Cart.outputValues(main.cart, resp.new_totals);
         UpdateCheckoutAction.updateShippingDetails();
@@ -2851,7 +2839,7 @@ var TabContainer = /** @class */ (function (_super) {
     TabContainer.prototype.setShippingPaymentUpdate = function () {
         var _this = this;
         var shipping_method = this.tabContainerSectionBy("name", "shipping_method");
-        shipping_method.jel.find('#cfw-shipping-method input[type="radio"]').each(function (index, el) {
+        shipping_method.jel.find('#cfw-shipping-method-list input[type="radio"]').each(function (index, el) {
             $(el).on("click", function () { return new UpdateCheckoutAction_1.UpdateCheckoutAction("update_checkout", Main_1.Main.instance.ajaxInfo, _this.getFormObject()).load(); });
         });
     };

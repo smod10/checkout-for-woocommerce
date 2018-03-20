@@ -102,7 +102,7 @@ if ( inProduction ) {
                 {
                     from:'.',
                     to:'dist/checkout-for-woocommerce',
-                    ignore: ['node_modules/**', 'dist/**', '.git/**'],
+                    ignore: ['node_modules/**', 'dist/**', '.git/**', '.gitignore'],
                     transform: function(content, path) {
 
                         return content;
@@ -119,7 +119,7 @@ if ( inProduction && version !== false ) {
             {
                 from:'.',
                 to:'checkout-for-woocommerce',
-                ignore: ['node_modules/**', 'dist/**', '.git/**'],
+                ignore: ['node_modules/**', 'dist/**', '.git/**', '.gitignore'],
                 transform: function(content, path) {
 
                     return content;

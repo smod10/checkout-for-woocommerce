@@ -2660,25 +2660,6 @@ var TabContainer = /** @class */ (function (_super) {
                 $(elem).wrap("<div class='cfw-column-3'></div>");
             }
         });
-        // Authorize.net - CIM
-        // let authorizenet_cim_form_wraps = $("#wc-authorize-net-cim-credit-card-credit-card-form .form-row").not(':last');
-        //
-        // $("#wc-authorize-net-cim-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-        //
-        // authorizenet_cim_form_wraps.each(function(index, elem) {
-        //     $(elem).addClass("cfw-input-wrap");
-        //     $(elem).addClass("cfw-text-input");
-        //     $(elem).find("label").addClass("cfw-input-label");
-        //     $(elem).find("input").css("width", "100%");
-        //
-        //     if( $(elem).hasClass("form-row-wide") ) {
-        //         $(elem).wrap("<div class='cfw-column-6'></div>")
-        //     }
-        //
-        //     if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
-        //         $(elem).wrap("<div class='cfw-column-3'></div>")
-        //     }
-        // });
         // PayFlow Pro
         var payflow_pro_form_wraps = $(".payment_method_paypal_pro_payflow > fieldset > .form-row");
         $(".payment_method_paypal_pro_payflow > fieldset").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
@@ -2763,6 +2744,51 @@ var TabContainer = /** @class */ (function (_super) {
             if ($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
                 $(elem).wrap("<div class='cfw-column-3'></div>");
             }
+        });
+        // FirstData - PayEezy
+        var firstdata_payeezy_form_wraps = $("#wc-first-data-payeezy-gateway-credit-card-credit-card-form .form-row");
+        $("#wc-first-data-payeezy-gateway-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        firstdata_payeezy_form_wraps.each(function (index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label[for!='wc-first-data-payeezy-gateway-credit-card-tokenize-payment-method']").addClass("cfw-input-label");
+            $(elem).find("input").not(':checkbox').css("width", "100%");
+            $(elem).wrap("<div class='cfw-column-12 pad-bottom'></div>");
+        });
+        // Authorize.net CIM
+        var authnet_cim_form_wraps = $("#wc-authorize-net-cim-credit-card-credit-card-form .form-row");
+        $("#wc-authorize-net-cim-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        authnet_cim_form_wraps.each(function (index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label[for!='wc-authorize-net-cim-credit-card-tokenize-payment-method']").addClass("cfw-input-label");
+            $(elem).find("input").not(':checkbox').css("width", "100%");
+            $(elem).wrap("<div class='cfw-column-12 pad-bottom'></div>");
+        });
+        // First Data - Global Gateway
+        var firstdata_global_form_wraps = $("#wc-first-data-global-gateway-credit-card-form .form-row");
+        $("#wc-first-data-global-gateway-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        firstdata_global_form_wraps.each(function (index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label").addClass("cfw-input-label");
+            $(elem).find("input").css("width", "100%");
+            if ($(elem).hasClass("form-row-wide")) {
+                $(elem).wrap("<div class='cfw-column-6'></div>");
+            }
+            if ($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
+                $(elem).wrap("<div class='cfw-column-3'></div>");
+            }
+        });
+        // First Data - Payeezy JS
+        var firstdata_payeezyjs_form_wraps = $("#wc-first-data-payeezy-credit-card-credit-card-form .form-row");
+        $("#wc-first-data-payeezy-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        firstdata_payeezyjs_form_wraps.each(function (index, elem) {
+            $(elem).addClass("cfw-input-wrap");
+            $(elem).addClass("cfw-text-input");
+            $(elem).find("label[for!='wc-first-data-payeezy-credit-card-tokenize-payment-method']").addClass("cfw-input-label");
+            $(elem).find("input").not(':checkbox').css("width", "100%");
+            $(elem).wrap("<div class='cfw-column-12 pad-bottom'></div>");
         });
     };
     /**

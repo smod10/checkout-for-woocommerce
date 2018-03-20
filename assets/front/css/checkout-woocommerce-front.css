@@ -961,6 +961,10 @@ body {
 fieldset .cfw-sg-container:last-child > * > .form-row {
   margin-bottom: 0; }
 
+.cfw-sg-container > .form-row {
+  margin-left: 10px;
+  width: calc(100% - 20px); }
+
 .paytrace-create-account {
   margin-bottom: 0 !important; }
   .paytrace-create-account .form-row {
@@ -1238,6 +1242,12 @@ label[for="card-element"] {
 
 .kill-bottom-margin {
   margin-bottom: 0 !important; }
+
+p.cfw-input-wrap {
+  margin-bottom: 0; }
+
+.pad-bottom .form-row {
+  margin-bottom: 12.5px; }
 
 .cfw-input-wrap {
   position: relative; }

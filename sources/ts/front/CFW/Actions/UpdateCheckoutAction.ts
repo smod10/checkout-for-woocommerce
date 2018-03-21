@@ -57,6 +57,8 @@ export class UpdateCheckoutAction extends Action {
         let main: Main = Main.instance;
         main.updating = false;
 
+        console.log(resp);
+
         if(resp.fees) {
             let fees = $.map(resp.fees, value => [value]);
 
@@ -70,9 +72,6 @@ export class UpdateCheckoutAction extends Action {
 
             Cart.outputCoupons(main.cart.coupons, coupons);
         }
-
-
-        let updated_shipping_methods: Array<any> = [];
 
         // Update shipping methods
         let shipping_method_container = $("#shipping_method");

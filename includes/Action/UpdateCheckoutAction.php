@@ -73,7 +73,7 @@ class UpdateCheckoutAction extends Action {
 			"new_totals" => array(
 				"new_subtotal" => WC()->cart->get_cart_subtotal(),
 				"new_shipping_total" => WC()->cart->get_cart_shipping_total(),
-				"new_taxes_total" => WC()->cart->get_cart_tax(),
+				"new_taxes_total" => (WC()->cart->get_cart_tax() != '') ? WC()->cart->get_cart_tax() : wc_price(0.00),
 				"new_total" => WC()->cart->get_total()
 			),
 			"needs_payment" => WC()->cart->needs_payment(),

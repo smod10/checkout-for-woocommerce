@@ -976,6 +976,7 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
     UpdateCheckoutAction.prototype.response = function (resp) {
         var main = Main_1.Main.instance;
         main.updating = false;
+        console.log(resp);
         if (resp.fees) {
             var fees = $.map(resp.fees, function (value) { return [value]; });
             Cart_1.Cart.outputFees(main.cart.fees, fees);
@@ -986,7 +987,6 @@ var UpdateCheckoutAction = /** @class */ (function (_super) {
             });
             Cart_1.Cart.outputCoupons(main.cart.coupons, coupons);
         }
-        var updated_shipping_methods = [];
         // Update shipping methods
         var shipping_method_container = $("#shipping_method");
         shipping_method_container.html("");

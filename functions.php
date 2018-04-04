@@ -320,7 +320,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 			// Next section ripped straight from cart-shipping and edited for now
 			?>
 
-			<?php if ( 1 < count( $available_methods ) ) : ?>
+			<?php if ( count( $available_methods ) > 0  ) : ?>
 				<?php if ( 1 < count( $packages ) ) : ?>
                 <h4 class="cfw-shipping-package-title"><?php echo $package_name; ?></h4>
                 <?php endif; ?>
@@ -336,12 +336,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 						</li>
 					<?php endforeach; ?>
 				</ul>
-			<?php elseif ( 1 === count( $available_methods ) ) :  ?>
-				<?php
-				$method = current( $available_methods );
-				printf( '%3$s <input type="hidden" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d" value="%2$s" class="shipping_method" />', $index, esc_attr( $method->id ), wc_cart_totals_shipping_method_label( $method ) );
-				do_action( 'woocommerce_after_shipping_rate', $method, $index );
-				?>
 			<?php else : ?>
                 <div class="shipping-message">
 				    <?php echo apply_filters('woocommerce_no_shipping_available_html', wpautop( __( 'There are no shipping methods available. Please double check your address, or contact us if you need any help.', 'woocommerce' ) ) ); ?>

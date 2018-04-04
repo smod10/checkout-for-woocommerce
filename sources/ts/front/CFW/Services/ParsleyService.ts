@@ -140,6 +140,8 @@ export class ParsleyService {
 
                             let event = new Event("cfw:checkout-validated");
                             window.dispatchEvent(event);
+
+                            $(document.body).trigger("update_checkout");
                         });
                 }
 

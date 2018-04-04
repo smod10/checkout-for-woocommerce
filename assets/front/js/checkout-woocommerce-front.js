@@ -1915,6 +1915,7 @@ var ParsleyService = /** @class */ (function () {
                         ParsleyService.cityStateValidating = false;
                         var event = new Event("cfw:checkout-validated");
                         window.dispatchEvent(event);
+                        $(document.body).trigger("update_checkout");
                     });
                 }
                 // Return true, if we fail we will go back.

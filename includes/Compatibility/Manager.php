@@ -76,6 +76,9 @@ class Manager {
 		// PixelYourSite Pro
 		new PixelYourSitePro();
 
+		// AutomateWoo
+		new AutomateWoo();
+
 		/**
 		 * Gateways
 		 */
@@ -112,9 +115,6 @@ class Manager {
 
 		// Pixel Cat
 		new PixelCat();
-
-		// AutomateWoo
-		new AutomateWoo();
 
 		// Square
 		new Square();

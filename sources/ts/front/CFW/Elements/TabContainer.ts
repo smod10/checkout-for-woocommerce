@@ -723,7 +723,7 @@ export class TabContainer extends Element {
             let coupon_field: JQuery = $("#cfw-promo-code");
 
             if(coupon_field.val() !== "") {
-                new ApplyCouponAction('apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFormObject()).load();
+                new ApplyCouponAction('cfw_apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFormObject()).load();
             } else {
                 // Remove alerts
                 Alert.removeAlerts();

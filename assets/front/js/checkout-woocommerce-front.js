@@ -3083,7 +3083,7 @@ var TabContainer = /** @class */ (function (_super) {
         $("#cfw-promo-code-btn").on('click', function () {
             var coupon_field = $("#cfw-promo-code");
             if (coupon_field.val() !== "") {
-                new ApplyCouponAction_1.ApplyCouponAction('apply_coupon', Main_1.Main.instance.ajaxInfo, coupon_field.val(), Main_1.Main.instance.cart, _this.getFormObject()).load();
+                new ApplyCouponAction_1.ApplyCouponAction('cfw_apply_coupon', Main_1.Main.instance.ajaxInfo, coupon_field.val(), Main_1.Main.instance.cart, _this.getFormObject()).load();
             }
             else {
                 // Remove alerts

@@ -912,6 +912,15 @@ textarea {
     display: inline-block;
   }
 
+  #wc-stripe-cc-form {
+    .cfw-sg-container > div[class^="cfw-column"] {
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom: 0.3em;
+    }
+  }
+
   .previous-button {
     text-align: center;
   }

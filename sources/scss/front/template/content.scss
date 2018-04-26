@@ -172,8 +172,15 @@ body {
     padding-right: 8px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 
-    img { max-height: 32px; }
+    img {
+      max-height: 32px;
+      margin-right: 4px;
+
+      &:last-child { margin-right: 0; }
+    }
+
     a { display: none; }
   }
 
@@ -1037,6 +1044,10 @@ textarea {
 
   #cfw-billing-fields-container .cfw-input-wrap-row:last-child > .address-field {
     margin-bottom: 0;
+  }
+
+  #cfw-billing-methods .payment_method_icons {
+    display: none !important;
   }
 }
 

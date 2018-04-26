@@ -904,7 +904,8 @@ body {
 #cfw-billing-methods .payment_method_icons, #cfw-shipping-same-billing .payment_method_icons {
   padding-right: 8px;
   display: flex;
-  align-items: center; }
+  align-items: center;
+  justify-content: flex-end; }
   #cfw-billing-methods .payment_method_icons img, #cfw-shipping-same-billing .payment_method_icons img {
     max-height: 32px; }
   #cfw-billing-methods .payment_method_icons a, #cfw-shipping-same-billing .payment_method_icons a {

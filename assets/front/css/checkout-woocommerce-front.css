@@ -689,11 +689,11 @@ a.bsnp_new_card {
   margin: 0 0 1.5em;
   padding: 0;
   line-height: 1.5; }
-  .form-row label:not('.sv-wc-payment-gateway-payment-form-saved-payment-method') {
+  .form-row label:not(.sv-wc-payment-gateway-payment-form-saved-payment-method) {
     display: block;
     margin-bottom: 0.5em;
     font-weight: 600; }
-    .form-row label:not('.sv-wc-payment-gateway-payment-form-saved-payment-method').checkbox {
+    .form-row label:not(.sv-wc-payment-gateway-payment-form-saved-payment-method).checkbox {
       font-weight: 400; }
   .form-row input[type="radio"] + label, .form-row input[type="checkbox"] + label {
     font-weight: 400; }

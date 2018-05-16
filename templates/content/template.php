@@ -32,7 +32,7 @@
                     <li class="tab" id="default-tab">
                         <a href="#cfw-customer-info" class="cfw-small"><?php esc_html_e( 'Customer information', CFW_TEXT_DOMAIN ); ?></a>
                     </li>
-                    <?php if ( WC()->cart->needs_shipping_address() ): ?>
+                    <?php if ( WC()->cart->needs_shipping_address() && apply_filters('cfw_show_shipping_tab', true) === true ): ?>
                     <li class="tab">
                         <a href="#cfw-shipping-method" class="cfw-small"><?php esc_html_e( 'Shipping method', CFW_TEXT_DOMAIN ); ?></a>
                     </li>
@@ -161,7 +161,7 @@
                                 <div class="previous-button">
                                     <a href="<?php echo wc_get_cart_url(); ?>" class="cfw-prev-tab">« <?php esc_html_e( 'Return to cart', CFW_TEXT_DOMAIN ); ?></a>
                                 </div>
-                                <?php if ( WC()->cart->needs_shipping_address() ): ?>
+                                <?php if ( WC()->cart->needs_shipping_address() && apply_filters('cfw_show_shipping_tab', true) === true ): ?>
                                     <a href="#cfw-shipping-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e('Continue to shipping method', CFW_TEXT_DOMAIN); ?></a>
                                 <?php else: ?>
                                     <a href="#cfw-payment-method" class="cfw-primary-btn cfw-next-tab"><?php esc_html_e('Continue to payment method', CFW_TEXT_DOMAIN); ?></a>
@@ -172,7 +172,7 @@
                         </div>
 
                         <!-- Shipping Method Panel -->
-                        <div id="cfw-shipping-method" class="cfw-panel" style="<?php echo (!WC()->cart->needs_shipping_address()) ? "display: none" : ""; ?>">
+                        <div id="cfw-shipping-method" class="cfw-panel" style="<?php echo ( ! WC()->cart->needs_shipping_address() || apply_filters('cfw_show_shipping_tab', true) === false ) ? "display: none" : ""; ?>">
 	                        <?php do_action('cfw_checkout_before_shipping_method_tab'); ?>
 
                             <div id="cfw-shipping-details" class="cfw-module">

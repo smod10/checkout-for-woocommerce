@@ -172,8 +172,15 @@ body {
     padding-right: 8px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 
-    img { max-height: 32px; }
+    img {
+      max-height: 32px;
+      margin-right: 4px;
+
+      &:last-child { margin-right: 0; }
+    }
+
     a { display: none; }
   }
 
@@ -905,6 +912,15 @@ textarea {
     display: inline-block;
   }
 
+  #wc-stripe-cc-form {
+    .cfw-sg-container > div[class^="cfw-column"] {
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom: 0.3em;
+    }
+  }
+
   .previous-button {
     text-align: center;
   }
@@ -1037,6 +1053,10 @@ textarea {
 
   #cfw-billing-fields-container .cfw-input-wrap-row:last-child > .address-field {
     margin-bottom: 0;
+  }
+
+  #cfw-billing-methods .payment_method_icons {
+    display: none !important;
   }
 }
 

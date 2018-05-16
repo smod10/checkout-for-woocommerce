@@ -689,11 +689,11 @@ a.bsnp_new_card {
   margin: 0 0 1.5em;
   padding: 0;
   line-height: 1.5; }
-  .form-row label:not('.sv-wc-payment-gateway-payment-form-saved-payment-method') {
+  .form-row label:not(.sv-wc-payment-gateway-payment-form-saved-payment-method) {
     display: block;
     margin-bottom: 0.5em;
     font-weight: 600; }
-    .form-row label:not('.sv-wc-payment-gateway-payment-form-saved-payment-method').checkbox {
+    .form-row label:not(.sv-wc-payment-gateway-payment-form-saved-payment-method).checkbox {
       font-weight: 400; }
   .form-row input[type="radio"] + label, .form-row input[type="checkbox"] + label {
     font-weight: 400; }
@@ -904,9 +904,13 @@ body {
 #cfw-billing-methods .payment_method_icons, #cfw-shipping-same-billing .payment_method_icons {
   padding-right: 8px;
   display: flex;
-  align-items: center; }
+  align-items: center;
+  justify-content: flex-end; }
   #cfw-billing-methods .payment_method_icons img, #cfw-shipping-same-billing .payment_method_icons img {
-    max-height: 32px; }
+    max-height: 32px;
+    margin-right: 4px; }
+    #cfw-billing-methods .payment_method_icons img:last-child, #cfw-shipping-same-billing .payment_method_icons img:last-child {
+      margin-right: 0; }
   #cfw-billing-methods .payment_method_icons a, #cfw-shipping-same-billing .payment_method_icons a {
     display: none; }
 
@@ -1458,6 +1462,11 @@ textarea {
   .cfw-prev-tab {
     margin-bottom: 1em;
     display: inline-block; }
+  #wc-stripe-cc-form .cfw-sg-container > div[class^="cfw-column"] {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0.3em; }
   .previous-button {
     text-align: center; }
   #cfw-cart-details {
@@ -1532,7 +1541,9 @@ textarea {
   .state-gone-margin {
     margin-bottom: 0 !important; }
   #cfw-billing-fields-container .cfw-input-wrap-row:last-child > .address-field {
-    margin-bottom: 0; } }
+    margin-bottom: 0; }
+  #cfw-billing-methods .payment_method_icons {
+    display: none !important; } }
 
 @media (max-width: 445px) {
   #cfw-cart-details-review-bar {

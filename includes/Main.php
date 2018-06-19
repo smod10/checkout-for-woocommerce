@@ -331,7 +331,7 @@ class Main extends Singleton {
 //		$whoops->register();
 
 		// Enable Kint
-		\Kint::enabled(true);
+		\Kint::$enabled_mode = true;
 	}
 
 	/**

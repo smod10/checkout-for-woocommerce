@@ -51,7 +51,7 @@ use Objectiv\Plugins\Checkout\Core\Admin;
 /**
  * Kint disabled by default. Enable by enabling developer mode (see docs)
  */
-Kint::enabled(false);
+Kint::$enabled_mode = false;
 
 /**
  * Begins execution of the plugin.

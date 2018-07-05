@@ -14,7 +14,7 @@ class MixPanel extends Base {
 	}
 
 	function run() {
-		add_action('cfw_wp_head', array($this, 'mixpanel_head') );
+		add_action('cfw_wp_head', array($this, 'mixpanel_head'), 31 ); // 31 is after init_block, which injects header scripts / styles
     }
 
 	function mixpanel_head() {

@@ -175,6 +175,7 @@ class Redirect {
 	 * @param array $classes
 	 */
 	public static function head($path_manager, $version, $classes, $settings_manager) {
+	    $classes[] = (wp_is_mobile()) ? "wp-is-mobile" : "";
 		?>
 		<!DOCTYPE html>
         <html <?php language_attributes(); ?>>

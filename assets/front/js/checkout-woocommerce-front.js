@@ -2911,10 +2911,13 @@ var TabContainer = /** @class */ (function (_super) {
                 $("#cfw-cart-details-collapse-wrap").css('display', 'block');
                 $("#cfw-cart-details").removeClass('active');
             }
-            else {
-                $("#cfw-cart-details-collapse-wrap").css('display', 'none');
-            }
         });
+        if (window.innerWidth >= 767) {
+            $("#cfw-cart-details-collapse-wrap").css('display', 'block');
+        }
+        else {
+            $("#cfw-cart-details-collapse-wrap").css('display', 'none');
+        }
     };
     /**
      * @returns {{}}

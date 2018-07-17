@@ -507,7 +507,7 @@ export class TabContainer extends Element {
      */
     setUpMobileCartDetailsReveal(): void {
         let showCartDetails: Element = new Element($("#cfw-show-cart-details"));
-        showCartDetails.jel.on('click', () => {
+        showCartDetails.jel.on('click tap', () => {
             $("#cfw-cart-details-collapse-wrap").slideToggle(300).parent().toggleClass("active")
         });
 
@@ -515,10 +515,14 @@ export class TabContainer extends Element {
             if(window.innerWidth >= 767) {
                 $("#cfw-cart-details-collapse-wrap").css('display', 'block');
                 $("#cfw-cart-details").removeClass('active');
-            } else {
-                $("#cfw-cart-details-collapse-wrap").css('display', 'none');
             }
-        })
+        });
+
+        if(window.innerWidth >= 767) {
+            $("#cfw-cart-details-collapse-wrap").css('display', 'block');
+        } else {
+            $("#cfw-cart-details-collapse-wrap").css('display', 'none');
+        }
     }
 
     /**

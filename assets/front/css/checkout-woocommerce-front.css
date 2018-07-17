@@ -835,8 +835,11 @@ body {
 .cfw-other-totals {
   text-align: left;
   color: #000;
-  font-size: 0.875em;
-  padding: 20px 0; }
+  font-size: 0.875em; }
+  .cfw-other-totals > *:first-child {
+    margin-bottom: 20px; }
+  .cfw-other-totals table:empty {
+    margin: 0; }
   .cfw-other-totals table, .cfw-other-totals tbody, .cfw-other-totals tr, .cfw-other-totals th, .cfw-other-totals td {
     margin: 0;
     padding: 0;
@@ -1459,6 +1462,8 @@ textarea {
   .cfw-prev-tab {
     margin-bottom: 1em;
     display: inline-block; }
+  .cfw-other-totals > *:first-child {
+    margin-top: 20px; }
   #wc-stripe-cc-form .cfw-sg-container > div[class^="cfw-column"] {
     width: 100%;
     margin-left: 0;
@@ -1473,8 +1478,6 @@ textarea {
     padding: 30px !important;
     background: #f4f4f4;
     margin-bottom: 30px !important; }
-    #cfw-cart-details.active #cfw-cart-details-review-bar {
-      margin-bottom: 30px; }
     #cfw-cart-details.active #cfw-cart-details-arrow {
       transform: rotate(-90deg); }
   #cfw-cart-details-review-bar {
@@ -1491,7 +1494,14 @@ textarea {
       text-decoration: none;
       color: #ebb134; }
   #cfw-cart-details-collapse-wrap {
-    display: none; }
+    display: none;
+    margin-top: 30px; }
+  body.wp-is-mobile #cfw-cart-details-review-bar, body.wp-is-mobile #cfw-cart-list .cfw-cart-row {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%; }
+    body.wp-is-mobile #cfw-cart-details-review-bar > div:first-child, body.wp-is-mobile #cfw-cart-list .cfw-cart-row > div:first-child {
+      margin-left: 0; }
   #cfw-show-cart-details {
     display: flex; }
   #cfw-cart-details-arrow {

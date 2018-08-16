@@ -68,7 +68,7 @@ abstract class Base {
 		?>
 		<div class="<?php echo $class; ?>">
 			<p class="pay-button-separator">
-				<span><?php esc_html_e( 'Or', CFW_TEXT_DOMAIN ); ?></span>
+				<span><?php esc_html_e( 'Or', 'checkout-wc' ); ?></span>
 			</p>
 		</div>
 		<?php

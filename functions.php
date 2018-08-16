@@ -334,11 +334,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 			<?php if ( $show_package_details ) : ?>
 				<?php echo '<p class="woocommerce-shipping-contents"><small>' . esc_html( $package_details ) . '</small></p>'; ?>
 			<?php endif; ?>
-
-			<?php if ( is_cart() && ! $index ) : ?>
-				<?php woocommerce_shipping_calculator(); ?>
-			<?php endif; ?>
-
 		<?php
 		}
 	}

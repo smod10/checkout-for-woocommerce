@@ -6,6 +6,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetAIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetCIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\FirstData;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayTrace;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\SkyVerge;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe3x;
@@ -121,6 +122,9 @@ class Manager {
 
 		// First Data
 		new FirstData();
+
+		// PayPal for WooCommerce
+		new PayPalForWooCommerce( $this );
 
 		/**
 		 * Misc

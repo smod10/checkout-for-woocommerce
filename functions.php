@@ -262,17 +262,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		return $key_sans_type;
 	}
 
-	function cfw_strip_key_type_and_capitalize($key) {
-		$key_sans_type = cfw_strip_key_type($key);
-		$key_temp = explode("_", $key_sans_type);
-
-		foreach($key_temp as $index => $word) {
-			$key_temp[$index] = ucfirst($word);
-		}
-
-		return implode(" ", $key_temp);
-	}
-
 	function cfw_get_shipping_checkout_fields($checkout) {
 	    $shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', $checkout->get_checkout_fields( 'shipping' ) );
 
@@ -293,7 +282,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		$shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', $checkout->get_checkout_fields( 'shipping' ) );
 
 		foreach ( $shipping_checkout_fields as $key => $field ) {
-			echo "<div field_type='" . cfw_strip_key_type($key) ."' class='cfw-shipping-details-field'><label class='field_type'>" . esc_html__(cfw_strip_key_type_and_capitalize($key), 'woocommerce') . ": </label><span class='field_value'>{$checkout->get_value($key)}</span></div>";
+			echo "<div field_type='" . cfw_strip_key_type($key) ."' class='cfw-shipping-details-field'><label class='field_type'>" . esc_html__( $field['label'], 'woocommerce') . ": </label><span class='field_value'>{$checkout->get_value($key)}</span></div>";
 		}
 	}
 

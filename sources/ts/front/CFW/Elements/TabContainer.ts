@@ -168,27 +168,6 @@ export class TabContainer extends Element {
         const CHECK = "paytrace_check_choice";
         const CARD = "paytrace_card_choice";
 
-        // Stripe Form
-        let stripe_form_wraps = $("#wc-stripe-cc-form .form-row");
-
-        $("#wc-stripe-cc-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-        $("#wc-stripe-cc-form").find(".clear").remove();
-
-        stripe_form_wraps.each(function(index, elem) {
-            $(elem).addClass("cfw-input-wrap");
-            $(elem).addClass("cfw-text-input");
-            $(elem).find("label").addClass("cfw-input-label");
-            $(elem).find("input").css("width", "100%");
-
-            if($(elem).hasClass("form-row-wide")) {
-                $(elem).wrap("<div class='cfw-column-6'></div>")
-            }
-
-            if($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
-                $(elem).wrap("<div class='cfw-column-3'></div>")
-            }
-        });
-
         // PayTrace Credit
         let paytrace_form_wraps = $("#paytrace-cards-form .form-row");
 

@@ -707,7 +707,7 @@ a.bsnp_new_card {
   .form-row input[type="radio"], .form-row input[type="checkbox"] {
     margin-right: 0.5em; }
   .form-row input[type="text"], .form-row input[type="email"], .form-row input[type="url"], .form-row input[type="password"], .form-row input[type="search"], .form-row input[type="number"], .form-row input[type="tel"], .form-row input[type="range"], .form-row input[type="date"], .form-row input[type="month"], .form-row input[type="week"], .form-row input[type="time"], .form-row input[type="datetime"], .form-row input[type="datetime-local"], .form-row input[type="color"], .form-row textarea {
-    padding: 0.7em;
+    padding: 1em;
     border: 1px solid #ddd;
     border-radius: 4px; }
 
@@ -769,6 +769,58 @@ a.bsnp_new_card {
 
 input.js-sv-wc-payment-token, input.js-sv-wc-payment-gateway-payment-token {
   margin-bottom: 10px; }
+
+/**
+ * Deprecated
+ * Fallback for bourbon equivalent
+ */
+/**
+ * Forms
+ */
+.clear {
+  *zoom: 1; }
+  .clear::before, .clear::after {
+    content: ' ';
+    display: table; }
+  .clear::after {
+    clear: both; }
+
+form .form-row {
+  *zoom: 1; }
+  form .form-row::before, form .form-row::after {
+    content: ' ';
+    display: table; }
+  form .form-row::after {
+    clear: both; }
+  form .form-row label {
+    display: block; }
+    form .form-row label.checkbox {
+      display: inline; }
+  form .form-row select {
+    width: 100%; }
+  form .form-row .input-text {
+    box-sizing: border-box;
+    width: 100%; }
+
+form .form-row-first,
+form .form-row-last {
+  width: 47%;
+  overflow: visible; }
+
+form .form-row-first {
+  float: left;
+  /*rtl:raw:
+    float: right;
+    */ }
+
+form .form-row-last {
+  float: right; }
+
+form .form-row-wide {
+  clear: both; }
+
+#payment .form-row select {
+  width: auto; }
 
 #cfw-header {
   background: #222; }

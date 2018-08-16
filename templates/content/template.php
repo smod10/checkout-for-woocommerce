@@ -237,7 +237,9 @@
                                     </div>
 
                                     <div id="order_review" class="cfw-payment-methods-wrap">
-                                        <?php cfw_get_payment_methods_html(); ?>
+                                        <div id="payment">
+                                            <?php cfw_get_payment_methods_html(); ?>
+                                        </div>
                                     </div>
                                 </div>
 

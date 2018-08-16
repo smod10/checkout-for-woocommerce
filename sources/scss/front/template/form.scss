@@ -1,0 +1,77 @@
+/**
+ * Deprecated
+ * Fallback for bourbon equivalent
+ */
+@mixin clearfix() {
+  *zoom: 1;
+
+  &::before,
+  &::after {
+    content: ' ';
+    display: table;
+  }
+
+  &::after {
+    clear: both;
+  }
+}
+
+/**
+ * Forms
+ */
+.clear {
+  @include clearfix();
+}
+
+form {
+  .form-row {
+    @include clearfix();
+
+    label {
+      display: block;
+
+      &.checkbox {
+        display: inline;
+      }
+    }
+
+    select {
+      width: 100%;
+    }
+
+    .input-text {
+      box-sizing: border-box;
+      width: 100%;
+    }
+  }
+
+  .form-row-first,
+  .form-row-last {
+    width: 47%;
+    overflow: visible;
+  }
+
+  .form-row-first {
+    float: left;
+
+    /*rtl:raw:
+    float: right;
+    */
+  }
+
+  .form-row-last {
+    float: right;
+  }
+
+  .form-row-wide {
+    clear: both;
+  }
+}
+
+#payment {
+  .form-row {
+    select {
+      width: auto;
+    }
+  }
+}

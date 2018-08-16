@@ -17,7 +17,14 @@ class AuthorizeNetCIM extends Base {
 		// Authorize.net - CIM
 		$scripts[] = 'wc-authorize-net-cim';
 		$scripts[] = 'wc-authorize-net-cim-accept-js';
+		$scripts[] = 'sv-wc-payment-gateway-payment-form';
 
 		return $scripts;
+	}
+
+	public function allowed_styles( $styles ) {
+		$styles[] = 'sv-wc-payment-gateway-payment-form';
+
+		return $styles;
 	}
 }

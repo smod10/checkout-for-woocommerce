@@ -315,7 +315,7 @@
                         </div>
                     </div>
 
-                    <?php wp_nonce_field( 'woocommerce-process_checkout' ); ?>
+	                <?php wp_nonce_field( 'woocommerce-process_checkout', 'woocommerce-process-checkout-nonce' ); ?>
                 </form>
 
 	            <?php do_action('cfw_checkout_after_form'); ?>

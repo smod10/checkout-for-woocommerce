@@ -385,10 +385,12 @@
                                 </div>
 	                        <?php endforeach; ?>
                             </div>
-                            <div id="cfw-cart-taxes" class="cfw-flex-row cfw-flex-justify">
-                                <span class="type"><?php esc_html_e('Taxes', CFW_TEXT_DOMAIN); ?></span>
-                                <span class="amount"><?php wc_cart_totals_taxes_total_html(); ?></span>
-                            </div>
+                            <?php if ( wc_tax_enabled() ): ?>
+                                <div id="cfw-cart-taxes" class="cfw-flex-row cfw-flex-justify">
+                                    <span class="type"><?php esc_html_e('Taxes', CFW_TEXT_DOMAIN); ?></span>
+                                    <span class="amount"><?php wc_cart_totals_taxes_total_html(); ?></span>
+                                </div>
+                            <?php endif; ?>
                             <div class="cfw-totals-total">
                                 <div id="cfw-cart-total" class="cfw-flex-row cfw-flex-justify">
                                     <span class="type"><?php esc_html_e('Total', CFW_TEXT_DOMAIN); ?></span>

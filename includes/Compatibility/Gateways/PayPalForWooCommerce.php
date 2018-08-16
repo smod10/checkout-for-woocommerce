@@ -16,6 +16,8 @@ class PayPalForWooCommerce extends Base {
 	}
 
 	public function is_available() {
+		if ( ! class_exists('WC_Payment_Gateways') ) return false;
+
 		$gateways = \WC_Payment_Gateways::instance()->payment_gateways();
 
 		if ( isset( $gateways['paypal_express'] ) && class_exists( 'AngellEYE_Gateway_Paypal' ) ) {

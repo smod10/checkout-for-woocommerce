@@ -92,8 +92,8 @@ class Form {
 	public function get_custom_default_address_fields() {
 		$defaults = array(
 			'first_name' => array(
-				'label'        => __( 'First name', CFW_TEXT_DOMAIN ),
-				'placeholder'  => esc_attr__('First name', CFW_TEXT_DOMAIN),
+				'label'        => __( 'First name', 'checkout-wc' ),
+				'placeholder'  => esc_attr__('First name', 'checkout-wc'),
 				'required'     => true,
 				'class'        => array(),
 				'autocomplete' => 'given-name',
@@ -109,8 +109,8 @@ class Form {
 				)
 			),
 			'last_name' => array(
-				'label'        => __( 'Last name', CFW_TEXT_DOMAIN ),
-				'placeholder'  => esc_attr__('Last name', CFW_TEXT_DOMAIN),
+				'label'        => __( 'Last name', 'checkout-wc' ),
+				'placeholder'  => esc_attr__('Last name', 'checkout-wc'),
 				'required'     => true,
 				'class'        => array(),
 				'autocomplete' => 'family-name',
@@ -125,8 +125,8 @@ class Form {
 				)
 			),
 			'address_1' => array(
-				'label'        => __( 'Address', CFW_TEXT_DOMAIN ),
-				'placeholder'  => esc_attr__( 'Street address', CFW_TEXT_DOMAIN ),
+				'label'        => __( 'Address', 'checkout-wc' ),
+				'placeholder'  => esc_attr__( 'Street address', 'checkout-wc' ),
 				'required'     => true,
 				'class'        => array( 'address-field' ),
 				'autocomplete' => 'address-line1',
@@ -141,8 +141,8 @@ class Form {
 				)
 			),
 			'address_2' => array(
-				'label'        => __('Apt, suite, etc. (optional)', CFW_TEXT_DOMAIN),
-				'placeholder'  => esc_attr__('Apt, suite, etc. (optional)', CFW_TEXT_DOMAIN),
+				'label'        => __('Apt, suite, etc. (optional)', 'checkout-wc'),
+				'placeholder'  => esc_attr__('Apt, suite, etc. (optional)', 'checkout-wc'),
 				'class'        => array( 'address-field' ),
 				'required'     => false,
 				'autocomplete' => 'address-line2',
@@ -154,8 +154,8 @@ class Form {
 				'end'          => true
 			),
 			'company' => array(
-				'label'        => __( 'Company name', CFW_TEXT_DOMAIN ),
-				'placeholder'  => esc_attr__('Company name', CFW_TEXT_DOMAIN),
+				'label'        => __( 'Company name', 'checkout-wc' ),
+				'placeholder'  => esc_attr__('Company name', 'checkout-wc'),
 				'class'        => array( ),
 				'autocomplete' => 'organization',
 				'input_class'  => array('garlic-auto-save'),
@@ -167,7 +167,7 @@ class Form {
 			),
 			'country' => array(
 				'type'         => 'country',
-				'label'        => __( 'Country', CFW_TEXT_DOMAIN ),
+				'label'        => __( 'Country', 'checkout-wc' ),
 				'required'     => true,
 				'class'        => array( 'address-field', 'update_totals_on_change' ),
 				'autocomplete' => 'country',
@@ -180,8 +180,8 @@ class Form {
 				'is_select'    => true
 			),
 			'postcode' => array(
-				'label'        => __( 'Postcode / ZIP', CFW_TEXT_DOMAIN ),
-				'placeholder'  => esc_attr__('Postcode / ZIP', CFW_TEXT_DOMAIN),
+				'label'        => __( 'Postcode / ZIP', 'checkout-wc' ),
+				'placeholder'  => esc_attr__('Postcode / ZIP', 'checkout-wc'),
 				'required'     => true,
 				'class'        => array( 'address-field' ),
 				'validate'     => array( 'postcode' ),
@@ -201,8 +201,8 @@ class Form {
 			),
 			'state' => array(
 				'type'         => 'state',
-				'label'        => __( 'State / County', CFW_TEXT_DOMAIN ),
-				'placeholder'  => __( 'State / County', CFW_TEXT_DOMAIN ),
+				'label'        => __( 'State / County', 'checkout-wc' ),
+				'placeholder'  => __( 'State / County', 'checkout-wc' ),
 				'required'     => true,
 				'class'        => array( 'address-field' ),
 				'validate'     => array( 'state' ),
@@ -221,9 +221,9 @@ class Form {
 				'is_select'    => true
 			),
 			'city' => array(
-				'label'        => __( 'Town / City', CFW_TEXT_DOMAIN ),
+				'label'        => __( 'Town / City', 'checkout-wc' ),
 				'required'     => true,
-				'placeholder'  => esc_attr__('Town / City', CFW_TEXT_DOMAIN),
+				'placeholder'  => esc_attr__('Town / City', 'checkout-wc'),
 				'class'        => array( 'address-field' ),
 				'autocomplete' => 'address-level2',
 				'input_class'  => array('garlic-auto-save'),
@@ -244,7 +244,7 @@ class Form {
 				'type'         => 'tel',
 				'label'        => __( 'Phone', 'woocommerce' ),
 				'required'     => true,
-				'placeholder'  => esc_attr__( 'Phone', CFW_TEXT_DOMAIN ),
+				'placeholder'  => esc_attr__( 'Phone', 'checkout-wc' ),
 				'class'        => array( 'address-field' ),
 				'autocomplete' => 'tel',
 				'input_class'  => array( 'garlic-auto-save' ),

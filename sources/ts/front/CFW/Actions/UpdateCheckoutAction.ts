@@ -1,11 +1,10 @@
 import { Action }                           from "./Action";
-import { AjaxInfo, FieldTypeInfo } from "../Types/Types";
+import { AjaxInfo, FieldTypeInfo }          from "../Types/Types";
 import { Main }                             from "../Main";
-import { Cart, UpdateCartTotalsData } from "../Elements/Cart";
+import { Cart, UpdateCartTotalsData }       from "../Elements/Cart";
 import { ResponsePrep }                     from "../Decorators/ResponsePrep";
-import { TabContainer }                     from "../Elements/TabContainer";
-import { TabContainerSection } from "../Elements/TabContainerSection";
-import { Element } from "../Elements/Element";
+import { TabContainerSection }              from "../Elements/TabContainerSection";
+import { Element }                          from "../Elements/Element";
 
 export type UpdateShippingFieldsResponse = {
     error: boolean,
@@ -56,8 +55,6 @@ export class UpdateCheckoutAction extends Action {
     public response(resp: any): void {
         let main: Main = Main.instance;
         main.updating = false;
-
-        console.log(resp);
 
         if(resp.fees) {
             let fees = $.map(resp.fees, value => [value]);

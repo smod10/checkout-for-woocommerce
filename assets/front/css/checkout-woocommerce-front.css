@@ -1,37 +1,23 @@
-/*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
+/*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
 /* Document
    ========================================================================== */
 /**
  * 1. Correct the line height in all browsers.
- * 2. Prevent adjustments of font size after orientation changes in
- *    IE on Windows Phone and in iOS.
+ * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 html {
   line-height: 1.15;
   /* 1 */
-  -ms-text-size-adjust: 100%;
-  /* 2 */
   -webkit-text-size-adjust: 100%;
   /* 2 */ }
 
 /* Sections
    ========================================================================== */
 /**
- * Remove the margin in all browsers (opinionated).
+ * Remove the margin in all browsers.
  */
 body {
   margin: 0; }
-
-/**
- * Add the correct display in IE 9-.
- */
-article,
-aside,
-footer,
-header,
-nav,
-section {
-  display: block; }
 
 /**
  * Correct the font size and margin on `h1` elements within `section` and
@@ -44,27 +30,12 @@ h1 {
 /* Grouping content
    ========================================================================== */
 /**
- * Add the correct display in IE 9-.
- * 1. Add the correct display in IE.
- */
-figcaption,
-figure,
-main {
-  /* 1 */
-  display: block; }
-
-/**
- * Add the correct margin in IE 8.
- */
-figure {
-  margin: 1em 40px; }
-
-/**
  * 1. Add the correct box sizing in Firefox.
  * 2. Show the overflow in Edge and IE.
  */
 hr {
-  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
   /* 1 */
   height: 0;
   /* 1 */
@@ -84,17 +55,13 @@ pre {
 /* Text-level semantics
    ========================================================================== */
 /**
- * 1. Remove the gray background on active links in IE 10.
- * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
+ * Remove the gray background on active links in IE 10.
  */
 a {
-  background-color: transparent;
-  /* 1 */
-  -webkit-text-decoration-skip: objects;
-  /* 2 */ }
+  background-color: transparent; }
 
 /**
- * 1. Remove the bottom border in Chrome 57- and Firefox 39-.
+ * 1. Remove the bottom border in Chrome 57-
  * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
  */
 abbr[title] {
@@ -102,15 +69,9 @@ abbr[title] {
   /* 1 */
   text-decoration: underline;
   /* 2 */
-  text-decoration: underline dotted;
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
   /* 2 */ }
-
-/**
- * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
- */
-b,
-strong {
-  font-weight: inherit; }
 
 /**
  * Add the correct font weight in Chrome, Edge, and Safari.
@@ -130,19 +91,6 @@ samp {
   /* 1 */
   font-size: 1em;
   /* 2 */ }
-
-/**
- * Add the correct font style in Android 4.3-.
- */
-dfn {
-  font-style: italic; }
-
-/**
- * Add the correct background and color in IE 9-.
- */
-mark {
-  background-color: #ff0;
-  color: #000; }
 
 /**
  * Add the correct font size in all browsers.
@@ -170,35 +118,15 @@ sup {
 /* Embedded content
    ========================================================================== */
 /**
- * Add the correct display in IE 9-.
- */
-audio,
-video {
-  display: inline-block; }
-
-/**
- * Add the correct display in iOS 4-7.
- */
-audio:not([controls]) {
-  display: none;
-  height: 0; }
-
-/**
- * Remove the border on images inside links in IE 10-.
+ * Remove the border on images inside links in IE 10.
  */
 img {
   border-style: none; }
 
-/**
- * Hide the overflow in IE.
- */
-svg:not(:root) {
-  overflow: hidden; }
-
 /* Forms
    ========================================================================== */
 /**
- * 1. Change the font styles in all browsers (opinionated).
+ * 1. Change the font styles in all browsers.
  * 2. Remove the margin in Firefox and Safari.
  */
 button,
@@ -206,7 +134,7 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: sans-serif;
+  font-family: inherit;
   /* 1 */
   font-size: 100%;
   /* 1 */
@@ -234,16 +162,13 @@ select {
   text-transform: none; }
 
 /**
- * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
- *    controls in Android 4.
- * 2. Correct the inability to style clickable types in iOS and Safari.
+ * Correct the inability to style clickable types in iOS and Safari.
  */
 button,
-html [type="button"],
+[type="button"],
 [type="reset"],
 [type="submit"] {
-  -webkit-appearance: button;
-  /* 2 */ }
+  -webkit-appearance: button; }
 
 /**
  * Remove the inner border and padding in Firefox.
@@ -277,7 +202,8 @@ fieldset {
  *    `fieldset` elements in all browsers.
  */
 legend {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   /* 1 */
   color: inherit;
   /* 2 */
@@ -291,28 +217,25 @@ legend {
   /* 1 */ }
 
 /**
- * 1. Add the correct display in IE 9-.
- * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
  */
 progress {
-  display: inline-block;
-  /* 1 */
-  vertical-align: baseline;
-  /* 2 */ }
+  vertical-align: baseline; }
 
 /**
- * Remove the default vertical scrollbar in IE.
+ * Remove the default vertical scrollbar in IE 10+.
  */
 textarea {
   overflow: auto; }
 
 /**
- * 1. Add the correct box sizing in IE 10-.
- * 2. Remove the padding in IE 10-.
+ * 1. Add the correct box sizing in IE 10.
+ * 2. Remove the padding in IE 10.
  */
 [type="checkbox"],
 [type="radio"] {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   /* 1 */
   padding: 0;
   /* 2 */ }
@@ -335,9 +258,8 @@ textarea {
   /* 2 */ }
 
 /**
- * Remove the inner padding and cancel buttons in Chrome and Safari on macOS.
+ * Remove the inner padding in Chrome and Safari on macOS.
  */
-[type="search"]::-webkit-search-cancel-button,
 [type="search"]::-webkit-search-decoration {
   -webkit-appearance: none; }
 
@@ -354,11 +276,9 @@ textarea {
 /* Interactive
    ========================================================================== */
 /*
- * Add the correct display in IE 9-.
- * 1. Add the correct display in Edge, IE, and Firefox.
+ * Add the correct display in Edge, IE 10+, and Firefox.
  */
-details,
-menu {
+details {
   display: block; }
 
 /*
@@ -367,27 +287,20 @@ menu {
 summary {
   display: list-item; }
 
-/* Scripting
+/* Misc
    ========================================================================== */
 /**
- * Add the correct display in IE 9-.
- */
-canvas {
-  display: inline-block; }
-
-/**
- * Add the correct display in IE.
+ * Add the correct display in IE 10+.
  */
 template {
   display: none; }
 
-/* Hidden
-   ========================================================================== */
 /**
- * Add the correct display in IE 10-.
+ * Add the correct display in IE 10.
  */
 [hidden] {
   display: none; }
+
 .cfw-container::after {
   clear: both;
   content: "";
@@ -649,9 +562,14 @@ p {
 body {
   background: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   color: #666;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   width: 100%; }
 
 .wrap {
@@ -698,7 +616,8 @@ a.bsnp_new_card {
   .form-row input[type="radio"] + label, .form-row input[type="checkbox"] + label {
     font-weight: 400; }
   .form-row .input-text {
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     width: 100%; }
   .form-row select {
     width: 100%; }
@@ -799,7 +718,8 @@ form .form-row {
   form .form-row select {
     width: 100%; }
   form .form-row .input-text {
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     width: 100%; }
 
 form .form-row-first,
@@ -835,8 +755,11 @@ body {
   position: relative; }
 
 #cfw-main-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap; }
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap; }
 
 #cfw-login-slide {
   display: none;
@@ -845,13 +768,15 @@ body {
 #cfw-login-btn {
   border: none;
   border-radius: 4px;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   cursor: pointer;
   padding: 12px 16px;
   background: #999;
   color: #f4f4f4;
   text-align: center;
   font-size: 1em;
+  -webkit-transition: all .2s ease;
   transition: all .2s ease;
   width: auto; }
   #cfw-login-btn:hover {
@@ -945,19 +870,30 @@ body {
 #cfw-billing-methods .cfw-radio-reveal-title-wrap, #cfw-shipping-same-billing .cfw-radio-reveal-title-wrap {
   padding: .6em 0;
   font-size: 1em;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   list-style-type: none !important;
   text-indent: 0;
   clear: both;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   margin: 0; }
 
 #cfw-billing-methods .payment_method_icons, #cfw-shipping-same-billing .payment_method_icons {
   padding-right: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: flex-end; }
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end; }
   #cfw-billing-methods .payment_method_icons img, #cfw-shipping-same-billing .payment_method_icons img {
     max-height: 32px;
     margin-right: 4px; }
@@ -967,11 +903,16 @@ body {
     display: none; }
 
 #cfw-billing-methods .cfw-radio-reveal-label, #cfw-shipping-same-billing .cfw-radio-reveal-label {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 8px;
   clear: both;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   font-size: 1em; }
   #cfw-billing-methods .cfw-radio-reveal-label input[type="radio"], #cfw-shipping-same-billing .cfw-radio-reveal-label input[type="radio"] {
     position: relative;
@@ -1033,11 +974,20 @@ fieldset .cfw-sg-container:last-child > * > .form-row {
   list-style-type: none;
   margin: 0 0 1.5em 0;
   padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex; }
   #cfw-breadcrumb li {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: row;
-    align-items: center; }
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
     #cfw-breadcrumb li > a {
       font-size: 0.75em;
       text-decoration: none;
@@ -1055,18 +1005,22 @@ fieldset .cfw-sg-container:last-child > * > .form-row {
 #stripe-card-element, #stripe-exp-element, #stripe-cvc-element {
   background: #fff !important;
   padding: .94em .8em !important;
+  -webkit-transition: all .2s ease !important;
   transition: all .2s ease !important;
   color: #333 !important;
   width: 100% !important;
-  box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
   border: none !important;
   font-size: 16px !important;
   line-height: normal !important;
   border-radius: 4px !important;
-  box-shadow: 0 0 0 1px #ddd !important; }
+  -webkit-box-shadow: 0 0 0 1px #ddd !important;
+          box-shadow: 0 0 0 1px #ddd !important; }
 
 #wc-stripe-cc-form .cfw-sg-container.cfw-input-wrap-row {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   width: 100%; }
 
 #stripe-payment-data .cfw-sg-container {
@@ -1112,11 +1066,13 @@ label[for="card-element"] {
   .cfw-shipping-methods-list input[type="radio"] {
     margin: 0 6px 5px 0;
     width: auto;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     padding: 0;
     background-color: #fff;
     border: 1px solid #ddd;
-    box-shadow: 1px 1px 3px #eee inset;
+    -webkit-box-shadow: 1px 1px 3px #eee inset;
+            box-shadow: 1px 1px 3px #eee inset;
     color: #999;
     font-size: 16px;
     line-height: normal; }
@@ -1179,40 +1135,56 @@ label[for="card-element"] {
 @-webkit-keyframes load5 {
   0%,
   100% {
-    box-shadow: 0em -2.6em 0em 0em #999999, 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.5), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em #999999, 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.5), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7);
+            box-shadow: 0em -2.6em 0em 0em #999999, 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.5), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7); }
   12.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.7), 1.8em -1.8em 0 0em #999999, 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.7), 1.8em -1.8em 0 0em #999999, 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.7), 1.8em -1.8em 0 0em #999999, 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5); }
   25% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.5), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7), 2.5em 0em 0 0em #999999, 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.5), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7), 2.5em 0em 0 0em #999999, 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.5), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7), 2.5em 0em 0 0em #999999, 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
   37.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5), 2.5em 0em 0 0em rgba(153, 153, 153, 0.7), 1.75em 1.75em 0 0em #999999, 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5), 2.5em 0em 0 0em rgba(153, 153, 153, 0.7), 1.75em 1.75em 0 0em #999999, 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5), 2.5em 0em 0 0em rgba(153, 153, 153, 0.7), 1.75em 1.75em 0 0em #999999, 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
   50% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.5), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.7), 0em 2.5em 0 0em #999999, -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.5), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.7), 0em 2.5em 0 0em #999999, -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.5), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.7), 0em 2.5em 0 0em #999999, -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
   62.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.5), 0em 2.5em 0 0em rgba(153, 153, 153, 0.7), -1.8em 1.8em 0 0em #999999, -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.5), 0em 2.5em 0 0em rgba(153, 153, 153, 0.7), -1.8em 1.8em 0 0em #999999, -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.5), 0em 2.5em 0 0em rgba(153, 153, 153, 0.7), -1.8em 1.8em 0 0em #999999, -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
   75% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.5), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.7), -2.6em 0em 0 0em #999999, -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.5), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.7), -2.6em 0em 0 0em #999999, -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.5), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.7), -2.6em 0em 0 0em #999999, -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
   87.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.5), -2.6em 0em 0 0em rgba(153, 153, 153, 0.7), -1.8em -1.8em 0 0em #999999; } }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.5), -2.6em 0em 0 0em rgba(153, 153, 153, 0.7), -1.8em -1.8em 0 0em #999999;
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.5), -2.6em 0em 0 0em rgba(153, 153, 153, 0.7), -1.8em -1.8em 0 0em #999999; } }
 
 @keyframes load5 {
   0%,
   100% {
-    box-shadow: 0em -2.6em 0em 0em #999999, 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.5), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em #999999, 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.5), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7);
+            box-shadow: 0em -2.6em 0em 0em #999999, 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.5), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7); }
   12.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.7), 1.8em -1.8em 0 0em #999999, 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.7), 1.8em -1.8em 0 0em #999999, 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.7), 1.8em -1.8em 0 0em #999999, 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5); }
   25% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.5), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7), 2.5em 0em 0 0em #999999, 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.5), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7), 2.5em 0em 0 0em #999999, 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.5), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.7), 2.5em 0em 0 0em #999999, 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
   37.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5), 2.5em 0em 0 0em rgba(153, 153, 153, 0.7), 1.75em 1.75em 0 0em #999999, 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5), 2.5em 0em 0 0em rgba(153, 153, 153, 0.7), 1.75em 1.75em 0 0em #999999, 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.5), 2.5em 0em 0 0em rgba(153, 153, 153, 0.7), 1.75em 1.75em 0 0em #999999, 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
   50% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.5), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.7), 0em 2.5em 0 0em #999999, -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.5), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.7), 0em 2.5em 0 0em #999999, -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.5), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.7), 0em 2.5em 0 0em #999999, -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.2), -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
   62.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.5), 0em 2.5em 0 0em rgba(153, 153, 153, 0.7), -1.8em 1.8em 0 0em #999999, -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.5), 0em 2.5em 0 0em rgba(153, 153, 153, 0.7), -1.8em 1.8em 0 0em #999999, -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.5), 0em 2.5em 0 0em rgba(153, 153, 153, 0.7), -1.8em 1.8em 0 0em #999999, -2.6em 0em 0 0em rgba(153, 153, 153, 0.2), -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
   75% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.5), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.7), -2.6em 0em 0 0em #999999, -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.5), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.7), -2.6em 0em 0 0em #999999, -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2);
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.5), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.7), -2.6em 0em 0 0em #999999, -1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2); }
   87.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.5), -2.6em 0em 0 0em rgba(153, 153, 153, 0.7), -1.8em -1.8em 0 0em #999999; } }
+    -webkit-box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.5), -2.6em 0em 0 0em rgba(153, 153, 153, 0.7), -1.8em -1.8em 0 0em #999999;
+            box-shadow: 0em -2.6em 0em 0em rgba(153, 153, 153, 0.2), 1.8em -1.8em 0 0em rgba(153, 153, 153, 0.2), 2.5em 0em 0 0em rgba(153, 153, 153, 0.2), 1.75em 1.75em 0 0em rgba(153, 153, 153, 0.2), 0em 2.5em 0 0em rgba(153, 153, 153, 0.2), -1.8em 1.8em 0 0em rgba(153, 153, 153, 0.5), -2.6em 0em 0 0em rgba(153, 153, 153, 0.7), -1.8em -1.8em 0 0em #999999; } }
 
 .cfw-cart-variation {
   font-size: 0.875em;
@@ -1272,10 +1244,14 @@ label[for="card-element"] {
   border-bottom: #eee 1px solid !important; }
 
 .cfw-flex-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex; }
 
 .cfw-flex-justify {
-  justify-content: space-between; }
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
 
 .cfw-cart-item-subtotal {
   text-align: right; }
@@ -1294,7 +1270,8 @@ label[for="card-element"] {
   height: 20px;
   right: 8px;
   top: 50%;
-  transform: translateY(calc(-50% + 2px)) rotate(90deg); }
+  -webkit-transform: translateY(calc(-50% + 2px)) rotate(90deg);
+          transform: translateY(calc(-50% + 2px)) rotate(90deg); }
 
 .kill-bottom-margin {
   margin-bottom: 0 !important; }
@@ -1321,16 +1298,40 @@ p.cfw-input-wrap {
     -moz-appearance: none !important;
     appearance: none !important;
     background: #fff;
+    -webkit-transition: all .2s ease;
     transition: all .2s ease;
     color: #333;
     padding: .94em .8em;
     width: 100%;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     border: none;
     font-size: 16px;
     line-height: normal;
     border-radius: 4px;
-    box-shadow: 0 0 0 1px #ddd; }
+    -webkit-box-shadow: 0 0 0 1px #ddd;
+            box-shadow: 0 0 0 1px #ddd; }
+    .cfw-input-wrap > input[type="text"]::-webkit-input-placeholder,
+    .cfw-input-wrap > input[type="email"]::-webkit-input-placeholder,
+    .cfw-input-wrap > input[type="tel"]::-webkit-input-placeholder,
+    .cfw-input-wrap > input[type="number"]::-webkit-input-placeholder,
+    .cfw-input-wrap > input[type="password"]::-webkit-input-placeholder,
+    .cfw-input-wrap select::-webkit-input-placeholder {
+      color: #ccc; }
+    .cfw-input-wrap > input[type="text"]:-ms-input-placeholder,
+    .cfw-input-wrap > input[type="email"]:-ms-input-placeholder,
+    .cfw-input-wrap > input[type="tel"]:-ms-input-placeholder,
+    .cfw-input-wrap > input[type="number"]:-ms-input-placeholder,
+    .cfw-input-wrap > input[type="password"]:-ms-input-placeholder,
+    .cfw-input-wrap select:-ms-input-placeholder {
+      color: #ccc; }
+    .cfw-input-wrap > input[type="text"]::-ms-input-placeholder,
+    .cfw-input-wrap > input[type="email"]::-ms-input-placeholder,
+    .cfw-input-wrap > input[type="tel"]::-ms-input-placeholder,
+    .cfw-input-wrap > input[type="number"]::-ms-input-placeholder,
+    .cfw-input-wrap > input[type="password"]::-ms-input-placeholder,
+    .cfw-input-wrap select::-ms-input-placeholder {
+      color: #ccc; }
     .cfw-input-wrap > input[type="text"]::placeholder,
     .cfw-input-wrap > input[type="email"]::placeholder,
     .cfw-input-wrap > input[type="tel"]::placeholder,
@@ -1345,10 +1346,13 @@ p.cfw-input-wrap {
     .cfw-input-wrap > input[type="password"]:focus,
     .cfw-input-wrap select:focus {
       outline: 0;
-      box-shadow: 0 0 0 2px #c7c7c7; }
+      -webkit-box-shadow: 0 0 0 2px #c7c7c7;
+              box-shadow: 0 0 0 2px #c7c7c7; }
 
 #cfw-shipping-info-action {
-  justify-content: space-between; }
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
 
 #cfw-shipping-details-fields {
   margin-bottom: 15px; }
@@ -1360,14 +1364,21 @@ p.cfw-input-wrap {
     display: table-cell; }
 
 .cfw-prev-tab {
+  -webkit-transition: all .2s ease;
   transition: all .2s ease;
   color: #9e9e9e;
   text-decoration: none; }
 
 .cfw-bottom-controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-top: 1.5em; }
   .cfw-bottom-controls .cfw-primary-btn {
     display: inline-block;
@@ -1377,10 +1388,10 @@ p.cfw-input-wrap {
     border-radius: 4px;
     border: none;
     font-size: 1em;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     font-weight: 400;
     -webkit-transition: all .3s ease-in-out;
-    -moz-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
     padding: 19px 15px; }
     .cfw-bottom-controls .cfw-primary-btn:hover {
@@ -1389,7 +1400,8 @@ p.cfw-input-wrap {
 
 .cfw-def-action-btn, a.button {
   border: none;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   border-radius: 4px;
   cursor: pointer;
   padding: 12px 16px;
@@ -1398,6 +1410,7 @@ p.cfw-input-wrap {
   color: #f4f4f4;
   text-align: center;
   width: 100%;
+  -webkit-transition: all .1s ease-in-out;
   transition: all .1s ease-in-out; }
   .cfw-def-action-btn:hover, a.button:hover {
     background: #000; }
@@ -1407,8 +1420,12 @@ a.button {
   text-decoration: none; }
 
 .cfw-cart-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
   margin-bottom: 0.7em; }
   .cfw-cart-row .cfw-cart-item-image img {
     width: auto;
@@ -1426,10 +1443,14 @@ a.button {
   margin-bottom: 1.8em; }
 
 .cfw-input-label {
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   pointer-events: none;
   position: absolute;
   color: #9e9e9e;
+  -webkit-transition: all .2s ease-out;
   transition: all .2s ease-out;
   font-size: 12px;
   margin-top: .5em;
@@ -1454,14 +1475,19 @@ a.button {
   margin-bottom: 0.6em; }
 
 .cfw-left-column {
-  order: 0; }
+  -webkit-box-ordinal-group: 1;
+      -ms-flex-order: 0;
+          order: 0; }
 
 .cfw-right-column {
-  order: 1;
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
   border-left: 1px solid #eee;
   padding: 20px;
   padding-top: 0;
-  box-sizing: border-box; }
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
 
 #cfw-main-container .apple-pay-button-checkout-separator {
   text-align: center;
@@ -1474,15 +1500,21 @@ a.button {
   margin-bottom: 10px; }
 
 .pay-button-separator {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-bottom: 1em; }
   .pay-button-separator:before, .pay-button-separator:after {
     content: '';
     display: inline-block;
     height: 1px;
     background: #e6e6e6;
-    flex-grow: 1; }
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
   .pay-button-separator span {
     padding: 0 1em;
     text-transform: none; }
@@ -1494,7 +1526,8 @@ textarea {
   border-radius: 4px;
   border: 1px solid #ddd;
   padding: 10px;
-  box-sizing: border-box; }
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
 
 .cfw-additional-information {
   margin-bottom: 20px; }
@@ -1524,20 +1557,27 @@ textarea {
   .previous-button {
     text-align: center; }
   #cfw-cart-details {
-    order: 0;
+    -webkit-box-ordinal-group: 1;
+        -ms-flex-order: 0;
+            order: 0;
     border-left: none;
     width: 100% !important;
     padding: 30px !important;
     background: #f4f4f4;
     margin-bottom: 30px !important; }
     #cfw-cart-details.active #cfw-cart-details-arrow {
-      transform: rotate(-90deg); }
+      -webkit-transform: rotate(-90deg);
+              transform: rotate(-90deg); }
   #cfw-cart-details-review-bar {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     margin-bottom: 0; }
     #cfw-cart-details-review-bar > div:last-child {
       text-align: right; }
     #cfw-cart-details-review-bar > div:first-child {
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex; }
       #cfw-cart-details-review-bar > div:first-child:hover #cfw-cart-details-arrow, #cfw-cart-details-review-bar > div:first-child:hover a {
         fill: #d79915;
@@ -1555,10 +1595,14 @@ textarea {
     body.wp-is-mobile #cfw-cart-details-review-bar > div:first-child, body.wp-is-mobile #cfw-cart-list .cfw-cart-row > div:first-child {
       margin-left: 0; }
   #cfw-show-cart-details {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex; }
   #cfw-cart-details-arrow {
+    -webkit-transition: all .2s linear;
     transition: all .2s linear;
-    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
     width: 20px;
     height: 20px;
     cursor: pointer;
@@ -1567,7 +1611,9 @@ textarea {
   #cfw-totals-list {
     margin-bottom: 0; }
   #cfw-tab-container {
-    order: 1; }
+    -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+            order: 1; }
   #cfw-cart-details, #cfw-tab-container {
     padding-left: 0;
     padding-right: 0;
@@ -1591,7 +1637,10 @@ textarea {
     .cfw .wc-credit-card-form .cfw-input-wrap-row > div:last-child {
       margin-bottom: 0; }
   .cfw-bottom-controls {
-    flex-direction: column; }
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column; }
     .cfw-bottom-controls .cfw-primary-btn {
       width: 100%;
       text-align: center; } }
@@ -1619,5 +1668,6 @@ textarea {
 
 #cfw-footer .cfw-footer-inner {
   padding: 40px 0; }
+
 
 /*# sourceMappingURL=checkout-woocommerce-front.css.map*/

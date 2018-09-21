@@ -1,5 +1,6 @@
 let webpack = require('webpack');
-let ExtractTextPlugin = require("extract-text-webpack-plugin");
+let path = require('path');
+let MiniCssExtractPlugin = require('mini-css-extract-plugin');
 let WebpackNotifierPlugin = require('webpack-notifier');
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 let CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -26,11 +27,16 @@ module.exports = {
         "checkout-woocommerce-front": ["./sources/js/vendor.js", './sources/ts/entry.ts']
     },
     output: {
-        filename: inProduction ? './assets/front/js/[name].min.js' : './assets/front/js/[name].js' //relative to root of the application
+        filename: inProduction ? './assets/front/js/[name].min.js' : './assets/front/js/[name].js', //relative to root of the application
+	    path: path.resolve(__dirname, '')
     },
     resolve: {
         extensions: ['.webpack.js', '.web.js', '.ts', '.js']
     },
+	stats: {
+		colors: true
+	},
+    mode: 'development',
     devtool: "source-map",
     module: {
         rules: [
@@ -39,26 +45,32 @@ module.exports = {
                 test: /\.ts$/,
                 loader: ['ts-loader']
             },
-            {
-                test: [/\.s[ac]ss$/, /\.css$/],
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: [
-                        {
-                            loader: "css-loader",
-                            options: {
-                                sourceMap: true
-                            }
-                        },
-                        {
-                            loader: "sass-loader",
-                            options: {
-                                sourceMap: true
-                            }
-                        }
-                    ]
-                })
-            },
+	        {
+		        test: /\.(scss|css)$/,
+		        include: path.resolve('./sources/scss/front'),
+		        use: [
+			        MiniCssExtractPlugin.loader,
+			        {
+				        loader: 'css-loader',
+				        options: {
+					        sourceMap: true,
+					        minimize: false
+				        }
+			        },
+			        {
+				        loader: 'postcss-loader',
+				        options: {
+					        sourceMap: true
+				        }
+			        },
+			        {
+				        loader: 'sass-loader',
+				        options: {
+					        sourceMap: true
+				        }
+			        }
+		        ]
+	        },
             {
                 test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
                 loader: 'file-loader',
@@ -70,8 +82,12 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin( inProduction ? './assets/front/css/checkout-woocommerce-front.min.css' : './assets/front/css/checkout-woocommerce-front.css'),
         new WebpackNotifierPlugin({ alwaysNotify: true }),
+	    new MiniCssExtractPlugin({
+		    // Options similar to the same options in webpackOptions.output
+		    // both options are optional
+		    filename: inProduction ? './assets/front/css/checkout-woocommerce-front.min.css' : './assets/front/css/checkout-woocommerce-front.css'
+	    }),
         new TypedocWebpackPlugin({
             out: './docs/ts',
             module: 'commonjs',

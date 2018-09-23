@@ -4,8 +4,8 @@
   "description": "### Development installation instructions",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack",
-    "production": "cross-env NODE_ENV=production webpack -p",
+    "dev": "webpack --env development --config ./templates/default/webpack.config.js",
+    "production": "cross-env webpack -p --config ./templates/default/webpack.config.js",
     "build": "npm run production -- --env.version=$npm_package_version",
     "watch": "npm run dev -- --watch"
   },
@@ -26,6 +26,7 @@
     "file-loader": "^2.0.0",
     "install": "^0.12.1",
     "mini-css-extract-plugin": "^0.4.3",
+    "node-bourbon": "^4.2.8",
     "node-sass": "^4.9.3",
     "postcss": "^7.0.2",
     "postcss-loader": "^3.0.0",
@@ -40,6 +41,7 @@
     "url-loader": "^1.1.1",
     "webpack": "^4.19.1",
     "webpack-cli": "^3.1.0",
+    "webpack-merge": "^4.1.4",
     "webpack-notifier": "^1.6.0",
     "webpack-zip-plugin": "^0.1.6"
   },

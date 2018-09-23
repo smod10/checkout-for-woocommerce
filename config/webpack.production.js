@@ -1,16 +1,35 @@
 // Imports
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TypedocWebpackPlugin = require('typedoc-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const WebpackZipPlugin = require('webpack-zip-plugin');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 // Paths
 const mainDir = path.resolve(__dirname, '../');
+const baseDistDir = "dist";
+const zipBaseName = "checkout-for-woocommerce";
+const outPath = baseDistDir + '/' + zipBaseName;
+const unMinJS = "assets/front/js/*.js*";
+const unMinCSS = "templates/**/*.css*";
 
 module.exports = version => {
 	let production = {
+		optimization: {
+			minimizer: [new UglifyJsPlugin()]
+		},
+		output: {
+			filename: './assets/front/js/[name].min.js',
+			path: path.resolve(__dirname, '../')
+		},
 		plugins: [
+			new MiniCssExtractPlugin({
+				// Options similar to the same options in webpackOptions.output
+				// both options are optional
+				filename: './templates/default/style.min.css'
+			}),
+			new OptimizeCssAssetsPlugin(),
 			new TypedocWebpackPlugin({
 				out: mainDir + '/docs/ts',
 				module: 'commonjs',
@@ -18,51 +37,46 @@ module.exports = version => {
 				exclude: '**/node_modules/**/*.*',
 				experimentalDecorators: true,
 				excludeExternals: true
-			}),
-			new CleanWebpackPlugin(
-				['dist', 'checkout-for-woocommerce'],
-				{
-					verbose: true,
-					root: mainDir
-				}
-			),
-			new CopyWebpackPlugin(
-				[
-					{
-						from: mainDir,
-						to: 'dist/checkout-for-woocommerce',
-						ignore: ['node_modules/**', 'dist/**', '.git/**', '.gitignore', '.idea/**'],
-						transform: function(content, path) {
-							return content;
-						}
-					}
-				]
-			)
+			})
 		]
 	};
 
-	console.log("Version: ", version);
-
 	if(version !== false) {
-		production.plugins.push(new CopyWebpackPlugin(
-			[
-				{
-					from:'.',
-					to:'checkout-for-woocommerce',
-					ignore: ['node_modules/**', 'dist/**', '.git/**', '.gitignore', '.idea/**'],
-					transform: function(content, path) {
-
-						return content;
-					}
-				}
-			]
-		));
-
 		production.plugins.push(
-			new WebpackZipPlugin({
-				initialFile: 'checkout-for-woocommerce && rm -rf ' + mainDir + '/checkout-for-woocommerce' + ' && rm -rf ' + mainDir + '/docs',
-				endPath: mainDir + '/dist',
-				zipName: 'checkout-for-woocommerce-' + version + '.zip'
+			new FileManagerPlugin({
+				onStart: {
+					delete: [
+						baseDistDir,
+						unMinJS,
+						unMinCSS
+					]
+				},
+				onEnd: {
+					mkdir: [
+						outPath
+					],
+					copy: [
+						{ source: './assets', destination: outPath + '/assets' },
+						{ source: './config', destination: outPath + '/config' },
+						{ source: './includes', destination: outPath + '/includes' },
+						{ source: './languages', destination: outPath + '/languages' },
+						{ source: './sources', destination: outPath + '/sources' },
+						{ source: './templates', destination: outPath + '/templates' },
+						{ source: './typings', destination: outPath + '/typings' },
+						{ source: './vendor', destination: outPath + '/vendor' },
+						{ source: './docs', destination: outPath + '/docs' },
+						{ source: './*.php', destination: outPath },
+						{ source: './*.js', destination: outPath },
+						{ source: './*.md', destination: outPath },
+						{ source: './*.json', destination: outPath }
+					],
+					delete: [
+						'docs'
+					],
+					archive: [
+						{ source: outPath, destination: outPath + "-" + version + ".zip" },
+					]
+				}
 			})
 		)
 	}

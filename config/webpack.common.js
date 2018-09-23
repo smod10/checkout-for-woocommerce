@@ -9,10 +9,6 @@ module.exports = {
 	entry: {
 		"checkout-woocommerce-front": [mainDir + "/sources/js/vendor.js", mainDir + "/sources/ts/entry.ts", mainDir + "/sources/scss/front/front.scss"]
 	},
-	output: {
-		filename: './assets/front/js/[name].js',
-		path: path.resolve(__dirname, '../')
-	},
 	resolve: {
 		extensions: ['.ts', '.js', '.json', '.scss']
 	},
@@ -52,12 +48,5 @@ module.exports = {
 				]
 			}
 		]
-	},
-	plugins: [
-		new MiniCssExtractPlugin({
-			// Options similar to the same options in webpackOptions.output
-			// both options are optional
-			filename: './templates/default/style.css'
-		})
-	]
+	}
 };

@@ -38,7 +38,5 @@ module.exports = (mode, args) => {
 		out = merge(common, production(args.env.version), template);
 	}
 
-	// console.log(out);
-
 	return out;
 };

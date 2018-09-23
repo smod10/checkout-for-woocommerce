@@ -8,3 +8,7 @@ node_modules
 /vendor
 /.idea
 .DS_Store
+assets/front
+templates/default/assets
+templates/**/*.css
+templates/**/*.css.map

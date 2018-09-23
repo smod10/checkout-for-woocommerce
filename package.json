@@ -3,9 +3,10 @@
   "version": "1.6.1",
   "description": "### Development installation instructions",
   "main": "index.js",
+  "template": "default",
   "scripts": {
-    "dev": "webpack --env development --config ./templates/default/webpack.config.js",
-    "production": "cross-env webpack -p --config ./templates/default/webpack.config.js",
+    "dev": "cross-env webpack --env development --config ./templates/$npm_package_template/webpack.config.js",
+    "production": "cross-env webpack -p --config ./templates/$npm_package_template/webpack.config.js",
     "build": "npm run production -- --env.version=$npm_package_version",
     "watch": "npm run dev -- --watch"
   },

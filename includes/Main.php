@@ -312,7 +312,7 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function check_flags() {
-		(!defined('CO_DEV_MODE') || !CO_DEV_MODE) ?: $this->enable_dev_mode();
+		(!defined('CFW_DEV_MODE') || !CFW_DEV_MODE) ?: $this->enable_dev_mode();
 	}
 
 	/**
@@ -416,7 +416,7 @@ class Main extends Singleton {
 		$front = "{$this->path_manager->get_assets_path()}/front";
 		$template_path = "{$this->path_manager->get_url_base()}templates/default";
 
-		$min = ( ! CO_DEV_MODE ) ? ".min" : "";
+		$min = ( ! CFW_DEV_MODE ) ? ".min" : "";
 
 		wp_enqueue_style('cfw_front_css', "{$template_path}/styles{$min}.css", array(), $this->get_version());
 		wp_enqueue_script('cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array('jquery'), $this->get_version(), true);

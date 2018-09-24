@@ -200,7 +200,7 @@ class Redirect {
 	public static function output_init_block($path_manager, $version, $classes, $settings_manager) {
 		WC()->payment_gateways->get_available_payment_gateways();
 
-		self::init_block(( ! CO_DEV_MODE ) ? ".min" : "", $path_manager);
+		self::init_block(( ! CFW_DEV_MODE ) ? ".min" : "", $path_manager);
     }
 
 	public static function output_custom_styles($path_manager, $version, $classes, $settings_manager) {

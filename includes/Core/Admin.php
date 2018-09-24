@@ -181,6 +181,16 @@ class Admin {
                 <tbody>
                     <tr>
                         <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">Templates</label>
+                        </th>
+                        <td>
+                            <select>
+                                <option value="default">Default</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" valign="top">
 						    <?php _e('Logo', 'checkout-wc'); ?>
                         </th>
                         <td>

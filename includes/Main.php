@@ -361,7 +361,7 @@ class Main extends Singleton {
 		$this->path_manager = new CFWPathManager(plugin_dir_path($file), plugin_dir_url($file), $file);
 
 		// Create the template manager
-		$this->template_manager = new TemplateManager();
+		$this->template_manager = new TemplateManager(apply_filters('cfw_template_list', ['default']));
 
 		// Create the ajax manager
 		$this->ajax_manager = new AjaxManager($this->get_ajax_actions(), $this->loader);
@@ -414,11 +414,13 @@ class Main extends Singleton {
 		global $wp;
 		
 		$front = "{$this->path_manager->get_assets_path()}/front";
+		$template_path = "{$this->path_manager->get_url_base()}/templates/default";
+
 
 		$min = ( ! CO_DEV_MODE ) ? ".min" : "";
 
-		wp_enqueue_style('cfw_front_css', "${front}/css/checkout-woocommerce-front${min}.css", array(), $this->get_version());
-		wp_enqueue_script('cfw_front_js', "${front}/js/checkout-woocommerce-front${min}.js", array('jquery'), $this->get_version(), true);
+		wp_enqueue_style('cfw_front_css', "{$template_path}/styles{$min}.css", array(), $this->get_version());
+		wp_enqueue_script('cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array('jquery'), $this->get_version(), true);
 
 		wp_localize_script( 'cfw_front_js', 'woocommerce_params', array(
 			'ajax_url'                  => WC()->ajax_url(),

@@ -80,23 +80,25 @@ class CFWPathManager extends PathManager {
 	 * @since 1.1.4
 	 * @access public
 	 * @param array $sub_folders List of folder names within the template directories to look for template files.
-	 * @param string $file_name Name of the file
+	 * @param array $file_names Names of the file template pieces to look for
 	 * @return array
 	 */
-	public function get_template_information($sub_folders, $file_name = 'template.php') {
+	public function get_template_information($sub_folders, $file_names) {
 		$template_information = array();
 
-		foreach($sub_folders as $sub_folder) {
+		foreach($sub_folders as $template_folder) {
 
-			// Set up the possible paths
-			$plugin_template_path = $this->plugin_template . "/" . $sub_folder . "/{$file_name}";
-			$theme_template_path = $this->theme_template . "/" . $sub_folder . "/{$file_name}";
+			foreach($file_names as $file_piece_name => $file_name) {
+				// Set up the possible paths
+				$plugin_template_path = $this->plugin_template . "/" . $template_folder . "/{$file_name}";
+				$theme_template_path = $this->theme_template . "/" . $template_folder . "/{$file_name}";
 
-			// Get the template path we want (user overloaded, or base)
-			$template_path = file_exists($theme_template_path) ? $theme_template_path : $plugin_template_path;
+				// Get the template path we want (user overloaded, or base)
+				$template_path = file_exists($theme_template_path) ? $theme_template_path : $plugin_template_path;
 
-			// Add the appropriate paths to the template information array.
-			$template_information[$sub_folder] = $template_path;
+				// Add the appropriate paths to the template information array.
+				$template_information[$template_folder][$file_piece_name] = $template_path;
+			}
 		}
 		return $template_information;
 	}

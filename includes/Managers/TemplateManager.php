@@ -47,6 +47,10 @@ class TemplateManager {
 		$this->template_sub_folders = $template_sub_folders;
 	}
 
+	public function get_template_list() {
+
+	}
+
 	/**
 	 * Iterate over each template in the array and run the view method
 	 *
@@ -56,27 +60,29 @@ class TemplateManager {
 	 */
 	public function load_templates($template_info, $global_parameters) {
 
-		foreach($template_info as $template_name => $template_path) {
+		foreach($template_info as $template_name => $template_paths) {
 			// Filter template level variables
 			$parameters["template"] = apply_filters("cfw_template_{$template_name}_params", array());
 
 			// Assign the global parameters
 			$parameters["global"] = $global_parameters;
 
-			// Create new template
-			$template = new Template($template_name, $template_path, $parameters);
+			foreach($template_paths as $template_piece_name => $template_path) {
+				// Create new template
+				$template = new Template($template_name, $template_path, $parameters);
 
-			// Before the template is actually spat out
-			do_action("cfw_template_load_before_{$template_name}");
+				// Before the template is actually spat out
+				do_action("cfw_template_load_before_{$template_name}_{$template_piece_name}");
 
-			// Pass the parameters to the view
-			$template->view();
+				// Pass the parameters to the view
+				$template->view();
 
-			// After the template has been echoed out
-			do_action("cfw_template_load_after_{$template_name}");
+				// After the template has been echoed out
+				do_action("cfw_template_load_after_{$template_name}_{$template_piece_name}");
 
-			// Store the template
-			$this->templates[$template_name] = $template;
+				// Store the template
+				$this->templates[$template_name][$template_piece_name] = $template;
+			}
 		}
 	}
 

@@ -17,7 +17,7 @@ module.exports = (mode, args) => {
 		mode: mode,
 		context: currentDir,
 		entry: {
-			"checkout-woocommerce-front": ["./sources/scss/style.scss"]
+			"checkout-woocommerce-front": ["./sources/scss/styles.scss"]
 		},
 		module: {
 			rules: [

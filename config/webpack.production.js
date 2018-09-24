@@ -27,7 +27,7 @@ module.exports = version => {
 			new MiniCssExtractPlugin({
 				// Options similar to the same options in webpackOptions.output
 				// both options are optional
-				filename: './templates/default/style.min.css'
+				filename: './templates/default/styles.min.css'
 			}),
 			new OptimizeCssAssetsPlugin(),
 			new TypedocWebpackPlugin({

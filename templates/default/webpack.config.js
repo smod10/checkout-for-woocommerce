@@ -25,7 +25,7 @@ module.exports = (mode, args) => {
 					test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
 					loader: 'file-loader',
 					options: {
-						name: 'assets/img/[name].[ext]?[hash]',
+						name: 'templates/default/assets/img/[name].[ext]?[hash]',
 						publicPath: "../../"
 					}
 				}

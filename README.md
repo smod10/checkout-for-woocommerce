@@ -2,7 +2,8 @@
 
 ### Development installation instructions
 
-* Instructions go here
+* Create .env file with CFW_DEV_MODE=true to enable development mode (source maps and non minified files)
+* More instructions go here
 
 ### Normal use installation instructions
 

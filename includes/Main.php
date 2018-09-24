@@ -414,8 +414,7 @@ class Main extends Singleton {
 		global $wp;
 		
 		$front = "{$this->path_manager->get_assets_path()}/front";
-		$template_path = "{$this->path_manager->get_url_base()}/templates/default";
-
+		$template_path = "{$this->path_manager->get_url_base()}templates/default";
 
 		$min = ( ! CO_DEV_MODE ) ? ".min" : "";
 

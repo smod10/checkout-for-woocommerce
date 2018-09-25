@@ -11,4 +11,4 @@ $env = new Dotenv\Dotenv(__DIR__);
 $env->load();
 
 // Dev Mode
-define( 'CFW_DEV_MODE', boolval(getenv('CFW_DEV_MODE')) );
+define( 'CFW_DEV_MODE', getenv('CFW_DEV_MODE') == "true" ? true : false );

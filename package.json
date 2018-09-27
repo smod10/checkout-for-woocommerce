@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://btassone@bitbucket.org/cgdinc/checkout-for-woocommerce.git"
   },
-  "author": "",
+  "author": "Objectiv <clif@objectiv.co> (https://objectiv.co/)",
   "license": "ISC",
   "homepage": "https://bitbucket.org/cgdinc/checkout-for-woocommerce#readme",
   "devDependencies": {

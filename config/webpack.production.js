@@ -6,32 +6,32 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-// Paths
-const mainDir = path.resolve(__dirname, '../');
-const baseDistDir = "dist";
-const zipBaseName = "checkout-for-woocommerce";
-const outPath = baseDistDir + '/' + zipBaseName;
-const unMinJS = "assets/front/js/*.js*";
-const unMinCSS = "templates/**/*.css*";
+module.exports = (assetsDir, version) => {
+	const mainDir = path.resolve(__dirname, "../");
+	const productionDir = "./dist";
+	const docsDir = "./docs";
+	const outPath = `${productionDir}/checkout-for-woocommerce`;
+	const unMinJS = `${assetsDir}/front/js/*.js*`;
+	const unMinCSS = `${assetsDir}/front/css/*.css*`;
+	const zipName = `${outPath}-${version}.zip`;
 
-module.exports = version => {
 	let production = {
 		optimization: {
 			minimizer: [new UglifyJsPlugin()]
 		},
 		output: {
-			filename: './assets/front/js/[name].min.js',
-			path: path.resolve(__dirname, '../')
+			filename: `${assetsDir}/front/js/[name].min.js`,
+			path: mainDir
 		},
 		plugins: [
 			new MiniCssExtractPlugin({
 				// Options similar to the same options in webpackOptions.output
 				// both options are optional
-				filename: './templates/default/styles.min.css'
+				filename: `${assetsDir}/front/css/[name].min.css`
 			}),
 			new OptimizeCssAssetsPlugin(),
 			new TypedocWebpackPlugin({
-				out: mainDir + '/docs/ts',
+				out: `${mainDir}/docs/ts`,
 				module: 'commonjs',
 				target: 'es5',
 				exclude: '**/node_modules/**/*.*',
@@ -46,7 +46,7 @@ module.exports = version => {
 			new FileManagerPlugin({
 				onStart: {
 					delete: [
-						baseDistDir,
+						productionDir,
 						unMinJS,
 						unMinCSS
 					]
@@ -71,10 +71,10 @@ module.exports = version => {
 						{ source: './*.json', destination: outPath }
 					],
 					delete: [
-						'docs'
+						docsDir
 					],
 					archive: [
-						{ source: outPath, destination: outPath + "-" + version + ".zip" },
+						{ source: outPath, destination: zipName },
 					]
 				}
 			})

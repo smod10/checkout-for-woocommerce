@@ -3,11 +3,10 @@
   "version": "2.0.0",
   "description": "### Development installation instructions",
   "main": "index.js",
-  "template": "default",
   "scripts": {
-    "dev": "cross-env webpack --env development --config ./templates/$npm_package_template/webpack.config.js",
-    "production": "cross-env webpack -p --config ./templates/$npm_package_template/webpack.config.js",
-    "build": "npm run production -- --env.version=$npm_package_version",
+    "dev": "webpack --env development",
+    "production": "webpack -p",
+    "build": "npm run production",
     "watch": "npm run dev -- --watch"
   },
   "repository": {

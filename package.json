@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "webpack --env development",
     "production": "webpack -p",
-    "build": "npm run production",
     "watch": "npm run dev -- --watch"
   },
   "repository": {

@@ -1,13 +1,11 @@
 // Imports
-const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TypedocWebpackPlugin = require('typedoc-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-module.exports = (assetsDir, version) => {
-	const mainDir = path.resolve(__dirname, "../");
+module.exports = (mainDir, assetsDir, version) => {
 	const productionDir = "./dist";
 	const docsDir = "./docs";
 	const outPath = `${productionDir}/checkout-for-woocommerce`;

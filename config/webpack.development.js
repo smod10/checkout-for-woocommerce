@@ -1,13 +1,12 @@
 // Imports
-const path = require('path');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = assetsDir => {
+module.exports = (mainDir, assetsDir) => {
 	return {
 		output: {
 			filename: `${assetsDir}/front/js/[name].js`,
-			path: path.resolve(__dirname, '../')
+			path: mainDir
 		},
 		devtool: "source-map",
 		plugins: [

@@ -9,6 +9,7 @@ const production = require("./config/webpack.production.js");
 
 const sourcesDir = "./sources";
 const assetsDir = "./assets";
+const mainDir = path.resolve(__dirname, '');
 
 module.exports = mode => {
 	let config = {
@@ -17,8 +18,8 @@ module.exports = mode => {
 	};
 
 	if(mode === "development") {
-		return merge(common(sourcesDir), development(assetsDir), config);
+		return merge(common(sourcesDir), development(mainDir, assetsDir), config);
 	}
 
-	return merge(common(sourcesDir), production(assetsDir, process.env.npm_package_version), config);
+	return merge(common(sourcesDir), production(mainDir, assetsDir, process.env.npm_package_version), config);
 };

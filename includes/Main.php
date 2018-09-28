@@ -414,7 +414,6 @@ class Main extends Singleton {
 		global $wp;
 		
 		$front = "{$this->path_manager->get_assets_path()}/front";
-
 		// TODO: Get the saved template value (replace default)
 		$template_path = "{$this->path_manager->get_url_base()}templates/default";
 

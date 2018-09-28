@@ -1,0 +1,10 @@
+{
+  "name": "default-template",
+  "version": "2.0.0",
+  "description": "### Development installation instructions",
+  "scripts": {
+    "dev": "webpack --env development",
+    "production": "webpack -p",
+    "watch": "webpack --env development --watch"
+  }
+}

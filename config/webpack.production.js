@@ -8,10 +8,14 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 module.exports = (mainDir, assetsDir, version) => {
 	const productionDir = "./dist";
 	const docsDir = "./docs";
+	const templatesDir = "./templates";
 	const outPath = `${productionDir}/checkout-for-woocommerce`;
 	const unMinJS = `${assetsDir}/front/js/*.js*`;
 	const unMinCSS = `${assetsDir}/front/css/*.css*`;
+	const unMinTemplateCss = `${templatesDir}/**/style.css*`;
 	const zipName = `${outPath}-${version}.zip`;
+
+	console.log(unMinTemplateCss);
 
 	let production = {
 		optimization: {
@@ -46,7 +50,8 @@ module.exports = (mainDir, assetsDir, version) => {
 					delete: [
 						productionDir,
 						unMinJS,
-						unMinCSS
+						unMinCSS,
+						unMinTemplateCss
 					]
 				},
 				onEnd: {

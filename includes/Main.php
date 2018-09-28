@@ -414,11 +414,14 @@ class Main extends Singleton {
 		global $wp;
 		
 		$front = "{$this->path_manager->get_assets_path()}/front";
+
+		// TODO: Get the saved template value (replace default)
 		$template_path = "{$this->path_manager->get_url_base()}templates/default";
 
 		$min = ( ! CFW_DEV_MODE ) ? ".min" : "";
 
 		wp_enqueue_style('cfw_front_css', "{$front}/css/checkout-woocommerce-front{$min}.css", array(), $this->get_version());
+		wp_enqueue_style( 'cfw_front_template_css', "{$template_path}/style{$min}.css", array(), $this->get_version());
 		wp_enqueue_script('cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array('jquery'), $this->get_version(), true);
 
 		wp_localize_script( 'cfw_front_js', 'woocommerce_params', array(

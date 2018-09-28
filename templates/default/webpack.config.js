@@ -66,7 +66,8 @@ module.exports = mode => {
 							loader: 'css-loader',
 							options: {
 								sourceMap: true,
-								minimize: false
+								minimize: false,
+								url: false
 							}
 						},
 						{
@@ -76,14 +77,6 @@ module.exports = mode => {
 							}
 						}
 					]
-				},
-				{
-					test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
-					loader: 'file-loader',
-					options: {
-						name: 'assets/img/[name].[ext]?[hash]',
-						publicPath: '../../'
-					}
 				}
 			]
 		},

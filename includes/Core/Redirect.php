@@ -355,6 +355,7 @@ class Redirect {
 
 	    $ignore = array(
 		    'cfw_front_css',
+            'cfw_front_template_css',
             'admin-bar',
         );
 

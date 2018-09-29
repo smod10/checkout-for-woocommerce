@@ -64,7 +64,7 @@ class Redirect {
 			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc')), $settings_manager);
 
 			// Output the contents of the <body></body> section
-			self::body($path_manager, $template_manager, $global_template_parameters, $settings_manager);
+			self::body($template_manager, $global_template_parameters, $settings_manager);
 
 			// Output a closing </body> and closing </html> tag
 			self::footer($path_manager, $settings_manager);
@@ -371,27 +371,15 @@ class Redirect {
 	/**
      * @since 1.0.0
      * @access public
-	 * @param CFWPathManager $path_manager
 	 * @param TemplateManager $template_manager
 	 * @param array $global_template_parameters
 	 */
-	public static function body($path_manager, $template_manager, $global_template_parameters, $settings_manager) {
+	public static function body($template_manager, $global_template_parameters) {
 		// Fire off an action before we load the template pieces
 		do_action('cfw_template_before_load');
 
-		$template_pieces = apply_filters("cfw_template_redirect_body_pieces",
-            array(
-                "header" => "header.php",
-                "content" => "content.php",
-                "footer" => "footer.php"
-            )
-        );
-
 		// Load the template pieces
-		$template_manager->load_templates(
-		        $path_manager->get_template_information( $template_manager->get_template_sub_folders(), $template_pieces ),
-                $global_template_parameters
-        );
+		$template_manager->load_templates( $global_template_parameters );
 
 		// Fire off an action after we load the template pieces
 		do_action('cfw_template_after_load', array(Template::get_i()) );

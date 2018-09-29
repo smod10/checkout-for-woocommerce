@@ -2,6 +2,8 @@
 
 namespace Objectiv\Plugins\Checkout\Core;
 
+use Objectiv\Plugins\Checkout\Main;
+
 /**
  * Class Admin
  *
@@ -184,9 +186,12 @@ class Admin {
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">Templates</label>
                         </th>
                         <td>
-                            <select>
+                            <select name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">
                                 <option value="default">Default</option>
+                                <option value="fakeify">Fakeify</option>
                             </select>
+
+                            <?php echo $this->plugin_instance->get_settings_manager()->get_setting('templates_list'); ?>
                         </td>
                     </tr>
                     <tr>

@@ -52,7 +52,7 @@ class TemplateManager {
 	/**
 	 * @since 1.0.0
 	 * @access private
-	 * @var CFWPathManager
+	 * @var ExtendedPathManager
 	 */
 	private $path_manager = null;
 
@@ -61,7 +61,8 @@ class TemplateManager {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * @param CFWPathManager $path_manager
+	 *
+	 * @param ExtendedPathManager $path_manager
 	 * @param array $template_sub_folders
 	 */
 	public function __construct($path_manager, $template_sub_folders = array( "header", "content", "footer" )) {
@@ -188,7 +189,7 @@ class TemplateManager {
 	/**
 	 * @since 2.0.0
 	 * @access public
-	 * @return CFWPathManager
+	 * @return ExtendedPathManager
 	 */
 	public function get_path_manager() {
 		return $this->path_manager;

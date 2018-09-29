@@ -2,7 +2,7 @@
 namespace Objectiv\Plugins\Checkout\Core;
 
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
-use Objectiv\Plugins\Checkout\Managers\CFWPathManager;
+use Objectiv\Plugins\Checkout\Managers\ExtendedPathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 
 /**
@@ -18,8 +18,9 @@ class Redirect {
 	/**
      * @since 1.0.0
      * @access public
+     *
      * @param SettingsManager $settings_manager
-	 * @param CFWPathManager $path_manager
+	 * @param ExtendedPathManager $path_manager
 	 * @param TemplateManager $template_manager
 	 * @param $version
 	 */
@@ -96,8 +97,9 @@ class Redirect {
 	/**
      * @since 1.0.0
      * @access public
+	 *
 	 * @param $env_extension
-     * @param CFWPathManager $path_manager
+	 * @param ExtendedPathManager $path_manager
 	 */
 	public static function init_block($env_extension, $path_manager) {
 	    $default_fields = json_encode(array_keys(WC()->countries->get_default_address_fields()));
@@ -170,7 +172,8 @@ class Redirect {
 	/**
      * @since 1.0.0
      * @access public
-     * @param CFWPathManager $path_manager
+	 *
+	 * @param ExtendedPathManager $path_manager
 	 * @param string $version
 	 * @param array $classes
 	 */
@@ -388,7 +391,8 @@ class Redirect {
 	/**
      * @since 1.0.0
      * @access public
-     * @param CFWPathManager $path_manager
+	 *
+	 * @param ExtendedPathManager $path_manager
 	 */
 	public static function footer($path_manager, $settings_manager) {
 		do_action('cfw_wp_footer_before_scripts');

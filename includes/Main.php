@@ -18,7 +18,7 @@ use Objectiv\Plugins\Checkout\Core\Loader;
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 use Objectiv\Plugins\Checkout\Managers\AjaxManager;
-use Objectiv\Plugins\Checkout\Managers\CFWPathManager;
+use Objectiv\Plugins\Checkout\Managers\ExtendedPathManager;
 use Objectiv\Plugins\Checkout\Action\AccountExistsAction;
 use Objectiv\Plugins\Checkout\Action\LogInAction;
 use Objectiv\Plugins\Checkout\Compatibility\Manager as CompatibilityManager;
@@ -62,7 +62,7 @@ class Main extends Singleton {
 	/**
 	 * @since 1.1.4
 	 * @access private
-	 * @var CFWPathManager $path_manager Handles the path information for the plugin
+	 * @var ExtendedPathManager $path_manager Handles the path information for the plugin
 	 */
 	private $path_manager;
 
@@ -179,7 +179,7 @@ class Main extends Singleton {
 	 *
 	 * @since 1.1.4
 	 * @access public
-	 * @return CFWPathManager
+	 * @return ExtendedPathManager
 	 */
 	public function get_path_manager() {
 		return $this->path_manager;
@@ -358,7 +358,7 @@ class Main extends Singleton {
 		$this->deactivator = new Deactivator();
 
 		// The path manager for the plugin
-		$this->path_manager = new CFWPathManager(plugin_dir_path($file), plugin_dir_url($file), $file);
+		$this->path_manager = new ExtendedPathManager(plugin_dir_path($file), plugin_dir_url($file), $file);
 
 		// Create the template manager
 		$this->template_manager = new TemplateManager($this->path_manager, apply_filters('cfw_template_list', ['default']));

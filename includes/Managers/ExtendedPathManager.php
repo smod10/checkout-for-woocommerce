@@ -4,7 +4,7 @@ namespace Objectiv\Plugins\Checkout\Managers;
 
 use Objectiv\BoosterSeat\Managers\PathManager;
 
-class CFWPathManager extends PathManager {
+class ExtendedPathManager extends PathManager {
 
 	/**
 	 * @since 1.1.4
@@ -28,7 +28,7 @@ class CFWPathManager extends PathManager {
 	private $theme_template;
 
 	/**
-	 * CFWPathManager constructor.
+	 * ExtendedPathManager constructor.
 	 *
 	 * @param string $base
 	 * @param string $url_base

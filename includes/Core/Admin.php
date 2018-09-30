@@ -272,7 +272,21 @@ class Admin {
                             <a class="delete-custom-img button secondary-button"><?php _e('Clear Logo', 'checkout-wc'); ?></a>
                         </td>
                     </tr>
-
+                    <tr>
+                        <th scope="row" valign="top">
+                            <?php _e('Logo Dimensions', 'checkout-wc'); ?>
+                        </th>
+                        <td>
+                            <div>
+                                <label for="logo-size-width">Width: </label>
+                                <input class="regular-text" id="logo-size-width" style="max-width: 75px;" type="number" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('logo_size_width'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('logo_size_width'); ?>" />
+                            </div>
+                            <div>
+                                <label for="logo-size-height">Height: </label>
+                                <input class="regular-text" id="logo-size-width" style="max-width: 75px;" type="number" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('logo_size_height'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('logo_size_height'); ?>" />
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <th scope="row" valign="top">
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>"><?php _e('Header Background Color', 'checkout-wc'); ?></label>

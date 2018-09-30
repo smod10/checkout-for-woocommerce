@@ -360,14 +360,14 @@ class Main extends Singleton {
 		// The path manager for the plugin
 		$this->path_manager = new ExtendedPathManager(plugin_dir_path($file), plugin_dir_url($file), $file);
 
+		// The settings manager for the plugin
+		$this->settings_manager = new SettingsManager();
+
 		// Create the template manager
-		$this->template_manager = new TemplateManager($this->path_manager);
+		$this->template_manager = new TemplateManager($this->path_manager, $this->settings_manager->get_setting('templates_list'));
 
 		// Create the ajax manager
 		$this->ajax_manager = new AjaxManager($this->get_ajax_actions(), $this->loader);
-
-		// The settings manager for the plugin
-		$this->settings_manager = new SettingsManager();
 
 		// License updater
 		$this->updater = new \CGD_EDDSL_Magic("_cfw_licensing", false, CFW_UPDATE_URL, $this->get_version(), CFW_NAME, "Objectiv", $file, $theme = false);

@@ -49,6 +49,13 @@ export class EasyTabService {
         return <EasyTabDirection>{ current: currentTabIndex, target: targetTabIndex };
     }
 
+    static initialize() {
+        $(".cfw-tabs-initialize").easytabs({
+            defaultTab: "li.tab#default-tab",
+            tabs: "ul > li.tab"
+        });
+    }
+
     /**
      * @param {EasyTab} tab
      */

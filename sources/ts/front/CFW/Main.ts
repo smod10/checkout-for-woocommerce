@@ -132,8 +132,9 @@ export class Main {
 	 * functionality
 	 */
 	setup(): void {
-		// Setup easy tabs
-		this.tabContainer.easyTabs();
+
+		// Initialize the easy tabs
+		EasyTabService.initialize();
 
 		// Setup animation listeners
 		this.setupAnimationListeners();

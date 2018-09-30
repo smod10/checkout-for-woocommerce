@@ -8,7 +8,7 @@
         <div class="loader">Loading...</div>
     </div>
 </div>
-<main id="cfw-content" class="<?php echo $css_classes; ?>">
+<main id="cfw-content" class="<?php echo $css_classes; ?> cfw-tabs-initialize">
     <div class="wrap">
 
         <div class="cfw-container">
@@ -20,27 +20,28 @@
         </div>
 
 	    <?php if ( ! WC()->cart->is_empty() ): ?>
+
+        <ul id="cfw-breadcrumb" class="etabs">
+            <li>
+                <a href="<?php echo wc_get_cart_url(); ?>#cart"><?php _e('Cart', 'woocommerce'); ?></a>
+            </li>
+            <li class="tab" id="default-tab">
+                <a href="#cfw-customer-info" class="cfw-small"><?php esc_html_e( 'Customer information', 'checkout-wc' ); ?></a>
+            </li>
+		    <?php if ( WC()->cart->needs_shipping_address() && apply_filters('cfw_show_shipping_tab', true) === true ): ?>
+                <li class="tab">
+                    <a href="#cfw-shipping-method" class="cfw-small"><?php esc_html_e( 'Shipping method', 'checkout-wc' ); ?></a>
+                </li>
+		    <?php endif; ?>
+            <li class="tab">
+                <a href="#cfw-payment-method" class="cfw-small"><?php esc_html_e( 'Payment method', 'checkout-wc' ); ?></a>
+            </li>
+        </ul>
+
         <div id="cfw-main-container" class="cfw-container" customer="<?php echo $customer->get_id(); ?>">
 
             <!-- Easy Tab Container -->
             <div id="cfw-tab-container" class="cfw-left-column cfw-column-7 tab-container">
-
-                <ul id="cfw-breadcrumb" class="etabs">
-                    <li>
-                        <a href="<?php echo wc_get_cart_url(); ?>#cart"><?php _e('Cart', 'woocommerce'); ?></a>
-                    </li>
-                    <li class="tab" id="default-tab">
-                        <a href="#cfw-customer-info" class="cfw-small"><?php esc_html_e( 'Customer information', 'checkout-wc' ); ?></a>
-                    </li>
-                    <?php if ( WC()->cart->needs_shipping_address() && apply_filters('cfw_show_shipping_tab', true) === true ): ?>
-                    <li class="tab">
-                        <a href="#cfw-shipping-method" class="cfw-small"><?php esc_html_e( 'Shipping method', 'checkout-wc' ); ?></a>
-                    </li>
-                    <?php endif; ?>
-                    <li class="tab">
-                        <a href="#cfw-payment-method" class="cfw-small"><?php esc_html_e( 'Payment method', 'checkout-wc' ); ?></a>
-                    </li>
-                </ul>
 
 	            <?php do_action('cfw_checkout_before_form'); ?>
 

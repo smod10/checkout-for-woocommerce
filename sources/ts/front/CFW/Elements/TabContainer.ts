@@ -675,16 +675,6 @@ export class TabContainer extends Element {
     }
 
     /**
-     *
-     */
-    easyTabs() {
-        this.jel.easytabs({
-            defaultTab: "li.tab#default-tab",
-            tabs: "ul > li.tab"
-        });
-    }
-
-    /**
      * @param by
      * @param value
      * @returns {TabContainerSection}

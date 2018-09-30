@@ -176,7 +176,7 @@ class Admin {
      * @access public
 	 */
     public function design_tab() {
-        $cfw_templates = Main::instance()->get_template_manager()->get_template_information();
+        $cfw_templates = $this->plugin_instance->get_template_manager()->get_template_information();
         $cfw_template_stylesheet_headers = TemplateManager::$default_headers;
 	    ?>
         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">

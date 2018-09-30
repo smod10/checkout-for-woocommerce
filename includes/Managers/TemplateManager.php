@@ -219,7 +219,7 @@ class TemplateManager {
 	 */
 	public function get_template_sub_folders()
 	{
-		$plugin_defined_templates = array('default');
+		$plugin_defined_templates = array('default', 'gotham');
 		$user_defined_templates = array();
 
 		// Search the theme checkout-wc templates

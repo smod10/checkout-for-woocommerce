@@ -158,6 +158,8 @@ class TemplateManager {
 			}
 		}
 
+		d($template_information);
+
 		return $template_information;
 	}
 
@@ -209,6 +211,11 @@ class TemplateManager {
 	{
 		$plugin_defined_templates = array('default', 'fakeify');
 		$user_defined_templates = array();
+
+		// Search the theme checkout-wc templates
+		foreach(glob("{$this->path_manager->get_theme_template()}/*", GLOB_ONLYDIR) as $dir) {
+			$user_defined_templates[] = basename($dir);
+		}
 
 		return array_merge($plugin_defined_templates, $user_defined_templates);
 	}

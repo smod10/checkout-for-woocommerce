@@ -175,6 +175,7 @@ class Admin {
      * @access public
 	 */
     public function design_tab() {
+        $template_information = Main::instance()->get_template_manager()->get_template_information();
 	    ?>
         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 		    <?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>

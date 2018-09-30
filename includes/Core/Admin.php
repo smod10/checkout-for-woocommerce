@@ -175,7 +175,7 @@ class Admin {
      * @access public
 	 */
     public function design_tab() {
-        $template_information = Main::instance()->get_template_manager()->get_template_information();
+        $cfw_templates = Main::instance()->get_template_manager()->get_template_information();
 	    ?>
         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 		    <?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
@@ -187,12 +187,18 @@ class Admin {
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">Templates</label>
                         </th>
                         <td>
-                            <select name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">
-                                <option value="default">Default</option>
-                                <option value="fakeify">Fakeify</option>
-                            </select>
+                            <select id="template_select" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">
+	                            <?php
+                                    $cfw_template_setting = $this->plugin_instance->get_settings_manager()->get_setting('templates_list');
 
-                            <?php echo $this->plugin_instance->get_settings_manager()->get_setting('templates_list'); ?>
+                                    foreach($cfw_templates as $folder_name => $template_information) {
+                                        $base_path = $template_information["base_path"];
+                                        $stylesheet_info = $template_information["stylesheet_info"];
+
+                                        ?><option <?php selected($cfw_template_setting, $folder_name); ?> value="<?php echo $folder_name; ?>"><?php echo $stylesheet_info["Name"]; ?></option><?php
+                                    }
+	                            ?>
+                            </select>
                         </td>
                     </tr>
                     <tr>

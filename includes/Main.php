@@ -414,13 +414,18 @@ class Main extends Singleton {
 		global $wp;
 		
 		$front = "{$this->path_manager->get_assets_path()}/front";
-		// TODO: Get the saved template value (replace default)
-		$template_path = "{$this->path_manager->get_url_base()}templates/default";
+
+		$selected_template = $this->settings_manager->get_setting('templates_list');
+		$selected_template_info = $this->template_manager->get_template_information()[$selected_template];
+		$selected_template_base_path = $selected_template_info["base_path"];
+		$selected_template_base_url_path = $selected_template_info["base_url_path"];
+		$selected_template_stylesheet_is_min = $this->template_manager->get_stylesheet_info($selected_template_base_path)["is_min"];
 
 		$min = ( ! CFW_DEV_MODE ) ? ".min" : "";
+		$user_style_min = ($selected_template_stylesheet_is_min) ? ".min" : "";
 
 		wp_enqueue_style('cfw_front_css', "{$front}/css/checkout-woocommerce-front{$min}.css", array(), $this->get_version());
-		wp_enqueue_style( 'cfw_front_template_css', "{$template_path}/style{$min}.css", array(), $this->get_version());
+		wp_enqueue_style( 'cfw_front_template_css', "{$selected_template_base_url_path}/style{$user_style_min}.css", array(), $this->get_version());
 		wp_enqueue_script('cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array('jquery'), $this->get_version(), true);
 
 		wp_localize_script( 'cfw_front_js', 'woocommerce_params', array(

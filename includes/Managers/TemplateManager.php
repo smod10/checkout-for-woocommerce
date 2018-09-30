@@ -148,7 +148,7 @@ class TemplateManager {
 				$base_url_path = $this->path_manager->get_theme_template_url() . "/" . $template_folder;
 			}
 
-			$stylesheet_file_path = $this->get_stylesheet_path($base_path);
+			$stylesheet_file_path = $this->get_stylesheet_info($base_path)["path"];
 			$stylesheet_comment_data = $this->get_stylesheet_comment_data($stylesheet_file_path, $template_folder);
 
 			$template_information[$template_folder]["base_path"] = $base_path;
@@ -173,20 +173,25 @@ class TemplateManager {
 	 * @access public
 	 * @param $base_path
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function get_stylesheet_path($base_path) {
+	public function get_stylesheet_info($base_path) {
 		$path = "";
+		$is_min = false;
 		$non_min_path = "{$base_path}/style.css";
 		$min_path = "{$base_path}/style.min.css";
 
 		if(file_exists($min_path)) {
+			$is_min = true;
 			$path = $min_path;
 		} else if(file_exists($non_min_path)) {
 			$path = $non_min_path;
 		}
 
-		return $path;
+		return array(
+			"path" => $path,
+			"is_min" => $is_min
+		);
 	}
 
 	/**
@@ -214,7 +219,7 @@ class TemplateManager {
 	 */
 	public function get_template_sub_folders()
 	{
-		$plugin_defined_templates = array('default', 'fakeify');
+		$plugin_defined_templates = array('default');
 		$user_defined_templates = array();
 
 		// Search the theme checkout-wc templates

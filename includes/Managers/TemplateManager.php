@@ -27,23 +27,39 @@ class TemplateManager {
 	/**
 	 * since 2.0.0
 	 * @access private
-	 * @var array
+	 * @var array $template_pieces
 	 */
 	private $template_pieces = array();
 
 	/**
 	 * @since 1.0.0
 	 * @access private
-	 * @var ExtendedPathManager
+	 * @var ExtendedPathManager $path_manager
 	 */
 	private $path_manager = null;
 
 	/**
 	 * @since 2.0.0
 	 * @access private
-	 * @var string
+	 * @var string $selected_template
 	 */
 	private $selected_template = '';
+
+	/**
+	 * @since 2.0.0
+	 * @access private
+	 * @static
+	 * @var array $default_headers
+	 */
+	public static $default_headers = array(
+		'Name'          => 'Theme Name',
+		'ThemeURI'      => 'Theme URI',
+		'Description'   => 'Description',
+		'Author'        => 'Author',
+		'AuthorURI'     => 'Author URI',
+		'Version'       => 'Version',
+		'Capabilities'  => 'Capabilities'
+	);
 
 	/**
 	 * TemplateManager constructor.
@@ -78,7 +94,7 @@ class TemplateManager {
 	 * @param array $global_parameters
 	 */
 	public function load_templates($global_parameters = array()) {
-		foreach($this->get_template_information() as $template_name => $template_paths) {
+		foreach($this->get_template_information() as $template_name => $template_info) {
 			// Filter template level variables
 			$parameters["template"] = apply_filters("cfw_template_{$template_name}_params", array());
 
@@ -88,7 +104,7 @@ class TemplateManager {
 			// Only output the selected template
 			if($template_name == $this->selected_template) {
 
-				foreach ( $template_paths as $template_piece_name => $template_path ) {
+				foreach ( $template_info["paths"] as $template_piece_name => $template_path ) {
 					// Create new template
 					$template = new Template( $template_name, $template_path, $parameters );
 
@@ -102,7 +118,7 @@ class TemplateManager {
 					do_action( "cfw_template_load_after_{$template_name}_{$template_piece_name}" );
 
 					// Store the template
-					$this->templates[ $template_name ][ $template_piece_name ] = $template;
+					$this->templates[$template_name][$template_piece_name] = $template;
 				}
 			}
 		}
@@ -126,16 +142,60 @@ class TemplateManager {
 
 			$base_path = file_exists($theme_template_base_path) ? $theme_template_base_path : $plugin_template_base_path;
 
+			$stylesheet_file_path = $this->get_stylesheet_path($base_path);
+			$stylesheet_comment_data = $this->get_stylesheet_comment_data($stylesheet_file_path, $template_folder);
+
+			$template_information[$template_folder]["base_path"] = $base_path;
+			$template_information[$template_folder]["stylesheet_info"] = $stylesheet_comment_data;
+			$template_information[$template_folder]["paths"] = array();
+
 			foreach($this->template_pieces as $file_piece_name => $file_name) {
 				// Set up the possible paths
 				$template_path = $base_path . "/{$file_name}";
 
 				// Add the appropriate paths to the template information array.
-				$template_information[$template_folder][$file_piece_name] = $template_path;
+				$template_information[$template_folder]["paths"][$file_piece_name] = $template_path;
 			}
 		}
 
 		return $template_information;
+	}
+
+	/**
+	 * @since 2.0.0
+	 * @access public
+	 * @param $base_path
+	 *
+	 * @return string
+	 */
+	public function get_stylesheet_path($base_path) {
+		$path = "";
+		$non_min_path = "{$base_path}/style.css";
+		$min_path = "{$base_path}/style.min.css";
+
+		if(file_exists($min_path)) {
+			$path = $min_path;
+		} else if(file_exists($non_min_path)) {
+			$path = $non_min_path;
+		}
+
+		return $path;
+	}
+
+	/**
+	 * @since 2.0.0
+	 * @access public
+	 * @param string $stylesheet_path
+	 * @param string $template_folder
+	 *
+	 * @return array
+	 */
+	public function get_stylesheet_comment_data($stylesheet_path, $template_folder) {
+		$comment_data = get_file_data($stylesheet_path, self::$default_headers);
+
+		$comment_data["Name"] = ($comment_data["Name"] == "") ? ucfirst($template_folder) : $comment_data["Name"];
+
+		return $comment_data;
 	}
 
 	/**
@@ -180,12 +240,5 @@ class TemplateManager {
 	 */
 	public function get_path_manager() {
 		return $this->path_manager;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSelectedTemplate() {
-		return $this->selected_template;
 	}
 }

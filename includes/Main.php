@@ -361,7 +361,7 @@ class Main extends Singleton {
 		$this->path_manager = new ExtendedPathManager(plugin_dir_path($file), plugin_dir_url($file), $file);
 
 		// Create the template manager
-		$this->template_manager = new TemplateManager($this->path_manager, apply_filters('cfw_template_list', ['default']));
+		$this->template_manager = new TemplateManager($this->path_manager);
 
 		// Create the ajax manager
 		$this->ajax_manager = new AjaxManager($this->get_ajax_actions(), $this->loader);

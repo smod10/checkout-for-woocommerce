@@ -36,7 +36,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define('CFW_NAME', 'Checkout for WooCommerce');
 define('CFW_UPDATE_URL', 'https://www.checkoutwc.com');
-define('CFW_VERSION', '1.6.1');
+define('CFW_VERSION', '2.0.0');
 define('CFW_PATH', dirname(__FILE__) );
 define('CFW_URL', plugins_url('/', __FILE__) );
 

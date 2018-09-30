@@ -52,8 +52,8 @@ class TemplateManager {
 	 * @var array $default_headers
 	 */
 	public static $default_headers = array(
-		'Name'          => 'Theme Name',
-		'ThemeURI'      => 'Theme URI',
+		'Name'          => 'Template Name',
+		'TemplateURI'      => 'Template URI',
 		'Description'   => 'Description',
 		'Author'        => 'Author',
 		'AuthorURI'     => 'Author URI',
@@ -140,12 +140,19 @@ class TemplateManager {
 			$plugin_template_base_path = $this->path_manager->get_plugin_template(). "/" . $template_folder;
 			$theme_template_base_path = $this->path_manager->get_theme_template() . "/" . $template_folder;
 
-			$base_path = file_exists($theme_template_base_path) ? $theme_template_base_path : $plugin_template_base_path;
+			$base_path = $plugin_template_base_path;
+			$base_url_path = $this->path_manager->get_plugin_template_url() . "/" . $template_folder;
+
+			if(file_exists($theme_template_base_path)) {
+				$base_path = $theme_template_base_path;
+				$base_url_path = $this->path_manager->get_theme_template_url() . "/" . $template_folder;
+			}
 
 			$stylesheet_file_path = $this->get_stylesheet_path($base_path);
 			$stylesheet_comment_data = $this->get_stylesheet_comment_data($stylesheet_file_path, $template_folder);
 
 			$template_information[$template_folder]["base_path"] = $base_path;
+			$template_information[$template_folder]["base_url_path"] = $base_url_path;
 			$template_information[$template_folder]["stylesheet_info"] = $stylesheet_comment_data;
 			$template_information[$template_folder]["paths"] = array();
 

@@ -3,6 +3,7 @@
 namespace Objectiv\Plugins\Checkout\Core;
 
 use Objectiv\Plugins\Checkout\Main;
+use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 
 /**
  * Class Admin
@@ -176,6 +177,7 @@ class Admin {
 	 */
     public function design_tab() {
         $cfw_templates = Main::instance()->get_template_manager()->get_template_information();
+        $cfw_template_stylesheet_headers = TemplateManager::$default_headers;
 	    ?>
         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 		    <?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
@@ -184,7 +186,7 @@ class Admin {
                 <tbody>
                     <tr>
                         <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">Templates</label>
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">Template</label>
                         </th>
                         <td>
                             <select id="template_select" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">
@@ -192,13 +194,68 @@ class Admin {
                                     $cfw_template_setting = $this->plugin_instance->get_settings_manager()->get_setting('templates_list');
 
                                     foreach($cfw_templates as $folder_name => $template_information) {
-                                        $base_path = $template_information["base_path"];
                                         $stylesheet_info = $template_information["stylesheet_info"];
 
                                         ?><option <?php selected($cfw_template_setting, $folder_name); ?> value="<?php echo $folder_name; ?>"><?php echo $stylesheet_info["Name"]; ?></option><?php
                                     }
 	                            ?>
                             </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label>Template Info</label>
+                        </th>
+                        <td>
+	                        <?php
+                                foreach($cfw_templates as $folder_name => $template_information) {
+                                    $base_url_path = $template_information["base_url_path"];
+                                    $screen_shot = "{$base_url_path}/screenshot.png";
+                                    $stylesheet_info = $template_information["stylesheet_info"];
+                                    $selected = ($cfw_template_setting == $folder_name) ? true : false;
+                                    ?>
+                                    <div id="template_select_info_table_screen_shot_container_<?php echo $folder_name; ?>" class="template_select_info_table_screen_shot_container" style="<?php echo (!$selected) ? "display: none;" : ""; ?>">
+                                        <div class="left-hand-column screen-shot-column">
+                                            <div class="theme-preview-label-container">
+                                                <label class="theme-preview-label">Template Preview</label>
+                                            </div>
+                                            <img src="<?php echo $screen_shot; ?>" />
+                                        </div>
+                                        <div class="right-hand-column info-column">
+                                            <div class="theme-details-label-container">
+                                                <label class="theme-details-label">Template Details</label>
+                                            </div>
+                                            <table>
+                                                <tbody>
+                                                <?php
+                                                foreach($stylesheet_info as $info_key => $info_value) {
+                                                    $info_key_nice_name = $cfw_template_stylesheet_headers[$info_key];
+
+                                                    if($info_value != "") {
+                                                        ?>
+                                                        <tr>
+                                                            <td>
+                                                                <label><?php echo $info_key_nice_name; ?></label>
+                                                            </td>
+                                                            <td>
+                                                                <?php if(filter_var($info_value, FILTER_VALIDATE_URL)): ?>
+                                                                    <a href="<?php echo $info_value; ?>" target="_blank"><?php echo $info_value; ?></a>
+                                                                <?php else: ?>
+                                                                    <?php echo $info_value; ?>
+                                                                <?php endif; ?>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+	                        ?>
                         </td>
                     </tr>
                     <tr>
@@ -437,6 +494,12 @@ class Admin {
      * @access public
 	 */
 	public function admin_scripts() {
+		// Add the admin stylesheet
+	    wp_enqueue_style('objectiv-cfw-admin-styles', CFW_URL . "assets/admin/css/admin.css", array(), CFW_VERSION);
+
+	    // Enqueue the admin stylesheet
+		wp_enqueue_style('objectiv-cfw-admin-styles');
+
 		// Add the color picker css file
 		wp_enqueue_style( 'wp-color-picker' );
 
@@ -444,7 +507,7 @@ class Admin {
 		wp_enqueue_media();
 
 		// Include our custom jQuery file with WordPress Color Picker dependency
-		wp_enqueue_script( 'objectiv-cfw-admin', CFW_URL . 'assets/admin/admin.js', array( 'jquery', 'wp-color-picker' ), CFW_VERSION );
+		wp_enqueue_script( 'objectiv-cfw-admin', CFW_URL . 'assets/admin/js/admin.js', array( 'jquery', 'wp-color-picker' ), CFW_VERSION );
 
 		// Localize the script with new data
 		$settings_array = array(

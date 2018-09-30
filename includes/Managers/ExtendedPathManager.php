@@ -21,11 +21,25 @@ class ExtendedPathManager extends PathManager {
 	private $plugin_template;
 
 	/**
+	 * @since 2.0.0
+	 * @access private
+	 * @var string
+	 */
+	private $plugin_template_url;
+
+	/**
 	 * @since 1.1.4
 	 * @access private
 	 * @var string The theme template path
 	 */
 	private $theme_template;
+
+	/**
+	 * @since 2.0.0
+	 * @access private
+	 * @var string
+	 */
+	private $theme_template_url;
 
 	/**
 	 * ExtendedPathManager constructor.
@@ -38,8 +52,10 @@ class ExtendedPathManager extends PathManager {
 		parent::__construct( $base, $url_base, $main_file );
 
 		$this->plugin_template = $this->get_base() . "templates";
+		$this->plugin_template_url = $this->get_url_base() . "templates";
 		$this->assets = $this->get_url_base() . "assets";
 		$this->theme_template = get_stylesheet_directory() . "/checkout-wc";
+		$this->theme_template_url = get_stylesheet_directory_uri() . "/checkout-wc";
 	}
 
 	/**
@@ -71,5 +87,23 @@ class ExtendedPathManager extends PathManager {
 	 */
 	public function get_plugin_template() {
 		return $this->plugin_template;
+	}
+
+	/**
+	 * @since 2.0.0
+	 * @access public
+	 * @return string
+	 */
+	public function get_plugin_template_url() {
+		return $this->plugin_template_url;
+	}
+
+	/**
+	 * @since 2.0.0
+	 * @access public
+	 * @return string
+	 */
+	public function get_theme_template_url() {
+		return $this->theme_template_url;
 	}
 }

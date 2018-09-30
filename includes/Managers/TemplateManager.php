@@ -121,13 +121,14 @@ class TemplateManager {
 
 		foreach($this->get_template_sub_folders() as $template_folder) {
 
+			$plugin_template_base_path = $this->path_manager->get_plugin_template(). "/" . $template_folder;
+			$theme_template_base_path = $this->path_manager->get_theme_template() . "/" . $template_folder;
+
+			$base_path = file_exists($theme_template_base_path) ? $theme_template_base_path : $plugin_template_base_path;
+
 			foreach($this->template_pieces as $file_piece_name => $file_name) {
 				// Set up the possible paths
-				$plugin_template_path = $this->path_manager->get_plugin_template(). "/" . $template_folder . "/{$file_name}";
-				$theme_template_path = $this->path_manager->get_theme_template() . "/" . $template_folder . "/{$file_name}";
-
-				// Get the template path we want (user overloaded, or base)
-				$template_path = file_exists($theme_template_path) ? $theme_template_path : $plugin_template_path;
+				$template_path = $base_path . "/{$file_name}";
 
 				// Add the appropriate paths to the template information array.
 				$template_information[$template_folder][$file_piece_name] = $template_path;

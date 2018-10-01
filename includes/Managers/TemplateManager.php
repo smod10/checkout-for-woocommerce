@@ -67,7 +67,7 @@ class TemplateManager {
 	 */
 	public static $default_headers = array(
 		'Name'          => 'Template Name',
-		'TemplateURI'      => 'Template URI',
+		'TemplateURI'   => 'Template URI',
 		'Description'   => 'Description',
 		'Author'        => 'Author',
 		'AuthorURI'     => 'Author URI',
@@ -103,6 +103,22 @@ class TemplateManager {
 		$this->theme_style_filename = apply_filters("cfw_template_theme_style_filename", $this->theme_style_filename);
 
 		$this->theme_javascript_filename = apply_filters("cfw_template_theme_javascript_filename", $this->theme_javascript_filename);
+	}
+
+	/**
+	 * Load the theme template functions file
+	 *
+	 * @since 2.0.0
+	 * @return void
+	 */
+	public function load_template_functions() {
+		$template_information = $this->get_template_information();
+		$base_path = $template_information[$this->selected_template]["base_path"];
+		$functions_path = "{$base_path}/functions.php";
+
+		if(file_exists($functions_path)) {
+			require_once $functions_path;
+		}
 	}
 
 	/**

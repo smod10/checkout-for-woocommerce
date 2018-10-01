@@ -366,6 +366,10 @@ class Main extends Singleton {
 		// Create the template manager
 		$this->template_manager = new TemplateManager($this->path_manager, $this->settings_manager->get_setting('templates_list'));
 
+		if(apply_filters('cfw_should_load_template_functions', true)) {
+			$this->template_manager->load_template_functions();
+		}
+
 		// Create the ajax manager
 		$this->ajax_manager = new AjaxManager($this->get_ajax_actions(), $this->loader);
 

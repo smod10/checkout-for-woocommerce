@@ -419,14 +419,25 @@ class Main extends Singleton {
 		$selected_template_info = $this->template_manager->get_template_information()[$selected_template];
 		$selected_template_base_path = $selected_template_info["base_path"];
 		$selected_template_base_url_path = $selected_template_info["base_url_path"];
-		$selected_template_stylesheet_is_min = $this->template_manager->get_stylesheet_info($selected_template_base_path)["is_min"];
+		$selected_template_stylesheet_is_min = $this->template_manager->get_generated_file_info(
+			$selected_template_base_path,
+			$this->template_manager->get_theme_style_filename(),
+			"css"
+		)["is_min"];
+		$selected_template_javascript_is_min = $this->template_manager->get_generated_file_info(
+			$selected_template_base_path,
+			$this->template_manager->get_theme_javascript_filename(),
+			"js"
+		)["is_min"];
 
 		$min = ( ! CFW_DEV_MODE ) ? ".min" : "";
 		$user_style_min = ($selected_template_stylesheet_is_min) ? ".min" : "";
+		$user_js_min = ($selected_template_javascript_is_min) ? ".min" : "";
 
 		wp_enqueue_style('cfw_front_css', "{$front}/css/checkout-woocommerce-front{$min}.css", array(), $this->get_version());
-		wp_enqueue_style( 'cfw_front_template_css', "{$selected_template_base_url_path}/style{$user_style_min}.css", array(), $this->get_version());
+		wp_enqueue_style( 'cfw_front_template_css', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_style_filename()}{$user_style_min}.css", array(), $this->get_version());
 		wp_enqueue_script('cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array('jquery'), $this->get_version(), true);
+		wp_enqueue_script( 'cfw_front_template_js', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_javascript_filename()}{$user_js_min}.js", array('jquery'), $this->get_version());
 
 		wp_localize_script( 'cfw_front_js', 'woocommerce_params', array(
 			'ajax_url'                  => WC()->ajax_url(),

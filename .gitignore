@@ -11,4 +11,7 @@ node_modules
 assets/front
 templates/**/*.css
 templates/**/*.css.map
+templates/**/theme.js
+templates/**/theme.js.map
+templates/**/theme.min.js
 .env

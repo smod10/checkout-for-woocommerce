@@ -339,6 +339,7 @@ class Redirect {
             'jquery',
             'admin-bar',
             'cfw_front_js',
+            'cfw_front_template_js',
             'cfw_front_js_vendor',
             'cfw_front_js_hash_change',
             'cfw_front_js_easy_tabs',

@@ -48,6 +48,20 @@ class TemplateManager {
 	/**
 	 * @since 2.0.0
 	 * @access private
+	 * @var string $theme_style_filename
+	 */
+	private $theme_style_filename = 'style';
+
+	/**
+	 * @since 2.0.0
+	 * @access private
+	 * @var string $theme_javascript_filename
+	 */
+	private $theme_javascript_filename = "theme";
+
+	/**
+	 * @since 2.0.0
+	 * @access private
 	 * @static
 	 * @var array $default_headers
 	 */
@@ -85,6 +99,10 @@ class TemplateManager {
 		$this->selected_template = $selected_template;
 
 		$this->template_pieces = apply_filters("cfw_template_redirect_body_pieces", $body_pieces );
+
+		$this->theme_style_filename = apply_filters("cfw_template_theme_style_filename", $this->theme_style_filename);
+
+		$this->theme_javascript_filename = apply_filters("cfw_template_theme_javascript_filename", $this->theme_javascript_filename);
 	}
 
 	/**
@@ -148,7 +166,7 @@ class TemplateManager {
 				$base_url_path = $this->path_manager->get_theme_template_url() . "/" . $template_folder;
 			}
 
-			$stylesheet_file_path = $this->get_stylesheet_info($base_path)["path"];
+			$stylesheet_file_path = $this->get_generated_file_info($base_path, $this->get_theme_style_filename(), "css")["path"];
 			$stylesheet_comment_data = $this->get_stylesheet_comment_data($stylesheet_file_path, $template_folder);
 
 			$template_information[$template_folder]["base_path"] = $base_path;
@@ -165,21 +183,25 @@ class TemplateManager {
 			}
 		}
 
+		d($template_information);
+
 		return $template_information;
 	}
 
 	/**
 	 * @since 2.0.0
 	 * @access public
-	 * @param $base_path
+	 * @param string $base_path
+	 * @param string $filename
+	 * @param string $extension
 	 *
 	 * @return array
 	 */
-	public function get_stylesheet_info($base_path) {
+	public function get_generated_file_info($base_path, $filename, $extension) {
 		$path = "";
 		$is_min = false;
-		$non_min_path = "{$base_path}/style.css";
-		$min_path = "{$base_path}/style.min.css";
+		$non_min_path = "{$base_path}/{$filename}.{$extension}";
+		$min_path = "{$base_path}/{$filename}.min.{$extension}";
 
 		if(file_exists($min_path)) {
 			$is_min = true;
@@ -257,5 +279,19 @@ class TemplateManager {
 	 */
 	public function get_path_manager() {
 		return $this->path_manager;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_theme_style_filename() {
+		return $this->theme_style_filename;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_theme_javascript_filename() {
+		return $this->theme_javascript_filename;
 	}
 }

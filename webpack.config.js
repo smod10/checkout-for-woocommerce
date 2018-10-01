@@ -17,9 +17,11 @@ module.exports = mode => {
 		context: __dirname
 	};
 
+	let delete_min_files = (process.env.CFW_DELETE_MIN !== undefined) ? process.env.CFW_DELETE_MIN : false;
+
 	if(mode === "development") {
 		return merge(common(sourcesDir), development(mainDir, assetsDir), config);
 	}
 
-	return merge(common(sourcesDir), production(mainDir, assetsDir, process.env.npm_package_version), config);
+	return merge(common(sourcesDir), production(mainDir, assetsDir, process.env.npm_package_version, delete_min_files), config);
 };

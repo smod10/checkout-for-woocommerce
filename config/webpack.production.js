@@ -5,15 +5,9 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-module.exports = (mainDir, assetsDir, version) => {
+module.exports = (mainDir, assetsDir, version, delete_min_files) => {
 	const productionDir = "./dist";
-	const docsDir = "./docs";
-	const templatesDir = "./templates";
 	const outPath = `${productionDir}/checkout-for-woocommerce`;
-	const unMinJS = `${assetsDir}/front/js/*.js*`;
-	const unMinCSS = `${assetsDir}/front/css/*.css*`;
-	const unMinTemplateCss = `${templatesDir}/**/style.css*`;
-	const unMinTemplateJs = `${templatesDir}/**/theme.js*`;
 	const zipName = `${outPath}-${version}.zip`;
 
 	let production = {
@@ -43,43 +37,48 @@ module.exports = (mainDir, assetsDir, version) => {
 	};
 
 	if(version !== false) {
+		let delete_files = [
+			"./docs",
+			outPath + "/dist",
+			outPath + "/**/node_modules",
+			outPath + "/assets/front/js/checkout-woocommerce-front.js*",
+			outPath + "/assets/front/css/checkout-woocommerce-front.css*",
+			outPath + "/templates/**/style.css*",
+			outPath + "/templates/**/theme.js*"
+		];
+
+		if(delete_min_files) {
+			delete_files.push("./assets/front/**/*.min.*");
+			delete_files.push("./templates/**/*.min.*");
+		}
+
 		production.plugins.push(
 			new FileManagerPlugin({
 				onStart: {
 					delete: [
-						productionDir,
-						unMinJS,
-						unMinCSS,
-						unMinTemplateCss,
-						unMinTemplateJs
+						productionDir
 					]
 				},
-				onEnd: {
-					mkdir: [
-						outPath
-					],
-					copy: [
-						{ source: './assets', destination: outPath + '/assets' },
-						{ source: './config', destination: outPath + '/config' },
-						{ source: './includes', destination: outPath + '/includes' },
-						{ source: './languages', destination: outPath + '/languages' },
-						{ source: './sources', destination: outPath + '/sources' },
-						{ source: './templates', destination: outPath + '/templates' },
-						{ source: './typings', destination: outPath + '/typings' },
-						{ source: './vendor', destination: outPath + '/vendor' },
-						{ source: './docs', destination: outPath + '/docs' },
-						{ source: './*.php', destination: outPath },
-						{ source: './*.js', destination: outPath },
-						{ source: './*.md', destination: outPath },
-						{ source: './*.json', destination: outPath }
-					],
-					delete: [
-						docsDir
-					],
-					archive: [
-						{ source: outPath, destination: zipName },
-					]
-				}
+				onEnd: [
+					{
+						mkdir: [
+							outPath
+						]
+					},
+					{
+						copy: [
+							{ source: '.', destination: outPath }
+						]
+					},
+					{
+						delete: delete_files
+					},
+					{
+						archive: [
+							{ source: outPath, destination: zipName }
+						]
+					}
+				]
 			})
 		)
 	}

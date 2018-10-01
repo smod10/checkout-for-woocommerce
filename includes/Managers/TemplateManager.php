@@ -183,8 +183,6 @@ class TemplateManager {
 			}
 		}
 
-		d($template_information);
-
 		return $template_information;
 	}
 

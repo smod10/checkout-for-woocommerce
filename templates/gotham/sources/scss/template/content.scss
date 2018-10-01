@@ -1,3 +1,28 @@
+$wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
+
+#cfw-login-slide {
+  display: none;
+  margin-bottom: $wrap-row-bot-margin;
+}
+
+.cfw-input-wrap-row {
+  margin-bottom: $wrap-row-bot-margin;
+
+  &:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.pad-bottom .form-row {
+  margin-bottom: $wrap-row-bot-margin;
+}
+
 #cfw-breadcrumb {
   list-style-type: none;
   margin: 0 0 1.5em 0;
@@ -33,4 +58,14 @@
 .cfw-breadcrumb-container {
   display: flex;
   justify-content: center;
+}
+
+.cfw-module-title {
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 1em;
+}
+
+.cfw-input-wrap-row {
+  margin-bottom: 16px;
 }

@@ -1,5 +1,3 @@
-$wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
-
 body {
   position: relative;
 }
@@ -10,11 +8,6 @@ body {
 #cfw-main-container {
   display: flex;
   flex-wrap: wrap;
-}
-
-#cfw-login-slide {
-  display: none;
-  margin-bottom: $wrap-row-bot-margin;
 }
 
 #cfw-login-btn {
@@ -400,20 +393,6 @@ label[for="card-element"] {
   border-color: #c3e6cb;
 }
 
-.cfw-input-wrap-row {
-  margin-bottom: $wrap-row-bot-margin;
-
-  &:after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
 .overlay {
   position: absolute;
   width: 100%;
@@ -618,10 +597,6 @@ label[for="card-element"] {
 
 p.cfw-input-wrap {
   margin-bottom: 0;
-}
-
-.pad-bottom .form-row {
-  margin-bottom: $wrap-row-bot-margin;
 }
 
 .cfw-input-wrap {

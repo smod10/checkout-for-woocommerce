@@ -8,4 +8,13 @@
   Capabilities:     some-capability-1, some-capability-2
  */
 
+@import "~bourbon/core/bourbon";
+@import "~bourbon-neat/core/neat";
+
+@import "grid";
 @import "template/content";
+
+.wrap {
+  max-width: $wrap-width;
+  margin: auto;
+}

@@ -1,11 +1,11 @@
 // Imports
 const path = require('path');
+const fs = require('fs');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = mode => {
-	const mainModulesDir = path.resolve(__dirname, "../../node_modules");
 	const localModulesDir = path.resolve(__dirname, "node_modules");
 
 	let plugins = [
@@ -38,7 +38,7 @@ module.exports = mode => {
 		},
 		resolve: {
 			extensions: ['.scss', '.css', '.ts', '.js'],
-			modules: [mainModulesDir, localModulesDir]
+			modules: [localModulesDir]
 		},
 		module: {
 			rules: [

@@ -1,6 +1,3 @@
-@import "../bourbon/bourbon";
-@import "../neat/neat";
-
 $columns: 12;
 $grid: (
   columns: 12,
@@ -15,6 +12,8 @@ $grid-sg: (
   media: 1200px,
   direction: ltr
 );
+
+$wrap-width: 1140px + map-get($grid, gutter) * 2;
 
 .cfw-container {
   @include grid-container;

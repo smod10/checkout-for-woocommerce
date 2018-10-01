@@ -209,10 +209,6 @@ class Redirect {
 	public static function output_custom_styles($path_manager, $version, $classes, $settings_manager) {
         // Get logo attachment ID if available
         $logo_attachment_id = $settings_manager->get_setting('logo_attachment_id');
-        $logo_attachment_sizes = array(
-            "width" => $settings_manager->get_setting('logo_size_width'),
-            "height" => $settings_manager->get_setting('logo_size_height')
-        );
         ?>
         <style>
             #cfw-header {
@@ -251,9 +247,6 @@ class Redirect {
             .cfw-logo .logo {
                 background: transparent url( <?php echo wp_get_attachment_url($logo_attachment_id); ?> ) no-repeat;
                 background-size: contain;
-                max-width: <?php echo $logo_attachment_sizes["width"]; ?>px;
-                height: <?php echo $logo_attachment_sizes["height"]; ?>px;
-                width: 100%;
             }
             <?php else: ?>
             .cfw-logo .logo {

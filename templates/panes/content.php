@@ -25,6 +25,12 @@
             <!-- Easy Tab Container -->
             <div id="cfw-tab-container" class="cfw-left-column cfw-column-7 tab-container">
 
+                <div id="cfw-logo-container">
+                    <div class="cfw-logo">
+                        <a title="<?php echo get_bloginfo( 'name' ); ?>" href="<?php echo get_home_url(); ?>" class="logo"></a>
+                    </div>
+                </div>
+
                 <ul id="cfw-breadcrumb" class="etabs">
                     <li>
                         <a href="<?php echo wc_get_cart_url(); ?>#cart"><?php _e('Cart', 'woocommerce'); ?></a>

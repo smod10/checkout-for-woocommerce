@@ -1,8 +1,19 @@
 $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
+$gutter: map-get($grid, gutter);
 
 #cfw-login-slide {
   display: none;
   margin-bottom: $wrap-row-bot-margin;
+}
+
+#cfw-logo-container {
+  .cfw-logo {
+    padding: 0;
+
+    .logo {
+      margin-top: 0;
+    }
+  }
 }
 
 .cfw-input-wrap-row {

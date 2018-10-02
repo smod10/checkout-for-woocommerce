@@ -408,6 +408,9 @@ class Redirect {
         }
     }
 
+    /**
+     *
+     */
     public static function remove_styles() {
 	    global $wp_styles;
 

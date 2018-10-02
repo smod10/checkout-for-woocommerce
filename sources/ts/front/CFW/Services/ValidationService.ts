@@ -27,20 +27,22 @@ export class ValidationService {
     private static _validateZip: boolean = true;
 
     /**
-     *
+     * @param easyTabsWrap
      */
-    constructor() {
-        this.validateSectionsBeforeSwitch();
+    constructor(easyTabsWrap: JQuery) {
+        this.validateSectionsBeforeSwitch(easyTabsWrap);
 
         ValidationService.validateShippingOnLoadIfNotCustomerTab();
     }
 
     /**
      * Execute validation checks before each easy tab easy tab switch.
+     *
+     * @param {JQuery} easyTabsWrap
      */
-    validateSectionsBeforeSwitch(): void {
+    validateSectionsBeforeSwitch(easyTabsWrap: JQuery): void {
 
-        Main.instance.tabContainer.jel.bind('easytabs:before', function(event, clicked, target) {
+        easyTabsWrap.bind('easytabs:before', function(event, clicked, target) {
             // Where are we going?
             let easyTabDirection: EasyTabDirection = EasyTabService.getTabDirection(target);
 

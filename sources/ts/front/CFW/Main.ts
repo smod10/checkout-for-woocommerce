@@ -83,13 +83,14 @@ export class Main {
 	private static _instance: Main;
 
 	/**
-     * @param checkoutFormEl
-	 * @param tabContainer
-	 * @param ajaxInfo
-	 * @param cart
-	 * @param settings
+     * @param {JQuery} checkoutFormEl
+	 * @param {JQuery} easyTabsWrap
+	 * @param {TabContainer} tabContainer
+	 * @param {AjaxInfo} ajaxInfo
+	 * @param {Cart} cart
+	 * @param {any} settings
 	 */
-	constructor( checkoutFormEl: JQuery, tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
+	constructor( checkoutFormEl: JQuery, easyTabsWrap: JQuery, tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
 		Main.instance = this;
 
         checkoutFormEl.garlic({
@@ -104,8 +105,8 @@ export class Main {
         this.cart = cart;
         this.settings = settings;
         this.parsleyService = new ParsleyService();
-        this.easyTabService = new EasyTabService();
-        this.validationService = new ValidationService();
+        this.easyTabService = new EasyTabService(easyTabsWrap);
+        this.validationService = new ValidationService(easyTabsWrap);
         this.localizationService = new LocalizationService();
 
         // Handle Stripe gateway UI blocking function
@@ -134,7 +135,7 @@ export class Main {
 	setup(): void {
 
 		// Initialize the easy tabs
-		EasyTabService.initialize();
+		this.easyTabService.initialize();
 
 		// Setup animation listeners
 		this.setupAnimationListeners();

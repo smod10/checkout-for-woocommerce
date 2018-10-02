@@ -20,8 +20,18 @@ export type EasyTabDirection = { current: EasyTab, target: EasyTab };
  *
  */
 export class EasyTabService {
-    constructor() {
 
+    /**
+     * @type {JQuery}
+     * @private
+     */
+    private _easyTabsWrap: JQuery;
+
+    /**
+     * @param easyTabsWrap
+     */
+    constructor(easyTabsWrap: JQuery) {
+       this.easyTabsWrap = easyTabsWrap;
     }
 
     /**
@@ -49,11 +59,16 @@ export class EasyTabService {
         return <EasyTabDirection>{ current: currentTabIndex, target: targetTabIndex };
     }
 
-    static initialize() {
-        $(".cfw-tabs-initialize").easytabs({
+    /**
+     *
+     */
+    initialize() {
+        this.easyTabsWrap.easytabs({
             defaultTab: "li.tab#default-tab",
             tabs: "ul > li.tab"
         });
+
+        this.easyTabsWrap.removeClass("cfw-tabs-not-initialized");
     }
 
     /**
@@ -83,5 +98,14 @@ export class EasyTabService {
      */
     static isThereAShippingTab(): boolean {
         return Main.instance.tabContainer.jel.find('.etabs > li.tab').length !== 2;
+    }
+
+
+    get easyTabsWrap(): JQuery {
+        return this._easyTabsWrap;
+    }
+
+    set easyTabsWrap(value: JQuery) {
+        this._easyTabsWrap = value;
     }
 }

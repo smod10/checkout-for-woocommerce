@@ -8,7 +8,7 @@
         <div class="loader">Loading...</div>
     </div>
 </div>
-<main id="cfw-content" class="<?php echo $css_classes; ?> cfw-tabs-initialize">
+<main id="cfw-content" class="<?php echo $css_classes; ?> cfw-tabs-initialize cfw-tabs-not-initialized">
     <div class="wrap">
 
         <div class="cfw-container">

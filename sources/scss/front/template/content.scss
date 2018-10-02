@@ -2,7 +2,10 @@ body {
   position: relative;
 }
 
-#cfw-content {
+.cfw-tabs-not-initialized {
+  #cfw-shipping-method, #cfw-payment-method {
+    display: none;
+  }
 }
 
 #cfw-main-container {

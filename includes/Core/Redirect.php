@@ -116,6 +116,7 @@ class Redirect {
             window.$ = jQuery;
 
             var checkoutFormSelector = '<?php echo apply_filters('cfw_checkout_form_selector', '.woocommerce-checkout'); ?>';
+            var easyTabsWrapElClass = '.<?php echo apply_filters('cfw_template_easy_tabs_wrap_el_id', 'cfw-tabs-initialize'); ?>';
             var breadCrumbElId = '#<?php echo apply_filters('cfw_template_breadcrumb_id', 'cfw-breadcrumb'); ?>';
             var customerInfoElId = '#<?php echo apply_filters('cfw_template_customer_info_el', 'cfw-customer-info'); ?>';
             var shippingMethodElId = '#<?php echo apply_filters('cfw_template_shipping_method_el', 'cfw-shipping-method'); ?>';
@@ -132,6 +133,7 @@ class Redirect {
 
             var cfwEventData = {
                 elements: {
+                	easyTabsWrapElClass: easyTabsWrapElClass,
                     breadCrumbElId: breadCrumbElId,
                     customerInfoElId: customerInfoElId,
                     shippingMethodElId: shippingMethodElId,

@@ -75,7 +75,7 @@ export class EasyTabService {
      * @param {EasyTab} tab
      */
     static go(tab: EasyTab): void {
-        Main.instance.tabContainer.jel.easytabs("select", EasyTabService.getTabId(tab))
+        Main.instance.easyTabService.easyTabsWrap.easytabs("select", EasyTabService.getTabId(tab));
     }
 
     /**

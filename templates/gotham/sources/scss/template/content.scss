@@ -69,3 +69,104 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 .cfw-input-wrap-row {
   margin-bottom: 16px;
 }
+
+#cfw-cart-details-collapse-wrap {
+  background: #f8f8f8;
+  padding: 1.5em;
+
+  & > .cfw-module-title {
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #bfbfbf;
+  }
+
+  .cfw-cart-row {
+    align-items: center;
+  }
+}
+
+#cfw-cart-list {
+  margin-bottom: 0;
+}
+
+#cfw-deductors-list {
+  margin: 1.5em 0;
+  padding-top: 1em;
+  border-top: 1px solid #bfbfbf;
+  border-bottom: 1px solid #bfbfbf;
+
+  .cfw-input-wrap-row {
+    margin-bottom: 1em;
+  }
+}
+
+#cfw-totals-list {
+  margin-bottom: 0;
+
+  .cfw-totals-normal {
+    & > *:first-child {
+      padding-top: 0;
+    }
+
+    .cfw-flex-row {
+      border-bottom: none;
+    }
+  }
+
+  #cfw-cart-taxes {
+    padding-bottom: 0;
+  }
+
+  #cfw-cart-total {
+    border-top: 1px solid #bfbfbf;
+    border-bottom: none;
+    padding-bottom: 0;
+    padding-top: 1.5em;
+    margin-top: 1.5em;
+  }
+}
+
+.cfw-other-totals {
+  margin-top: 1.5em;
+  padding-top: 1.5em;
+  border-top: 1px solid #bfbfbf;
+
+  .recurring-totals th {
+    padding-bottom: 1.5em;
+    padding-top: 0;
+    border-bottom: 1px solid #bfbfbf;
+  }
+
+  .order-total th, .order-total td{
+
+  }
+
+  .shipping.recurring-total {
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+
+      li {
+        margin-bottom: 0.35em;
+        font-size: 0.9em;
+
+        input {
+          margin-right: 0.3em;
+        }
+
+        &:last-child { margin-bottom: 0; }
+      }
+    }
+  }
+
+  .order-total {
+    & > th, & > td {
+      border-top: 1px solid #bfbfbf !important;
+      border-bottom: 1px solid #bfbfbf !important;
+      padding: 1.5em 0 !important;
+    }
+  }
+
+  .first-payment-date small {
+    margin-top: 1em;
+  }
+}

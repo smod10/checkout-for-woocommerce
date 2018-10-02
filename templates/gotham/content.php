@@ -24,18 +24,26 @@
         <div class="cfw-breadcrumb-container">
             <ul id="cfw-breadcrumb" class="etabs">
                 <li>
-                    <a href="<?php echo wc_get_cart_url(); ?>#cart"><?php _e('Cart', 'woocommerce'); ?></a>
+                    <a href="<?php echo wc_get_cart_url(); ?>#cart">
+                        <?php _e('Cart', 'woocommerce'); ?>
+                    </a>
                 </li>
                 <li class="tab" id="default-tab">
-                    <a href="#cfw-customer-info" class="cfw-small"><?php esc_html_e( 'Customer information', 'checkout-wc' ); ?></a>
+                    <a href="#cfw-customer-info" class="cfw-small">
+                        <?php esc_html_e( 'Customer information', 'checkout-wc' ); ?>
+                    </a>
                 </li>
                 <?php if ( WC()->cart->needs_shipping_address() && apply_filters('cfw_show_shipping_tab', true) === true ): ?>
                     <li class="tab">
-                        <a href="#cfw-shipping-method" class="cfw-small"><?php esc_html_e( 'Shipping method', 'checkout-wc' ); ?></a>
+                        <a href="#cfw-shipping-method" class="cfw-small">
+                            <?php esc_html_e( 'Shipping method', 'checkout-wc' ); ?>
+                        </a>
                     </li>
                 <?php endif; ?>
                 <li class="tab">
-                    <a href="#cfw-payment-method" class="cfw-small"><?php esc_html_e( 'Payment method', 'checkout-wc' ); ?></a>
+                    <a href="#cfw-payment-method" class="cfw-small">
+                        <?php esc_html_e( 'Payment method', 'checkout-wc' ); ?>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -343,6 +351,9 @@
                 </div>
 
                 <div id="cfw-cart-details-collapse-wrap">
+                    <h3 class="cfw-module-title">
+                        Your Cart
+                    </h3>
                     <div id="cfw-cart-list" class="cfw-module">
                         <?php cfw_get_checkout_cart_html(); ?>
                     </div>
@@ -365,6 +376,7 @@
                     </div>
 
                     <div id="<?php echo apply_filters('cfw_template_cart_el', "cfw-totals-list"); ?>" class="cfw-module">
+
                         <div class="cfw-totals-normal">
                             <div id="cfw-cart-subtotal" class="cfw-flex-row cfw-flex-justify">
                                 <span class="type"><?php esc_html_e('Subtotal', 'checkout-wc'); ?></span>
@@ -404,8 +416,14 @@
                             </div>
                         </div>
 
-                        <div class="cfw-other-totals">
-                            <table><?php do_action( 'woocommerce_review_order_after_order_total' ); ?></table>
+                        <?php
+                            ob_start();
+                            do_action( 'woocommerce_review_order_after_order_total' );
+                            $other_totals = ob_get_contents();
+                            ob_end_clean();
+                        ?>
+                        <div class="cfw-other-totals" style="<?php echo ($other_totals == "") ? "display: none" : ""; ?>">
+                            <table><?php echo $other_totals; ?></table>
                         </div>
                     </div>
                 </div>

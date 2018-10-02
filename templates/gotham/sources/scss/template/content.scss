@@ -140,7 +140,7 @@ $breadcrumb-margin: 1.5em;
     }
 
     .cfw-flex-row {
-      border-bottom: none;
+      border-bottom: none !important;
     }
   }
 
@@ -200,5 +200,38 @@ $breadcrumb-margin: 1.5em;
 
   .first-payment-date small {
     margin-top: 1em;
+  }
+}
+
+@media(max-width: 767px) {
+  #cfw-breadcrumb {
+    max-width: 350px;
+
+    li {
+      margin: 0 6px;
+      text-align: center;
+      padding: 0 10px;
+
+      &:first-child {
+        padding-right: 20px;
+      }
+    }
+  }
+
+  #cfw-cart-details-review-bar {
+    .cfw-column-8 {
+      font-size: 0.9em;
+    }
+    .cfw-column-4 {
+      margin-right: 20px;
+    }
+  }
+
+  #cfw-cart-list {
+    .cfw-cart-row {
+      .cfw-cart-item-subtotal {
+        margin-right: 20px;
+      }
+    }
   }
 }

@@ -23,24 +23,24 @@
 
         <div class="cfw-breadcrumb-container">
             <ul id="cfw-breadcrumb" class="etabs">
-                <li>
+                <li class="filled-circle" data-breadcrumb-number="1">
                     <a href="<?php echo wc_get_cart_url(); ?>#cart">
                         <?php _e('Cart', 'woocommerce'); ?>
                     </a>
                 </li>
-                <li class="tab" id="default-tab">
+                <li class="tab filled-circle" id="default-tab" data-breadcrumb-number="2">
                     <a href="#cfw-customer-info" class="cfw-small">
                         <?php esc_html_e( 'Customer information', 'checkout-wc' ); ?>
                     </a>
                 </li>
                 <?php if ( WC()->cart->needs_shipping_address() && apply_filters('cfw_show_shipping_tab', true) === true ): ?>
-                    <li class="tab">
+                    <li class="tab" data-breadcrumb-number="3">
                         <a href="#cfw-shipping-method" class="cfw-small">
                             <?php esc_html_e( 'Shipping method', 'checkout-wc' ); ?>
                         </a>
                     </li>
                 <?php endif; ?>
-                <li class="tab">
+                <li class="tab" data-breadcrumb-number="4">
                     <a href="#cfw-payment-method" class="cfw-small">
                         <?php esc_html_e( 'Payment method', 'checkout-wc' ); ?>
                     </a>

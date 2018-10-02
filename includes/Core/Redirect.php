@@ -250,7 +250,7 @@ class Redirect {
 					color: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
 				}
 
-				#cfw-breadcrumb li:first-child:before, #cfw-breadcrumb li:nth-child(2):before {
+				#cfw-breadcrumb .filled-circle:before {
 					background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
 				}
 

@@ -6,6 +6,10 @@ $gutter: map-get($grid, gutter);
   margin-bottom: $wrap-row-bot-margin;
 }
 
+#cfw-content {
+  margin-top: 60px;
+}
+
 #cfw-logo-container {
   .cfw-logo {
     padding: 0;
@@ -63,5 +67,33 @@ $gutter: map-get($grid, gutter);
       background-size: 12px 12px;
       padding-left: 15px;
     }
+  }
+}
+
+#cfw-cart-details-review-bar {
+  position: relative;
+  z-index: 2;
+}
+
+#cfw-cart-details-collapse-wrap {
+  padding-left: $gutter;
+  position: relative;
+  z-index: 2;
+}
+
+#cfw-cart-details {
+  background: #f8f8f8;
+  padding-left: 0;
+  border-left: 0;
+
+  &:before {
+    content: " ";
+    background: #f8f8f8;
+    position: fixed;
+    height: calc(100vh + 60px);
+    width: 100%;
+    top: 0;
+    border-left: 1px solid #eee;
+    z-index: 1;
   }
 }

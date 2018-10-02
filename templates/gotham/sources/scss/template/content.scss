@@ -1,4 +1,5 @@
 $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
+$breadcrumb-margin: 1.5em;
 
 #cfw-login-slide {
   display: none;
@@ -25,32 +26,61 @@ $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
 #cfw-breadcrumb {
   list-style-type: none;
-  margin: 0 0 1.5em 0;
+  margin: 0 0 2em 0;
   padding: 0;
   display: flex;
+  position: relative;
+
+  &:after {
+    content: " ";
+    width: calc(100% - #{$breadcrumb-margin*2});
+    height: 1px;
+    background: #000;
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
   li {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    margin: 0 $breadcrumb-margin;
+    position: relative;
+    z-index: 2;
+    padding: 0 1em;
+    background: #fff;
+
+    &:first-child {
+      padding-right: 35px;
+    }
 
     & > a {
-      font-size: 0.75em;
+      display: block;
+      font-size: 0.60em;
       text-decoration: none;
-      color: #333;
+      color: #000;
+      text-transform: uppercase;
     }
 
     &:not(.active) > a {
-      color: rgba(0,0,0,0.5);
+
     }
 
-    &:not(:last-child):after {
+    &:first-child:before {
+      background: #000;
+    }
+
+    &:before {
       content: " ";
-      width: 12px;
-      height: 12px;
-      background: url(./assets/img/arrow-right.svg) no-repeat 50% 50%;
-      background-size: 12px 12px;
-      padding-left: 15px;
+      display: block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #000;
+      margin-bottom: 0.8em;
     }
   }
 }

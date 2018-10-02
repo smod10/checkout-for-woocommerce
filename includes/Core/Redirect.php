@@ -448,6 +448,7 @@ class Redirect {
      * @access public
 	 *
 	 * @param ExtendedPathManager $path_manager
+     * @param SettingsManager $settings_manager
 	 */
 	public static function footer($path_manager, $settings_manager) {
 		do_action('cfw_wp_footer_before_scripts');

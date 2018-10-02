@@ -59,13 +59,13 @@ class Redirect {
             add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_meta_tags'), 10, 4);
             add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_scripts'), 20, 4);
             add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_init_block'), 30, 4);
-			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_styles'), 40, 4);
+			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_styles'), 40, 5);
 
 			// Output the contents of the <head></head> section
-			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc')), $settings_manager);
+			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc')), $settings_manager, $template_manager);
 
 			// Output the contents of the <body></body> section
-			self::body($template_manager, $global_template_parameters, $settings_manager);
+			self::body($template_manager, $global_template_parameters);
 
 			// Output a closing </body> and closing </html> tag
 			self::footer($path_manager, $settings_manager);
@@ -176,19 +176,24 @@ class Redirect {
 	 * @param ExtendedPathManager $path_manager
 	 * @param string $version
 	 * @param array $classes
+     * @param SettingsManager $settings_manager
+     * @param TemplateManager $template_manager
 	 */
-	public static function head($path_manager, $version, $classes, $settings_manager) {
+	public static function head($path_manager, $version, $classes, $settings_manager, $template_manager) {
 	    $classes[] = (wp_is_mobile()) ? "wp-is-mobile" : "";
 		?>
 		<!DOCTYPE html>
         <html <?php language_attributes(); ?>>
 		<head>
-            <?php self::cfw_wp_head($path_manager, $version, $classes, $settings_manager); ?>
+            <?php self::cfw_wp_head($path_manager, $version, $classes, $settings_manager, $template_manager); ?>
 		</head>
 		<body class="<?php echo implode(" ", $classes); ?>">
 		<?php
 	}
 
+    /**
+     *
+     */
 	public static function output_meta_tags() {
 	    ?>
         <meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -196,21 +201,62 @@ class Redirect {
         <?php
     }
 
+    /**
+     * @param ExtendedPathManager $path_manager
+     * @param string $version
+     * @param array $classes
+     * @param SettingsManager $settings_manager
+     */
     public static function output_custom_scripts($path_manager, $version, $classes, $settings_manager) {
 	    echo $settings_manager->get_setting('header_scripts');
     }
 
+    /**
+     * @param ExtendedPathManager $path_manager
+     * @param string $version
+     * @param array $classes
+     * @param SettingsManager $settings_manager
+     */
 	public static function output_init_block($path_manager, $version, $classes, $settings_manager) {
 		WC()->payment_gateways->get_available_payment_gateways();
 
 		self::init_block(( ! CFW_DEV_MODE ) ? ".min" : "", $path_manager);
     }
 
-	public static function output_custom_styles($path_manager, $version, $classes, $settings_manager) {
+    /**
+     * @param ExtendedPathManager $path_manager
+     * @param string $version
+     * @param array $classes
+     * @param SettingsManager $settings_manager
+     * @param TemplateManager $template_manager
+     */
+	public static function output_custom_styles($path_manager, $version, $classes, $settings_manager, $template_manager) {
         // Get logo attachment ID if available
         $logo_attachment_id = $settings_manager->get_setting('logo_attachment_id');
+        $selected_theme = $template_manager->get_selected_template();
         ?>
         <style>
+            <?php if($selected_theme == $template_manager->get_theme_template_names()[1]): ?>
+                /**
+                    Gotham Styles
+                 */
+                #cfw-breadcrumb:after {
+                    background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
+                }
+
+                #cfw-breadcrumb li > a {
+                    color: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
+                }
+
+                #cfw-breadcrumb li:first-child:before {
+                    background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
+                }
+
+                #cfw-breadcrumb li:before {
+                    border: 2px solid <?php echo $settings_manager->get_setting('header_background_color'); ?>;
+                }
+            <?php endif; ?>
+
             #cfw-header {
                 background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
 
@@ -218,6 +264,7 @@ class Redirect {
                 margin-bottom: 2em;
             <?php endif; ?>
             }
+
             #cfw-footer {
                 color: <?php echo $settings_manager->get_setting('footer_color'); ?>;
                 background: <?php echo $settings_manager->get_setting('footer_background_color'); ?>;
@@ -316,8 +363,15 @@ class Redirect {
         <?php
     }
 
-	public static function cfw_wp_head($path_manager, $version, $classes, $settings_manager) {
-		do_action_ref_array('cfw_wp_head', array($path_manager, $version, $classes, $settings_manager) );
+    /**
+     * @param ExtendedPathManager $path_manager
+     * @param string $version
+     * @param array $classes
+     * @param SettingsManager $settings_manager
+     * @param TemplateManager $template_manager
+     */
+	public static function cfw_wp_head($path_manager, $version, $classes, $settings_manager, $template_manager) {
+		do_action_ref_array('cfw_wp_head', array($path_manager, $version, $classes, $settings_manager, $template_manager) );
     }
 
     /**

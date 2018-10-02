@@ -62,6 +62,13 @@ class TemplateManager {
 	/**
 	 * @since 2.0.0
 	 * @access private
+	 * @var array
+	 */
+	private $theme_template_names = array('default', 'gotham');
+
+	/**
+	 * @since 2.0.0
+	 * @access private
 	 * @static
 	 * @var array $default_headers
 	 */
@@ -95,13 +102,9 @@ class TemplateManager {
 	)) {
 		// Path manager for path references
 		$this->path_manager = $path_manager;
-
 		$this->selected_template = $selected_template;
-
 		$this->template_pieces = apply_filters("cfw_template_redirect_body_pieces", $body_pieces );
-
 		$this->theme_style_filename = apply_filters("cfw_template_theme_style_filename", $this->theme_style_filename);
-
 		$this->theme_javascript_filename = apply_filters("cfw_template_theme_javascript_filename", $this->theme_javascript_filename);
 	}
 
@@ -255,7 +258,7 @@ class TemplateManager {
 	 */
 	public function get_template_sub_folders()
 	{
-		$plugin_defined_templates = array('default', 'gotham');
+		$plugin_defined_templates = $this->theme_template_names;
 		$user_defined_templates = array();
 
 		// Search the theme checkout-wc templates
@@ -296,6 +299,8 @@ class TemplateManager {
 	}
 
 	/**
+	 * @since 2.0.0
+	 * @access public
 	 * @return string
 	 */
 	public function get_theme_style_filename() {
@@ -303,9 +308,29 @@ class TemplateManager {
 	}
 
 	/**
+	 * @since 2.0.0
+	 * @access public
 	 * @return string
 	 */
 	public function get_theme_javascript_filename() {
 		return $this->theme_javascript_filename;
+	}
+
+	/**
+	 * @since 2.0.0
+	 * @access public
+	 * @return string
+	 */
+	public function get_selected_template() {
+		return $this->selected_template;
+	}
+
+	/**
+	 * @since 2.0.0
+	 * @access public
+	 * @return array
+	 */
+	public function get_theme_template_names() {
+		return $this->theme_template_names;
 	}
 }

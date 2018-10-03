@@ -1,0 +1,10 @@
+{
+  "env": {
+    "wp_user": "admin",
+    "wp_pass": "secret",
+    "site": {
+      "url": "https://plugindev.test",
+      "path": "~/Sites/plugindev"
+    }
+  }
+}

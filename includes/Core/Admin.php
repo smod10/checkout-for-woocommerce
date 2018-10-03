@@ -192,6 +192,7 @@ class Admin {
                             <select id="template_select" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">
 	                            <?php
                                     $cfw_template_setting = $this->plugin_instance->get_settings_manager()->get_setting('templates_list');
+                                    $cfw_template_setting = ($cfw_template_setting != "") ? $cfw_template_setting : $this->plugin_instance->get_template_manager()->get_selected_template();
 
                                     foreach($cfw_templates as $folder_name => $template_information) {
                                         $stylesheet_info = $template_information["stylesheet_info"];

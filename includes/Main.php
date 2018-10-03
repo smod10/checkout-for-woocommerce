@@ -419,7 +419,7 @@ class Main extends Singleton {
 		
 		$front = "{$this->path_manager->get_assets_path()}/front";
 
-		$selected_template = $this->settings_manager->get_setting('templates_list');
+		$selected_template = $this->template_manager->get_selected_template();
 		$selected_template_info = $this->template_manager->get_template_information()[$selected_template];
 		$selected_template_base_path = $selected_template_info["base_path"];
 		$selected_template_base_url_path = $selected_template_info["base_url_path"];

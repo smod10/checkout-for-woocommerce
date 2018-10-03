@@ -94,7 +94,7 @@ class TemplateManager {
 	 */
 	public function __construct(
 		$path_manager,
-		$selected_template = 'default',
+		$selected_template,
 		$body_pieces = array(
 		"header" => "header.php",
 		"content" => "content.php",

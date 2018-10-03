@@ -8,7 +8,8 @@
  * Dev Mode - CFW_DEV_MODE - false
  */
 $env = new Dotenv\Dotenv(__DIR__);
-$env->load();
-
+if(file_exists(__DIR__ . "/.env")) {
+	$env->load();
+}
 // Dev Mode
 define( 'CFW_DEV_MODE', getenv('CFW_DEV_MODE') == "true" ? true : false );

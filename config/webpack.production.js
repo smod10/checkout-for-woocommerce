@@ -40,6 +40,7 @@ module.exports = (mainDir, assetsDir, version, delete_min_files) => {
 		let delete_files = [
 			"./docs",
 			outPath + "/dist",
+			outPath + "/cypress",
 			outPath + "/**/node_modules",
 			outPath + "/assets/front/js/checkout-woocommerce-front.js*",
 			outPath + "/assets/front/css/checkout-woocommerce-front.css*",

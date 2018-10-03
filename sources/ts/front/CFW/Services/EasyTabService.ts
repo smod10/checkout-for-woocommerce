@@ -22,15 +22,15 @@ export type EasyTabDirection = { current: EasyTab, target: EasyTab };
 export class EasyTabService {
 
     /**
-     * @type {JQuery}
+     * @type {any}
      * @private
      */
-    private _easyTabsWrap: JQuery;
+    private _easyTabsWrap: any;
 
     /**
      * @param easyTabsWrap
      */
-    constructor(easyTabsWrap: JQuery) {
+    constructor(easyTabsWrap: any) {
        this.easyTabsWrap = easyTabsWrap;
     }
 
@@ -45,7 +45,7 @@ export class EasyTabService {
         let targetTabIndex: number = 0;
 
         Main.instance.tabContainer.tabContainerSections.forEach((tab: TabContainerSection, index: number) => {
-            let $tab: JQuery = tab.jel;
+            let $tab: any = tab.jel;
 
             if($tab.filter(":visible").length !== 0) {
                 currentTabIndex = index;
@@ -101,11 +101,11 @@ export class EasyTabService {
     }
 
 
-    get easyTabsWrap(): JQuery {
+    get easyTabsWrap(): any {
         return this._easyTabsWrap;
     }
 
-    set easyTabsWrap(value: JQuery) {
+    set easyTabsWrap(value: any) {
         this._easyTabsWrap = value;
     }
 }

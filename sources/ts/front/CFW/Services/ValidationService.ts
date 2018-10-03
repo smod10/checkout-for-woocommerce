@@ -29,7 +29,7 @@ export class ValidationService {
     /**
      * @param easyTabsWrap
      */
-    constructor(easyTabsWrap: JQuery) {
+    constructor(easyTabsWrap: any) {
         this.validateSectionsBeforeSwitch(easyTabsWrap);
 
         ValidationService.validateShippingOnLoadIfNotCustomerTab();
@@ -38,9 +38,9 @@ export class ValidationService {
     /**
      * Execute validation checks before each easy tab easy tab switch.
      *
-     * @param {JQuery} easyTabsWrap
+     * @param {any} easyTabsWrap
      */
-    validateSectionsBeforeSwitch(easyTabsWrap: JQuery): void {
+    validateSectionsBeforeSwitch(easyTabsWrap: any): void {
 
         easyTabsWrap.bind('easytabs:before', function(event, clicked, target) {
             // Where are we going?
@@ -131,7 +131,7 @@ export class ValidationService {
      */
     static validate(section: EValidationSections): any {
         let validated: boolean;
-        let checkoutForm: JQuery = Main.instance.checkoutForm;
+        let checkoutForm: any = Main.instance.checkoutForm;
 
         switch(section) {
             case EValidationSections.SHIPPING:

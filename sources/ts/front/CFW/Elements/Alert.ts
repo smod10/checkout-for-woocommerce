@@ -26,7 +26,7 @@ export class Alert extends Element {
      * @param alertContainer
      * @param alertInfo
      */
-    constructor(alertContainer: JQuery, alertInfo: AlertInfo) {
+    constructor(alertContainer: any, alertInfo: AlertInfo) {
         super(alertContainer);
 
         this.alertInfo = alertInfo;

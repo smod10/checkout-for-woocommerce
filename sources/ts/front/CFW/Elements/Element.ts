@@ -4,29 +4,29 @@
 export class Element {
 
     /**
-     * @type {JQuery}
+     * @type {any}
      * @protected
      */
-    protected _jel: JQuery;
+    protected _jel: any;
 
     /**
      * @param jel
      */
-    constructor(jel: JQuery) {
+    constructor(jel: any) {
         this.jel = jel;
     }
 
     /**
-     * @returns {JQuery}
+     * @returns {any}
      */
-    get jel(): JQuery {
+    get jel(): any {
         return this._jel;
     }
 
     /**
      * @param value
      */
-    set jel(value: JQuery) {
+    set jel(value: any) {
         this._jel = value;
     }
 }

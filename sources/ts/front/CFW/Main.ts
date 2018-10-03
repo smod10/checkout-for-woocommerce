@@ -16,10 +16,10 @@ import { LocalizationService }                  from "./Services/LocalizationSer
 export class Main {
 
     /**
-     * @type {JQuery}
+     * @type {any}
      * @private
      */
-    private _checkoutForm: JQuery;
+    private _checkoutForm: any;
 
 	/**
 	 * @type {TabContainer}
@@ -83,14 +83,14 @@ export class Main {
 	private static _instance: Main;
 
 	/**
-     * @param {JQuery} checkoutFormEl
-	 * @param {JQuery} easyTabsWrap
+     * @param {any} checkoutFormEl
+	 * @param {any} easyTabsWrap
 	 * @param {TabContainer} tabContainer
 	 * @param {AjaxInfo} ajaxInfo
 	 * @param {Cart} cart
 	 * @param {any} settings
 	 */
-	constructor( checkoutFormEl: JQuery, easyTabsWrap: JQuery, tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
+	constructor( checkoutFormEl: any, easyTabsWrap: any, tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
 		Main.instance = this;
 
         checkoutFormEl.garlic({
@@ -253,16 +253,16 @@ export class Main {
 	}
 
     /**
-     * @returns {JQuery}
+     * @returns {any}
      */
-    get checkoutForm(): JQuery {
+    get checkoutForm(): any {
         return this._checkoutForm;
     }
 
     /**
-     * @param {JQuery} value
+     * @param {any} value
      */
-    set checkoutForm(value: JQuery) {
+    set checkoutForm(value: any) {
         this._checkoutForm = value;
     }
 

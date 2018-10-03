@@ -1,6 +1,6 @@
 import { LabelType }                from "../Enums/LabelType";
 
-export type EventCallback = { eventName: string, func: Function, target: JQuery };
+export type EventCallback = { eventName: string, func: Function, target: any };
 export type InputLabelType = { type: LabelType, cssClass: string };
 
 export type AjaxInfo = { url: string, nonce: string };

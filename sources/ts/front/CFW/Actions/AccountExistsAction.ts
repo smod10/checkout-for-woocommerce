@@ -11,10 +11,10 @@ import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 export class AccountExistsAction extends Action {
 
     /**
-     * @type {JQuery}
+     * @type {any}
      * @private
      */
-    private _ezTabContainer: JQuery;
+    private _ezTabContainer: any;
 
     /**
      * @type {boolean}
@@ -28,7 +28,7 @@ export class AccountExistsAction extends Action {
      * @param email
      * @param ezTabContainer
      */
-    constructor(id: string, ajaxInfo: AjaxInfo, email: string, ezTabContainer: JQuery) {
+    constructor(id: string, ajaxInfo: AjaxInfo, email: string, ezTabContainer: any) {
         // Object prep
         let data: AccountExistsData = {
             "wc-ajax": id,
@@ -76,16 +76,16 @@ export class AccountExistsAction extends Action {
     }
 
     /**
-     * @returns {JQuery}
+     * @returns {any}
      */
-    get ezTabContainer(): JQuery {
+    get ezTabContainer(): any {
         return this._ezTabContainer;
     }
 
     /**
      * @param value
      */
-    set ezTabContainer(value: JQuery) {
+    set ezTabContainer(value: any) {
         this._ezTabContainer = value;
     }
 

@@ -50,7 +50,7 @@ export class TabContainer extends Element {
      * @param tabContainerBreadcrumb
      * @param tabContainerSections
      */
-    constructor(jel: JQuery, tabContainerBreadcrumb: TabContainerBreadcrumb, tabContainerSections: Array<TabContainerSection>) {
+    constructor(jel: any, tabContainerBreadcrumb: TabContainerBreadcrumb, tabContainerSections: Array<TabContainerSection>) {
         super(jel);
 
         this.tabContainerBreadcrumb = tabContainerBreadcrumb;
@@ -76,7 +76,7 @@ export class TabContainer extends Element {
         let ajax_info = Main.instance.ajaxInfo;
 
         if(email_input_wrap) {
-            let email_input: JQuery = email_input_wrap.holder.jel;
+            let email_input: any = email_input_wrap.holder.jel;
 
             let handler = () => new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
 
@@ -97,12 +97,12 @@ export class TabContainer extends Element {
         let email_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
 
         if(email_input_wrap) {
-            let email_input: JQuery = email_input_wrap.holder.jel;
+            let email_input: any = email_input_wrap.holder.jel;
 
             let password_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-password-wrap");
-            let password_input: JQuery = password_input_wrap.holder.jel;
+            let password_input: any = password_input_wrap.holder.jel;
 
-            let login_btn: JQuery = $("#cfw-login-btn");
+            let login_btn: any = $("#cfw-login-btn");
 
             // Fire the login action on click
             login_btn.on("click", () => new LoginAction("login", Main.instance.ajaxInfo, email_input.val(), password_input.val()).load() );
@@ -113,8 +113,8 @@ export class TabContainer extends Element {
      * Handles updating all the fields on a breadcrumb click or a move to the next section button
      */
     setUpdateAllShippingFieldsListener() {
-        let continueBtn: JQuery = $("#cfw-shipping-info-action .cfw-next-tab");
-        let shipping_payment_bc: JQuery = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
+        let continueBtn: any = $("#cfw-shipping-info-action .cfw-next-tab");
+        let shipping_payment_bc: any = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
 
         continueBtn.on("click", () => $(document.body).trigger("update_checkout"));
         shipping_payment_bc.on("click", () => $(document.body).trigger("update_checkout"));
@@ -124,7 +124,7 @@ export class TabContainer extends Element {
      *
      */
     setUpCreditCardRadioReveal() {
-        let stripe_container: JQuery = $(".payment_method_stripe");
+        let stripe_container: any = $(".payment_method_stripe");
 
         if(stripe_container.length > 0) {
             let stripe_options = stripe_container.find('input[type="radio"][name="wc-stripe-payment-token"]');
@@ -209,10 +209,10 @@ export class TabContainer extends Element {
 
         $(window).on('load', () => {
             // PayTrace gateway field state workaround
-            let checked_radio: JQuery = $("input[type='radio'][name='paytrace_type_choice']:checked");
+            let checked_radio: any = $("input[type='radio'][name='paytrace_type_choice']:checked");
             checked_radio.trigger("change");
 
-            jQuery(document.body).trigger('wc-credit-card-form-init');
+            $(document.body).trigger('wc-credit-card-form-init');
         });
 
         // One Click Upsells - Stripe Form
@@ -325,8 +325,8 @@ export class TabContainer extends Element {
 
             if(remove_add_required) {
                 input_wraps.each((index, elem) => {
-                    let input: JQuery = $(elem).find("input");
-                    let select: JQuery = $(elem).find("select");
+                    let input: any = $(elem).find("input");
+                    let select: any = $(elem).find("select");
                     let items = [input, select];
 
                     items.forEach((item) => {
@@ -405,7 +405,7 @@ export class TabContainer extends Element {
             let feFieldKey: string = formElement.holder.jel.attr("field_key");
             let feFieldValue: string = formElement.holder.jel.val();
 
-            let match: JQuery = staticShippingFields.shipping_details_fields.find((sdf: JQuery) => sdf.attr("field_type") == feFieldKey);
+            let match: any = staticShippingFields.shipping_details_fields.find((sdf: any) => sdf.attr("field_type") == feFieldKey);
 
             match.children(".field_value").text(feFieldValue);
         })
@@ -439,8 +439,8 @@ export class TabContainer extends Element {
      */
     getFormObject() {
         let main: Main = Main.instance;
-        let checkout_form: JQuery = main.checkoutForm;
-        let ship_to_different_address = parseInt($("[name='ship_to_different_address']:checked").val());
+        let checkout_form: any = main.checkoutForm;
+        let ship_to_different_address = parseInt( <string>$("[name='ship_to_different_address']:checked").val() );
         let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
         let has_full_address: boolean = true;
         let lookFor: Array<string> = main.settings.default_address_fields;
@@ -495,7 +495,7 @@ export class TabContainer extends Element {
      *
      */
     setCompleteOrderHandlers(): void {
-        let checkout_form: JQuery = Main.instance.checkoutForm;
+        let checkout_form: any = Main.instance.checkoutForm;
         let completeOrderButton: Element = new Element($("#place_order"));
 
         checkout_form.on('submit', this.completeOrderSubmitHandler.bind(this));
@@ -507,7 +507,7 @@ export class TabContainer extends Element {
      */
     completeOrderSubmitHandler(e) {
         let main: Main = Main.instance;
-        let checkout_form: JQuery = Main.instance.checkoutForm;
+        let checkout_form: any = Main.instance.checkoutForm;
         let preSwapData = this.checkoutDataAtSubmitClick;
 
         // Prevent any weirdness by preventing default
@@ -536,7 +536,7 @@ export class TabContainer extends Element {
      */
     completeOrderClickHandler() {
         let main: Main = Main.instance;
-        let checkout_form: JQuery = main.checkoutForm;
+        let checkout_form: any = main.checkoutForm;
         let lookFor: Array<string> = main.settings.default_address_fields;
         let preSwapData = this.checkoutDataAtSubmitClick = {};
 
@@ -584,10 +584,10 @@ export class TabContainer extends Element {
         for ( let mutation of mutationsList ) {
             if(mutation.type === "childList") {
                 let addedNodes = mutation.addedNodes;
-                let $errorNode: JQuery = null;
+                let $errorNode: any = null;
 
                 addedNodes.forEach(node => {
-                    let $node: JQuery = $(node);
+                    let $node: any = $(node);
                     let hasClass: boolean = $node.hasClass("woocommerce-error");
                     let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
 
@@ -633,7 +633,7 @@ export class TabContainer extends Element {
      */
     setApplyCouponListener() {
         $("#cfw-promo-code-btn").on('click', () => {
-            let coupon_field: JQuery = $("#cfw-promo-code");
+            let coupon_field: any = $("#cfw-promo-code");
 
             if(coupon_field.val() !== "") {
                 new ApplyCouponAction('cfw_apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFormObject()).load();
@@ -649,7 +649,7 @@ export class TabContainer extends Element {
      */
     static togglePaymentFields(show: boolean) {
         let togglePaymentClass: string = "cfw-payment-false";
-        let mainEl: JQuery = $("#cfw-content");
+        let mainEl: any = $("#cfw-content");
 
         if(show) {
             mainEl.removeClass(togglePaymentClass);
@@ -662,11 +662,11 @@ export class TabContainer extends Element {
      * @returns {UpdateShippingFieldsRI}
      */
     getUpdateShippingRequiredItems(): UpdateShippingFieldsRI {
-        let sdf_jquery_results: JQuery = $("#cfw-shipping-details-fields .cfw-shipping-details-field");
-        let shipping_details_fields: Array<JQuery> = [];
+        let sdf_any_results: any = $("#cfw-shipping-details-fields .cfw-shipping-details-field");
+        let shipping_details_fields: Array<any> = [];
         let action: string = "update_shipping_fields";
 
-        sdf_jquery_results.each((index, val) => { shipping_details_fields.push($(val)) });
+        sdf_any_results.each((index, val) => { shipping_details_fields.push($(val)) });
 
         return <UpdateShippingFieldsRI>{
             action: action,

@@ -1,0 +1,18 @@
+{
+  "env": {
+    "billing_email": "clifgriffin@gmail.com",
+    "shipping_first_name": "Clifton",
+    "shipping_last_name": "Griffin",
+    "shipping_address_1": "1497 Silver Creek Dr.",
+    "shipping_address_2": "",
+    "shipping_company": "ACME Inc",
+    "shipping_country": "US",
+    "shipping_postcode": "24503",
+    "shipping_state": "VA",
+    "shipping_city": "Lynchburg",
+    "site": {
+      "url": "http://plugindev.test",
+      "path": "~/Sites/plugindev"
+    }
+  }
+}

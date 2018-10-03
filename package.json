@@ -51,6 +51,7 @@
     "garlicjs": "git+https://github.com/objectivco/Garlic.js.git#1.4.1-cgd",
     "normalize.css": "^8.0.0",
     "parsleyjs": "^2.8.1",
-    "requirejs": "^2.3.6"
+    "requirejs": "^2.3.6",
+    "typings": "^2.1.1"
   }
 }

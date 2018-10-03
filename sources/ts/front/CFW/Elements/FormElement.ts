@@ -20,10 +20,10 @@ export class FormElement extends Element {
     protected _eventCallbacks: Array<EventCallback> = [];
 
     /**
-     * @type {JQuery}
+     * @type {any}
      * @private
      */
-    private _moduleContainer: JQuery;
+    private _moduleContainer: any;
 
     /**
      * @type {Element}
@@ -34,7 +34,7 @@ export class FormElement extends Element {
     /**
      * @param jel
      */
-    constructor(jel: JQuery) {
+    constructor(jel: any) {
         super(jel);
 
         this.moduleContainer = this.jel.parents(".cfw-module");
@@ -55,24 +55,24 @@ export class FormElement extends Element {
     regAndWrap(): void {
         this.registerEventCallbacks();
 
-        this.wrapClassSwap(this.holder.jel.val());
+        this.wrapClassSwap(<string>this.holder.jel.val());
     }
 
     /**
      * @param tjel
      * @param useType
      */
-    setHolderAndLabel(tjel: JQuery | string, useType: boolean = false) {
+    setHolderAndLabel(tjel: any | string, useType: boolean = false) {
         let lt = FormElement.getLabelTypes();
 
         // Note: Length is divided by 2 because of ENUM implementation. Read TS docs
         for(let i = 0; i < lt.length / 2; i++) {
-            let jqTjel: JQuery = <JQuery>tjel;
+            let jqTjel: any = <any>tjel;
 
             if(useType && typeof tjel === 'string') {
                 let type = lt[i].toLowerCase();
 
-                jqTjel = <JQuery>this.jel.find(<string>tjel.replace("%s", type));
+                jqTjel = <any>this.jel.find(<string>tjel.replace("%s", type));
             }
 
             if (jqTjel.length > 0) {
@@ -102,7 +102,7 @@ export class FormElement extends Element {
             this.eventCallbacks.forEach((eventCb) => {
                 let eventName: any = eventCb.eventName;
                 let cb: Function = eventCb.func;
-                let target: JQuery = eventCb.target;
+                let target: any = eventCb.target;
 
                 if(!target) {
                     target = this.holder.jel;
@@ -142,16 +142,16 @@ export class FormElement extends Element {
     }
 
     /**
-     * @returns {JQuery}
+     * @returns {any}
      */
-    get moduleContainer(): JQuery {
+    get moduleContainer(): any {
         return this._moduleContainer;
     }
 
     /**
      * @param value
      */
-    set moduleContainer(value: JQuery) {
+    set moduleContainer(value: any) {
         this._moduleContainer = value;
     }
 

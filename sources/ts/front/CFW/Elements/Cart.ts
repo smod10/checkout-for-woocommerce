@@ -64,14 +64,14 @@ export class Cart extends Element {
      * @param reviewBarTotal
      */
     constructor(
-        cartContainer: JQuery,
-        subTotal: JQuery,
-        shipping: JQuery,
-        taxes: JQuery,
-        fees: JQuery,
-        total: JQuery,
-        coupons: JQuery,
-        reviewBarTotal: JQuery) {
+        cartContainer: any,
+        subTotal: any,
+        shipping: any,
+        taxes: any,
+        fees: any,
+        total: any,
+        coupons: any,
+        reviewBarTotal: any) {
         super(cartContainer);
 
         this.subTotal = new Element(subTotal);

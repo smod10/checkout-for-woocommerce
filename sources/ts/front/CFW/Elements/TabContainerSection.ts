@@ -56,7 +56,7 @@ export class TabContainerSection extends Element {
      * @param name
      */
     constructor(
-        jel: JQuery,
+        jel: any,
         name: string
     ) {
         super(jel);
@@ -114,7 +114,7 @@ export class TabContainerSection extends Element {
         let inputLabelWraps: Array<InputLabelWrap> = [];
         let selectLabelWraps: Array<SelectLabelWrap> = [];
 
-        let jLabelWrap: JQuery = this.jel.find(this.getWrapSelector());
+        let jLabelWrap: any = this.jel.find(this.getWrapSelector());
 
         jLabelWrap.each((index, wrap) => {
 
@@ -146,7 +146,7 @@ export class TabContainerSection extends Element {
         let wraps: Array<FormElement> = [];
 
         this.inputLabelWraps.forEach((ilw: InputLabelWrap) => {
-            let mc: JQuery = ilw.moduleContainer;
+            let mc: any = ilw.moduleContainer;
 
             if(mc.attr('id') == moduleId) {
                 wraps.push(ilw);
@@ -154,7 +154,7 @@ export class TabContainerSection extends Element {
         });
 
         this.selectLabelWraps.forEach((slw: SelectLabelWrap) => {
-            let mc: JQuery = slw.moduleContainer;
+            let mc: any = slw.moduleContainer;
 
             if(mc.attr('id') == moduleId) {
                 wraps.push(slw);

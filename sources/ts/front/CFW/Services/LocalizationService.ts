@@ -13,18 +13,18 @@ export class LocalizationService {
      *  Handles localization information for countries and relevant states
      */
     setCountryChangeHandlers() {
-        let shipping_country: JQuery = $("#shipping_country");
-        let billing_country: JQuery = $("#billing_country");
+        let shipping_country: any = $("#shipping_country");
+        let billing_country: any = $("#billing_country");
 
-        let shipping_postcode: JQuery = $("#shipping_postcode");
-        let billing_postcode: JQuery = $("#billing_postcode");
+        let shipping_postcode: any = $("#shipping_postcode");
+        let billing_postcode: any = $("#billing_postcode");
 
-        let shipping_state: JQuery = $("#shipping_state");
-        let billing_state: JQuery = $("#billing_state");
+        let shipping_state: any = $("#shipping_state");
+        let billing_state: any = $("#billing_state");
 
         // When the country (shipping or billing) get's changed
         let country_change = (event) => {
-            let target: JQuery = $(event.target);
+            let target: any = $(event.target);
             let target_country: string = target.val();
             let info_type: InfoType = <InfoType>target.attr("id").split("_")[0];
             let country_state_list = JSON.parse(wc_country_select_params.countries);
@@ -88,8 +88,8 @@ export class LocalizationService {
      * Add mobile margin removal for state if it doesn't exist on page load. Also removes down arrow if no select state.
      */
     static initStateMobileMargin(): void {
-        let shipping_state_field: JQuery = $("#shipping_state_field");
-        let billing_state_field: JQuery = $("#billing_state_field");
+        let shipping_state_field: any = $("#shipping_state_field");
+        let billing_state_field: any = $("#billing_state_field");
 
         [shipping_state_field, billing_state_field].forEach(field => {
 
@@ -298,7 +298,7 @@ export class LocalizationService {
      */
     removeStateAndReplaceWithTextInput(country_display_data, info_type) {
         let current_state_field = $(`#${info_type}_state`);
-        let state_element_wrap: JQuery = current_state_field.parents(".cfw-input-wrap");
+        let state_element_wrap: any = current_state_field.parents(".cfw-input-wrap");
         let group: string = info_type;
         let tab_section: TabContainerSection = Main.instance
             .tabContainer
@@ -341,8 +341,8 @@ export class LocalizationService {
      * @param info_type
      */
     removeStateAndReplaceWithHiddenInput(country_display_data, info_type) {
-        let current_state_field: JQuery = $(`#${info_type}_state`);
-        let state_element_wrap: JQuery = current_state_field.parents(".cfw-input-wrap");
+        let current_state_field: any = $(`#${info_type}_state`);
+        let state_element_wrap: any = current_state_field.parents(".cfw-input-wrap");
 
         current_state_field.remove();
 
@@ -362,14 +362,14 @@ export class LocalizationService {
     }
 
     /**
-     * Removes the state input field and appends a select element for the state field. Returns a JQuery reference to the
+     * Removes the state input field and appends a select element for the state field. Returns a any reference to the
      * newly created select element
      *
-     * @param {JQuery} state_input
+     * @param {any} state_input
      * @param info_type
-     * @returns {JQuery}
+     * @returns {any}
      */
-    removeInputAndAddSelect(state_input: JQuery, info_type): JQuery {
+    removeInputAndAddSelect(state_input: any, info_type): any {
         let id: string = state_input.attr("id");
         let classes: string = state_input.attr("class");
         let group: string = state_input.data("parsleyGroup");
@@ -442,11 +442,11 @@ export class LocalizationService {
 
     /**
      *
-     * @param {JQuery} postcode
-     * @param {JQuery} state
+     * @param {any} postcode
+     * @param {any} state
      * @param country
      */
-    setCountryOnZipAndState(postcode: JQuery, state: JQuery, country) {
+    setCountryOnZipAndState(postcode: any, state: any, country) {
         postcode.attr("data-parsley-state-and-zip", country);
         state.attr("data-parsley-state-and-zip", country);
     }

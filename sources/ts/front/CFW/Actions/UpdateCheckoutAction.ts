@@ -6,6 +6,8 @@ import { ResponsePrep }                     from "../Decorators/ResponsePrep";
 import { TabContainerSection }              from "../Elements/TabContainerSection";
 import { Element }                          from "../Elements/Element";
 
+declare let $:any;
+
 export type UpdateShippingFieldsResponse = {
     error: boolean,
     updated_fields_info: Array<FieldTypeInfo>,
@@ -22,7 +24,7 @@ export type UpdateShippingFieldsData = {
 
 export type UpdateShippingFieldsRI = {
     action: string,
-    shipping_details_fields: Array<JQuery>
+    shipping_details_fields: Array<any>
 }
 
 export class UpdateCheckoutAction extends Action {

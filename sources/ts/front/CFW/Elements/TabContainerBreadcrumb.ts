@@ -9,7 +9,7 @@ export class TabContainerBreadcrumb extends Element {
      *
      * @param jel
      */
-    constructor(jel: JQuery) {
+    constructor(jel: any) {
         super(jel);
     }
 }

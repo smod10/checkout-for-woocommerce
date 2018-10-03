@@ -102,7 +102,7 @@ class TemplateManager {
 	)) {
 		// Path manager for path references
 		$this->path_manager = $path_manager;
-		$this->selected_template = $selected_template;
+		$this->selected_template = ($selected_template != "") ? $selected_template : "default";
 		$this->template_pieces = apply_filters("cfw_template_redirect_body_pieces", $body_pieces );
 		$this->theme_style_filename = apply_filters("cfw_template_theme_style_filename", $this->theme_style_filename);
 		$this->theme_javascript_filename = apply_filters("cfw_template_theme_javascript_filename", $this->theme_javascript_filename);

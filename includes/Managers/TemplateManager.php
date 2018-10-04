@@ -64,7 +64,7 @@ class TemplateManager {
 	 * @access private
 	 * @var array
 	 */
-	private $theme_template_names = array('default', 'gotham', 'panes');
+	private $theme_template_names = array('default', 'copify', 'futurist');
 
 	/**
 	 * @since 2.0.0

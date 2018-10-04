@@ -568,3 +568,27 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
 msgstr ""
+
+# CFW Template Name
+msgid "Template Name"
+msgstr ""
+
+# CFW Template URI
+msgid "Template URI"
+msgstr ""
+
+# CFW Template Author
+msgid "Author"
+msgstr ""
+
+# CFW Template Author URI
+msgid "Author URI"
+msgstr ""
+
+# CFW Template Description
+msgid "Description"
+msgstr ""
+
+# CFW Template Version
+msgid "Version"
+msgstr ""

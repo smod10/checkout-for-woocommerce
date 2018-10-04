@@ -592,3 +592,7 @@ msgstr ""
 # CFW Template Version
 msgid "Version"
 msgstr ""
+
+# CFW Template Supports
+msgid "Supports"
+msgstr ""

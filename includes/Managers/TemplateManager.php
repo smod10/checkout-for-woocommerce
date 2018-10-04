@@ -79,7 +79,7 @@ class TemplateManager {
 		'Author'        => 'Author',
 		'AuthorURI'     => 'Author URI',
 		'Version'       => 'Version',
-		'Capabilities'  => 'Capabilities'
+		'Supports'      => 'Supports'
 	);
 
 	/**

@@ -217,20 +217,14 @@ class Admin {
                                     ?>
                                     <div id="template_select_info_table_screen_shot_container_<?php echo $folder_name; ?>" class="template_select_info_table_screen_shot_container" style="<?php echo (!$selected) ? "display: none;" : ""; ?>">
                                         <div class="left-hand-column screen-shot-column">
-                                            <div class="theme-preview-label-container">
-                                                <label class="theme-preview-label">Template Preview</label>
-                                            </div>
                                             <img src="<?php echo $screen_shot; ?>" />
                                         </div>
                                         <div class="right-hand-column info-column">
-                                            <div class="theme-details-label-container">
-                                                <label class="theme-details-label">Template Details</label>
-                                            </div>
                                             <table>
                                                 <tbody>
                                                 <?php
                                                 foreach($stylesheet_info as $info_key => $info_value) {
-                                                    $info_key_nice_name = $cfw_template_stylesheet_headers[$info_key];
+                                                    $info_key_nice_name = __( $cfw_template_stylesheet_headers[$info_key], 'checkout-wc' );
 
                                                     if($info_value != "") {
                                                         ?>

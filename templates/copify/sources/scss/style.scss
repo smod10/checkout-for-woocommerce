@@ -1,9 +1,9 @@
 /*!
-  Template Name:   	Gotham
+  Template Name:   	Copify
   Template URI:    	https://objectiv.co/
   Author:           Brandon Tassone
   Author URI:       https://objectiv.co/
-  Description:  	A theme slightly based off the original with a skinnier header and different breadcrumbs
+  Description:  	A theme inspired by Shopify.
   Version:      	2.0.0
  */
 
@@ -11,8 +11,8 @@
 @import "~bourbon-neat/core/neat";
 
 @import "grid";
-@import "template/header";
 @import "template/content";
+@import "template/header";
 
 .wrap {
   max-width: $wrap-width;

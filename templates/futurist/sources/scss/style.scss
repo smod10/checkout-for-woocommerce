@@ -1,9 +1,9 @@
 /*!
-  Template Name:   	Panes
+  Template Name:   	Futurist
   Template URI:    	https://objectiv.co/
   Author:           Brandon Tassone
   Author URI:       https://objectiv.co/
-  Description:  	Shopify look a-like theme
+  Description:  	A modern twist on our classic theme.
   Version:      	2.0.0
  */
 
@@ -11,8 +11,8 @@
 @import "~bourbon-neat/core/neat";
 
 @import "grid";
-@import "template/content";
 @import "template/header";
+@import "template/content";
 
 .wrap {
   max-width: $wrap-width;

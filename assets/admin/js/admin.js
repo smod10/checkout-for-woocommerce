@@ -16,7 +16,7 @@ jQuery( document ).ready( function( $ ) {
        jQuery(".template_select_info_table_screen_shot_container").each(function(index, el) { jQuery(el).css("display", "none") });
 
        jQuery("#template_select_info_table_screen_shot_container_" + template_value).css("display", "flex");
-    });
+    }).trigger('change');
 
     jQuery('#upload_image_button').on('click', function( event ){
 

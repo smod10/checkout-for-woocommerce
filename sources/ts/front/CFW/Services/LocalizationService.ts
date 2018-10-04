@@ -6,6 +6,7 @@ import { SelectLabelWrap }                          from "../Elements/SelectLabe
 
 declare let wc_address_i18n_params: any;
 declare let wc_country_select_params: any;
+declare let $: any;
 
 export class LocalizationService {
 

@@ -1,4 +1,3 @@
-/// <reference path="../../../../typings/index.d.ts" />
 /// <reference path="Definitions/ArrayFind.d.ts" />
 
 import { TabContainer }							from "./Elements/TabContainer";
@@ -9,6 +8,8 @@ import { ValidationService }					from "./Services/ValidationService";
 import { EasyTabService }						from "./Services/EasyTabService";
 import { ParsleyService }						from "./Services/ParsleyService";
 import { LocalizationService }                  from "./Services/LocalizationService";
+
+declare let $: any;
 
 /**
  * The main class of the front end checkout system

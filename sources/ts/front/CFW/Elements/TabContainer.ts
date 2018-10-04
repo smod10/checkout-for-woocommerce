@@ -15,6 +15,7 @@ import { Alert }                            from "./Alert";
 import { AlertInfo }                        from "./Alert";
 
 declare let wc_stripe_params: any;
+declare let $: any;
 
 /**
  *

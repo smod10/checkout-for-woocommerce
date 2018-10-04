@@ -5,7 +5,9 @@ import { Alert }                                from "../Elements/Alert";
 import { ValidationService }                    from "../Services/ValidationService";
 import { EValidationSections }                  from "../Services/ValidationService";
 import { Main }                                 from "../Main";
-import {TabContainer} from "../Elements/TabContainer";
+import { TabContainer }                         from "../Elements/TabContainer";
+
+declare let $: any;
 
 export class CompleteOrderAction extends Action {
 

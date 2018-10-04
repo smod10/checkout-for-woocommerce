@@ -9,8 +9,5 @@
 	},
 	"include": [
 		"sources/ts/front/**/*"
-	],
-	"files": [
-		"./typings/index.d.ts"
 	]
 }

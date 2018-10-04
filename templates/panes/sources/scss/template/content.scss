@@ -10,7 +10,7 @@ $gutter: map-get($grid, gutter);
   margin-top: 60px;
 }
 
-#cfw-logo-container {
+#cfw-logo-container, #cfw-logo-container-mobile {
   .cfw-logo {
     padding: 0;
 
@@ -96,5 +96,37 @@ $gutter: map-get($grid, gutter);
     top: 0;
     border-left: 1px solid #eee;
     z-index: 1;
+  }
+}
+
+#cfw-logo-container-mobile {
+  display: none;
+}
+
+@media(max-width: 767px) {
+  #cfw-cart-details-collapse-wrap {
+    padding-left: 0;
+  }
+
+  #cfw-logo-container {
+    display: none;
+  }
+
+  #cfw-logo-container-mobile {
+    display: block;
+    width: 90%;
+    margin: auto;
+  }
+
+  #cfw-cart-details {
+    &:before {
+      content: none;
+    }
+  }
+}
+
+@media(max-width: 600px) {
+  #cfw-breadcrumb {
+    text-align: center;
   }
 }

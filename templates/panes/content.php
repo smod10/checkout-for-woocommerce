@@ -11,6 +11,12 @@
 <main id="cfw-content" class="<?php echo $css_classes; ?> cfw-tabs-initialize cfw-tabs-not-initialized">
     <div class="wrap">
 
+        <div id="cfw-logo-container-mobile">
+            <div class="cfw-logo">
+                <a title="<?php echo get_bloginfo( 'name' ); ?>" href="<?php echo get_home_url(); ?>" class="logo"></a>
+            </div>
+        </div>
+
         <div class="cfw-container">
             <div class="cfw-column-12">
                 <div id="cfw-alert-container" class="cfw-alert">

@@ -186,12 +186,12 @@ class Admin {
                 <tbody>
                     <tr>
                         <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">Template</label>
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('active_template'); ?>">Template</label>
                         </th>
                         <td>
-                            <select id="template_select" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">
+                            <select id="template_select" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('active_template'); ?>">
 	                            <?php
-                                    $cfw_template_setting = $this->plugin_instance->get_settings_manager()->get_setting('templates_list');
+                                    $cfw_template_setting = $this->plugin_instance->get_settings_manager()->get_setting('active_template');
                                     $cfw_template_setting = ($cfw_template_setting != "") ? $cfw_template_setting : $this->plugin_instance->get_template_manager()->get_selected_template();
 
                                     foreach($cfw_templates as $folder_name => $template_information) {

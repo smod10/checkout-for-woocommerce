@@ -596,6 +596,7 @@ class Main extends Singleton {
 		$main->settings_manager->add_setting('button_text_color', '#000000');
 		$main->settings_manager->add_setting('secondary_button_color', '#999999');
 		$main->settings_manager->add_setting('secondary_button_text_color', '#ffffff');
+		$main->settings_manager->add_setting('active_template', 'default');
 
 		// Updater license status cron
 		$main->updater->set_license_check_cron();

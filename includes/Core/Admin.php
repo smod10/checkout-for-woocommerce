@@ -67,6 +67,9 @@ class Admin {
 
 		// Add settings link
 		add_filter( 'plugin_action_links_' . plugin_basename( $this->plugin_instance->get_path_manager()->get_raw_file() ), array($this, 'add_action_links'), 10, 1 );
+
+		// Migrate settings
+        add_action( 'admin_init', array( $this, 'maybe_migrate_settings' ) );
 	}
 
 	/**
@@ -182,6 +185,43 @@ class Admin {
         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 		    <?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
 
+            <h3>Global Settings</h3>
+            <p>These settings apply to all themes.</p>
+            <table class="form-table">
+                <tbody>
+                    <tr>
+                        <th scope="row" valign="top">
+                            <?php _e('Logo', 'checkout-wc'); ?>
+                        </th>
+                        <td>
+                            <div class='image-preview-wrapper'>
+                                <img id='image-preview' src='<?php echo wp_get_attachment_url( $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id') ); ?>' width='100' style='max-height: 100px; width: 100px;'>
+                            </div>
+                            <input id="upload_image_button" type="button" class="button" value="<?php _e( 'Upload image' ); ?>" />
+                            <input type='hidden' name='<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('logo_attachment_id'); ?>' id='logo_attachment_id' value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id'); ?>">
+
+                            <a class="delete-custom-img button secondary-button"><?php _e('Clear Logo', 'checkout-wc'); ?></a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'); ?>"><?php _e('Footer Text', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+                            <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'), array('textarea_rows' => 5) ); ?>
+                            <p>
+                                        <span class="description">
+                                            <?php _e('If left blank, a standard copyright notice will be displayed. Set to a single space to override this behavior.', 'checkout-wc'); ?>
+                                        </span>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Theme Settings</h3>
+            <p>These settings are theme specific.</p>
             <table class="form-table">
                 <tbody>
                     <tr>
@@ -253,130 +293,115 @@ class Admin {
 	                        ?>
                         </td>
                     </tr>
-                    <tr>
-                        <th scope="row" valign="top">
-						    <?php _e('Logo', 'checkout-wc'); ?>
-                        </th>
-                        <td>
-                            <div class='image-preview-wrapper'>
-                                <img id='image-preview' src='<?php echo wp_get_attachment_url( $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id') ); ?>' width='100' style='max-height: 100px; width: 100px;'>
-                            </div>
-                            <input id="upload_image_button" type="button" class="button" value="<?php _e( 'Upload image' ); ?>" />
-                            <input type='hidden' name='<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('logo_attachment_id'); ?>' id='logo_attachment_id' value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('logo_attachment_id'); ?>">
-
-                            <a class="delete-custom-img button secondary-button"><?php _e('Clear Logo', 'checkout-wc'); ?></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>"><?php _e('Header Background Color', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_background_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_background_color'); ?>" data-default-color="#ffffff" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_text_color'); ?>"><?php _e('Header Text Color', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('header_text_color'); ?>" data-default-color="#2b2b2b" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_background_color'); ?>"><?php _e('Footer Background Color', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_background_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('footer_background_color'); ?>" data-default-color="#ffffff" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_color'); ?>"><?php _e('Footer Text Color', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('footer_color'); ?>" data-default-color="#999999" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'); ?>"><?php _e('Footer Text', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-						    <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'), array('textarea_rows' => 5) ); ?>
-                            <p>
-                                <span class="description">
-				                    <?php _e('If left blank, a standard copyright notice will be displayed. Set to a single space to override this behavior.', 'checkout-wc'); ?>
-                                </span>
-                            </p>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>"><?php _e('Primary Button Color', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_color'); ?>" data-default-color="#e9a81d" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>"><?php _e('Primary Button Text Color', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('button_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('button_text_color'); ?>" data-default-color="#000000" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('secondary_button_color'); ?>"><?php _e('Secondary Button Color', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('secondary_button_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('secondary_button_color'); ?>" data-default-color="#999999" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('secondary_button_text_color'); ?>"><?php _e('Secondary Button Text Color', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('secondary_button_text_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('secondary_button_text_color'); ?>" data-default-color="#ffffff" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('link_color'); ?>"><?php _e('Link Color', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-                            <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('link_color'); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting('link_color'); ?>" data-default-color="#e9a81d" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('custom_css'); ?>"><?php _e('Custom CSS', 'checkout-wc'); ?></label>
-                        </th>
-                        <td>
-		                    <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('custom_css'), $this->plugin_instance->get_settings_manager()->get_field_name('custom_css'), array('textarea_rows' => 5, 'quicktags' => false, 'media_buttons' => false) ); ?>
-                            <p>
-                                <span class="description">
-				                    <?php _e('Add Custom CSS rules to fully control the appearance of the checkout template.', 'checkout-wc'); ?>
-                                </span>
-                            </p>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
+
+            <?php foreach($cfw_templates as $template_path => $template_information):
+                $supports = ! empty( $template_information['stylesheet_info']['Supports'] ) ? array_map('trim', explode(',', $template_information['stylesheet_info']['Supports'] ) ) : array(); ?>
+                <table class="form-table template-settings template-<?php echo $template_path; ?>">
+                    <tbody>
+                        <?php if ( in_array('header-background', $supports) ): ?>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'header_background_color', array( $template_path ) ); ?>"><?php _e('Header Background Color', 'checkout-wc'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'header_background_color', array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'header_background_color', array( $template_path ) ); ?>" data-default-color="#ffffff" />
+                            </td>
+                        </tr>
+                        <?php endif; ?>
+
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'header_text_color', array( $template_path ) ); ?>"><?php _e('Header Text Color', 'checkout-wc'); ?></label>
+                            </th>
+                            <td>
+                                <?php d( $this->plugin_instance->get_settings_manager()->get_setting( 'header_text_color', array( $template_path ) ) ); ?>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'header_text_color', array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'header_text_color', array( $template_path ) ); ?>" data-default-color="#2b2b2b" />
+                            </td>
+                        </tr>
+
+                        <?php if ( in_array('footer-background', $supports) ): ?>
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'footer_background_color',  array( $template_path ) ); ?>"><?php _e('Footer Background Color', 'checkout-wc'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'footer_background_color',  array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'footer_background_color',  array( $template_path ) ); ?>" data-default-color="#ffffff" />
+                            </td>
+                        </tr>
+                        <?php endif; ?>
+
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'footer_color',  array( $template_path ) ); ?>"><?php _e('Footer Text Color', 'checkout-wc'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'footer_color',  array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'footer_color',  array( $template_path ) ); ?>" data-default-color="#999999" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'button_color',  array( $template_path ) ); ?>"><?php _e('Primary Button Color', 'checkout-wc'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'button_color',  array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'button_color',  array( $template_path ) ); ?>" data-default-color="#e9a81d" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'button_text_color',  array( $template_path ) ); ?>"><?php _e('Primary Button Text Color', 'checkout-wc'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'button_text_color',  array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'button_text_color',  array( $template_path ) ); ?>" data-default-color="#000000" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'secondary_button_color',  array( $template_path ) ); ?>"><?php _e('Secondary Button Color', 'checkout-wc'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'secondary_button_color',  array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'secondary_button_color',  array( $template_path ) ); ?>" data-default-color="#999999" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'secondary_button_text_color',  array( $template_path ) ); ?>"><?php _e('Secondary Button Text Color', 'checkout-wc'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'secondary_button_text_color',  array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'secondary_button_text_color', array( $template_path ) ); ?>" data-default-color="#ffffff" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'link_color',  array( $template_path ) ); ?>"><?php _e('Link Color', 'checkout-wc'); ?></label>
+                            </th>
+                            <td>
+                                <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'link_color',  array( $template_path )); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'link_color',  array( $template_path ) ); ?>" data-default-color="#e9a81d" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" valign="top">
+                                <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'custom_css',  array( $template_path ) ); ?>"><?php _e('Custom CSS', 'checkout-wc'); ?></label>
+                            </th>
+                            <td>
+                                <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting( 'custom_css',  array( $template_path ) ), $this->plugin_instance->get_settings_manager()->get_field_name( 'custom_css',  array( $template_path ) ), array('textarea_rows' => 5, 'quicktags' => false, 'media_buttons' => false) ); ?>
+                                <p>
+                                    <span class="description">
+                                        <?php _e('Add Custom CSS rules to fully control the appearance of the checkout template.', 'checkout-wc'); ?>
+                                    </span>
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            <?php endforeach; ?>
 
 		    <?php submit_button(); ?>
         </form>
@@ -577,5 +602,28 @@ class Admin {
 	    );
 
 	    return array_merge( $settings_link, $links );
+    }
+
+    function maybe_migrate_settings() {
+	    $settings_version = $this->plugin_instance->get_settings_manager()->get_setting( 'settings_version' );
+
+	    if ( empty($settings_version) ) {
+
+		    $cfw_templates = $this->plugin_instance->get_template_manager()->get_template_information();
+
+		    foreach( $cfw_templates as $template_path => $template_information ) {
+                $this->plugin_instance->get_settings_manager()->update_setting( 'header_background_color', $this->plugin_instance->get_settings_manager()->get_setting('header_background_color'), array( $template_path ) );
+                $this->plugin_instance->get_settings_manager()->update_setting( 'header_text_color', $this->plugin_instance->get_settings_manager()->get_setting('header_text_color'), array( $template_path ) );
+                $this->plugin_instance->get_settings_manager()->update_setting( 'footer_background_color', $this->plugin_instance->get_settings_manager()->get_setting('footer_background_color'), array( $template_path ) );
+                $this->plugin_instance->get_settings_manager()->update_setting( 'footer_color', $this->plugin_instance->get_settings_manager()->get_setting('footer_color'), array( $template_path ) );
+                $this->plugin_instance->get_settings_manager()->update_setting( 'link_color', $this->plugin_instance->get_settings_manager()->get_setting('link_color'), array( $template_path ) );
+                $this->plugin_instance->get_settings_manager()->update_setting( 'button_color', $this->plugin_instance->get_settings_manager()->get_setting('button_color'), array( $template_path ) );
+                $this->plugin_instance->get_settings_manager()->update_setting( 'button_text_color', $this->plugin_instance->get_settings_manager()->get_setting('button_text_color'), array( $template_path ) );
+                $this->plugin_instance->get_settings_manager()->update_setting( 'secondary_button_color', $this->plugin_instance->get_settings_manager()->get_setting('secondary_button_color'), array( $template_path ) );
+                $this->plugin_instance->get_settings_manager()->update_setting( 'secondary_button_text_color', $this->plugin_instance->get_settings_manager()->get_setting('secondary_button_text_color'), array( $template_path ) );
+            }
+
+		    $this->plugin_instance->get_settings_manager()->update_setting( 'settings_version', '200' );
+        }
     }
 }

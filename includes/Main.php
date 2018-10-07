@@ -601,7 +601,7 @@ class Main extends Singleton {
 		// Updater license status cron
 		$main->updater->set_license_check_cron();
 
-		if ( !$errors ) {
+		if ( ! $errors ) {
 
 			// Welcome screen transient
 			set_transient( '_cfw_welcome_screen_activation_redirect', true, 30 );

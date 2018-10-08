@@ -316,7 +316,6 @@ class Admin {
                                 <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'header_text_color', array( $template_path ) ); ?>"><?php _e('Header Text Color', 'checkout-wc'); ?></label>
                             </th>
                             <td>
-                                <?php d( $this->plugin_instance->get_settings_manager()->get_setting( 'header_text_color', array( $template_path ) ) ); ?>
                                 <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'header_text_color', array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'header_text_color', array( $template_path ) ); ?>" data-default-color="#2b2b2b" />
                             </td>
                         </tr>

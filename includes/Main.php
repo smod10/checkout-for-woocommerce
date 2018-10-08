@@ -603,7 +603,7 @@ class Main extends Singleton {
 
 
 		// Set defaults
-		$cfw_templates = $this->plugin_instance->get_template_manager()->get_template_information();
+		$cfw_templates = $main->get_template_manager()->get_template_information();
 
 		foreach( $cfw_templates as $template_path => $template_information ) {
 			$supports = ! empty( $template_information['stylesheet_info']['Supports'] ) ? array_map('trim', explode(',', $template_information['stylesheet_info']['Supports'] ) ) : array();

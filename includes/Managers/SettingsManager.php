@@ -35,6 +35,22 @@ class SettingsManager extends \WordPress_SimpleSettings {
 		// Silence is golden
 	}
 
+	public function add_setting ( $setting = false, $value, $keys = array() ) {
+		if ( $setting === false ) return false;
+
+		$suffix = '';
+
+		if ( ! empty($keys) ) {
+			asort( $keys );
+
+			$suffix = "_" . join('', $keys);
+		}
+
+		if ( ! isset($this->settings[$setting . $suffix]) ) {
+			return $this->update_setting($setting . $suffix, $value);
+		} else return false;
+	}
+
 	public function update_setting ( $setting = false, $value, $keys = array() ) {
 		$suffix = '';
 

@@ -608,7 +608,6 @@ class Admin {
 	    $settings_version = $this->plugin_instance->get_settings_manager()->get_setting( 'settings_version' );
 
 	    if ( empty($settings_version) ) {
-
 		    $cfw_templates = $this->plugin_instance->get_template_manager()->get_template_information();
 
 		    foreach( $cfw_templates as $template_path => $template_information ) {

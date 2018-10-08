@@ -586,6 +586,9 @@ class Main extends Singleton {
 		$errors = $main->get_activator()->activate();
 
 		// Init settings
+		$main->get_settings_manager()->add_setting('enable', 'no');
+		$main->get_settings_manager()->add_setting('active_template', 'default');
+
 		$main->settings_manager->add_setting('enable', 'no');
 		$main->settings_manager->add_setting('header_background_color', '#ffffff');
 		$main->settings_manager->add_setting('header_text_color', '#2b2b2b');
@@ -597,6 +600,36 @@ class Main extends Singleton {
 		$main->settings_manager->add_setting('secondary_button_color', '#999999');
 		$main->settings_manager->add_setting('secondary_button_text_color', '#ffffff');
 		$main->settings_manager->add_setting('active_template', 'default');
+
+
+		// Set defaults
+		$cfw_templates = $this->plugin_instance->get_template_manager()->get_template_information();
+
+		foreach( $cfw_templates as $template_path => $template_information ) {
+			$supports = ! empty( $template_information['stylesheet_info']['Supports'] ) ? array_map('trim', explode(',', $template_information['stylesheet_info']['Supports'] ) ) : array();
+
+			if ( in_array('header-background', $supports) ) {
+				if ( $template_path == "futurist" ) {
+					$main->get_settings_manager()->add_setting( 'header_background_color', '#000000', array( $template_path ) );
+					$main->get_settings_manager()->add_setting( 'header_text_color', '#FFFFFF', array( $template_path ) );
+				} else {
+					$main->get_settings_manager()->add_setting( 'header_background_color', '#FFFFFF');
+				}
+			}
+
+			if ( in_array('footer-background', $supports) ) {
+				$main->get_settings_manager()->add_setting( 'footer_background_color', '#ffffff', array( $template_path ) );
+				$main->get_settings_manager()->add_setting( 'footer_color', '#999999', array( $template_path ) );
+			}
+
+			$main->get_settings_manager()->add_setting( 'header_text_color', '#2b2b2b', array( $template_path ) );
+			$main->get_settings_manager()->add_setting( 'footer_color', '#999999', array( $template_path ) );
+			$main->get_settings_manager()->add_setting( 'link_color', '#e9a81d', array( $template_path ) );
+			$main->get_settings_manager()->add_setting( 'button_color', '#e9a81d', array( $template_path ) );
+			$main->get_settings_manager()->add_setting( 'button_text_color', '#000000', array( $template_path ) );
+			$main->get_settings_manager()->add_setting( 'secondary_button_color', '#999999', array( $template_path ) );
+			$main->get_settings_manager()->add_setting( 'secondary_button_text_color', '#ffffff', array( $template_path ) );
+		}
 
 		// Updater license status cron
 		$main->updater->set_license_check_cron();

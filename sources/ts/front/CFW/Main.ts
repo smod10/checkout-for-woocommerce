@@ -100,6 +100,10 @@ export class Main {
             excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc, input.js-sv-wc-payment-gateway-credit-card-form-account-number, input.js-sv-wc-payment-gateway-credit-card-form-csc, input.shipping_method'
 		});
 
+        if(easyTabsWrap.length === 0) {
+        	easyTabsWrap = tabContainer.jel;
+		}
+
         this.checkoutForm = checkoutFormEl;
         this.tabContainer = tabContainer;
         this.ajaxInfo = ajaxInfo;

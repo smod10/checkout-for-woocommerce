@@ -441,8 +441,13 @@ class Redirect {
 		// Fire off an action before we load the template pieces
 		do_action('cfw_template_before_load');
 
-		// Load the template pieces
-		$template_manager->load_templates( $global_template_parameters );
+		if(!$template_manager->get_use_old_theme()) {
+			// Load the template pieces
+			$template_manager->load_templates( $global_template_parameters );
+		} else {
+		    // TODO: Remove in version 3.0.0
+			$template_manager->load_old_templates( $template_manager->get_old_template_information( $template_manager->get_old_theme_folders() ), $global_template_parameters );
+        }
 
 		// Fire off an action after we load the template pieces
 		do_action('cfw_template_after_load', array(Template::get_i()) );

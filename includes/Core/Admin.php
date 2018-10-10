@@ -184,6 +184,7 @@ class Admin {
 
             <table class="form-table">
                 <tbody>
+                    <?php if(!$this->plugin_instance->get_template_manager()->get_use_old_theme()): ?>
                     <tr>
                         <th scope="row" valign="top">
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">Template</label>
@@ -253,6 +254,9 @@ class Admin {
 	                        ?>
                         </td>
                     </tr>
+                    <?php else: ?>
+                    <?php // TODO: Add notice about removing old theme defaults with a migration guide ?>
+                    <?php endif; ?>
                     <tr>
                         <th scope="row" valign="top">
 						    <?php _e('Logo', 'checkout-wc'); ?>

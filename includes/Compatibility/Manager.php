@@ -4,6 +4,7 @@ namespace Objectiv\Plugins\Checkout\Compatibility;
 
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetAIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetCIM;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Braintree;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\FirstData;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
@@ -125,6 +126,8 @@ class Manager {
 
 		// PayPal for WooCommerce
 		new PayPalForWooCommerce( $this );
+
+		new Braintree();
 
 		/**
 		 * Misc

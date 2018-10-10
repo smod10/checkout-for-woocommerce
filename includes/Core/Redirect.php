@@ -238,7 +238,7 @@ class Redirect {
 		$selected_theme = $template_manager->get_selected_template();
 		?>
 		<style>
-			<?php if($selected_theme == $template_manager->get_theme_template_names()[1]): ?>
+			<?php if($selected_theme == $template_manager->get_theme_template_names()[2]): ?>
 				/**
 					Gotham Styles
 				 */

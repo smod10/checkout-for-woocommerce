@@ -364,7 +364,8 @@ class Main extends Singleton {
 		$this->settings_manager = new SettingsManager();
 
 		// Create the template manager
-		$this->template_manager = new TemplateManager($this->path_manager, $this->settings_manager->get_setting('templates_list'));
+		$settings_selected_template = $this->settings_manager->get_setting('templates_list');
+		$this->template_manager = new TemplateManager($this->path_manager, ($settings_selected_template == "old_theme" || $settings_selected_template == "") ? "default" : $settings_selected_template);
 
 		if(apply_filters('cfw_should_load_template_functions', true)) {
 			$this->template_manager->load_template_functions();

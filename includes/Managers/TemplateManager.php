@@ -80,9 +80,9 @@ class TemplateManager {
 	 *
 	 * @since 2.0.0
 	 * @access private
-	 * @var bool $use_old_theme
+	 * @var bool $is_old_theme
 	 */
-	private $use_old_theme = false;
+	private $is_old_theme = false;
 
 	/**
 	 * @since 2.0.0
@@ -354,7 +354,7 @@ class TemplateManager {
 		}
 
 		// TODO: Remove in version 3.0.0
-		$this->use_old_theme = $this->user_is_using_previous_templates($user_defined_templates);
+		$this->is_old_theme = $this->user_is_using_previous_templates($user_defined_templates);
 
 		return array_merge($plugin_defined_templates, $user_defined_templates);
 	}
@@ -456,7 +456,7 @@ class TemplateManager {
 	 * @access public
 	 * @return bool
 	 */
-	public function get_use_old_theme() {
-		return $this->use_old_theme;
+	public function is_old_theme() {
+		return $this->is_old_theme;
 	}
 }

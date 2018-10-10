@@ -184,79 +184,86 @@ class Admin {
 
             <table class="form-table">
                 <tbody>
-                    <?php if(!$this->plugin_instance->get_template_manager()->get_use_old_theme()): ?>
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">Template</label>
-                        </th>
-                        <td>
-                            <select id="template_select" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">
-	                            <?php
-                                    $cfw_template_setting = $this->plugin_instance->get_settings_manager()->get_setting('templates_list');
-                                    $cfw_template_setting = ($cfw_template_setting != "") ? $cfw_template_setting : $this->plugin_instance->get_template_manager()->get_selected_template();
+                <tr>
+                    <th scope="row" valign="top">
+                        <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">Template</label>
+                    </th>
+                    <td>
+                        <select id="template_select" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('templates_list'); ?>">
+			                <?php
+			                $cfw_template_setting = $this->plugin_instance->get_settings_manager()->get_setting('templates_list');
+			                $add_old_theme_to_list = $this->plugin_instance->get_template_manager()->is_old_theme();
+			                $old_theme_mock_folder_name = "old_theme";
 
-                                    foreach($cfw_templates as $folder_name => $template_information) {
-                                        $stylesheet_info = $template_information["stylesheet_info"];
+			                if($add_old_theme_to_list && $cfw_template_setting == "") {
+			                    $cfw_template_setting = $old_theme_mock_folder_name;
+                            } elseif (!$add_old_theme_to_list && $cfw_template_setting == "") {
+			                    $cfw_template_setting = $this->plugin_instance->get_template_manager()->get_selected_template();
+                            }
 
-                                        ?><option <?php selected($cfw_template_setting, $folder_name); ?> value="<?php echo $folder_name; ?>"><?php echo $stylesheet_info["Name"]; ?></option><?php
-                                    }
-	                            ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label>Template Info</label>
-                        </th>
-                        <td>
-	                        <?php
-                                foreach($cfw_templates as $folder_name => $template_information) {
-                                    $base_url_path = $template_information["base_url_path"];
-                                    $screen_shot = "{$base_url_path}/screenshot.png";
-                                    $stylesheet_info = $template_information["stylesheet_info"];
-                                    $selected = ($cfw_template_setting == $folder_name) ? true : false;
-                                    ?>
-                                    <div id="template_select_info_table_screen_shot_container_<?php echo $folder_name; ?>" class="template_select_info_table_screen_shot_container" style="<?php echo (!$selected) ? "display: none;" : ""; ?>">
-                                        <div class="left-hand-column screen-shot-column">
-                                            <img src="<?php echo $screen_shot; ?>" />
-                                        </div>
-                                        <div class="right-hand-column info-column">
-                                            <table>
-                                                <tbody>
-                                                <?php
-                                                foreach($stylesheet_info as $info_key => $info_value) {
-                                                    $info_key_nice_name = __( $cfw_template_stylesheet_headers[$info_key], 'checkout-wc' );
+			                if($add_old_theme_to_list) {
+				                ?><option <?php selected($cfw_template_setting, $old_theme_mock_folder_name); ?> value="<?php echo $old_theme_mock_folder_name; ?>">Old Theme</option><?php
+                            }
 
-                                                    if($info_value != "") {
-                                                        ?>
-                                                        <tr>
-                                                            <td>
-                                                                <label><?php echo $info_key_nice_name; ?></label>
-                                                            </td>
-                                                            <td>
-                                                                <?php if(filter_var($info_value, FILTER_VALIDATE_URL)): ?>
-                                                                    <a href="<?php echo $info_value; ?>" target="_blank"><?php echo $info_value; ?></a>
-                                                                <?php else: ?>
-                                                                    <?php echo $info_value; ?>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                        </tr>
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
+			                foreach($cfw_templates as $folder_name => $template_information) {
+				                $stylesheet_info = $template_information["stylesheet_info"];
+
+				                ?><option <?php selected($cfw_template_setting, $folder_name); ?> value="<?php echo $folder_name; ?>"><?php echo $stylesheet_info["Name"]; ?></option><?php
+			                }
+			                ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" valign="top">
+                        <label>Template Info</label>
+                    </th>
+                    <td>
+		                <?php
+                            foreach($cfw_templates as $folder_name => $template_information) {
+                                $base_url_path = $template_information["base_url_path"];
+                                $screen_shot = "{$base_url_path}/screenshot.png";
+                                $stylesheet_info = $template_information["stylesheet_info"];
+                                $selected = ($cfw_template_setting == $folder_name) ? true : false;
+                                ?>
+                                <div id="template_select_info_table_screen_shot_container_<?php echo $folder_name; ?>" class="template_select_info_table_screen_shot_container" style="<?php echo (!$selected) ? "display: none;" : ""; ?>">
+                                    <div class="left-hand-column screen-shot-column">
+                                        <img src="<?php echo $screen_shot; ?>" />
                                     </div>
-                                    <?php
-                                }
-	                        ?>
-                        </td>
-                    </tr>
-                    <?php else: ?>
-                    <?php // TODO: Add notice about removing old theme defaults with a migration guide ?>
-                    <?php endif; ?>
+                                    <div class="right-hand-column info-column">
+                                        <table>
+                                            <tbody>
+                                            <?php
+                                            foreach($stylesheet_info as $info_key => $info_value) {
+                                                $info_key_nice_name = __( $cfw_template_stylesheet_headers[$info_key], 'checkout-wc' );
+
+                                                if($info_value != "") {
+                                                    ?>
+                                                    <tr>
+                                                        <td>
+                                                            <label><?php echo $info_key_nice_name; ?></label>
+                                                        </td>
+                                                        <td>
+                                                            <?php if(filter_var($info_value, FILTER_VALIDATE_URL)): ?>
+                                                                <a href="<?php echo $info_value; ?>" target="_blank"><?php echo $info_value; ?></a>
+                                                            <?php else: ?>
+                                                                <?php echo $info_value; ?>
+                                                            <?php endif; ?>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+		                ?>
+                    </td>
+                </tr>
                     <tr>
                         <th scope="row" valign="top">
 						    <?php _e('Logo', 'checkout-wc'); ?>

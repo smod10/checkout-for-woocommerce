@@ -14,11 +14,18 @@ class Braintree extends Base {
 	}
 
 	function allowed_scripts( $scripts ) {
+		$scripts[] = "wc-braintree";
+		$scripts[] = "braintree-data";
+		$scripts[] = "braintree-js-hosted-fields";
+		$scripts[] = "braintree-js-3d-secure";
+		$scripts[] = "braintree-js-paypal-checkout";
+		$scripts[] = "braintree-js-client";
 
 		return $scripts;
 	}
 
 	function allowed_styles( $styles ) {
+		$styles[] = "wc-braintree";
 
 		return $styles;
 	}

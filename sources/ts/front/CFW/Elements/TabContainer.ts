@@ -646,20 +646,6 @@ export class TabContainer extends Element {
     }
 
     /**
-     * @param {boolean} show
-     */
-    static togglePaymentFields(show: boolean) {
-        let togglePaymentClass: string = "cfw-payment-false";
-        let mainEl: any = $("#cfw-content");
-
-        if(show) {
-            mainEl.removeClass(togglePaymentClass);
-        } else if (!mainEl.hasClass(togglePaymentClass)) {
-            mainEl.addClass(togglePaymentClass);
-        }
-    }
-
-    /**
      * @returns {UpdateShippingFieldsRI}
      */
     getUpdateShippingRequiredItems(): UpdateShippingFieldsRI {

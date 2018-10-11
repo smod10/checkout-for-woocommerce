@@ -153,7 +153,7 @@ class Redirect {
 					url: '<?php echo get_home_url(); ?>',
 					nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
 				},
-                compatibility: <?php echo json_encode(apply_filters('cfw_typescript_compatibility_classes_and_params', [])); ?>,
+				compatibility: <?php echo json_encode(apply_filters('cfw_typescript_compatibility_classes_and_params', [])); ?>,
 				settings: {
 					isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
 					user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
@@ -437,7 +437,7 @@ class Redirect {
 	 * @access public
 	 * @param TemplateManager $template_manager
 	 * @param array $global_template_parameters
-     * @param SettingsManager $settings_manager
+	 * @param SettingsManager $settings_manager
 	 */
 	public static function body($template_manager, $global_template_parameters, $settings_manager) {
 		// Fire off an action before we load the template pieces

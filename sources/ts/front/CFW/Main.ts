@@ -17,11 +17,11 @@ declare let $: any;
  */
 export class Main {
 
-    /**
-     * @type {any}
-     * @private
-     */
-    private _checkoutForm: any;
+	/**
+	 * @type {any}
+	 * @private
+	 */
+	private _checkoutForm: any;
 
 	/**
 	 * @type {TabContainer}
@@ -47,17 +47,17 @@ export class Main {
 	 */
 	private _settings: any;
 
-    /**
+	/**
 	 * @type {any}
 	 * @private
-     */
-    private _compatibility: any;
+	 */
+	private _compatibility: any;
 
-    /**
+	/**
 	 * @type {Compatibility[]}
 	 * @private
-     */
-    private _createdCompatibilityClasses: Compatibility[];
+	 */
+	private _createdCompatibilityClasses: Compatibility[];
 
 	/**
 	 * @type {ParsleyService}
@@ -77,11 +77,11 @@ export class Main {
 	 */
 	private _validationService: ValidationService;
 
-    /**
-     * @type {LocalizationService}
-     * @private
-     */
-    private _localizationService: LocalizationService;
+	/**
+	 * @type {LocalizationService}
+	 * @private
+	 */
+	private _localizationService: LocalizationService;
 
 	/**
 	 * @type {boolean}
@@ -97,7 +97,7 @@ export class Main {
 	private static _instance: Main;
 
 	/**
-     * @param {any} checkoutFormEl
+	 * @param {any} checkoutFormEl
 	 * @param {any} easyTabsWrap
 	 * @param {TabContainer} tabContainer
 	 * @param {AjaxInfo} ajaxInfo
@@ -108,45 +108,45 @@ export class Main {
 	constructor( checkoutFormEl: any, easyTabsWrap: any, tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any, compatibility: any) {
 		Main.instance = this;
 
-        checkoutFormEl.garlic({
+		checkoutFormEl.garlic({
 			events: ['textInput', 'input', 'change', 'click', 'keypress', 'paste', 'focus'],
 			destroy: false,
-            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc, input.js-sv-wc-payment-gateway-credit-card-form-account-number, input.js-sv-wc-payment-gateway-credit-card-form-csc, input.shipping_method'
+			excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc, input.js-sv-wc-payment-gateway-credit-card-form-account-number, input.js-sv-wc-payment-gateway-credit-card-form-csc, input.shipping_method'
 		});
 
-        if(easyTabsWrap.length === 0) {
-        	easyTabsWrap = tabContainer.jel;
+		if(easyTabsWrap.length === 0) {
+			easyTabsWrap = tabContainer.jel;
 		}
 
-        this.checkoutForm = checkoutFormEl;
-        this.tabContainer = tabContainer;
-        this.ajaxInfo = ajaxInfo;
-        this.cart = cart;
-        this.settings = settings;
-        this.compatibility = compatibility;
-        this.createdCompatibilityClasses = [];
-        this.parsleyService = new ParsleyService();
-        this.easyTabService = new EasyTabService(easyTabsWrap);
-        this.validationService = new ValidationService(easyTabsWrap);
-        this.localizationService = new LocalizationService();
+		this.checkoutForm = checkoutFormEl;
+		this.tabContainer = tabContainer;
+		this.ajaxInfo = ajaxInfo;
+		this.cart = cart;
+		this.settings = settings;
+		this.compatibility = compatibility;
+		this.createdCompatibilityClasses = [];
+		this.parsleyService = new ParsleyService();
+		this.easyTabService = new EasyTabService(easyTabsWrap);
+		this.validationService = new ValidationService(easyTabsWrap);
+		this.localizationService = new LocalizationService();
 
-        // Handle Stripe gateway UI blocking function
-        // Otherwise we throw errors
-        // Also discard our overlay when the modal is closed on desktop and mobile
-        $.fn.block = function (item) {
+		// Handle Stripe gateway UI blocking function
+		// Otherwise we throw errors
+		// Also discard our overlay when the modal is closed on desktop and mobile
+		$.fn.block = function (item) {
 			Main.addOverlay();
-        };
-        $.fn.unblock = function (item) {
-            Main.removeOverlay();
-        };
+		};
+		$.fn.unblock = function (item) {
+			Main.removeOverlay();
+		};
 
-        $.fn.blockUI = function (item) {
-            Main.addOverlay();
-        };
-        $.fn.unblockUI = function (item) {
-            Main.removeOverlay();
-        };
-    }
+		$.fn.blockUI = function (item) {
+			Main.addOverlay();
+		};
+		$.fn.unblockUI = function (item) {
+			Main.removeOverlay();
+		};
+	}
 
 
 	/**
@@ -156,7 +156,7 @@ export class Main {
 	setup(): void {
 
 		// Before setup event
-        window.dispatchEvent(new CustomEvent("cfw-main-before-setup", { detail: { main: this } }));
+		window.dispatchEvent(new CustomEvent("cfw-main-before-setup", { detail: { main: this } }));
 
 		// Initialize the easy tabs
 		this.easyTabService.initialize();
@@ -171,7 +171,7 @@ export class Main {
 		this.tabContainer.setFloatLabelOnGarlicRetrieve();
 
 		// Before set wraps event in case anyone needs to do some JIT class adding
-        window.dispatchEvent(new CustomEvent("cfw-main-before-tab-container-set-wraps", { detail: { main: this } }));
+		window.dispatchEvent(new CustomEvent("cfw-main-before-tab-container-set-wraps", { detail: { main: this } }));
 
 		/**
 		 * NOTE: If you are doing any DOM manipulation (adding and removing classes specifically). Do it before the setWraps
@@ -182,7 +182,7 @@ export class Main {
 		this.tabContainer.tabContainerSections.forEach((tcs: TabContainerSection) => tcs.setWraps());
 
 		// After the set wraps has done but before we set up any tabContainer listeners
-        window.dispatchEvent(new CustomEvent("cfw-main-after-tab-container-set-wraps", { detail: { main: this } }));
+		window.dispatchEvent(new CustomEvent("cfw-main-after-tab-container-set-wraps", { detail: { main: this } }));
 
 		// Set up event handlers
 		this.tabContainer.setAccountCheckListener();
@@ -209,23 +209,23 @@ export class Main {
 		console.log(this.createdCompatibilityClasses);
 	}
 
-    /**
-     * Adds a visual indicator that the checkout is doing something
-     */
-    static addOverlay(): void {
-        $("body").addClass("show-overlay");
-    }
+	/**
+	 * Adds a visual indicator that the checkout is doing something
+	 */
+	static addOverlay(): void {
+		$("body").addClass("show-overlay");
+	}
 
-    /**
+	/**
 	 * Remove the visual indicator
-     */
-    static removeOverlay(): void {
-        $("body").removeClass("show-overlay");
-    }
+	 */
+	static removeOverlay(): void {
+		$("body").removeClass("show-overlay");
+	}
 
-    /**
-     * @param {boolean} isPaymentRequired
-     */
+	/**
+	 * @param {boolean} isPaymentRequired
+	 */
 	static togglePaymentRequired(isPaymentRequired: boolean): void {
 		let $cfw = $("#cfw-content");
 		let noPaymentCssClass = "cfw-payment-false";
@@ -236,14 +236,14 @@ export class Main {
 			}
 
 			if(EasyTabService.isThereAShippingTab()) {
-                this.toggleBillingFieldsAbility(true);
-            }
+				this.toggleBillingFieldsAbility(true);
+			}
 
-            // Always uncheck the payment method if order does not require payment
-            $('[name="payment_method"]:checked').prop("checked", false);
+			// Always uncheck the payment method if order does not require payment
+			$('[name="payment_method"]:checked').prop("checked", false);
 		} else {
-            if(EasyTabService.isThereAShippingTab()) {
-                this.toggleBillingFieldsAbility(false);
+			if(EasyTabService.isThereAShippingTab()) {
+				this.toggleBillingFieldsAbility(false);
 			}
 
 			$cfw.removeClass(noPaymentCssClass);
@@ -251,12 +251,12 @@ export class Main {
 	}
 
 	static toggleBillingFieldsAbility( enabled: boolean ) {
-        Main.instance.settings.default_address_fields.forEach( function( field_name ) {
+		Main.instance.settings.default_address_fields.forEach( function( field_name ) {
 			$(`[name="billing_${field_name}"]`).prop('disabled', enabled);
 		} );
 
-        if(enabled) {
-        	$("#ship_to_different_address_as_billing").prop("checked", true);
+		if(enabled) {
+			$("#ship_to_different_address_as_billing").prop("checked", true);
 		}
 	}
 
@@ -269,35 +269,35 @@ export class Main {
 		});
 	}
 
-    /**
-     * @returns {boolean}
-     */
+	/**
+	 * @returns {boolean}
+	 */
 	get updating(): boolean {
 		return this._updating;
 	}
 
-    /**
-     * @param {boolean} value
-     */
+	/**
+	 * @param {boolean} value
+	 */
 	set updating(value: boolean) {
 		this._updating = value;
 	}
 
-    /**
-     * @returns {any}
-     */
-    get checkoutForm(): any {
-        return this._checkoutForm;
-    }
+	/**
+	 * @returns {any}
+	 */
+	get checkoutForm(): any {
+		return this._checkoutForm;
+	}
 
-    /**
-     * @param {any} value
-     */
-    set checkoutForm(value: any) {
-        this._checkoutForm = value;
-    }
+	/**
+	 * @param {any} value
+	 */
+	set checkoutForm(value: any) {
+		this._checkoutForm = value;
+	}
 
-    /**
+	/**
 	 * @returns {TabContainer}
 	 */
 	get tabContainer() {
@@ -353,35 +353,35 @@ export class Main {
 		this._settings = value;
 	}
 
-    /**
+	/**
 	 * @return {any}
-     */
-    get compatibility(): any {
-        return this._compatibility;
-    }
+	 */
+	get compatibility(): any {
+		return this._compatibility;
+	}
 
-    /**
-     * @param {any} value
-     */
-    set compatibility(value: any) {
-        this._compatibility = value;
-    }
+	/**
+	 * @param {any} value
+	 */
+	set compatibility(value: any) {
+		this._compatibility = value;
+	}
 
-    /**
+	/**
 	 * @return {Compatibility[]}
-     */
-    get createdCompatibilityClasses(): Compatibility[] {
-        return this._createdCompatibilityClasses;
-    }
+	 */
+	get createdCompatibilityClasses(): Compatibility[] {
+		return this._createdCompatibilityClasses;
+	}
 
-    /**
-     * @param {Compatibility[]} value
-     */
-    set createdCompatibilityClasses(value: Compatibility[]) {
-        this._createdCompatibilityClasses = value;
-    }
+	/**
+	 * @param {Compatibility[]} value
+	 */
+	set createdCompatibilityClasses(value: Compatibility[]) {
+		this._createdCompatibilityClasses = value;
+	}
 
-    /**
+	/**
 	 * @returns {ParsleyService}
 	 */
 	get parsleyService(): ParsleyService {
@@ -423,21 +423,21 @@ export class Main {
 		this._validationService = value;
 	}
 
-    /**
-     * @returns {LocalizationService}
-     */
-    get localizationService(): LocalizationService {
-        return this._localizationService;
-    }
+	/**
+	 * @returns {LocalizationService}
+	 */
+	get localizationService(): LocalizationService {
+		return this._localizationService;
+	}
 
-    /**
-     * @param {LocalizationService} value
-     */
-    set localizationService(value: LocalizationService) {
-        this._localizationService = value;
-    }
+	/**
+	 * @param {LocalizationService} value
+	 */
+	set localizationService(value: LocalizationService) {
+		this._localizationService = value;
+	}
 
-    /**
+	/**
 	 * @returns {Main}
 	 */
 	static get instance(): Main {

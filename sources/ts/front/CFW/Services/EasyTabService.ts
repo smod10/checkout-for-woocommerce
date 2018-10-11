@@ -75,11 +75,7 @@ export class EasyTabService {
      * @param {EasyTab} tab
      */
     static go(tab: EasyTab): void {
-        //TODO: Create event before easytabs navigation
-
         Main.instance.easyTabService.easyTabsWrap.easytabs("select", EasyTabService.getTabId(tab));
-
-        //TODO: Create event after easytabs navigation
     }
 
     /**

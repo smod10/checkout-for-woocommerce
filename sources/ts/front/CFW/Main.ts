@@ -205,6 +205,8 @@ export class Main {
 
 		// After setup event
 		window.dispatchEvent(new CustomEvent("cfw-main-after-setup", { detail: { main: this } }));
+
+		console.log(this.createdCompatibilityClasses);
 	}
 
 	/**

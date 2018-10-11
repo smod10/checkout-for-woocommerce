@@ -62,7 +62,7 @@ class Redirect {
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_styles'), 40, 5);
 
 			// Output the contents of the <head></head> section
-			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc')), $settings_manager, $template_manager);
+			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc', 'woocommerce')), $settings_manager, $template_manager);
 
 			// Output the contents of the <body></body> section
 			self::body($template_manager, $global_template_parameters, $settings_manager);

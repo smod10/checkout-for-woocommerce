@@ -166,6 +166,7 @@ export class TabContainer extends Element {
      *
      */
     setUpCreditCardFields() {
+        // TODO: Once Compatibility class is setup move each of these pieces to it's relevant class
         const CHECK = "paytrace_check_choice";
         const CARD = "paytrace_card_choice";
 

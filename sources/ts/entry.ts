@@ -3,6 +3,8 @@ import { TabContainer }                     from "./front/CFW/Elements/TabContai
 import { TabContainerBreadcrumb }           from "./front/CFW/Elements/TabContainerBreadcrumb";
 import { TabContainerSection }              from "./front/CFW/Elements/TabContainerSection";
 import { Cart }                             from "./front/CFW/Elements/Cart";
+import { CompatibilityClasses }             from "./compatibility-classes";
+import { CompatibilityClassOptions }        from "./front/CFW/Types/Types";
 
 /**
  * This is our main kick off file. We used to do this in a require block in the Redirect file but since we've moved to
@@ -18,8 +20,9 @@ import { Cart }                             from "./front/CFW/Elements/Cart";
 
 let w: any = window;
 (<any>window).$ = ($ === undefined) ? jQuery : $;
+(<any>window).CompatibilityClasses = CompatibilityClasses;
 
-w.addEventListener("cfw-initialize", (eventData) => {
+w.addEventListener("cfw-initialize", eventData => {
     let data = eventData.detail;
 
     let checkoutFormEl = $(data.elements.checkoutFormSelector);
@@ -38,6 +41,9 @@ w.addEventListener("cfw-initialize", (eventData) => {
     let cartCoupons = $(data.elements.cartCouponsId);
     let cartReviewBar = $(data.elements.cartReviewBarId);
 
+    // Allow users to add their own Typescript Compatibility classes
+    window.dispatchEvent(new CustomEvent("cfw-add-user-compatibility-definitions"));
+
     let tabContainerBreadcrumb = new TabContainerBreadcrumb(breadCrumbEl);
     let tabContainerSections = [
         new TabContainerSection(customerInfoEl, "customer_info"),
@@ -48,6 +54,22 @@ w.addEventListener("cfw-initialize", (eventData) => {
 
     let cart = new Cart(cartContainer, cartSubtotal, cartShipping, cartTaxes, cartFees, cartTotal, cartCoupons, cartReviewBar);
 
-    let main = new Main( checkoutFormEl, easyTabsWrapEl, tabContainer, data.ajaxInfo, cart, data.settings );
+    let main = new Main( checkoutFormEl, easyTabsWrapEl, tabContainer, data.ajaxInfo, cart, data.settings, data.compatibility );
     main.setup();
 }, { once: true });
+
+w.addEventListener("cfw-main-after-setup", eventData => {
+    let main: Main = eventData.detail.main;
+    let CompatibilityClasses = (<any>window).CompatibilityClasses;
+    let compatibilityClassOptions: Array<CompatibilityClassOptions> = main.compatibility;
+
+    compatibilityClassOptions.forEach( compClassOps => {
+
+        compClassOps.params.unshift(main);
+
+        if(CompatibilityClasses[compClassOps.class] !== undefined || CompatibilityClasses[compClassOps.class] !== null) {
+            let classDef = CompatibilityClasses[compClassOps.class];
+            main.createdCompatibilityClasses.push(new classDef(compClassOps.params, compClassOps.fireLoad));
+        }
+    });
+});

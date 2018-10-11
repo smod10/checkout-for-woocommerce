@@ -8,6 +8,7 @@ import { ValidationService }					from "./Services/ValidationService";
 import { EasyTabService }						from "./Services/EasyTabService";
 import { ParsleyService }						from "./Services/ParsleyService";
 import { LocalizationService }                  from "./Services/LocalizationService";
+import { Compatibility } 						from "./Compatibility/Compatibility";
 
 declare let $: any;
 
@@ -45,6 +46,18 @@ export class Main {
 	 * @private
 	 */
 	private _settings: any;
+
+    /**
+	 * @type {any}
+	 * @private
+     */
+    private _compatibility: any;
+
+    /**
+	 * @type {Compatibility[]}
+	 * @private
+     */
+    private _createdCompatibilityClasses: Compatibility[];
 
 	/**
 	 * @type {ParsleyService}
@@ -90,8 +103,9 @@ export class Main {
 	 * @param {AjaxInfo} ajaxInfo
 	 * @param {Cart} cart
 	 * @param {any} settings
+	 * @param {any} compatibility
 	 */
-	constructor( checkoutFormEl: any, easyTabsWrap: any, tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
+	constructor( checkoutFormEl: any, easyTabsWrap: any, tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any, compatibility: any) {
 		Main.instance = this;
 
         checkoutFormEl.garlic({
@@ -109,6 +123,8 @@ export class Main {
         this.ajaxInfo = ajaxInfo;
         this.cart = cart;
         this.settings = settings;
+        this.compatibility = compatibility;
+        this.createdCompatibilityClasses = [];
         this.parsleyService = new ParsleyService();
         this.easyTabService = new EasyTabService(easyTabsWrap);
         this.validationService = new ValidationService(easyTabsWrap);
@@ -139,6 +155,9 @@ export class Main {
 	 */
 	setup(): void {
 
+		// Before setup event
+        window.dispatchEvent(new CustomEvent("cfw-main-before-setup", { detail: { main: this } }));
+
 		// Initialize the easy tabs
 		this.easyTabService.initialize();
 
@@ -151,6 +170,9 @@ export class Main {
 		// Fix floating labels
 		this.tabContainer.setFloatLabelOnGarlicRetrieve();
 
+		// Before set wraps event in case anyone needs to do some JIT class adding
+        window.dispatchEvent(new CustomEvent("cfw-main-before-tab-container-set-wraps", { detail: { main: this } }));
+
 		/**
 		 * NOTE: If you are doing any DOM manipulation (adding and removing classes specifically). Do it before the setWraps
 		 * call on the tab container sections. Once this is called all the setup of the different areas will have completed and
@@ -158,6 +180,9 @@ export class Main {
 		 */
 		// Loop through and set up the wraps on the tab container sections
 		this.tabContainer.tabContainerSections.forEach((tcs: TabContainerSection) => tcs.setWraps());
+
+		// After the set wraps has done but before we set up any tabContainer listeners
+        window.dispatchEvent(new CustomEvent("cfw-main-after-tab-container-set-wraps", { detail: { main: this } }));
 
 		// Set up event handlers
 		this.tabContainer.setAccountCheckListener();
@@ -177,6 +202,11 @@ export class Main {
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
+
+		// After setup event
+		window.dispatchEvent(new CustomEvent("cfw-main-after-setup", { detail: { main: this } }));
+
+		console.log(this.createdCompatibilityClasses);
 	}
 
     /**
@@ -186,16 +216,12 @@ export class Main {
         $("body").addClass("show-overlay");
     }
 
+    /**
+	 * Remove the visual indicator
+     */
     static removeOverlay(): void {
         $("body").removeClass("show-overlay");
     }
-
-	/**
-	 * @returns {boolean}
-	 */
-	static isPaymentRequired(): boolean {
-		return !$("#cfw-content").hasClass("cfw-payment-false");
-	}
 
     /**
      * @param {boolean} isPaymentRequired
@@ -327,7 +353,35 @@ export class Main {
 		this._settings = value;
 	}
 
-	/**
+    /**
+	 * @return {any}
+     */
+    get compatibility(): any {
+        return this._compatibility;
+    }
+
+    /**
+     * @param {any} value
+     */
+    set compatibility(value: any) {
+        this._compatibility = value;
+    }
+
+    /**
+	 * @return {Compatibility[]}
+     */
+    get createdCompatibilityClasses(): Compatibility[] {
+        return this._createdCompatibilityClasses;
+    }
+
+    /**
+     * @param {Compatibility[]} value
+     */
+    set createdCompatibilityClasses(value: Compatibility[]) {
+        this._createdCompatibilityClasses = value;
+    }
+
+    /**
 	 * @returns {ParsleyService}
 	 */
 	get parsleyService(): ParsleyService {

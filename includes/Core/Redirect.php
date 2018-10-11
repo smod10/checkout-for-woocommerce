@@ -153,6 +153,7 @@ class Redirect {
 					url: '<?php echo get_home_url(); ?>',
 					nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
 				},
+                compatibility: <?php echo json_encode(apply_filters('cfw_typescript_compatibility_classes_and_params', [])); ?>,
 				settings: {
 					isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
 					user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',

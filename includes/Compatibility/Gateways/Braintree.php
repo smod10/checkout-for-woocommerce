@@ -24,6 +24,15 @@ class Braintree extends Base {
 		return $scripts;
 	}
 
+	function typescript_class_and_params($compatibility) {
+		$compatibility[] = [
+			"class" => "Braintree",
+			"params" => []
+		];
+
+		return $compatibility;
+	}
+
 	function allowed_styles( $styles ) {
 		$styles[] = "wc-braintree";
 

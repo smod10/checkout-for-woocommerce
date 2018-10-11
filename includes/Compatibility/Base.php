@@ -11,6 +11,7 @@ abstract class Base {
 			// Allow scripts and styles for certain plugins
 			add_filter('cfw_allowed_script_handles', array($this, 'allowed_scripts'), 10, 1 );
 			add_filter('cfw_allowed_style_handles', array($this, 'allowed_styles'), 10, 1 );
+			add_filter('cfw_typescript_compatibility_classes_and_params', array($this, 'typescript_class_and_params'), 10, 1);
 
 			$this->run();
 		}
@@ -31,6 +32,15 @@ abstract class Base {
 	function is_available() {
 		return false;
 	}
+
+	/**
+	 * @param array $compatibility
+	 *
+	 * @return array
+	 */
+	function typescript_class_and_params($compatibility) {
+	    return $compatibility;
+    }
 
 	/**
 	 * Array of allowed script handles.

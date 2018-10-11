@@ -86,6 +86,12 @@ export type StripeCard = {
     tokenization_method: any
 }
 
+export type CompatibilityClassOptions = {
+    class: string,
+    params: any,
+    fireLoad: boolean
+}
+
 export type StripeNoDataResponse = {
     error: {type: string, message: string}
 }

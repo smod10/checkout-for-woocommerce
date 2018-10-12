@@ -57,6 +57,13 @@ export class Braintree extends Compatibility {
 			this.easyTabsCreditCardAfterEvent(easyTabsWrap, main);
 			this.onCreditCardErrorAlertRefresh();
 
+			/**
+			 * On click we need to set this boolean to false so when the updated_checkout runs (and it does run on complete
+			 * order) we can step in and say "You don't need to refresh". However there are times during the complete order
+			 * process where say parsley encounters a form error during the validation steps and we need to refresh.
+			 *
+			 * The updated_checkout call they make messes everything up for some reason
+			 */
 			$("#place_order").on('click', () => {
 				this.runRefresh = false;
 			});

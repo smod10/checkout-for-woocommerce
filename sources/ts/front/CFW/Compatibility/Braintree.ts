@@ -1,7 +1,7 @@
 import { Compatibility }                    from "./Compatibility";
 import { Main }                             from "../Main";
-import { EasyTabService } 					from "../Services/EasyTabService";
-import { EasyTabDirection }					from "../Services/EasyTabService";
+import { EasyTabService }                   from "../Services/EasyTabService";
+import { EasyTabDirection }                 from "../Services/EasyTabService";
 
 declare let wc_braintree_credit_card_handler: any;
 

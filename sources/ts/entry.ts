@@ -67,7 +67,7 @@ w.addEventListener("cfw-main-after-setup", eventData => {
 
 		compClassOps.params.unshift(main);
 
-		if(CompatibilityClasses[compClassOps.class] !== undefined || CompatibilityClasses[compClassOps.class] !== null) {
+		if(CompatibilityClasses[compClassOps.class] !== undefined && CompatibilityClasses[compClassOps.class] !== null) {
 			let classDef = CompatibilityClasses[compClassOps.class];
 			main.createdCompatibilityClasses.push(new classDef(compClassOps.params, compClassOps.fireLoad));
 		}

@@ -122,6 +122,7 @@ class Redirect {
 			var shippingMethodElId = '#<?php echo apply_filters('cfw_template_shipping_method_el', 'cfw-shipping-method'); ?>';
 			var paymentMethodElId = '#<?php echo apply_filters('cfw_template_payment_method_el', 'cfw-payment-method'); ?>';
 			var tabContainerElId = '#<?php echo apply_filters('cfw_template_tab_container_el', 'cfw-tab-container'); ?>';
+			var alertContainerElId = '#<?php echo apply_filters('cfw_template_alert_container_el', 'cfw-alert-container'); ?>';
 			var cartContainerId = '#<?php echo apply_filters('cfw_template_cart_el', "cfw-totals-list"); ?>';
 			var cartSubtotalId = '#<?php echo apply_filters('cfw_template_cart_subtotal_el', 'cfw-cart-subtotal'); ?>';
 			var cartShippingId = '#<?php echo apply_filters('cfw_template_cart_shipping_el', 'cfw-cart-shipping-total'); ?>';
@@ -139,6 +140,7 @@ class Redirect {
 					shippingMethodElId: shippingMethodElId,
 					paymentMethodElId: paymentMethodElId,
 					tabContainerElId: tabContainerElId,
+					alertContainerId: alertContainerElId,
 					cartContainerId: cartContainerId,
 					cartSubtotalId: cartSubtotalId,
 					cartShippingId: cartShippingId,

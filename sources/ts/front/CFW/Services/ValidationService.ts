@@ -95,6 +95,7 @@ export class ValidationService {
 					new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
 				} else {
 					Main.removeOverlay();
+					window.dispatchEvent(new CustomEvent("cfw-validation-service-checkout-validation-failed"));
 				}
 			}, {once: true});
 

@@ -66,7 +66,7 @@ export class CompleteOrderAction extends Action {
                 cssClass: "cfw-alert-danger"
             };
 
-            let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+            let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
             alert.addAlert();
 
             if(tabContainer.errorObserver !== undefined && tabContainer.errorObserver !== null) {

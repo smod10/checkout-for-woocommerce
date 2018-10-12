@@ -511,6 +511,7 @@ export class TabContainer extends Element {
         let main: Main = Main.instance;
         let checkout_form: any = Main.instance.checkoutForm;
         let preSwapData = this.checkoutDataAtSubmitClick;
+        console.log("Form Submit Triggered");
 
         // Prevent any weirdness by preventing default
         e.preventDefault();
@@ -529,6 +530,7 @@ export class TabContainer extends Element {
                 this.errorObserver.disconnect();
             }
 
+            console.log("About to call orderKickOff");
             this.orderKickOff(main.ajaxInfo, this.getFormObject());
         }
     }
@@ -543,6 +545,8 @@ export class TabContainer extends Element {
         let preSwapData = this.checkoutDataAtSubmitClick = {};
 
         Main.addOverlay();
+
+		checkout_form.find(".woocommerce-error").remove();
 
         if ( parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0 ) {
             lookFor.forEach( field => {
@@ -571,9 +575,11 @@ export class TabContainer extends Element {
             // Start observing the target node for configured mutations
             observer.observe(targetNode, config);
 
+            console.log("Created Observer");
             this.errorObserver = observer;
         }
 
+        console.log("Next move is trigger form submit", checkout_form);
         checkout_form.trigger('submit');
     }
 
@@ -581,8 +587,6 @@ export class TabContainer extends Element {
      * @param mutationsList
      */
     submitOrderErrorMutationListener(mutationsList) {
-        let main: Main = Main.instance;
-
         for ( let mutation of mutationsList ) {
             if(mutation.type === "childList") {
                 let addedNodes = mutation.addedNodes;
@@ -595,25 +599,28 @@ export class TabContainer extends Element {
 
                     if ( hasClass || hasGroupCheckoutClass ) {
                         Main.removeOverlay();
+                        console.log("Removed Overlay");
                         $errorNode = $node;
                         $errorNode.attr("class", "");
                     }
                 });
 
                 if($errorNode) {
+					console.log("error node", $errorNode);
                     let alertInfo: AlertInfo = {
                         type: "CFWSubmitError",
                         message: $errorNode,
                         cssClass: "cfw-alert-danger"
                     };
 
-                    let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+                    let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
                     alert.addAlert();
                 }
 
                 if(this.errorObserver !== undefined && this.errorObserver !== null) {
                     this.errorObserver.disconnect();
                     this.errorObserver = null;
+                    console.log("Disconnected Observer");
                 }
             }
         }
@@ -641,7 +648,7 @@ export class TabContainer extends Element {
                 new ApplyCouponAction('cfw_apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFormObject()).load();
             } else {
                 // Remove alerts
-                Alert.removeAlerts();
+                Alert.removeAlerts(Main.instance.alertContainer);
             }
         })
     }

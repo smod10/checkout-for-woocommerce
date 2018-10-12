@@ -4,6 +4,7 @@ import { LogInData }                    from "../Types/Types";
 import { AjaxInfo }                     from "../Types/Types";
 import { Alert, AlertInfo }             from "../Elements/Alert";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
+import { Main }                         from "../Main";
 
 /**
  *
@@ -51,7 +52,7 @@ export class LoginAction extends Action {
                 cssClass: "cfw-alert-danger"
             };
 
-            let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+            let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
             alert.addAlert();
         }
     }

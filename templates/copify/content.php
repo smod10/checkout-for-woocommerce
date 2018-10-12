@@ -249,7 +249,7 @@
                                     </div>
 
                                     <div id="order_review" class="cfw-payment-methods-wrap">
-                                        <div id="payment">
+                                        <div id="payment" class="woocommerce-checkout-payment">
                                             <?php cfw_get_payment_methods_html(); ?>
                                         </div>
                                     </div>

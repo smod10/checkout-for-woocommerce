@@ -78,6 +78,8 @@ export class ParsleyService {
                 this.parsley.on('form:error', () => Main.removeOverlay());
                 this.setParsleyCustomValidators();
 
+				window.dispatchEvent(new CustomEvent("cfw-parsley-initialized", { detail: { parsley: this.parsley } }));
+
                 clearInterval(interval);
             } else if( iterations >= max_iterations ) {
                 // Give up

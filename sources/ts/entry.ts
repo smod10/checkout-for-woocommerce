@@ -31,6 +31,7 @@ w.addEventListener("cfw-initialize", eventData => {
 	let customerInfoEl = $(data.elements.customerInfoElId);
 	let shippingMethodEl = $(data.elements.shippingMethodElId);
 	let paymentMethodEl = $(data.elements.paymentMethodElId);
+	let alertContainerEl = $(data.elements.alertContainerId);
 	let tabContainerEl = $(data.elements.tabContainerElId);
 	let cartContainer = $(data.elements.cartContainerId);
 	let cartSubtotal = $(data.elements.cartSubtotalId);
@@ -54,7 +55,7 @@ w.addEventListener("cfw-initialize", eventData => {
 
 	let cart = new Cart(cartContainer, cartSubtotal, cartShipping, cartTaxes, cartFees, cartTotal, cartCoupons, cartReviewBar);
 
-	let main = new Main( checkoutFormEl, easyTabsWrapEl, tabContainer, data.ajaxInfo, cart, data.settings, data.compatibility );
+	let main = new Main( checkoutFormEl, easyTabsWrapEl, alertContainerEl, tabContainer, data.ajaxInfo, cart, data.settings, data.compatibility );
 	main.setup();
 }, { once: true });
 

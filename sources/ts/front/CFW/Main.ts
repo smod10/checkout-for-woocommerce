@@ -29,6 +29,12 @@ export class Main {
 	 */
 	private _tabContainer: TabContainer;
 
+    /**
+	 * @type {any}
+	 * @private
+     */
+    private _alertContainer: any;
+
 	/**
 	 * @type {Cart}
 	 * @private
@@ -99,13 +105,23 @@ export class Main {
 	/**
 	 * @param {any} checkoutFormEl
 	 * @param {any} easyTabsWrap
+	 * @param {any} alertContainer
 	 * @param {TabContainer} tabContainer
 	 * @param {AjaxInfo} ajaxInfo
 	 * @param {Cart} cart
 	 * @param {any} settings
 	 * @param {any} compatibility
 	 */
-	constructor( checkoutFormEl: any, easyTabsWrap: any, tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any, compatibility: any) {
+	constructor(
+		checkoutFormEl: any,
+		easyTabsWrap: any,
+		alertContainer: any,
+		tabContainer: TabContainer,
+		ajaxInfo: AjaxInfo,
+		cart: Cart,
+		settings: any,
+		compatibility: any
+	) {
 		Main.instance = this;
 
 		checkoutFormEl.garlic({
@@ -120,6 +136,7 @@ export class Main {
 
 		this.checkoutForm = checkoutFormEl;
 		this.tabContainer = tabContainer;
+		this.alertContainer = alertContainer;
 		this.ajaxInfo = ajaxInfo;
 		this.cart = cart;
 		this.settings = settings;
@@ -134,16 +151,20 @@ export class Main {
 		// Otherwise we throw errors
 		// Also discard our overlay when the modal is closed on desktop and mobile
 		$.fn.block = function (item) {
+			window.dispatchEvent(new CustomEvent("cfw-block-event"));
 			Main.addOverlay();
 		};
 		$.fn.unblock = function (item) {
+			window.dispatchEvent(new CustomEvent("cfw-un-block-event"));
 			Main.removeOverlay();
 		};
 
 		$.fn.blockUI = function (item) {
+			window.dispatchEvent(new CustomEvent("cfw-block-event"));
 			Main.addOverlay();
 		};
 		$.fn.unblockUI = function (item) {
+			window.dispatchEvent(new CustomEvent("cfw-un-block-event"));
 			Main.removeOverlay();
 		};
 	}
@@ -302,7 +323,21 @@ export class Main {
 		return this._tabContainer;
 	}
 
-	/**
+    /**
+	 * @return {any}
+     */
+    get alertContainer(): any {
+        return this._alertContainer;
+    }
+
+    /**
+     * @param {any} value
+     */
+    set alertContainer(value: any) {
+        this._alertContainer = value;
+    }
+
+    /**
 	 * @param value
 	 */
 	set tabContainer(value: TabContainer) {

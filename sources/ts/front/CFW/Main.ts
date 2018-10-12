@@ -7,8 +7,8 @@ import { TabContainerSection }					from "./Elements/TabContainerSection";
 import { ValidationService }					from "./Services/ValidationService";
 import { EasyTabService }						from "./Services/EasyTabService";
 import { ParsleyService }						from "./Services/ParsleyService";
-import { LocalizationService }                  from "./Services/LocalizationService";
-import { Compatibility } 						from "./Compatibility/Compatibility";
+import { LocalizationService }					from "./Services/LocalizationService";
+import { Compatibility }						from "./Compatibility/Compatibility";
 
 declare let $: any;
 

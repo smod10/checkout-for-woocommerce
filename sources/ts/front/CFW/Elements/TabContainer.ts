@@ -511,7 +511,6 @@ export class TabContainer extends Element {
         let main: Main = Main.instance;
         let checkout_form: any = Main.instance.checkoutForm;
         let preSwapData = this.checkoutDataAtSubmitClick;
-        console.log("Form Submit Triggered");
 
         // Prevent any weirdness by preventing default
         e.preventDefault();
@@ -530,7 +529,6 @@ export class TabContainer extends Element {
                 this.errorObserver.disconnect();
             }
 
-            console.log("About to call orderKickOff");
             this.orderKickOff(main.ajaxInfo, this.getFormObject());
         }
     }
@@ -575,11 +573,9 @@ export class TabContainer extends Element {
             // Start observing the target node for configured mutations
             observer.observe(targetNode, config);
 
-            console.log("Created Observer");
             this.errorObserver = observer;
         }
 
-        console.log("Next move is trigger form submit", checkout_form);
         checkout_form.trigger('submit');
     }
 
@@ -606,7 +602,6 @@ export class TabContainer extends Element {
                 });
 
                 if($errorNode) {
-					console.log("error node", $errorNode);
                     let alertInfo: AlertInfo = {
                         type: "CFWSubmitError",
                         message: $errorNode,
@@ -620,7 +615,6 @@ export class TabContainer extends Element {
                 if(this.errorObserver !== undefined && this.errorObserver !== null) {
                     this.errorObserver.disconnect();
                     this.errorObserver = null;
-                    console.log("Disconnected Observer");
                 }
             }
         }

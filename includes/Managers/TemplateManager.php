@@ -67,6 +67,24 @@ class TemplateManager {
 	private $theme_template_names = array('default', 'copify', 'futurist');
 
 	/**
+	 * TODO: Remove in version 3.0.0
+	 *
+	 * @since 2.0.0
+	 * @access private
+	 * @var array $old_theme_folders
+	 */
+	private $old_theme_folders = array();
+
+	/**
+	 * TODO: Remove in version 3.0.0
+	 *
+	 * @since 2.0.0
+	 * @access private
+	 * @var bool $is_old_theme
+	 */
+	private $is_old_theme = false;
+
+	/**
 	 * @since 2.0.0
 	 * @access private
 	 * @static
@@ -96,16 +114,22 @@ class TemplateManager {
 		$path_manager,
 		$selected_template,
 		$body_pieces = array(
-		"header" => "header.php",
-		"content" => "content.php",
-		"footer" => "footer.php"
-	)) {
+			"header" => "header.php",
+			"content" => "content.php",
+			"footer" => "footer.php"
+		) ) {
 		// Path manager for path references
 		$this->path_manager = $path_manager;
 		$this->selected_template = ($selected_template != "") ? $selected_template : "default";
 		$this->template_pieces = apply_filters("cfw_template_redirect_body_pieces", $body_pieces );
 		$this->theme_style_filename = apply_filters("cfw_template_theme_style_filename", $this->theme_style_filename);
 		$this->theme_javascript_filename = apply_filters("cfw_template_theme_javascript_filename", $this->theme_javascript_filename);
+
+		// TODO: Remove in version 3.0.0
+		$this->old_theme_folders =  apply_filters('cfw_old_theme_folders', array('header', 'content', 'footer'));
+
+		// TODO: Remove in version 3.0.0
+		$this->get_template_sub_folders();
 	}
 
 	/**
@@ -174,34 +198,97 @@ class TemplateManager {
 
 		foreach($this->get_template_sub_folders() as $template_folder) {
 
-			$plugin_template_base_path = $this->path_manager->get_plugin_template(). "/" . $template_folder;
-			$theme_template_base_path = $this->path_manager->get_theme_template() . "/" . $template_folder;
+			if(in_array($template_folder, $this->get_old_theme_folders()))
+				continue;
 
-			$base_path = $plugin_template_base_path;
+			$plugin_template_base_path = $this->path_manager->get_plugin_template() . "/" . $template_folder;
+			$theme_template_base_path  = $this->path_manager->get_theme_template() . "/" . $template_folder;
+
+			$base_path     = $plugin_template_base_path;
 			$base_url_path = $this->path_manager->get_plugin_template_url() . "/" . $template_folder;
 
-			if(file_exists($theme_template_base_path)) {
-				$base_path = $theme_template_base_path;
+			if ( file_exists( $theme_template_base_path ) ) {
+				$base_path     = $theme_template_base_path;
 				$base_url_path = $this->path_manager->get_theme_template_url() . "/" . $template_folder;
 			}
 
-			$stylesheet_file_path = $this->get_generated_file_info($base_path, $this->get_theme_style_filename(), "css")["path"];
-			$stylesheet_comment_data = $this->get_stylesheet_comment_data($stylesheet_file_path, $template_folder);
+			$stylesheet_file_path    = $this->get_generated_file_info( $base_path, $this->get_theme_style_filename(), "css" )["path"];
+			$stylesheet_comment_data = $this->get_stylesheet_comment_data( $stylesheet_file_path, $template_folder );
 
-			$template_information[$template_folder]["base_path"] = $base_path;
-			$template_information[$template_folder]["base_url_path"] = $base_url_path;
-			$template_information[$template_folder]["stylesheet_info"] = $stylesheet_comment_data;
-			$template_information[$template_folder]["paths"] = array();
+			$template_information[ $template_folder ]["base_path"]       = $base_path;
+			$template_information[ $template_folder ]["base_url_path"]   = $base_url_path;
+			$template_information[ $template_folder ]["stylesheet_info"] = $stylesheet_comment_data;
+			$template_information[ $template_folder ]["paths"]           = array();
 
-			foreach($this->template_pieces as $file_piece_name => $file_name) {
+			foreach ( $this->template_pieces as $file_piece_name => $file_name ) {
 				// Set up the possible paths
 				$template_path = $base_path . "/{$file_name}";
 
 				// Add the appropriate paths to the template information array.
-				$template_information[$template_folder]["paths"][$file_piece_name] = $template_path;
+				$template_information[ $template_folder ]["paths"][ $file_piece_name ] = $template_path;
 			}
 		}
 
+		return $template_information;
+	}
+
+	/**
+	 * TODO: Remove in version 3.0.0
+	 *
+	 * @since 1.0.0
+	 * @deprecated
+	 * @param $template_info
+	 * @param $global_parameters
+	 */
+	public function load_old_templates($template_info, $global_parameters) {
+		foreach($template_info as $template_name => $template_path) {
+			// Filter template level variables
+			$parameters["template"] = apply_filters("cfw_template_{$template_name}_params", array());
+
+			// Assign the global parameters
+			$parameters["global"] = $global_parameters;
+
+			// Create new template
+			$template = new Template($template_name, $template_path, $parameters);
+
+			// Before the template is actually spat out
+			do_action("cfw_template_load_before_{$template_name}");
+
+			// Pass the parameters to the view
+			$template->view();
+
+			// After the template has been echoed out
+			do_action("cfw_template_load_after_{$template_name}");
+
+			// Store the template
+			$this->templates[$template_name] = $template;
+		}
+	}
+
+	/**
+	 * TODO: Remove in version 3.0.0
+	 *
+	 * @since 1.0.0
+	 * @deprecated
+	 * @param $sub_folders
+	 * @param string $file_name
+	 *
+	 * @return array
+	 */
+	public function get_old_template_information($sub_folders, $file_name = 'template.php') {
+		$template_information = array();
+
+		foreach($sub_folders as $sub_folder) {
+
+			// Set up the possible paths
+			$theme_template_path = $this->path_manager->get_theme_template() . "/" . $sub_folder . "/{$file_name}";
+
+			// Get the template path we want (user overloaded, or base)
+			$template_path = $theme_template_path;
+
+			// Add the appropriate paths to the template information array.
+			$template_information[$sub_folder] = $template_path;
+		}
 		return $template_information;
 	}
 
@@ -266,7 +353,24 @@ class TemplateManager {
 			$user_defined_templates[] = basename($dir);
 		}
 
+		// TODO: Remove in version 3.0.0
+		$this->is_old_theme = $this->user_is_using_previous_templates($user_defined_templates);
+
 		return array_merge($plugin_defined_templates, $user_defined_templates);
+	}
+
+	/**
+	 * Fallback for user templates
+	 * TODO: Remove in version 3.0.0
+	 *
+	 * @param array $user_template_folders
+	 *
+	 * @return boolean
+	 */
+	public function user_is_using_previous_templates($user_template_folders) {
+		$intersect_length = count($this->get_old_theme_folders());
+
+		return count(array_intersect($this->get_old_theme_folders(), $user_template_folders)) == $intersect_length;
 	}
 
 	/**
@@ -332,5 +436,27 @@ class TemplateManager {
 	 */
 	public function get_theme_template_names() {
 		return $this->theme_template_names;
+	}
+
+	/**
+	 * TODO: Remove in version 3.0.0
+	 *
+	 * @since 2.0.0
+	 * @access public
+	 * @return array
+	 */
+	public function get_old_theme_folders() {
+		return $this->old_theme_folders;
+	}
+
+	/**
+	 * TODO: Remove in version 3.0.0
+	 *
+	 * @since 2.0.0
+	 * @access public
+	 * @return bool
+	 */
+	public function is_old_theme() {
+		return $this->is_old_theme;
 	}
 }

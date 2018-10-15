@@ -220,8 +220,10 @@ class Admin {
                 </tbody>
             </table>
 
-            <h3>Theme Settings</h3>
-            <p>These settings are theme specific.</p>
+
+            <h3><?php _e( 'Theme Settings', 'checkout-wc' ); ?></h3>
+
+	        <?php if ( ! $this->plugin_instance->get_template_manager()->is_old_theme() ): ?>
             <table class="form-table">
                 <tbody>
                     <tr>
@@ -412,6 +414,10 @@ class Admin {
                     </tbody>
                 </table>
             <?php endforeach; ?>
+
+	        <?php else: ?>
+		        <?php _e('You are using a legacy child theme which will be disabled in a future version. Changing theme settings is not possible for legacy themes.', 'checkout-wc' ); ?>
+	        <?php endif; ?>
 
 		    <?php submit_button(); ?>
         </form>

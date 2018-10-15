@@ -363,10 +363,12 @@ class Main extends Singleton {
 		// The settings manager for the plugin
 		$this->settings_manager = new SettingsManager();
 
-		// Create the template manager
-		$this->template_manager = new TemplateManager($this->path_manager, $this->settings_manager->get_setting('active_template'));
+		$active_template = $this->settings_manager->get_setting('active_template');
 
-		if(apply_filters('cfw_should_load_template_functions', true)) {
+		// Create the template manager
+		$this->template_manager = new TemplateManager($this->path_manager, ( $active_template == "old_theme" || $active_template == "" ) ? "default" : $active_template );
+
+		if( apply_filters('cfw_should_load_template_functions', true) ) {
 			$this->template_manager->load_template_functions();
 		}
 

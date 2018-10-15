@@ -65,7 +65,7 @@ class Redirect {
 			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc')), $settings_manager, $template_manager);
 
 			// Output the contents of the <body></body> section
-			self::body($template_manager, $global_template_parameters);
+			self::body($template_manager, $global_template_parameters, $settings_manager);
 
 			// Output a closing </body> and closing </html> tag
 			self::footer($path_manager, $settings_manager);
@@ -430,13 +430,27 @@ class Redirect {
 	 * @access public
 	 * @param TemplateManager $template_manager
 	 * @param array $global_template_parameters
+     * @param SettingsManager $settings_manager
 	 */
-	public static function body($template_manager, $global_template_parameters) {
+	public static function body($template_manager, $global_template_parameters, $settings_manager) {
 		// Fire off an action before we load the template pieces
 		do_action('cfw_template_before_load');
 
+		$settings_selected_template = $settings_manager->get_setting('templates_list');
+		$is_old_theme = $template_manager->is_old_theme();
+		$use_old_template_loader = false;
+
+		if(($settings_selected_template == "" && $is_old_theme) || ($settings_selected_template == "old_theme" && $is_old_theme)) {
+			$use_old_template_loader = true;
+		}
+
+		if(!$use_old_template_loader) {
 		// Load the template pieces
 		$template_manager->load_templates( $global_template_parameters );
+		} else {
+			// TODO: Remove in version 3.0.0
+			$template_manager->load_old_templates( $template_manager->get_old_template_information( $template_manager->get_old_theme_folders() ), $global_template_parameters );
+		}
 
 		// Fire off an action after we load the template pieces
 		do_action('cfw_template_after_load', array(Template::get_i()) );

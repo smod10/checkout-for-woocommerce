@@ -3,6 +3,31 @@
         exit; // Exit if accessed directly
     }
 ?>
+<style type="text/css">
+    <?php
+    $cfw = \Objectiv\Plugins\Checkout\Main::instance();
+    $active_theme = $cfw->get_template_manager()->get_selected_template();
+    $active_theme_information = $cfw->get_template_manager()->get_templates_information()[ $active_theme ];
+    ?>
+    /**
+    Special Futurist breadcrumb styles
+     */
+    #cfw-breadcrumb:after {
+        background: <?php echo $cfw->get_settings_manager()->get_setting( 'header_background_color', array($active_theme) ); ?>;
+    }
+
+    #cfw-breadcrumb li > a {
+        color: <?php echo $cfw->get_settings_manager()->get_setting('header_background_color', array($active_theme) ); ?>;
+    }
+
+    #cfw-breadcrumb .filled-circle:before {
+        background: <?php echo $cfw->get_settings_manager()->get_setting('header_background_color', array($active_theme) ); ?>;
+    }
+
+    #cfw-breadcrumb li:before {
+        border: 2px solid <?php echo $cfw->get_settings_manager()->get_setting('header_background_color', array($active_theme) ); ?>;
+    }
+</style>
 <header id="cfw-header">
     <div class="wrap">
         <div class="cfw-container cfw-column-12">

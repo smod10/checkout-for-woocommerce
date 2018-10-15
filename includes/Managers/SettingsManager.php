@@ -34,4 +34,67 @@ class SettingsManager extends \WordPress_SimpleSettings {
 
 		// Silence is golden
 	}
+
+	public function add_setting ( $setting = false, $value, $keys = array() ) {
+		if ( $setting === false ) return false;
+
+		$suffix = '';
+
+		if ( ! empty($keys) ) {
+			asort( $keys );
+
+			$suffix = "_" . join('', $keys);
+		}
+
+		if ( ! isset($this->settings[$setting . $suffix]) ) {
+			return $this->update_setting($setting . $suffix, $value);
+		} else return false;
+	}
+
+	public function update_setting ( $setting = false, $value, $keys = array() ) {
+		$suffix = '';
+
+		if ( ! empty($keys) ) {
+			asort( $keys );
+
+			$suffix = "_" . join('', $keys);
+		}
+
+		return parent::update_setting( $setting . $suffix, $value );
+	}
+
+	public function delete_setting ( $setting = false, $keys = array() ) {
+		$suffix = '';
+		if ( ! empty($keys) ) {
+			asort( $keys );
+
+			$suffix = "_" . join('', $keys);
+		}
+
+		return parent::delete_setting( $setting . $suffix );
+	}
+
+	function get_setting( $setting = false, $keys = array() ) {
+		$suffix = '';
+
+		if ( ! empty($keys) ) {
+			asort( $keys );
+
+			$suffix = "_" . join('', $keys);
+		}
+
+		return parent::get_setting( $setting . $suffix, 'string' );
+	}
+
+	public function get_field_name($setting, $keys = array() ) {
+		$suffix = '';
+
+		if ( ! empty($keys) ) {
+			asort( $keys );
+
+			$suffix = "_" . join('', $keys);
+		}
+
+		return parent::get_field_name( $setting . $suffix, 'string' );
+	}
 }

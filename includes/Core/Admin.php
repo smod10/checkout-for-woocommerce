@@ -62,6 +62,9 @@ class Admin {
         // Welcome notice
 		add_action('admin_notices', array($this, 'add_welcome_notice') );
 
+		// Add deprecated theme notice
+		add_action('admin_notices', array($this, 'add_deprecated_theme_notice') );
+
         // Welcome redirect
 		add_action( 'admin_init', array($this, 'welcome_screen_do_activation_redirect') );
 
@@ -591,6 +594,17 @@ class Admin {
 	function add_welcome_notice() {
 	    if ( ! empty($_GET['cfw_welcome']) ) {
 	        echo "<div style='display:block !important' class='notice notice-info'><p>" . __('Thank you for installing Checkout for WooCommerce! To get started, click on <strong>License</strong> below and activate your license key!', 'checkout-wc') . "</p></div>";
+        }
+    }
+
+    function add_deprecated_theme_notice() {
+	    if ( $this->plugin_instance->get_template_manager()->is_old_theme() ) {
+		    $important = '';
+
+		    if ( isset($_GET['page']) && $_GET['page'] == 'cfw-settings' ) {
+			    $important = "style='display:block !important'";
+		    }
+		    echo "<div $important class='notice notice-error is-dismissible checkout-wc'> <p>" . sprintf( __( 'It looks like you are using a legacy checkout theme, located in %s. Legacy themes are deprecated and you should upgrade to the new theme structure as soon as possible to prevent problems with future release. For more information, <a target="_blank" href="https://www.checkoutwc.com/docs/developer-api/template-files/upgrading-legacy-custom-templates/">read our migration guide.</a>', 'checkout-wc' ), get_stylesheet_directory_uri() . "/checkout-wc" ) . "</p></div>";
         }
     }
 

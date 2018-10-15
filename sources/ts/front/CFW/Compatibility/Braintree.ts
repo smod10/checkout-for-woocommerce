@@ -129,13 +129,11 @@ export class Braintree extends Compatibility {
 		let w: any = <any>window;
 
 		w.addEventListener("cfw-block-event", () => {
-			console.log("onBlock Event");
 			this.ccWrap.find(`.${this.refreshingClass}`).remove();
 			this.ccWrap.prepend(this.refreshingBoxNotification("Braintree Is Refreshing"));
 		}, {once: true});
 
 		w.addEventListener("cfw-un-block-event", () => {
-			console.log("onUnBlock Event");
 			this.ccWrap.find(`.${this.refreshingClass}`).remove();
 		}, {once: true});
 	}

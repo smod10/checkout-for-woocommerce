@@ -2,8 +2,6 @@ import { Compatibility }                    from "./Compatibility";
 import { Main }                             from "../Main";
 import { EasyTabService }                   from "../Services/EasyTabService";
 import { EasyTabDirection }                 from "../Services/EasyTabService";
-import {ParsleyService} from "../Services/ParsleyService";
-import {CompleteOrderAction} from "../Actions/CompleteOrderAction";
 
 declare let wc_braintree_credit_card_handler: any;
 
@@ -105,6 +103,7 @@ export class Braintree extends Compatibility {
 
 		if(paymentContainerId === easyTabID) {
 			this.creditCardRefresh();
+			this.savedPaymentMethods();
 		}
 	}
 
@@ -117,6 +116,10 @@ export class Braintree extends Compatibility {
 		this.onBlockAndUnblockUI();
 
         wc_braintree_credit_card_handler.refresh_braintree();
+	}
+
+	savedPaymentMethods(): void {
+		$(".wc-braintree-credit-card-new-payment-method-form .form-row").css("display", "block");
 	}
 
 	/**

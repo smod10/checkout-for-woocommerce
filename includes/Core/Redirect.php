@@ -440,13 +440,13 @@ class Redirect {
 		$is_old_theme = $template_manager->is_old_theme();
 		$use_old_template_loader = false;
 
-		if(($settings_selected_template == "" && $is_old_theme) || ($settings_selected_template == "old_theme" && $is_old_theme)) {
+		if ( $is_old_theme ) {
 			$use_old_template_loader = true;
 		}
 
-		if(!$use_old_template_loader) {
-		// Load the template pieces
-		$template_manager->load_templates( $global_template_parameters );
+		if ( ! $use_old_template_loader ) {
+		    // Load the template pieces
+		    $template_manager->load_templates( $global_template_parameters );
 		} else {
 			// TODO: Remove in version 3.0.0
 			$template_manager->load_old_templates( $template_manager->get_old_template_information( $template_manager->get_old_theme_folders() ), $global_template_parameters );

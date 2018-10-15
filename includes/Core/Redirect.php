@@ -244,7 +244,7 @@ class Redirect {
                 #cfw-header {
                     background: <?php echo $settings_manager->get_setting('header_background_color', array($active_theme) ); ?>;
 
-                    <?php if ( strtolower( $settings_manager->get_setting('header_background_color'), array($active_theme) ) !== "#ffffff" ): ?>
+                    <?php if ( strtolower( $settings_manager->get_setting('header_background_color', array($active_theme) ) ) !== "#ffffff" ): ?>
                     margin-bottom: 2em;
                     <?php endif; ?>
                 }

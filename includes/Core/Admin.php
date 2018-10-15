@@ -632,6 +632,17 @@ class Admin {
                 $this->plugin_instance->get_settings_manager()->update_setting( 'secondary_button_text_color', $this->plugin_instance->get_settings_manager()->get_setting('secondary_button_text_color'), array( $template_path ) );
             }
 
+		    /**
+		     * Theme Specific Settings
+		     */
+
+		    // Copify Summary Background
+		    $this->plugin_instance->get_settings_manager()->update_setting( 'summary_background_color', '#f8f8f8', array( 'copify' ) );
+
+		    // Futurist Header Background / Header Text
+		    $this->plugin_instance->get_settings_manager()->update_setting( 'header_background_color', '#000000', array( 'futurist' ) );
+		    $this->plugin_instance->get_settings_manager()->update_setting( 'header_text_color', '#ffffff', array( 'futurist' ) );
+
 		    $this->plugin_instance->get_settings_manager()->update_setting( 'settings_version', '200' );
         }
     }

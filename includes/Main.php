@@ -599,15 +599,23 @@ class Main extends Singleton {
 			if ( in_array('header-background', $supports) ) {
 				if ( $template_path == "futurist" ) {
 					$main->get_settings_manager()->add_setting( 'header_background_color', '#000000', array( $template_path ) );
-					$main->get_settings_manager()->add_setting( 'header_text_color', '#FFFFFF', array( $template_path ) );
+					$main->get_settings_manager()->add_setting( 'header_text_color', '#ffffff', array( $template_path ) );
 				} else {
-					$main->get_settings_manager()->add_setting( 'header_background_color', '#FFFFFF');
+					$main->get_settings_manager()->add_setting( 'header_background_color', '#ffffff');
 				}
 			}
 
 			if ( in_array('footer-background', $supports) ) {
 				$main->get_settings_manager()->add_setting( 'footer_background_color', '#ffffff', array( $template_path ) );
 				$main->get_settings_manager()->add_setting( 'footer_color', '#999999', array( $template_path ) );
+			}
+
+			if ( in_array('summary-background', $supports) ) {
+				if ( $template_path == "copify" ) {
+					$main->get_settings_manager()->add_setting( 'summary_background_color', '#f8f8f8', array( $template_path ) );
+				} else {
+					$main->get_settings_manager()->add_setting( 'summary_background_color', '#ffffff', array( $template_path ) );
+				}
 			}
 
 			$main->get_settings_manager()->add_setting( 'header_text_color', '#2b2b2b', array( $template_path ) );

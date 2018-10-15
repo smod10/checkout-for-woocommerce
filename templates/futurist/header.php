@@ -7,7 +7,7 @@
     <?php
     $cfw = \Objectiv\Plugins\Checkout\Main::instance();
     $active_theme = $cfw->get_template_manager()->get_selected_template();
-    $active_theme_information = $cfw->get_template_manager()->get_template_information()[ $active_theme ];
+    $active_theme_information = $cfw->get_template_manager()->get_templates_information()[ $active_theme ];
     ?>
     /**
     Special Futurist breadcrumb styles

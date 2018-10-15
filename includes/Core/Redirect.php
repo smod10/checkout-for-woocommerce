@@ -236,24 +236,37 @@ class Redirect {
 		// Get logo attachment ID if available
 		$logo_attachment_id = $settings_manager->get_setting('logo_attachment_id');
 		$active_theme = $template_manager->get_selected_template();
+		$templates_information = $template_manager->get_templates_information();
+		$supports = ! empty( $templates_information[ $active_theme ][ 'stylesheet_info' ][ 'Supports' ] ) ? array_map('trim', explode(',', $templates_information[ $active_theme ][ 'stylesheet_info' ][ 'Supports' ] ) ) : array();
 		?>
 		<style>
-            #cfw-header {
-				background: <?php echo $settings_manager->get_setting('header_background_color', array($active_theme) ); ?>;
+            <?php if ( in_array( 'header-background', $supports ) ): ?>
+                #cfw-header {
+                    background: <?php echo $settings_manager->get_setting('header_background_color', array($active_theme) ); ?>;
 
-			<?php if ( strtolower( $settings_manager->get_setting('header_background_color'), array($active_theme) ) !== "#ffffff" ): ?>
-				margin-bottom: 2em;
+                    <?php if ( strtolower( $settings_manager->get_setting('header_background_color'), array($active_theme) ) !== "#ffffff" ): ?>
+                    margin-bottom: 2em;
+                    <?php endif; ?>
+                }
+            <?php endif; ?>
+
+            <?php if ( in_array( 'footer-background', $supports ) ): ?>
+                #cfw-footer {
+                    color: <?php echo $settings_manager->get_setting('footer_color', array($active_theme) ); ?>;
+                    background: <?php echo $settings_manager->get_setting('footer_background_color', array($active_theme) ); ?>;
+
+                    <?php if ( strtolower( $settings_manager->get_setting('footer_background_color', array($active_theme) ) ) !== "#ffffff" ): ?>
+                    margin-top: 2em;
+                    <?php endif; ?>
+                }
 			<?php endif; ?>
-			}
 
-			#cfw-footer {
-				color: <?php echo $settings_manager->get_setting('footer_color', array($active_theme) ); ?>;
-				background: <?php echo $settings_manager->get_setting('footer_background_color', array($active_theme) ); ?>;
+            <?php if ( in_array( 'summary-background', $supports ) ): ?>
+                #cfw-cart-details:before {
+                    background: <?php echo $settings_manager->get_setting('summary_background_color', array($active_theme) ); ?>;
+                }
+            <?php endif; ?>
 
-			<?php if ( strtolower( $settings_manager->get_setting('footer_background_color', array($active_theme) ) ) !== "#ffffff" ): ?>
-				margin-top: 2em;
-			<?php endif; ?>
-			}
 			#cfw-cart-details-arrow {
 				color: <?php echo $settings_manager->get_setting('link_color', array($active_theme) ); ?> !important;
 				fill: <?php echo $settings_manager->get_setting('link_color', array($active_theme) ); ?> !important;
@@ -278,7 +291,9 @@ class Redirect {
 			}
 			<?php else: ?>
 			.cfw-logo .logo {
+                <?php if ( in_array( 'header-background', $supports ) ): ?>
 				background: <?php echo $settings_manager->get_setting('header_background_color', array($active_theme) ); ?>;
+				<?php endif; ?>
 				height: auto;
 				width: auto;
 				margin: 20px auto;

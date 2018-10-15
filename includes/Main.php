@@ -420,7 +420,7 @@ class Main extends Singleton {
 		$front = "{$this->path_manager->get_assets_path()}/front";
 
 		$selected_template = $this->template_manager->get_selected_template();
-		$selected_template_info = $this->template_manager->get_template_information()[$selected_template];
+		$selected_template_info = $this->template_manager->get_templates_information()[$selected_template];
 		$selected_template_base_path = $selected_template_info["base_path"];
 		$selected_template_base_url_path = $selected_template_info["base_url_path"];
 		$selected_template_stylesheet_is_min = $this->template_manager->get_generated_file_info(
@@ -589,21 +589,9 @@ class Main extends Singleton {
 		$main->get_settings_manager()->add_setting('enable', 'no');
 		$main->get_settings_manager()->add_setting('active_template', 'default');
 
-		$main->settings_manager->add_setting('enable', 'no');
-		$main->settings_manager->add_setting('header_background_color', '#ffffff');
-		$main->settings_manager->add_setting('header_text_color', '#2b2b2b');
-		$main->settings_manager->add_setting('footer_background_color', '#ffffff');
-		$main->settings_manager->add_setting('footer_color', '#999999');
-		$main->settings_manager->add_setting('link_color', '#e9a81d');
-		$main->settings_manager->add_setting('button_color', '#e9a81d');
-		$main->settings_manager->add_setting('button_text_color', '#000000');
-		$main->settings_manager->add_setting('secondary_button_color', '#999999');
-		$main->settings_manager->add_setting('secondary_button_text_color', '#ffffff');
-		$main->settings_manager->add_setting('active_template', 'default');
-
 
 		// Set defaults
-		$cfw_templates = $main->get_template_manager()->get_template_information();
+		$cfw_templates = $main->get_template_manager()->get_templates_information();
 
 		foreach( $cfw_templates as $template_path => $template_information ) {
 			$supports = ! empty( $template_information['stylesheet_info']['Supports'] ) ? array_map('trim', explode(',', $template_information['stylesheet_info']['Supports'] ) ) : array();

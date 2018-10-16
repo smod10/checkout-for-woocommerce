@@ -86,6 +86,8 @@ export class UpdateCheckoutAction extends Action {
 
         Main.instance.tabContainer.setShippingPaymentUpdate();
 
+		window.dispatchEvent(new CustomEvent("cfw-custom-update-finished"));
+
         $(document.body).trigger( 'updated_checkout' );
     }
 

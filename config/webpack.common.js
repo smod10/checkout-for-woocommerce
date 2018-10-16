@@ -1,5 +1,6 @@
 // Imports
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TsClassMetaGeneratorPlugin = require('ts-class-meta-generator');
 
 module.exports = sourcesDir => {
 	return {
@@ -48,6 +49,17 @@ module.exports = sourcesDir => {
 					]
 				}
 			]
-		}
+		},
+		plugins: [
+			new TsClassMetaGeneratorPlugin({
+				siteName: 'CompatibilityClasses',
+				srcFolder: `${sourcesDir}/ts/front/CFW`,
+				siteMetaFileName: 'compatibility-classes.ts',
+				siteMetaPath: `${sourcesDir}/ts`,
+				importPath: './front/CFW',
+				ignoreFiles: ["Main", "Compatibility"],
+				ignoreFolders: ["Actions", "Decorators", "Definitions", "Elements", "Enums", "Services", "Types"]
+			})
+		]
 	}
 };

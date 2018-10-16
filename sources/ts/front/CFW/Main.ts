@@ -7,7 +7,10 @@ import { TabContainerSection }					from "./Elements/TabContainerSection";
 import { ValidationService }					from "./Services/ValidationService";
 import { EasyTabService }						from "./Services/EasyTabService";
 import { ParsleyService }						from "./Services/ParsleyService";
-import { LocalizationService }                  from "./Services/LocalizationService";
+import { LocalizationService }					from "./Services/LocalizationService";
+import { Compatibility }						from "./Compatibility/Compatibility";
+import { Alert, AlertInfo } 					from "./Elements/Alert";
+import { CompleteOrderAction } 					from "./Actions/CompleteOrderAction";
 
 declare let $: any;
 
@@ -16,17 +19,23 @@ declare let $: any;
  */
 export class Main {
 
-    /**
-     * @type {any}
-     * @private
-     */
-    private _checkoutForm: any;
+	/**
+	 * @type {any}
+	 * @private
+	 */
+	private _checkoutForm: any;
 
 	/**
 	 * @type {TabContainer}
 	 * @private
 	 */
 	private _tabContainer: TabContainer;
+
+    /**
+	 * @type {any}
+	 * @private
+     */
+    private _alertContainer: any;
 
 	/**
 	 * @type {Cart}
@@ -47,6 +56,18 @@ export class Main {
 	private _settings: any;
 
 	/**
+	 * @type {any}
+	 * @private
+	 */
+	private _compatibility: any;
+
+	/**
+	 * @type {Compatibility[]}
+	 * @private
+	 */
+	private _createdCompatibilityClasses: Compatibility[];
+
+	/**
 	 * @type {ParsleyService}
 	 * @private
 	 */
@@ -64,17 +85,23 @@ export class Main {
 	 */
 	private _validationService: ValidationService;
 
-    /**
-     * @type {LocalizationService}
-     * @private
-     */
-    private _localizationService: LocalizationService;
+	/**
+	 * @type {LocalizationService}
+	 * @private
+	 */
+	private _localizationService: LocalizationService;
 
 	/**
 	 * @type {boolean}
 	 * @private
 	 */
 	private _updating: boolean;
+
+	/**
+	 * @type {MutationObserver}
+	 * @private
+	 */
+	private _errorObserver: MutationObserver;
 
 	/**
 	 * @type {Main}
@@ -84,53 +111,71 @@ export class Main {
 	private static _instance: Main;
 
 	/**
-     * @param {any} checkoutFormEl
+	 * @param {any} checkoutFormEl
 	 * @param {any} easyTabsWrap
+	 * @param {any} alertContainer
 	 * @param {TabContainer} tabContainer
 	 * @param {AjaxInfo} ajaxInfo
 	 * @param {Cart} cart
 	 * @param {any} settings
+	 * @param {any} compatibility
 	 */
-	constructor( checkoutFormEl: any, easyTabsWrap: any, tabContainer: TabContainer, ajaxInfo: AjaxInfo, cart: Cart, settings: any) {
+	constructor(
+		checkoutFormEl: any,
+		easyTabsWrap: any,
+		alertContainer: any,
+		tabContainer: TabContainer,
+		ajaxInfo: AjaxInfo,
+		cart: Cart,
+		settings: any,
+		compatibility: any
+	) {
 		Main.instance = this;
 
-        checkoutFormEl.garlic({
+		checkoutFormEl.garlic({
 			events: ['textInput', 'input', 'change', 'click', 'keypress', 'paste', 'focus'],
 			destroy: false,
-            excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc, input.js-sv-wc-payment-gateway-credit-card-form-account-number, input.js-sv-wc-payment-gateway-credit-card-form-csc, input.shipping_method'
+			excluded: 'input[type="file"], input[type="hidden"], input[type="submit"], input[type="reset"], input[name="paypal_pro-card-number"], input[name="paypal_pro-card-cvc"], input[name="wc-authorize-net-aim-account-number"], input[name="wc-authorize-net-aim-csc"], input[name="paypal_pro_payflow-card-number"], input[name="paypal_pro_payflow-card-cvc"], input[name="paytrace-card-number"], input[name="paytrace-card-cvc"], input[id="stripe-card-number"], input[id="stripe-card-cvc"], input[name="creditCard"], input[name="cvv"], input.wc-credit-card-form-card-number, input[name="wc-authorize-net-cim-credit-card-account-number"], input[name="wc-authorize-net-cim-credit-card-csc"], input.wc-credit-card-form-card-cvc, input.js-sv-wc-payment-gateway-credit-card-form-account-number, input.js-sv-wc-payment-gateway-credit-card-form-csc, input.shipping_method'
 		});
 
-        if(easyTabsWrap.length === 0) {
-        	easyTabsWrap = tabContainer.jel;
+		if(easyTabsWrap.length === 0) {
+			easyTabsWrap = tabContainer.jel;
 		}
 
-        this.checkoutForm = checkoutFormEl;
-        this.tabContainer = tabContainer;
-        this.ajaxInfo = ajaxInfo;
-        this.cart = cart;
-        this.settings = settings;
-        this.parsleyService = new ParsleyService();
-        this.easyTabService = new EasyTabService(easyTabsWrap);
-        this.validationService = new ValidationService(easyTabsWrap);
-        this.localizationService = new LocalizationService();
+		this.checkoutForm = checkoutFormEl;
+		this.tabContainer = tabContainer;
+		this.alertContainer = alertContainer;
+		this.ajaxInfo = ajaxInfo;
+		this.cart = cart;
+		this.settings = settings;
+		this.compatibility = compatibility;
+		this.createdCompatibilityClasses = [];
+		this.parsleyService = new ParsleyService();
+		this.easyTabService = new EasyTabService(easyTabsWrap);
+		this.validationService = new ValidationService(easyTabsWrap);
+		this.localizationService = new LocalizationService();
 
-        // Handle Stripe gateway UI blocking function
-        // Otherwise we throw errors
-        // Also discard our overlay when the modal is closed on desktop and mobile
-        $.fn.block = function (item) {
+		// Handle Stripe gateway UI blocking function
+		// Otherwise we throw errors
+		// Also discard our overlay when the modal is closed on desktop and mobile
+		$.fn.block = function (item) {
+			window.dispatchEvent(new CustomEvent("cfw-block-event"));
 			Main.addOverlay();
-        };
-        $.fn.unblock = function (item) {
-            Main.removeOverlay();
-        };
+		};
+		$.fn.unblock = function (item) {
+			window.dispatchEvent(new CustomEvent("cfw-un-block-event"));
+			Main.removeOverlay();
+		};
 
-        $.fn.blockUI = function (item) {
-            Main.addOverlay();
-        };
-        $.fn.unblockUI = function (item) {
-            Main.removeOverlay();
-        };
-    }
+		$.fn.blockUI = function (item) {
+			window.dispatchEvent(new CustomEvent("cfw-block-event"));
+			Main.addOverlay();
+		};
+		$.fn.unblockUI = function (item) {
+			window.dispatchEvent(new CustomEvent("cfw-un-block-event"));
+			Main.removeOverlay();
+		};
+	}
 
 
 	/**
@@ -138,6 +183,9 @@ export class Main {
 	 * functionality
 	 */
 	setup(): void {
+
+		// Before setup event
+		window.dispatchEvent(new CustomEvent("cfw-main-before-setup", { detail: { main: this } }));
 
 		// Initialize the easy tabs
 		this.easyTabService.initialize();
@@ -151,6 +199,9 @@ export class Main {
 		// Fix floating labels
 		this.tabContainer.setFloatLabelOnGarlicRetrieve();
 
+		// Before set wraps event in case anyone needs to do some JIT class adding
+		window.dispatchEvent(new CustomEvent("cfw-main-before-tab-container-set-wraps", { detail: { main: this } }));
+
 		/**
 		 * NOTE: If you are doing any DOM manipulation (adding and removing classes specifically). Do it before the setWraps
 		 * call on the tab container sections. Once this is called all the setup of the different areas will have completed and
@@ -158,6 +209,9 @@ export class Main {
 		 */
 		// Loop through and set up the wraps on the tab container sections
 		this.tabContainer.tabContainerSections.forEach((tcs: TabContainerSection) => tcs.setWraps());
+
+		// After the set wraps has done but before we set up any tabContainer listeners
+		window.dispatchEvent(new CustomEvent("cfw-main-after-tab-container-set-wraps", { detail: { main: this } }));
 
 		// Set up event handlers
 		this.tabContainer.setAccountCheckListener();
@@ -177,29 +231,91 @@ export class Main {
 
 		// Handles the shipping fields on load if the user happens to land on the shipping method page.
 		this.tabContainer.setShippingFieldsOnLoad();
+
+		// After setup event
+		window.dispatchEvent(new CustomEvent("cfw-main-after-setup", { detail: { main: this } }));
 	}
 
-    /**
-     * Adds a visual indicator that the checkout is doing something
-     */
-    static addOverlay(): void {
-        $("body").addClass("show-overlay");
-    }
+	errorObserverWatch() {
+		// Select the node that will be observed for mutations
+		let targetNode = this.checkoutForm[0];
 
-    static removeOverlay(): void {
-        $("body").removeClass("show-overlay");
-    }
+		// Options for the observer (which mutations to observe)
+		let config = { childList: true, characterData: true, subtree: true };
+
+		if ( ! this.errorObserver ) {
+			// Create an observer instance linked to the callback function
+			let observer = new MutationObserver((mutationsList) => this.errorMutationListener(mutationsList));
+
+			// Start observing the target node for configured mutations
+			observer.observe(targetNode, config);
+
+			this.errorObserver = observer;
+		}
+	}
 
 	/**
-	 * @returns {boolean}
+	 * @param mutationsList
 	 */
-	static isPaymentRequired(): boolean {
-		return !$("#cfw-content").hasClass("cfw-payment-false");
+	errorMutationListener(mutationsList) {
+		let ignoreList = (<any>window).errorObserverIgnoreList;
+
+		if($("#cfw-payment-method:visible").length > 0) {
+			for (let mutation of mutationsList) {
+				if (mutation.type === "childList") {
+					let addedNodes = mutation.addedNodes;
+					let $errorNode: any = null;
+
+					addedNodes.forEach(node => {
+						let $node: any = $(node);
+						let hasClass: boolean = $node.hasClass("woocommerce-error");
+						let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
+
+						if (hasClass || hasGroupCheckoutClass) {
+							if(ignoreList.indexOf($node.text()) == -1) {
+								Main.removeOverlay();
+								$errorNode = $node;
+								$errorNode.attr("class", "");
+							}
+						}
+					});
+
+					if ($errorNode) {
+						let alertInfo: AlertInfo = {
+							type: "CFWSubmitError",
+							message: $errorNode,
+							cssClass: "cfw-alert-danger"
+						};
+
+						let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
+						alert.addAlert();
+
+						CompleteOrderAction.initCompleteOrder = false;
+					}
+				}
+			}
+		}
 	}
 
-    /**
-     * @param {boolean} isPaymentRequired
-     */
+	/**
+	 * Adds a visual indicator that the checkout is doing something
+	 */
+	static addOverlay(): void {
+		if($("#cfw-payment-method:visible").length > 0) {
+			$("body").addClass("show-overlay");
+		}
+	}
+
+	/**
+	 * Remove the visual indicator
+	 */
+	static removeOverlay(): void {
+		$("body").removeClass("show-overlay");
+	}
+
+	/**
+	 * @param {boolean} isPaymentRequired
+	 */
 	static togglePaymentRequired(isPaymentRequired: boolean): void {
 		let $cfw = $("#cfw-content");
 		let noPaymentCssClass = "cfw-payment-false";
@@ -210,14 +326,14 @@ export class Main {
 			}
 
 			if(EasyTabService.isThereAShippingTab()) {
-                this.toggleBillingFieldsAbility(true);
-            }
+				this.toggleBillingFieldsAbility(true);
+			}
 
-            // Always uncheck the payment method if order does not require payment
-            $('[name="payment_method"]:checked').prop("checked", false);
+			// Always uncheck the payment method if order does not require payment
+			$('[name="payment_method"]:checked').prop("checked", false);
 		} else {
-            if(EasyTabService.isThereAShippingTab()) {
-                this.toggleBillingFieldsAbility(false);
+			if(EasyTabService.isThereAShippingTab()) {
+				this.toggleBillingFieldsAbility(false);
 			}
 
 			$cfw.removeClass(noPaymentCssClass);
@@ -225,12 +341,12 @@ export class Main {
 	}
 
 	static toggleBillingFieldsAbility( enabled: boolean ) {
-        Main.instance.settings.default_address_fields.forEach( function( field_name ) {
+		Main.instance.settings.default_address_fields.forEach( function( field_name ) {
 			$(`[name="billing_${field_name}"]`).prop('disabled', enabled);
 		} );
 
-        if(enabled) {
-        	$("#ship_to_different_address_as_billing").prop("checked", true);
+		if(enabled) {
+			$("#ship_to_different_address_as_billing").prop("checked", true);
 		}
 	}
 
@@ -243,42 +359,56 @@ export class Main {
 		});
 	}
 
-    /**
-     * @returns {boolean}
-     */
+	/**
+	 * @returns {boolean}
+	 */
 	get updating(): boolean {
 		return this._updating;
 	}
 
-    /**
-     * @param {boolean} value
-     */
+	/**
+	 * @param {boolean} value
+	 */
 	set updating(value: boolean) {
 		this._updating = value;
 	}
 
-    /**
-     * @returns {any}
-     */
-    get checkoutForm(): any {
-        return this._checkoutForm;
-    }
+	/**
+	 * @returns {any}
+	 */
+	get checkoutForm(): any {
+		return this._checkoutForm;
+	}
 
-    /**
-     * @param {any} value
-     */
-    set checkoutForm(value: any) {
-        this._checkoutForm = value;
-    }
+	/**
+	 * @param {any} value
+	 */
+	set checkoutForm(value: any) {
+		this._checkoutForm = value;
+	}
 
-    /**
+	/**
 	 * @returns {TabContainer}
 	 */
 	get tabContainer() {
 		return this._tabContainer;
 	}
 
-	/**
+    /**
+	 * @return {any}
+     */
+    get alertContainer(): any {
+        return this._alertContainer;
+    }
+
+    /**
+     * @param {any} value
+     */
+    set alertContainer(value: any) {
+        this._alertContainer = value;
+    }
+
+    /**
 	 * @param value
 	 */
 	set tabContainer(value: TabContainer) {
@@ -328,6 +458,34 @@ export class Main {
 	}
 
 	/**
+	 * @return {any}
+	 */
+	get compatibility(): any {
+		return this._compatibility;
+	}
+
+	/**
+	 * @param {any} value
+	 */
+	set compatibility(value: any) {
+		this._compatibility = value;
+	}
+
+	/**
+	 * @return {Compatibility[]}
+	 */
+	get createdCompatibilityClasses(): Compatibility[] {
+		return this._createdCompatibilityClasses;
+	}
+
+	/**
+	 * @param {Compatibility[]} value
+	 */
+	set createdCompatibilityClasses(value: Compatibility[]) {
+		this._createdCompatibilityClasses = value;
+	}
+
+	/**
 	 * @returns {ParsleyService}
 	 */
 	get parsleyService(): ParsleyService {
@@ -369,21 +527,35 @@ export class Main {
 		this._validationService = value;
 	}
 
-    /**
-     * @returns {LocalizationService}
-     */
-    get localizationService(): LocalizationService {
-        return this._localizationService;
-    }
+	/**
+	 * @returns {LocalizationService}
+	 */
+	get localizationService(): LocalizationService {
+		return this._localizationService;
+	}
 
-    /**
-     * @param {LocalizationService} value
-     */
-    set localizationService(value: LocalizationService) {
-        this._localizationService = value;
-    }
+	/**
+	 * @param {LocalizationService} value
+	 */
+	set localizationService(value: LocalizationService) {
+		this._localizationService = value;
+	}
 
-    /**
+	/**
+	 * @returns {MutationObserver}
+	 */
+	get errorObserver(): MutationObserver {
+		return this._errorObserver;
+	}
+
+	/**
+	 * @param {MutationObserver} value
+	 */
+	set errorObserver(value: MutationObserver) {
+		this._errorObserver = value;
+	}
+
+	/**
 	 * @returns {Main}
 	 */
 	static get instance(): Main {

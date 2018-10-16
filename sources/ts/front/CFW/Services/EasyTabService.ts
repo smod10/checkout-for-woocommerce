@@ -1,6 +1,7 @@
 import { Main }                             from "../Main";
 import { TabContainerSection }              from "../Elements/TabContainerSection";
 import { TabContainer }                     from "../Elements/TabContainer";
+import {Alert} from "../Elements/Alert";
 
 /**
  * EzTab Enum

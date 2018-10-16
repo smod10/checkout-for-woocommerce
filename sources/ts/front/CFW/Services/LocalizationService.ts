@@ -1,8 +1,9 @@
-import { Main }                                     from "../Main";
-import { InfoType }                                 from "./ParsleyService";
-import { TabContainerSection }                      from "../Elements/TabContainerSection";
-import { InputLabelWrap }                           from "../Elements/InputLabelWrap";
-import { SelectLabelWrap }                          from "../Elements/SelectLabelWrap";
+import {Main} from "../Main";
+import {InfoType} from "./ParsleyService";
+import {TabContainerSection} from "../Elements/TabContainerSection";
+import {InputLabelWrap} from "../Elements/InputLabelWrap";
+import {SelectLabelWrap} from "../Elements/SelectLabelWrap";
+import {EValidationSections, ValidationService} from "./ValidationService";
 
 declare let wc_address_i18n_params: any;
 declare let wc_country_select_params: any;
@@ -65,7 +66,7 @@ export class LocalizationService {
             // Re-register all the elements
             Main.instance.checkoutForm.parsley();
 
-            $(document.body).trigger("update_checkout");
+			$(document.body).trigger("update_checkout");
         };
 
         let locale_data = JSON.parse(wc_address_i18n_params.locale);

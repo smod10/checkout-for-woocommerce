@@ -12,7 +12,7 @@ import { UpdateCheckoutAction }             from "../Actions/UpdateCheckoutActio
 import { UpdateShippingFieldsRI }           from "../Actions/UpdateCheckoutAction";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { Alert }                            from "./Alert";
-import { AlertInfo }                        from "./Alert";
+import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
 
 declare let wc_stripe_params: any;
 declare let $: any;
@@ -33,12 +33,6 @@ export class TabContainer extends Element {
      * @private
      */
     private _tabContainerSections: Array<TabContainerSection>;
-
-    /**
-     * @type {MutationObserver}
-     * @private
-     */
-    private _errorObserver: MutationObserver;
 
     /**
      * @type {any}
@@ -166,6 +160,7 @@ export class TabContainer extends Element {
      *
      */
     setUpCreditCardFields() {
+        // TODO: Once Compatibility class is setup move each of these pieces to it's relevant class
         const CHECK = "paytrace_check_choice";
         const CARD = "paytrace_card_choice";
 
@@ -391,7 +386,9 @@ export class TabContainer extends Element {
             }
         });
 
-        $(document.body).trigger( 'update_checkout' );
+        if(!CompleteOrderAction.initCompleteOrder) {
+			$(document.body).trigger('update_checkout');
+		}
     }
 
     /**
@@ -524,10 +521,6 @@ export class TabContainer extends Element {
                 billing.val(preSwapData[field]);
             }
 
-            if ( this.errorObserver ) {
-                this.errorObserver.disconnect();
-            }
-
             this.orderKickOff(main.ajaxInfo, this.getFormObject());
         }
     }
@@ -541,7 +534,16 @@ export class TabContainer extends Element {
         let lookFor: Array<string> = main.settings.default_address_fields;
         let preSwapData = this.checkoutDataAtSubmitClick = {};
 
+        CompleteOrderAction.initCompleteOrder = true;
+
         Main.addOverlay();
+
+		checkout_form.find(".woocommerce-error").remove();
+
+		$(document.body).on("checkout_error", () => {
+			Main.removeOverlay();
+			CompleteOrderAction.initCompleteOrder = false
+		});
 
         if ( parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0 ) {
             lookFor.forEach( field => {
@@ -557,65 +559,7 @@ export class TabContainer extends Element {
             });
         }
 
-        // Select the node that will be observed for mutations
-        let targetNode = checkout_form[0];
-
-        // Options for the observer (which mutations to observe)
-        let config = { childList: true, characterData: true, subtree: true };
-
-        if ( ! this.errorObserver ) {
-            // Create an observer instance linked to the callback function
-            let observer = new MutationObserver(this.submitOrderErrorMutationListener.bind(this));
-
-            // Start observing the target node for configured mutations
-            observer.observe(targetNode, config);
-
-            this.errorObserver = observer;
-        }
-
         checkout_form.trigger('submit');
-    }
-
-    /**
-     * @param mutationsList
-     */
-    submitOrderErrorMutationListener(mutationsList) {
-        let main: Main = Main.instance;
-
-        for ( let mutation of mutationsList ) {
-            if(mutation.type === "childList") {
-                let addedNodes = mutation.addedNodes;
-                let $errorNode: any = null;
-
-                addedNodes.forEach(node => {
-                    let $node: any = $(node);
-                    let hasClass: boolean = $node.hasClass("woocommerce-error");
-                    let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
-
-                    if ( hasClass || hasGroupCheckoutClass ) {
-                        Main.removeOverlay();
-                        $errorNode = $node;
-                        $errorNode.attr("class", "");
-                    }
-                });
-
-                if($errorNode) {
-                    let alertInfo: AlertInfo = {
-                        type: "CFWSubmitError",
-                        message: $errorNode,
-                        cssClass: "cfw-alert-danger"
-                    };
-
-                    let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
-                    alert.addAlert();
-                }
-
-                if(this.errorObserver !== undefined && this.errorObserver !== null) {
-                    this.errorObserver.disconnect();
-                    this.errorObserver = null;
-                }
-            }
-        }
     }
 
     /**
@@ -640,23 +584,9 @@ export class TabContainer extends Element {
                 new ApplyCouponAction('cfw_apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFormObject()).load();
             } else {
                 // Remove alerts
-                Alert.removeAlerts();
+                Alert.removeAlerts(Main.instance.alertContainer);
             }
         })
-    }
-
-    /**
-     * @param {boolean} show
-     */
-    static togglePaymentFields(show: boolean) {
-        let togglePaymentClass: string = "cfw-payment-false";
-        let mainEl: any = $("#cfw-content");
-
-        if(show) {
-            mainEl.removeClass(togglePaymentClass);
-        } else if (!mainEl.hasClass(togglePaymentClass)) {
-            mainEl.addClass(togglePaymentClass);
-        }
     }
 
     /**
@@ -710,20 +640,6 @@ export class TabContainer extends Element {
      */
     set tabContainerSections(value: Array<TabContainerSection>) {
         this._tabContainerSections = value;
-    }
-
-    /**
-     * @returns {MutationObserver}
-     */
-    get errorObserver(): MutationObserver {
-        return this._errorObserver;
-    }
-
-    /**
-     * @param {MutationObserver} value
-     */
-    set errorObserver(value: MutationObserver) {
-        this._errorObserver = value;
     }
 
     /**

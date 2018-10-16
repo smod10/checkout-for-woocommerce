@@ -62,7 +62,7 @@ class Redirect {
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_styles'), 40, 5);
 
 			// Output the contents of the <head></head> section
-			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc')), $settings_manager, $template_manager);
+			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc', 'woocommerce')), $settings_manager, $template_manager);
 
 			// Output the contents of the <body></body> section
 			self::body($template_manager, $global_template_parameters, $settings_manager);
@@ -122,6 +122,7 @@ class Redirect {
 			var shippingMethodElId = '#<?php echo apply_filters('cfw_template_shipping_method_el', 'cfw-shipping-method'); ?>';
 			var paymentMethodElId = '#<?php echo apply_filters('cfw_template_payment_method_el', 'cfw-payment-method'); ?>';
 			var tabContainerElId = '#<?php echo apply_filters('cfw_template_tab_container_el', 'cfw-tab-container'); ?>';
+			var alertContainerElId = '#<?php echo apply_filters('cfw_template_alert_container_el', 'cfw-alert-container'); ?>';
 			var cartContainerId = '#<?php echo apply_filters('cfw_template_cart_el', "cfw-totals-list"); ?>';
 			var cartSubtotalId = '#<?php echo apply_filters('cfw_template_cart_subtotal_el', 'cfw-cart-subtotal'); ?>';
 			var cartShippingId = '#<?php echo apply_filters('cfw_template_cart_shipping_el', 'cfw-cart-shipping-total'); ?>';
@@ -139,6 +140,7 @@ class Redirect {
 					shippingMethodElId: shippingMethodElId,
 					paymentMethodElId: paymentMethodElId,
 					tabContainerElId: tabContainerElId,
+					alertContainerId: alertContainerElId,
 					cartContainerId: cartContainerId,
 					cartSubtotalId: cartSubtotalId,
 					cartShippingId: cartShippingId,
@@ -153,6 +155,7 @@ class Redirect {
 					url: '<?php echo get_home_url(); ?>',
 					nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
 				},
+				compatibility: <?php echo json_encode(apply_filters('cfw_typescript_compatibility_classes_and_params', [])); ?>,
 				settings: {
 					isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
 					user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
@@ -436,7 +439,7 @@ class Redirect {
 	 * @access public
 	 * @param TemplateManager $template_manager
 	 * @param array $global_template_parameters
-     * @param SettingsManager $settings_manager
+	 * @param SettingsManager $settings_manager
 	 */
 	public static function body($template_manager, $global_template_parameters, $settings_manager) {
 		// Fire off an action before we load the template pieces

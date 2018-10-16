@@ -7,7 +7,7 @@ use Objectiv\Plugins\Checkout\Core\Template;
 /**
  * The template manager gathers the relevant path information for the sub folder files. The theme paths are deduced from
  * built in WordPress functions and the plugin path is passed in from the Main class on creation. The relevant path info
- * is pulled in from get_template_information. It is an array of Key Value pairs in the form of sub folder => file path
+ * is pulled in from get_templates_information. It is an array of Key Value pairs in the form of sub folder => file path
  *
  * @link objectiv.co
  * @since 1.0.0
@@ -114,10 +114,10 @@ class TemplateManager {
 		$path_manager,
 		$selected_template,
 		$body_pieces = array(
-		"header" => "header.php",
-		"content" => "content.php",
-		"footer" => "footer.php"
-	)) {
+			"header" => "header.php",
+			"content" => "content.php",
+			"footer" => "footer.php"
+		) ) {
 		// Path manager for path references
 		$this->path_manager = $path_manager;
 		$this->selected_template = ($selected_template != "") ? $selected_template : "default";
@@ -139,7 +139,7 @@ class TemplateManager {
 	 * @return void
 	 */
 	public function load_template_functions() {
-		$template_information = $this->get_template_information();
+		$template_information = $this->get_templates_information();
 		$base_path = $template_information[$this->selected_template]["base_path"];
 		$functions_path = "{$base_path}/functions.php";
 
@@ -155,7 +155,7 @@ class TemplateManager {
 	 * @param array $global_parameters
 	 */
 	public function load_templates($global_parameters = array()) {
-		foreach($this->get_template_information() as $template_name => $template_info) {
+		foreach($this->get_templates_information() as $template_name => $template_info) {
 			// Filter template level variables
 			$parameters["template"] = apply_filters("cfw_template_{$template_name}_params", array());
 
@@ -193,7 +193,7 @@ class TemplateManager {
 	 * @access public
 	 * @return array
 	 */
-	public function get_template_information() {
+	public function get_templates_information() {
 		$template_information = array();
 
 		foreach($this->get_template_sub_folders() as $template_folder) {

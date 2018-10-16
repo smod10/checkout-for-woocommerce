@@ -238,61 +238,53 @@ class Redirect {
 	public static function output_custom_styles($path_manager, $version, $classes, $settings_manager, $template_manager) {
 		// Get logo attachment ID if available
 		$logo_attachment_id = $settings_manager->get_setting('logo_attachment_id');
-		$selected_theme = $template_manager->get_selected_template();
+		$active_theme = $template_manager->get_selected_template();
+		$templates_information = $template_manager->get_templates_information();
+		$supports = ! empty( $templates_information[ $active_theme ][ 'stylesheet_info' ][ 'Supports' ] ) ? array_map('trim', explode(',', $templates_information[ $active_theme ][ 'stylesheet_info' ][ 'Supports' ] ) ) : array();
 		?>
 		<style>
-			<?php if($selected_theme == $template_manager->get_theme_template_names()[2]): ?>
-				/**
-					Gotham Styles
-				 */
-				#cfw-breadcrumb:after {
-					background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
-				}
+            <?php if ( in_array( 'header-background', $supports ) ): ?>
+                #cfw-header {
+                    background: <?php echo $settings_manager->get_setting('header_background_color', array($active_theme) ); ?>;
 
-				#cfw-breadcrumb li > a {
-					color: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
-				}
+                    <?php if ( strtolower( $settings_manager->get_setting('header_background_color', array($active_theme) ) ) !== "#ffffff" ): ?>
+                    margin-bottom: 2em;
+                    <?php endif; ?>
+                }
+            <?php endif; ?>
 
-				#cfw-breadcrumb .filled-circle:before {
-					background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
-				}
+            <?php if ( in_array( 'footer-background', $supports ) ): ?>
+                #cfw-footer {
+                    color: <?php echo $settings_manager->get_setting('footer_color', array($active_theme) ); ?>;
+                    background: <?php echo $settings_manager->get_setting('footer_background_color', array($active_theme) ); ?>;
 
-				#cfw-breadcrumb li:before {
-					border: 2px solid <?php echo $settings_manager->get_setting('header_background_color'); ?>;
-				}
+                    <?php if ( strtolower( $settings_manager->get_setting('footer_background_color', array($active_theme) ) ) !== "#ffffff" ): ?>
+                    margin-top: 2em;
+                    <?php endif; ?>
+                }
 			<?php endif; ?>
 
-			#cfw-header {
-				background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
+            <?php if ( in_array( 'summary-background', $supports ) ): ?>
+                #cfw-cart-details:before {
+                    background: <?php echo $settings_manager->get_setting('summary_background_color', array($active_theme) ); ?>;
+                }
+            <?php endif; ?>
 
-			<?php if ( strtolower( $settings_manager->get_setting('header_background_color') ) !== "#ffffff" ): ?>
-				margin-bottom: 2em;
-			<?php endif; ?>
-			}
-
-			#cfw-footer {
-				color: <?php echo $settings_manager->get_setting('footer_color'); ?>;
-				background: <?php echo $settings_manager->get_setting('footer_background_color'); ?>;
-
-			<?php if ( strtolower( $settings_manager->get_setting('footer_background_color') ) !== "#ffffff" ): ?>
-				margin-top: 2em;
-			<?php endif; ?>
-			}
 			#cfw-cart-details-arrow {
-				color: <?php echo $settings_manager->get_setting('link_color'); ?> !important;
-				fill: <?php echo $settings_manager->get_setting('link_color'); ?> !important;
+				color: <?php echo $settings_manager->get_setting('link_color', array($active_theme) ); ?> !important;
+				fill: <?php echo $settings_manager->get_setting('link_color', array($active_theme) ); ?> !important;
 			}
 			.cfw-link {
-				color: <?php echo $settings_manager->get_setting('link_color'); ?> !important;
+				color: <?php echo $settings_manager->get_setting('link_color', array($active_theme) ); ?> !important;
 			}
 			.cfw-bottom-controls .cfw-primary-btn {
-				background-color: <?php echo $settings_manager->get_setting('button_color'); ?>;
-				color: <?php echo $settings_manager->get_setting('button_text_color'); ?>;
+				background-color: <?php echo $settings_manager->get_setting('button_color', array($active_theme) ); ?>;
+				color: <?php echo $settings_manager->get_setting('button_text_color', array($active_theme) ); ?>;
 			}
 
 			.cfw-def-action-btn {
-				background-color: <?php echo $settings_manager->get_setting('secondary_button_color'); ?>;
-				color: <?php echo $settings_manager->get_setting('secondary_button_text_color'); ?>;
+				background-color: <?php echo $settings_manager->get_setting('secondary_button_color', array($active_theme) ); ?>;
+				color: <?php echo $settings_manager->get_setting('secondary_button_text_color', array($active_theme) ); ?>;
 			}
 
 			<?php if ( ! empty($logo_attachment_id) ): ?>
@@ -302,11 +294,13 @@ class Redirect {
 			}
 			<?php else: ?>
 			.cfw-logo .logo {
-				background: <?php echo $settings_manager->get_setting('header_background_color'); ?>;
+                <?php if ( in_array( 'header-background', $supports ) ): ?>
+				background: <?php echo $settings_manager->get_setting('header_background_color', array($active_theme) ); ?>;
+				<?php endif; ?>
 				height: auto;
 				width: auto;
 				margin: 20px auto;
-				color: <?php echo $settings_manager->get_setting('header_text_color'); ?>;
+				color: <?php echo $settings_manager->get_setting('header_text_color', array($active_theme) ); ?>;
 			}
 			.cfw-logo .logo:after {
 				padding-top: 40px;
@@ -318,7 +312,7 @@ class Redirect {
 			.woocommerce-info {
 				padding: 1em 1.618em;
 				margin-bottom: 1.3em;
-				background-color: <?php echo $settings_manager->get_setting('secondary_button_color'); ?>;
+				background-color: <?php echo $settings_manager->get_setting('secondary_button_color', array($active_theme) ); ?>;
 				margin-left: 0;
 				border-radius: 2px;
 				color: #fff;
@@ -363,7 +357,7 @@ class Redirect {
 			.woocommerce-info pre {
 				background-color: rgba(0,0,0,.1);
 			}
-			<?php echo $settings_manager->get_setting('custom_css'); ?>;
+			<?php echo $settings_manager->get_setting('custom_css', array($active_theme) ); ?>;
 		</style>
 		<?php
 	}
@@ -449,13 +443,13 @@ class Redirect {
 		$is_old_theme = $template_manager->is_old_theme();
 		$use_old_template_loader = false;
 
-		if(($settings_selected_template == "" && $is_old_theme) || ($settings_selected_template == "old_theme" && $is_old_theme)) {
+		if ( $is_old_theme ) {
 			$use_old_template_loader = true;
 		}
 
-		if(!$use_old_template_loader) {
-			// Load the template pieces
-			$template_manager->load_templates( $global_template_parameters );
+		if ( ! $use_old_template_loader ) {
+		    // Load the template pieces
+		    $template_manager->load_templates( $global_template_parameters );
 		} else {
 			// TODO: Remove in version 3.0.0
 			$template_manager->load_old_templates( $template_manager->get_old_template_information( $template_manager->get_old_theme_folders() ), $global_template_parameters );

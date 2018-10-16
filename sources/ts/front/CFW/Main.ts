@@ -9,6 +9,8 @@ import { EasyTabService }						from "./Services/EasyTabService";
 import { ParsleyService }						from "./Services/ParsleyService";
 import { LocalizationService }					from "./Services/LocalizationService";
 import { Compatibility }						from "./Compatibility/Compatibility";
+import { Alert, AlertInfo } 					from "./Elements/Alert";
+import { CompleteOrderAction } 					from "./Actions/CompleteOrderAction";
 
 declare let $: any;
 
@@ -94,6 +96,12 @@ export class Main {
 	 * @private
 	 */
 	private _updating: boolean;
+
+	/**
+	 * @type {MutationObserver}
+	 * @private
+	 */
+	private _errorObserver: MutationObserver;
 
 	/**
 	 * @type {Main}
@@ -228,11 +236,74 @@ export class Main {
 		window.dispatchEvent(new CustomEvent("cfw-main-after-setup", { detail: { main: this } }));
 	}
 
+	errorObserverWatch() {
+		// Select the node that will be observed for mutations
+		let targetNode = this.checkoutForm[0];
+
+		// Options for the observer (which mutations to observe)
+		let config = { childList: true, characterData: true, subtree: true };
+
+		if ( ! this.errorObserver ) {
+			// Create an observer instance linked to the callback function
+			let observer = new MutationObserver((mutationsList) => this.errorMutationListener(mutationsList));
+
+			// Start observing the target node for configured mutations
+			observer.observe(targetNode, config);
+
+			this.errorObserver = observer;
+		}
+	}
+
+	/**
+	 * @param mutationsList
+	 */
+	errorMutationListener(mutationsList) {
+		let ignoreList = (<any>window).errorObserverIgnoreList;
+
+		if($("#cfw-payment-method:visible").length > 0) {
+			for (let mutation of mutationsList) {
+				if (mutation.type === "childList") {
+					let addedNodes = mutation.addedNodes;
+					let $errorNode: any = null;
+
+					addedNodes.forEach(node => {
+						let $node: any = $(node);
+						let hasClass: boolean = $node.hasClass("woocommerce-error");
+						let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
+
+						if (hasClass || hasGroupCheckoutClass) {
+							if(ignoreList.indexOf($node.text()) == -1) {
+								Main.removeOverlay();
+								$errorNode = $node;
+								$errorNode.attr("class", "");
+							}
+						}
+					});
+
+					if ($errorNode) {
+						let alertInfo: AlertInfo = {
+							type: "CFWSubmitError",
+							message: $errorNode,
+							cssClass: "cfw-alert-danger"
+						};
+
+						let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
+						alert.addAlert();
+
+						CompleteOrderAction.initCompleteOrder = false;
+					}
+				}
+			}
+		}
+	}
+
 	/**
 	 * Adds a visual indicator that the checkout is doing something
 	 */
 	static addOverlay(): void {
-		$("body").addClass("show-overlay");
+		if($("#cfw-payment-method:visible").length > 0) {
+			$("body").addClass("show-overlay");
+		}
 	}
 
 	/**
@@ -468,6 +539,20 @@ export class Main {
 	 */
 	set localizationService(value: LocalizationService) {
 		this._localizationService = value;
+	}
+
+	/**
+	 * @returns {MutationObserver}
+	 */
+	get errorObserver(): MutationObserver {
+		return this._errorObserver;
+	}
+
+	/**
+	 * @param {MutationObserver} value
+	 */
+	set errorObserver(value: MutationObserver) {
+		this._errorObserver = value;
 	}
 
 	/**

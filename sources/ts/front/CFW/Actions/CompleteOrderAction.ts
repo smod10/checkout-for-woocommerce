@@ -18,6 +18,13 @@ export class CompleteOrderAction extends Action {
      */
     private static _preppingOrder: boolean = false;
 
+	/**
+     * @type {boolean}
+     * @static
+     * @private
+	 */
+	private static _initCompleteOrder: boolean = false;
+
     /**
      *
      * @param id
@@ -46,8 +53,6 @@ export class CompleteOrderAction extends Action {
      */
     public response(resp: any): void {
 
-        let tabContainer: TabContainer = Main.instance.tabContainer;
-
         if(resp.result === "success") {
             // Destroy all the cache!
             $('.garlic-auto-save').each((index: number, elem: Element) => $(elem).garlic('destroy'));
@@ -69,10 +74,7 @@ export class CompleteOrderAction extends Action {
             let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
             alert.addAlert();
 
-            if(tabContainer.errorObserver !== undefined && tabContainer.errorObserver !== null) {
-                tabContainer.errorObserver.disconnect();
-                tabContainer.errorObserver = null;
-            }
+			CompleteOrderAction.initCompleteOrder = false;
         }
     }
 
@@ -89,4 +91,18 @@ export class CompleteOrderAction extends Action {
     static set preppingOrder(value: boolean) {
         this._preppingOrder = value;
     }
+
+	/**
+     * @return {boolean}
+	 */
+	static get initCompleteOrder(): boolean {
+		return this._initCompleteOrder;
+	}
+
+	/**
+	 * @param {boolean} value
+	 */
+	static set initCompleteOrder(value: boolean) {
+		this._initCompleteOrder = value;
+	}
 }

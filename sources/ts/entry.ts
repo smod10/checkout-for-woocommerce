@@ -21,6 +21,7 @@ import { CompatibilityClassOptions }        from "./front/CFW/Types/Types";
 let w: any = window;
 (<any>window).$ = ($ === undefined) ? jQuery : $;
 (<any>window).CompatibilityClasses = CompatibilityClasses;
+(<any>window).errorObserverIgnoreList = [];
 
 w.addEventListener("cfw-initialize", eventData => {
 	let data = eventData.detail;
@@ -73,4 +74,10 @@ w.addEventListener("cfw-main-after-setup", eventData => {
 			main.createdCompatibilityClasses.push(new classDef(compClassOps.params, compClassOps.fireLoad));
 		}
 	});
+
+	// Error observer messages to ignore
+	window.dispatchEvent(new CustomEvent("cfw-payment-error-observer-ignore-list"));
+
+	// Setup the errorObserver
+	main.errorObserverWatch();
 });

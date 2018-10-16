@@ -39,8 +39,11 @@ class Braintree extends Base {
 		$scripts[] = "braintree-data";
 		$scripts[] = "braintree-js-hosted-fields";
 		$scripts[] = "braintree-js-3d-secure";
+		$scripts[] = "braintree-js-paypal";
 		$scripts[] = "braintree-js-paypal-checkout";
 		$scripts[] = "braintree-js-client";
+		$scripts[] = "jquery-payment";
+		$scripts[] = "jquery-tiptip";
 
 		return $scripts;
 	}

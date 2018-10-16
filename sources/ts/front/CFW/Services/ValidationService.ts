@@ -5,6 +5,7 @@ import { EasyTab }                                      from "./EasyTabService";
 import { CompleteOrderAction }                          from "../Actions/CompleteOrderAction";
 import { AjaxInfo }                                     from "../Types/Types";
 import { UpdateCheckoutAction }                         from "../Actions/UpdateCheckoutAction";
+import { Alert } 										from "../Elements/Alert";
 
 /**
  * Validation Sections Enum
@@ -25,6 +26,12 @@ export class ValidationService {
 	 * @private
 	 */
 	private static _validateZip: boolean = true;
+
+	/**
+	 * @type {EValidationSections}
+	 * @private
+	 */
+	private static _currentlyValidating: EValidationSections;
 
 	/**
 	 * @param easyTabsWrap
@@ -66,6 +73,8 @@ export class ValidationService {
 				UpdateCheckoutAction.updateShippingDetails();
 			}
 
+			Alert.removeAlerts(Main.instance.alertContainer);
+
 			// If we are moving forward / backwards, have a shipping easy tab, and are not on the customer tab then allow
 			// the tab switch
 			return true;
@@ -80,31 +89,7 @@ export class ValidationService {
 	 * @param orderDetails
 	 */
 	static createOrder(difBilling: boolean = false, ajaxInfo: AjaxInfo, orderDetails: any): void {
-
-		if(difBilling) {
-
-			// Check the normal validation and kick off the ajax ones
-			let validationResult: boolean = true;
-
-			CompleteOrderAction.preppingOrder = true;
-
-			(<any>window).addEventListener("cfw:checkout-validated", () => {
-				CompleteOrderAction.preppingOrder = false;
-
-				if(validationResult) {
-					new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
-				} else {
-					Main.removeOverlay();
-					window.dispatchEvent(new CustomEvent("cfw-validation-service-checkout-validation-failed"));
-				}
-			}, {once: true});
-
-			(<any>window).addEventListener("cfw:state-zip-failure", () => CompleteOrderAction.preppingOrder = false );
-
-			validationResult = ValidationService.validate(EValidationSections.BILLING);
-		} else {
-			new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
-		}
+		new CompleteOrderAction('complete_order', ajaxInfo, orderDetails);
 	}
 
 	/**
@@ -133,6 +118,8 @@ export class ValidationService {
 	static validate(section: EValidationSections): any {
 		let validated: boolean;
 		let checkoutForm: any = Main.instance.checkoutForm;
+
+		ValidationService.currentlyValidating = section;
 
 		switch(section) {
 			case EValidationSections.SHIPPING:
@@ -181,5 +168,19 @@ export class ValidationService {
 	 */
 	static set validateZip(value: boolean) {
 		this._validateZip = value;
+	}
+
+	/**
+	 * @return {EValidationSections}
+	 */
+	static get currentlyValidating(): EValidationSections {
+		return this._currentlyValidating;
+	}
+
+	/**
+	 * @param {EValidationSections} value
+	 */
+	static set currentlyValidating(value: EValidationSections) {
+		this._currentlyValidating = value;
 	}
 }

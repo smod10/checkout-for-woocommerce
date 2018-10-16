@@ -27,10 +27,10 @@ export class Alert extends Element {
      * @param alertInfo
      */
     constructor(alertContainer: any, alertInfo: AlertInfo) {
-        super(alertContainer);
+		super(alertContainer);
 
-        this.alertInfo = alertInfo;
-    }
+		this.alertInfo = alertInfo;
+	}
 
     /**
      *

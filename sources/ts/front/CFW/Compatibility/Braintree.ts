@@ -53,29 +53,14 @@ export class Braintree extends Compatibility {
 		if(params.cc_gateway_available) {
 			// Bind to the easytabs after
 			this.easyTabsCreditCardAfterEvent(easyTabsWrap, main);
-			this.onCreditCardErrorAlertRefresh();
 
-			/**
-			 * On click we need to set this boolean to false so when the updated_checkout runs (and it does run on complete
-			 * order) we can step in and say "You don't need to refresh". However there are times during the complete order
-			 * process where say parsley encounters a form error during the validation steps and we need to refresh.
-			 *
-			 * The updated_checkout call they make messes everything up for some reason
-			 */
-			$("#place_order").on('click', () => {
-				this.runRefresh = false;
+			(<any>window).addEventListener("cfw-custom-update-finished", () => {
+				this.creditCardRefresh();
+				this.savedPaymentMethods();
 			});
 
-			$(document.body).on("updated_checkout", () => {
-				if(this.runRefresh) {
-					this.creditCardRefresh();
-				}
-			});
-
-			(<any>window).addEventListener("cfw-parsley-initialized", eventData => {
-				let parsley = eventData.detail.parsley;
-
-				parsley.on('form:error', () => this.creditCardRefresh());
+			window.addEventListener("cfw-payment-error-observer-ignore-list", () => {
+				(<any>window).errorObserverIgnoreList.push("Currently unavailable. Please try a different payment method.");
 			});
 		}
 	}
@@ -111,31 +96,11 @@ export class Braintree extends Compatibility {
 	 * Calls the refresh_braintree method on the credit card handler. Resets the state back to default
      */
 	creditCardRefresh(): void {
-		this.runRefresh = true;
-		// Event listeners only run once so its ok to run this every time we need to refresh
-		this.onBlockAndUnblockUI();
-
         wc_braintree_credit_card_handler.refresh_braintree();
 	}
 
 	savedPaymentMethods(): void {
 		$(".wc-braintree-credit-card-new-payment-method-form .form-row").css("display", "block");
-	}
-
-	/**
-	 *
-	 */
-	onBlockAndUnblockUI(): void {
-		let w: any = <any>window;
-
-		w.addEventListener("cfw-block-event", () => {
-			this.ccWrap.find(`.${this.refreshingClass}`).remove();
-			this.ccWrap.prepend(this.refreshingBoxNotification("Braintree Is Refreshing"));
-		}, {once: true});
-
-		w.addEventListener("cfw-un-block-event", () => {
-			this.ccWrap.find(`.${this.refreshingClass}`).remove();
-		}, {once: true});
 	}
 
 	/**
@@ -145,20 +110,6 @@ export class Braintree extends Compatibility {
 	 */
 	refreshingBoxNotification(message: string): string {
 		return `<div class='${this.refreshingClass}'>${message}</div>`;
-	}
-
-    /**
-	 * If a CFWSubmitError has been generated and braintree credit card is active we need to refresh the UI so it
-	 * reloads back to default state
-     */
-	onCreditCardErrorAlertRefresh(): void {
-		(<any>window).addEventListener("cfw-add-alert-event", eventData => {
-			let alertInfo = eventData.detail.alertInfo;
-
-			if(alertInfo.type = "CFWSubmitError") {
-				this.creditCardRefresh();
-			}
-		});
 	}
 
 	/**

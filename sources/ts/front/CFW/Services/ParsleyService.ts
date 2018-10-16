@@ -1,7 +1,6 @@
-import { EasyTabService }                           from "./EasyTabService";
-import { EasyTab }                                  from "./EasyTabService";
-import { CompleteOrderAction }                      from "../Actions/CompleteOrderAction";
-import { Main }                                     from "../Main";
+import {EasyTab, EasyTabService} from "./EasyTabService";
+import {CompleteOrderAction} from "../Actions/CompleteOrderAction";
+import {Main} from "../Main";
 import {ValidationService} from "./ValidationService";
 
 let w: any = window;
@@ -75,7 +74,10 @@ export class ParsleyService {
         let interval: any = setInterval(() => {
             if ( w.Parsley !== undefined ) {
                 this.parsley = w.Parsley;
-                this.parsley.on('form:error', () => Main.removeOverlay());
+                this.parsley.on('form:error', () => {
+                    Main.removeOverlay();
+					CompleteOrderAction.initCompleteOrder = false;
+                });
                 this.setParsleyCustomValidators();
 
 				window.dispatchEvent(new CustomEvent("cfw-parsley-initialized", { detail: { parsley: this.parsley } }));
@@ -96,8 +98,12 @@ export class ParsleyService {
     stateAndZipValidator(): void {
         this.parsley.addValidator('stateAndZip', {
             validateString: function(_ignoreValue, country, instance) {
+
+                let aborting = false;
+
                 // We have a request already running? Yea let's kill that.
                 if(ParsleyService.zipRequest !== null) {
+                    aborting = true;
                     ParsleyService.zipRequest.abort();
                 }
 
@@ -143,7 +149,9 @@ export class ParsleyService {
                             let event = new Event("cfw:checkout-validated");
                             window.dispatchEvent(event);
 
-                            $(document.body).trigger("update_checkout");
+                            if(failLocation != EasyTab.PAYMENT && !CompleteOrderAction.initCompleteOrder) {
+								$(document.body).trigger("update_checkout");
+							}
                         });
                 }
 

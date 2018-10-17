@@ -10,8 +10,8 @@ class Stripe4x extends Base {
 	}
 
 	function is_available() {
-		if ( class_exists( '\\WC_Stripe' ) && defined('WC_STRIPE_VERSION') ) {
-			if ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 && version_compare(WC_STRIPE_VERSION, '5.0.0', '<') ) {
+		if ( class_exists( '\\WC_Stripe' ) && defined( 'WC_STRIPE_VERSION' ) ) {
+			if ( version_compare( WC_STRIPE_VERSION, '4.0.0' ) >= 0 && version_compare( WC_STRIPE_VERSION, '5.0.0', '<' ) ) {
 				return true;
 			}
 		}
@@ -21,18 +21,21 @@ class Stripe4x extends Base {
 
 	function run() {
 		// Apple Pay
-		add_action('wp', array($this, 'add_stripe_apple_pay') );
+		add_action( 'wp', array( $this, 'add_stripe_apple_pay' ) );
+
+		// Enable Apple Pay on checkout
+		add_filter( 'wc_stripe_show_payment_request_on_checkout', '__return_true' );
 	}
 
 	function add_stripe_apple_pay() {
 		// Setup Apple Pay
-		if ( class_exists('\\WC_Stripe_Payment_Request') && is_checkout() ) {
+		if ( class_exists( '\\WC_Stripe_Payment_Request' ) && is_checkout() ) {
 			$stripe_payment_request = \WC_Stripe_Payment_Request::instance();
 
-			if(class_exists('\\WC_Stripe_Apple_Pay_Registration')) {
+			if ( class_exists( '\\WC_Stripe_Apple_Pay_Registration' ) ) {
 				$apple_pay_reg = new \WC_Stripe_Apple_Pay_Registration();
 
-				if($apple_pay_reg->stripe_enabled && $apple_pay_reg->apple_pay_domain_set && $apple_pay_reg->payment_request) {
+				if ( $apple_pay_reg->stripe_enabled && $apple_pay_reg->apple_pay_domain_set && $apple_pay_reg->payment_request ) {
 					add_filter( 'wc_stripe_show_payment_request_on_checkout', '__return_true' );
 					add_action( 'cfw_checkout_before_customer_info_tab', array( $stripe_payment_request, 'display_payment_request_button_html' ), 1 );
 					add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_apple_pay_separator' ), 2 );
@@ -45,7 +48,7 @@ class Stripe4x extends Base {
 	 * TODO: Implement this when Stripe implements it
 	 */
 	function add_apple_pay_separator() {
-		$this->add_separator('', 'wc-stripe-payment-request-button-separator', 'margin-top: 1.5em; text-align: center;');
+		$this->add_separator( '', 'wc-stripe-payment-request-button-separator', 'margin-top: 1.5em; text-align: center;' );
 	}
 
 	function allowed_scripts( $scripts ) {

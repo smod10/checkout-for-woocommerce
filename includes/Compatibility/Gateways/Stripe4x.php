@@ -22,9 +22,6 @@ class Stripe4x extends Base {
 	function run() {
 		// Apple Pay
 		add_action( 'wp', array( $this, 'add_stripe_apple_pay' ) );
-
-		// Enable Apple Pay on checkout
-		add_filter( 'wc_stripe_show_payment_request_on_checkout', '__return_true' );
 	}
 
 	function add_stripe_apple_pay() {

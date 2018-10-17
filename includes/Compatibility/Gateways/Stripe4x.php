@@ -32,9 +32,8 @@ class Stripe4x extends Base {
 			if(class_exists('\\WC_Stripe_Apple_Pay_Registration')) {
 				$apple_pay_reg = new \WC_Stripe_Apple_Pay_Registration();
 
-				add_filter( 'wc_stripe_show_payment_request_on_checkout', '__return_true' );
-
-				if($apple_pay_reg->stripe_enabled && $apple_pay_reg->apple_pay_domain_set) {
+				if($apple_pay_reg->stripe_enabled && $apple_pay_reg->apple_pay_domain_set && $apple_pay_reg->payment_request) {
+					add_filter( 'wc_stripe_show_payment_request_on_checkout', '__return_true' );
 					add_action( 'cfw_checkout_before_customer_info_tab', array( $stripe_payment_request, 'display_payment_request_button_html' ), 1 );
 					add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_apple_pay_separator' ), 2 );
 				}

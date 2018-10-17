@@ -10,16 +10,12 @@ jQuery( document ).ready( function( $ ) {
     var wp_media_post_id = wp.media.model.settings.post.id; // Store the old id
     var set_to_post_id = objectiv_cfw_admin.logo_attachment_id;
 
-    jQuery(".template-settings").hide();
-
     jQuery("#template_select").on('change', function() {
        let template_value = jQuery("#template_select").val();
 
        jQuery(".template_select_info_table_screen_shot_container").each(function(index, el) { jQuery(el).css("display", "none") });
 
        jQuery("#template_select_info_table_screen_shot_container_" + template_value).css("display", "flex");
-        jQuery(".template-settings").hide().find(':input').prop('disabled', true);
-       jQuery(".template-" + template_value).show().find(':input').prop('disabled', false);
     }).trigger('change');
 
     jQuery('#upload_image_button').on('click', function( event ){

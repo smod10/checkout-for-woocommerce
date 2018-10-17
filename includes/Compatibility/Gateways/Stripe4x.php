@@ -19,11 +19,33 @@ class Stripe4x extends Base {
 		return false;
 	}
 
+	function run() {
+		// Apple Pay
+		add_action('wp', array($this, 'add_stripe_apple_pay') );
+	}
+
+	function add_stripe_apple_pay() {
+		// Setup Apple Pay
+		if ( class_exists('\\WC_Stripe_Payment_Request') && is_checkout() ) {
+			$stripe_payment_request = \WC_Stripe_Payment_Request::instance();
+
+			if(class_exists('\\WC_Stripe_Apple_Pay_Registration')) {
+				$apple_pay_reg = new \WC_Stripe_Apple_Pay_Registration();
+
+				if($apple_pay_reg->stripe_enabled && $apple_pay_reg->apple_pay_domain_set && $apple_pay_reg->payment_request) {
+					add_filter( 'wc_stripe_show_payment_request_on_checkout', '__return_true' );
+					add_action( 'cfw_checkout_before_customer_info_tab', array( $stripe_payment_request, 'display_payment_request_button_html' ), 1 );
+					add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_apple_pay_separator' ), 2 );
+				}
+			}
+		}
+	}
+
 	/**
 	 * TODO: Implement this when Stripe implements it
 	 */
 	function add_apple_pay_separator() {
-		$this->add_separator('apple-pay-button-checkout-separator');
+		$this->add_separator('', 'wc-stripe-payment-request-button-separator', 'margin-top: 1.5em; text-align: center;');
 	}
 
 	function allowed_scripts( $scripts ) {
@@ -32,6 +54,8 @@ class Stripe4x extends Base {
 		$scripts[] = 'wc-stripe-payment-request';
 		$scripts[] = 'woocommerce_stripe';
 		$scripts[] = 'woocommerce_stripe_apple_pay';
+		$scripts[] = 'jquery-payment';
+		$scripts[] = 'wc_stripe_payment_request';
 
 		return $scripts;
 	}

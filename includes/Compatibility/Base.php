@@ -68,8 +68,10 @@ abstract class Base {
 	 * For gateways that add buttons above checkout form
 	 *
 	 * @param string $class
+     * @param string $id
+     * @param string $style
 	 */
-	function add_separator( $class = '' ) {
+	function add_separator( $class = '', $id = '', $style = '' ) {
 	    if ( ! defined('CFW_PAYMENT_BUTTON_SEPARATOR') ) {
 		    define('CFW_PAYMENT_BUTTON_SEPARATOR', true);
         } else {
@@ -77,7 +79,7 @@ abstract class Base {
         }
 		?>
 		<div class="<?php echo $class; ?>">
-			<p class="pay-button-separator">
+			<p <?php echo ($id) ? "id='{$id}'" : ''; ?> <?php echo ($style) ? "style='{$style}'" : ''; ?> class="pay-button-separator">
 				<span><?php esc_html_e( 'Or', 'checkout-wc' ); ?></span>
 			</p>
 		</div>

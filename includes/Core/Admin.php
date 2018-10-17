@@ -185,92 +185,46 @@ class Admin {
     public function templates_tab() {
 	    $cfw_templates = $this->plugin_instance->get_template_manager()->get_templates_information();
 	    $cfw_template_stylesheet_headers = TemplateManager::$default_headers;
+	    $active_template = $this->plugin_instance->get_settings_manager()->get_setting('active_template');
 	    ?>
-        <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-		    <?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
+        <h3><?php _e( 'Templates', 'checkout-wc' ); ?></h3>
 
-            <h3><?php _e( 'Templates', 'checkout-wc' ); ?></h3>
+        <?php if ( ! $this->plugin_instance->get_template_manager()->is_old_theme() ): ?>
+            <div class="theme-browser">
+                <div class="themes wp-clearfix">
+                    <?php foreach($cfw_templates as $folder_name => $template_information):
+                        $base_url_path = $template_information["base_url_path"];
+                        $screen_shot = "{$base_url_path}/screenshot.png";
+                        $stylesheet_info = $template_information["stylesheet_info"];
+                        $selected = ($active_template == $folder_name) ? true : false;
 
-		    <?php if ( ! $this->plugin_instance->get_template_manager()->is_old_theme() ): ?>
-                <table class="form-table">
-                    <tbody>
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('active_template'); ?>">Template</label>
-                        </th>
-                        <td>
-                            <select id="template_select" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('active_template'); ?>">
-							    <?php
-							    $cfw_template_setting = $this->plugin_instance->get_settings_manager()->get_setting('active_template');
-							    $cfw_template_setting = ($cfw_template_setting != "") ? $cfw_template_setting : $this->plugin_instance->get_template_manager()->get_selected_template();
+                        ?>
+                        <div class="theme <?php if ( $selected ) echo "active"; ?>">
+                            <div class="theme-screenshot">
+                                <img src="<?php echo $screen_shot; ?>" />
+                            </div>
+                            <div class="theme-id-container">
 
-							    foreach($cfw_templates as $folder_name => $template_information) {
-								    $stylesheet_info = $template_information["stylesheet_info"];
+                                <h2 class="theme-name" id="<?php echo $folder_name; ?>-name"><strong><?php if ( $selected ) _e('Active: '); ?></strong><?php echo $stylesheet_info['Name']; ?></h2>
 
-								    ?><option <?php selected($cfw_template_setting, $folder_name); ?> value="<?php echo $folder_name; ?>"><?php echo $stylesheet_info["Name"]; ?></option><?php
-							    }
-							    ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" valign="top">
-                            <label>Template Info</label>
-                        </th>
-                        <td>
-						    <?php
-						    foreach($cfw_templates as $folder_name => $template_information) {
-							    $base_url_path = $template_information["base_url_path"];
-							    $screen_shot = "{$base_url_path}/screenshot.png";
-							    $stylesheet_info = $template_information["stylesheet_info"];
-							    $selected = ($cfw_template_setting == $folder_name) ? true : false;
-							    ?>
-                                <div id="template_select_info_table_screen_shot_container_<?php echo $folder_name; ?>" class="template_select_info_table_screen_shot_container" style="<?php echo (!$selected) ? "display: none;" : ""; ?>">
-                                    <div class="left-hand-column screen-shot-column">
-                                        <img src="<?php echo $screen_shot; ?>" />
-                                    </div>
-                                    <div class="right-hand-column info-column">
-                                        <table>
-                                            <tbody>
-										    <?php
-										    foreach($stylesheet_info as $info_key => $info_value) {
-											    $info_key_nice_name = __( $cfw_template_stylesheet_headers[$info_key], 'checkout-wc' );
 
-											    if($info_value != "") {
-												    ?>
-                                                    <tr>
-                                                        <td>
-                                                            <label><?php echo $info_key_nice_name; ?></label>
-                                                        </td>
-                                                        <td>
-														    <?php if(filter_var($info_value, FILTER_VALIDATE_URL)): ?>
-                                                                <a href="<?php echo $info_value; ?>" target="_blank"><?php echo $info_value; ?></a>
-														    <?php else: ?>
-															    <?php echo $info_value; ?>
-														    <?php endif; ?>
-                                                        </td>
-                                                    </tr>
-												    <?php
-											    }
-										    }
-										    ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="theme-actions">
+                                    <?php if ( ! $selected ): ?>
+                                        <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+                                            <input type="hidden" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('active_template'); ?>" value="<?php echo $folder_name; ?>" />
+	                                        <?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
+                                            <?php submit_button( __('Activate', 'checkout-wc'), 'button-secondary', $name = 'submit', $wrap = false); ?>
+                                        </form>
+                                    <?php endif; ?>
                                 </div>
-							    <?php
-						    }
-						    ?>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-		    <?php else: ?>
-			    <?php _e('You are using a legacy child theme which will be disabled in a future version. Changing theme settings is not possible for legacy themes.', 'checkout-wc' ); ?>
-		    <?php endif; ?>
-
-		    <?php submit_button(); ?>
-        </form>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?php else: ?>
+            <?php _e('You are using a legacy child theme which will be disabled in a future version. Changing theme settings is not possible for legacy themes.', 'checkout-wc' ); ?>
+        <?php endif; ?>
 	    <?php
     }
 

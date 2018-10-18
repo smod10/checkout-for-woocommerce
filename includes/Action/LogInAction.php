@@ -39,7 +39,7 @@ class LogInAction extends Action {
 		$info['user_password'] = $_POST['password'];
 		$info['remember'] = true;
 
-		$user = wp_signon($info, false);
+		$user = wp_signon($info, is_ssl());
 		$alt_message = "Login error.";
 
 		$out = array();

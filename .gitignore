@@ -16,3 +16,4 @@ templates/**/theme.js.map
 templates/**/theme.min.js
 .env
 /cypress/videos
+/cypress/screenshots

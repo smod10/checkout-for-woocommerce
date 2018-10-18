@@ -1,5 +1,5 @@
 describe( 'Billing Field Validation + Billing Zip Autocomplete', function() {
-    before( function() {
+    beforeEach( function() {
         cy.add_item_to_cart();
         cy.visit('checkout');
         cy.fill_customer_information_tab_and_advance();
@@ -20,6 +20,7 @@ describe( 'Billing Field Validation + Billing Zip Autocomplete', function() {
     } );
 
     it( 'Autocompletes domestic city and state', function() {
+        cy.get( '#shipping_dif_from_billing' ).check();
         cy.get( '#billing_postcode').type( Cypress.env( "shipping_postcode" ) );
 
         cy.wait(1000);

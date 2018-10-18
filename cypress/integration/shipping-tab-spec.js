@@ -8,11 +8,17 @@ describe( 'Test Shipping Tab', function() {
 
     it( 'Ground shipping costs correct amount', function() {
         cy.get( 'input[name="shipping_method[0]"]' ).first().check();
+
+        cy.wait(500);
+
         cy.get( '#cfw-cart-shipping-total .amount' ).should( 'contain', '10.00' );
     } );
 
     it( 'Free shipping costs the correct amount', function() {
         cy.get( 'input[name="shipping_method[0]"]' ).last().check();
+
+        cy.wait(500);
+
         cy.get( '#cfw-cart-shipping-total .amount' ).should( 'contain', 'Free' );
     } );
 });

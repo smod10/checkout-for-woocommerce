@@ -21,6 +21,9 @@ describe( 'Billing Field Validation + Billing Zip Autocomplete', function() {
 
     it( 'Autocompletes domestic city and state', function() {
         cy.get( '#billing_postcode').type( Cypress.env( "shipping_postcode" ) );
+
+        cy.wait(1000);
+
         cy.get( '#billing_state' ).should( 'have.value', 'VA' );
         cy.get( '#billing_city' ).should( 'have.value', 'Lynchburg' );
     } );

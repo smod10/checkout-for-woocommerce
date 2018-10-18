@@ -23,3 +23,16 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("add_item_to_cart", () => {
+    cy.request({
+        method: 'POST',
+        url: '?wc-ajax=add_to_cart', // baseUrl is prepended to url
+        form: true, // indicates the body should be form urlencoded and sets Content-Type: application/x-www-form-urlencoded headers
+        body: {
+            product_sku: 455957,
+            product_id: 299,
+            quantity: 1
+        }
+    })
+});

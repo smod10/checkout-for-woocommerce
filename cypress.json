@@ -1,4 +1,5 @@
 {
+  "baseUrl": "https://plugindev.test",
   "env": {
     "billing_email": "clifgriffin@gmail.com",
     "shipping_first_name": "Clifton",
@@ -11,7 +12,6 @@
     "shipping_state": "VA",
     "shipping_city": "Lynchburg",
     "site": {
-      "url": "http://plugindev.test",
       "path": "~/Sites/plugindev"
     }
   }

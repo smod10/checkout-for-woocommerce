@@ -18,3 +18,4 @@ templates/**/theme.min.js
 /cypress/videos
 /cypress/screenshots
 cypress.overrides.json
+cypres.env.json

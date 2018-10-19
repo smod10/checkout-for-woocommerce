@@ -17,5 +17,4 @@ templates/**/theme.min.js
 .env
 /cypress/videos
 /cypress/screenshots
-cypress.env.json
 cypress.overrides.json

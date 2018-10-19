@@ -1,7 +1,7 @@
 module.exports = [
 	{
-		id: 521,
-		sku: "FR2523",
+		id: 70,
+		sku: 552512,
 		quantity: 1
 	}
 ];

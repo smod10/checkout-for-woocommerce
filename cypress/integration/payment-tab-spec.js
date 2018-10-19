@@ -84,7 +84,10 @@ describe( 'Test Shipping Tab', function() {
 
 
         cy.get( '#terms' ).check();
+	    cy.server();
+	    cy.route('POST','/?wc-ajax=complete_order').as('completeOrder');
         cy.get( '#place_order' ).click();
+	    cy.wait('@completeOrder');
         cy.get('.woocommerce-notice').should( 'contain', 'Thank you. Your order has been received.' );
     } );
 });

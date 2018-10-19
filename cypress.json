@@ -8,16 +8,21 @@
     },
     "shipping": {
       "default": {
-        "shipping_first_name": "",
-        "shipping_last_name": "",
-        "shipping_address_1": "",
-        "shipping_address_2": "",
-        "shipping_company": "",
-        "shipping_country": "",
-        "shipping_postcode": "",
-        "shipping_state": "",
-        "shipping_city": ""
+        "first_name": "",
+        "last_name": "",
+        "address_1": "",
+        "address_2": "",
+        "company": "",
+        "country": "",
+        "postcode": "",
+        "state": "",
+        "city": ""
       }
+    },
+    "product": {
+      "id": 1,
+      "sku": "",
+      "quantity": 1
     },
     "site": {
       "path": ""

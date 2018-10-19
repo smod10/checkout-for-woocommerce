@@ -1,16 +1,15 @@
 class Account {
-	constructor(username, email, password, badPassword = "fashjfakjs") {
+	constructor(username, email, password) {
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.badPassword = badPassword;
 	}
 }
 
 class AccountFactory {}
 
 AccountFactory.create = (account) => {
-	return new Account(account.username, account.email, account.password, account.badPassword);
+	return new Account(account.username, account.email, account.password);
 };
 
 AccountFactory.createAll = (accounts) => {

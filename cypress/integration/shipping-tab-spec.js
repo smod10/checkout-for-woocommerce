@@ -6,6 +6,7 @@ describe( 'Test Shipping Tab', function() {
         cy.fill_customer_information_tab_and_advance();
     } );
 
+    // TODO: This test is very configuration specific. Please refactor
     it( 'Ground shipping costs correct amount', function() {
         cy.get( 'input[name="shipping_method[0]"]' ).first().check();
 

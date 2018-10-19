@@ -27,7 +27,7 @@
 import dataScaffolding from "../data_scaffolding/data-scaffolding";
 
 let dataMap = { product_sku: "sku", product_id: "id", quantity: "quantity" };
-let product = dataScaffolding.products[0];
+let product = Cypress.env("product");
 let requestKey = "addToCart";
 
 let addToCartRequest = dataScaffolding.combineRequestWithData(requestKey, product, dataMap);
@@ -35,35 +35,38 @@ let addToCartRequest = dataScaffolding.combineRequestWithData(requestKey, produc
 Cypress.Commands.add("add_item_to_cart", () => cy.request(addToCartRequest));
 
 Cypress.Commands.add("fill_customer_information_tab_and_advance", () => {
+    let account = Cypress.env("account");
+    let shipping = Cypress.env("shipping").default;
+
     cy.get( '#billing_email' ).then( ($input) => {
-        $input.val( Cypress.env( "billing_email" ) ).change();
+        $input.val( account.email ).change();
     } );
     cy.get( '#shipping_first_name' ).then( ($input) => {
-        $input.val( Cypress.env( "shipping_first_name" ) )
+        $input.val( shipping.first_name )
     } );
     cy.get( '#shipping_last_name' ).then( ($input) => {
-        $input.val( Cypress.env( "shipping_last_name" ) )
+        $input.val( shipping.last_name )
     } );
     cy.get( '#shipping_address_1' ).then( ($input) => {
-        $input.val( Cypress.env( "shipping_address_1" ) )
+        $input.val( shipping.address_1 )
     } );
     cy.get( '#shipping_address_2' ).then( ($input) => {
-        $input.val( Cypress.env( "shipping_address_2" ) )
+        $input.val( shipping.address_2 )
     } );
     cy.get( '#shipping_company' ).then( ($input) => {
-        $input.val( Cypress.env( "shipping_company" ) )
+        $input.val( shipping.company )
     } );
     cy.get( '#shipping_country' ).then( ($input) => {
-        $input.val( Cypress.env( "shipping_country" ) )
+        $input.val( shipping.country )
     } );
     cy.get( '#shipping_postcode' ).then( ($input) => {
-        $input.val( Cypress.env( "shipping_postcode" ) )
+        $input.val( shipping.postcode )
     } );
     cy.get( '#shipping_state' ).then( ($input) => {
-        $input.val( Cypress.env( "shipping_state" ) )
+        $input.val( shipping.state )
     } );
     cy.get( '#shipping_city' ).then( ($input) => {
-        $input.val( Cypress.env( "shipping_city" ) )
+        $input.val( shipping.city )
     } );
 
     cy.get( '#cfw-shipping-info-action .cfw-primary-btn' ).click();

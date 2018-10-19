@@ -1,6 +1,6 @@
 import dataScaffolding from "../data_scaffolding/data-scaffolding";
 
-let account = dataScaffolding.accounts[0];
+let account = Cypress.env("account");
 
 describe( 'Test Logging In', function() {
     beforeEach( function() {
@@ -10,7 +10,7 @@ describe( 'Test Logging In', function() {
 
     it( 'Fails on invalid login', function() {
         cy.get( dataScaffolding.fields.account.email ).type( account.email );
-        cy.get( dataScaffolding.fields.account.password ).type( account.badPassword );
+        cy.get( dataScaffolding.fields.account.password ).type( "fasfsadf" );
         cy.get( dataScaffolding.fields.account.loginBtn ).click();
         cy.get( dataScaffolding.fields.general.alertContainer ).should( 'contain', dataScaffolding.messages.account.incorrectPasswordAlertMessage );
     } );

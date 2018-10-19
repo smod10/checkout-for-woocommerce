@@ -1,0 +1,6 @@
+{
+  "email": "#billing_email",
+  "password": "#cfw-password",
+  "loginBtn": "#cfw-login-btn",
+  "accountText": "#cfw-login-details .cfw-have-acc-text"
+}

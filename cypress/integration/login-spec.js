@@ -1,3 +1,7 @@
+import dataScaffolding from "../data_scaffolding/data-scaffolding";
+
+let account = dataScaffolding.accounts[0];
+
 describe( 'Test Logging In', function() {
     beforeEach( function() {
         cy.add_item_to_cart();
@@ -5,17 +9,17 @@ describe( 'Test Logging In', function() {
     } );
 
     it( 'Fails on invalid login', function() {
-        cy.get( '#billing_email' ).type( 'clifgriffin@gmail.com' );
-        cy.get( '#cfw-password' ).type( 'wrong password' );
-        cy.get( '#cfw-login-btn' ).click();
-        cy.get( '#cfw-content' ).find( '#cfw-alert-container .message' ).should( 'contain', 'The password you entered for the email address' );
+        cy.get( dataScaffolding.fields.account.email ).type( account.email );
+        cy.get( dataScaffolding.fields.account.password ).type( account.badPassword );
+        cy.get( dataScaffolding.fields.account.loginBtn ).click();
+        cy.get( dataScaffolding.fields.general.alertContainer ).should( 'contain', dataScaffolding.messages.account.incorrectPasswordAlertMessage );
     } );
 
     it( 'Succeeds on valid login', function() {
-        cy.get( '#billing_email' ).type( 'clifgriffin@gmail.com' );
-        cy.get( '#cfw-password' ).type( 'test123' );
-        cy.get( '#cfw-login-btn' ).click();
-        cy.get( '#cfw-login-details .cfw-have-acc-text' ).should( 'contain', 'Welcome' );
+        cy.get( dataScaffolding.fields.account.email ).type( account.email );
+        cy.get( dataScaffolding.fields.account.password ).type( account.password );
+        cy.get( dataScaffolding.fields.account.loginBtn ).click();
+        cy.get( dataScaffolding.fields.account.accountText ).should( 'contain', dataScaffolding.messages.account.onLoginAccountMessage );
 
         // TODO: Add cookie check
     } );

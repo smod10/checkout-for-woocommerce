@@ -1,6 +1,6 @@
 {
   "chromeWebSecurity": false,
-  "baseUrl": "https://plugindev.test",
+  "baseUrl": "https://cfw.test",
   "env": {
     "billing_email": "clifgriffin@gmail.com",
     "shipping_first_name": "Clifton",
@@ -13,7 +13,7 @@
     "shipping_state": "VA",
     "shipping_city": "Lynchburg",
     "site": {
-      "path": "~/Sites/plugindev"
+      "path": "~/objectiv/sites/cfw"
     }
   }
 }

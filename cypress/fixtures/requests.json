@@ -1,0 +1,8 @@
+{
+  "addToCart": {
+    "method": "POST",
+    "url": "?wc-ajax=add_to_cart",
+    "form": true,
+    "body": {}
+  }
+}

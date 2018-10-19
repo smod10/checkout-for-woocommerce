@@ -24,18 +24,15 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add("add_item_to_cart", () => {
-    cy.request({
-        method: 'POST',
-        url: '?wc-ajax=add_to_cart', // baseUrl is prepended to url
-        form: true, // indicates the body should be form urlencoded and sets Content-Type: application/x-www-form-urlencoded headers
-        body: {
-            product_sku: 455957,
-            product_id: 299,
-            quantity: 1
-        }
-    })
-});
+import dataScaffolding from "../data_scaffolding/data-scaffolding";
+
+let dataMap = { product_sku: "sku", product_id: "id", quantity: "quantity" };
+let product = dataScaffolding.products[0];
+let requestKey = "addToCart";
+
+let addToCartRequest = dataScaffolding.combineRequestWithData(requestKey, product, dataMap);
+
+Cypress.Commands.add("add_item_to_cart", () => cy.request(addToCartRequest));
 
 Cypress.Commands.add("fill_customer_information_tab_and_advance", () => {
     cy.get( '#billing_email' ).then( ($input) => {

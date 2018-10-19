@@ -1,8 +1,6 @@
 // Classes
 let Fields = require("./models/fields");
 let Messages = require("./models/messages");
-let Account = require("./models/account").Account;
-let Product = require("./models/product").Product;
 
 // Factories
 let AccountFactory = require("./models/account").AccountFactory;
@@ -19,8 +17,8 @@ let accountMessages = require("../fixtures/account-messages");
 let requests = require("../fixtures/requests");
 
 // Data
-let accountData = require("./data/accounts");
-let productData = require("./data/products");
+let accountData = require("../data/accounts");
+let productData = require("../data/products");
 
 let fields = new Fields(generalFields, accountFields, {});
 let messages = new Messages({}, accountMessages, {});

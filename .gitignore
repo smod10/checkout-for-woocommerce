@@ -17,4 +17,5 @@ templates/**/theme.min.js
 .env
 /cypress/videos
 /cypress/screenshots
-/cypress/data_scaffolding/data
+cypress.env.json
+cypress.overrides.json

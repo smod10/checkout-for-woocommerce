@@ -23,9 +23,17 @@ class PixelYourSitePro extends Base {
 		if ( ! is_admin() && ! defined( 'DOING_AJAX' ) ) {
 			add_action('cfw_wp_head', function() {
 				$pys = \PixelYourSite\PYS::instance();
+
+				// if we have the PYS instance
 				if($pys) {
+					// Make manage pixels run
 					$pys->managePixels();
-					$pys->getEventsManager()->outputData();
+
+					// If the events manager exists (important)
+					if($pys->getEventsManager()) {
+						// Output the data
+						$pys->getEventsManager()->outputData();
+					}
 				}
 			});
 		}

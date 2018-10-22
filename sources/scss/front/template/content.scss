@@ -725,10 +725,12 @@ a.button {
 
 .cfw-cart-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 0.7em;
 
   .cfw-cart-item-image {
+    line-height: 0;
+
     img {
       width: auto;
       height: auto;

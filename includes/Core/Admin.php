@@ -199,9 +199,15 @@ class Admin {
                         $selected = ($active_template == $folder_name) ? true : false;
 
                         ?>
+						<?php add_thickbox(); ?>
                         <div class="theme <?php if ( $selected ) echo "active"; ?>">
                             <div class="theme-screenshot">
-                                <img src="<?php echo $screen_shot; ?>" />
+                                <a href="#TB_inline?width=1200&height=900&inlineId=theme-preview-<?php echo $folder_name; ?>" class="thickbox">
+                                    <img class="theme-screenshot-img" src="<?php echo $screen_shot; ?>" />
+                                </a>
+                                <div id="theme-preview-<?php echo $folder_name; ?>" style="display:none;">
+                                    <img src="<?php echo $screen_shot; ?>" />
+                                </div>
                             </div>
                             <div class="theme-id-container">
 

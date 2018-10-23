@@ -148,8 +148,8 @@ class Main extends Singleton {
 	 */
 	public function __construct() {
 		// Program Details
-		$this->plugin_name = "Checkout for WooCommerce";
-		$this->version = CFW_VERSION;
+		$this->plugin_name = 'Checkout for WooCommerce';
+		$this->version     = CFW_VERSION;
 	}
 
 	/**
@@ -213,8 +213,7 @@ class Main extends Singleton {
 	 * @access public
 	 * @return TemplateManager
 	 */
-	public function get_template_manager()
-	{
+	public function get_template_manager() {
 		return $this->template_manager;
 	}
 
@@ -288,20 +287,22 @@ class Main extends Singleton {
 	 * @since 1.0.0
 	 * @param string $file The file path to the main plugin file
 	 */
-	public function run($file) {
+	public function run( $file ) {
 		// Enable program flags
 		$this->check_flags();
 
 		// Create and setup the plugins main objects
-		$this->create_main_objects($file);
+		$this->create_main_objects( $file );
 
 		// Loads all the ajax handlers on the php side
 		$this->configure_objects();
 
-		add_action('init', function() {
-			// Adds the plugins hooks
-			$this->add_plugin_hooks();
-		});
+		add_action(
+			'init', function() {
+				// Adds the plugins hooks
+				$this->add_plugin_hooks();
+			}
+		);
 	}
 
 	/**
@@ -312,7 +313,7 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function check_flags() {
-		(!defined('CFW_DEV_MODE') || !CFW_DEV_MODE) ?: $this->enable_dev_mode();
+		( ! defined( 'CFW_DEV_MODE' ) || ! CFW_DEV_MODE ) ?: $this->enable_dev_mode();
 	}
 
 	/**
@@ -326,9 +327,9 @@ class Main extends Singleton {
 	 */
 	private function enable_dev_mode() {
 		// Enable Whoops
-//		$whoops = new Run();
-//		$whoops->pushHandler(new PrettyPageHandler());
-//		$whoops->register();
+		//      $whoops = new Run();
+		//      $whoops->pushHandler(new PrettyPageHandler());
+		//      $whoops->register();
 
 		// Enable Kint
 		\Kint::$enabled_mode = true;
@@ -343,49 +344,52 @@ class Main extends Singleton {
 	 * @access private
 	 * @param string $file The file path to the main plugin file
 	 */
-	private function create_main_objects($file) {
+	private function create_main_objects( $file ) {
 
 		// Create the loader for actions and filters
 		$this->loader = new Loader();
 
 		// Set up localization
-		$this->i18n = new i18n('checkout-wc');
+		$this->i18n = new i18n( 'checkout-wc' );
 
 		// Activator
-		$this->activator = new Activator($this->get_activator_checks());
+		$this->activator = new Activator( $this->get_activator_checks() );
 
 		// Deactivator
 		$this->deactivator = new Deactivator();
 
 		// The path manager for the plugin
-		$this->path_manager = new ExtendedPathManager(plugin_dir_path($file), plugin_dir_url($file), $file);
+		$this->path_manager = new ExtendedPathManager( plugin_dir_path( $file ), plugin_dir_url( $file ), $file );
 
 		// The settings manager for the plugin
 		$this->settings_manager = new SettingsManager();
 
-		$active_template = $this->settings_manager->get_setting('active_template');
+		$active_template = $this->settings_manager->get_setting( 'active_template' );
 
 		// Create the template manager
-		$this->template_manager = new TemplateManager($this->path_manager, empty( $active_template ) ? "default" : $active_template );
+		$this->template_manager = new TemplateManager( $this->path_manager, empty( $active_template ) ? 'default' : $active_template );
 
-		if( apply_filters('cfw_should_load_template_functions', true) ) {
+		if ( apply_filters( 'cfw_should_load_template_functions', true ) ) {
 			$this->template_manager->load_template_functions();
 		}
 
 		// Create the ajax manager
-		$this->ajax_manager = new AjaxManager($this->get_ajax_actions(), $this->loader);
+		$this->ajax_manager = new AjaxManager( $this->get_ajax_actions(), $this->loader );
 
 		// License updater
-		$this->updater = new \CGD_EDDSL_Magic("_cfw_licensing", false, CFW_UPDATE_URL, $this->get_version(), CFW_NAME, "Objectiv", $file, $theme = false);
+		$this->updater = new \CGD_EDDSL_Magic( '_cfw_licensing', false, CFW_UPDATE_URL, $this->get_version(), CFW_NAME, 'Objectiv', $file, $theme = false );
 	}
 
 	public function get_activator_checks() {
 		return array(
-			"woocommerce/woocommerce.php" => ["checkout-woocommerce_activation", array(
-				"success"           => false,
-				"class"             => "notice error",
-				"message"           => __("Activation failed: Please activate WooCommerce in order to use Checkout for WooCommerce", $this->get_i18n()->get_text_domain())
-			)]
+			'woocommerce/woocommerce.php' => [
+				'checkout-woocommerce_activation',
+				array(
+					'success' => false,
+					'class'   => 'notice error',
+					'message' => __( 'Activation failed: Please activate WooCommerce in order to use Checkout for WooCommerce', $this->get_i18n()->get_text_domain() ),
+				),
+			],
 		);
 	}
 
@@ -403,11 +407,11 @@ class Main extends Singleton {
 	public function get_ajax_actions() {
 		// Setting no_privilege to false because wc_ajax doesn't have a no privilege endpoint.
 		return array(
-			new AccountExistsAction("account_exists", false, "wc_ajax_"),
-			new LogInAction("login", false, "wc_ajax_"),
-			new CompleteOrderAction("complete_order", false, "wc_ajax_"),
-			new ApplyCouponAction("cfw_apply_coupon", false, "wc_ajax_"),
-			new UpdateCheckoutAction("update_checkout", false, "wc_ajax_"),
+			new AccountExistsAction( 'account_exists', false, 'wc_ajax_' ),
+			new LogInAction( 'login', false, 'wc_ajax_' ),
+			new CompleteOrderAction( 'complete_order', false, 'wc_ajax_' ),
+			new ApplyCouponAction( 'cfw_apply_coupon', false, 'wc_ajax_' ),
+			new UpdateCheckoutAction( 'update_checkout', false, 'wc_ajax_' ),
 		);
 	}
 
@@ -415,74 +419,82 @@ class Main extends Singleton {
 	 * Set the plugin assets
 	 */
 	public function set_assets() {
-		if ( ! function_exists('is_checkout') || ! is_checkout() ) return;
+		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+			return;
+		}
 
 		global $wp;
-		
+
 		$front = "{$this->path_manager->get_assets_path()}/front";
 
-		$selected_template = $this->template_manager->get_selected_template();
-		$selected_template_info = $this->template_manager->get_templates_information()[$selected_template];
-		$selected_template_base_path = $selected_template_info["base_path"];
-		$selected_template_base_url_path = $selected_template_info["base_url_path"];
+		$selected_template                   = $this->template_manager->get_selected_template();
+		$selected_template_info              = $this->template_manager->get_templates_information()[ $selected_template ];
+		$selected_template_base_path         = $selected_template_info['base_path'];
+		$selected_template_base_url_path     = $selected_template_info['base_url_path'];
 		$selected_template_stylesheet_is_min = $this->template_manager->get_generated_file_info(
 			$selected_template_base_path,
 			$this->template_manager->get_theme_style_filename(),
-			"css"
-		)["is_min"];
+			'css'
+		)['is_min'];
 		$selected_template_javascript_is_min = $this->template_manager->get_generated_file_info(
 			$selected_template_base_path,
 			$this->template_manager->get_theme_javascript_filename(),
-			"js"
-		)["is_min"];
+			'js'
+		)['is_min'];
 
-		$min = ( ! CFW_DEV_MODE ) ? ".min" : "";
-		$user_style_min = ($selected_template_stylesheet_is_min) ? ".min" : "";
-		$user_js_min = ($selected_template_javascript_is_min) ? ".min" : "";
+		$min            = ( ! CFW_DEV_MODE ) ? '.min' : '';
+		$user_style_min = ( $selected_template_stylesheet_is_min ) ? '.min' : '';
+		$user_js_min    = ( $selected_template_javascript_is_min ) ? '.min' : '';
 
-		wp_enqueue_style('cfw_front_css', "{$front}/css/checkout-woocommerce-front{$min}.css", array(), $this->get_version());
-		wp_enqueue_style( 'cfw_front_template_css', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_style_filename()}{$user_style_min}.css", array(), $this->get_version());
-		wp_enqueue_script('cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array('jquery'), $this->get_version(), true);
-		wp_enqueue_script( 'cfw_front_template_js', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_javascript_filename()}{$user_js_min}.js", array('jquery'), $this->get_version(), true);
+		wp_enqueue_style( 'cfw_front_css', "{$front}/css/checkout-woocommerce-front{$min}.css", array(), $this->get_version() );
+		wp_enqueue_style( 'cfw_front_template_css', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_style_filename()}{$user_style_min}.css", array(), $this->get_version() );
+		wp_enqueue_script( 'cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array( 'jquery' ), $this->get_version(), true );
+		wp_enqueue_script( 'cfw_front_template_js', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_javascript_filename()}{$user_js_min}.js", array( 'jquery' ), $this->get_version(), true );
 
-		wp_localize_script( 'cfw_front_js', 'woocommerce_params', array(
-			'ajax_url'                  => WC()->ajax_url(),
-			'wc_ajax_url'               => \WC_AJAX::get_endpoint( "%%endpoint%%" ),
-			'update_order_review_nonce' => wp_create_nonce( 'update-order-review' ),
-			'apply_coupon_nonce'        => wp_create_nonce( 'apply-coupon' ),
-			'remove_coupon_nonce'       => wp_create_nonce( 'remove-coupon' ),
-			'option_guest_checkout'     => get_option( 'woocommerce_enable_guest_checkout' ),
-			'checkout_url'              => \WC_AJAX::get_endpoint( "checkout" ),
-			'is_checkout'               => is_page( wc_get_page_id( 'checkout' ) ) && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
-			'debug_mode'                => defined( 'WP_DEBUG' ) && WP_DEBUG,
-			'i18n_checkout_error'       => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
-		) );
+		wp_localize_script(
+			'cfw_front_js', 'woocommerce_params', array(
+				'ajax_url'                  => WC()->ajax_url(),
+				'wc_ajax_url'               => \WC_AJAX::get_endpoint( '%%endpoint%%' ),
+				'update_order_review_nonce' => wp_create_nonce( 'update-order-review' ),
+				'apply_coupon_nonce'        => wp_create_nonce( 'apply-coupon' ),
+				'remove_coupon_nonce'       => wp_create_nonce( 'remove-coupon' ),
+				'option_guest_checkout'     => get_option( 'woocommerce_enable_guest_checkout' ),
+				'checkout_url'              => \WC_AJAX::get_endpoint( 'checkout' ),
+				'is_checkout'               => is_page( wc_get_page_id( 'checkout' ) ) && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
+				'debug_mode'                => defined( 'WP_DEBUG' ) && WP_DEBUG,
+				'i18n_checkout_error'       => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
+			)
+		);
 
 		$this->handle_countries();
 	}
 
 	public function handle_countries() {
-		wp_localize_script('cfw_front_js', 'wc_country_select_params',  array(
-			'countries'                 => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) ),
-			'i18n_select_state_text'    => esc_attr__( 'Select an option&hellip;', 'woocommerce' ),
-			'i18n_no_matches'           => _x( 'No matches found', 'enhanced select', 'woocommerce' ),
-			'i18n_ajax_error'           => _x( 'Loading failed', 'enhanced select', 'woocommerce' ),
-			'i18n_input_too_short_1'    => _x( 'Please enter 1 or more characters', 'enhanced select', 'woocommerce' ),
-			'i18n_input_too_short_n'    => _x( 'Please enter %qty% or more characters', 'enhanced select', 'woocommerce' ),
-			'i18n_input_too_long_1'     => _x( 'Please delete 1 character', 'enhanced select', 'woocommerce' ),
-			'i18n_input_too_long_n'     => _x( 'Please delete %qty% characters', 'enhanced select', 'woocommerce' ),
-			'i18n_selection_too_long_1' => _x( 'You can only select 1 item', 'enhanced select', 'woocommerce' ),
-			'i18n_selection_too_long_n' => _x( 'You can only select %qty% items', 'enhanced select', 'woocommerce' ),
-			'i18n_load_more'            => _x( 'Loading more results&hellip;', 'enhanced select', 'woocommerce' ),
-			'i18n_searching'            => _x( 'Searching&hellip;', 'enhanced select', 'woocommerce' ),
-		));
+		wp_localize_script(
+			'cfw_front_js', 'wc_country_select_params', array(
+				'countries'                 => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) ),
+				'i18n_select_state_text'    => esc_attr__( 'Select an option&hellip;', 'woocommerce' ),
+				'i18n_no_matches'           => _x( 'No matches found', 'enhanced select', 'woocommerce' ),
+				'i18n_ajax_error'           => _x( 'Loading failed', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_short_1'    => _x( 'Please enter 1 or more characters', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_short_n'    => _x( 'Please enter %qty% or more characters', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_long_1'     => _x( 'Please delete 1 character', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_long_n'     => _x( 'Please delete %qty% characters', 'enhanced select', 'woocommerce' ),
+				'i18n_selection_too_long_1' => _x( 'You can only select 1 item', 'enhanced select', 'woocommerce' ),
+				'i18n_selection_too_long_n' => _x( 'You can only select %qty% items', 'enhanced select', 'woocommerce' ),
+				'i18n_load_more'            => _x( 'Loading more results&hellip;', 'enhanced select', 'woocommerce' ),
+				'i18n_searching'            => _x( 'Searching&hellip;', 'enhanced select', 'woocommerce' ),
+			)
+		);
 
-		wp_localize_script('cfw_front_js', 'wc_address_i18n_params', array(
-			'locale'             => json_encode( WC()->countries->get_country_locale() ),
-			'locale_fields'      => json_encode( WC()->countries->get_country_locale_field_selectors() ),
-			'add2_text'          => _x('Apt, suite, etc. (optional)', 'checkout-wc'),
-			'i18n_required_text' => esc_attr__( 'required', 'woocommerce' )
-		));
+		wp_localize_script(
+			'cfw_front_js', 'wc_address_i18n_params', array(
+				'locale'             => json_encode( WC()->countries->get_country_locale() ),
+				'locale_fields'      => json_encode( WC()->countries->get_country_locale_field_selectors() ),
+				'add2_text'          => _x( 'Apt, suite, etc. (optional)', 'checkout-wc' ),
+				'i18n_required_text' => esc_attr__( 'required', 'woocommerce' ),
+			)
+		);
 	}
 
 	/**
@@ -519,15 +531,15 @@ class Main extends Singleton {
 	function is_enabled() {
 		$result = false;
 
-		if ( ! function_exists('WC') ) {
+		if ( ! function_exists( 'WC' ) ) {
 			$result = false; // superfluous, but sure
 		}
 
-		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) || current_user_can('manage_options') ) {
+		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting( 'enable' ) == 'yes' ) || current_user_can( 'manage_options' ) ) {
 			$result = true;
 		}
 
-		return apply_filters('cfw_checkout_is_enabled', $result);
+		return apply_filters( 'cfw_checkout_is_enabled', $result );
 	}
 
 	function compatibility() {
@@ -543,27 +555,30 @@ class Main extends Singleton {
 	private function load_actions() {
 
 		// Add the Language class
-		$this->i18n->load_plugin_textdomain($this->path_manager);
+		$this->i18n->load_plugin_textdomain( $this->path_manager );
 
 		// Override some WooCommerce Options
-		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting('enable') == "yes" ) ) {
+		if ( ( $this->license_is_valid() && $this->settings_manager->get_setting( 'enable' ) == 'yes' ) ) {
 			// For some reason, using the loader add_filter here doesn't work *shrug*
-			add_filter( 'pre_option_woocommerce_registration_generate_password', array($this, 'override_woocommerce_registration_generate_password'), 10, 1 );
+			add_filter( 'pre_option_woocommerce_registration_generate_password', array( $this, 'override_woocommerce_registration_generate_password' ), 10, 1 );
 		}
 
-
 		// Handle the Activation notices
-		$this->loader->add_action('admin_notices', function() {
-			$this->get_activator()->activate_admin_notice($this->get_path_manager());
-		});
+		$this->loader->add_action(
+			'admin_notices', function() {
+				$this->get_activator()->activate_admin_notice( $this->get_path_manager() );
+			}
+		);
 
 		// Setup the Checkout redirect
-		$this->loader->add_action('template_redirect', function() {
-			if ( $this->is_enabled() ) {
-				// Call Redirect
-				Redirect::checkout($this->settings_manager, $this->path_manager, $this->template_manager, $this->version);
+		$this->loader->add_action(
+			'template_redirect', function() {
+				if ( $this->is_enabled() ) {
+					// Call Redirect
+					Redirect::checkout( $this->settings_manager, $this->path_manager, $this->template_manager, $this->version );
+				}
 			}
-		});
+		);
 	}
 
 	/**
@@ -588,32 +603,31 @@ class Main extends Singleton {
 		$errors = $main->get_activator()->activate();
 
 		// Init settings
-		$main->get_settings_manager()->add_setting('enable', 'no');
-		$main->get_settings_manager()->add_setting('active_template', 'default');
-
+		$main->get_settings_manager()->add_setting( 'enable', 'no' );
+		$main->get_settings_manager()->add_setting( 'active_template', 'default' );
 
 		// Set defaults
 		$cfw_templates = $main->get_template_manager()->get_templates_information();
 
-		foreach( $cfw_templates as $template_path => $template_information ) {
-			$supports = ! empty( $template_information['stylesheet_info']['Supports'] ) ? array_map('trim', explode(',', $template_information['stylesheet_info']['Supports'] ) ) : array();
+		foreach ( $cfw_templates as $template_path => $template_information ) {
+			$supports = ! empty( $template_information['stylesheet_info']['Supports'] ) ? array_map( 'trim', explode( ',', $template_information['stylesheet_info']['Supports'] ) ) : array();
 
-			if ( in_array('header-background', $supports) ) {
-				if ( $template_path == "futurist" ) {
+			if ( in_array( 'header-background', $supports ) ) {
+				if ( $template_path == 'futurist' ) {
 					$main->get_settings_manager()->add_setting( 'header_background_color', '#000000', array( $template_path ) );
 					$main->get_settings_manager()->add_setting( 'header_text_color', '#ffffff', array( $template_path ) );
 				} else {
-					$main->get_settings_manager()->add_setting( 'header_background_color', '#ffffff');
+					$main->get_settings_manager()->add_setting( 'header_background_color', '#ffffff' );
 				}
 			}
 
-			if ( in_array('footer-background', $supports) ) {
+			if ( in_array( 'footer-background', $supports ) ) {
 				$main->get_settings_manager()->add_setting( 'footer_background_color', '#ffffff', array( $template_path ) );
 				$main->get_settings_manager()->add_setting( 'footer_color', '#999999', array( $template_path ) );
 			}
 
-			if ( in_array('summary-background', $supports) ) {
-				if ( $template_path == "copify" ) {
+			if ( in_array( 'summary-background', $supports ) ) {
+				if ( $template_path == 'copify' ) {
 					$main->get_settings_manager()->add_setting( 'summary_background_color', '#f8f8f8', array( $template_path ) );
 				} else {
 					$main->get_settings_manager()->add_setting( 'summary_background_color', '#ffffff', array( $template_path ) );
@@ -658,7 +672,7 @@ class Main extends Singleton {
 	 */
 	function override_woocommerce_registration_generate_password( $result ) {
 		if ( is_checkout() ) {
-			return "yes";
+			return 'yes';
 		}
 
 		return $result;
@@ -671,13 +685,13 @@ class Main extends Singleton {
 		// Get main
 		$main = Main::instance();
 
-		$key_status = $main->updater->get_field_value('key_status');
-		$license_key = $main->updater->get_field_value('license_key');
+		$key_status  = $main->updater->get_field_value( 'key_status' );
+		$license_key = $main->updater->get_field_value( 'license_key' );
 
 		$valid = true;
 
 		// Validate Key Status
-		if ( empty($license_key) || ( ($key_status !== "valid" || $key_status == "inactive" || $key_status == "site_inactive") ) ) {
+		if ( empty( $license_key ) || ( ( $key_status !== 'valid' || $key_status == 'inactive' || $key_status == 'site_inactive' ) ) ) {
 			$valid = false;
 		}
 

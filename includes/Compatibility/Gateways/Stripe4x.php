@@ -6,7 +6,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Base;
 
 class Stripe4x extends Base {
 
-	protected $stripe_request_button_height = "35";
+	protected $stripe_request_button_height = '35';
 
 	public function __construct() {
 		parent::__construct();
@@ -27,14 +27,14 @@ class Stripe4x extends Base {
 		add_action( 'wp', array( $this, 'add_stripe_apple_pay' ) );
 
 		// If this filter returns true, override the btn height settings in 2 places
-		if(apply_filters('cfw_stripe_compat_override_request_btn_height', '__return_true')) {
+		if ( apply_filters( 'cfw_stripe_compat_override_request_btn_height', '__return_true' ) ) {
 
-			add_action( 'update_option_woocommerce_stripe_settings', array($this, 'override_btn_height_settings_on_update') , 10, 2 );
-			add_filter( 'wc_stripe_settings', array($this, 'filter_default_settings'), 1 );
+			add_action( 'update_option_woocommerce_stripe_settings', array( $this, 'override_btn_height_settings_on_update' ), 10, 2 );
+			add_filter( 'wc_stripe_settings', array( $this, 'filter_default_settings' ), 1 );
 		}
 	}
 
-	function override_btn_height_settings_on_update ( $old_value, $value ) {
+	function override_btn_height_settings_on_update( $old_value, $value ) {
 
 		$height = $this->stripe_request_button_height;
 
@@ -46,7 +46,7 @@ class Stripe4x extends Base {
 
 	}
 
-	function filter_default_settings($settings) {
+	function filter_default_settings( $settings ) {
 		$settings['payment_request_button_height']['default'] = $this->stripe_request_button_height;
 
 		return $settings;
@@ -61,7 +61,7 @@ class Stripe4x extends Base {
 				$apple_pay_reg = new \WC_Stripe_Apple_Pay_Registration();
 
 				if (
-					$apple_pay_reg->stripe_enabled == "yes" &&
+					$apple_pay_reg->stripe_enabled == 'yes' &&
 					$apple_pay_reg->apple_pay_domain_set &&
 					$apple_pay_reg->payment_request
 				) {

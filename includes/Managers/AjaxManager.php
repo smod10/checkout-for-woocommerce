@@ -36,9 +36,9 @@ class AjaxManager {
 	 * @param array $ajax_modules
 	 * @param Loader $loader
 	 */
-	public function __construct($ajax_modules, $loader) {
+	public function __construct( $ajax_modules, $loader ) {
 		$this->ajax_modules = $ajax_modules;
-		$this->loader = $loader;
+		$this->loader       = $loader;
 	}
 
 	/**
@@ -48,7 +48,7 @@ class AjaxManager {
 	 * @access public
 	 */
 	public function load_all() {
-		foreach($this->ajax_modules as $ajax) {
+		foreach ( $this->ajax_modules as $ajax ) {
 			$ajax->load();
 		}
 	}

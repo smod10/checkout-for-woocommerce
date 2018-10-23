@@ -61,7 +61,11 @@
                         <!-- Customer Info Panel -->
                         <div id="cfw-customer-info" class="cfw-panel">
 
-	                        <?php do_action('cfw_checkout_before_customer_info_tab'); ?>
+                            <div id="cfw-payment-request-buttons">
+								<?php do_action('cfw_payment_request_buttons'); ?>
+                            </div>
+
+                            <?php do_action('cfw_checkout_before_customer_info_tab'); ?>
 
                             <div id="cfw-login-details" class="cfw-module">
                                 <h3 class="cfw-module-title">

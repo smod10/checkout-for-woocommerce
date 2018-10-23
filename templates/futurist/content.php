@@ -53,7 +53,11 @@
             <!-- Easy Tab Container -->
             <div id="cfw-tab-container" class="cfw-left-column cfw-column-7 tab-container">
 
-	            <?php do_action('cfw_checkout_before_form'); ?>
+                <div id="cfw-payment-request-buttons">
+					<?php do_action('cfw_payment_request_buttons'); ?>
+                </div>
+
+                <?php do_action('cfw_checkout_before_form'); ?>
 
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
                     <div id="order_review" class="woocommerce-checkout-review-order">

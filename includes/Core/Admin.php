@@ -247,8 +247,8 @@ class Admin {
         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 		    <?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
 
-            <h3>Global Settings</h3>
-            <p>These settings apply to all themes.</p>
+            <h3><?php _e( 'Global Settings', 'checkout-wc' ); ?></h3>
+            <p><?php _e( 'These settings apply to all themes.', 'checkout-wc' ) ;?></p>
             <table class="form-table">
                 <tbody>
                     <tr>

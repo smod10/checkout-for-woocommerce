@@ -10,7 +10,7 @@ class CheckoutAddressAutoComplete extends Base {
 	}
 
 	function is_available() {
-		return function_exists('ecr_addrac_scripts');
+		return function_exists( 'ecr_addrac_scripts' );
 	}
 
 	function run() {

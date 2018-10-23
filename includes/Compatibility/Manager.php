@@ -45,28 +45,28 @@ class Manager {
 		 * Plugins
 		 */
 
-	    // MixPanel
-        new MixPanel();
+		// MixPanel
+		new MixPanel();
 
-	    // MonsterInsights
-        new MonsterInsights();
+		// MonsterInsights
+		new MonsterInsights();
 
-        // Checkout Add-ons
-        new SkyVergeCheckoutAddons();
+		// Checkout Add-ons
+		new SkyVergeCheckoutAddons();
 
-        // Tickera
-        new Tickera();
+		// Tickera
+		new Tickera();
 
-        // Checkout Address Autocomplete
-        new CheckoutAddressAutoComplete();
+		// Checkout Address Autocomplete
+		new CheckoutAddressAutoComplete();
 
-        // Pixel Caffeine
-        new PixelCaffeine();
+		// Pixel Caffeine
+		new PixelCaffeine();
 
-        // One Click Upsells
-        new OneClickUpsells();
+		// One Click Upsells
+		new OneClickUpsells();
 
-        // Jilt
+		// Jilt
 		new Jilt();
 
 		// Google Analytics Pro
@@ -86,30 +86,30 @@ class Manager {
 		 */
 
 		// SkyVerge Gateway Framework
-        new SkyVerge();
+		new SkyVerge();
 
 		// PayPal Express
-        new PayPalExpress( $this );
+		new PayPalExpress( $this );
 
-        // Stripe 3.x
-        new Stripe3x();
+		// Stripe 3.x
+		new Stripe3x();
 
-        // Stripe 4.x
-        new Stripe4x();
+		// Stripe 4.x
+		new Stripe4x();
 
-        // Authorize.net AIM
-        new AuthorizeNetAIM();
+		// Authorize.net AIM
+		new AuthorizeNetAIM();
 
 		// Authorize.net CIM
-        new AuthorizeNetCIM();
+		new AuthorizeNetCIM();
 
-        // PayTrace
-        new PayTrace();
+		// PayTrace
+		new PayTrace();
 
-        // BlueSnap
-        new BlueSnap();
+		// BlueSnap
+		new BlueSnap();
 
-        // Enhanced Ecommerce Google Analytics
+		// Enhanced Ecommerce Google Analytics
 		new EnhancedEcommerceGoogleAnalytics();
 
 		// Points and Rewards
@@ -132,16 +132,18 @@ class Manager {
 		/**
 		 * Misc
 		 */
-        // TODO: Move this somewhere better
+		// TODO: Move this somewhere better
 		// WooCommerce add-to-cart URL parameter redirection
-		add_action('wp_loaded', array($this, 'add_to_cart_redirect'), 0 );
+		add_action( 'wp_loaded', array( $this, 'add_to_cart_redirect' ), 0 );
 	}
 
-    function add_to_cart_redirect() {
-	    if ( ! empty($_GET['add-to-cart']) && ! empty($_GET['checkout-redirect']) ) {
-		    add_filter('woocommerce_add_to_cart_redirect', function() {
-			    return wc_get_checkout_url();
-		    } );
-        }
-    }
+	function add_to_cart_redirect() {
+		if ( ! empty( $_GET['add-to-cart'] ) && ! empty( $_GET['checkout-redirect'] ) ) {
+			add_filter(
+				'woocommerce_add_to_cart_redirect', function() {
+					return wc_get_checkout_url();
+				}
+			);
+		}
+	}
 }

@@ -10,7 +10,7 @@ class PixelCat extends Base {
 	}
 
 	public function is_available() {
-		return defined('FCA_PC_PLUGIN_DIR');
+		return defined( 'FCA_PC_PLUGIN_DIR' );
 	}
 
 	public function allowed_scripts( $scripts ) {

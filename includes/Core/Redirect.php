@@ -168,7 +168,7 @@ class Redirect {
 				var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
 				window.dispatchEvent(cfwInitEvent);
 
-                window.ParsleyValidator.setLocale('<?php echo defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ); ?>');
+                window.Parsley.setLocale('<?php echo defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ); ?>');
 			});
 		</script>
 		<?php

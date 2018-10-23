@@ -1,5 +1,4 @@
 // Imports
-const customEvent = require('custom-event-polyfill');
 const path = require('path');
 const merge = require('webpack-merge');
 

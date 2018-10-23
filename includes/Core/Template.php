@@ -43,10 +43,10 @@ class Template extends Tracked {
 	 * @param $path
 	 * @param $parameters
 	 */
-	public function __construct($id, $path, $parameters) {
-		parent::__construct($id);
+	public function __construct( $id, $path, $parameters ) {
+		parent::__construct( $id );
 
-		$this->path = $path;
+		$this->path       = $path;
 		$this->parameters = $parameters;
 	}
 
@@ -57,8 +57,7 @@ class Template extends Tracked {
 	 * @access public
 	 * @return mixed
 	 */
-	public function get_parameters()
-	{
+	public function get_parameters() {
 		return $this->parameters;
 	}
 
@@ -69,8 +68,7 @@ class Template extends Tracked {
 	 * @access public
 	 * @return mixed
 	 */
-	public function get_path()
-	{
+	public function get_path() {
 		return $this->path;
 	}
 
@@ -89,10 +87,10 @@ class Template extends Tracked {
 		 * $woo
 		 * $checkout
 		 */
-		extract($this->parameters["global"], EXTR_SKIP);
+		extract( $this->parameters['global'], EXTR_SKIP );
 
 		// Output the user level template variables into a template anon object
-		$template = (object) $this->parameters["template"];
+		$template = (object) $this->parameters['template'];
 
 		require_once $this->get_path();
 	}

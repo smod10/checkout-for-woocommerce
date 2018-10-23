@@ -1,6 +1,15 @@
 require('script-loader!EasyTabs/vendor/jquery.hashchange.min.js');
 require('script-loader!EasyTabs/lib/jquery.easytabs.min.js');
 require('script-loader!garlicjs/dist/garlic.min.js');
+require('script-loader!parsleyjs/dist/i18n/de.js');
+require('script-loader!parsleyjs/dist/i18n/es.js');
+require('script-loader!parsleyjs/dist/i18n/fr.js');
+require('script-loader!parsleyjs/dist/i18n/it.js');
+require('script-loader!parsleyjs/dist/i18n/ja.js');
+require('script-loader!parsleyjs/dist/i18n/nl.js');
+require('script-loader!parsleyjs/dist/i18n/pt-br.js');
+require('script-loader!parsleyjs/dist/i18n/en.js');
+require('script-loader!parsleyjs/dist/i18n/zh_cn.js');
 require('script-loader!parsleyjs/dist/parsley.min.js');
 require('script-loader!custom-event-polyfill/polyfill.js');
 require('script-loader!./ArrayFindPoly.js');

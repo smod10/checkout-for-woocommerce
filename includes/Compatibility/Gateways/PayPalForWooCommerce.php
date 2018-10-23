@@ -17,7 +17,9 @@ class PayPalForWooCommerce extends Base {
 	}
 
 	public function is_available() {
-		if ( ! class_exists('WC_Payment_Gateways') ) return false;
+		if ( ! class_exists( 'WC_Payment_Gateways' ) ) {
+			return false;
+		}
 
 		$gateways = \WC_Payment_Gateways::instance()->payment_gateways();
 
@@ -30,10 +32,10 @@ class PayPalForWooCommerce extends Base {
 		return false;
 	}
 
-	function typescript_class_and_params($compatibility) {
+	function typescript_class_and_params( $compatibility ) {
 		$compatibility[] = [
-			"class" => "PayPalForWooCommerce",
-			"params" => []
+			'class'  => 'PayPalForWooCommerce',
+			'params' => [],
 		];
 
 		return $compatibility;
@@ -41,7 +43,7 @@ class PayPalForWooCommerce extends Base {
 
 	public function run() {
 		// Add PayPal Express Checkout Button
-		add_action('wp', array($this, 'add_paypal_express_to_checkout') );
+		add_action( 'wp', array( $this, 'add_paypal_express_to_checkout' ) );
 	}
 
 	public function add_paypal_express_to_checkout() {
@@ -49,12 +51,12 @@ class PayPalForWooCommerce extends Base {
 
 		if ( is_checkout() ) {
 			// Remove "OR" separator
-			remove_all_actions( 'woocommerce_proceed_to_checkout');
+			remove_all_actions( 'woocommerce_proceed_to_checkout' );
 
-			$existing_hooks = $wp_filter['woocommerce_before_checkout_form'];
+			$existing_hooks                      = $wp_filter['woocommerce_before_checkout_form'];
 			$WC_Gateway_PayPal_Express_AngellEYE = false;
 
-			if($existing_hooks[5]) {
+			if ( $existing_hooks[5] ) {
 				foreach ( $existing_hooks[5] as $key => $callback ) {
 					if ( false !== stripos( $key, 'checkout_message' ) ) {
 						$WC_Gateway_PayPal_Express_AngellEYE = $callback['function'][0];
@@ -62,8 +64,8 @@ class PayPalForWooCommerce extends Base {
 						if ( $WC_Gateway_PayPal_Express_AngellEYE->show_on_checkout == 'top' || $WC_Gateway_PayPal_Express_AngellEYE->show_on_checkout == 'both' ) {
 
 							$checkout_message = (object) [
-								"instance" => $callback['function'][0],
-								"func_name" => $callback['function'][1]
+								'instance'  => $callback['function'][0],
+								'func_name' => $callback['function'][1],
 							];
 
 							// Define the callback function to be ran on payment_request_buttons. Only ran if the appropriate conditions
@@ -73,22 +75,22 @@ class PayPalForWooCommerce extends Base {
 								// Strings to remove from output
 								$content_strings_to_remove = [
 									'<div style="clear:both; margin-bottom:10px;"></div>',
-									'<div class="clear"></div>'
+									'<div class="clear"></div>',
 								];
 
-								$paypal = $this->instance;					// The object
-								$checkout_message = $this->func_name;		// The function name
+								$paypal           = $this->instance;                  // The object
+								$checkout_message = $this->func_name;       // The function name
 
-								ob_start();									// Start output capture
+								ob_start();                                 // Start output capture
 
-								$paypal->{$checkout_message}();				// Call the function in question
-								$content = ob_get_contents();				// Store the output content
+								$paypal->{$checkout_message}();             // Call the function in question
+								$content = ob_get_contents();               // Store the output content
 
-								ob_end_clean();								// Clean the content and aend the bfufering
+								ob_end_clean();                             // Clean the content and aend the bfufering
 
 								// Remove unwanted strings
-								foreach($content_strings_to_remove as $content_str) {
-									$content = str_replace($content_str, '', $content);
+								foreach ( $content_strings_to_remove as $content_str ) {
+									$content = str_replace( $content_str, '', $content );
 								}
 
 								// Output the content
@@ -98,7 +100,7 @@ class PayPalForWooCommerce extends Base {
 
 							// Add button above customer info tab
 							// 0 puts us above the stripe apple pay button if it's there so we can use it's separator
-							add_action( 'cfw_payment_request_buttons', Closure::bind($func, $checkout_message), 0 );
+							add_action( 'cfw_payment_request_buttons', Closure::bind( $func, $checkout_message ), 0 );
 						} else {
 							return;
 						}

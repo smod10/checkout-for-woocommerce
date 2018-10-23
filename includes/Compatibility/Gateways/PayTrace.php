@@ -10,7 +10,7 @@ class PayTrace extends Base {
 	}
 
 	function is_available() {
-		return function_exists('wc_paytrace_load_plugin');
+		return function_exists( 'wc_paytrace_load_plugin' );
 	}
 
 	function allowed_scripts( $scripts ) {

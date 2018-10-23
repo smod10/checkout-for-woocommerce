@@ -10,7 +10,7 @@ class AuthorizeNetAIM extends Base {
 	}
 
 	function is_available() {
-		return class_exists('\\WC_Authorize_Net_AIM');
+		return class_exists( '\\WC_Authorize_Net_AIM' );
 	}
 
 	function allowed_scripts( $scripts ) {

@@ -32,26 +32,26 @@ class LogInAction extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer("some-seed-word", "security");
+		check_ajax_referer( 'some-seed-word', 'security' );
 
-		$info = array();
-		$info['user_login'] = $_POST['email'];
+		$info                  = array();
+		$info['user_login']    = $_POST['email'];
 		$info['user_password'] = $_POST['password'];
-		$info['remember'] = true;
+		$info['remember']      = true;
 
-		$user = wp_signon($info, is_ssl());
-		$alt_message = "Login error.";
+		$user        = wp_signon( $info, is_ssl() );
+		$alt_message = 'Login error.';
 
 		$out = array();
 
-		if(is_wp_error($user)) {
-			$out["logged_in"] = false;
-			$out["message"] = ($user->get_error_message()) ?: $alt_message;
+		if ( is_wp_error( $user ) ) {
+			$out['logged_in'] = false;
+			$out['message']   = ( $user->get_error_message() ) ?: $alt_message;
 		} else {
-			$out["logged_in"] = true;
-			$out["message"] = "Login successful";
+			$out['logged_in'] = true;
+			$out['message']   = 'Login successful';
 		}
 
-		$this->out($out);
+		$this->out( $out );
 	}
 }

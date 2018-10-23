@@ -32,14 +32,14 @@ class CompleteOrderAction extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer("some-seed-word", "security");
+		check_ajax_referer( 'some-seed-word', 'security' );
 
 		wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
 		// If the user is logged in don't try and get the user from the front end, just get it on the back before we checkout
-		if(!isset($_POST['billing_email']) || !$_POST['billing_email']) {
+		if ( ! isset( $_POST['billing_email'] ) || ! $_POST['billing_email'] ) {
 			$current_user = wp_get_current_user();
-			if($current_user) {
+			if ( $current_user ) {
 				$_POST['billing_email'] = $current_user->user_email;
 			}
 		}

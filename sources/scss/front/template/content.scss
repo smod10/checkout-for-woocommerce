@@ -677,16 +677,9 @@ p.cfw-input-wrap {
 
 #cfw-shipping-details-fields {
   margin-bottom: 15px;
-
-  label {
-    width: 225px;
-    display: table-cell;
-    font-weight: 700;
-  }
-
-  span {
-    display: table-cell;
-  }
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
 }
 
 .cfw-prev-tab {

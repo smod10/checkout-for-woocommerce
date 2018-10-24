@@ -279,11 +279,112 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	}
 
 	function cfw_get_shipping_details($checkout) {
-		$shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', $checkout->get_checkout_fields( 'shipping' ) );
+        echo cfw_get_formatted_address(
+	        array(
+		        'first_name' => "<span class='cfw-shipping-details-field' field_type='first_name'><span class='field_value'>{$checkout->get_value( 'shipping_first_name' )}</span></span>",
+		        'last_name'  => "<span class='cfw-shipping-details-field' field_type='last_name'><span class='field_value'>{$checkout->get_value( 'shipping_last_name' )}</span></span>",
+		        'company'    => "<span class='cfw-shipping-details-field' field_type='company'><span class='field_value'>{$checkout->get_value( 'shipping_company' )}</span></span>",
+		        'address_1'  => "<span class='cfw-shipping-details-field' field_type='address_1'><span class='field_value'>{$checkout->get_value( 'shipping_address_1' )}</span></span>",
+		        'address_2'  => "<span class='cfw-shipping-details-field' field_type='address_2'><span class='field_value'>{$checkout->get_value( 'shipping_address_2' )}</span></span>",
+		        'city'       => "<span class='cfw-shipping-details-field' field_type='city'><span class='field_value'>{$checkout->get_value( 'shipping_city' )}</span></span>",
+		        'state'      => "<span class='cfw-shipping-details-field' field_type='state'><span class='field_value'>{$checkout->get_value( 'shipping_state' )}</span></span>",
+		        'postcode'   => "<span class='cfw-shipping-details-field' field_type='postcode'><span class='field_value'>{$checkout->get_value( 'shipping_postcode' )}</span></span>",
+		        'country'    => "<span class='cfw-shipping-details-field' field_type='country'><span class='field_value'>{$checkout->get_value( 'shipping_country' )}</span></span>",
+	        ), $checkout->get_value( 'shipping_country' )
+        );
+	}
 
-		foreach ( $shipping_checkout_fields as $key => $field ) {
-			echo "<div field_type='" . cfw_strip_key_type($key) ."' class='cfw-shipping-details-field'><label class='field_type'>" . esc_html__( $field['label'], 'woocommerce') . ": </label><span class='field_value'>{$checkout->get_value($key)}</span></div>";
+	/**
+	 * Get country address format.
+     *
+     * Copy of function in \WC_Countries
+	 *
+	 * @param  array $args Arguments.
+	 * @return string
+	 */
+	function cfw_get_formatted_address( $args = array(), $country = "US" ) {
+		$default_args = array(
+			'first_name' => '',
+			'last_name'  => '',
+			'company'    => '',
+			'address_1'  => '',
+			'address_2'  => '',
+			'city'       => '',
+			'state'      => '',
+			'postcode'   => '',
+			'country'    => '',
+		);
+
+		$args    = array_map( 'trim', wp_parse_args( $args, $default_args ) );
+		$state   = $args['state'];
+
+		// Get all formats.
+		$formats = WC()->countries->get_address_formats();
+
+		// Get format for the address' country.
+		$format = ( $country && isset( $formats[ $country ] ) ) ? $formats[ $country ] : $formats['default'];
+
+		// Handle full country name.
+		$full_country = ( isset( WC()->countries->countries[ $country ] ) ) ? WC()->countries->countries[ $country ] : $country;
+
+		// Country is not needed if the same as base.
+		if ( $country === WC()->countries->get_base_country() && ! apply_filters( 'woocommerce_formatted_address_force_country_display', false ) ) {
+			$format = str_replace( '{country}', '', $format );
 		}
+
+		// Handle full state name.
+		$full_state = ( $country && $state && isset( WC()->countries->states[ $country ][ $state ] ) ) ? WC()->countries->states[ $country ][ $state ] : $state;
+
+		// Substitute address parts into the string.
+		$replace = apply_filters(
+			'woocommerce_formatted_address_replacements', array(
+			'{first_name}'       => $args['first_name'],
+			'{last_name}'        => $args['last_name'],
+			'{name}'             => $args['first_name'] . ' ' . $args['last_name'],
+			'{company}'          => $args['company'],
+			'{address_1}'        => $args['address_1'],
+			'{address_2}'        => $args['address_2'],
+			'{city}'             => $args['city'],
+			'{state}'            => $full_state,
+			'{postcode}'         => $args['postcode'],
+			'{country}'          => $full_country,
+			'{first_name_upper}' => strtoupper( $args['first_name'] ),
+			'{last_name_upper}'  => strtoupper( $args['last_name'] ),
+			'{name_upper}'       => strtoupper( $args['first_name'] . ' ' . $args['last_name'] ),
+			'{company_upper}'    => strtoupper( $args['company'] ),
+			'{address_1_upper}'  => strtoupper( $args['address_1'] ),
+			'{address_2_upper}'  => strtoupper( $args['address_2'] ),
+			'{city_upper}'       => strtoupper( $args['city'] ),
+			'{state_upper}'      => strtoupper( $full_state ),
+			'{state_code}'       => strtoupper( $state ),
+			'{postcode_upper}'   => strtoupper( $args['postcode'] ),
+			'{country_upper}'    => strtoupper( $full_country ),
+		), $args );
+
+		$formatted_address = str_replace( array_keys( $replace ), $replace, $format );
+
+		// Clean up white space.
+		$formatted_address = preg_replace( '/  +/', ' ', trim( $formatted_address ) );
+		$formatted_address = preg_replace( '/\n\n+/', "\n", $formatted_address );
+
+		// Break newlines apart and remove empty lines/trim commas and white space.
+		$formatted_address = array_filter( array_map( 'cfw_trim_formatted_address_line', explode( "\n", $formatted_address ) ) );
+
+		// Add html breaks.
+		$formatted_address = implode( '<br/>', $formatted_address );
+
+		// We're done!
+		return $formatted_address;
+	}
+
+	/**
+	 * Trim white space and commas off a line.
+	 *
+	 * @param  string $line Line.
+	 * @return string
+	 */
+	function cfw_trim_formatted_address_line( $line ) {
+		return trim( $line, ', ' );
 	}
 
 	function cfw_cart_totals_shipping_html() {

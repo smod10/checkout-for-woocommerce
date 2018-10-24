@@ -394,24 +394,6 @@ export class TabContainer extends Element {
     /**
      *
      */
-    setShippingFieldsOnLoad(): void {
-        let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
-        let form_elements: Array<FormElement> = customer_info.getFormElementsByModule('cfw-shipping-info');
-        let staticShippingFields: UpdateShippingFieldsRI = this.getUpdateShippingRequiredItems();
-
-        form_elements.forEach((formElement: FormElement) => {
-            let feFieldKey: string = formElement.holder.jel.attr("field_key");
-            let feFieldValue: string = formElement.holder.jel.val();
-
-            let match: any = staticShippingFields.shipping_details_fields.find((sdf: any) => sdf.attr("field_type") == feFieldKey);
-
-            match.children(".field_value").text(feFieldValue);
-        })
-    }
-
-    /**
-     *
-     */
     setUpMobileCartDetailsReveal(): void {
         let showCartDetails: Element = new Element($("#cfw-show-cart-details"));
         showCartDetails.jel.on('click tap', () => {

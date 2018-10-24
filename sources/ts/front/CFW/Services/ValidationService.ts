@@ -69,10 +69,6 @@ export class ValidationService {
 				return validated;
 			}
 
-			if(EasyTabService.isThereAShippingTab()) {
-				UpdateCheckoutAction.updateShippingDetails();
-			}
-
 			Alert.removeAlerts(Main.instance.alertContainer);
 
 			// If we are moving forward / backwards, have a shipping easy tab, and are not on the customer tab then allow

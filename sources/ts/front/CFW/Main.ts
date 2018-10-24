@@ -229,9 +229,6 @@ export class Main {
 		// Localization
 		this.localizationService.setCountryChangeHandlers();
 
-		// Handles the shipping fields on load if the user happens to land on the shipping method page.
-		this.tabContainer.setShippingFieldsOnLoad();
-
 		// After setup event
 		window.dispatchEvent(new CustomEvent("cfw-main-after-setup", { detail: { main: this } }));
 	}

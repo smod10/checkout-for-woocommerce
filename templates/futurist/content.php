@@ -195,9 +195,7 @@
                                     <?php echo apply_filters('cfw_shipping_address_recap_heading', esc_html__( 'Shipping address', 'checkout-wc' ) ); ?>
                                 </h3>
 
-                                <div id="cfw-shipping-details-fields">
-                                    <?php cfw_get_shipping_details($checkout); ?>
-                                </div>
+                                <div id="cfw-shipping-details-fields"></div>
 
                                 <div>
                                     <a href="#cfw-customer-info" class="cfw-link"><?php esc_html_e( 'Edit shipping address', 'checkout-wc' ); ?></a>

@@ -337,7 +337,7 @@ class Admin {
                                     <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'summary_background_color', array( $template_path ) ); ?>"><?php _e('Summary Background Color', 'checkout-wc'); ?></label>
                                 </th>
                                 <td>
-                                    <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'summary_background_color', array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'summary_background_color', array( $template_path ) ); ?>" data-default-color="#f8f8f8" />
+                                    <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'summary_background_color', array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'summary_background_color', array( $template_path ) ); ?>" data-default-color="#fafafa" />
                                 </td>
                             </tr>
                         <?php endif; ?>

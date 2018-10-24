@@ -629,7 +629,7 @@ class Main extends Singleton {
 
 			if ( in_array( 'summary-background', $supports ) ) {
 				if ( $template_path == 'copify' ) {
-					$main->get_settings_manager()->add_setting( 'summary_background_color', '#f8f8f8', array( $template_path ) );
+					$main->get_settings_manager()->add_setting( 'summary_background_color', '#fafafa', array( $template_path ) );
 				} else {
 					$main->get_settings_manager()->add_setting( 'summary_background_color', '#ffffff', array( $template_path ) );
 				}

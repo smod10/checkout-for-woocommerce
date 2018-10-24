@@ -546,6 +546,8 @@ label[for="card-element"] {
 }
 
 #cfw-totals-list {
+  border-top: 2px solid #eeeeee;
+
   .cfw-flex-row {
     padding: 10px 0;
   }
@@ -555,23 +557,17 @@ label[for="card-element"] {
   }
 
   .cfw-totals-normal .cfw-flex-row {
-    border-bottom: #eee 1px solid;
-
     &:last-child {
       border-bottom: none;
     }
   }
 
   .cfw-totals-total .cfw-flex-row {
-    border-top: 1px solid #eeeeee;
-    border-bottom: 2px solid #333;
+    margin-top: 1em;
+    border-top: 2px solid #333;
     font-weight: 700;
     color: #000;
   }
-}
-
-#cfw-cart-coupons .cfw-flex-row:last-child {
-  border-bottom: #eee 1px solid !important;
 }
 
 .cfw-flex-row {

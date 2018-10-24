@@ -17,19 +17,15 @@
             </div>
         </div>
 
-        <div class="cfw-container">
-            <div class="cfw-column-12">
-                <div id="cfw-alert-container" class="cfw-alert">
-                    <div class="message"></div>
-                </div>
-            </div>
-        </div>
-
 	    <?php if ( ! WC()->cart->is_empty() ): ?>
         <div id="cfw-main-container" class="cfw-container" customer="<?php echo $customer->get_id(); ?>">
 
             <!-- Easy Tab Container -->
             <div id="cfw-tab-container" class="cfw-left-column cfw-column-7 tab-container">
+
+                <div id="cfw-alert-container" class="cfw-alert">
+                    <div class="message"></div>
+                </div>
 
                 <div id="cfw-logo-container">
                     <div class="cfw-logo">

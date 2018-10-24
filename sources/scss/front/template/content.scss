@@ -625,6 +625,19 @@ p.cfw-input-wrap {
     }
   }
 
+  ::-webkit-input-placeholder {
+    color: #737373 !important;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: #737373 !important;
+  }
+  ::-moz-placeholder {  /* Firefox 19+ */
+    color: #737373 !important;
+  }
+  :-ms-input-placeholder {
+    color: #737373 !important;
+  }
+
   & > input[type="text"],
   & > input[type="email"],
   & > input[type="tel"],
@@ -769,7 +782,7 @@ a.button {
   user-select: none;
   pointer-events: none;
   position: absolute;
-  color: #9e9e9e;
+  color: #737373;
   transition: all .2s ease-out;
   font-size: 12px;
   margin-top: .5em;

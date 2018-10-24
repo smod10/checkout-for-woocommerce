@@ -425,7 +425,11 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                     <?php endif; ?>
                     <div class="cfw-cart-item-title-quantity cfw-cart-item-col <?php echo "${column_base}${columns["title"]}"; ?>">
                         <div>
-                            <a href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
+                            <?php if ( apply_filters('cfw_link_cart_items', __return_false() ) ): ?>
+                                <a target="_blank" href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
+                            <?php else: ?>
+                               <?php echo $item_title; ?> x
+                            <?php endif; ?>
                             <strong><?php echo $item_quantity; ?></strong>
                         </div>
                     </div>
@@ -437,24 +441,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	        }
         }
     }
-
-//    function cfw_get_template_part( $template_part ) {
-//	    if ( apply_filters('cfw_get_template_part_skip_' . $template_part, false) ) return;
-//
-//	    $Main = Objectiv\Plugins\Checkout\Main::instance();
-//
-//	    $global_template_parameters = apply_filters('cfw_template_global_params', array());
-//
-//	    // Template conveniences items
-//	    $global_template_parameters["woo"]          = \WooCommerce::instance();         // WooCommerce Instance
-//	    $global_template_parameters["checkout"]     = WC()->checkout();                 // Checkout Object
-//	    $global_template_parameters["cart"]         = WC()->cart;                       // Cart Object
-//	    $global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
-//
-//	    $template_manager = $Main->get_template_manager();
-//	    $path_manager     = $Main->get_path_manager();
-//	    $template_manager->load_templates( $path_manager->get_template_information( array("content"), "{$template_part}.php" ), $global_template_parameters );
-//    }
 
     function cfw_address_class_wrap( $shipping = true ) {
 	    $result = "woocommerce-billing-fields";

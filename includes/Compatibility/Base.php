@@ -7,6 +7,15 @@ abstract class Base {
 	 * Base constructor.
 	 */
 	public function __construct() {
+	    $this->pre_init();
+
+	    add_action( 'init', array( $this, 'compat_init') );
+	}
+
+	/**
+	 * Run after init (normative use case)
+	 */
+	function compat_init() {
 		if ( $this->is_available() ) {
 			// Allow scripts and styles for certain plugins
 			add_filter( 'cfw_allowed_script_handles', array( $this, 'allowed_scripts' ), 10, 1 );
@@ -15,7 +24,14 @@ abstract class Base {
 
 			$this->run();
 		}
-	}
+    }
+
+	/**
+	 * Allow some things to be run before init
+	 */
+	public function pre_init() {
+        // Silence is golden
+    }
 
 	/***
 	 * Kick-off everything here

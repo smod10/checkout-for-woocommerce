@@ -22,28 +22,23 @@ class Stripe4x extends Base {
 		return false;
 	}
 
-	function run() {
-		// Apple Pay
-		add_action( 'wp', array( $this, 'add_stripe_apple_pay' ) );
-
+	function pre_init() {
 		// If this filter returns true, override the btn height settings in 2 places
 		if ( apply_filters( 'cfw_stripe_compat_override_request_btn_height', '__return_true' ) ) {
-
-			add_action( 'update_option_woocommerce_stripe_settings', array( $this, 'override_btn_height_settings_on_update' ), 10, 2 );
+			add_filter( 'option_woocommerce_stripe_settings', array( $this, 'override_btn_height_settings_on_update' ), 10, 1 );
 			add_filter( 'wc_stripe_settings', array( $this, 'filter_default_settings' ), 1 );
 		}
 	}
 
-	function override_btn_height_settings_on_update( $old_value, $value ) {
+	function run() {
+		// Apple Pay
+		add_action( 'wp', array( $this, 'add_stripe_apple_pay' ) );
+	}
 
-		$height = $this->stripe_request_button_height;
+	function override_btn_height_settings_on_update( $value ) {
+		$value['payment_request_button_height'] = $this->stripe_request_button_height;
 
-		if ( $value['payment_request_button_height'] != $height ) {
-			$value['payment_request_button_height'] = $height;
-
-			update_option( 'woocommerce_stripe_settings', $value );
-		}
-
+		return $value;
 	}
 
 	function filter_default_settings( $settings ) {

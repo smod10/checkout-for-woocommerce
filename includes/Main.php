@@ -297,11 +297,12 @@ class Main extends Singleton {
 		// Loads all the ajax handlers on the php side
 		$this->configure_objects();
 
+		// Run this as early as we can to maximize integrations
 		add_action(
-			'init', function() {
+			'plugins_loaded', function() {
 				// Adds the plugins hooks
 				$this->add_plugin_hooks();
-			}
+			}, 0
 		);
 	}
 

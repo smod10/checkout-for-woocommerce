@@ -127,6 +127,7 @@ class Manager {
 		// PayPal for WooCommerce
 		new PayPalForWooCommerce( $this );
 
+		// Braintree
 		new Braintree();
 
 		/**

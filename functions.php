@@ -425,7 +425,11 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                     <?php endif; ?>
                     <div class="cfw-cart-item-title-quantity cfw-cart-item-col <?php echo "${column_base}${columns["title"]}"; ?>">
                         <div>
-                            <a href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
+                            <?php if ( apply_filters('cfw_link_cart_items', __return_false() ) ): ?>
+                                <a target="_blank" href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
+                            <?php else: ?>
+                               <?php echo $item_title; ?> x
+                            <?php endif; ?>
                             <strong><?php echo $item_quantity; ?></strong>
                         </div>
                     </div>

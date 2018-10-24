@@ -311,6 +311,10 @@ class Redirect {
 			}
 			<?php endif; ?>
 
+            .cfw-input-wrap > input[type="text"]:focus, .cfw-input-wrap > input[type="email"]:focus, .cfw-input-wrap > input[type="tel"]:focus, .cfw-input-wrap > input[type="number"]:focus, .cfw-input-wrap > input[type="password"]:focus, .cfw-input-wrap select:focus {
+                box-shadow: 0 0 0 2px <?php echo $settings_manager->get_setting('button_color', array($active_theme) ); ?>;
+            }
+
 			.woocommerce-info {
 				padding: 1em 1.618em;
 				margin-bottom: 1.3em;

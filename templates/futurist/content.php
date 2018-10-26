@@ -96,6 +96,8 @@
                                             <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
                                         </div>
 
+										<?php do_action('cfw_checkout_after_email'); ?>
+
                                         <div id="cfw-login-slide">
 
                                             <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">

@@ -17,6 +17,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\Square;
 
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\AutomateWoo;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\FacebookWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Jilt;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
@@ -80,6 +81,9 @@ class Manager {
 
 		// AutomateWoo
 		new AutomateWoo();
+
+		// Facebook for WooCommerce
+		new FacebookWooCommerce();
 
 		/**
 		 * Gateways

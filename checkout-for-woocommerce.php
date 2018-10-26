@@ -23,8 +23,8 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       checkout-wc
  * Domain Path:       /languages
- * Tested up to: 4.8
- * WC tested up to: 3.3.1
+ * Tested up to: 4.9.8
+ * WC tested up to: 3.5.0
  */
 
 /**

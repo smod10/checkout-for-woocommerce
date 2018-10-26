@@ -78,12 +78,14 @@
                                         <?php endif; ?>
                                     </div>
 
-                                    <div id="" class="cfw-input-container">
+                                    <div id="" class="cfw-input-container create-account">
 
                                         <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
                                             <label class="cfw-input-label" for="billing_email"><?php esc_html_e('Email', 'checkout-wc'); ?></label>
                                             <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
                                         </div>
+
+                                        <?php do_action('cfw_add_more_account_fields_if_needed'); ?>
 
                                         <div id="cfw-login-slide">
 
@@ -125,7 +127,9 @@
 
                             </div>
 
-	                        <?php do_action('cfw_checkout_before_customer_info_address'); ?>
+                            <div>
+                                <?php do_action('cfw_checkout_before_customer_info_address'); ?>
+                            </div>
 
                             <div id="cfw-shipping-info" class="cfw-module">
                                 <h3 class="cfw-module-title">
@@ -225,13 +229,13 @@
                         <div id="cfw-payment-method" class="cfw-panel">
 
                             <div id="cfw-billing-methods" class="cfw-module">
-	                            <?php do_action('cfw_checkout_before_payment_method_tab'); ?>
+                                <?php do_action('cfw_checkout_before_payment_method_tab'); ?>
 
                                 <h3 class="cfw-module-title">
                                     <?php echo apply_filters('cfw_payment_method_heading', esc_html__('Payment method', 'checkout-wc') ); ?>
                                 </h3>
 
-                                <?php do_action('cfw_checkout_before_payment_methods'); ?>
+								<?php do_action('cfw_checkout_before_payment_methods'); ?>
 
                                 <div class="cfw-payment-method-information-wrap">
                                     <div>
@@ -249,7 +253,9 @@
                                     <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Your order is free. No payment is required.', 'checkout-wc') ); ?></span>
                                 </div>
 
-	                            <?php do_action('cfw_checkout_after_payment_methods'); ?>
+	                            <div>
+                                    <?php do_action('cfw_checkout_after_payment_methods'); ?>
+                                </div>
                             </div>
 
                             <?php if ( WC()->cart->needs_shipping_address() ): ?>

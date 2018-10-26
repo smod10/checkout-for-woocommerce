@@ -65,6 +65,13 @@ export class CompleteOrderAction extends Action {
         }
 
         if(resp.result === "failure") {
+
+        	window.dispatchEvent(new CustomEvent("cfw-checkout-failed-before-error-message", { detail: { response: resp } } ) );
+
+        	if(resp.message === "") {
+        		resp.message = "There was an error. Please contact the site administrator";
+			}
+
             let alertInfo: AlertInfo = {
                 type: "AccPassRequiredField",
                 message: resp.messages,

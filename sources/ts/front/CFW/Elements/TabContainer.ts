@@ -61,7 +61,6 @@ export class TabContainer extends Element {
             $(elem).garlic({ onRetrieve: element => $(element).parent().addClass(FormElement.labelClass) })
         });
     }
-
     /**
      *
      */
@@ -449,6 +448,15 @@ export class TabContainer extends Element {
                     formData[`billing_${field}`] = formData[`shipping_${field}`];
                 }
             });
+        }
+
+		/**
+         * Some gateways remove the checkout and shipping fields. If guest checkout is enabled we need to check for
+         * these fields
+		 */
+		if($("#cfw-first-for-plugins #billing_first_name").length > 0 && $("#cfw-last-for-plugins #billing_last_name").length > 0) {
+            formData["billing_first_name"] = $("#cfw-first-for-plugins #billing_first_name").val();
+            formData["billing_last_name"] = $("#cfw-last-for-plugins #billing_last_name").val();
         }
 
         return formData;

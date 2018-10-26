@@ -2,6 +2,20 @@
 
 if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
+    function cfw_extra_account_fields() {
+        ?>
+        <div id="cfw-first-for-plugins" class="cfw-input-wrap cfw-text-input">
+            <label class="cfw-input-label" for="billing_first_name"><?php esc_html_e('First Name', 'checkout-wc'); ?></label>
+            <input type="text" name="billing_first_name" id="billing_first_name" data-parsley-group="billing" autocomplete="given-name" autofocus="autofocus" size="30" title="First Name" placeholder="First Name" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
+        </div>
+
+        <div id="cfw-last-for-plugins" class="cfw-input-wrap cfw-text-input">
+            <label class="cfw-input-label" for="billing_last_name"><?php esc_html_e('Last Name', 'checkout-wc'); ?></label>
+            <input type="text" name="billing_last_name" id="billing_last_name" data-parsley-group="shipping" autocomplete="family-name" autofocus="autofocus" size="30" title="Last Name" placeholder="Last Name" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
+        </div>
+        <?php
+    }
+
 	/**
 	 * Outputs a checkout/address form field.
 	 *

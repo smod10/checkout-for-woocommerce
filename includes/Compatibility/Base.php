@@ -94,7 +94,7 @@ abstract class Base {
 			return;
 		}
 		?>
-		<div class="<?php echo $class; ?>" style="padding-top: 1em;">
+		<div id="payment-info-separator-wrap" class="<?php echo $class; ?>" style="padding-top: 1em;">
 			<p <?php echo ( $id ) ? "id='{$id}'" : ''; ?> <?php echo ( $style ) ? "style='{$style}'" : ''; ?> class="pay-button-separator">
 				<span><?php esc_html_e( 'Or', 'checkout-wc' ); ?></span>
 			</p>

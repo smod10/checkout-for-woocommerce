@@ -1,0 +1,30 @@
+#amazon_addressbook_widget iframe, #amazon_wallet_widget iframe, #amazon_consent_widget iframe {
+  border: none !important;
+}
+
+#cfw-payment-request-buttons {
+
+  .wc-amazon-payments-advanced-info {
+    text-indent: -9999999px;
+    background: none;
+    padding: 0;
+    clear: none;
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    display: block;
+    margin: 4px;
+
+    #pay_with_amazon {
+      float: left;
+      margin: 0;
+      line-height: 0;
+      max-width: 150px;
+
+      img {
+        width: 100% !important;
+        height: auto;
+      }
+    }
+  }
+}

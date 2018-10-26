@@ -2,6 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility;
 
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\AmazonPay;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetAIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetCIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Braintree;
@@ -129,6 +130,9 @@ class Manager {
 
 		// Braintree
 		new Braintree();
+
+		// Amazon Pay
+		new AmazonPay();
 
 		/**
 		 * Misc

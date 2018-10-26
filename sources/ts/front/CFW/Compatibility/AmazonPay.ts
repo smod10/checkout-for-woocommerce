@@ -25,6 +25,10 @@ export class AmazonPay extends Compatibility {
 		let easyTabsWrap: any = main.easyTabService.easyTabsWrap;
 		let getParams = this.getUrlParamsMap();
 
+		$(window.document).on("wc_amazon_pa_widget_ready", () => {
+			$("#cfw-first-for-plugins, #cfw-last-for-plugins, #cfw-email-wrap").addClass("cfw-floating-label");
+		});
+
 		if(getParams[errorKey] !== undefined) {
 			let alertInfo: AlertInfo = {
 				type: "AccPassRequiredField",

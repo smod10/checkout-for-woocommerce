@@ -55,6 +55,7 @@ export class AccountExistsAction extends Action {
         // If account exists slide down the password field, uncheck the register box, and hide the container for the checkbox
         if(resp.account_exists) {
             login_slide.slideDown(300);
+			$("#cfw-first-for-plugins, #cfw-last-for-plugins").slideUp(300);
             register_user_checkbox.checked = false;
             register_container.css("display", "none");
 
@@ -64,6 +65,7 @@ export class AccountExistsAction extends Action {
         // If account does not exist, reverse
         } else {
             login_slide.slideUp(300);
+			$("#cfw-first-for-plugins, #cfw-last-for-plugins").slideDown(300);
 
             if(AccountExistsAction.checkBox) {
                 register_user_checkbox.checked = true;

@@ -37,9 +37,10 @@ export class AmazonPay extends Compatibility {
 			let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
 			alert.addAlert();
 
-			$("#cfw-main-container").addClass("has-overlay");
-			$("#cfw-main-container").append("<div class='amazon-pay-overlay'></div>");
-			$("#cfw-main-container").css("max-height", $("#cfw-tab-container").outerHeight() + "px");
+			$("#checkout").addClass("has-overlay");
+			$("#cfw-deductors-list").addClass("has-overlay");
+			$("#checkout").append("<div class='amazon-pay-overlay'></div>");
+			$("#cfw-deductors-list").append("<div class='amazon-pay-overlay'></div>");
 
 			if(amazon_payments_advanced_params !== undefined &&
 				amazon_payments_advanced_params.declined_code !== undefined &&

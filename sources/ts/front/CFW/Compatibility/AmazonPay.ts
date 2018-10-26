@@ -1,8 +1,10 @@
 import { Compatibility } from "./Compatibility";
 import {Main} from "../Main";
+import {Alert, AlertInfo} from "../Elements/Alert";
 
 declare let OffAmazonPayments: any;
 declare let amazon_payments_advanced_params: any;
+declare let woocommerce_params: any;
 
 export class AmazonPay extends Compatibility {
 	/**
@@ -19,20 +21,54 @@ export class AmazonPay extends Compatibility {
 	 * @param main
 	 */
 	load(main: Main): void {
+		const errorKey = 'cfw_amazon_redirect_error';
 		let easyTabsWrap: any = main.easyTabService.easyTabsWrap;
+		let getParams = this.getUrlParamsMap();
+
+		if(getParams[errorKey] !== undefined) {
+			let alertInfo: AlertInfo = {
+				type: "AccPassRequiredField",
+				message: $(".woocommerce-error").html(),
+				cssClass: "cfw-alert-danger"
+			};
+
+			$(".woocommerce-error").remove();
+
+			let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
+			alert.addAlert();
+
+			$("#cfw-main-container").addClass("has-overlay");
+			$("#cfw-main-container").append("<div class='amazon-pay-overlay'></div>");
+			$("#cfw-main-container").css("max-height", $("#cfw-tab-container").outerHeight() + "px");
+
+			if(amazon_payments_advanced_params !== undefined &&
+				amazon_payments_advanced_params.declined_code !== undefined &&
+				amazon_payments_advanced_params.declined_code === "InvalidPaymentMethod") {
+
+				setTimeout(() => {
+					location.href = location.href = location.href.replace(`${errorKey}=1`, '');
+				}, 3000);
+			}
+
+			return;
+		}
 
 		/**
 		 * If the OffAmazonPayments and amazon_payments_advanced_params exist we can then check to see if there is a reference
 		 * id set. If not we are not logged in. If there is we are logged in.
 		 */
 		try {
-
-			if (OffAmazonPayments !== undefined && amazon_payments_advanced_params !== undefined && (amazon_payments_advanced_params.reference_id !== "" || amazon_payments_advanced_params.access_token !== "")) {
+			if (OffAmazonPayments !== undefined &&
+				amazon_payments_advanced_params !== undefined &&
+				(amazon_payments_advanced_params.reference_id !== "" || amazon_payments_advanced_params.access_token !== "")
+			) {
 				$("#cfw-billing-methods .create-account").remove();
 				$("#payment-info-separator-wrap").hide();
 				$("#cfw-shipping-same-billing").hide();
 				$("#cfw-billing-methods > .cfw-module-title").hide();
 				$("#cfw-shipping-info > .cfw-module-title").hide();
+
+				console.log("Fired amazon pay class actions");
 
 				easyTabsWrap.bind('easytabs:after', (event, clicked, target) => this.amazonRefresh());
 
@@ -40,14 +76,28 @@ export class AmazonPay extends Compatibility {
 					let response = detail.response;
 
 					if (response.reload) {
-						location.href = amazon_payments_advanced_params.redirect;
-						console.log(amazon_payments_advanced_params);
+						let errorParam = `&${errorKey}=1`;
+
+						location.href = amazon_payments_advanced_params.redirect + errorParam;
 					}
 				});
 			}
 		}catch(error) {
-
+			console.log(error);
 		}
+	}
+
+	getUrlParamsMap() {
+		let map = {};
+		let urlGetParams = location.href.split("&").splice(1).map(paramSet => {
+			let keyValue = paramSet.split("=");
+			let key = keyValue[0];
+			let value = keyValue[1];
+
+			map[key] = value;
+		});
+
+		return map;
 	}
 
 	/**

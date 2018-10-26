@@ -461,6 +461,7 @@ class Main extends Singleton {
 				'remove_coupon_nonce'       => wp_create_nonce( 'remove-coupon' ),
 				'option_guest_checkout'     => get_option( 'woocommerce_enable_guest_checkout' ),
 				'checkout_url'              => \WC_AJAX::get_endpoint( 'checkout' ),
+				'cart_url'					=> wc_get_cart_url(),
 				'is_checkout'               => is_page( wc_get_page_id( 'checkout' ) ) && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
 				'debug_mode'                => defined( 'WP_DEBUG' ) && WP_DEBUG,
 				'i18n_checkout_error'       => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),

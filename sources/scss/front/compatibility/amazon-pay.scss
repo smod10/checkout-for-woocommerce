@@ -1,5 +1,27 @@
-#amazon_addressbook_widget iframe, #amazon_wallet_widget iframe, #amazon_consent_widget iframe {
-  border: none !important;
+#amazon_addressbook_widget, #amazon_wallet_widget, #amazon_consent_widget {
+  iframe {
+    border: none !important;
+  }
+}
+
+#cfw-main-container.has-overlay {
+  position: relative;
+  overflow: hidden;
+
+  .amazon-pay-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    opacity: 0.9;
+    z-index: 99999;
+  }
+
+  .widget-container {
+    max-height: 300px;
+  }
 }
 
 #cfw-payment-request-buttons {

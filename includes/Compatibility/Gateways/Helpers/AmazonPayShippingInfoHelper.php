@@ -67,7 +67,7 @@ class AmazonPayShippingInfoHelper {
 		$address = $this->normalize_address( $address );
 		// @codingStandardsIgnoreEnd
 
-		foreach ( array( 'first_name', 'last_name', 'address_1', 'country', 'state', 'postcode', 'city' ) as $field ) {
+		foreach ( array( 'first_name', 'last_name', 'address_1', 'address_2', 'country', 'state', 'postcode', 'city' ) as $field ) {
 			if ( ! isset( $address[ $field ] ) ) {
 				continue;
 			}

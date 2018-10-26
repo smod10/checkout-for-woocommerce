@@ -138,7 +138,7 @@ class AmazonPay extends Base {
 		$checkout = \WC_Checkout::instance();
 
 		if( !is_user_logged_in() && $checkout->enable_signup ) {
-			add_action('cfw_add_more_account_fields_if_needed', 'cfw_extra_account_fields');
+			add_action('cfw_checkout_after_email', 'cfw_extra_account_fields');
 		}
 	}
 

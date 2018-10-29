@@ -607,6 +607,7 @@ class Main extends Singleton {
 		// Init settings
 		$main->get_settings_manager()->add_setting( 'enable', 'no' );
 		$main->get_settings_manager()->add_setting( 'active_template', 'default' );
+		$main->get_settings_manager()->add_setting( 'settings_version', '200' );
 
 		// Set defaults
 		$cfw_templates = $main->get_template_manager()->get_templates_information();

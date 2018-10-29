@@ -26,6 +26,12 @@
 
 #cfw-payment-request-buttons {
 
+  .wc-amazon-payments-advanced-populated {
+    max-width: 125px;
+    width: 100%;
+    margin: 4px;
+  }
+
   .wc-amazon-payments-advanced-info {
     text-indent: -9999999px;
     background: none;
@@ -35,13 +41,13 @@
     border-radius: 0;
     overflow: hidden;
     display: block;
-    margin: 4px;
+    margin: 0;
 
     #pay_with_amazon {
       float: left;
       margin: 0;
       line-height: 0;
-      max-width: 150px;
+      width: 125px;
 
       img {
         width: 100% !important;

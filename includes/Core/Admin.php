@@ -647,6 +647,9 @@ class Admin {
 		    $this->plugin_instance->get_settings_manager()->update_setting( 'header_background_color', '#000000', array( 'futurist' ) );
 		    $this->plugin_instance->get_settings_manager()->update_setting( 'header_text_color', '#ffffff', array( 'futurist' ) );
 
+		    // Set active theme
+            $this->plugin_instance->get_settings_manager()->update_setting( 'active_template', 'default' );
+
 		    $this->plugin_instance->get_settings_manager()->update_setting( 'settings_version', '200' );
         }
     }

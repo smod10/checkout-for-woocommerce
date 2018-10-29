@@ -32,6 +32,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnalytics;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 
 /**
  * Class Compatibility
@@ -85,6 +86,9 @@ class Manager {
 
 		// Facebook for WooCommerce
 		new FacebookWooCommerce();
+
+		// WooCommerce Subscriptions
+		new WooCommerceSubscriptions();
 
 		/**
 		 * Gateways

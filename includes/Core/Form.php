@@ -26,9 +26,9 @@ class Form {
 	 * @access public
 	 */
 	public function __construct() {
-		$this->phone_enabled = apply_filters('cfw_enable_phone_fields', false);
+		$this->phone_enabled = apply_filters( 'cfw_enable_phone_fields', false );
 
-		add_filter('woocommerce_default_address_fields', array($this, 'get_custom_default_address_fields') );
+		add_filter( 'woocommerce_default_address_fields', array( $this, 'get_custom_default_address_fields' ) );
 
 		if ( $this->phone_enabled ) {
 			add_filter( 'woocommerce_billing_fields', array( $this, 'enforce_billing_phone_options_from_default' ), 10, 2 );
@@ -36,7 +36,7 @@ class Form {
 			add_action( 'woocommerce_checkout_create_order', array( $this, 'update_shipping_phone_on_order_create' ), 10, 2 );
 			add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $this, 'shipping_phone_display_admin_order_meta' ), 10, 1 );
 		} else {
-			add_filter( 'woocommerce_billing_fields', array($this, 'unrequire_billing_phone'), 10, 1 );
+			add_filter( 'woocommerce_billing_fields', array( $this, 'unrequire_billing_phone' ), 10, 1 );
 		}
 	}
 
@@ -59,8 +59,8 @@ class Form {
 	 *
 	 * @return mixed
 	 */
-	public function enforce_billing_phone_options_from_default($address_fields, $country) {
-		$address_fields["billing_phone"] = $this->get_custom_default_address_fields()["phone"];
+	public function enforce_billing_phone_options_from_default( $address_fields, $country ) {
+		$address_fields['billing_phone'] = $this->get_custom_default_address_fields()['phone'];
 
 		return $address_fields;
 	}
@@ -69,10 +69,10 @@ class Form {
 	 * @since 1.1.5
 	 * @param $order
 	 */
-	public function shipping_phone_display_admin_order_meta($order){
+	public function shipping_phone_display_admin_order_meta( $order ) {
 		$shipping_phone = get_post_meta( $order->get_id(), '_shipping_phone', true );
 
-		echo '<p><strong>'.__('Phone').':</strong><br /><a href="tel:' . $shipping_phone . '">' . $shipping_phone . '</a></p>';
+		echo '<p><strong>' . __( 'Phone' ) . ':</strong><br /><a href="tel:' . $shipping_phone . '">' . $shipping_phone . '</a></p>';
 	}
 
 	/**
@@ -92,154 +92,154 @@ class Form {
 	public function get_custom_default_address_fields() {
 		$defaults = array(
 			'first_name' => array(
-				'label'        => __( 'First name', 'checkout-wc' ),
-				'placeholder'  => esc_attr__('First name', 'checkout-wc'),
-				'required'     => true,
-				'class'        => array(),
-				'autocomplete' => 'given-name',
-				'autofocus'    => false,
-				'input_class'  => array('garlic-auto-save'),
-				'priority'     => 05,
-				'wrap'         => $this->input_wrap('text', 6, 05),
-				'label_class'  => 'cfw-input-label',
-				'start'        => true,
-				'end'          => false,
+				'label'             => __( 'First name', 'checkout-wc' ),
+				'placeholder'       => esc_attr__( 'First name', 'checkout-wc' ),
+				'required'          => true,
+				'class'             => array(),
+				'autocomplete'      => 'given-name',
+				'autofocus'         => false,
+				'input_class'       => array( 'garlic-auto-save' ),
+				'priority'          => 05,
+				'wrap'              => $this->input_wrap( 'text', 6, 05 ),
+				'label_class'       => 'cfw-input-label',
+				'start'             => true,
+				'end'               => false,
 				'custom_attributes' => array(
-					"data-parsley-trigger"              => "change focusout"
-				)
+					'data-parsley-trigger' => 'change focusout',
+				),
 			),
-			'last_name' => array(
-				'label'        => __( 'Last name', 'checkout-wc' ),
-				'placeholder'  => esc_attr__('Last name', 'checkout-wc'),
-				'required'     => true,
-				'class'        => array(),
-				'autocomplete' => 'family-name',
-				'input_class'  => array('garlic-auto-save'),
-				'priority'     => 10,
-				'wrap'         => $this->input_wrap('text', 6, 10),
-				'label_class'  => 'cfw-input-label',
-				'start'        => false,
-				'end'          => true,
+			'last_name'  => array(
+				'label'             => __( 'Last name', 'checkout-wc' ),
+				'placeholder'       => esc_attr__( 'Last name', 'checkout-wc' ),
+				'required'          => true,
+				'class'             => array(),
+				'autocomplete'      => 'family-name',
+				'input_class'       => array( 'garlic-auto-save' ),
+				'priority'          => 10,
+				'wrap'              => $this->input_wrap( 'text', 6, 10 ),
+				'label_class'       => 'cfw-input-label',
+				'start'             => false,
+				'end'               => true,
 				'custom_attributes' => array(
-					"data-parsley-trigger"              => "change focusout"
-				)
+					'data-parsley-trigger' => 'change focusout',
+				),
 			),
-			'address_1' => array(
-				'label'        => __( 'Address', 'checkout-wc' ),
-				'placeholder'  => esc_attr__( 'Street address', 'checkout-wc' ),
-				'required'     => true,
-				'class'        => array( 'address-field' ),
-				'autocomplete' => 'address-line1',
-				'input_class'  => array('garlic-auto-save'),
-				'priority'     => 15,
-				'wrap'         => $this->input_wrap('text', 8,15),
-				'label_class'  => 'cfw-input-label',
-				'start'        => true,
-				'end'          => false,
+			'address_1'  => array(
+				'label'             => __( 'Address', 'checkout-wc' ),
+				'placeholder'       => esc_attr__( 'Street address', 'checkout-wc' ),
+				'required'          => true,
+				'class'             => array( 'address-field' ),
+				'autocomplete'      => 'address-line1',
+				'input_class'       => array( 'garlic-auto-save' ),
+				'priority'          => 15,
+				'wrap'              => $this->input_wrap( 'text', 8, 15 ),
+				'label_class'       => 'cfw-input-label',
+				'start'             => true,
+				'end'               => false,
 				'custom_attributes' => array(
-					"data-parsley-trigger"              => "change focusout"
-				)
+					'data-parsley-trigger' => 'change focusout',
+				),
 			),
-			'address_2' => array(
-				'label'        => __('Apt, suite, etc. (optional)', 'checkout-wc'),
-				'placeholder'  => esc_attr__('Apt, suite, etc. (optional)', 'checkout-wc'),
+			'address_2'  => array(
+				'label'        => __( 'Apt, suite, etc. (optional)', 'checkout-wc' ),
+				'placeholder'  => esc_attr__( 'Apt, suite, etc. (optional)', 'checkout-wc' ),
 				'class'        => array( 'address-field' ),
 				'required'     => false,
 				'autocomplete' => 'address-line2',
-				'input_class'  => array('garlic-auto-save'),
+				'input_class'  => array( 'garlic-auto-save' ),
 				'priority'     => 20,
-				'wrap'         => $this->input_wrap('text', 4, 20),
+				'wrap'         => $this->input_wrap( 'text', 4, 20 ),
 				'label_class'  => 'cfw-input-label',
 				'start'        => false,
-				'end'          => true
+				'end'          => true,
 			),
-			'company' => array(
+			'company'    => array(
 				'label'        => __( 'Company name', 'checkout-wc' ),
-				'placeholder'  => esc_attr__('Company name', 'checkout-wc'),
-				'class'        => array( ),
+				'placeholder'  => esc_attr__( 'Company name', 'checkout-wc' ),
+				'class'        => array(),
 				'autocomplete' => 'organization',
-				'input_class'  => array('garlic-auto-save'),
+				'input_class'  => array( 'garlic-auto-save' ),
 				'priority'     => 30,
-				'wrap'         => $this->input_wrap('text', 12, 30),
+				'wrap'         => $this->input_wrap( 'text', 12, 30 ),
 				'label_class'  => 'cfw-input-label',
 				'start'        => true,
-				'end'          => true
+				'end'          => true,
 			),
-			'country' => array(
+			'country'    => array(
 				'type'         => 'country',
 				'label'        => __( 'Country', 'checkout-wc' ),
 				'required'     => true,
 				'class'        => array( 'address-field', 'update_totals_on_change' ),
 				'autocomplete' => 'country',
-				'input_class'  => array('garlic-auto-save'),
+				'input_class'  => array( 'garlic-auto-save' ),
 				'priority'     => 40,
-				'wrap'         => $this->input_wrap('select', 4, 40),
+				'wrap'         => $this->input_wrap( 'select', 4, 40 ),
 				'label_class'  => 'cfw-input-label',
 				'start'        => true,
 				'end'          => false,
-				'is_select'    => true
+				'is_select'    => true,
 			),
-			'postcode' => array(
-				'label'        => __( 'Postcode / ZIP', 'checkout-wc' ),
-				'placeholder'  => esc_attr__('Postcode / ZIP', 'checkout-wc'),
-				'required'     => true,
-				'class'        => array( 'address-field' ),
-				'validate'     => array( 'postcode' ),
-				'autocomplete' => 'postal-code',
-				'input_class'  => array('garlic-auto-save'),
-				'priority'     => 45,
-				'wrap'         => $this->input_wrap('text', 4, 45),
-				'label_class'  => 'cfw-input-label',
+			'postcode'   => array(
+				'label'             => __( 'Postcode / ZIP', 'checkout-wc' ),
+				'placeholder'       => esc_attr__( 'Postcode / ZIP', 'checkout-wc' ),
+				'required'          => true,
+				'class'             => array( 'address-field' ),
+				'validate'          => array( 'postcode' ),
+				'autocomplete'      => 'postal-code',
+				'input_class'       => array( 'garlic-auto-save' ),
+				'priority'          => 45,
+				'wrap'              => $this->input_wrap( 'text', 4, 45 ),
+				'label_class'       => 'cfw-input-label',
 				'custom_attributes' => array(
-					"data-parsley-state-and-zip"        => "",
-					"data-parsley-validate-if-empty"    => "",
-					"data-parsley-length"               => "[2,12]",
-					"data-parsley-trigger"              => "keyup change focusout"
+					'data-parsley-state-and-zip'     => '',
+					'data-parsley-validate-if-empty' => '',
+					'data-parsley-length'            => '[2,12]',
+					'data-parsley-trigger'           => 'keyup change focusout',
 				),
-				'start'        => false,
-				'end'          => false
+				'start'             => false,
+				'end'               => false,
 			),
-			'state' => array(
-				'type'         => 'state',
-				'label'        => __( 'State / County', 'checkout-wc' ),
-				'placeholder'  => __( 'State / County', 'checkout-wc' ),
-				'required'     => true,
-				'class'        => array( 'address-field' ),
-				'validate'     => array( 'state' ),
-				'autocomplete' => 'address-level1',
-				'priority'     => 50,
-				'wrap'         => $this->input_wrap('select', 4, 50),
-				'label_class'  => 'cfw-input-label',
-				'input_class'  => array('garlic-auto-save'),
+			'state'      => array(
+				'type'              => 'state',
+				'label'             => __( 'State / County', 'checkout-wc' ),
+				'placeholder'       => __( 'State / County', 'checkout-wc' ),
+				'required'          => true,
+				'class'             => array( 'address-field' ),
+				'validate'          => array( 'state' ),
+				'autocomplete'      => 'address-level1',
+				'priority'          => 50,
+				'wrap'              => $this->input_wrap( 'select', 4, 50 ),
+				'label_class'       => 'cfw-input-label',
+				'input_class'       => array( 'garlic-auto-save' ),
 				'custom_attributes' => array(
-					"data-parsley-state-and-zip"        => "",
-					"data-parsley-validate-if-empty"    => "",
-					"data-parsley-trigger"              => "keyup change focusout"
+					'data-parsley-state-and-zip'     => '',
+					'data-parsley-validate-if-empty' => '',
+					'data-parsley-trigger'           => 'keyup change focusout',
 				),
-				'start'        => false,
-				'end'          => true,
-				'is_select'    => true
+				'start'             => false,
+				'end'               => true,
+				'is_select'         => true,
 			),
-			'city' => array(
-				'label'        => __( 'Town / City', 'checkout-wc' ),
-				'required'     => true,
-				'placeholder'  => esc_attr__('Town / City', 'checkout-wc'),
-				'class'        => array( 'address-field' ),
-				'autocomplete' => 'address-level2',
-				'input_class'  => array('garlic-auto-save'),
-				'priority'     => 60,
-				'wrap'         => $this->input_wrap('text', 12, 60),
-				'label_class'  => 'cfw-input-label',
-				'start'        => true,
-				'end'          => true,
+			'city'       => array(
+				'label'             => __( 'Town / City', 'checkout-wc' ),
+				'required'          => true,
+				'placeholder'       => esc_attr__( 'Town / City', 'checkout-wc' ),
+				'class'             => array( 'address-field' ),
+				'autocomplete'      => 'address-level2',
+				'input_class'       => array( 'garlic-auto-save' ),
+				'priority'          => 60,
+				'wrap'              => $this->input_wrap( 'text', 12, 60 ),
+				'label_class'       => 'cfw-input-label',
+				'start'             => true,
+				'end'               => true,
 				'custom_attributes' => array(
-					"data-parsley-trigger"              => "change focusout"
-				)
-			)
+					'data-parsley-trigger' => 'change focusout',
+				),
+			),
 		);
 
 		// If the phone is enabled in the settings
-		if($this->phone_enabled) {
+		if ( $this->phone_enabled ) {
 			$defaults['phone'] = array(
 				'type'         => 'tel',
 				'label'        => __( 'Phone', 'woocommerce' ),
@@ -268,36 +268,39 @@ class Form {
 	 * @param $priority
 	 * @return object
 	 */
-	public function input_wrap($type, $col, $priority) {
+	public function input_wrap( $type, $col, $priority ) {
 
-		$inner_start = "";
-		$inner_end = "";
+		$inner_start = '';
+		$inner_end   = '';
 
-		switch($type) {
-			case "text":
+		switch ( $type ) {
+			case 'text':
 				$inner_start = '<div class="cfw-input-wrap cfw-text-input">';
-				$inner_end = '</div>';
+				$inner_end   = '</div>';
 				break;
-			case "password":
+			case 'password':
 				$inner_start = '<div class="cfw-input-wrap cfw-password-input">';
-				$inner_end = '</div>';
+				$inner_end   = '</div>';
 				break;
-			case "select":
+			case 'select':
 				$inner_start = '<div class="cfw-input-wrap cfw-select-input">';
-				$inner_end = '</div>';
+				$inner_end   = '</div>';
 				break;
-			case "tel":
+			case 'tel':
 				$inner_start = '<div class="cfw-input-wrap cfw-tel-input">';
-				$inner_end = '</div>';
+				$inner_end   = '</div>';
 				break;
 		}
 
-		$priority = esc_attr($priority);
+		$priority = esc_attr( $priority );
 
 		$start = '<div class="cfw-column-' . $col . ' %1$s" id="%2$s" data-priority="' . $priority . '">' . $inner_start . '%3$s';
 
 		$end = "$inner_end</div>";
 
-		return (object)["start" => $start, "end" => $end];
+		return (object) [
+			'start' => $start,
+			'end'   => $end,
+		];
 	}
 }

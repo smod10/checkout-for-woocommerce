@@ -8,7 +8,7 @@ export class SelectLabelWrap extends FormElement {
     /**
      * @param jel
      */
-    constructor(jel: JQuery) {
+    constructor(jel: any) {
         super(jel);
 
         this.setHolderAndLabel(this.jel.find('select'));

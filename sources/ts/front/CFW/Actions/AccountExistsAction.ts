@@ -11,10 +11,10 @@ import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 export class AccountExistsAction extends Action {
 
     /**
-     * @type {JQuery}
+     * @type {any}
      * @private
      */
-    private _ezTabContainer: JQuery;
+    private _ezTabContainer: any;
 
     /**
      * @type {boolean}
@@ -28,7 +28,7 @@ export class AccountExistsAction extends Action {
      * @param email
      * @param ezTabContainer
      */
-    constructor(id: string, ajaxInfo: AjaxInfo, email: string, ezTabContainer: JQuery) {
+    constructor(id: string, ajaxInfo: AjaxInfo, email: string, ezTabContainer: any) {
         // Object prep
         let data: AccountExistsData = {
             "wc-ajax": id,
@@ -55,6 +55,7 @@ export class AccountExistsAction extends Action {
         // If account exists slide down the password field, uncheck the register box, and hide the container for the checkbox
         if(resp.account_exists) {
             login_slide.slideDown(300);
+			$("#cfw-first-for-plugins, #cfw-last-for-plugins").slideUp(300);
             register_user_checkbox.checked = false;
             register_container.css("display", "none");
 
@@ -64,6 +65,7 @@ export class AccountExistsAction extends Action {
         // If account does not exist, reverse
         } else {
             login_slide.slideUp(300);
+			$("#cfw-first-for-plugins, #cfw-last-for-plugins").slideDown(300);
 
             if(AccountExistsAction.checkBox) {
                 register_user_checkbox.checked = true;
@@ -76,16 +78,16 @@ export class AccountExistsAction extends Action {
     }
 
     /**
-     * @returns {JQuery}
+     * @returns {any}
      */
-    get ezTabContainer(): JQuery {
+    get ezTabContainer(): any {
         return this._ezTabContainer;
     }
 
     /**
      * @param value
      */
-    set ezTabContainer(value: JQuery) {
+    set ezTabContainer(value: any) {
         this._ezTabContainer = value;
     }
 

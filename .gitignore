@@ -8,3 +8,12 @@ node_modules
 /vendor
 /.idea
 .DS_Store
+assets/front
+templates/**/*.css
+templates/**/*.css.map
+templates/**/theme.js
+templates/**/theme.js.map
+templates/**/theme.min.js
+.env
+/cypress/videos
+/cypress/screenshots

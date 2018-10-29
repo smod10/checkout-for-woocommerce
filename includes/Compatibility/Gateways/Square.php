@@ -11,7 +11,7 @@ class Square extends Base {
 	}
 
 	public function is_available() {
-		return class_exists('\\Woocommerce_Square');
+		return class_exists( '\\Woocommerce_Square' );
 	}
 
 	public function allowed_scripts( $scripts ) {

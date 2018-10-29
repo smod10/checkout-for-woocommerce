@@ -26,11 +26,11 @@ export class Alert extends Element {
      * @param alertContainer
      * @param alertInfo
      */
-    constructor(alertContainer: JQuery, alertInfo: AlertInfo) {
-        super(alertContainer);
+    constructor(alertContainer: any, alertInfo: AlertInfo) {
+		super(alertContainer);
 
-        this.alertInfo = alertInfo;
-    }
+		this.alertInfo = alertInfo;
+	}
 
     /**
      *
@@ -51,12 +51,17 @@ export class Alert extends Element {
         window.scrollTo(0,0);
 
         Alert.previousClass = this.alertInfo.cssClass;
+
+        window.dispatchEvent(new CustomEvent("cfw-add-alert-event", { detail: { alertInfo: this.alertInfo } }));
     }
 
-    static removeAlerts(): void {
-        $("#cfw-alert-container").find(".message").html("")
-        $("#cfw-alert-container").attr("class", "cfw-alert");
-        $("#cfw-alert-container").css("display", "none");
+    /**
+     * @param {any} alertContainer
+     */
+    static removeAlerts(alertContainer: any): void {
+        alertContainer.find(".message").html("");
+        alertContainer.attr("class", "cfw-alert");
+        alertContainer.css("display", "none");
     }
 
     /**

@@ -1,6 +1,7 @@
 import { Main }                             from "../Main";
 import { TabContainerSection }              from "../Elements/TabContainerSection";
 import { TabContainer }                     from "../Elements/TabContainer";
+import {Alert} from "../Elements/Alert";
 
 /**
  * EzTab Enum
@@ -20,8 +21,18 @@ export type EasyTabDirection = { current: EasyTab, target: EasyTab };
  *
  */
 export class EasyTabService {
-    constructor() {
 
+    /**
+     * @type {any}
+     * @private
+     */
+    private _easyTabsWrap: any;
+
+    /**
+     * @param easyTabsWrap
+     */
+    constructor(easyTabsWrap: any) {
+       this.easyTabsWrap = easyTabsWrap;
     }
 
     /**
@@ -35,7 +46,7 @@ export class EasyTabService {
         let targetTabIndex: number = 0;
 
         Main.instance.tabContainer.tabContainerSections.forEach((tab: TabContainerSection, index: number) => {
-            let $tab: JQuery = tab.jel;
+            let $tab: any = tab.jel;
 
             if($tab.filter(":visible").length !== 0) {
                 currentTabIndex = index;
@@ -50,10 +61,22 @@ export class EasyTabService {
     }
 
     /**
+     *
+     */
+    initialize() {
+        this.easyTabsWrap.easytabs({
+            defaultTab: "li.tab#default-tab",
+            tabs: "ul > li.tab"
+        });
+
+        this.easyTabsWrap.removeClass("cfw-tabs-not-initialized");
+    }
+
+    /**
      * @param {EasyTab} tab
      */
     static go(tab: EasyTab): void {
-        Main.instance.tabContainer.jel.easytabs("select", EasyTabService.getTabId(tab))
+        Main.instance.easyTabService.easyTabsWrap.easytabs("select", EasyTabService.getTabId(tab));
     }
 
     /**
@@ -75,6 +98,15 @@ export class EasyTabService {
      * @returns {boolean}
      */
     static isThereAShippingTab(): boolean {
-        return Main.instance.tabContainer.jel.find('.etabs > li.tab').length !== 2;
+        return Main.instance.easyTabService.easyTabsWrap.find('.etabs > li.tab').length !== 2;
+    }
+
+
+    get easyTabsWrap(): any {
+        return this._easyTabsWrap;
+    }
+
+    set easyTabsWrap(value: any) {
+        this._easyTabsWrap = value;
     }
 }

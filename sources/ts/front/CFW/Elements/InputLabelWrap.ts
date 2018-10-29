@@ -8,7 +8,7 @@ export class InputLabelWrap extends FormElement {
     /**
      * @param jel
      */
-    constructor(jel: JQuery) {
+    constructor(jel: any) {
         super(jel);
 
         this.setHolderAndLabel('input[type="%s"]', true);

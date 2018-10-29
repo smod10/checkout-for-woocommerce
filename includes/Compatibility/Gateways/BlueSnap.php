@@ -10,14 +10,14 @@ class BlueSnap extends Base {
 	}
 
 	function is_available() {
-		return class_exists('\\Bsnp_Payment_Gateway');
+		return class_exists( '\\Bsnp_Payment_Gateway' );
 	}
 
 	function allowed_scripts( $scripts ) {
 		$scripts[] = 'bsnp-cc';
-        $scripts[] = 'bsnp-ex';
-        $scripts[] = 'bsnp-ex-cookie';
-        $scripts[] = 'bsnp-cse';
+		$scripts[] = 'bsnp-ex';
+		$scripts[] = 'bsnp-ex-cookie';
+		$scripts[] = 'bsnp-cse';
 
 		return $scripts;
 	}

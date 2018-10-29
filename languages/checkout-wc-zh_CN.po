@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2018-02-07 14:15-0500\n"
-"PO-Revision-Date: 2018-02-07 14:15-0500\n"
+"POT-Creation-Date: 2018-10-23 13:42-0400\n"
+"PO-Revision-Date: 2018-10-23 13:46-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
@@ -21,41 +21,45 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: functions.php:45 includes/Main.php:447
+#: dist/checkout-for-woocommerce/functions.php:45
+#: dist/checkout-for-woocommerce/includes/Main.php:484 functions.php:45
+#: includes/Main.php:484
 msgid "required"
 msgstr "必要的"
 
-#: functions.php:106
+#: dist/checkout-for-woocommerce/functions.php:106 functions.php:106
 msgid "Select a country&hellip;"
 msgstr "选择一个国家＆hellip;"
 
-#: functions.php:114
+#: dist/checkout-for-woocommerce/functions.php:114 functions.php:114
 msgid "Update country"
 msgstr "更新国家"
 
-#: functions.php:133
+#: dist/checkout-for-woocommerce/functions.php:133 functions.php:133
 msgid "Select a state&hellip;"
 msgstr "选择一个地区&hellip;"
 
-#: functions.php:178
+#: dist/checkout-for-woocommerce/functions.php:178 functions.php:178
 msgid "Choose an option"
 msgstr "选择一个选项"
 
-#: functions.php:317 includes/Action/UpdateCheckoutAction.php:121
+#: dist/checkout-for-woocommerce/functions.php:306
+#: dist/checkout-for-woocommerce/includes/Action/UpdateCheckoutAction.php:147
+#: functions.php:306 includes/Action/UpdateCheckoutAction.php:147
 #, php-format
 msgctxt "shipping packages"
 msgid "Shipping"
 msgid_plural "Shipping %d"
 msgstr[0] "运输"
 
-#: functions.php:344
+#: dist/checkout-for-woocommerce/functions.php:330 functions.php:330
 msgid ""
 "There are no shipping methods available. Please double check your address, "
 "or contact us if you need any help."
 msgstr ""
 "没有可用的运送方式。请仔细检查您的地址，如果您需要任何帮助，请联系我们。"
 
-#: functions.php:409
+#: dist/checkout-for-woocommerce/functions.php:390 functions.php:390
 msgid ""
 "Sorry, it seems that there are no available payment methods for your "
 "location. Please contact us if you require assistance or wish to make "
@@ -64,7 +68,8 @@ msgstr ""
 "很抱歉，似乎你所在的位置没有可用的付款方式。如果您需要帮助请联系我们，或希望"
 "使其他安排。"
 
-#: includes/Action/UpdateCheckoutAction.php:133
+#: dist/checkout-for-woocommerce/includes/Action/UpdateCheckoutAction.php:159
+#: includes/Action/UpdateCheckoutAction.php:159
 msgid ""
 "There are no shipping methods available. Please ensure that your address has "
 "been entered correctly, or contact us if you need any help."
@@ -72,137 +77,215 @@ msgstr ""
 "没有可用的运送方式。 请确保您的地址已正确输入，如果您需要任何帮助，请联系我"
 "们。"
 
+#: dist/checkout-for-woocommerce/includes/Compatibility/Base.php:83
+#: includes/Compatibility/Base.php:83
+msgid "Or"
+msgstr "或"
+
 #. Plugin Name of the plugin/theme
-#: includes/Core/Admin.php:79 includes/Core/Admin.php:99
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:88
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:109
+#: includes/Core/Admin.php:88 includes/Core/Admin.php:109
 #, fuzzy
 msgid "Checkout for WooCommerce"
 msgstr "Checkout for WooCommerce"
 
-#: includes/Core/Admin.php:82
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:91
+#: includes/Core/Admin.php:91
 msgid "General"
 msgstr "一般"
 
-#: includes/Core/Admin.php:83
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:92
+#: includes/Core/Admin.php:92
+msgid "Template"
+msgstr "模板"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:93
+#: includes/Core/Admin.php:93
 msgid "Design"
 msgstr "设计"
 
-#: includes/Core/Admin.php:84
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:94
+#: includes/Core/Admin.php:94
 msgid "License"
 msgstr "许可证"
 
-#: includes/Core/Admin.php:85
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:95
+#: includes/Core/Admin.php:95
 msgid "Support"
 msgstr "支持"
 
-#: includes/Core/Admin.php:100
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:110
+#: includes/Core/Admin.php:110
 msgid ""
 "Checkout for WooCommerce provides a beautiful, conversion optimized checkout "
 "template for WooCommerce."
 msgstr "结帐 WooCommerce 提供了一个美丽的, 转换优化的 WooCommerce 结帐模板."
 
-#: includes/Core/Admin.php:125
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:135
+#: includes/Core/Admin.php:135
 msgid "Enable / Disable"
 msgstr "启用/停用"
 
-#: includes/Core/Admin.php:129
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:139
+#: includes/Core/Admin.php:139
 msgid "Use Checkout for WooCommerce Template"
 msgstr "使用Checkout进行WooCommerce模板"
 
-#: includes/Core/Admin.php:130
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:140
+#: includes/Core/Admin.php:140
 msgid ""
 "Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always "
 "enabled for admin users.)"
 msgstr "启用或禁用 WooCommerce 主题的签出。(注： 主题始终为管理员用户启用。)"
 
-#: includes/Core/Admin.php:136
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:146
+#: includes/Core/Admin.php:146
 msgid "Header Scripts"
 msgstr "页眉脚本"
 
-#: includes/Core/Admin.php:142
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:152
+#: includes/Core/Admin.php:152
 msgid ""
 "This code will output immediately before the closing <code>&lt;/head&gt;</"
 "code> tag in the document source."
 msgstr "此代码将在文档源中的关闭 <code>&lt;/head&gt;</code> 标记之前立即输出。"
 
-#: includes/Core/Admin.php:150
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:160
+#: includes/Core/Admin.php:160
 msgid "Footer Scripts"
 msgstr "頁尾腳本"
 
-#: includes/Core/Admin.php:156
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:166
+#: includes/Core/Admin.php:166
 msgid ""
 "This code will output immediately before the closing <code>&lt;/body&gt;</"
 "code> tag in the document source."
 msgstr "此代码将在文档源中的关闭 <code>&lt;/body&gt;</code> 标记之前立即输出。"
 
-#: includes/Core/Admin.php:184
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:190
+#: includes/Core/Admin.php:190
+msgid "Templates"
+msgstr "模板"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:208
+#: includes/Core/Admin.php:214
+msgid "Active: "
+msgstr "启动"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:216
+#: includes/Core/Admin.php:222
+msgid "Activate"
+msgstr "激活"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:226
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:400
+#: includes/Core/Admin.php:232 includes/Core/Admin.php:406
+msgid ""
+"You are using a legacy child theme which will be disabled in a future "
+"version. Changing theme settings is not possible for legacy themes."
+msgstr ""
+"您使用的是将在未来版本中禁用的旧式子主题。对于旧式主题, 更改主题设置是不可能"
+"的。"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:250
+#: includes/Core/Admin.php:256
 msgid "Logo"
 msgstr "标识"
 
-#: includes/Core/Admin.php:190
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:256
+#: includes/Core/Admin.php:262
 msgid "Upload image"
 msgstr "上传图片"
 
-#: includes/Core/Admin.php:193
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:259
+#: includes/Core/Admin.php:265
 msgid "Clear Logo"
 msgstr "删除徽标"
 
-#: includes/Core/Admin.php:199
-msgid "Header Background Color"
-msgstr "页眉背景色"
-
-#: includes/Core/Admin.php:208
-msgid "Header Text Color"
-msgstr "页眉文本颜色"
-
-#: includes/Core/Admin.php:217
-msgid "Footer Background Color"
-msgstr "页脚背景颜色"
-
-#: includes/Core/Admin.php:226
-msgid "Footer Text Color"
-msgstr "页脚文字颜色"
-
-#: includes/Core/Admin.php:235
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:265
+#: includes/Core/Admin.php:271
 msgid "Footer Text"
 msgstr "页脚文本"
 
-#: includes/Core/Admin.php:241
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:271
+#: includes/Core/Admin.php:277
 msgid ""
 "If left blank, a standard copyright notice will be displayed. Set to a "
 "single space to override this behavior."
 msgstr "如果保留空白, 将显示标准版权声明。设置为单个空格以覆盖此行为。"
 
-#: includes/Core/Admin.php:249
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:279
+#: includes/Core/Admin.php:285
+msgid "Theme Specific Settings"
+msgstr "主题特定设置"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:291
+#: includes/Core/Admin.php:297
+msgid "Header Background Color"
+msgstr "页眉背景色"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:301
+#: includes/Core/Admin.php:307
+msgid "Header Text Color"
+msgstr "页眉文本颜色"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:311
+#: includes/Core/Admin.php:317
+msgid "Footer Background Color"
+msgstr "页脚背景颜色"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:321
+#: includes/Core/Admin.php:327
+msgid "Footer Text Color"
+msgstr "页脚文字颜色"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:331
+#: includes/Core/Admin.php:337
+#, fuzzy
+#| msgid "Header Background Color"
+msgid "Summary Background Color"
+msgstr "页眉背景色"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:341
+#: includes/Core/Admin.php:347
 msgid "Primary Button Color"
 msgstr "主按钮颜色"
 
-#: includes/Core/Admin.php:258
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:350
+#: includes/Core/Admin.php:356
 msgid "Primary Button Text Color"
 msgstr "主按钮文字颜色"
 
-#: includes/Core/Admin.php:267
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:359
+#: includes/Core/Admin.php:365
 msgid "Secondary Button Color"
 msgstr "次级按钮颜色"
 
-#: includes/Core/Admin.php:276
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:368
+#: includes/Core/Admin.php:374
 msgid "Secondary Button Text Color"
 msgstr "次要按钮文字颜色"
 
-#: includes/Core/Admin.php:285
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:377
+#: includes/Core/Admin.php:383
 msgid "Link Color"
 msgstr "链接颜色"
 
-#: includes/Core/Admin.php:294
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:386
+#: includes/Core/Admin.php:392
 msgid "Custom CSS"
 msgstr "自定义样式"
 
-#: includes/Core/Admin.php:300
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:392
+#: includes/Core/Admin.php:398
 msgid ""
 "Add Custom CSS rules to fully control the appearance of the checkout "
 "template."
 msgstr "添加自定义 CSS 规则以完全控制签出模板的外观。"
 
-#: includes/Core/Admin.php:335
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:430
+#: includes/Core/Admin.php:436
 msgid ""
 "We can't wait to help you with Checkout for WooCommerce! Please fill out the "
 "following form and one of our support staff will respond within 12-24 hours. "
@@ -211,33 +294,40 @@ msgstr ""
 "我们迫不及待要帮你结帐 WooCommerce!请填写以下表格, 我们的一名支持人员将在"
 "12-24 小时内回复。平均)"
 
-#: includes/Core/Admin.php:339
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:434
+#: includes/Core/Admin.php:440
 msgid "Need help?"
 msgstr "需要幫助？"
 
-#: includes/Core/Admin.php:341
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:436
+#: includes/Core/Admin.php:442
 msgid "Excellent support is in our DNA."
 msgstr "我们的 DNA 有很好的支持"
 
-#: includes/Core/Admin.php:343
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:438
+#: includes/Core/Admin.php:444
 msgid "Many issues are addressed in our documentation:"
 msgstr "我们的文档中讨论了许多问题:"
 
-#: includes/Core/Admin.php:344
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:439
+#: includes/Core/Admin.php:445
 msgid "View Documentation"
 msgstr "查看文档"
 
-#: includes/Core/Admin.php:346
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:441
+#: includes/Core/Admin.php:447
 msgid ""
 "If you need help for something not covered in our documentation, please "
 "click this button to file a support request:"
 msgstr "如果您需要我们文档中未涉及的内容的帮助, 请单击此按钮以提交支持请求:"
 
-#: includes/Core/Admin.php:347
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:442
+#: includes/Core/Admin.php:448
 msgid "Support Request"
 msgstr "要求支持"
 
-#: includes/Core/Admin.php:465
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:566
+#: includes/Core/Admin.php:572
 #, php-format
 msgid ""
 "Checkout for WooCommerce: Your license key appears to have expired. Please "
@@ -249,7 +339,8 @@ msgstr ""
 "有效，或<a target=\"_blank\" href=\"https://www.checkoutwc.com/checkout/?"
 "edd_license_key=%s\">立即续订许可证</a>以恢复完整功能。"
 
-#: includes/Core/Admin.php:468
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:569
+#: includes/Core/Admin.php:575
 msgid ""
 "Checkout for WooCommerce: Your license key is missing or invalid. Please "
 "verify that your license key is valid or <a target=\"_blank\" href=\"https://"
@@ -259,7 +350,8 @@ msgstr ""
 "有效，或<a target=\"_blank\" href=\"https://www.checkoutwc.com/\">购买许可证"
 "</a>以恢复完整功能。"
 
-#: includes/Core/Admin.php:473
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:574
+#: includes/Core/Admin.php:580
 msgid ""
 "Thank you for installing Checkout for WooCommerce! To get started, click on "
 "<strong>License</strong> below and activate your license key!"
@@ -267,271 +359,470 @@ msgstr ""
 "感谢您为 WooCommerce 安装结帐!要开始, 请单击下面的<strong>许可证</strong>并激"
 "活您的许可证密钥!"
 
-#: includes/Core/Admin.php:497
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:585
+#: includes/Core/Admin.php:591
+#, php-format
+msgid ""
+"It looks like you are using a legacy checkout theme, located in %s. Legacy "
+"themes are deprecated and you should upgrade to the new theme structure as "
+"soon as possible to prevent problems with future release. For more "
+"information, <a target=\"_blank\" href=\"https://www.checkoutwc.com/docs/"
+"developer-api/template-files/upgrading-legacy-custom-templates/\">read our "
+"migration guide.</a>"
+msgstr ""
+"它看起来像您正在使用的旧签出主题, 位于%s 中. 旧版主题已弃用, 您应尽快升级到新"
+"的主题结构, 以防止将来发布问题。有关详细信息, 请<a target=\"_blank\" href="
+"\"https://www.checkoutwc.com/docs/developer-api/template-files/upgrading-"
+"legacy-custom-templates/\">阅读我们的迁移指南.</a>"
+
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:609
+#: includes/Core/Admin.php:615
 msgid "Settings"
 msgstr "设置"
 
-#: includes/Core/Compatibility.php:161
-msgid "Or"
-msgstr "或"
-
-#: includes/Core/Form.php:73 includes/Core/Form.php:243
-#: includes/Core/Form.php:245
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:75
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:245
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:247
+#: includes/Core/Form.php:75 includes/Core/Form.php:245
+#: includes/Core/Form.php:247
 msgid "Phone"
-msgstr ""
+msgstr "电话"
 
-#: includes/Core/Form.php:93 includes/Core/Form.php:94
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:95
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:96
+#: includes/Core/Form.php:95 includes/Core/Form.php:96
 msgid "First name"
 msgstr "姓氏"
 
-#: includes/Core/Form.php:110 includes/Core/Form.php:111
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:112
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:113
+#: includes/Core/Form.php:112 includes/Core/Form.php:113
 msgid "Last name"
 msgstr "名字"
 
-#: includes/Core/Form.php:126
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:128
+#: includes/Core/Form.php:128
 msgid "Address"
 msgstr "地址"
 
-#: includes/Core/Form.php:127
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:129
+#: includes/Core/Form.php:129
 msgid "Street address"
 msgstr "街道地址"
 
-#: includes/Core/Form.php:142 includes/Core/Form.php:143
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:144
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:145
+#: includes/Core/Form.php:144 includes/Core/Form.php:145
 msgid "Apt, suite, etc. (optional)"
 msgstr "Apt，Suite，Bldg。 （可选）"
 
-#: includes/Core/Form.php:155 includes/Core/Form.php:156
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:157
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:158
+#: includes/Core/Form.php:157 includes/Core/Form.php:158
 msgid "Company name"
 msgstr "公司名称"
 
-#: includes/Core/Form.php:168
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:170
+#: includes/Core/Form.php:170
 msgid "Country"
 msgstr "國家"
 
-#: includes/Core/Form.php:181 includes/Core/Form.php:182
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:183
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:184
+#: includes/Core/Form.php:183 includes/Core/Form.php:184
 msgid "Postcode / ZIP"
 msgstr "邮政编码"
 
-#: includes/Core/Form.php:202 includes/Core/Form.php:203
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:204
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:205
+#: includes/Core/Form.php:204 includes/Core/Form.php:205
 msgid "State / County"
 msgstr "省/市"
 
-#: includes/Core/Form.php:222 includes/Core/Form.php:224
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:224
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:226
+#: includes/Core/Form.php:224 includes/Core/Form.php:226
 msgid "Town / City"
 msgstr "城市"
 
-#: includes/Core/Redirect.php:30
+#: dist/checkout-for-woocommerce/includes/Core/Redirect.php:31
+#: includes/Core/Redirect.php:31
 msgid "Checkout is not available whilst your cart is empty."
 msgstr "当您的购物车为空时, 结帐不可用。"
 
-#: includes/Main.php:382
+#: dist/checkout-for-woocommerce/includes/Main.php:387 includes/Main.php:387
 msgid ""
 "Activation failed: Please activate WooCommerce in order to use Checkout for "
 "WooCommerce"
 msgstr "激活失败：请激活WooCommerce以便为WooCommerce使用Checkout"
 
-#: includes/Main.php:430
+#: dist/checkout-for-woocommerce/includes/Main.php:458 includes/Main.php:458
+msgid "Error processing checkout. Please try again."
+msgstr "处理结帐错误。 请再试一次。"
+
+#: dist/checkout-for-woocommerce/includes/Main.php:467 includes/Main.php:467
 msgid "Select an option&hellip;"
 msgstr "选择一个选项&hellip；"
 
-#: includes/Main.php:431
+#: dist/checkout-for-woocommerce/includes/Main.php:468 includes/Main.php:468
 msgctxt "enhanced select"
 msgid "No matches found"
-msgstr ""
+msgstr "找不到匹配项"
 
-#: includes/Main.php:432
+#: dist/checkout-for-woocommerce/includes/Main.php:469 includes/Main.php:469
 msgctxt "enhanced select"
 msgid "Loading failed"
-msgstr ""
+msgstr "加载失败"
 
-#: includes/Main.php:433
+#: dist/checkout-for-woocommerce/includes/Main.php:470 includes/Main.php:470
 msgctxt "enhanced select"
 msgid "Please enter 1 or more characters"
-msgstr ""
+msgstr "请输入1个或更多字符"
 
-#: includes/Main.php:434
+#: dist/checkout-for-woocommerce/includes/Main.php:471 includes/Main.php:471
 msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
-msgstr ""
+msgstr "请输入％qty％或更多字符"
 
-#: includes/Main.php:435
+#: dist/checkout-for-woocommerce/includes/Main.php:472 includes/Main.php:472
 msgctxt "enhanced select"
 msgid "Please delete 1 character"
-msgstr ""
+msgstr "请删除1个字符"
 
-#: includes/Main.php:436
+#: dist/checkout-for-woocommerce/includes/Main.php:473 includes/Main.php:473
 msgctxt "enhanced select"
 msgid "Please delete %qty% characters"
-msgstr ""
+msgstr "请删除 %qty% 个字符"
 
-#: includes/Main.php:437
+#: dist/checkout-for-woocommerce/includes/Main.php:474 includes/Main.php:474
 msgctxt "enhanced select"
 msgid "You can only select 1 item"
-msgstr ""
+msgstr "您只能选择1个项目"
 
-#: includes/Main.php:438
+#: dist/checkout-for-woocommerce/includes/Main.php:475 includes/Main.php:475
 msgctxt "enhanced select"
 msgid "You can only select %qty% items"
-msgstr ""
+msgstr "您只能选择％qty％项目"
 
-#: includes/Main.php:439
+#: dist/checkout-for-woocommerce/includes/Main.php:476 includes/Main.php:476
 msgctxt "enhanced select"
 msgid "Loading more results&hellip;"
-msgstr ""
+msgstr "载入更多结果＆hellip;"
 
-#: includes/Main.php:440
+#: dist/checkout-for-woocommerce/includes/Main.php:477 includes/Main.php:477
 msgctxt "enhanced select"
 msgid "Searching&hellip;"
-msgstr ""
+msgstr "搜索&hellip;"
 
-#: includes/Main.php:446
+#: dist/checkout-for-woocommerce/includes/Main.php:483 includes/Main.php:483
 msgctxt "checkout-wc"
 msgid "Apt, suite, etc. (optional)"
 msgstr "Apt，Suite，Bldg。 （可选）"
 
-#: templates/content/template.php:26
+#: dist/checkout-for-woocommerce/templates/copify/content.php:42
+#: dist/checkout-for-woocommerce/templates/default/content.php:30
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:28
+#: templates/copify/content.php:42 templates/default/content.php:30
+#: templates/futurist/content.php:28
 msgid "Cart"
-msgstr ""
+msgstr "购物车"
 
-#: templates/content/template.php:29 templates/content/template.php:50
+#: dist/checkout-for-woocommerce/templates/copify/content.php:45
+#: dist/checkout-for-woocommerce/templates/copify/content.php:68
+#: dist/checkout-for-woocommerce/templates/default/content.php:33
+#: dist/checkout-for-woocommerce/templates/default/content.php:56
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:33
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:67
+#: templates/copify/content.php:45 templates/copify/content.php:68
+#: templates/default/content.php:33 templates/default/content.php:56
+#: templates/futurist/content.php:33 templates/futurist/content.php:67
 msgid "Customer information"
 msgstr "客户信息"
 
-#: templates/content/template.php:33 templates/content/template.php:183
+#: dist/checkout-for-woocommerce/templates/copify/content.php:49
+#: dist/checkout-for-woocommerce/templates/copify/content.php:209
+#: dist/checkout-for-woocommerce/templates/default/content.php:37
+#: dist/checkout-for-woocommerce/templates/default/content.php:197
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:39
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:208
+#: templates/copify/content.php:49 templates/copify/content.php:209
+#: templates/default/content.php:37 templates/default/content.php:197
+#: templates/futurist/content.php:39 templates/futurist/content.php:208
 msgid "Shipping method"
 msgstr "يەتكۈزۈش ئۇسۇلى"
 
-#: templates/content/template.php:37 templates/content/template.php:215
+#: dist/checkout-for-woocommerce/templates/copify/content.php:53
+#: dist/checkout-for-woocommerce/templates/copify/content.php:241
+#: dist/checkout-for-woocommerce/templates/default/content.php:41
+#: dist/checkout-for-woocommerce/templates/default/content.php:229
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:45
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:240
+#: templates/copify/content.php:53 templates/copify/content.php:241
+#: templates/default/content.php:41 templates/default/content.php:229
+#: templates/futurist/content.php:45 templates/futurist/content.php:240
 msgid "Payment method"
 msgstr "付款方法"
 
-#: templates/content/template.php:57
+#: dist/checkout-for-woocommerce/templates/copify/content.php:75
+#: dist/checkout-for-woocommerce/templates/default/content.php:63
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:74
+#: templates/copify/content.php:75 templates/default/content.php:63
+#: templates/futurist/content.php:74
 msgid "Already have an account with us?"
 msgstr "已经拥有账户?"
 
-#: templates/content/template.php:61
+#: dist/checkout-for-woocommerce/templates/copify/content.php:79
+#: dist/checkout-for-woocommerce/templates/default/content.php:67
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:78
+#: templates/copify/content.php:79 templates/default/content.php:67
+#: templates/futurist/content.php:78
 msgid "Log in."
 msgstr "登录."
 
-#: templates/content/template.php:66
+#: dist/checkout-for-woocommerce/templates/copify/content.php:84
+#: dist/checkout-for-woocommerce/templates/default/content.php:72
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:83
+#: templates/copify/content.php:84 templates/default/content.php:72
+#: templates/futurist/content.php:83
 msgid ""
 "If you do not have an account, the information provided here will be used to "
 "create an account on checkout."
 msgstr "如果您没有帐户，这里提供的信息将用于在结帐时创建一个帐户。"
 
-#: templates/content/template.php:74
+#: dist/checkout-for-woocommerce/templates/copify/content.php:92
+#: dist/checkout-for-woocommerce/templates/default/content.php:80
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:91
+#: templates/copify/content.php:92 templates/default/content.php:80
+#: templates/futurist/content.php:91
 msgid "Email"
 msgstr "电子邮件"
 
-#: templates/content/template.php:81
+#: dist/checkout-for-woocommerce/templates/copify/content.php:99
+#: dist/checkout-for-woocommerce/templates/default/content.php:87
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:98
+#: templates/copify/content.php:99 templates/default/content.php:87
+#: templates/futurist/content.php:98
 msgid "Password"
 msgstr "密码"
 
-#: templates/content/template.php:86
+#: dist/checkout-for-woocommerce/templates/copify/content.php:104
+#: dist/checkout-for-woocommerce/templates/default/content.php:92
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:103
+#: templates/copify/content.php:104 templates/default/content.php:92
+#: templates/futurist/content.php:103
 msgid "Login"
 msgstr "登录"
 
-#: templates/content/template.php:89
+#: dist/checkout-for-woocommerce/templates/copify/content.php:107
+#: dist/checkout-for-woocommerce/templates/default/content.php:95
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:106
+#: templates/copify/content.php:107 templates/default/content.php:95
+#: templates/futurist/content.php:106
 msgid "Login is optional. You may continue with your order below."
 msgstr "登录是可选的。你可以继续你按以下的顺序。"
 
-#: templates/content/template.php:104
+#: dist/checkout-for-woocommerce/templates/copify/content.php:122
+#: dist/checkout-for-woocommerce/templates/default/content.php:110
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:121
+#: templates/copify/content.php:122 templates/default/content.php:110
+#: templates/futurist/content.php:121
 #, fuzzy, php-format
 #| msgid "Create a %s shopping account."
 msgid "Create %s shopping account."
 msgstr "创建购物帐户 %s。"
 
-#: templates/content/template.php:111
+#: dist/checkout-for-woocommerce/templates/copify/content.php:129
+#: dist/checkout-for-woocommerce/templates/default/content.php:117
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:128
+#: templates/copify/content.php:129 templates/default/content.php:117
+#: templates/futurist/content.php:128
 #, php-format
 msgid "Welcome back, %s"
 msgstr "欢迎回来, %s"
 
-#: templates/content/template.php:124
+#: dist/checkout-for-woocommerce/templates/copify/content.php:142
+#: dist/checkout-for-woocommerce/templates/default/content.php:130
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:141
+#: templates/copify/content.php:142 templates/default/content.php:130
+#: templates/futurist/content.php:141
 msgid "Billing address"
 msgstr "帳單地址"
 
-#: templates/content/template.php:126 templates/content/template.php:166
+#: dist/checkout-for-woocommerce/templates/copify/content.php:144
+#: dist/checkout-for-woocommerce/templates/copify/content.php:192
+#: dist/checkout-for-woocommerce/templates/default/content.php:132
+#: dist/checkout-for-woocommerce/templates/default/content.php:180
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:143
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:191
+#: templates/copify/content.php:144 templates/copify/content.php:192
+#: templates/default/content.php:132 templates/default/content.php:180
+#: templates/futurist/content.php:143 templates/futurist/content.php:191
 msgid "Shipping address"
 msgstr "配送地址"
 
-#: templates/content/template.php:148
+#: dist/checkout-for-woocommerce/templates/copify/content.php:174
+#: dist/checkout-for-woocommerce/templates/default/content.php:162
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:173
+#: templates/copify/content.php:174 templates/default/content.php:162
+#: templates/futurist/content.php:173
 msgid "Return to cart"
 msgstr "返回到购物车"
 
-#: templates/content/template.php:151
+#: dist/checkout-for-woocommerce/templates/copify/content.php:177
+#: dist/checkout-for-woocommerce/templates/default/content.php:165
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:176
+#: templates/copify/content.php:177 templates/default/content.php:165
+#: templates/futurist/content.php:176
 msgid "Continue to shipping method"
 msgstr "继续运送方式"
 
-#: templates/content/template.php:153 templates/content/template.php:201
+#: dist/checkout-for-woocommerce/templates/copify/content.php:179
+#: dist/checkout-for-woocommerce/templates/copify/content.php:227
+#: dist/checkout-for-woocommerce/templates/default/content.php:167
+#: dist/checkout-for-woocommerce/templates/default/content.php:215
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:178
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:226
+#: templates/copify/content.php:179 templates/copify/content.php:227
+#: templates/default/content.php:167 templates/default/content.php:215
+#: templates/futurist/content.php:178 templates/futurist/content.php:226
 msgid "Continue to payment method"
 msgstr "继续付款方式"
 
-#: templates/content/template.php:174
+#: dist/checkout-for-woocommerce/templates/copify/content.php:200
+#: dist/checkout-for-woocommerce/templates/default/content.php:188
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:199
+#: templates/copify/content.php:200 templates/default/content.php:188
+#: templates/futurist/content.php:199
 msgid "Edit shipping address"
 msgstr "编辑送货地址"
 
-#: templates/content/template.php:185
+#: dist/checkout-for-woocommerce/templates/copify/content.php:211
+#: dist/checkout-for-woocommerce/templates/default/content.php:199
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:210
+#: templates/copify/content.php:211 templates/default/content.php:199
+#: templates/futurist/content.php:210
 msgid "Select a shipping method:"
 msgstr "選擇其它配送方式:"
 
-#: templates/content/template.php:198 templates/content/template.php:292
+#: dist/checkout-for-woocommerce/templates/copify/content.php:224
+#: dist/checkout-for-woocommerce/templates/copify/content.php:320
+#: dist/checkout-for-woocommerce/templates/default/content.php:212
+#: dist/checkout-for-woocommerce/templates/default/content.php:308
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:223
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:319
+#: templates/copify/content.php:224 templates/copify/content.php:320
+#: templates/default/content.php:212 templates/default/content.php:308
+#: templates/futurist/content.php:223 templates/futurist/content.php:319
 msgid "Return to customer information"
 msgstr "返回到客户信息"
 
-#: templates/content/template.php:222
+#: dist/checkout-for-woocommerce/templates/copify/content.php:248
+#: dist/checkout-for-woocommerce/templates/default/content.php:236
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:247
+#: templates/copify/content.php:248 templates/default/content.php:236
+#: templates/futurist/content.php:247
 msgid ""
 "All transactions are secure and encrypted. Credit card information is never "
 "stored on our servers."
 msgstr "所有的交易都是安全和加密。信用卡信息永远不会存储在我们的服务器上。"
 
-#: templates/content/template.php:231
+#: dist/checkout-for-woocommerce/templates/copify/content.php:259
+#: dist/checkout-for-woocommerce/templates/default/content.php:247
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:258
+#: templates/copify/content.php:259 templates/default/content.php:247
+#: templates/futurist/content.php:258
 msgid "Your order is free. No payment is required."
 msgstr "您的订单是免费的。不需要付款。"
 
-#: templates/content/template.php:244
+#: dist/checkout-for-woocommerce/templates/copify/content.php:272
+#: dist/checkout-for-woocommerce/templates/default/content.php:260
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:271
+#: templates/copify/content.php:272 templates/default/content.php:260
+#: templates/futurist/content.php:271
 msgid "Same as shipping address"
 msgstr "跟邮寄地址一样"
 
-#: templates/content/template.php:252
+#: dist/checkout-for-woocommerce/templates/copify/content.php:280
+#: dist/checkout-for-woocommerce/templates/default/content.php:268
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:279
+#: templates/copify/content.php:280 templates/default/content.php:268
+#: templates/futurist/content.php:279
 msgid "Use a different billing address"
 msgstr "使用不同的帐单地址"
 
-#: templates/content/template.php:290
+#: dist/checkout-for-woocommerce/templates/copify/content.php:318
+#: dist/checkout-for-woocommerce/templates/default/content.php:306
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:317
+#: templates/copify/content.php:318 templates/default/content.php:306
+#: templates/futurist/content.php:317
 msgid "Return to shipping information"
 msgstr "返回到发货信息"
 
-#: templates/content/template.php:296
+#: dist/checkout-for-woocommerce/templates/copify/content.php:324
+#: dist/checkout-for-woocommerce/templates/default/content.php:312
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:323
+#: templates/copify/content.php:324 templates/default/content.php:312
+#: templates/futurist/content.php:323
 msgid "Complete Order"
 msgstr "已完成的订单"
 
-#: templates/content/template.php:313
+#: dist/checkout-for-woocommerce/templates/copify/content.php:357
+#: dist/checkout-for-woocommerce/templates/default/content.php:331
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:342
+#: templates/copify/content.php:357 templates/default/content.php:331
+#: templates/futurist/content.php:342
 msgid "Show order summary"
 msgstr "显示订单总结"
 
-#: templates/content/template.php:334
+#: dist/checkout-for-woocommerce/templates/copify/content.php:378
+#: dist/checkout-for-woocommerce/templates/default/content.php:352
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:366
+#: templates/copify/content.php:378 templates/default/content.php:352
+#: templates/futurist/content.php:366
 msgid "Enter Promo Code"
 msgstr "输入促销代码"
 
-#: templates/content/template.php:339
+#: dist/checkout-for-woocommerce/templates/copify/content.php:383
+#: dist/checkout-for-woocommerce/templates/default/content.php:357
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:371
+#: templates/copify/content.php:383 templates/default/content.php:357
+#: templates/futurist/content.php:371
 msgid "Apply"
 msgstr "应用"
 
-#: templates/content/template.php:349
+#: dist/checkout-for-woocommerce/templates/copify/content.php:393
+#: dist/checkout-for-woocommerce/templates/default/content.php:367
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:382
+#: templates/copify/content.php:393 templates/default/content.php:367
+#: templates/futurist/content.php:382
 msgid "Subtotal"
 msgstr "小计"
 
-#: templates/content/template.php:361
+#: dist/checkout-for-woocommerce/templates/copify/content.php:405
+#: dist/checkout-for-woocommerce/templates/default/content.php:379
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:394
+#: templates/copify/content.php:405 templates/default/content.php:379
+#: templates/futurist/content.php:394
 msgid "Shipping"
 msgstr "运输"
 
-#: templates/content/template.php:374
+#: dist/checkout-for-woocommerce/templates/copify/content.php:418
+#: dist/checkout-for-woocommerce/templates/default/content.php:392
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:407
+#: templates/copify/content.php:418 templates/default/content.php:392
+#: templates/futurist/content.php:407
 msgid "Taxes"
 msgstr "税额"
 
-#: templates/content/template.php:381
+#: dist/checkout-for-woocommerce/templates/copify/content.php:424
+#: dist/checkout-for-woocommerce/templates/default/content.php:398
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:413
+#: templates/copify/content.php:424 templates/default/content.php:398
+#: templates/futurist/content.php:413
 msgid "Total"
 msgstr "共计"
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
 #, php-format
 msgid ""
@@ -541,6 +832,7 @@ msgstr ""
 "有一个新版本的 %1$s 可用. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s"
 "\">查看版本 %3$s 详情</a>."
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
 #, php-format
 msgid ""
@@ -551,17 +843,21 @@ msgstr ""
 "有一个新的版本 %1$s 可用。<a target=\"_blank\" class=\"thickbox\" href=\"%2$s"
 "\">视图版本 %3$s 细节</a> 或者 <a href=\"%4$s\">现在更新</a>."
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "You do not have permission to install plugin updates"
 msgstr "你没有安装插件更新的权限"
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
 #, php-format
 msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
 msgstr "有一个新版本的%1$s可用。 %2$s View版本%3$s细节%4$s."
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
 #, php-format
 msgid ""
@@ -571,9 +867,18 @@ msgstr ""
 "有一个新版本的%1$s可用。 %2$s View版本 %3$s 详细信息%4$s 或%5$supdate now"
 "%6$s."
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "Error"
 msgstr "错误"
+
+#: includes/Core/Admin.php:250
+msgid "Global Settings"
+msgstr "全局设置"
+
+#: includes/Core/Admin.php:251
+msgid "These settings apply to all themes."
+msgstr "这些设置适用于所有主题。"
 
 #. Plugin URI of the plugin/theme
 msgid "https://www.CheckoutWC.com"

@@ -7,8 +7,7 @@
 		"sourceMap": true,
 		"allowJs": true
 	},
-	"files": [
-		"./sources/ts/front/CFW/Main.ts",
-		"./typings/index.d.ts"
+	"include": [
+		"sources/ts/front/**/*"
 	]
 }

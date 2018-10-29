@@ -10,7 +10,7 @@ class FirstData extends Base {
 	}
 
 	function is_available() {
-		return class_exists('\\WC_Gateway_First_Data_Payeezy_Credit_Card');
+		return class_exists( '\\WC_Gateway_First_Data_Payeezy_Credit_Card' );
 	}
 
 	function allowed_scripts( $scripts ) {

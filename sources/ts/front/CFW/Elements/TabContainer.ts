@@ -12,9 +12,10 @@ import { UpdateCheckoutAction }             from "../Actions/UpdateCheckoutActio
 import { UpdateShippingFieldsRI }           from "../Actions/UpdateCheckoutAction";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { Alert }                            from "./Alert";
-import { AlertInfo }                        from "./Alert";
+import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
 
 declare let wc_stripe_params: any;
+declare let $: any;
 
 /**
  *
@@ -34,12 +35,6 @@ export class TabContainer extends Element {
     private _tabContainerSections: Array<TabContainerSection>;
 
     /**
-     * @type {MutationObserver}
-     * @private
-     */
-    private _errorObserver: MutationObserver;
-
-    /**
      * @type {any}
      * @private
      */
@@ -50,7 +45,7 @@ export class TabContainer extends Element {
      * @param tabContainerBreadcrumb
      * @param tabContainerSections
      */
-    constructor(jel: JQuery, tabContainerBreadcrumb: TabContainerBreadcrumb, tabContainerSections: Array<TabContainerSection>) {
+    constructor(jel: any, tabContainerBreadcrumb: TabContainerBreadcrumb, tabContainerSections: Array<TabContainerSection>) {
         super(jel);
 
         this.tabContainerBreadcrumb = tabContainerBreadcrumb;
@@ -66,7 +61,6 @@ export class TabContainer extends Element {
             $(elem).garlic({ onRetrieve: element => $(element).parent().addClass(FormElement.labelClass) })
         });
     }
-
     /**
      *
      */
@@ -76,7 +70,7 @@ export class TabContainer extends Element {
         let ajax_info = Main.instance.ajaxInfo;
 
         if(email_input_wrap) {
-            let email_input: JQuery = email_input_wrap.holder.jel;
+            let email_input: any = email_input_wrap.holder.jel;
 
             let handler = () => new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
 
@@ -97,12 +91,12 @@ export class TabContainer extends Element {
         let email_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
 
         if(email_input_wrap) {
-            let email_input: JQuery = email_input_wrap.holder.jel;
+            let email_input: any = email_input_wrap.holder.jel;
 
             let password_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-password-wrap");
-            let password_input: JQuery = password_input_wrap.holder.jel;
+            let password_input: any = password_input_wrap.holder.jel;
 
-            let login_btn: JQuery = $("#cfw-login-btn");
+            let login_btn: any = $("#cfw-login-btn");
 
             // Fire the login action on click
             login_btn.on("click", () => new LoginAction("login", Main.instance.ajaxInfo, email_input.val(), password_input.val()).load() );
@@ -113,8 +107,8 @@ export class TabContainer extends Element {
      * Handles updating all the fields on a breadcrumb click or a move to the next section button
      */
     setUpdateAllShippingFieldsListener() {
-        let continueBtn: JQuery = $("#cfw-shipping-info-action .cfw-next-tab");
-        let shipping_payment_bc: JQuery = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
+        let continueBtn: any = $("#cfw-shipping-info-action .cfw-next-tab");
+        let shipping_payment_bc: any = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
 
         continueBtn.on("click", () => $(document.body).trigger("update_checkout"));
         shipping_payment_bc.on("click", () => $(document.body).trigger("update_checkout"));
@@ -124,7 +118,7 @@ export class TabContainer extends Element {
      *
      */
     setUpCreditCardRadioReveal() {
-        let stripe_container: JQuery = $(".payment_method_stripe");
+        let stripe_container: any = $(".payment_method_stripe");
 
         if(stripe_container.length > 0) {
             let stripe_options = stripe_container.find('input[type="radio"][name="wc-stripe-payment-token"]');
@@ -165,6 +159,7 @@ export class TabContainer extends Element {
      *
      */
     setUpCreditCardFields() {
+        // TODO: Once Compatibility class is setup move each of these pieces to it's relevant class
         const CHECK = "paytrace_check_choice";
         const CARD = "paytrace_card_choice";
 
@@ -209,10 +204,10 @@ export class TabContainer extends Element {
 
         $(window).on('load', () => {
             // PayTrace gateway field state workaround
-            let checked_radio: JQuery = $("input[type='radio'][name='paytrace_type_choice']:checked");
+            let checked_radio: any = $("input[type='radio'][name='paytrace_type_choice']:checked");
             checked_radio.trigger("change");
 
-            jQuery(document.body).trigger('wc-credit-card-form-init');
+            $(document.body).trigger('wc-credit-card-form-init');
         });
 
         // One Click Upsells - Stripe Form
@@ -237,54 +232,6 @@ export class TabContainer extends Element {
             if($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
                 $(elem).wrap("<div class='cfw-column-3'></div>")
             }
-        });
-
-        // FirstData - PayEezy
-        let firstdata_payeezy_form_wraps = $("#wc-first-data-payeezy-gateway-credit-card-credit-card-form .form-row");
-
-        $("#wc-first-data-payeezy-gateway-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-
-        firstdata_payeezy_form_wraps.each(function(index, elem) {
-            $(elem).addClass("cfw-input-wrap");
-            $(elem).addClass("cfw-text-input");
-            $(elem).find("label[for!='wc-first-data-payeezy-gateway-credit-card-tokenize-payment-method']").addClass("cfw-input-label");
-            $(elem).find("input").not(':checkbox').css("width", "100%");
-
-            $(elem).wrap("<div class='cfw-column-12 pad-bottom'></div>");
-        });
-
-        // First Data - Global Gateway
-        let firstdata_global_form_wraps = $("#wc-first-data-global-gateway-credit-card-form .form-row");
-
-        $("#wc-first-data-global-gateway-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-
-        firstdata_global_form_wraps.each(function(index, elem) {
-            $(elem).addClass("cfw-input-wrap");
-            $(elem).addClass("cfw-text-input");
-            $(elem).find("label").addClass("cfw-input-label");
-            $(elem).find("input").css("width", "100%");
-
-            if( $(elem).hasClass("form-row-wide") ) {
-                $(elem).wrap("<div class='cfw-column-6'></div>")
-            }
-
-            if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
-                $(elem).wrap("<div class='cfw-column-3'></div>")
-            }
-        });
-
-        // First Data - Payeezy JS
-        let firstdata_payeezyjs_form_wraps = $("#wc-first-data-payeezy-credit-card-credit-card-form .form-row");
-
-        $("#wc-first-data-payeezy-credit-card-credit-card-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-
-        firstdata_payeezyjs_form_wraps.each(function(index, elem) {
-            $(elem).addClass("cfw-input-wrap");
-            $(elem).addClass("cfw-text-input");
-            $(elem).find("label[for!='wc-first-data-payeezy-credit-card-tokenize-payment-method']").addClass("cfw-input-label");
-            $(elem).find("input").not(':checkbox').css("width", "100%");
-
-            $(elem).wrap("<div class='cfw-column-12 pad-bottom'></div>");
         });
     }
 
@@ -325,8 +272,8 @@ export class TabContainer extends Element {
 
             if(remove_add_required) {
                 input_wraps.each((index, elem) => {
-                    let input: JQuery = $(elem).find("input");
-                    let select: JQuery = $(elem).find("select");
+                    let input: any = $(elem).find("input");
+                    let select: any = $(elem).find("select");
                     let items = [input, select];
 
                     items.forEach((item) => {
@@ -390,25 +337,9 @@ export class TabContainer extends Element {
             }
         });
 
-        $(document.body).trigger( 'update_checkout' );
-    }
-
-    /**
-     *
-     */
-    setShippingFieldsOnLoad(): void {
-        let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
-        let form_elements: Array<FormElement> = customer_info.getFormElementsByModule('cfw-shipping-info');
-        let staticShippingFields: UpdateShippingFieldsRI = this.getUpdateShippingRequiredItems();
-
-        form_elements.forEach((formElement: FormElement) => {
-            let feFieldKey: string = formElement.holder.jel.attr("field_key");
-            let feFieldValue: string = formElement.holder.jel.val();
-
-            let match: JQuery = staticShippingFields.shipping_details_fields.find((sdf: JQuery) => sdf.attr("field_type") == feFieldKey);
-
-            match.children(".field_value").text(feFieldValue);
-        })
+        if(!CompleteOrderAction.initCompleteOrder) {
+			$(document.body).trigger('update_checkout');
+		}
     }
 
     /**
@@ -439,8 +370,8 @@ export class TabContainer extends Element {
      */
     getFormObject() {
         let main: Main = Main.instance;
-        let checkout_form: JQuery = main.checkoutForm;
-        let ship_to_different_address = parseInt($("[name='ship_to_different_address']:checked").val());
+        let checkout_form: any = main.checkoutForm;
+        let ship_to_different_address = parseInt( <string>$("[name='ship_to_different_address']:checked").val() );
         let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
         let has_full_address: boolean = true;
         let lookFor: Array<string> = main.settings.default_address_fields;
@@ -471,6 +402,15 @@ export class TabContainer extends Element {
             });
         }
 
+		/**
+         * Some gateways remove the checkout and shipping fields. If guest checkout is enabled we need to check for
+         * these fields
+		 */
+		if($("#cfw-first-for-plugins #billing_first_name").length > 0 && $("#cfw-last-for-plugins #billing_last_name").length > 0) {
+            formData["billing_first_name"] = $("#cfw-first-for-plugins #billing_first_name").val();
+            formData["billing_last_name"] = $("#cfw-last-for-plugins #billing_last_name").val();
+        }
+
         return formData;
     }
 
@@ -495,7 +435,7 @@ export class TabContainer extends Element {
      *
      */
     setCompleteOrderHandlers(): void {
-        let checkout_form: JQuery = Main.instance.checkoutForm;
+        let checkout_form: any = Main.instance.checkoutForm;
         let completeOrderButton: Element = new Element($("#place_order"));
 
         checkout_form.on('submit', this.completeOrderSubmitHandler.bind(this));
@@ -507,7 +447,7 @@ export class TabContainer extends Element {
      */
     completeOrderSubmitHandler(e) {
         let main: Main = Main.instance;
-        let checkout_form: JQuery = Main.instance.checkoutForm;
+        let checkout_form: any = Main.instance.checkoutForm;
         let preSwapData = this.checkoutDataAtSubmitClick;
 
         // Prevent any weirdness by preventing default
@@ -523,10 +463,6 @@ export class TabContainer extends Element {
                 billing.val(preSwapData[field]);
             }
 
-            if ( this.errorObserver ) {
-                this.errorObserver.disconnect();
-            }
-
             this.orderKickOff(main.ajaxInfo, this.getFormObject());
         }
     }
@@ -536,11 +472,20 @@ export class TabContainer extends Element {
      */
     completeOrderClickHandler() {
         let main: Main = Main.instance;
-        let checkout_form: JQuery = main.checkoutForm;
+        let checkout_form: any = main.checkoutForm;
         let lookFor: Array<string> = main.settings.default_address_fields;
         let preSwapData = this.checkoutDataAtSubmitClick = {};
 
+        CompleteOrderAction.initCompleteOrder = true;
+
         Main.addOverlay();
+
+		checkout_form.find(".woocommerce-error").remove();
+
+		$(document.body).on("checkout_error", () => {
+			Main.removeOverlay();
+			CompleteOrderAction.initCompleteOrder = false
+		});
 
         if ( parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0 ) {
             lookFor.forEach( field => {
@@ -556,65 +501,7 @@ export class TabContainer extends Element {
             });
         }
 
-        // Select the node that will be observed for mutations
-        let targetNode = checkout_form[0];
-
-        // Options for the observer (which mutations to observe)
-        let config = { childList: true, characterData: true, subtree: true };
-
-        if ( ! this.errorObserver ) {
-            // Create an observer instance linked to the callback function
-            let observer = new MutationObserver(this.submitOrderErrorMutationListener.bind(this));
-
-            // Start observing the target node for configured mutations
-            observer.observe(targetNode, config);
-
-            this.errorObserver = observer;
-        }
-
         checkout_form.trigger('submit');
-    }
-
-    /**
-     * @param mutationsList
-     */
-    submitOrderErrorMutationListener(mutationsList) {
-        let main: Main = Main.instance;
-
-        for ( let mutation of mutationsList ) {
-            if(mutation.type === "childList") {
-                let addedNodes = mutation.addedNodes;
-                let $errorNode: JQuery = null;
-
-                addedNodes.forEach(node => {
-                    let $node: JQuery = $(node);
-                    let hasClass: boolean = $node.hasClass("woocommerce-error");
-                    let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
-
-                    if ( hasClass || hasGroupCheckoutClass ) {
-                        Main.removeOverlay();
-                        $errorNode = $node;
-                        $errorNode.attr("class", "");
-                    }
-                });
-
-                if($errorNode) {
-                    let alertInfo: AlertInfo = {
-                        type: "CFWSubmitError",
-                        message: $errorNode,
-                        cssClass: "cfw-alert-danger"
-                    };
-
-                    let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
-                    alert.addAlert();
-                }
-
-                if(this.errorObserver !== undefined && this.errorObserver !== null) {
-                    this.errorObserver.disconnect();
-                    this.errorObserver = null;
-                }
-            }
-        }
     }
 
     /**
@@ -633,55 +520,31 @@ export class TabContainer extends Element {
      */
     setApplyCouponListener() {
         $("#cfw-promo-code-btn").on('click', () => {
-            let coupon_field: JQuery = $("#cfw-promo-code");
+            let coupon_field: any = $("#cfw-promo-code");
 
             if(coupon_field.val() !== "") {
                 new ApplyCouponAction('cfw_apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFormObject()).load();
             } else {
                 // Remove alerts
-                Alert.removeAlerts();
+                Alert.removeAlerts(Main.instance.alertContainer);
             }
         })
-    }
-
-    /**
-     * @param {boolean} show
-     */
-    static togglePaymentFields(show: boolean) {
-        let togglePaymentClass: string = "cfw-payment-false";
-        let mainEl: JQuery = $("#cfw-content");
-
-        if(show) {
-            mainEl.removeClass(togglePaymentClass);
-        } else if (!mainEl.hasClass(togglePaymentClass)) {
-            mainEl.addClass(togglePaymentClass);
-        }
     }
 
     /**
      * @returns {UpdateShippingFieldsRI}
      */
     getUpdateShippingRequiredItems(): UpdateShippingFieldsRI {
-        let sdf_jquery_results: JQuery = $("#cfw-shipping-details-fields .cfw-shipping-details-field");
-        let shipping_details_fields: Array<JQuery> = [];
+        let sdf_any_results: any = $("#cfw-shipping-details-fields .cfw-shipping-details-field");
+        let shipping_details_fields: Array<any> = [];
         let action: string = "update_shipping_fields";
 
-        sdf_jquery_results.each((index, val) => { shipping_details_fields.push($(val)) });
+        sdf_any_results.each((index, val) => { shipping_details_fields.push($(val)) });
 
         return <UpdateShippingFieldsRI>{
             action: action,
             shipping_details_fields: shipping_details_fields
         }
-    }
-
-    /**
-     *
-     */
-    easyTabs() {
-        this.jel.easytabs({
-            defaultTab: "li.tab#default-tab",
-            tabs: "ul > li.tab"
-        });
     }
 
     /**
@@ -719,20 +582,6 @@ export class TabContainer extends Element {
      */
     set tabContainerSections(value: Array<TabContainerSection>) {
         this._tabContainerSections = value;
-    }
-
-    /**
-     * @returns {MutationObserver}
-     */
-    get errorObserver(): MutationObserver {
-        return this._errorObserver;
-    }
-
-    /**
-     * @param {MutationObserver} value
-     */
-    set errorObserver(value: MutationObserver) {
-        this._errorObserver = value;
     }
 
     /**

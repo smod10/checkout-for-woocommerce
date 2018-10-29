@@ -5,14 +5,15 @@ import { EasyTab }                                      from "./EasyTabService";
 import { CompleteOrderAction }                          from "../Actions/CompleteOrderAction";
 import { AjaxInfo }                                     from "../Types/Types";
 import { UpdateCheckoutAction }                         from "../Actions/UpdateCheckoutAction";
+import { Alert } 										from "../Elements/Alert";
 
 /**
  * Validation Sections Enum
  */
 export enum EValidationSections {
-    SHIPPING,
-    BILLING,
-    ACCOUNT
+	SHIPPING,
+	BILLING,
+	ACCOUNT
 }
 
 /**
@@ -20,163 +21,162 @@ export enum EValidationSections {
  */
 export class ValidationService {
 
-    /**
-     * @type {boolean}
-     * @private
-     */
-    private static _validateZip: boolean = true;
+	/**
+	 * @type {boolean}
+	 * @private
+	 */
+	private static _validateZip: boolean = true;
 
-    /**
-     *
-     */
-    constructor() {
-        this.validateSectionsBeforeSwitch();
+	/**
+	 * @type {EValidationSections}
+	 * @private
+	 */
+	private static _currentlyValidating: EValidationSections;
 
-        ValidationService.validateShippingOnLoadIfNotCustomerTab();
-    }
+	/**
+	 * @param easyTabsWrap
+	 */
+	constructor(easyTabsWrap: any) {
+		this.validateSectionsBeforeSwitch(easyTabsWrap);
 
-    /**
-     * Execute validation checks before each easy tab easy tab switch.
-     */
-    validateSectionsBeforeSwitch(): void {
+		ValidationService.validateShippingOnLoadIfNotCustomerTab();
+	}
 
-        Main.instance.tabContainer.jel.bind('easytabs:before', function(event, clicked, target) {
-            // Where are we going?
-            let easyTabDirection: EasyTabDirection = EasyTabService.getTabDirection(target);
+	/**
+	 * Execute validation checks before each easy tab easy tab switch.
+	 *
+	 * @param {any} easyTabsWrap
+	 */
+	validateSectionsBeforeSwitch(easyTabsWrap: any): void {
 
-            // If we are moving forward in the checkout process and we are currently on the customer tab
-            if(easyTabDirection.current === EasyTab.CUSTOMER && easyTabDirection.target > easyTabDirection.current) {
+		easyTabsWrap.bind('easytabs:before', function(event, clicked, target) {
+			// Where are we going?
+			let easyTabDirection: EasyTabDirection = EasyTabService.getTabDirection(target);
 
-                let validated: boolean = ValidationService.validateSectionsForCustomerTab(false);
-                let tabId: string = EasyTabService.getTabId(easyTabDirection.current);
+			// If we are moving forward in the checkout process and we are currently on the customer tab
+			if(easyTabDirection.current === EasyTab.CUSTOMER && easyTabDirection.target > easyTabDirection.current) {
 
-                // Has to be done with the window.location.hash. Reason being is on false validation it somehow ignores
-                // the continue button going forward. This prevents that by "resetting" the page so to speak.
-                if ( ! validated ) {
-                    window.location.hash = `#${tabId}`;
-                }
+				let validated: boolean = ValidationService.validateSectionsForCustomerTab(false);
+				let tabId: string = EasyTabService.getTabId(easyTabDirection.current);
 
-                // Return the validation
-                return validated;
-            }
+				// Has to be done with the window.location.hash. Reason being is on false validation it somehow ignores
+				// the continue button going forward. This prevents that by "resetting" the page so to speak.
+				if ( ! validated ) {
+					window.location.hash = `#${tabId}`;
+				}
 
-            if(EasyTabService.isThereAShippingTab()) {
-                UpdateCheckoutAction.updateShippingDetails();
-            }
+				// Return the validation
+				return validated;
+			}
 
-            // If we are moving forward / backwards, have a shipping easy tab, and are not on the customer tab then allow
-            // the tab switch
-            return true;
-        }.bind(this));
-    }
+			Alert.removeAlerts(Main.instance.alertContainer);
 
-    /**
-     * Kick off the order process and register it's event listener.
-     *
-     * @param {boolean} difBilling
-     * @param {AjaxInfo} ajaxInfo
-     * @param orderDetails
-     */
-    static createOrder(difBilling: boolean = false, ajaxInfo: AjaxInfo, orderDetails: any): void {
+			// If we are moving forward / backwards, have a shipping easy tab, and are not on the customer tab then allow
+			// the tab switch
+			return true;
+		}.bind(this));
+	}
 
-        if(difBilling) {
+	/**
+	 * Kick off the order process and register it's event listener.
+	 *
+	 * @param {boolean} difBilling
+	 * @param {AjaxInfo} ajaxInfo
+	 * @param orderDetails
+	 */
+	static createOrder(difBilling: boolean = false, ajaxInfo: AjaxInfo, orderDetails: any): void {
+		new CompleteOrderAction('complete_order', ajaxInfo, orderDetails);
+	}
 
-            // Check the normal validation and kick off the ajax ones
-            let validationResult: boolean = true;
+	/**
+	 *
+	 * @param {boolean} validateZip
+	 * @returns {boolean}
+	 */
+	static validateSectionsForCustomerTab(validateZip: boolean = true): boolean {
+		let validated = false;
 
-            CompleteOrderAction.preppingOrder = true;
+		ValidationService.validateZip = validateZip;
 
-            (<any>window).addEventListener("cfw:checkout-validated", () => {
-                CompleteOrderAction.preppingOrder = false;
+		if ( !EasyTabService.isThereAShippingTab() ) {
+			validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.BILLING);
+		} else {
+			validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.SHIPPING);
+		}
 
-                if(validationResult) {
-                    new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
-                } else {
-                    Main.removeOverlay();
-                }
-            }, {once: true});
+		return validated;
+	}
 
-            (<any>window).addEventListener("cfw:state-zip-failure", () => CompleteOrderAction.preppingOrder = false );
+	/**
+	 * @param {EValidationSections} section
+	 * @returns {any}
+	 */
+	static validate(section: EValidationSections): any {
+		let validated: boolean;
+		let checkoutForm: any = Main.instance.checkoutForm;
 
-            validationResult = ValidationService.validate(EValidationSections.BILLING);
-        } else {
-            new CompleteOrderAction('complete_order', ajaxInfo, orderDetails)
-        }
-    }
+		ValidationService.currentlyValidating = section;
 
-    /**
-     *
-     * @param {boolean} validateZip
-     * @returns {boolean}
-     */
-    static validateSectionsForCustomerTab(validateZip: boolean = true): boolean {
-        let validated = false;
+		switch(section) {
+			case EValidationSections.SHIPPING:
+				validated = checkoutForm.parsley().validate("shipping");
+				break;
+			case EValidationSections.BILLING:
+				validated = checkoutForm.parsley().validate("billing");
+				break;
+			case EValidationSections.ACCOUNT:
+				validated = checkoutForm.parsley().validate("account");
+				break;
+		}
 
-        ValidationService.validateZip = validateZip;
+		if(validated == null) {
+			validated = true;
+		}
 
-        if ( !EasyTabService.isThereAShippingTab() ) {
-            validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.BILLING);
-        } else {
-            validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.SHIPPING);
-        }
+		return validated;
+	}
 
-        return validated;
-    }
+	/**
+	 * Handles non ajax cases
+	 */
+	static validateShippingOnLoadIfNotCustomerTab(): void {
+		let hash: string = window.location.hash;
+		let customerInfoId: string = "#cfw-customer-info";
+		let sectionToValidate: EValidationSections = (EasyTabService.isThereAShippingTab()) ? EValidationSections.SHIPPING : EValidationSections.BILLING;
 
-    /**
-     * @param {EValidationSections} section
-     * @returns {any}
-     */
-    static validate(section: EValidationSections): any {
-        let validated: boolean;
-        let checkoutForm: JQuery = Main.instance.checkoutForm;
+		if(hash != customerInfoId && hash != "") {
 
-        switch(section) {
-            case EValidationSections.SHIPPING:
-                validated = checkoutForm.parsley().validate("shipping");
-                break;
-            case EValidationSections.BILLING:
-                validated = checkoutForm.parsley().validate("billing");
-                break;
-            case EValidationSections.ACCOUNT:
-                validated = checkoutForm.parsley().validate("account");
-                break;
-        }
+			if(!ValidationService.validate(sectionToValidate)) {
+				EasyTabService.go(EasyTab.CUSTOMER);
+			}
+		}
+	}
 
-        if(validated == null) {
-            validated = true;
-        }
+	/**
+	 * @returns {boolean}
+	 */
+	static get validateZip(): boolean {
+		return this._validateZip;
+	}
 
-        return validated;
-    }
+	/**
+	 * @param {boolean} value
+	 */
+	static set validateZip(value: boolean) {
+		this._validateZip = value;
+	}
 
-    /**
-     * Handles non ajax cases
-     */
-    static validateShippingOnLoadIfNotCustomerTab(): void {
-        let hash: string = window.location.hash;
-        let customerInfoId: string = "#cfw-customer-info";
-        let sectionToValidate: EValidationSections = (EasyTabService.isThereAShippingTab()) ? EValidationSections.SHIPPING : EValidationSections.BILLING;
+	/**
+	 * @return {EValidationSections}
+	 */
+	static get currentlyValidating(): EValidationSections {
+		return this._currentlyValidating;
+	}
 
-        if(hash != customerInfoId && hash != "") {
-
-            if(!ValidationService.validate(sectionToValidate)) {
-                EasyTabService.go(EasyTab.CUSTOMER);
-            }
-        }
-    }
-
-    /**
-     * @returns {boolean}
-     */
-    static get validateZip(): boolean {
-        return this._validateZip;
-    }
-
-    /**
-     * @param {boolean} value
-     */
-    static set validateZip(value: boolean) {
-        this._validateZip = value;
-    }
+	/**
+	 * @param {EValidationSections} value
+	 */
+	static set currentlyValidating(value: EValidationSections) {
+		this._currentlyValidating = value;
+	}
 }

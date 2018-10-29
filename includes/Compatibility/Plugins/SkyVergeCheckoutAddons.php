@@ -10,15 +10,15 @@ class SkyVergeCheckoutAddons extends Base {
 	}
 
 	public function is_available() {
-		return function_exists('init_woocommerce_checkout_add_ons');
+		return function_exists( 'init_woocommerce_checkout_add_ons' );
 	}
 
 	public function run() {
-		add_filter('wc_checkout_add_ons_position', array($this, 'set_checkout_add_ons_position') );
+		add_filter( 'wc_checkout_add_ons_position', array( $this, 'set_checkout_add_ons_position' ) );
 	}
 
 	function set_checkout_add_ons_position() {
-		return 'cfw_checkout_before_payment_method_terms_checkbox';
+		return 'cfw_checkout_before_payment_method_tab';
 	}
 
 	function allowed_scripts( $scripts ) {

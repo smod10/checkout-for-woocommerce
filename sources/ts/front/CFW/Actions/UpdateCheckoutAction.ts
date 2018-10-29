@@ -1,18 +1,20 @@
 import { Action }                           from "./Action";
-import { AjaxInfo, FieldTypeInfo } from "../Types/Types";
+import { AjaxInfo, FieldTypeInfo }          from "../Types/Types";
 import { Main }                             from "../Main";
-import { Cart, UpdateCartTotalsData } from "../Elements/Cart";
+import { Cart, UpdateCartTotalsData }       from "../Elements/Cart";
 import { ResponsePrep }                     from "../Decorators/ResponsePrep";
-import { TabContainer }                     from "../Elements/TabContainer";
-import { TabContainerSection } from "../Elements/TabContainerSection";
-import { Element } from "../Elements/Element";
+import { TabContainerSection }              from "../Elements/TabContainerSection";
+import { Element }                          from "../Elements/Element";
+
+declare let $:any;
 
 export type UpdateShippingFieldsResponse = {
     error: boolean,
     updated_fields_info: Array<FieldTypeInfo>,
     new_totals: UpdateCartTotalsData,
     needs_payment: boolean,
-    updated_ship_methods: any
+    updated_ship_methods: any,
+    updated_shipping_preview: any
 }
 
 export type UpdateShippingFieldsData = {
@@ -23,7 +25,7 @@ export type UpdateShippingFieldsData = {
 
 export type UpdateShippingFieldsRI = {
     action: string,
-    shipping_details_fields: Array<JQuery>
+    shipping_details_fields: Array<any>
 }
 
 export class UpdateCheckoutAction extends Action {
@@ -57,8 +59,6 @@ export class UpdateCheckoutAction extends Action {
         let main: Main = Main.instance;
         main.updating = false;
 
-        console.log(resp);
-
         if(resp.fees) {
             let fees = $.map(resp.fees, value => [value]);
 
@@ -79,13 +79,16 @@ export class UpdateCheckoutAction extends Action {
         shipping_method_container.html("");
         shipping_method_container.append(`${resp.updated_ship_methods}`);
 
+        let shipping_preview_container = $('#cfw-shipping-details-fields');
+        shipping_preview_container.html(`${resp.updated_shipping_preview}`);
+
         Main.togglePaymentRequired(resp.needs_payment);
 
         Cart.outputValues(main.cart, resp.new_totals);
 
-        UpdateCheckoutAction.updateShippingDetails();
-
         Main.instance.tabContainer.setShippingPaymentUpdate();
+
+		window.dispatchEvent(new CustomEvent("cfw-custom-update-finished"));
 
         $(document.body).trigger( 'updated_checkout' );
     }
@@ -102,19 +105,5 @@ export class UpdateCheckoutAction extends Action {
      */
     static set underlyingRequest(value: any) {
         this._underlyingRequest = value;
-    }
-
-    /**
-     * Update the shipping details on the shipping panel
-     */
-    public static updateShippingDetails(): void {
-        let customer_info_tab: TabContainerSection = Main.instance.tabContainer.tabContainerSectionBy("name", "customer_info");
-
-        customer_info_tab.getInputsFromSection(", select").forEach((item: Element) => {
-            let value = item.jel.val();
-            let key = item.jel.attr("field_key");
-
-            $(`.cfw-shipping-details-field[field_type="${key}"] .field_value`).text(value);
-        });
     }
 }

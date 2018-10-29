@@ -10,7 +10,7 @@ class AuthorizeNetCIM extends Base {
 	}
 
 	function is_available() {
-		return class_exists('\\WC_Authorize_Net_CIM');
+		return class_exists( '\\WC_Authorize_Net_CIM' );
 	}
 
 	function allowed_scripts( $scripts ) {

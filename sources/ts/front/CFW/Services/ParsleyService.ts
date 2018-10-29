@@ -1,7 +1,6 @@
-import { EasyTabService }                           from "./EasyTabService";
-import { EasyTab }                                  from "./EasyTabService";
-import { CompleteOrderAction }                      from "../Actions/CompleteOrderAction";
-import { Main }                                     from "../Main";
+import {EasyTab, EasyTabService} from "./EasyTabService";
+import {CompleteOrderAction} from "../Actions/CompleteOrderAction";
+import {Main} from "../Main";
 import {ValidationService} from "./ValidationService";
 
 let w: any = window;
@@ -55,7 +54,7 @@ export class ParsleyService {
      *
      */
     handleStateZipFailure(): void {
-        // Parsley isn't a jquery default, this gets around it.
+        // Parsley isn't a any default, this gets around it.
         let $temp: any = $;
         let shipping_action = () => EasyTabService.go(EasyTab.CUSTOMER);
 
@@ -75,8 +74,13 @@ export class ParsleyService {
         let interval: any = setInterval(() => {
             if ( w.Parsley !== undefined ) {
                 this.parsley = w.Parsley;
-                this.parsley.on('form:error', () => Main.removeOverlay());
+                this.parsley.on('form:error', () => {
+                    Main.removeOverlay();
+					CompleteOrderAction.initCompleteOrder = false;
+                });
                 this.setParsleyCustomValidators();
+
+				window.dispatchEvent(new CustomEvent("cfw-parsley-initialized", { detail: { parsley: this.parsley } }));
 
                 clearInterval(interval);
             } else if( iterations >= max_iterations ) {
@@ -94,8 +98,12 @@ export class ParsleyService {
     stateAndZipValidator(): void {
         this.parsley.addValidator('stateAndZip', {
             validateString: function(_ignoreValue, country, instance) {
+
+                let aborting = false;
+
                 // We have a request already running? Yea let's kill that.
                 if(ParsleyService.zipRequest !== null) {
+                    aborting = true;
                     ParsleyService.zipRequest.abort();
                 }
 
@@ -111,9 +119,9 @@ export class ParsleyService {
                 let failLocation: EasyTab = ParsleyService.getFailLocation(infoType);
 
                 // Zip, State, and City
-                let zipElement: JQuery = $(`#${infoType}_postcode`);
-                let stateElement: JQuery = $(`#${infoType}_state`);
-                let cityElement: JQuery = $(`#${infoType}_city`);
+                let zipElement: any = $(`#${infoType}_postcode`);
+                let stateElement: any = $(`#${infoType}_state`);
+                let cityElement: any = $(`#${infoType}_city`);
 
                 // If the stateElement is not visible, it's null
                 if(stateElement.is(":disabled")) {
@@ -141,7 +149,9 @@ export class ParsleyService {
                             let event = new Event("cfw:checkout-validated");
                             window.dispatchEvent(event);
 
-                            $(document.body).trigger("update_checkout");
+                            if(failLocation != EasyTab.PAYMENT && !CompleteOrderAction.initCompleteOrder) {
+								$(document.body).trigger("update_checkout");
+							}
                         });
                 }
 
@@ -157,12 +167,12 @@ export class ParsleyService {
      * @param json
      * @param instance
      * @param {InfoType} infoType
-     * @param {JQuery} cityElement
-     * @param {JQuery} stateElement
-     * @param {JQuery} zipElement
+     * @param {any} cityElement
+     * @param {any} stateElement
+     * @param {any} zipElement
      * @param {EasyTab} failLocation
      */
-    stateAndZipValidatorOnSuccess(json, instance, infoType: InfoType, cityElement: JQuery, stateElement: JQuery, zipElement: JQuery, failLocation: EasyTab) {
+    stateAndZipValidatorOnSuccess(json, instance, infoType: InfoType, cityElement: any, stateElement: any, zipElement: any, failLocation: EasyTab) {
         if(ValidationService.validateZip) {
             if (json.places.length === 1) {
                 // Set the state response value

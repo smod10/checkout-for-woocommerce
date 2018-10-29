@@ -1,9 +1,5 @@
 // Import bourbon
-@import "../resources/bourbon/bourbon";
-@import "../resources/neat/neat";
-
-@import "../resources/grid/grid";
-
+@import url("~normalize.css");
 // Reset
 @import "debug.scss";
 
@@ -16,7 +12,6 @@ $font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubu
 $main-bg: #ffffff;
 $header-bg: #222;
 $footer-bg: #fff;
-$wrap-width: 1140px + map-get($grid, gutter) * 2;
 
 p {
   margin: 0;
@@ -36,11 +31,6 @@ body {
   width: 100%;
 }
 
-.wrap {
-  max-width: $wrap-width;
-  margin: auto;
-}
-
 .cfw-small {
   font-size: 0.875em;
   color: #737373;
@@ -53,6 +43,7 @@ body {
   .logo {
     background: $main-bg;
     width: 100%;
+    max-width: 60%;
     display: inline-block;
     height: 4em;
     position: relative;
@@ -77,6 +68,9 @@ body {
 @import "compatibility/tickera";
 @import "compatibility/sv-wc-payment";
 @import "compatibility/points-rewards";
+@import "compatibility/braintree";
+@import "compatibility/stripe";
+@import "compatibility/amazon-pay";
 @import "template/form";
 @import "template/header";
 @import "template/content";

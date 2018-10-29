@@ -5,8 +5,11 @@
  *
  * Title - Flag - Default Value
  *
- * Dev Mode - CO_DEV_MODE - false
+ * Dev Mode - CFW_DEV_MODE - false
  */
-
+$env = new Dotenv\Dotenv(__DIR__);
+if(file_exists(__DIR__ . "/.env")) {
+	$env->load();
+}
 // Dev Mode
-define( 'CO_DEV_MODE', false );
+define( 'CFW_DEV_MODE', getenv('CFW_DEV_MODE') == "true" ? true : false );

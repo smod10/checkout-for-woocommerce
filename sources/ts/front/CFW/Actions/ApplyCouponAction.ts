@@ -77,7 +77,7 @@ export class ApplyCouponAction extends Action {
             };
         }
 
-        let alert: Alert = new Alert($("#cfw-alert-container"), alertInfo);
+        let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
         alert.addAlert();
 
         Main.togglePaymentRequired(resp.needs_payment);

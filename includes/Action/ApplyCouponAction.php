@@ -32,7 +32,7 @@ class ApplyCouponAction extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer("some-seed-word", "security");
+		check_ajax_referer( 'some-seed-word', 'security' );
 
 		wc_maybe_define_constant( 'WOOCOMMERCE_CART', true );
 
@@ -45,29 +45,31 @@ class ApplyCouponAction extends Action {
 			//  We set it true to here so when the HTML is generated the target is correct
 			wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
-			foreach(WC()->cart->get_coupons() as $code => $coupon) {
+			foreach ( WC()->cart->get_coupons() as $code => $coupon ) {
 				ob_start();
-				wc_cart_totals_coupon_html($coupon);
+				wc_cart_totals_coupon_html( $coupon );
 				$coupon_html = ob_get_contents();
 				ob_clean();
 				wc_cart_totals_coupon_label( $coupon );
 				$coupon_label_html = ob_get_contents();
 				ob_end_clean();
 
-				array_push($discount_amounts, array(
-					"label" => $coupon_label_html,
-					"amount" => $coupon_html,
-					"code" => $code
-				));
+				array_push(
+					$discount_amounts, array(
+						'label'  => $coupon_label_html,
+						'amount' => $coupon_html,
+						'code'   => $code,
+					)
+				);
 			}
 
 			$all_notices  = WC()->session->get( 'wc_notices', array() );
 			$notice_types = apply_filters( 'woocommerce_notice_types', array( 'error', 'success', 'notice' ) );
-			$message = [];
+			$message      = [];
 
 			foreach ( $notice_types as $notice_type ) {
 				if ( wc_notice_count( $notice_type ) > 0 ) {
-					$message = array($notice_type => $all_notices[ $notice_type ]);
+					$message = array( $notice_type => $all_notices[ $notice_type ] );
 				}
 			}
 
@@ -75,33 +77,37 @@ class ApplyCouponAction extends Action {
 			wc_maybe_define_constant( 'WOOCOMMERCE_CART', true );
 			WC()->cart->calculate_totals();
 
-			$this->out(array(
-				"new_totals" => array(
-					"new_subtotal" => WC()->cart->get_cart_subtotal(),
-					"new_shipping_total" => WC()->cart->get_cart_shipping_total(),
-					"new_taxes_total" => WC()->cart->get_cart_tax(),
-					"new_total" => WC()->cart->get_total(),
-				),
-				"needs_payment" => WC()->cart->needs_payment(),
-				"fees" => $this->prep_fees(),
-				"coupons" => $discount_amounts,
-				"message" => $message
-			));
+			$this->out(
+				array(
+					'new_totals'    => array(
+						'new_subtotal'       => WC()->cart->get_cart_subtotal(),
+						'new_shipping_total' => WC()->cart->get_cart_shipping_total(),
+						'new_taxes_total'    => WC()->cart->get_cart_tax(),
+						'new_total'          => WC()->cart->get_total(),
+					),
+					'needs_payment' => WC()->cart->needs_payment(),
+					'fees'          => $this->prep_fees(),
+					'coupons'       => $discount_amounts,
+					'message'       => $message,
+				)
+			);
 		} else {
-			$this->out(array(
-				"message" => array("error" => ["Please provide a coupon code"])
-			));
+			$this->out(
+				array(
+					'message' => array( 'error' => [ 'Please provide a coupon code' ] ),
+				)
+			);
 		}
 	}
 
 	function prep_fees() {
 		$fees = [];
 
-		foreach(WC()->cart->get_fees() as $fee) {
-			$out = (object)[];
-			$out->name = $fee->name;
+		foreach ( WC()->cart->get_fees() as $fee ) {
+			$out         = (object) [];
+			$out->name   = $fee->name;
 			$out->amount = ( 'excl' == WC()->cart->tax_display_cart ) ? wc_price( $fee->total ) : wc_price( $fee->total + $fee->tax );
-			$fees[] = $out;
+			$fees[]      = $out;
 		}
 
 		return $fees;

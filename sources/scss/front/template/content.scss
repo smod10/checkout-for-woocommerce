@@ -1,10 +1,11 @@
-$wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
-
 body {
   position: relative;
 }
 
-#cfw-content {
+.cfw-tabs-not-initialized {
+  #cfw-shipping-method, #cfw-payment-method {
+    display: none;
+  }
 }
 
 #cfw-main-container {
@@ -12,9 +13,14 @@ body {
   flex-wrap: wrap;
 }
 
-#cfw-login-slide {
-  display: none;
-  margin-bottom: $wrap-row-bot-margin;
+#cfw-payment-request-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  & * {
+    clear: none;
+  }
 }
 
 #cfw-login-btn {
@@ -278,38 +284,6 @@ fieldset .cfw-sg-container:last-child > * > .form-row {
   display: block;
 }
 
-#cfw-breadcrumb {
-  list-style-type: none;
-  margin: 0 0 1.5em 0;
-  padding: 0;
-  display: flex;
-
-  li {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    & > a {
-      font-size: 0.75em;
-      text-decoration: none;
-      color: #333;
-    }
-
-    &:not(.active) > a {
-      color: rgba(0,0,0,0.5);
-    }
-
-    &:not(:last-child):after {
-      content: " ";
-      width: 12px;
-      height: 12px;
-      background: url('../../img/arrow-right.svg') no-repeat 50% 50%;
-      background-size: 12px 12px;
-      padding-left: 15px;
-    }
-  }
-}
-
 #stripe-card-element, #stripe-exp-element, #stripe-cvc-element {
   background: #fff !important;
   padding: .94em .8em !important;
@@ -397,7 +371,6 @@ label[for="card-element"] {
     padding: 0;
     background-color: #fff;
     border: 1px solid #ddd;
-    box-shadow: 1px 1px 3px #eee inset;
     color: #999;
     font-size: 16px;
     line-height: normal;
@@ -430,20 +403,6 @@ label[for="card-element"] {
   color: #155724;
   background-color: #d4edda;
   border-color: #c3e6cb;
-}
-
-.cfw-input-wrap-row {
-  margin-bottom: $wrap-row-bot-margin;
-
-  &:after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 }
 
 .overlay {
@@ -568,9 +527,9 @@ label[for="card-element"] {
   margin: 0;
   padding: 0;
   list-style-type: none;
-  color: red;
-  font-weight: 500;
-  font-size: 0.875em;
+  color: #f04f63;
+  font-weight: 300;
+  font-size: 14px;
 
   li {
     margin-top: 10px;
@@ -578,7 +537,7 @@ label[for="card-element"] {
 }
 
 .parsley-error {
-  background: #ffdddd !important;
+  box-shadow: 0 0 0 2px #f04f63!important;
 }
 
 #cfw-cart-details-review-bar {
@@ -586,6 +545,9 @@ label[for="card-element"] {
 }
 
 #cfw-totals-list {
+  border-top: 2px solid #eeeeee;
+  padding-top: 1em;
+
   .cfw-flex-row {
     padding: 10px 0;
   }
@@ -595,23 +557,17 @@ label[for="card-element"] {
   }
 
   .cfw-totals-normal .cfw-flex-row {
-    border-bottom: #eee 1px solid;
-
     &:last-child {
       border-bottom: none;
     }
   }
 
   .cfw-totals-total .cfw-flex-row {
-    border-top: 1px solid #eeeeee;
-    border-bottom: 2px solid #333;
+    margin-top: 1em;
+    border-top: 2px solid #333;
     font-weight: 700;
     color: #000;
   }
-}
-
-#cfw-cart-coupons .cfw-flex-row:last-child {
-  border-bottom: #eee 1px solid !important;
 }
 
 .cfw-flex-row {
@@ -652,21 +608,30 @@ p.cfw-input-wrap {
   margin-bottom: 0;
 }
 
-.pad-bottom .form-row {
-  margin-bottom: $wrap-row-bot-margin;
-}
-
 .cfw-input-wrap {
   position: relative;
 
   &.cfw-floating-label {
     input[type="text"], input[type="email"], input[type="tel"], input[type="password"], select {
-      padding: 1.6em 0.8em 0.28em 0.8em;
+      padding: 1.35em 0.8em 0.28em 0.8em;
     }
 
     .cfw-input-label {
       opacity: 1;
     }
+  }
+
+  ::-webkit-input-placeholder {
+    color: #737373 !important;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: #737373 !important;
+  }
+  ::-moz-placeholder {  /* Firefox 19+ */
+    color: #737373 !important;
+  }
+  :-ms-input-placeholder {
+    color: #737373 !important;
   }
 
   & > input[type="text"],
@@ -682,7 +647,7 @@ p.cfw-input-wrap {
     background: #fff;
     transition: all .2s ease;
     color: #333;
-    padding: .94em .8em;
+    padding: .80em .8em;
     width: 100%;
     box-sizing: border-box;
     border: none;
@@ -708,16 +673,9 @@ p.cfw-input-wrap {
 
 #cfw-shipping-details-fields {
   margin-bottom: 15px;
-
-  label {
-    width: 225px;
-    display: table-cell;
-    font-weight: 700;
-  }
-
-  span {
-    display: table-cell;
-  }
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
 }
 
 .cfw-prev-tab {
@@ -759,7 +717,7 @@ p.cfw-input-wrap {
   box-shadow: none;
   border-radius: 4px;
   cursor: pointer;
-  padding: 12px 16px;
+  padding: 11px 16px;
   font-size: 1em;
   background: #999;
   color: #f4f4f4;
@@ -779,10 +737,12 @@ a.button {
 
 .cfw-cart-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 0.7em;
 
   .cfw-cart-item-image {
+    line-height: 0;
+
     img {
       width: auto;
       height: auto;
@@ -811,10 +771,10 @@ a.button {
   user-select: none;
   pointer-events: none;
   position: absolute;
-  color: #9e9e9e;
+  color: #737373;
   transition: all .2s ease-out;
   font-size: 12px;
-  margin-top: .5em;
+  margin-top: .25em;
   padding: 0 1.02em;
   line-height: 1.625;
   opacity: 0;

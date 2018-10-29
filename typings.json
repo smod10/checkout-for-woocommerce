@@ -1,7 +1,0 @@
-{
-  "name": "checkout-for-woocommerce",
-  "dependencies": {},
-  "globalDependencies": {
-    "jquery": "registry:dt/jquery#1.10.0+20170310222111"
-  }
-}

@@ -10,7 +10,7 @@ class Jilt extends Base {
 	}
 
 	public function is_available() {
-		return function_exists('wc_jilt');
+		return function_exists( 'wc_jilt' );
 	}
 
 	function allowed_scripts( $scripts ) {

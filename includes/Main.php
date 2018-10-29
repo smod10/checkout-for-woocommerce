@@ -511,14 +511,14 @@ class Main extends Singleton {
 		$this->load_filters();
 
 		if ( $this->is_enabled() ) {
-			// Load Assets
-			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
-
 			// Load Compatibility Class
 			$this->compatibility();
 
-			// Required to render form fields
-			$this->form = new Form();
+			// Load Assets
+			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
+
+			// Initiate form
+			$this->loader->add_action( 'init', array($this, 'init_hooks') );
 		}
 
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
@@ -581,6 +581,11 @@ class Main extends Singleton {
 				}
 			}
 		);
+	}
+
+	function init_hooks() {
+		// Required to render form fields
+		$this->form = new Form();
 	}
 
 	/**

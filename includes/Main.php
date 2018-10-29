@@ -619,7 +619,7 @@ class Main extends Singleton {
 					$main->get_settings_manager()->add_setting( 'header_background_color', '#000000', array( $template_path ) );
 					$main->get_settings_manager()->add_setting( 'header_text_color', '#ffffff', array( $template_path ) );
 				} else {
-					$main->get_settings_manager()->add_setting( 'header_background_color', '#ffffff' );
+					$main->get_settings_manager()->add_setting( 'header_background_color', '#ffffff', array( $template_path ) );
 				}
 			}
 

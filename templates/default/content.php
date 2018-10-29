@@ -197,7 +197,7 @@
 
 	                        <?php do_action('cfw_checkout_before_shipping_methods'); ?>
 
-                            <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
+                            <?php if ( WC()->cart->needs_shipping() && apply_filters('cfw_show_shipping_tab', true) === true ) : ?>
                                 <div id="cfw-shipping-method-list" class="cfw-module">
                                     <h3 class="cfw-module-title">
                                         <?php echo apply_filters('cfw_shipping_method_heading', esc_html__( 'Shipping method', 'checkout-wc' ) ); ?>

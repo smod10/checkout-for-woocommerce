@@ -299,15 +299,14 @@ class Redirect {
                 <?php if ( in_array( 'header-background', $supports ) ): ?>
 				background: <?php echo $settings_manager->get_setting('header_background_color', array($active_theme) ); ?>;
 				<?php endif; ?>
-				height: auto;
+				height: auto !important;
 				width: auto;
 				margin: 20px auto;
 				color: <?php echo $settings_manager->get_setting('header_text_color', array($active_theme) ); ?>;
 			}
 			.cfw-logo .logo:after {
-				padding-top: 40px;
 				content: "<?php echo get_bloginfo( 'name' ); ?>";
-				font-size: 30px;
+				font-size: 2em;
 			}
 			<?php endif; ?>
 

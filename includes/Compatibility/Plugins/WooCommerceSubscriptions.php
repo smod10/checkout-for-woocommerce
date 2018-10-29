@@ -14,7 +14,7 @@ class WooCommerceSubscriptions extends Base {
 	}
 
 	public function run() {
-		add_filter('woocommerce_checkout_registration_required', array($this, 'override_registration_required') );
+		add_filter('woocommerce_checkout_registration_required', array($this, 'override_registration_required'), 10, 1 );
 	}
 
 	function override_registration_required( $result ) {
@@ -22,6 +22,6 @@ class WooCommerceSubscriptions extends Base {
 			$result = true;
 		}
 
-		return true;
+		return $result;
 	}
 }

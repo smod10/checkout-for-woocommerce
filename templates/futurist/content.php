@@ -53,10 +53,6 @@
             <!-- Easy Tab Container -->
             <div id="cfw-tab-container" class="cfw-left-column cfw-column-7 tab-container">
 
-                <div id="cfw-payment-request-buttons">
-					<?php do_action('cfw_payment_request_buttons'); ?>
-                </div>
-
                 <?php do_action('cfw_checkout_before_form'); ?>
 
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
@@ -64,6 +60,10 @@
                         <!-- Customer Info Panel -->
                         <div id="cfw-customer-info" class="cfw-panel">
 
+                            <div id="cfw-payment-request-buttons">
+		                        <?php do_action('cfw_payment_request_buttons'); ?>
+                            </div>
+                            
 	                        <?php do_action('cfw_checkout_before_customer_info_tab'); ?>
 
                             <div id="cfw-login-details" class="cfw-module">

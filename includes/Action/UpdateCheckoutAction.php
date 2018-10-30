@@ -160,9 +160,12 @@ class UpdateCheckoutAction extends Action {
 
 			if ( 0 < count( $available_methods ) ) {
 				foreach ( $available_methods as $method ) {
+					ob_start();
+					do_action( 'woocommerce_after_shipping_rate', $method, $index );
+					$after_shipping_method = ob_get_clean();
 					$out[] = sprintf(
-						'<label for="shipping_method_%1$d_%2$s"><input type="radio" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" %4$s /> %5$s</label>', $index, sanitize_title( $method->id ), esc_attr( $method->id ),
-						checked( $method->id, $chosen_method, false ), wc_cart_totals_shipping_method_label( $method )
+						'<label for="shipping_method_%1$d_%2$s"><input type="radio" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" %4$s /> %5$s %6$s</label>', $index, sanitize_title( $method->id ), esc_attr( $method->id ),
+						checked( $method->id, $chosen_method, false ), wc_cart_totals_shipping_method_label( $method ), $after_shipping_method
 					);
 				}
 			}

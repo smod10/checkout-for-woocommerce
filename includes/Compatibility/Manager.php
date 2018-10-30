@@ -25,6 +25,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MonsterInsights;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OnePageCheckout;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\Pakkelabels;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCat;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelYourSitePro;
@@ -89,6 +90,9 @@ class Manager {
 
 		// WooCommerce Subscriptions
 		new WooCommerceSubscriptions();
+
+		// Pakkelabels
+		new Pakkelabels();
 
 		/**
 		 * Gateways

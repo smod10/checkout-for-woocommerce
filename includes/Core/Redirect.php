@@ -167,6 +167,8 @@ class Redirect {
 			$(document).ready(function() {
 				var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
 				window.dispatchEvent(cfwInitEvent);
+
+                window.Parsley.setLocale('<?php echo defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ); ?>');
 			});
 		</script>
 		<?php
@@ -274,7 +276,7 @@ class Redirect {
 				color: <?php echo $settings_manager->get_setting('link_color', array($active_theme) ); ?> !important;
 				fill: <?php echo $settings_manager->get_setting('link_color', array($active_theme) ); ?> !important;
 			}
-			.cfw-link {
+			.cfw-link, .woocommerce-remove-coupon {
 				color: <?php echo $settings_manager->get_setting('link_color', array($active_theme) ); ?> !important;
 			}
 			.cfw-bottom-controls .cfw-primary-btn {
@@ -297,17 +299,20 @@ class Redirect {
                 <?php if ( in_array( 'header-background', $supports ) ): ?>
 				background: <?php echo $settings_manager->get_setting('header_background_color', array($active_theme) ); ?>;
 				<?php endif; ?>
-				height: auto;
+				height: auto !important;
 				width: auto;
 				margin: 20px auto;
 				color: <?php echo $settings_manager->get_setting('header_text_color', array($active_theme) ); ?>;
 			}
 			.cfw-logo .logo:after {
-				padding-top: 40px;
 				content: "<?php echo get_bloginfo( 'name' ); ?>";
-				font-size: 30px;
+				font-size: 2em;
 			}
 			<?php endif; ?>
+
+            .cfw-input-wrap > input[type="text"]:focus, .cfw-input-wrap > input[type="email"]:focus, .cfw-input-wrap > input[type="tel"]:focus, .cfw-input-wrap > input[type="number"]:focus, .cfw-input-wrap > input[type="password"]:focus, .cfw-input-wrap select:focus {
+                box-shadow: 0 0 0 2px <?php echo $settings_manager->get_setting('button_color', array($active_theme) ); ?>;
+            }
 
 			.woocommerce-info {
 				padding: 1em 1.618em;

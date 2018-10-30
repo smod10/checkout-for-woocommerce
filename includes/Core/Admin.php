@@ -199,9 +199,15 @@ class Admin {
                         $selected = ($active_template == $folder_name) ? true : false;
 
                         ?>
+						<?php add_thickbox(); ?>
                         <div class="theme <?php if ( $selected ) echo "active"; ?>">
                             <div class="theme-screenshot">
-                                <img src="<?php echo $screen_shot; ?>" />
+                                <a href="#TB_inline?width=1200&height=900&inlineId=theme-preview-<?php echo $folder_name; ?>" class="thickbox">
+                                    <img class="theme-screenshot-img" src="<?php echo $screen_shot; ?>" />
+                                </a>
+                                <div id="theme-preview-<?php echo $folder_name; ?>" style="display:none;">
+                                    <img src="<?php echo $screen_shot; ?>" />
+                                </div>
                             </div>
                             <div class="theme-id-container">
 
@@ -241,8 +247,8 @@ class Admin {
         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 		    <?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
 
-            <h3>Global Settings</h3>
-            <p>These settings apply to all themes.</p>
+            <h3><?php _e( 'Global Settings', 'checkout-wc' ); ?></h3>
+            <p><?php _e( 'These settings apply to all themes.', 'checkout-wc' ) ;?></p>
             <table class="form-table">
                 <tbody>
                     <tr>
@@ -331,7 +337,7 @@ class Admin {
                                     <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'summary_background_color', array( $template_path ) ); ?>"><?php _e('Summary Background Color', 'checkout-wc'); ?></label>
                                 </th>
                                 <td>
-                                    <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'summary_background_color', array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'summary_background_color', array( $template_path ) ); ?>" data-default-color="#f8f8f8" />
+                                    <input class="color-picker" type="text" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'summary_background_color', array( $template_path ) ); ?>" value="<?php echo $this->plugin_instance->get_settings_manager()->get_setting( 'summary_background_color', array( $template_path ) ); ?>" data-default-color="#fafafa" />
                                 </td>
                             </tr>
                         <?php endif; ?>
@@ -640,6 +646,9 @@ class Admin {
 		    // Futurist Header Background / Header Text
 		    $this->plugin_instance->get_settings_manager()->update_setting( 'header_background_color', '#000000', array( 'futurist' ) );
 		    $this->plugin_instance->get_settings_manager()->update_setting( 'header_text_color', '#ffffff', array( 'futurist' ) );
+
+		    // Set active theme
+            $this->plugin_instance->get_settings_manager()->update_setting( 'active_template', 'default' );
 
 		    $this->plugin_instance->get_settings_manager()->update_setting( 'settings_version', '200' );
         }

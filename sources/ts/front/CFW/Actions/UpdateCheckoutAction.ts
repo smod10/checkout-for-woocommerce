@@ -13,7 +13,8 @@ export type UpdateShippingFieldsResponse = {
     updated_fields_info: Array<FieldTypeInfo>,
     new_totals: UpdateCartTotalsData,
     needs_payment: boolean,
-    updated_ship_methods: any
+    updated_ship_methods: any,
+    updated_shipping_preview: any
 }
 
 export type UpdateShippingFieldsData = {
@@ -78,11 +79,12 @@ export class UpdateCheckoutAction extends Action {
         shipping_method_container.html("");
         shipping_method_container.append(`${resp.updated_ship_methods}`);
 
+        let shipping_preview_container = $('#cfw-shipping-details-fields');
+        shipping_preview_container.html(`${resp.updated_shipping_preview}`);
+
         Main.togglePaymentRequired(resp.needs_payment);
 
         Cart.outputValues(main.cart, resp.new_totals);
-
-        UpdateCheckoutAction.updateShippingDetails();
 
         Main.instance.tabContainer.setShippingPaymentUpdate();
 
@@ -103,19 +105,5 @@ export class UpdateCheckoutAction extends Action {
      */
     static set underlyingRequest(value: any) {
         this._underlyingRequest = value;
-    }
-
-    /**
-     * Update the shipping details on the shipping panel
-     */
-    public static updateShippingDetails(): void {
-        let customer_info_tab: TabContainerSection = Main.instance.tabContainer.tabContainerSectionBy("name", "customer_info");
-
-        customer_info_tab.getInputsFromSection(", select").forEach((item: Element) => {
-            let value = item.jel.val();
-            let key = item.jel.attr("field_key");
-
-            $(`.cfw-shipping-details-field[field_type="${key}"] .field_value`).text(value);
-        });
     }
 }

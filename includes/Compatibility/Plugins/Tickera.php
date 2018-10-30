@@ -12,12 +12,12 @@ class Tickera extends Base {
 	public function is_available() {
 		global $tc_woocommerce_bridge;
 
-		return ( ! empty($tc_woocommerce_bridge) );
+		return ( ! empty( $tc_woocommerce_bridge ) );
 	}
 
 	public function run() {
 		global $tc_woocommerce_bridge;
 
-		add_action('cfw_checkout_before_payment_method_terms_checkbox', array($tc_woocommerce_bridge, 'add_standard_tc_fields_to_checkout') );
+		add_action( 'cfw_checkout_before_payment_method_terms_checkbox', array( $tc_woocommerce_bridge, 'add_standard_tc_fields_to_checkout' ) );
 	}
 }

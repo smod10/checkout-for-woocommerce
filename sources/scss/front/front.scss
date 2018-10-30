@@ -38,11 +38,12 @@ body {
 }
 
 .cfw-logo {
-  padding: 2em 0;
+  padding: 1em 0;
 
   .logo {
     background: $main-bg;
     width: 100%;
+    max-width: 60%;
     display: inline-block;
     height: 4em;
     position: relative;
@@ -68,6 +69,8 @@ body {
 @import "compatibility/sv-wc-payment";
 @import "compatibility/points-rewards";
 @import "compatibility/braintree";
+@import "compatibility/stripe";
+@import "compatibility/amazon-pay";
 @import "template/form";
 @import "template/header";
 @import "template/content";

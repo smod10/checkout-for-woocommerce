@@ -229,9 +229,6 @@ export class Main {
 		// Localization
 		this.localizationService.setCountryChangeHandlers();
 
-		// Handles the shipping fields on load if the user happens to land on the shipping method page.
-		this.tabContainer.setShippingFieldsOnLoad();
-
 		// After setup event
 		window.dispatchEvent(new CustomEvent("cfw-main-after-setup", { detail: { main: this } }));
 	}
@@ -356,6 +353,7 @@ export class Main {
 	setupAnimationListeners(): void {
 		$("#cfw-ci-login").on("click", function(){
 			$("#cfw-login-slide").slideDown(300);
+			$("#cfw-first-for-plugins, #cfw-last-for-plugins").slideUp(300);
 		});
 	}
 

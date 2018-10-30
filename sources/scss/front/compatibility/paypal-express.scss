@@ -2,3 +2,40 @@
   text-align: center;
   margin-bottom: 0.5em;
 }
+
+#cfw-payment-request-buttons {
+  #checkout_paypal_message {
+    order: 1;
+    margin-right: 4px !important;
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+    display: inline-block;
+
+    #paypal_box_button {
+      .woocommerce_paypal_ec_checkout_message {
+        display: none;
+      }
+    }
+  }
+
+  #checkout_paypal_message {
+    background: none;
+    padding: 0;
+    border: none;
+    margin: 0;
+
+    .clear { display: none !important; }
+  }
+}
+
+@media(max-width: 500px) {
+  #cfw-payment-request-buttons {
+    #checkout_paypal_message {
+      #paypal_box_button {
+        .angelleye_smart_button_checkout_top {
+          width: 250px;
+        }
+      }
+    }
+  }
+}

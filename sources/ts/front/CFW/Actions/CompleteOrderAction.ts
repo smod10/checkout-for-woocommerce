@@ -65,14 +65,21 @@ export class CompleteOrderAction extends Action {
         }
 
         if(resp.result === "failure") {
-            let alertInfo: AlertInfo = {
-                type: "AccPassRequiredField",
-                message: resp.messages,
-                cssClass: "cfw-alert-danger"
-            };
 
-            let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
-            alert.addAlert();
+        	window.dispatchEvent(new CustomEvent("cfw-checkout-failed-before-error-message", { detail: { response: resp } } ) );
+
+        	if(resp.messages !== "") {
+				let alertInfo: AlertInfo = {
+					type: "AccPassRequiredField",
+					message: resp.messages,
+					cssClass: "cfw-alert-danger"
+				};
+
+				let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
+				alert.addAlert();
+			} else {
+				Main.removeOverlay();
+			}
 
 			CompleteOrderAction.initCompleteOrder = false;
         }

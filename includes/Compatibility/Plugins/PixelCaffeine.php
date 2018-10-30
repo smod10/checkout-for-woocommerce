@@ -10,7 +10,7 @@ class PixelCaffeine extends Base {
 	}
 
 	public function is_available() {
-		if ( class_exists( '\\PixelCaffeine' ) && class_exists('\\AEPC_Pixel_Scripts') && class_exists('\\AEPC_Woocommerce_Addon_Support') ) {
+		if ( class_exists( '\\PixelCaffeine' ) && class_exists( '\\AEPC_Pixel_Scripts' ) && class_exists( '\\AEPC_Woocommerce_Addon_Support' ) ) {
 			return true;
 		}
 		return false;
@@ -32,7 +32,7 @@ class PixelCaffeine extends Base {
 	}
 
 	function add_pixel_caffeine_body_class( $classes ) {
-		$classes[] = "woocommerce-page";
+		$classes[] = 'woocommerce-page';
 
 		return $classes;
 	}

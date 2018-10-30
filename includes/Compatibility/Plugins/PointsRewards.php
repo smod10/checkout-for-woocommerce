@@ -12,7 +12,7 @@ class PointsRewards extends Base {
 	public function is_available() {
 		global $wc_points_rewards;
 
-		if ( ! empty($wc_points_rewards) ) {
+		if ( ! empty( $wc_points_rewards ) ) {
 			return true;
 		}
 
@@ -23,10 +23,10 @@ class PointsRewards extends Base {
 		global $wc_points_rewards;
 
 		// Add earn points and save message
-		add_action('cfw_checkout_before_form', array($wc_points_rewards->cart, 'render_earn_points_message') );
+		add_action( 'cfw_checkout_before_form', array( $wc_points_rewards->cart, 'render_earn_points_message' ) );
 
 		// Add redeem previously earned points message
-		add_action('cfw_checkout_before_form', array($wc_points_rewards->cart, 'render_redeem_points_message') );
+		add_action( 'cfw_checkout_before_form', array( $wc_points_rewards->cart, 'render_redeem_points_message' ) );
 
 		// Add redeem handler
 		//add_action( 'cfw_checkout_before_form', array( $wc_points_rewards->cart, 'remove_coupon_handler' ), 6 );

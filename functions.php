@@ -2,6 +2,20 @@
 
 if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
+    function cfw_extra_account_fields() {
+        ?>
+        <div id="cfw-first-for-plugins" class="cfw-input-wrap cfw-text-input">
+            <label class="cfw-input-label" for="billing_first_name"><?php esc_html_e('First Name', 'checkout-wc'); ?></label>
+            <input type="text" name="billing_first_name" id="billing_first_name" data-parsley-group="billing" autocomplete="given-name" autofocus="autofocus" size="30" title="First Name" placeholder="First Name" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
+        </div>
+
+        <div id="cfw-last-for-plugins" class="cfw-input-wrap cfw-text-input">
+            <label class="cfw-input-label" for="billing_last_name"><?php esc_html_e('Last Name', 'checkout-wc'); ?></label>
+            <input type="text" name="billing_last_name" id="billing_last_name" data-parsley-group="shipping" autocomplete="family-name" autofocus="autofocus" size="30" title="Last Name" placeholder="Last Name" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
+        </div>
+        <?php
+    }
+
 	/**
 	 * Outputs a checkout/address form field.
 	 *
@@ -279,11 +293,29 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	}
 
 	function cfw_get_shipping_details($checkout) {
-		$shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', $checkout->get_checkout_fields( 'shipping' ) );
+        return WC()->countries->get_formatted_address(
+	        array(
+		        'first_name' => $checkout->get_value( 'shipping_first_name' ),
+		        'last_name'  => $checkout->get_value( 'shipping_last_name' ),
+		        'company'    => $checkout->get_value( 'shipping_company' ),
+		        'address_1'  => $checkout->get_value( 'shipping_address_1' ),
+		        'address_2'  => $checkout->get_value( 'shipping_address_2' ),
+		        'city'       => $checkout->get_value( 'shipping_city' ),
+		        'state'      => $checkout->get_value( 'shipping_state' ),
+		        'postcode'   => $checkout->get_value( 'shipping_postcode' ),
+		        'country'    => $checkout->get_value( 'shipping_country' ),
+	        )
+        );
+	}
 
-		foreach ( $shipping_checkout_fields as $key => $field ) {
-			echo "<div field_type='" . cfw_strip_key_type($key) ."' class='cfw-shipping-details-field'><label class='field_type'>" . esc_html__( $field['label'], 'woocommerce') . ": </label><span class='field_value'>{$checkout->get_value($key)}</span></div>";
-		}
+	/**
+	 * Trim white space and commas off a line.
+	 *
+	 * @param  string $line Line.
+	 * @return string
+	 */
+	function cfw_trim_formatted_address_line( $line ) {
+		return trim( $line, ', ' );
 	}
 
 	function cfw_cart_totals_shipping_html() {
@@ -425,7 +457,11 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                     <?php endif; ?>
                     <div class="cfw-cart-item-title-quantity cfw-cart-item-col <?php echo "${column_base}${columns["title"]}"; ?>">
                         <div>
-                            <a href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
+                            <?php if ( apply_filters('cfw_link_cart_items', __return_false() ) ): ?>
+                                <a target="_blank" href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
+                            <?php else: ?>
+                               <?php echo $item_title; ?> x
+                            <?php endif; ?>
                             <strong><?php echo $item_quantity; ?></strong>
                         </div>
                     </div>
@@ -437,24 +473,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	        }
         }
     }
-
-//    function cfw_get_template_part( $template_part ) {
-//	    if ( apply_filters('cfw_get_template_part_skip_' . $template_part, false) ) return;
-//
-//	    $Main = Objectiv\Plugins\Checkout\Main::instance();
-//
-//	    $global_template_parameters = apply_filters('cfw_template_global_params', array());
-//
-//	    // Template conveniences items
-//	    $global_template_parameters["woo"]          = \WooCommerce::instance();         // WooCommerce Instance
-//	    $global_template_parameters["checkout"]     = WC()->checkout();                 // Checkout Object
-//	    $global_template_parameters["cart"]         = WC()->cart;                       // Cart Object
-//	    $global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
-//
-//	    $template_manager = $Main->get_template_manager();
-//	    $path_manager     = $Main->get_path_manager();
-//	    $template_manager->load_templates( $path_manager->get_template_information( array("content"), "{$template_part}.php" ), $global_template_parameters );
-//    }
 
     function cfw_address_class_wrap( $shipping = true ) {
 	    $result = "woocommerce-billing-fields";

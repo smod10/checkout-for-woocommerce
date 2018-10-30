@@ -10,11 +10,11 @@ class OnePageCheckout extends Base {
 	}
 
 	public function is_available() {
-		return function_exists('initialize_one_page_checkout');
+		return function_exists( 'initialize_one_page_checkout' );
 	}
 
 	public function run() {
-		add_filter('cfw_checkout_is_enabled', array($this, 'override_is_enabled'), 10, 1 );
+		add_filter( 'cfw_checkout_is_enabled', array( $this, 'override_is_enabled' ), 10, 1 );
 	}
 
 	function override_is_enabled( $enabled ) {

@@ -3,12 +3,13 @@
 
   .cfw-logo {
     padding: 0;
-    height: 60px;
+    height: auto;
 
     .logo {
       background-position: center;
-      height: 100%;
+      height: 4em;
       display: block;
+      margin: 1em auto;
     }
   }
 }

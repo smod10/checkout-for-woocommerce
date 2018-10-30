@@ -53,7 +53,11 @@
             <!-- Easy Tab Container -->
             <div id="cfw-tab-container" class="cfw-left-column cfw-column-7 tab-container">
 
-	            <?php do_action('cfw_checkout_before_form'); ?>
+                <div id="cfw-payment-request-buttons">
+					<?php do_action('cfw_payment_request_buttons'); ?>
+                </div>
+
+                <?php do_action('cfw_checkout_before_form'); ?>
 
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
                     <div id="order_review" class="woocommerce-checkout-review-order">
@@ -91,6 +95,8 @@
                                             <label class="cfw-input-label" for="billing_email"><?php esc_html_e('Email', 'checkout-wc'); ?></label>
                                             <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
                                         </div>
+
+										<?php do_action('cfw_checkout_after_email'); ?>
 
                                         <div id="cfw-login-slide">
 
@@ -191,9 +197,7 @@
                                     <?php echo apply_filters('cfw_shipping_address_recap_heading', esc_html__( 'Shipping address', 'checkout-wc' ) ); ?>
                                 </h3>
 
-                                <div id="cfw-shipping-details-fields">
-                                    <?php cfw_get_shipping_details($checkout); ?>
-                                </div>
+                                <div id="cfw-shipping-details-fields"></div>
 
                                 <div>
                                     <a href="#cfw-customer-info" class="cfw-link"><?php esc_html_e( 'Edit shipping address', 'checkout-wc' ); ?></a>
@@ -202,7 +206,7 @@
 
 	                        <?php do_action('cfw_checkout_before_shipping_methods'); ?>
 
-                            <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
+                            <?php if ( WC()->cart->needs_shipping() && apply_filters('cfw_show_shipping_tab', true) === true ) : ?>
                                 <div id="cfw-shipping-method-list" class="cfw-module">
                                     <h3 class="cfw-module-title">
                                         <?php echo apply_filters('cfw_shipping_method_heading', esc_html__( 'Shipping method', 'checkout-wc' ) ); ?>

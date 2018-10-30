@@ -51,11 +51,11 @@ class ExtendedPathManager extends PathManager {
 	public function __construct( $base, $url_base, $main_file ) {
 		parent::__construct( $base, $url_base, $main_file );
 
-		$this->plugin_template = $this->get_base() . "templates";
-		$this->plugin_template_url = $this->get_url_base() . "templates";
-		$this->assets = $this->get_url_base() . "assets";
-		$this->theme_template = get_stylesheet_directory() . "/checkout-wc";
-		$this->theme_template_url = get_stylesheet_directory_uri() . "/checkout-wc";
+		$this->plugin_template     = $this->get_base() . 'templates';
+		$this->plugin_template_url = $this->get_url_base() . 'templates';
+		$this->assets              = $this->get_url_base() . 'assets';
+		$this->theme_template      = get_stylesheet_directory() . '/checkout-wc';
+		$this->theme_template_url  = get_stylesheet_directory_uri() . '/checkout-wc';
 	}
 
 	/**

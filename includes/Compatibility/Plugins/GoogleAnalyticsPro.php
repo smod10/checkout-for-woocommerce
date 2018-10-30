@@ -10,16 +10,16 @@ class GoogleAnalyticsPro extends Base {
 	}
 
 	function is_available() {
-		return function_exists('wc_google_analytics_pro');
+		return function_exists( 'wc_google_analytics_pro' );
 	}
 
 	function run() {
-		$wc_google_analytics_pro = wc_google_analytics_pro();
+		$wc_google_analytics_pro             = wc_google_analytics_pro();
 		$wc_google_analytics_pro_integration = $wc_google_analytics_pro->get_integration();
 
 		if ( $wc_google_analytics_pro_integration->get_tracking_id() ) {
 
-			add_action( 'cfw_wp_head',    array( $wc_google_analytics_pro_integration, 'ga_tracking_code' ), 9 );
+			add_action( 'cfw_wp_head', array( $wc_google_analytics_pro_integration, 'ga_tracking_code' ), 9 );
 
 			// print tracking JavaScript
 			add_action( 'cfw_wp_footer_before_scripts', array( $wc_google_analytics_pro_integration, 'print_js' ) );

@@ -10,7 +10,7 @@ class SkyVerge extends Base {
 	}
 
 	public function is_available() {
-		return class_exists('\\SV_WC_Payment_Gateway') || class_exists('SkyVerge\Plugin_Framework\SV_WC_Payment_Gateway');
+		return class_exists( '\\SV_WC_Payment_Gateway' ) || class_exists( 'SkyVerge\Plugin_Framework\SV_WC_Payment_Gateway' );
 	}
 
 	function allowed_scripts( $scripts ) {

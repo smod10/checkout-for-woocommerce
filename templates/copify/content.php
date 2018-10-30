@@ -263,6 +263,9 @@
                             </div>
 
                             <?php if ( WC()->cart->needs_shipping_address() ): ?>
+                                <h3 class="cfw-module-title">
+		                            <?php echo apply_filters('cfw_billing_address_heading', esc_html__( 'Billing address', 'checkout-wc' ) ); ?>
+                                </h3>
                                 <div id="cfw-shipping-same-billing" class="cfw-module">
                                     <ul class="cfw-radio-reveal-group">
                                         <li class="cfw-radio-reveal-li cfw-no-reveal">

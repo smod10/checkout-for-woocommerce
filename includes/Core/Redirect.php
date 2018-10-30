@@ -402,10 +402,29 @@ class Redirect {
 			'jquery-payment',
 		);
 
-		$ignore = apply_filters('cfw_allowed_script_handles', $ignore);
+		$ignores = apply_filters('cfw_allowed_script_handles', $ignore);
+		$wildcard_ignores = [];
 
+		// Identify wildcard patterns
+		foreach ( $ignores as $key => $ignore ) {
+		    if ( stripos($ignore, '*') !== false ) {
+		        $wildcard_ignores[] = str_replace( '*', '', $ignore );
+		        unset( $ignores[ $key ] );
+            }
+        }
+
+        // Loop through and add to our ignores based on wildcard matches
+        foreach ( $wp_scripts->queue as $handle ) {
+		    foreach( $wildcard_ignores as $wildcard_ignore ) {
+		        if ( stripos( $handle, $wildcard_ignore ) !== false ) {
+		            $ignores[] = $handle;
+                }
+            }
+        }
+
+        // Finally, deregister everything not explicitly allowed
 		foreach ( $wp_scripts->queue as $handle ) {
-			if ( ! in_array($handle, $ignore) ) {
+			if ( ! in_array($handle, $ignores) ) {
 				wp_dequeue_script( $handle );
 				wp_deregister_script( $handle );
 			}
@@ -418,16 +437,34 @@ class Redirect {
 	public static function remove_styles() {
 		global $wp_styles;
 
-		$ignore = array(
+		$ignores = array(
 			'cfw_front_css',
 			'cfw_front_template_css',
 			'admin-bar',
 		);
 
-		$ignore = apply_filters('cfw_allowed_style_handles', $ignore);
+		$ignores = apply_filters('cfw_allowed_style_handles', $ignores);
+		$wildcard_ignores = [];
+
+		// Identify wildcard patterns
+		foreach ( $ignores as $key => $ignore ) {
+			if ( stripos($ignore, '*') !== false ) {
+				$wildcard_ignores[] = str_replace( '*', '', $ignore );
+				unset( $ignores[ $key ] );
+			}
+		}
+
+		// Loop through and add to our ignores based on wildcard matches
+		foreach ( $wp_styles->queue as $handle ) {
+			foreach( $wildcard_ignores as $wildcard_ignore ) {
+				if ( stripos( $handle, $wildcard_ignore ) !== false ) {
+					$ignores[] = $handle;
+				}
+			}
+		}
 
 		foreach ( $wp_styles->queue as $handle ) {
-			if ( ! in_array($handle, $ignore) ) {
+			if ( ! in_array($handle, $ignores) ) {
 				wp_dequeue_style( $handle );
 				wp_deregister_style( $handle );
 			}

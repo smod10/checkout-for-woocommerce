@@ -185,12 +185,13 @@ PHP
 		php wp-cli.phar plugin install woocommerce --activate
 		php wp-cli.phar plugin install https://github.com/$REPO/archive/$BRANCH.zip
 
-        pwd
-        ls ./wp-content/plugins
-        composer install -d "$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
+        cd "$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
+        composer install
+        npm install
+        local CFW_DIR=`pwd`
+        sed -i "s/cypresspathplzoverride/$CFW_DIR/" "$CFW_DIR"/tests/e2e-tests/config/cypress/cypress.env.json
+        ls "$CFW_DIR"/tests/e2e-tests/config/cypress
 	    php wp-cli.phar plugin activate checkout-for-woocommerce
-		cd "$WORKING_DIR"
-		ls
 
 	fi
 }

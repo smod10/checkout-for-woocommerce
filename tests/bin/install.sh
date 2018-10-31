@@ -187,7 +187,7 @@ PHP
 
         pwd
         ls
-        composer install -d="$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
+        composer install -d "$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
 	    php wp-cli.phar plugin checkout-for-woocommerce activate
 		cd "$WORKING_DIR"
 

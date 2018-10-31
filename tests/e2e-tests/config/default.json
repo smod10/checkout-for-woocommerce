@@ -1,0 +1,15 @@
+{
+	"url": "http://localhost:8080",
+	"users": {
+		"admin": {
+			"username": "admin",
+			"password": "password"
+		},
+		"customer": {
+			"username": "jdoe",
+			"password": "password"
+		}
+	},
+	"startBrowserTimeoutMs": 30000,
+	"mochaTimeoutMs": 120000
+}

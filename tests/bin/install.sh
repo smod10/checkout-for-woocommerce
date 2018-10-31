@@ -194,9 +194,10 @@ PHP
         sed -i "s/cypresspathplzoverride/$CFW_DIR/" "$CYPRESS_FILES_FOLDER"/cypress.env.json
         cp "$CYPRESS_FILES_FOLDER"/cypress.env.json `pwd`
         cp "$CYPRESS_FILES_FOLDER"/cypress.overrides.json `pwd`
+        cat cypress.env.json
 
         composer install
-        npm install
+        #npm install
 	    php wp-cli.phar plugin activate checkout-for-woocommerce
 
 	fi

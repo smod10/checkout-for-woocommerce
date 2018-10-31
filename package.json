@@ -20,7 +20,6 @@
     "autoprefixer": "^9.1.5",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
-    "cypress": "^3.1.0",
     "del": "^3.0.0",
     "file-loader": "^2.0.0",
     "filemanager-webpack-plugin": "^2.0.5",

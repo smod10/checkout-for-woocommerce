@@ -198,21 +198,21 @@ PHP
 
         composer install
         npm install
-        npm run production
+        npm run dev
 
         cd templates/copify
         npm install
-        npm run production
+        npm run dev
         cd $CFW_DIR
 
         cd templates/default
         npm install
-        npm run production
+        npm run dev
         cd $CFW_DIR
 
         cd templates/futurist
         npm install
-        npm run production
+        npm run dev
         cd $CFW_DIR
 
 	    php "$WP_CORE_DIR"/wp-cli.phar plugin activate checkout-for-woocommerce

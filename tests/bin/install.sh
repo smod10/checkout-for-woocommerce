@@ -186,7 +186,7 @@ PHP
 		php wp-cli.phar plugin install https://github.com/$REPO/archive/$BRANCH.zip
 
         pwd
-        ls
+        ls ./wp-content/plugins
         composer install -d "$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
 	    php wp-cli.phar plugin checkout-for-woocommerce activate
 		cd "$WORKING_DIR"

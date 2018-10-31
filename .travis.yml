@@ -36,7 +36,7 @@ before_script:
   - bash tests/bin/travis.sh before
 
 script:
-  - travis_retry bash tests/bin/run-e2e-CI.sh
+  - bash tests/bin/run-e2e-CI.sh
 
 after_script:
   - bash tests/bin/travis.sh after

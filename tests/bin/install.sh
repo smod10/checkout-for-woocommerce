@@ -185,7 +185,8 @@ PHP
 		php wp-cli.phar plugin install woocommerce --activate
 		php wp-cli.phar plugin install https://github.com/$REPO/archive/$BRANCH.zip
 
-        cd "$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
+        local CFW_DIR="$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
+        cd $CFW_DIR
 
         local CFW_DIR=$(echo `pwd` | sed 's_/_\\/_g')
         local CYPRESS_FILES_FOLDER=tests/e2e-tests/config/cypress
@@ -197,6 +198,23 @@ PHP
 
         composer install
         npm install
+        npm run production
+
+        cd templates/copify
+        npm install
+        npm run production
+        cd $CFW_DIR
+
+        cd templates/default
+        npm install
+        npm run production
+        cd $CFW_DIR
+
+        cd templates/futurist
+        npm install
+        npm run production
+        cd $CFW_DIR
+
 	    php "$WP_CORE_DIR"/wp-cli.phar plugin activate checkout-for-woocommerce
 
 	fi

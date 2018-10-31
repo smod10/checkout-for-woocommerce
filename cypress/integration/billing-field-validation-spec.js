@@ -4,7 +4,6 @@ describe( 'Billing Field Validation + Billing Zip Autocomplete', function() {
         cy.visit('checkout');
         cy.fill_customer_information_tab_and_advance();
         cy.visit('checkout/#cfw-payment-method');
-        cy.wait(500);
     } );
 
     it( 'Validates required billing address fields', function() {

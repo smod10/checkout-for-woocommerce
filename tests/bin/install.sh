@@ -146,7 +146,7 @@ install_e2e_site() {
 		fi
 
 		set -ev
-		npm install
+		#npm install
 		export NODE_CONFIG_DIR="./tests/e2e-tests/config"
 
 		# Set up nginx to run the server
@@ -186,7 +186,8 @@ PHP
 		php wp-cli.phar plugin install https://github.com/$REPO/archive/$BRANCH.zip
 
         pwd
-        composer install -d=wp-content/plugins/checkout-for-woocommerce
+        ls
+        composer install -d="$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
 	    php wp-cli.phar plugin checkout-for-woocommerce activate
 		cd "$WORKING_DIR"
 

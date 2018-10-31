@@ -187,17 +187,16 @@ PHP
 
         cd "$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
 
-        composer install
-        npm install
-
         local CFW_DIR=$(echo `pwd` | sed 's_/_\\/_g')
         local CYPRESS_FILES_FOLDER=tests/e2e-tests/config/cypress
         local ioption='-i .bak'
 
-        sed $ioption "s/cypresspathplzoverride/$CFW_DIR/" "$CYPRESS_FILES_FOLDER"/cypress.env.json
+        sed -i "s/cypresspathplzoverride/$CFW_DIR/" "$CYPRESS_FILES_FOLDER"/cypress.env.json
         cp "$CYPRESS_FILES_FOLDER"/cypress.env.json `pwd`
         cp "$CYPRESS_FILES_FOLDER"/cypress.overrides.json `pwd`
 
+        composer install
+        npm install
 	    php wp-cli.phar plugin activate checkout-for-woocommerce
 
 	fi

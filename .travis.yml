@@ -32,7 +32,6 @@ before_script:
     echo "xdebug.ini does not exist"
   fi
 - export PATH="$HOME/.composer/vendor/bin:$PATH"
-- composer install
 - bash tests/bin/install.sh woocommerce_test root '' localhost $WP_VERSION
 - bash tests/bin/travis.sh before
 

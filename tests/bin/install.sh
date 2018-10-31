@@ -183,8 +183,11 @@ PHP
 		php wp-cli.phar search-replace "http://local.wordpress.test" "$WP_SITE_URL"
 		php wp-cli.phar theme install twentytwelve --activate
 		php wp-cli.phar plugin install woocommerce --activate
-		php wp-cli.phar plugin install https://github.com/$REPO/archive/$BRANCH.zip --activate
+		php wp-cli.phar plugin install https://github.com/$REPO/archive/$BRANCH.zip
 
+        pwd
+        composer install -d=wp-content/plugins/checkout-for-woocommerce
+	    php wp-cli.phar plugin checkout-for-woocommerce activate
 		cd "$WORKING_DIR"
 
 	fi

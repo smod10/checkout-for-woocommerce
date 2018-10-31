@@ -197,7 +197,7 @@ PHP
         ls
 
         composer install
-        npm install -g webpack
+        npm install -g webpack webpack-cli
         npm install
         npm run dev
 

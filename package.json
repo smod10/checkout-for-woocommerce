@@ -47,6 +47,7 @@
     "webpack-notifier": "^1.6.0"
   },
   "dependencies": {
+    "@types/jquery": "^3.3.22",
     "@webcomponents/webcomponentsjs": "^2.1.3",
     "EasyTabs": "git+https://github.com/JangoSteve/jQuery-EasyTabs.git#v3.2.0",
     "dom4": "^2.1.3",

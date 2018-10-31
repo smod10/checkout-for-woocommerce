@@ -192,8 +192,9 @@ PHP
 
         local CFW_DIR=$(echo `pwd` | sed 's_/_\\/_g')
         local CYPRESS_FILES_FOLDER=tests/e2e-tests/config/cypress
+        local ioption='-i .bak'
 
-        sed -i '.bak' "s/cypresspathplzoverride/$CFW_DIR/" "$CYPRESS_FILES_FOLDER"/cypress.env.json
+        sed $ioption "s/cypresspathplzoverride/$CFW_DIR/" "$CYPRESS_FILES_FOLDER"/cypress.env.json
         cp "$CYPRESS_FILES_FOLDER"/cypress.env.json `pwd`
         cp "$CYPRESS_FILES_FOLDER"/cypress.overrides.json `pwd`
 

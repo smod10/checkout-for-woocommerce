@@ -25,8 +25,3 @@ matrix:
 
 script:
   -bash mysql --version
-
-# Specifies that Travis should create builds for master and release branches and also tags.
-branches:
-  only:
-  - feature/travis-ci

@@ -204,17 +204,17 @@ PHP
         cd templates/copify
         npm install
         npm run dev
-        cd $CFW_DIR
+        cd ..
 
-        cd templates/default
+        cd default
         npm install
         npm run dev
-        cd $CFW_DIR
+        cd ..
 
-        cd templates/futurist
+        cd futurist
         npm install
         npm run dev
-        cd $CFW_DIR
+        cd ..
 
 	    php "$WP_CORE_DIR"/wp-cli.phar plugin activate checkout-for-woocommerce
 

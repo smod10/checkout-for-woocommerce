@@ -189,6 +189,7 @@ PHP
         composer install
         npm install
         local CFW_DIR=`pwd`
+        CFW_DIR=$(echo $CFW_DIR | sed "s:/\+$::")
         sed -i "s/cypresspathplzoverride/$CFW_DIR/" "$CFW_DIR"/tests/e2e-tests/config/cypress/cypress.env.json
         ls "$CFW_DIR"/tests/e2e-tests/config/cypress
 	    php wp-cli.phar plugin activate checkout-for-woocommerce

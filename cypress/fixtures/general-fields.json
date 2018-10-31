@@ -1,0 +1,5 @@
+{
+  "mainContainer": "#cfw-content",
+  "alertContainer": "#cfw-alert-container",
+  "alertMessages": "#cfw-alert-container .message"
+}

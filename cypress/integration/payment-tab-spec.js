@@ -22,7 +22,7 @@ describe( 'Test Shipping Tab', function() {
             return false
         } );
 
-        cy.get( 'input[name="payment_method"]' ).first().check();
+        cy.get( '#payment_method_cheque' ).check();
         cy.get( '#terms' ).check();
         cy.get( '#place_order' ).click();
         cy.get('.woocommerce-notice').should( 'contain', 'Thank you. Your order has been received.' );
@@ -42,7 +42,7 @@ describe( 'Test Shipping Tab', function() {
             return false
         } );
 
-        cy.get( 'input[name="payment_method"]' ).last().check();
+        cy.get( '#payment_method_stripe' ).check();
 
         // Stripe Iframe
         cy.get('iframe').then($iframe => {
@@ -84,7 +84,10 @@ describe( 'Test Shipping Tab', function() {
 
 
         cy.get( '#terms' ).check();
+	    cy.server();
+	    cy.route('POST','/?wc-ajax=complete_order').as('completeOrder');
         cy.get( '#place_order' ).click();
+	    cy.wait('@completeOrder');
         cy.get('.woocommerce-notice').should( 'contain', 'Thank you. Your order has been received.' );
     } );
 });

@@ -1,19 +1,31 @@
 {
   "chromeWebSecurity": false,
-  "baseUrl": "https://plugindev.test",
   "env": {
-    "billing_email": "clifgriffin@gmail.com",
-    "shipping_first_name": "Clifton",
-    "shipping_last_name": "Griffin",
-    "shipping_address_1": "1497 Silver Creek Dr.",
-    "shipping_address_2": "Apt 1",
-    "shipping_company": "ACME Inc",
-    "shipping_country": "US",
-    "shipping_postcode": "24503",
-    "shipping_state": "VA",
-    "shipping_city": "Lynchburg",
+    "account": {
+      "username": "",
+      "password": "",
+      "email": ""
+    },
+    "shipping": {
+      "default": {
+        "first_name": "",
+        "last_name": "",
+        "address_1": "",
+        "address_2": "",
+        "company": "",
+        "country": "",
+        "postcode": "",
+        "state": "",
+        "city": ""
+      }
+    },
+    "product": {
+      "id": 1,
+      "sku": "",
+      "quantity": 1
+    },
     "site": {
-      "path": "~/Sites/plugindev"
+      "path": ""
     }
   }
 }

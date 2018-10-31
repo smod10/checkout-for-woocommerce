@@ -5,8 +5,10 @@ describe( 'Zip Autocomplete', function() {
     } );
 
     it( 'Autocompletes domestic city and state', function() {
-        cy.get( '#shipping_postcode').type( Cypress.env( "shipping_postcode" ) );
-        cy.get( '#shipping_state' ).should( 'have.value', 'VA' );
-        cy.get( '#shipping_city' ).should( 'have.value', 'Lynchburg' );
+        let shipping = Cypress.env("shipping").default;
+
+        cy.get( '#shipping_postcode').type( shipping.postcode );
+        cy.get( '#shipping_state' ).should( 'have.value', shipping.state );
+        cy.get( '#shipping_city' ).should( 'have.value', shipping.city );
     } );
 });

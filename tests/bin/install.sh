@@ -186,12 +186,17 @@ PHP
 		php wp-cli.phar plugin install https://github.com/$REPO/archive/$BRANCH.zip
 
         cd "$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
+
         composer install
         npm install
-        local CFW_DIR=`pwd`
-        CFW_DIR=$(echo $CFW_DIR | sed "s:/\+$::")
-        sed -i "s/cypresspathplzoverride/$CFW_DIR/" "$CFW_DIR"/tests/e2e-tests/config/cypress/cypress.env.json
-        ls "$CFW_DIR"/tests/e2e-tests/config/cypress
+
+        local CFW_DIR=$(echo `pwd` | sed 's_/_\\/_g')
+        local CYPRESS_FILES_FOLDER=tests/e2e-tests/config/cypress
+
+        sed -i '.bak' "s/cypresspathplzoverride/$CFW_DIR/" "$CYPRESS_FILES_FOLDER"/cypress.env.json
+        cp "$CYPRESS_FILES_FOLDER"/cypress.env.json `pwd`
+        cp "$CYPRESS_FILES_FOLDER"/cypress.overrides.json `pwd`
+
 	    php wp-cli.phar plugin activate checkout-for-woocommerce
 
 	fi

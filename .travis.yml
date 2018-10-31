@@ -24,4 +24,4 @@ matrix:
     env: WP_VERSION=latest WP_MULTISITE=0 RUN_PHPCS=1 RUN_E2E=1
 
 script:
-  -bash mysql --version
+  - bash mysql --version

@@ -293,6 +293,7 @@ class Redirect {
 			.cfw-logo .logo {
 				background: transparent url( <?php echo wp_get_attachment_url($logo_attachment_id); ?> ) no-repeat;
 				background-size: contain;
+                background-position: left center;
 			}
 			<?php else: ?>
 			.cfw-logo .logo {

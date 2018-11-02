@@ -188,6 +188,7 @@ PHP
         local CFW_DIR="$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
         cd $CFW_DIR
         echo TRAVIS=true > .env
+        ls
 
         local CFW_DIR=$(echo `pwd` | sed 's_/_\\/_g')
         local CYPRESS_FILES_FOLDER=tests/e2e-tests/config/cypress

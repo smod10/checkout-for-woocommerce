@@ -197,7 +197,6 @@ PHP
         ls
 
         composer install
-        npm install -g webpack webpack-cli
         npm ci
         npm run production-travis
         cd templates

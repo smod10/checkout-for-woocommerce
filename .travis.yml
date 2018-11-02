@@ -1,7 +1,6 @@
 language: php
 
 addons:
-  chrome: stable
   apt:
     packages:
     - nginx

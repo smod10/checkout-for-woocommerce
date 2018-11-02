@@ -352,13 +352,13 @@ export class TabContainer extends Element {
         });
 
         $(window).on('resize', () => {
-            if(window.innerWidth >= 767) {
+            if(window.innerWidth >= 770) {
                 $("#cfw-cart-details-collapse-wrap").css('display', 'block');
                 $("#cfw-cart-details").removeClass('active');
             }
         });
 
-        if(window.innerWidth >= 767) {
+        if(window.innerWidth >= 770) {
             $("#cfw-cart-details-collapse-wrap").css('display', 'block');
         } else {
             $("#cfw-cart-details-collapse-wrap").css('display', 'none');

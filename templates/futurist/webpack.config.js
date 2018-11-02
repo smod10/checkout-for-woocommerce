@@ -31,7 +31,7 @@ module.exports = mode => {
 		},
 		devtool: (mode === "development") ? "source-map" : "",
 		entry: {
-			"gotham": ["./sources/ts/Theme.ts", "./sources/scss/style.scss"]
+			"futurist": ["./sources/ts/Theme.ts", "./sources/scss/style.scss"]
 		},
 		stats: {
 			colors: true

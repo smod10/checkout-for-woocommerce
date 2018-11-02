@@ -103,9 +103,14 @@ $gutter: map-get($grid, gutter);
   display: none;
 }
 
-@media(max-width: 767px) {
+@media(max-width: 770px) {
+
   #cfw-cart-details-collapse-wrap {
     padding-left: 0;
+  }
+
+  #cfw-breadcrumb {
+    display: none;
   }
 
   #cfw-logo-container {

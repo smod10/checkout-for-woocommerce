@@ -1,6 +1,5 @@
 describe( 'Billing Field Validation + Billing Zip Autocomplete', function() {
     beforeEach( function() {
-        cy.login_admin();
         cy.add_item_to_cart();
         cy.visit('checkout');
         cy.fill_customer_information_tab_and_advance();

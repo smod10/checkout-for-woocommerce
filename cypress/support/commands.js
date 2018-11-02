@@ -33,13 +33,6 @@ let requestKey = "addToCart";
 let addToCartRequest = dataScaffolding.combineRequestWithData(requestKey, product, dataMap);
 let account = Cypress.env("account");
 
-Cypress.Commands.add("login_admin", () => {
-    cy.visit("wp-admin");
-    cy.get("#user_login").type(account.username);
-    cy.get("#user_pass").type(account.password);
-    cy.get("#wp-submit").click();
-});
-
 Cypress.Commands.add("add_item_to_cart", () => cy.request(addToCartRequest));
 
 Cypress.Commands.add("fill_customer_information_tab_and_advance", () => {

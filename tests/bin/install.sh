@@ -194,7 +194,6 @@ PHP
         sed -i "s/cypresspathplzoverride/$CFW_DIR/" "$CYPRESS_FILES_FOLDER"/cypress.env.json
         cp "$CYPRESS_FILES_FOLDER"/cypress.env.json `pwd`
         cp "$CYPRESS_FILES_FOLDER"/cypress.overrides.json `pwd`
-        ls
 
         composer install
         npm ci

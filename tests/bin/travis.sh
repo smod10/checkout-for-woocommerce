@@ -13,6 +13,7 @@ fi
 
 if [ $1 == 'after' ]; then
 
+    WP_CORE_DIR="$HOME/wordpress"
     CFW_DIR="$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
 
 	if [[ ${RUN_CODE_COVERAGE} == 1 ]]; then

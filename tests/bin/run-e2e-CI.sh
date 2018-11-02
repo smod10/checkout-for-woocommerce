@@ -14,5 +14,5 @@ if [[ ${RUN_E2E} == 1 ]]; then
  	#sleep 3
 
 	# Run the tests
-    #npx cypress run --record
+    npx cypress run
 fi

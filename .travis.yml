@@ -35,6 +35,7 @@ before_script:
     else
       echo "xdebug.ini does not exist"
     fi
+  - phpenv config-add tests/ini/travis-php.ini
   - nvm install 10.9.0
   - npm install npm@latest -g
   - export PATH="$HOME/.composer/vendor/bin:$PATH"

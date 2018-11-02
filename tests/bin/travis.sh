@@ -13,6 +13,8 @@ fi
 
 if [ $1 == 'after' ]; then
 
+    CFW_DIR="$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
+
 	if [[ ${RUN_CODE_COVERAGE} == 1 ]]; then
 		bash <(curl -s https://codecov.io/bash)
 		wget https://scrutinizer-ci.com/ocular.phar
@@ -20,7 +22,7 @@ if [ $1 == 'after' ]; then
 		php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 	fi
 
-	if [[ ${RUN_E2E} == 1 && $(ls -A $TRAVIS_BUILD_DIR/screenshots) ]]; then
+	if [[ ${RUN_E2E} == 1 && $(ls -A $CFW_DIR/cypress/screenshots) ]]; then
 		if [[ -z "${ARTIFACTS_KEY}" ]]; then
   			echo "Screenshots were not uploaded. Please run the e2e tests locally to see failures."
 		else

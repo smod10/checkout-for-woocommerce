@@ -1,6 +1,5 @@
 {
   "chromeWebSecurity": false,
-  "video": false,
   "env": {
     "account": {
       "username": "",

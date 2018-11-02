@@ -14,5 +14,5 @@ if [[ ${RUN_E2E} == 1 ]]; then
  	#sleep 3
 
 	# Run the tests
-	npm test
+    #$(npm bin)/cypress run --record
 fi

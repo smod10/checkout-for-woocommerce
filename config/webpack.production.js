@@ -36,7 +36,7 @@ module.exports = (mainDir, assetsDir, version, delete_min_files, travis_build) =
 		]
 	};
 
-	if(version !== false && travis_build === false) {
+	if(version !== false && !travis_build) {
 		let delete_files = [
 			"./docs",
 			outPath + "/dist",

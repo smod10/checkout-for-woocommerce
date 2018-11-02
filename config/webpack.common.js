@@ -31,7 +31,8 @@ module.exports = sourcesDir => {
 							loader: 'css-loader',
 							options: {
 								sourceMap: true,
-								minimize: false
+								minimize: false,
+                                url: false
 							}
 						},
 						{

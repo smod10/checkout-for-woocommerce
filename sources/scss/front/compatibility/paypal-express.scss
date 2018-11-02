@@ -10,8 +10,12 @@
     margin-top: 4px !important;
     margin-bottom: 4px !important;
     display: inline-block;
+    max-width: 140px;
+    overflow: hidden;
+    border-radius: 4px;
 
     #paypal_box_button {
+      margin-left: -55px;
       .woocommerce_paypal_ec_checkout_message {
         display: none;
       }

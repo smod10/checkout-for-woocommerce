@@ -30,6 +30,8 @@ $breadcrumb-margin: 1.5em;
   padding: 0;
   display: flex;
   position: relative;
+  max-width: 80%;
+  width: 100%;
 
   &:after {
     content: " ";
@@ -44,23 +46,25 @@ $breadcrumb-margin: 1.5em;
   li {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     margin: 0 $breadcrumb-margin;
     position: relative;
     z-index: 2;
     padding: 0 1em;
     background: #fff;
+    width: 25%;
 
-    &:first-child {
-      padding-right: 35px;
-    }
+    &:first-child { margin-left: 0; }
+    &:last-child { margin-right: 0; }
 
     & > a {
       display: block;
       font-size: 0.60em;
       text-decoration: none;
       text-transform: uppercase;
+      max-width: 75px;
+      text-align: center;
 
       &:after {
         content: " ";
@@ -90,6 +94,7 @@ $breadcrumb-margin: 1.5em;
 .cfw-breadcrumb-container {
   display: flex;
   justify-content: center;
+  padding: 0 20px;
 }
 
 .cfw-module-title {
@@ -102,9 +107,14 @@ $breadcrumb-margin: 1.5em;
   margin-bottom: 16px;
 }
 
+#cfw-cart-details {
+  padding-right: 0;
+}
+
 #cfw-cart-details-collapse-wrap {
   background: #f8f8f8;
   padding: 1.5em;
+  box-sizing: border-box;
 
   & > .cfw-module-title {
     padding-bottom: 0.5em;
@@ -203,19 +213,29 @@ $breadcrumb-margin: 1.5em;
   }
 }
 
-@media(max-width: 767px) {
+@media(max-width: 770px) {
+
   #cfw-breadcrumb {
-    max-width: 350px;
+    max-width: 90%;
+    overflow: hidden;
+    margin-bottom: 20px;
 
-    li {
-      margin: 0 6px;
-      text-align: center;
-      padding: 0 10px;
-
-      &:first-child {
-        padding-right: 20px;
-      }
+    &:first-child {
+      margin-left: -5%;
     }
+
+    &:last-child {
+      margin-right: -2%;
+    }
+  }
+
+  #cfw-header {
+    margin-bottom: 20px;
+  }
+
+  #cfw-cart-details-collapse-wrap {
+    padding: 0;
+    background: none;
   }
 
   #cfw-cart-details-review-bar {
@@ -232,6 +252,27 @@ $breadcrumb-margin: 1.5em;
       .cfw-cart-item-subtotal {
         margin-right: 20px;
       }
+    }
+  }
+}
+
+@media(max-width: 445px) {
+
+  #cfw-breadcrumb {
+
+    li {
+      padding: 0 5px;
+      margin: 0 5px;
+      font-size: 0.5em;
+
+      &:before {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    &:after {
+      top: 8px;
     }
   }
 }

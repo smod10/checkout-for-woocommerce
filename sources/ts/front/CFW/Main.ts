@@ -352,8 +352,8 @@ export class Main {
 	 */
 	setupAnimationListeners(): void {
 		$("#cfw-ci-login").on("click", function(){
+			$("#cfw-login-slide").addClass("stay-open");
 			$("#cfw-login-slide").slideDown(300);
-			$("#cfw-first-for-plugins, #cfw-last-for-plugins").slideUp(300);
 		});
 	}
 

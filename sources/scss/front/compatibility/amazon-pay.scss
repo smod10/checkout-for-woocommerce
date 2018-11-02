@@ -27,9 +27,9 @@
 #cfw-payment-request-buttons {
 
   .wc-amazon-payments-advanced-populated {
-    max-width: 125px;
+    max-width: 140px;
     width: 100%;
-    margin: 4px;
+    margin-right: 4px;
   }
 
   .wc-amazon-payments-advanced-info {
@@ -38,7 +38,7 @@
     padding: 0;
     clear: none;
     border: none;
-    border-radius: 0;
+    border-radius: 4px;
     overflow: hidden;
     display: block;
     margin: 0;
@@ -47,11 +47,15 @@
       float: left;
       margin: 0;
       line-height: 0;
-      width: 125px;
+      width: 140px;
+      height: 35px;
+      background: #f4d281 url('../images/amazon-pay.png') no-repeat center;
+      background-size: 75%;
 
       img {
+        opacity: 0;
         width: 100% !important;
-        height: auto;
+        height: 100%;
       }
     }
   }

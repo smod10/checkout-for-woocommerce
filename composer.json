@@ -2,6 +2,8 @@
     "name": "objectivco/checkout-for-woocommerce",
     "description": "A beautiful, responsive and conversion optimized checkout theme for WooCommerce.",
     "type": "wordpress-plugin",
+    "optimize-autoloader": true,
+    "classmap-authoritative": true,
     "authors": [
         {
             "name": "Brandon Tassone",

@@ -5,7 +5,7 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-module.exports = (mainDir, assetsDir, version, delete_min_files) => {
+module.exports = (mainDir, assetsDir, version, delete_min_files, travis_build) => {
 	const productionDir = "./dist";
 	const outPath = `${productionDir}/checkout-for-woocommerce`;
 	const zipName = `${outPath}-${version}.zip`;
@@ -36,7 +36,7 @@ module.exports = (mainDir, assetsDir, version, delete_min_files) => {
 		]
 	};
 
-	if(version !== false) {
+	if(version !== false && travis_build === false) {
 		let delete_files = [
 			"./docs",
 			outPath + "/dist",

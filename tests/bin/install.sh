@@ -198,26 +198,26 @@ PHP
 
         composer install
         npm install -g webpack webpack-cli
-        npm install
-        npm run dev
+        npm ci
+        npm run production-travis
+        cd templates
 
-        cd templates/copify
-        npm install
-        npm run dev
+        cd copify
+        npm ci
+        npm run production
         cd ..
 
         cd default
-        npm install
-        npm run dev
+        npm ci
+        npm run production
         cd ..
 
         cd futurist
-        npm install
-        npm run dev
+        npm ci
+        npm run production
         cd ..
 
 	    php "$WP_CORE_DIR"/wp-cli.phar plugin activate checkout-for-woocommerce
-
 	fi
 }
 

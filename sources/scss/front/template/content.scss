@@ -869,10 +869,6 @@ textarea {
   margin-left: 10px;
 }
 
-#wc-stripe-cc-form .form-row {
-  margin-left: 0px;
-}
-
 @media (max-width: 770px) {
   body.wp-is-mobile {
     #cfw-content, #cfw-header {
@@ -1078,9 +1074,9 @@ textarea {
 }
 
 @media(max-width: 445px) {
-  body {
-    font-size: 0.75em;
-  }
+  //body {
+  //  font-size: 0.75em;
+  //}
 
   #cfw-cart-list .cfw-cart-item-image {
     width: calc(60% - 40px);

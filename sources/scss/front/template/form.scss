@@ -25,6 +25,8 @@
 
 form {
   .form-row {
+    padding: 3px;
+    margin: 0 0 6px;
     @include clearfix();
 
     label {
@@ -37,6 +39,7 @@ form {
 
     select {
       width: 100%;
+      background-color: #fff;
     }
 
     .input-text {
@@ -75,3 +78,37 @@ form {
     }
   }
 }
+
+/**
+Start Checkbox Alignments
+ */
+// Stripe - Save new
+//body.checkout-wc .woocommerce-checkout #payment .woocommerce-SavedPaymentMethods-saveNew {
+//  display: flex;
+//  align-items: flex-start;
+//
+//  input[type=checkbox] {
+//    margin-top: 0.25em;
+//  }
+//
+//  label {
+//    margin-top: 0px;
+//  }
+//}
+//
+//// Terms and Conditions
+//form .form-row label.woocommerce-form__label-for-checkbox {
+//  display: flex;
+//  align-items: flex-start;
+//
+//  input[type=checkbox] {
+//    margin-top: 0.4em;
+//  }
+//
+//  span {
+//    margin-top: 0px;
+//  }
+//}
+/**
+End Checkbox Alignments
+ */

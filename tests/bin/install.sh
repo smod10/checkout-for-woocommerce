@@ -216,6 +216,7 @@ PHP
         cd ..
 
 	    php "$WP_CORE_DIR"/wp-cli.phar plugin activate checkout-for-woocommerce
+	    php "$WP_CORE_DIR"/wp-cli.phar eval 'Objectiv\Plugins\Checkout\Main::instance()->get_settings_manager()->update_setting('enable', 'yes');'
 	fi
 }
 

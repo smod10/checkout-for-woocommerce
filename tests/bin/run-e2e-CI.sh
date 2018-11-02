@@ -6,6 +6,7 @@ if [[ ${RUN_E2E} == 1 ]]; then
 
 	# Go to CFW root plugin dir
 	cd "$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
+	CYPRESS_SPEC_DIR=cypress/integration
 
 	# Start xvfb to run the tests
 	#export BASE_URL="$WP_SITE_URL"
@@ -14,5 +15,5 @@ if [[ ${RUN_E2E} == 1 ]]; then
  	#sleep 3
 
 	# Run the tests
-    npx cypress run
+    npx cypress run --spec "$CYPRESS_SPEC_DIR"/customer/**/*,"$CYPRESS_SPEC_DIR"/general/**/*,"$CYPRESS_SPEC_DIR"/payment/billing-fields-spec.js
 fi

@@ -1,4 +1,4 @@
-import dataScaffolding from "../data_scaffolding/data-scaffolding";
+import dataScaffolding from "../../data_scaffolding/data-scaffolding";
 
 describe( 'Shipping Field Validation', function() {
     before( function() {

@@ -873,18 +873,16 @@ textarea {
 }
 
 @media (max-width: 770px) {
-  body.wp-is-mobile {
-    #cfw-content, #cfw-header {
-      margin-top: 0;
+  #cfw-content, #cfw-header {
+    margin-top: 0;
 
-      .cfw-logo {
-        padding: 0;
+    .cfw-logo {
+      padding: 0;
 
-        .logo {
-          text-align: center;
-          margin: 1em auto;
-          display: block;
-        }
+      .logo {
+        text-align: center;
+        margin: 1em auto;
+        display: block;
       }
     }
   }
@@ -949,26 +947,24 @@ textarea {
     display: none;
     margin-top: 20px;
   }
+  
+  #cfw-cart-list {
+    .cfw-cart-row .cfw-cart-item-col {
+      margin-left: 20px;
+    }
+  }
 
-  body.wp-is-mobile {
-    #cfw-cart-list {
-      .cfw-cart-row .cfw-cart-item-col {
-        margin-left: 20px;
-      }
+  #cfw-cart-details-review-bar, #cfw-cart-list .cfw-cart-row {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+
+    & > div:first-child {
+      margin-left: 0;
     }
 
-    #cfw-cart-details-review-bar, #cfw-cart-list .cfw-cart-row {
-      margin-left: 0;
+    & > div:last-child {
       margin-right: 0;
-      width: 100%;
-
-      & > div:first-child {
-        margin-left: 0;
-      }
-
-      & > div:last-child {
-        margin-right: 0;
-      }
     }
   }
 

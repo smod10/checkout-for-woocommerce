@@ -30,7 +30,7 @@ $breadcrumb-margin: 1.5em;
   padding: 0;
   display: flex;
   position: relative;
-  max-width: 80%;
+  max-width: 540px;
   width: 100%;
 
   &:after {
@@ -216,7 +216,6 @@ $breadcrumb-margin: 1.5em;
 @media(max-width: 770px) {
 
   #cfw-breadcrumb {
-    max-width: 90%;
     overflow: hidden;
     margin-bottom: 20px;
 

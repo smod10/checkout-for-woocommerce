@@ -104,6 +104,8 @@ class Admin {
 	public function admin_page() {
 	    $current_tab_function = $this->get_current_tab() === false ? 'general_tab' : $this->get_current_tab() . "_tab";
 		?>
+        <script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script>
+        <script type="text/javascript">window.Beacon('init', '355a5a54-eb9d-4b64-ac5f-39c95644ad36')</script>
 		<div class="wrap about-wrap" style="margin-left:2px;">
 
             <h1><?php _e('Checkout for WooCommerce', 'checkout-wc'); ?></h1>
@@ -429,27 +431,15 @@ class Admin {
 	 */
     public function support_tab() {
         ?>
-        <script>!function(e,o,n){window.HSCW=o,window.HS=n,n.beacon=n.beacon||{};var t=n.beacon;t.userConfig={},t.readyQueue=[],t.config=function(e){this.userConfig=e},t.ready=function(e){this.readyQueue.push(e)},o.config={docs:{enabled:!1,baseUrl:""},contact:{enabled:!0,formId:"dd423b99-b372-11e7-b466-0ec85169275a"}};var r=e.getElementsByTagName("script")[0],c=e.createElement("script");c.type="text/javascript",c.async=!0,c.src="https://djtflbt20bdde.cloudfront.net/",r.parentNode.insertBefore(c,r)}(document,window.HSCW||{},window.HS||{});</script>
-        <script>
-            HS.beacon.config({
-                modal: true,
-                instructions: "<?php _e('We can\'t wait to help you with Checkout for WooCommerce! Please fill out the following form and one of our support staff will respond within 12-24 hours. (average)','checkout-wc'); ?>",
-            });
-        </script>
-
         <h3><?php _e('Need help?', 'checkout-wc'); ?></h3>
 
         <p><?php _e('Excellent support is in our DNA.', 'checkout-wc'); ?></p>
 
-        <p><?php _e('Many issues are addressed in our documentation:', 'checkout-wc'); ?></p>
-        <a href="https://www.checkoutwc.com/docs/" target="_blank" class="button button-primary"><?php _e('View Documentation', 'checkout-wc'); ?></a>
-
-        <p><?php _e('If you need help for something not covered in our documentation, please click this button to file a support request:', 'checkout-wc'); ?></p>
-	    <?php submit_button( __('Support Request', 'checkout-wc'), 'primary', false, false, array('id'=> 'checkoutwc-support-button') ); ?>
+	    <?php submit_button( __('Contact Support', 'checkout-wc'), 'primary', false, false, array('id'=> 'checkoutwc-support-button') ); ?>
 
         <script>
             jQuery("#checkoutwc-support-button").click(function() {
-                HS.beacon.open();
+                Beacon("open");
             });
         </script>
         <?php

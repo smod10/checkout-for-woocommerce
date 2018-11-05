@@ -7,7 +7,7 @@ $gutter: map-get($grid, gutter);
 }
 
 #cfw-content {
-  margin-top: 60px;
+  margin-top: 2em;
 }
 
 #cfw-logo-container, #cfw-logo-container-mobile {
@@ -104,6 +104,9 @@ $gutter: map-get($grid, gutter);
 }
 
 @media(max-width: 770px) {
+  #cfw-content {
+    margin-top: 1em;
+  }
 
   #cfw-cart-details-collapse-wrap {
     padding-left: 0;

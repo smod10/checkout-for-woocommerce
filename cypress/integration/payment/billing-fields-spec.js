@@ -5,7 +5,6 @@ describe( 'Billing Fields', function() {
 		cy.fill_customer_information_tab_and_advance();
 		cy.visit('checkout/#cfw-payment-method');
 		cy.clear_billing_fields();
-		cy.wait(500);
     } );
 
     describe('Validation', () => {

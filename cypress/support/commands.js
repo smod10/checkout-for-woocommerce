@@ -35,6 +35,17 @@ let account = Cypress.env("account");
 
 Cypress.Commands.add("add_item_to_cart", () => cy.request(addToCartRequest));
 
+Cypress.Commands.add("clear_shipping_fields", () => {
+	cy.get( '#shipping_first_name' ).then( ($input) => $input.val(""));
+	cy.get( '#shipping_last_name' ).then( ($input) => $input.val(""));
+	cy.get( '#shipping_address_1' ).then( ($input) => $input.val(""));
+	cy.get( '#shipping_address_2' ).then( ($input) => $input.val(""));
+	cy.get( '#shipping_company' ).then( ($input) => $input.val(""));
+	cy.get( '#shipping_postcode' ).then( ($input) => $input.val(""));
+	cy.get( '#shipping_state' ).then( ($input) => $input.val(""));
+	cy.get( '#shipping_city' ).then( ($input) => $input.val(""));
+});
+
 Cypress.Commands.add("fill_customer_information_tab_and_advance", () => {
     let account = Cypress.env("account");
     let shipping = Cypress.env("shipping").default;

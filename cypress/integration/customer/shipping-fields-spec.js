@@ -3,8 +3,11 @@ import dataScaffolding from "../../data_scaffolding/data-scaffolding";
 describe( 'Shipping Fields', function() {
     before( function() {
         cy.add_item_to_cart();
-        cy.visit('checkout');
-    } );
+        // Visit checkout, then clear the shipping fields
+        cy.visit('checkout', {
+        	onLoad: async () => await cy.clear_shipping_fields()
+		});
+    });
 
     describe('Validation', () => {
 		it('Validates required shipping address fields', () => {

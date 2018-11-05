@@ -6,7 +6,7 @@ addons:
     - nginx
   artifacts:
     paths:
-    - $HOME/wordpress/wp-content/plugins/checkout-for-woocommerce
+    - $HOME/wordpress/wp-content/plugins/checkout-for-woocommerce/cypress/videos
 
 sudo: false
 

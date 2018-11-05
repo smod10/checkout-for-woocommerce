@@ -6,7 +6,7 @@ addons:
     - nginx
   artifacts:
     paths:
-    - $HOME/wordpress/wp-content/plugins/checkout-for-woocommerce/cypress/videos
+    - $HOME/cypress/videos
 
 sudo: false
 
@@ -31,6 +31,7 @@ cache:
   - ~/.cache/Cypress
 
 before_script:
+  - mkdir $HOME/cypress
   - |
     # Remove Xdebug for a huge performance increase:
     if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then

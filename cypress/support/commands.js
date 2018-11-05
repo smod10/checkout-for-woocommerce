@@ -46,6 +46,22 @@ Cypress.Commands.add("clear_shipping_fields", () => {
 	cy.get( '#shipping_city' ).then( ($input) => $input.val(""));
 });
 
+Cypress.Commands.add("clear_billing_fields", () => {
+	cy.get( '#billing_first_name' ).then( ($input) => $input.val(""));
+	cy.get( '#billing_last_name' ).then( ($input) => $input.val(""));
+	cy.get( '#billing_address_1' ).then( ($input) => $input.val(""));
+	cy.get( '#billing_address_2' ).then( ($input) => $input.val(""));
+	cy.get( '#billing_company' ).then( ($input) => $input.val(""));
+	cy.get( '#billing_postcode' ).then( ($input) => $input.val(""));
+	cy.get( '#billing_state' ).then( ($input) => $input.val(""));
+	cy.get( '#billing_city' ).then( ($input) => $input.val(""));
+});
+
+Cypress.Commands.add("clear_all_info_fields", () => {
+    cy.clear_shipping_fields();
+    cy.clear_billing_fields();
+});
+
 Cypress.Commands.add("fill_customer_information_tab_and_advance", () => {
     let account = Cypress.env("account");
     let shipping = Cypress.env("shipping").default;

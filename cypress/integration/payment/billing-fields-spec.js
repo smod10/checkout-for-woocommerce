@@ -1,11 +1,11 @@
 describe( 'Billing Fields', function() {
-    beforeEach( function() {
+    beforeEach( () => {
         cy.add_item_to_cart();
         cy.visit('checkout');
 		cy.fill_customer_information_tab_and_advance();
 		cy.visit('checkout/#cfw-payment-method');
 		cy.clear_billing_fields();
-    } );
+    });
 
     describe('Validation', () => {
 		it( 'Billing address fields', () => {

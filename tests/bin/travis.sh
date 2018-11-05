@@ -23,15 +23,6 @@ if [ $1 == 'after' ]; then
 		php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 	fi
 
-	if [[ ${RUN_E2E} == 1 && $(ls -A $CFW_DIR/cypress/screenshots) ]]; then
-		if [[ -z "${ARTIFACTS_KEY}" ]]; then
-  			echo "Screenshots were not uploaded. Please run the e2e tests locally to see failures."
-		else
-  			curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
-			artifacts upload
-		fi
-	fi
-
 	if [[ ${RUN_E2E} == 1 && $(ls -A $CFW_DIR/cypress/videos) ]]; then
 		if [[ -z "${ARTIFACTS_KEY}" ]]; then
   			echo "Videos were not uploaded. Please run the e2e tests locally to see failures."

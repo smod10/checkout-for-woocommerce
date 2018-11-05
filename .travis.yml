@@ -4,6 +4,9 @@ addons:
   apt:
     packages:
     - nginx
+  artifacts:
+    paths:
+    - $HOME/wordpress/wp-content/plugins/checkout-for-woocommerce
 
 sudo: false
 

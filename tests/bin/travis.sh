@@ -27,6 +27,9 @@ if [ $1 == 'after' ]; then
 		if [[ -z "${ARTIFACTS_KEY}" ]]; then
   			echo "Videos were not uploaded. Please run the e2e tests locally to see failures."
 		else
+		    ARTIFACTS_PATHS="$HOME/cypress/videos"
+
+		    mkdir $HOME/cypress
 		    cp -r "$CFW_DIR"/cypress/videos "$HOME"/cypress
   			curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
 			artifacts upload

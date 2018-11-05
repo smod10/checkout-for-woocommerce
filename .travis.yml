@@ -4,9 +4,6 @@ addons:
   apt:
     packages:
     - nginx
-  artifacts:
-    paths:
-    - $HOME/cypress/videos
 
 sudo: false
 
@@ -31,7 +28,6 @@ cache:
   - ~/.cache/Cypress
 
 before_script:
-  - mkdir $HOME/cypress
   - |
     # Remove Xdebug for a huge performance increase:
     if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then

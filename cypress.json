@@ -12,8 +12,8 @@
       "default": {
         "first_name": "",
         "last_name": "",
-        "address_1": "",
-        "address_2": "",
+        "address1": "",
+        "address2": "",
         "company": "",
         "country": "",
         "postcode": "",

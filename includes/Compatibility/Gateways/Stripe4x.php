@@ -62,15 +62,12 @@ class Stripe4x extends Base {
 				) {
 					add_filter( 'wc_stripe_show_payment_request_on_checkout', '__return_true' );
 					add_action( 'cfw_payment_request_buttons', array( $stripe_payment_request, 'display_payment_request_button_html' ), 1 );
-					add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_apple_pay_separator' ), 2 );
+					add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_apple_pay_separator' ), 100 );
 				}
 			}
 		}
 	}
 
-	/**
-	 * TODO: Implement this when Stripe implements it
-	 */
 	function add_apple_pay_separator() {
 		$this->add_separator( '', 'wc-stripe-payment-request-button-separator', 'text-align: center;' );
 	}

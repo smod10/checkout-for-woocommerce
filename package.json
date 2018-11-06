@@ -1,6 +1,6 @@
 {
   "name": "checkout-for-woocommerce",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "### Development installation instructions",
   "scripts": {
     "dev": "webpack --env development",

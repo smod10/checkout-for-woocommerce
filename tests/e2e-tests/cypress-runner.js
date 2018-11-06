@@ -6,7 +6,6 @@ cypress.run({
 	spec: [
 		"cypress/integration/customer/**/*",
 		"cypress/integration/general/**/*",
-		"cypress/integration/shipping/**/*",
 		"cypress/integration/payment/billing-fields-spec.js"
 	]
 }).then(results => {

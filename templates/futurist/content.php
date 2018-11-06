@@ -327,7 +327,9 @@
                                     <?php endif; ?>
                                 </div>
                                 <div>
-                                    <a id="place_order" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate"><?php esc_html_e( 'Complete Order', 'checkout-wc' ); ?></a>
+                                    <a id="place_order" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate">
+		                                <?php echo apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ); ?>
+                                    </a>
                                 </div>
                             </div>
 

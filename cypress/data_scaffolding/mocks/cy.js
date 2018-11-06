@@ -1,5 +1,15 @@
+/**
+ * Class used for testing certain methods in data-scaffolding
+ *
+ * @type {Cy}
+ */
 module.exports = new Cy();
 
+/**
+ * @param {Cy} prev
+ *
+ * @constructor
+ */
 function Cy (prev = null) {
 	this.id = null;
 	this.value = null;
@@ -10,6 +20,11 @@ function Cy (prev = null) {
 	}
 }
 
+/**
+ * @param {string} id
+ *
+ * @returns {Promise}
+ */
 Cy.prototype.get = function(id) {
 	return new Promise((resolve) => {
 		setTimeout(() => {
@@ -19,6 +34,11 @@ Cy.prototype.get = function(id) {
 	})
 };
 
+/**
+ * @param {string} value
+ *
+ * @returns {Promise}
+ */
 Cy.prototype.val = function(value) {
 	return new Promise( (resolve, error) => {
 		setTimeout(() => {

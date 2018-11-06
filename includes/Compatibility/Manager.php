@@ -33,6 +33,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnalytics;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 
 /**
@@ -93,6 +94,9 @@ class Manager {
 
 		// Pakkelabels
 		new Pakkelabels();
+
+		// WooCommerce Germanized
+		new WooCommerceGermanized();
 
 		/**
 		 * Gateways

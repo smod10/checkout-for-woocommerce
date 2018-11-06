@@ -29,6 +29,7 @@ class Form {
 		$this->phone_enabled = apply_filters( 'cfw_enable_phone_fields', false );
 
 		add_filter( 'woocommerce_default_address_fields', array( $this, 'get_custom_default_address_fields' ) );
+		add_filter( 'woocommerce_get_country_locale', array($this, 'prevent_postcode_sort_change') );
 
 		if ( $this->phone_enabled ) {
 			add_filter( 'woocommerce_billing_fields', array( $this, 'enforce_billing_phone_options_from_default' ), 10, 2 );
@@ -258,6 +259,24 @@ class Form {
 		}
 
 		return $defaults;
+	}
+
+	/**
+	 * @param $locales
+	 *
+	 * Some locales reprioritize the postcode to be later than we do. This is undesirable behavior
+	 * In the future, we should probably adjust our form styles to allow for reordering like this on a locale basis
+	 *
+	 * @return array $locales
+	 */
+	function prevent_postcode_sort_change( $locales ) {
+		foreach( $locales as $key => $value ) {
+			if ( ! empty( $value['postcode'] ) && ! empty( $value['postcode']['priority'] ) ) {
+				$locales[ $key ]['postcode']['priority'] = 45;
+			}
+		}
+
+		return $locales;
 	}
 
 	/**

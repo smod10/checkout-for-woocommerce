@@ -9,6 +9,7 @@ let ProductFactory = require("./models/product").ProductFactory;
 // Fields
 let generalFields = require("../fixtures/general-fields");
 let accountFields = require("../fixtures/account-fields");
+let customerInfoPrefixes = require("../fixtures/customer-info-prefixes");
 
 // Messages
 let accountMessages = require("../fixtures/account-messages");
@@ -20,10 +21,14 @@ let requests = require("../fixtures/requests");
 let accountData = require("../data/accounts");
 let productData = require("../data/products");
 
-let fields = new Fields(generalFields, accountFields, {});
+// Created objects
+let fields = new Fields(generalFields, accountFields, {}, customerInfoPrefixes);
 let messages = new Messages({}, accountMessages, {});
 let products = ProductFactory.createAll(productData);
 let accounts = AccountFactory.createAll(accountData);
+
+// Used for mocking cy if needed
+let cy = require("./mocks/cy");
 
 class DataScaffolding {
 	constructor(accounts, products, fields, messages, requests) {

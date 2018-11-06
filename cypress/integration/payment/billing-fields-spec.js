@@ -4,7 +4,7 @@ describe( 'Billing Fields', function() {
         cy.visit('checkout');
 		cy.fill_customer_information_tab_and_advance();
 		cy.visit('checkout/#cfw-payment-method');
-		cy.clear_billing_fields();
+		cy.clear_info_fields('billing', ["country"]);
     });
 
     describe('Validation', () => {

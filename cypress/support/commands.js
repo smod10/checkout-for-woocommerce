@@ -31,71 +31,23 @@ let product = Cypress.env("product");
 let requestKey = "addToCart";
 
 let addToCartRequest = dataScaffolding.combineRequestWithData(requestKey, product, dataMap);
-let account = Cypress.env("account");
+let fields = dataScaffolding.fields;
 
 Cypress.Commands.add("add_item_to_cart", () => cy.request(addToCartRequest));
 
-Cypress.Commands.add("clear_shipping_fields", () => {
-	cy.get( '#shipping_first_name' ).then( ($input) => $input.val(""));
-	cy.get( '#shipping_last_name' ).then( ($input) => $input.val(""));
-	cy.get( '#shipping_address_1' ).then( ($input) => $input.val(""));
-	cy.get( '#shipping_address_2' ).then( ($input) => $input.val(""));
-	cy.get( '#shipping_company' ).then( ($input) => $input.val(""));
-	cy.get( '#shipping_postcode' ).then( ($input) => $input.val(""));
-	cy.get( '#shipping_state' ).then( ($input) => $input.val(""));
-	cy.get( '#shipping_city' ).then( ($input) => $input.val(""));
-});
-
-Cypress.Commands.add("clear_billing_fields", () => {
-	cy.get( '#billing_first_name' ).then( ($input) => $input.val(""));
-	cy.get( '#billing_last_name' ).then( ($input) => $input.val(""));
-	cy.get( '#billing_address_1' ).then( ($input) => $input.val(""));
-	cy.get( '#billing_address_2' ).then( ($input) => $input.val(""));
-	cy.get( '#billing_company' ).then( ($input) => $input.val(""));
-	cy.get( '#billing_postcode' ).then( ($input) => $input.val(""));
-	cy.get( '#billing_state' ).then( ($input) => $input.val(""));
-	cy.get( '#billing_city' ).then( ($input) => $input.val(""));
-});
-
-Cypress.Commands.add("clear_all_info_fields", () => {
-    cy.clear_shipping_fields();
-    cy.clear_billing_fields();
+Cypress.Commands.add("clear_info_fields", (type, ignore) => {
+    fields.customerInfoMapSingle(type, "", cy, ignore)
 });
 
 Cypress.Commands.add("fill_customer_information_tab_and_advance", () => {
     let account = Cypress.env("account");
-    let shipping = Cypress.env("shipping").default;
+    let userShippingValues = Cypress.env("shipping").default;
 
-    cy.get( '#billing_email' ).then( ($input) => {
-        $input.val( account.email ).change();
-    } );
-    cy.get( '#shipping_first_name' ).then( ($input) => {
-        $input.val( shipping.first_name )
-    } );
-    cy.get( '#shipping_last_name' ).then( ($input) => {
-        $input.val( shipping.last_name )
-    } );
-    cy.get( '#shipping_address_1' ).then( ($input) => {
-        $input.val( shipping.address_1 )
-    } );
-    cy.get( '#shipping_address_2' ).then( ($input) => {
-        $input.val( shipping.address_2 )
-    } );
-    cy.get( '#shipping_company' ).then( ($input) => {
-        $input.val( shipping.company )
-    } );
-    cy.get( '#shipping_country' ).then( ($input) => {
-        $input.val( shipping.country )
-    } );
-    cy.get( '#shipping_postcode' ).then( ($input) => {
-        $input.val( shipping.postcode )
-    } );
-    cy.get( '#shipping_state' ).then( ($input) => {
-        $input.val( shipping.state )
-    } );
-    cy.get( '#shipping_city' ).then( ($input) => {
-        $input.val( shipping.city )
-    } );
+    // Set the email
+    cy.get( '#billing_email' ).then( ($input) => $input.val( account.email ).change());
+
+    // Map the cypress env customer info details to the customer info field id's
+    fields.customerInfoMapMultiple('shipping', userShippingValues, cy);
 
     cy.get( '#cfw-shipping-info-action .cfw-primary-btn' ).click();
 

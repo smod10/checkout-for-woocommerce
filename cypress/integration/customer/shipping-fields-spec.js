@@ -4,9 +4,9 @@ describe( 'Shipping Fields', function() {
     before( function() {
         cy.add_item_to_cart();
         // Visit checkout, then clear the shipping fields
-        cy.visit('checkout', {
-        	onLoad: async () => await cy.clear_shipping_fields()
-		});
+        cy.visit('checkout');
+        // Clear all fields
+		cy.clear_info_fields('shipping', ["country"]);
     });
 
     describe('Validation', () => {

@@ -4,6 +4,9 @@ addons:
   apt:
     packages:
     - nginx
+  artifacts:
+    paths:
+    - $HOME/cypress/videos
 
 sudo: false
 

@@ -43,8 +43,4 @@ class GoogleAnalyticsPro extends Base {
 			add_action( 'cfw_checkout_after_payment_methods', array( $wc_google_analytics_pro_integration, 'selected_payment_method' ) );
 		}
 	}
-
-	function allowed_scripts( $scripts ) {
-		return $scripts;
-	}
 }

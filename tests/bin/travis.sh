@@ -16,6 +16,9 @@ if [ $1 == 'after' ]; then
     WP_CORE_DIR="$HOME/wordpress"
     CFW_DIR="$WP_CORE_DIR/wp-content/plugins/checkout-for-woocommerce"
 
+    # Make the cypress videos directory in case we need it.
+    mkdir $HOME/cypress $HOME/cypress/videos
+
 	if [[ ${RUN_CODE_COVERAGE} == 1 ]]; then
 		bash <(curl -s https://codecov.io/bash)
 		wget https://scrutinizer-ci.com/ocular.phar
@@ -27,7 +30,6 @@ if [ $1 == 'after' ]; then
 		if [[ -z "${ARTIFACTS_KEY}" ]]; then
   			echo "Videos were not uploaded. Please run the e2e tests locally to see failures."
 		else
-		    mkdir $HOME/cypress $HOME/cypress/videos
 		    cp -r "$CFW_DIR"/cypress/videos "$HOME"/cypress
   			curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
 			artifacts upload

@@ -43,7 +43,7 @@ class PayPalForWooCommerce extends Base {
 
 	public function run() {
 		// Add PayPal Express Checkout Button
-		add_action( 'wp', array( $this, 'add_paypal_express_to_checkout' ) );
+		add_action( 'wp', array( $this, 'add_paypal_express_to_checkout' ), 1 );
 	}
 
 	public function add_paypal_express_to_checkout() {

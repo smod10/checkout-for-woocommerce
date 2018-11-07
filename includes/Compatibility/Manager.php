@@ -18,6 +18,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\Square;
 
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\AutomateWoo;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicks;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\FacebookWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Jilt;
@@ -34,6 +35,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnalytics;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGoogleAnalyticsIntegration;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 
 /**
@@ -97,6 +99,12 @@ class Manager {
 
 		// WooCommerce Germanized
 		new WooCommerceGermanized();
+
+		// WooCommerce Google Analytics Integration
+		new WooCommerceGoogleAnalyticsIntegration();
+
+		// CraftyClicks
+		new CraftyClicks();
 
 		/**
 		 * Gateways

@@ -2,14 +2,13 @@
 let Fields = require("./models/fields");
 let Messages = require("./models/messages");
 
-// Factories
-let AccountFactory = require("./models/account").AccountFactory;
-let ProductFactory = require("./models/product").ProductFactory;
-
 // Fields
 let generalFields = require("../fixtures/general-fields");
 let accountFields = require("../fixtures/account-fields");
 let customerInfoPrefixes = require("../fixtures/customer-info-prefixes");
+
+// Tabs
+let tabElements = require("../fixtures/tab-elements");
 
 // Messages
 let accountMessages = require("../fixtures/account-messages");
@@ -17,23 +16,21 @@ let accountMessages = require("../fixtures/account-messages");
 // Requests
 let requests = require("../fixtures/requests");
 
-// Data
-let accountData = require("../data/accounts");
-let productData = require("../data/products");
-
 // Created objects
-let fields = new Fields(generalFields, accountFields, {}, customerInfoPrefixes);
+let fields = new Fields(
+	generalFields,
+	accountFields,
+	{},
+	customerInfoPrefixes,
+	tabElements
+);
 let messages = new Messages({}, accountMessages, {});
-let products = ProductFactory.createAll(productData);
-let accounts = AccountFactory.createAll(accountData);
 
 // Used for mocking cy if needed
 let cy = require("./mocks/cy");
 
 class DataScaffolding {
-	constructor(accounts, products, fields, messages, requests) {
-		this.accounts = accounts;
-		this.products = products;
+	constructor(fields, messages, requests) {
 		this.fields = fields;
 		this.messages = messages;
 		this.requests = requests;
@@ -45,6 +42,10 @@ class DataScaffolding {
 		return this[type][Math.floor(Math.random() * size)];
 	}
 
+	getRequest(key) {
+		return this.requests[key];
+	}
+
 	combineRequestWithData(requestKey, data, map) {
 		let combined = this.requests[requestKey];
 
@@ -54,4 +55,4 @@ class DataScaffolding {
 	}
 }
 
-module.exports = new DataScaffolding(accounts, products, fields, messages, requests);
+module.exports = new DataScaffolding(fields, messages, requests);

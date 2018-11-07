@@ -1,8 +1,12 @@
 import dataScaffolding from "../../data_scaffolding/data-scaffolding";
 
-let account = Cypress.env("account");
-
 describe('Login Fields', () => {
+	let fields = dataScaffolding.fields;
+	let messages = dataScaffolding.messages;
+	let account = Cypress.env("account");
+	let accountFields = fields.account;
+	let general = fields.general;
+
     beforeEach(() => {
         cy.add_item_to_cart();
         cy.visit('checkout');
@@ -12,33 +16,43 @@ describe('Login Fields', () => {
 
     	describe('Formatting', () => {
 			it( 'Validates incorrectly formatted email address', function() {
-				cy.get( dataScaffolding.fields.account.email ).type( 'someone' );
-				cy.get( '#cfw-email-wrap .parsley-errors-list').should( 'be.visible' );
+				cy.get( accountFields.email ).type( 'someone' );
+				cy.get( general.emailErrorList).should( 'be.visible' );
 			});
 
 			it( 'Validates correctly formatted email address', function() {
-				cy.get( dataScaffolding.fields.account.email ).type( Cypress.env( "account" ).email );
-				cy.get( '#cfw-email-wrap .parsley-errors-list').should( 'not.be.visible' );
+				cy.get( accountFields.email ).type( Cypress.env( "account" ).email );
+				cy.get( general.emailErrorList).should( 'not.be.visible' );
 			});
 		});
 
     	describe('User Existance', () => {
+    		beforeEach(() => {
+    			// Get the account exists request
+				let accountExistsRequest = dataScaffolding.getRequest("accountExists");
+
+				// Set up the route watcher
+				cy.server();
+				cy.route(accountExistsRequest.method, accountExistsRequest.url).as("accountExists");
+			});
+
 			it('Detects non-existing login email', () => {
-				cy.get( dataScaffolding.fields.account.email ).type( 'fake@fake.com' );
+				cy.get( accountFields.email ).type( 'fake@fake.com' );
 
-				cy.wait(1000);
+				cy.wait('@accountExists');
 
-				cy.get( dataScaffolding.fields.account.password ).should( 'not.be.visible' );
-				cy.get( dataScaffolding.fields.account.loginBtn ).should( 'not.be.visible' );
+				cy.get( accountFields.password ).should( 'not.be.visible' );
+				cy.get( accountFields.loginBtn ).should( 'not.be.visible' );
 			});
 
 			it('Detects existing login email', () => {
-				cy.get( dataScaffolding.fields.account.email ).type( Cypress.env( "account" ).email );
+				// Input the email
+				cy.get( accountFields.email ).type( Cypress.env( "account" ).email );
 
-				cy.wait( 1000 );
+				cy.wait('@accountExists');
 
-				cy.get( dataScaffolding.fields.account.password ).should( 'be.visible' );
-				cy.get( dataScaffolding.fields.account.loginBtn ).should( 'be.visible' );
+				cy.get( accountFields.password ).should( 'be.visible' );
+				cy.get( accountFields.loginBtn ).should( 'be.visible' );
 			});
 		});
 
@@ -47,17 +61,17 @@ describe('Login Fields', () => {
     describe('Login / Logout', () => {
 
 		it( 'Fails on invalid login', function() {
-			cy.get( dataScaffolding.fields.account.email ).type( account.email );
-			cy.get( dataScaffolding.fields.account.password ).type( "fasfsadf" );
-			cy.get( dataScaffolding.fields.account.loginBtn ).click();
-			cy.get( dataScaffolding.fields.general.alertContainer ).should( 'contain', dataScaffolding.messages.account.incorrectPasswordAlertMessage );
+			cy.get( accountFields.email ).type( account.email );
+			cy.get( accountFields.password ).type( "fasfsadf" );
+			cy.get( accountFields.loginBtn ).click();
+			cy.get( general.alertContainer ).should( 'contain', messages.account.incorrectPasswordAlertMessage );
 		});
 
 		it( 'Succeeds on valid login', function() {
-			cy.get( dataScaffolding.fields.account.email ).type( account.email );
-			cy.get( dataScaffolding.fields.account.password ).type( account.password );
-			cy.get( dataScaffolding.fields.account.loginBtn ).click();
-			cy.get( dataScaffolding.fields.account.accountText ).should( 'contain', dataScaffolding.messages.account.onLoginAccountMessage );
+			cy.get( accountFields.email ).type( account.email );
+			cy.get( accountFields.password ).type( account.password );
+			cy.get( accountFields.loginBtn ).click();
+			cy.get( accountFields.accountText ).should( 'contain', messages.account.onLoginAccountMessage );
 
 			// TODO: Add cookie check
 		});

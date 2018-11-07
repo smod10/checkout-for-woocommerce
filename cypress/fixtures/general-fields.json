@@ -1,5 +1,9 @@
 {
   "mainContainer": "#cfw-content",
   "alertContainer": "#cfw-alert-container",
-  "alertMessages": "#cfw-alert-container .message"
+  "alertMessages": "#cfw-alert-container .message",
+  "ctnToShipMethodBtn": "#cfw-shipping-info-action .cfw-primary-btn",
+  "placeOrderBtn": "#place_order",
+  "shipDifBilling": "#shipping_dif_from_billing",
+  "emailErrorList": "#cfw-email-wrap .parsley-errors-list"
 }

@@ -8,7 +8,7 @@
     "production-travis": "cross-env CFW_TRAVIS=1 webpack -p",
     "production-delete-minified": "cross-env CFW_DELETE_MIN=1 webpack -p",
     "watch": "npm run dev -- --watch",
-    "test": "npx cypress run"
+    "test": "node tests/e2e-tests/cypress-runner.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "homepage": "https://bitbucket.org/cgdinc/checkout-for-woocommerce#readme",
   "devDependencies": {
     "autoprefixer": "^9.1.5",
+    "command-line-args": "^5.0.2",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "cypress": "^3.1.0",

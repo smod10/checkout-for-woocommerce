@@ -4,12 +4,14 @@ class Fields {
 	 * @param {object} account
 	 * @param {object} product
 	 * @param {object} customerInfoPrefixes
+	 * @param {object} tabElements
 	 */
-	constructor(general, account, product, customerInfoPrefixes) {
+	constructor(general, account, product, customerInfoPrefixes, tabElements) {
 		this.general = general;
 		this.account = account;
 		this.product = product;
 		this.customerInfoPrefixes = customerInfoPrefixes;
+		this.tabElements = tabElements;
 	}
 
 	/**

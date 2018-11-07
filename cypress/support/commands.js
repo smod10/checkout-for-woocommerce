@@ -32,6 +32,9 @@ let requestKey = "addToCart";
 
 let addToCartRequest = dataScaffolding.combineRequestWithData(requestKey, product, dataMap);
 let fields = dataScaffolding.fields;
+let general = fields.general;
+let accountFields = fields.account;
+let tabs = fields.tabElements;
 
 Cypress.Commands.add("add_item_to_cart", () => cy.request(addToCartRequest));
 
@@ -42,16 +45,20 @@ Cypress.Commands.add("clear_info_fields", (type, ignore) => {
 Cypress.Commands.add("fill_customer_information_tab_and_advance", () => {
     let account = Cypress.env("account");
     let userShippingValues = Cypress.env("shipping").default;
+    let updateCheckoutRequest = dataScaffolding.getRequest("updateCheckout");
+
+	cy.server();
+	cy.route(updateCheckoutRequest.method, updateCheckoutRequest.url).as("updateCheckout");
 
     // Set the email
-    cy.get( '#billing_email' ).then( ($input) => $input.val( account.email ).change());
+    cy.get( accountFields.email ).then( ($input) => $input.val( account.email ).change());
 
     // Map the cypress env customer info details to the customer info field id's
     fields.customerInfoMapMultiple('shipping', userShippingValues, cy);
 
-    cy.get( '#cfw-shipping-info-action .cfw-primary-btn' ).click();
+    cy.get( general.ctnToShipMethodBtn ).click();
 
-    cy.wait(500); // If we don't do this, it tries the tests before the tab is loaded
+    cy.wait("@updateCheckout");
 
-    cy.hash().should( 'eq', '#cfw-shipping-method' );
+	cy.hash().should( 'eq', tabs.shippingMethod );
 } );

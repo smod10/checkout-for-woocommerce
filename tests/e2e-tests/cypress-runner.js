@@ -8,6 +8,7 @@ let retryAmt = 1;
 let specs = [
 	"cypress/integration/customer/**/*",
 	"cypress/integration/general/**/*",
+	"cypress/integration/shipping/**/*",
 	"cypress/integration/payment/billing-fields-spec.js"
 ];
 

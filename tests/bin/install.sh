@@ -137,7 +137,8 @@ install_e2e_site() {
 		WP_SITE_URL="http://localhost:8080"
 		BRANCH=$TRAVIS_BRANCH
 		REPO=$TRAVIS_REPO_SLUG
-		WP_DB_DATA="$HOME/build/$REPO/tests/e2e-tests/data/e2e-db.sql"
+		#WP_DB_DATA="$HOME/build/$REPO/tests/e2e-tests/data/e2e-db.sql"
+		WP_DB_DATA="$HOME/build/$REPO/tests/e2e-tests/data/e2e-db-with-shipping.sql"
 		WORKING_DIR="$PWD"
 
 		if [ "$TRAVIS_PULL_REQUEST_BRANCH" != "" ]; then
@@ -180,7 +181,7 @@ define('SCRIPT_DEBUG', true);
 PHP
 		php wp-cli.phar core install --url="$WP_SITE_URL" --title="Example" --admin_user=admin --admin_password=password --admin_email=info@example.com --path=$WP_CORE_DIR --skip-email
 		php wp-cli.phar db import $WP_DB_DATA
-		php wp-cli.phar search-replace "http://local.wordpress.test" "$WP_SITE_URL"
+		php wp-cli.phar search-replace "http://cfw-travis-site.test" "$WP_SITE_URL"
 		php wp-cli.phar theme install twentytwelve --activate
 		php wp-cli.phar plugin install woocommerce --activate
 		php wp-cli.phar plugin install https://github.com/$REPO/archive/$BRANCH.zip

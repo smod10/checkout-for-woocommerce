@@ -216,15 +216,15 @@ class Admin {
                                 <h2 class="theme-name" id="<?php echo $folder_name; ?>-name"><strong><?php if ( $selected ) _e('Active: '); ?></strong><?php echo $stylesheet_info['Name']; ?></h2>
 
 
-                                <div class="theme-actions">
-                                    <?php if ( ! $selected ): ?>
+                                <?php if ( ! $selected ): ?>
+                                    <div class="theme-actions">
                                         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
                                             <input type="hidden" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('active_template'); ?>" value="<?php echo $folder_name; ?>" />
 	                                        <?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
                                             <?php submit_button( __('Activate', 'checkout-wc'), 'button-secondary', $name = 'submit', $wrap = false); ?>
                                         </form>
-                                    <?php endif; ?>
-                                </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>

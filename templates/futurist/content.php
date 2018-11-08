@@ -425,14 +425,8 @@
                             </div>
                         </div>
 
-                        <?php
-                            ob_start();
-                            do_action( 'woocommerce_review_order_after_order_total' );
-                            $other_totals = ob_get_contents();
-                            ob_end_clean();
-                        ?>
-                        <div class="cfw-other-totals" style="<?php echo ($other_totals == "") ? "display: none" : ""; ?>">
-                            <table><?php echo $other_totals; ?></table>
+                        <div id="cfw-other-totals" class="cfw-other-totals">
+                            <table><?php do_action( 'woocommerce_review_order_after_order_total' ); ?></table>
                         </div>
                     </div>
                 </div>

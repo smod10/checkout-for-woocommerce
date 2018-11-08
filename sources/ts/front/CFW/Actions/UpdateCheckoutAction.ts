@@ -82,6 +82,9 @@ export class UpdateCheckoutAction extends Action {
         let shipping_preview_container = $('#cfw-shipping-details-fields');
         shipping_preview_container.html(`${resp.updated_shipping_preview}`);
 
+        let other_totals_container = $('#cfw-other-totals');
+        other_totals_container.html(`${resp.updated_other_totals}`);
+
         Main.togglePaymentRequired(resp.needs_payment);
 
         Cart.outputValues(main.cart, resp.new_totals);

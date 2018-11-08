@@ -73,6 +73,11 @@ class UpdateCheckoutAction extends Action {
 
 		unset( WC()->session->refresh_totals, WC()->session->reload_checkout );
 
+		ob_start();
+		do_action( 'woocommerce_review_order_after_order_total' );
+		$other_totals = ob_get_clean();
+		$other_totals = "<table>$other_totals</table>";
+
 		$this->out(
 			array(
 				'coupons'                  => $this->prep_coupons(),
@@ -86,6 +91,7 @@ class UpdateCheckoutAction extends Action {
 				'needs_payment'            => WC()->cart->needs_payment(),
 				'updated_ship_methods'     => $this->get_shipping_methods(),
 				'updated_shipping_preview' => cfw_get_shipping_details( WC()->checkout() ),
+				'updated_other_totals'     => $other_totals,
 			)
 		);
 	}

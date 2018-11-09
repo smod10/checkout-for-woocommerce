@@ -17,19 +17,7 @@ class PayPalForWooCommerce extends Base {
 	}
 
 	public function is_available() {
-		if ( ! class_exists( 'WC_Payment_Gateways' ) ) {
-			return false;
-		}
-
-		$gateways = \WC_Payment_Gateways::instance()->payment_gateways();
-
-		if ( isset( $gateways['paypal_express'] ) && class_exists( 'AngellEYE_Gateway_Paypal' ) ) {
-			$this->gateway_instance = $gateways['paypal_express'];
-
-			return true;
-		}
-
-		return false;
+		return class_exists( '\\AngellEYE_Gateway_Paypal' );
 	}
 
 	function typescript_class_and_params( $compatibility ) {
@@ -50,6 +38,15 @@ class PayPalForWooCommerce extends Base {
 		global $wp_filter;
 
 		if ( is_checkout() ) {
+
+			$gateways = \WC_Payment_Gateways::instance()->payment_gateways();
+
+			if ( isset( $gateways['paypal_express'] ) && class_exists( '\\AngellEYE_Gateway_Paypal' ) ) {
+				$this->gateway_instance = $gateways['paypal_express'];
+			} else {
+				return;
+			}
+
 			// Remove "OR" separator
 			remove_all_actions( 'woocommerce_proceed_to_checkout' );
 

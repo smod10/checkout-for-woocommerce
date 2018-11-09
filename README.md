@@ -1,4 +1,7 @@
-# Project Checkout
+# Checkout For Woocommerce
+
+Master Branch: https://travis-ci.org/Objectivco/checkout-for-woocommerce.svg?branch=master
+Develop Branch: https://travis-ci.org/Objectivco/checkout-for-woocommerce.svg?branch=develop
 
 ### Development installation instructions
 

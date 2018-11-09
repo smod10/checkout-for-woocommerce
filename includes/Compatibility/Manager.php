@@ -7,6 +7,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetAIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetCIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Braintree;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\FirstData;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Klarna;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayTrace;
@@ -157,6 +158,9 @@ class Manager {
 
 		// Amazon Pay
 		new AmazonPay();
+
+		// Klarna
+		new Klarna();
 
 		/**
 		 * Misc

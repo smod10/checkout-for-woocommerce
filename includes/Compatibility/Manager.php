@@ -19,6 +19,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\Square;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\AutomateWoo;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicks;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicksAddressAutocomplete;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\FacebookWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Jilt;
@@ -105,6 +106,9 @@ class Manager {
 
 		// CraftyClicks
 		new CraftyClicks();
+
+		// CraftyClicks Address Autocomplete
+		new CraftyClicksAddressAutocomplete();
 
 		/**
 		 * Gateways

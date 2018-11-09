@@ -414,7 +414,7 @@
                             </div>
                         </div>
 
-                        <div class="cfw-other-totals">
+                        <div id="cfw-other-totals" class="cfw-other-totals">
                             <table><?php do_action( 'woocommerce_review_order_after_order_total' ); ?></table>
                         </div>
                     </div>

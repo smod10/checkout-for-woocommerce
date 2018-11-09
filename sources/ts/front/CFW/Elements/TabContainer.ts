@@ -316,9 +316,7 @@ export class TabContainer extends Element {
      *
      */
     setShippingPaymentUpdate(): void {
-        let shipping_method: TabContainerSection = this.tabContainerSectionBy("name", "shipping_method");
-
-        shipping_method.jel.find('#cfw-shipping-method-list input[type="radio"]').each((index, el) => {
+        $('input[name^="shipping_method"][type="radio"]').each((index, el) => {
             $(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
         });
     }
@@ -390,6 +388,11 @@ export class TabContainer extends Element {
 
         let formArr: Array<Object> = checkout_form.serializeArray();
         formArr.forEach((item: any) => formData[item.name] = item.value);
+
+        // Handle shipped subscriptions since they are render outside of the form
+        $('#cfw-other-totals input[name^="shipping_method"][type="radio"]:checked').each((index, el) => {
+            formData[ $(el).attr('name') ] = $(el).val();
+        });
 
         formData["has_full_address"] = has_full_address;
         formData["ship_to_different_address"] = ship_to_different_address;

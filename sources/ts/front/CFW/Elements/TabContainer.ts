@@ -390,7 +390,7 @@ export class TabContainer extends Element {
         formArr.forEach((item: any) => formData[item.name] = item.value);
 
         // Handle shipped subscriptions since they are render outside of the form
-        $('#cfw-other-totals input[name^="shipping_method"][type="radio"]:checked').each((index, el) => {
+        $('#cfw-other-totals input[name^="shipping_method"][type="radio"]:checked, #cfw-other-totals input[name^="shipping_method"][type="hidden"]').each((index, el) => {
             formData[ $(el).attr('name') ] = $(el).val();
         });
 

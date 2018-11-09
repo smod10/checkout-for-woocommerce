@@ -6,9 +6,9 @@ use Objectiv\Plugins\Checkout\Compatibility\Base;
 
 class Klarna extends Base {
 
-	private $klarna = null;
+	protected $klarna = null;
 
-	private $klarna_gateway = null;
+	protected $klarna_gateway = null;
 
 	public function __construct() {
 		parent::__construct();
@@ -17,13 +17,17 @@ class Klarna extends Base {
 	function is_available() {
 		$is_available = false;
 
+		// If the Karna main class exists
 		if(class_exists( '\\Klarna_Checkout_For_WooCommerce' )) {
 			$available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 			$klarna_gateway = $available_gateways["kco"] ?: null;
 
+			// If the gateway is not null
 			if($klarna_gateway) {
+				// Get the gateway availability and set it
 				$is_available = $klarna_gateway->is_available();
 
+				// Save the necessary integration class instances
 				$this->klarna = \Klarna_Checkout_For_WooCommerce::get_instance();
 				$this->klarna_gateway = $klarna_gateway;
 			}
@@ -33,7 +37,40 @@ class Klarna extends Base {
 	}
 
 	function run() {
+		add_filter('cfw_replace_form', '__return_true');
+		add_filter("cfw_payment_gateway_kco_content", '__return_true');
+		add_filter("cfw_payment_gateway_field_html_kco", array($this, 'kco_payment_html'), 10, 1);
+		add_action('cfw_form_action', array($this, 'klarna_template_override'));
+	}
 
+	function kco_payment_html($html) {
+		ob_start();
+		?>
+		<div id="kco-iframe">
+			<?php do_action( 'kco_wc_before_snippet' ); ?>
+			<?php kco_wc_show_snippet(); ?>
+			<?php do_action( 'kco_wc_after_snippet' ); ?>
+		</div>
+		<?php
+		$kco_html = ob_get_contents();
+		ob_end_clean();
+
+		return $kco_html;
+	}
+
+	function klarna_template_override() {
+		// Override template if Klarna Checkout page.
+		remove_filter( 'woocommerce_locate_template', array( \Klarna_Checkout_For_WooCommerce_Templates::get_instance(), 'override_template' ), 10 );
+
+		// Template hooks.
+		add_action( 'cfw_checkout_before_form', 'kco_wc_print_notices' );
+		add_action( 'cfw_checkout_before_form', 'kco_wc_calculate_totals', 1 );
+		add_action( 'cfw_checkout_before_form', 'woocommerce_checkout_login_form', 10 );
+		add_action( 'cfw_checkout_before_form', 'woocommerce_checkout_coupon_form', 20 );
+		add_action( 'cfw_checkout_after_payment_methods_tab', 'kco_wc_show_extra_fields', 10 );
+		add_action( 'cfw_checkout_after_payment_methods_tab', 'kco_wc_show_another_gateway_button', 20 );
+		add_action( 'kco_wc_before_snippet', 'kco_wc_prefill_consent', 10 );
+		add_action( 'kco_wc_after_snippet', 'kco_wc_show_payment_method_field', 10 );
 	}
 
 	public function allowed_styles( $styles ) {
@@ -44,6 +81,7 @@ class Klarna extends Base {
 	}
 
 	function allowed_scripts( $scripts ) {
+		$scripts[] = 'wc-cart';
 		$scripts[] = 'kco';
 		$scripts[] = 'kco_admin';
 		$scripts[] = 'krokedil_event_log';

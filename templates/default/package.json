@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "### Development installation instructions",
   "scripts": {
-    "dev": "webpack --env development",
-    "production": "webpack -p",
-    "watch": "webpack --env development --watch"
+    "dev": "npx webpack --env development",
+    "production": "npx webpack -p",
+    "watch": "npx webpack --env development --watch"
   },
   "devDependencies": {
     "bourbon": "^5.1.0",
     "bourbon-neat": "^2.1.0",
-    "webpack": "^4.20.2",
+    "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2"
   }
 }

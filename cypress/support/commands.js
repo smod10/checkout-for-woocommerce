@@ -26,20 +26,26 @@
 
 import dataScaffolding from "../data_scaffolding/data-scaffolding";
 
-let dataMap = { product_sku: "sku", product_id: "id", quantity: "quantity" };
-let product = Cypress.env("product");
-let requestKey = "addToCart";
-
-let addToCartRequest = dataScaffolding.combineRequestWithData(requestKey, product, dataMap);
 let fields = dataScaffolding.fields;
 let general = fields.general;
 let accountFields = fields.account;
 let tabs = fields.tabElements;
 
-Cypress.Commands.add("add_item_to_cart", () => cy.request(addToCartRequest));
+Cypress.Commands.add("add_item_to_cart", (quantity = 1) => {
+	let dataMap = { product_sku: "sku", product_id: "id", quantity: "quantity" };
+
+	let product = Cypress.env("product");
+	product.quantity = quantity;
+
+	let requestKey = "addToCart";
+
+	let addToCartRequest = dataScaffolding.combineRequestWithData(requestKey, product, dataMap);
+
+	cy.request(addToCartRequest)
+});
 
 Cypress.Commands.add("clear_info_fields", (type, ignore) => {
-    fields.customerInfoMapSingle(type, "", cy, ignore)
+	fields.customerInfoMapSingle(type, "", cy, ignore)
 });
 
 Cypress.Commands.add("fill_customer_information_tab_and_advance", () => {

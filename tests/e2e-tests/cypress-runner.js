@@ -12,11 +12,23 @@ let specs = [
 	"cypress/integration/payment/billing-fields-spec.js"
 ];
 
+let specsToReRun = [];
+
 let config = { spec: specs };
 
 function deleteSuccessVideos(results) {
 	// Loop over each run and if the shouldUploadVideo flag is false, delete the video
-	results.runs.forEach(run => (!run.shouldUploadVideo) ? fs.unlinkSync(run.video) : null);
+	results.runs.forEach(run => {
+		(!run.shouldUploadVideo) ? fs.unlinkSync(run.video) : null;
+
+		run.tests.forEach(test => {
+			if(test.state === "failed") {
+				specsToReRun.push(run.spec.relative);
+			}
+		})
+	});
+
+	config.spec = specsToReRun;
 
 	// Delete empty directories from the videos folders
 	deleteEmpty("cypress/videos/").catch(console.error);
@@ -30,7 +42,7 @@ function deleteSuccessVideos(results) {
 function error(err) {
 	if(testAttempts < retryAmt) {
 		testAttempts++;
-		console.log("Attempting tests one more time");
+		console.log("Attempting failing tests one more time");
 		cypress.run(config).then(deleteSuccessVideos).catch(error);
 	} else {
 		process.exit(1);

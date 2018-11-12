@@ -1,0 +1,32 @@
+{
+  "addToCart": {
+    "method": "POST",
+    "url": "?wc-ajax=add_to_cart",
+    "form": true,
+    "body": {}
+  },
+  "accountExists": {
+    "method": "POST",
+    "url": "?wc-ajax=account_exists",
+    "form": true,
+    "body": {}
+  },
+  "completeOrder": {
+    "method": "POST",
+    "url": "?wc-ajax=complete_order",
+    "form": true,
+    "body": {}
+  },
+  "zipAuto": {
+    "method": "GET",
+    "url": "https://api.zippopotam.us",
+    "form": true,
+    "body:": {}
+  },
+  "updateCheckout": {
+    "method": "POST",
+    "url": "?wc-ajax=update_checkout",
+    "form": true,
+    "body": {}
+  }
+}

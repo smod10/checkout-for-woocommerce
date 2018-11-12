@@ -18,10 +18,11 @@ module.exports = mode => {
 	};
 
 	let delete_min_files = (process.env.CFW_DELETE_MIN !== undefined) ? process.env.CFW_DELETE_MIN : false;
+	let travis_build = (process.env.CFW_TRAVIS !== undefined) ? process.env.CFW_TRAVIS : false;
 
 	if(mode === "development") {
 		return merge(common(sourcesDir), development(mainDir, assetsDir), config);
 	}
 
-	return merge(common(sourcesDir), production(mainDir, assetsDir, process.env.npm_package_version, delete_min_files), config);
+	return merge(common(sourcesDir), production(mainDir, assetsDir, process.env.npm_package_version, delete_min_files, travis_build), config);
 };

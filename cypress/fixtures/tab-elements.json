@@ -1,0 +1,8 @@
+{
+  "easyTabWrap": ".cfw-tabs-initialize",
+  "tabContainer": "#cfw-tab-container",
+  "customerInfo": "#cfw-customer-info",
+  "shippingMethod": "#cfw-shipping-method",
+  "paymentMethod": "#cfw-payment-method",
+  "breadcrumb": "#cfw-breadcrumb"
+}

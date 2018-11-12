@@ -1,19 +1,21 @@
 language: php
 
 addons:
-  chrome: stable
   apt:
     packages:
     - nginx
+  artifacts:
+    paths:
+    - $HOME/cypress/videos
 
 sudo: false
 
 # Test main supported versions of PHP against latest WP.
 php:
-- 5.6
+  - 5.6
 
 env:
-- WP_VERSION=latest WP_MULTISITE=0
+  - WP_VERSION=latest WP_MULTISITE=0
 
 # Additional tests against stable PHP (min recommended version is 5.6) and past supported versions of WP
 # and code coverage report.
@@ -21,7 +23,35 @@ matrix:
   fast_finish: true
   include:
   - php: 5.6
-    env: WP_VERSION=latest WP_MULTISITE=0 RUN_PHPCS=1 RUN_E2E=1
+    env: WP_VERSION=latest WP_MULTISITE=0 RUN_E2E=1
+
+cache:
+  directories:
+  - ~/.npm
+  - ~/.cache/Cypress
+
+before_script:
+  - |
+    # Remove Xdebug for a huge performance increase:
+    if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
+      phpenv config-rm xdebug.ini
+    else
+      echo "xdebug.ini does not exist"
+    fi
+  - phpenv config-add tests/ini/travis-php.ini
+  - nvm install 10.9.0
+  - npm install npm@latest -g
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - bash tests/bin/install.sh woocommerce_test root '' localhost $WP_VERSION
+  - bash tests/bin/travis.sh before
 
 script:
-  - bash mysql --version
+  - bash tests/bin/run-e2e-CI.sh
+
+after_script:
+  - bash tests/bin/travis.sh after
+
+branches:
+  only:
+  - master
+  - develop

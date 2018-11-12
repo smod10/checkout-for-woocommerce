@@ -248,7 +248,7 @@
 
                                 <div class="cfw-payment-method-information-wrap">
                                     <div>
-                                        <span class="cfw-small"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', 'checkout-wc' ); ?></span>
+                                        <span class="cfw-small secure-notice"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', 'checkout-wc' ); ?></span>
                                     </div>
 
                                     <div id="order_review" class="cfw-payment-methods-wrap">

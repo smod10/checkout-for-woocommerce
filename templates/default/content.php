@@ -43,10 +43,7 @@
                 </ul>
 
 	            <?php do_action('cfw_checkout_before_form'); ?>
-                <?php
-                    $foo = false;
-                ?>
-                <?php if($foo): ?>
+
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
                     <div id="order_review" class="woocommerce-checkout-review-order">
                         <!-- Customer Info Panel -->
@@ -335,28 +332,6 @@
 
 	                <?php wp_nonce_field( 'woocommerce-process_checkout', 'woocommerce-process-checkout-nonce' ); ?>
                 </form>
-                <?php else: ?>
-                    <?php
-                    do_action( 'kco_wc_before_checkout_form' );
-                    ?>
-
-                    <form name="checkout" class="checkout woocommerce-checkout">
-                        <div id="kco-wrapper">
-                            <div id="kco-order-review">
-								<?php do_action( 'kco_wc_before_order_review' ); ?>
-								<?php woocommerce_order_review(); ?>
-								<?php do_action( 'kco_wc_after_order_review' ); ?>
-                            </div>
-                            <div id="kco-iframe">
-								<?php do_action( 'kco_wc_before_snippet' ); ?>
-								<?php kco_wc_show_snippet(); ?>
-								<?php do_action( 'kco_wc_after_snippet' ); ?>
-                            </div>
-                        </div>
-                    </form>
-
-					<?php do_action( 'kco_wc_after_checkout_form' ); ?>
-                <?php endif; ?>
 
 	            <?php do_action('cfw_checkout_after_form'); ?>
             </div>

@@ -122,7 +122,7 @@ $gutter: map-get($grid, gutter);
 
   #cfw-logo-container-mobile {
     display: block;
-    width: 90%;
+    width: calc(100% - 40px);
     margin: auto;
   }
 

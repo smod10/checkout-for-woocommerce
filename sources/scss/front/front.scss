@@ -43,7 +43,7 @@ body {
   .logo {
     background: $main-bg;
     width: 100%;
-    max-width: 60%;
+    max-width: 67%;
     display: inline-block;
     height: 4em;
     position: relative;
@@ -74,6 +74,7 @@ body {
 @import "compatibility/woocommerce-hear-about-us";
 @import "compatibility/craftyclicks";
 @import "compatibility/woocommerce-subscriptions";
+@import "compatibility/mailchimp";
 @import "template/form";
 @import "template/header";
 @import "template/content";

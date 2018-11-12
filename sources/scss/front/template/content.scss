@@ -60,6 +60,10 @@ body.checkout-wc #cfw-payment-request-buttons {
   border: 1px solid #eee;
   margin-bottom: 30px;
   padding: 20px;
+
+  p {
+    margin-bottom: 1em;
+  }
 }
 
 .woocommerce-message {
@@ -954,18 +958,26 @@ textarea {
     }
   }
 
-  #cfw-cart-details-review-bar, #cfw-cart-list .cfw-cart-row {
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
-
+  #cfw-cart-list .cfw-cart-row {
     & > div:first-child {
       margin-left: 0;
+      width: 18%;
+    }
+
+    & > div:nth-child(2) {
+      width: 64%;
     }
 
     & > div:last-child {
       margin-right: 0;
+      width: 18%;
     }
+  }
+
+  #cfw-cart-details-review-bar, #cfw-cart-list .cfw-cart-row {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
   }
 
   #cfw-show-cart-details {

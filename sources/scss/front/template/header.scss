@@ -7,7 +7,9 @@
     text-align: center;
   }
 
-  #cfw-logo {
-    display: inline-block;
+  .checkout-wc .cfw-logo {
+    .logo {
+      background-position: center center;
+    }
   }
 }

@@ -37,11 +37,20 @@ class Klarna extends Base {
 	}
 
 	function run() {
-		add_filter('cfw_replace_form', '__return_true');
-		add_filter("cfw_payment_gateway_kco_content", '__return_true');
-		add_filter("cfw_payment_gateway_field_html_kco", array($this, 'kco_payment_html'), 10, 1);
-		add_action('cfw_form_action', array($this, 'klarna_template_override'));
+//		add_filter('cfw_replace_form', '__return_true');
+//		add_filter("cfw_payment_gateway_kco_content", '__return_true');
+//		add_filter("cfw_payment_gateway_field_html_kco", array($this, 'kco_payment_html'), 10, 1);
+//		add_action('cfw_form_action', array($this, 'klarna_template_override'));
+//        add_filter('cfw_load_checkout_template', array($this, 'detect_confirmation_page'), 10, 1);
 	}
+
+	function detect_confirmation_page($load) {
+		if (!empty($_GET['confirm']) && !empty($_GET['kco_wc_order_id'] )) {
+			return false;
+		}
+
+		return $load;
+    }
 
 	function kco_payment_html($html) {
 		ob_start();
@@ -58,19 +67,41 @@ class Klarna extends Base {
 		return $kco_html;
 	}
 
+	/**
+	 * Override checkout form template if Klarna Checkout is the selected payment method.
+	 *
+	 * @param string $template      Template.
+	 * @param string $template_name Template name.
+	 * @param string $template_path Template path.
+	 *
+	 * @return string
+	 */
+	public function override_template( $template, $template_name, $template_path ) {
+
+		// Fallback Klarna Order Received, used when WooCommerce checkout form submission fails.
+		if ( 'checkout/thankyou.php' === $template_name ) {
+			if ( isset( $_GET['kco_wc'] ) && 'true' === $_GET['kco_wc'] ) {
+				$template = KCO_WC_PLUGIN_PATH . '/templates/klarna-checkout-order-received.php';
+			}
+		}
+
+		return $template;
+	}
+
 	function klarna_template_override() {
 		// Override template if Klarna Checkout page.
 		remove_filter( 'woocommerce_locate_template', array( \Klarna_Checkout_For_WooCommerce_Templates::get_instance(), 'override_template' ), 10 );
+		add_filter('woocommerce_locate_template', array($this, 'override_template'));
 
 		// Template hooks.
-		add_action( 'cfw_checkout_before_form', 'kco_wc_print_notices' );
-		add_action( 'cfw_checkout_before_form', 'kco_wc_calculate_totals', 1 );
-		add_action( 'cfw_checkout_before_form', 'woocommerce_checkout_login_form', 10 );
-		add_action( 'cfw_checkout_before_form', 'woocommerce_checkout_coupon_form', 20 );
-		add_action( 'cfw_checkout_after_payment_methods_tab', 'kco_wc_show_extra_fields', 10 );
-		add_action( 'cfw_checkout_after_payment_methods_tab', 'kco_wc_show_another_gateway_button', 20 );
-		add_action( 'kco_wc_before_snippet', 'kco_wc_prefill_consent', 10 );
-		add_action( 'kco_wc_after_snippet', 'kco_wc_show_payment_method_field', 10 );
+//		add_action( 'cfw_checkout_before_form', 'kco_wc_print_notices' );
+//		add_action( 'cfw_checkout_before_form', 'kco_wc_calculate_totals', 1 );
+//		add_action( 'cfw_checkout_before_form', 'woocommerce_checkout_login_form', 10 );
+//		add_action( 'cfw_checkout_before_form', 'woocommerce_checkout_coupon_form', 20 );
+//		add_action( 'cfw_checkout_after_payment_methods_tab', 'kco_wc_show_extra_fields', 10 );
+//		add_action( 'cfw_checkout_after_payment_methods_tab', 'kco_wc_show_another_gateway_button', 20 );
+//		add_action( 'kco_wc_before_snippet', 'kco_wc_prefill_consent', 10 );
+//		add_action( 'kco_wc_after_snippet', 'kco_wc_show_payment_method_field', 10 );
 	}
 
 	public function allowed_styles( $styles ) {

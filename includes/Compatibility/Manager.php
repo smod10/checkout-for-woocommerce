@@ -18,6 +18,8 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\Square;
 
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\AutomateWoo;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutFieldEditor;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutManager;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicks;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\FacebookWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
@@ -105,6 +107,12 @@ class Manager {
 
 		// CraftyClicks
 		new CraftyClicks();
+
+		// WooCommerce Checkout Manager
+		new CheckoutManager();
+
+		// Woo Checkout Field Editor Pro
+		new CheckoutFieldEditor();
 
 		/**
 		 * Gateways

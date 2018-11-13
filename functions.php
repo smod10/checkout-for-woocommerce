@@ -391,7 +391,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                             <?php echo $gateway->get_icon(); ?>
                         </span>
                     </div>
-					<?php if ( $gateway->has_fields() || $gateway->get_description() ) : ?>
+					<?php if ( apply_filters("cfw_payment_gateway_{$gateway->id}_content", $gateway->has_fields() || $gateway->get_description() ) ) : ?>
                         <div class="payment_box_wrap cfw-radio-reveal-content-wrap" <?php if ( ! $gateway->chosen ) : ?>style="display:none;"<?php endif; ?>>
                             <div class="payment_box payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-content">
 								<?php
@@ -411,7 +411,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                                 $field_html = str_ireplace('•••• •••• •••• ••••', 'Card Number', $field_html);
                                 $field_html = str_ireplace('&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;', 'Card Number', $field_html);
 
-								echo apply_filters('cfw_payment_gateway_field_html_' . $gateway->id, $field_html);
+								echo apply_filters("cfw_payment_gateway_field_html_{$gateway->id}", $field_html);
 								?>
                             </div>
                         </div>

@@ -1,0 +1,37 @@
+#klarna-pay-button {
+  background: #eb6f93;
+  border: none;
+  width: 140px;
+  max-height: 35px;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+
+  &:hover {
+    background: lighten(#eb6f93, 8%);
+  }
+
+  span {
+    color: #fff;
+    font-size: 0.75em;
+  }
+
+  svg {
+    max-width: 50px;
+    height: 100%;
+    width: 100%;
+    display: block;
+    margin-left: 6px;
+
+    path, rect {
+      fill: #ffffff;
+    }
+  }
+}

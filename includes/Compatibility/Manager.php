@@ -6,6 +6,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\AmazonPay;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetAIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetCIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Braintree;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Cielo;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\FirstData;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Klarna;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
@@ -169,6 +170,9 @@ class Manager {
 
 		// Klarna
 		new Klarna();
+
+		// Cielo
+		new Cielo();
 
 		/**
 		 * Misc

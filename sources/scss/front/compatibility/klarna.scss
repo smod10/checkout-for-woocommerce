@@ -1,9 +1,11 @@
+$klarna-btn-color: #e4eeed;
+$klarna-fill-color: #000000;
+
 #klarna-pay-button {
-  background: #eb6f93;
+  background: $klarna-btn-color;
   border: none;
   width: 140px;
-  max-height: 35px;
-  height: 100%;
+  height: 35px;
   box-sizing: border-box;
   border-radius: 4px;
   padding: 8px;
@@ -15,11 +17,11 @@
   outline: none;
 
   &:hover {
-    background: lighten(#eb6f93, 8%);
+    background: darken($klarna-btn-color, 8%);
   }
 
   span {
-    color: #fff;
+    color: $klarna-fill-color;
     font-size: 0.75em;
   }
 
@@ -31,7 +33,7 @@
     margin-left: 6px;
 
     path, rect {
-      fill: #ffffff;
+      fill: $klarna-fill-color;
     }
   }
 }

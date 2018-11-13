@@ -56,19 +56,25 @@ export class AccountExistsAction extends Action {
 			// If account exists slide down the password field, uncheck the register box, and hide the container for the checkbox
 			if (resp.account_exists) {
 				login_slide.slideDown(300);
-				register_user_checkbox.checked = false;
+
+                if ( typeof register_user_checkbox != "undefined" && register_user_checkbox.is(':checkbox') ) {
+                    register_user_checkbox.checked = false;
+                    $(register_user_checkbox).trigger('change');
+                }
+
 				register_container.css("display", "none");
 
 				AccountExistsAction.checkBox = true;
-
-				$(register_user_checkbox).trigger('change');
 				// If account does not exist, reverse
 			} else {
 				login_slide.slideUp(300);
 
 				if (AccountExistsAction.checkBox) {
-					register_user_checkbox.checked = true;
-					$(register_user_checkbox).trigger('change');
+				    if ( typeof register_user_checkbox != "undefined" && register_user_checkbox.is(':checkbox') ) {
+                        register_user_checkbox.checked = true;
+                        $(register_user_checkbox).trigger('change');
+                    }
+
 					AccountExistsAction.checkBox = false;
 				}
 

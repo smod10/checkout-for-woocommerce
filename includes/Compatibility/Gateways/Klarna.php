@@ -48,8 +48,15 @@ class Klarna extends Base {
 
 	function run() {
         add_filter('cfw_load_checkout_template', array($this, 'detect_confirmation_page'), 10, 1);
-		add_action('cfw_checkout_loaded_pre_head', array($this, 'klarna_template_hooks'));
+        add_action('cfw_checkout_loaded_pre_head', array($this, 'klarna_pay_clicked'), 9);
+		add_action('cfw_checkout_loaded_pre_head', array($this, 'klarna_template_hooks'), 10);
 	}
+
+	function klarna_pay_clicked() {
+		if($_GET["payment_method"] == "klarna") {
+			WC()->session->set("chosen_payment_method", "kco");
+		}
+    }
 
 	function klarna_template_hooks() {
 		if(WC()->session->get( 'chosen_payment_method' ) == 'kco') {

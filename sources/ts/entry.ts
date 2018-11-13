@@ -5,6 +5,8 @@ import { TabContainerSection }              from "./front/CFW/Elements/TabContai
 import { Cart }                             from "./front/CFW/Elements/Cart";
 import { CompatibilityClasses }             from "./compatibility-classes";
 import { CompatibilityClassOptions }        from "./front/CFW/Types/Types";
+import { Compatibility } 					from "./front/CFW/Compatibility/Compatibility";
+import { CompatibilityFactory } 			from "./front/CFW/Factories/CompatibilityFactory";
 
 /**
  * This is our main kick off file. We used to do this in a require block in the Redirect file but since we've moved to
@@ -60,20 +62,16 @@ w.addEventListener("cfw-initialize", eventData => {
 	main.setup();
 }, { once: true });
 
+w.addEventListener("cfw-main-before-setup", eventData => {
+
+});
+
 w.addEventListener("cfw-main-after-setup", eventData => {
 	let main: Main = eventData.detail.main;
-	let CompatibilityClasses = (<any>window).CompatibilityClasses;
+	let compatibilityClasses: Array<Compatibility> = (<any>window).CompatibilityClasses;
 	let compatibilityClassOptions: Array<CompatibilityClassOptions> = main.compatibility;
 
-	compatibilityClassOptions.forEach( compClassOps => {
-
-		compClassOps.params.unshift(main);
-
-		if(CompatibilityClasses[compClassOps.class] !== undefined && CompatibilityClasses[compClassOps.class] !== null) {
-			let classDef = CompatibilityClasses[compClassOps.class];
-			main.createdCompatibilityClasses.push(new classDef(compClassOps.params, compClassOps.fireLoad));
-		}
-	});
+	main.createdCompatibilityClasses = CompatibilityFactory.createAll(main, compatibilityClassOptions, compatibilityClasses);
 
 	// Error observer messages to ignore
 	window.dispatchEvent(new CustomEvent("cfw-payment-error-observer-ignore-list"));

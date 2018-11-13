@@ -42,6 +42,7 @@ class Klarna extends Base {
 
 		$compatibility[] = [
 			'class'  => 'Klarna',
+            'event' => 'before-setup',
 			'params' => [
                 [
 					"initEasyTabs" => WC()->session->get( 'chosen_payment_method' ) != 'kco'

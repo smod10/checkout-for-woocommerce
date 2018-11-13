@@ -62,10 +62,10 @@ export class Main {
 	private _compatibility: any;
 
 	/**
-	 * @type {Compatibility[]}
+	 * @type {Array<Compatibility>}
 	 * @private
 	 */
-	private _createdCompatibilityClasses: Compatibility[];
+	private _createdCompatibilityClasses: Array<Compatibility>;
 
 	/**
 	 * @type {ParsleyService}
@@ -473,16 +473,16 @@ export class Main {
 	}
 
 	/**
-	 * @return {Compatibility[]}
+	 * @return {Array<Compatibility>}
 	 */
-	get createdCompatibilityClasses(): Compatibility[] {
+	get createdCompatibilityClasses(): Array<Compatibility> {
 		return this._createdCompatibilityClasses;
 	}
 
 	/**
-	 * @param {Compatibility[]} value
+	 * @param {Array<Compatibility>} value
 	 */
-	set createdCompatibilityClasses(value: Compatibility[]) {
+	set createdCompatibilityClasses(value: Array<Compatibility>) {
 		this._createdCompatibilityClasses = value;
 	}
 

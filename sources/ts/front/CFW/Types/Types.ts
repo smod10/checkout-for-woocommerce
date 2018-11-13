@@ -89,6 +89,7 @@ export type StripeCard = {
 export type CompatibilityClassOptions = {
 	class: string,
 	params: any,
+	event: string,
 	fireLoad: boolean
 }
 

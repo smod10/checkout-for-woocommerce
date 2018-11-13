@@ -87,6 +87,7 @@ class Template extends Tracked {
 		 * $woo
 		 * $checkout
 		 */
+		extract( $this->parameters['template'], EXTR_SKIP );
 		extract( $this->parameters['global'], EXTR_SKIP );
 
 		// Output the user level template variables into a template anon object

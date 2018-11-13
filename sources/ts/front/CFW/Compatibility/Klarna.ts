@@ -15,7 +15,7 @@ export class Klarna extends Compatibility {
 	load(main: Main, params: any): void {
 		let initEasyTabs = params.initEasyTabs;
 
-		console.log("Klarna Compat Loaded");
+		console.log("Klarna Compat Loaded", initEasyTabs);
 
 		window.addEventListener("cfw-initialize-easyTabs", (detail) => {
 			console.log(detail);

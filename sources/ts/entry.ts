@@ -62,16 +62,17 @@ w.addEventListener("cfw-initialize", eventData => {
 	main.setup();
 }, { once: true });
 
-w.addEventListener("cfw-main-before-setup", eventData => {
-
+w.addEventListener("cfw-main-before-setup", ({ detail }) => {
+	console.log(detail);
 });
 
-w.addEventListener("cfw-main-after-setup", eventData => {
-	let main: Main = eventData.detail.main;
-	let compatibilityClasses: Array<Compatibility> = (<any>window).CompatibilityClasses;
-	let compatibilityClassOptions: Array<CompatibilityClassOptions> = main.compatibility;
+w.addEventListener("cfw-main-after-setup", ({ detail }) => {
+	let main: Main = detail.main;
+	let compatibilityOptions: Array<CompatibilityClassOptions> = main
+		.compatibility
+		.filter(compOps => !compOps.event || compOps.event === 'after-setup');
 
-	main.createdCompatibilityClasses = CompatibilityFactory.createAll(main, compatibilityClassOptions, compatibilityClasses);
+	main.createdCompatibilityClasses = CompatibilityFactory.createAll(main, compatibilityOptions, (<any>window).CompatibilityClasses);
 
 	// Error observer messages to ignore
 	window.dispatchEvent(new CustomEvent("cfw-payment-error-observer-ignore-list"));

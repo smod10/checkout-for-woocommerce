@@ -59,6 +59,8 @@ class Redirect {
 			$global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
 			$global_template_parameters["css_classes"]  = self::get_css_classes();
 
+			do_action('cfw_checkout_loaded_pre_head');
+
 			// Setup default cfw_wp_head actions
 			add_action('cfw_wp_head', 'wp_enqueue_scripts', 0, 0);
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_meta_tags'), 10, 4);

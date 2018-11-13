@@ -32,6 +32,9 @@ class PixelYourSitePro extends Base {
 
 						// If the events manager exists (important)
 						if ( $pys->getEventsManager() ) {
+							// Add missing PYS Data
+							$pys->getEventsManager()->setupEventsParams();
+
 							// Output the data
 							$pys->getEventsManager()->outputData();
 						}

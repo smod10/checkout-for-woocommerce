@@ -76,14 +76,8 @@
                                         </span>
 
                                         <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
-                                            <?php esc_html_e('Log in.', 'checkout-wc'); ?>
+                                            <?php esc_html_e('Log in for a faster checkout experience.', 'checkout-wc'); ?>
                                         </a>
-
-                                        <?php if( WC()->checkout->is_registration_required() ): ?>
-                                            <span>
-                                                <?php esc_html_e('If you do not have an account, the information provided here will be used to create an account on checkout.', 'checkout-wc'); ?>
-                                            </span>
-                                        <?php endif; ?>
                                     </div>
 
                                     <div id="" class="cfw-input-container">
@@ -114,14 +108,12 @@
                                         </div>
 
                                         <div class="cfw-input-wrap cfw-check-input">
-
                                             <?php if( ! WC()->checkout->is_registration_required() ): ?>
                                                 <input type="checkbox" id="createaccount" class="garlic-auto-save" name="createaccount" />
+                                                <label class="cfw-small" for="createaccount"><?php printf( apply_filters('cfw_create_account_checkbox_label', esc_html__('Create %s shopping account.', 'checkout-wc') ), get_bloginfo('name') ); ?></label>
                                             <?php else: ?>
-                                                <input type="checkbox" id="createaccount" class="garlic-auto-save" name="createaccount" disabled="disabled" checked />
+	                                            <span class="cfw-small"><?php esc_html_e('If you do not have an account, we will create one for you.', 'checkout-wc'); ?></span>
                                             <?php endif; ?>
-
-                                            <label class="cfw-small" for="createaccount"><?php printf( apply_filters('cfw_create_account_checkbox_label', esc_html__('Create %s shopping account.', 'checkout-wc') ), get_bloginfo('name') ); ?></label>
                                         </div>
                                     </div>
 
@@ -324,9 +316,7 @@
                                     <?php endif; ?>
                                 </div>
                                 <div>
-                                    <a id="place_order" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate">
-                                        <?php echo apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ); ?>
-                                    </a>
+	                                <?php echo apply_filters( 'woocommerce_order_button_html', '<button type="submit" class="cfw-primary-btn cfw-next-tab validate" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr( $order_button_text ) . '" data-value="' . apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ) . '">' . apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ) . '</button>' ); // @codingStandardsIgnoreLine ?>
                                 </div>
                             </div>
 

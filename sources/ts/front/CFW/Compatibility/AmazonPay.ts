@@ -72,6 +72,7 @@ export class AmazonPay extends Compatibility {
 				$("#cfw-shipping-same-billing").hide();
 				$("#cfw-billing-methods > .cfw-module-title").hide();
 				$("#cfw-shipping-info > .cfw-module-title").hide();
+				$("#cfw-payment-method > .cfw-module-title").hide();
 
 				console.log("Fired amazon pay class actions");
 

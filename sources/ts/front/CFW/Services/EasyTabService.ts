@@ -28,6 +28,12 @@ export class EasyTabService {
      */
     private _easyTabsWrap: any;
 
+	/**
+     * @type {boolean}
+     * @private
+	 */
+	private static _initEasyTabs: boolean = true;
+
     /**
      * @param easyTabsWrap
      */
@@ -64,12 +70,14 @@ export class EasyTabService {
      *
      */
     initialize() {
-        this.easyTabsWrap.easytabs({
-            defaultTab: "li.tab#default-tab",
-            tabs: "ul > li.tab"
-        });
+        if(EasyTabService.initEasyTabs) {
+			this.easyTabsWrap.easytabs({
+				defaultTab: "li.tab#default-tab",
+				tabs: "ul > li.tab"
+			});
 
-        this.easyTabsWrap.removeClass("cfw-tabs-not-initialized");
+			this.easyTabsWrap.removeClass("cfw-tabs-not-initialized");
+		}
     }
 
     /**
@@ -109,4 +117,12 @@ export class EasyTabService {
     set easyTabsWrap(value: any) {
         this._easyTabsWrap = value;
     }
+
+	static get initEasyTabs(): boolean {
+		return this._initEasyTabs;
+	}
+
+	static set initEasyTabs(value: boolean) {
+		this._initEasyTabs = value;
+	}
 }

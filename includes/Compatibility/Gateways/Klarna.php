@@ -30,6 +30,8 @@ class Klarna extends Base {
 				// Save the necessary integration class instances
 				$this->klarna = \Klarna_Checkout_For_WooCommerce::get_instance();
 				$this->klarna_gateway = $klarna_gateway;
+
+				add_action('cfw_checkout_loaded_pre_head', array($this, 'klarna_pay_clicked'), 9);
 			}
 		}
 
@@ -40,7 +42,11 @@ class Klarna extends Base {
 
 		$compatibility[] = [
 			'class'  => 'Klarna',
-			'params' => [],
+			'params' => [
+                [
+					"initEasyTabs" => WC()->session->get( 'chosen_payment_method' ) != 'kco'
+                ]
+            ],
 		];
 
 		return $compatibility;
@@ -48,7 +54,6 @@ class Klarna extends Base {
 
 	function run() {
         add_filter('cfw_load_checkout_template', array($this, 'detect_confirmation_page'), 10, 1);
-        add_action('cfw_checkout_loaded_pre_head', array($this, 'klarna_pay_clicked'), 9);
 		add_action('cfw_checkout_loaded_pre_head', array($this, 'klarna_template_hooks'), 10);
 	}
 

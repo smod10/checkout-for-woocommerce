@@ -1,4 +1,5 @@
-import { Compatibility } from "./Compatibility";
+import { Compatibility } 			from "./Compatibility";
+import { Main } 					from "../Main";
 
 export class Klarna extends Compatibility {
 
@@ -11,7 +12,13 @@ export class Klarna extends Compatibility {
 		super(params, load);
 	}
 
-	load(): void {
+	load(main: Main, params: any): void {
+		let initEasyTabs = params.initEasyTabs;
+
+		window.addEventListener("cfw-initialize-easyTabs", (detail) => {
+			console.log(detail);
+		});
+
 		$(document).on("ready", () => {
 			let pay_btn = $(this.klarna_button_id);
 			pay_btn.on('click', (evt) => {

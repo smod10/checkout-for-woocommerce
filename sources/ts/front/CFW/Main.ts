@@ -187,6 +187,9 @@ export class Main {
 		// Before setup event
 		window.dispatchEvent(new CustomEvent("cfw-main-before-setup", { detail: { main: this } }));
 
+		window.dispatchEvent(new CustomEvent("cfw-initialize-easyTabs", { detail: { easyTabs: EasyTabService } } ));
+		console.log("EasyTab init dispatched");
+
 		// Initialize the easy tabs
 		this.easyTabService.initialize();
 

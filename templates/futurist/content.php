@@ -81,12 +81,6 @@
                                         <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
 		                                    <?php esc_html_e('Log in for a faster checkout experience.', 'checkout-wc'); ?>
                                         </a>
-
-	                                    <?php if( WC()->checkout->is_registration_required() ): ?>
-                                            <span>
-                                                <?php esc_html_e('If you do not have an account, we will create one for you.', 'checkout-wc'); ?>
-                                            </span>
-	                                    <?php endif; ?>
                                     </div>
 
                                     <div id="" class="cfw-input-container">
@@ -117,14 +111,12 @@
                                         </div>
 
                                         <div class="cfw-input-wrap cfw-check-input">
-
-                                            <?php if( ! WC()->checkout->is_registration_required() ): ?>
+		                                    <?php if( ! WC()->checkout->is_registration_required() ): ?>
                                                 <input type="checkbox" id="createaccount" class="garlic-auto-save" name="createaccount" />
-                                            <?php else: ?>
-                                                <input type="checkbox" id="createaccount" class="garlic-auto-save" name="createaccount" disabled="disabled" checked />
-                                            <?php endif; ?>
-
-                                            <label class="cfw-small" for="createaccount"><?php printf( apply_filters('cfw_create_account_checkbox_label', esc_html__('Create %s shopping account.', 'checkout-wc') ), get_bloginfo('name') ); ?></label>
+                                                <label class="cfw-small" for="createaccount"><?php printf( apply_filters('cfw_create_account_checkbox_label', esc_html__('Create %s shopping account.', 'checkout-wc') ), get_bloginfo('name') ); ?></label>
+		                                    <?php else: ?>
+                                                <span class="cfw-small"><?php esc_html_e('If you do not have an account, we will create one for you.', 'checkout-wc'); ?></span>
+		                                    <?php endif; ?>
                                         </div>
                                     </div>
 

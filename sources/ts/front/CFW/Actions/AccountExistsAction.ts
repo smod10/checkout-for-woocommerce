@@ -49,7 +49,8 @@ export class AccountExistsAction extends Action {
     @ResponsePrep
     public response(resp: AccountExistsResponse): void {
         let login_slide: any = $("#cfw-login-slide");
-        let register_user_checkbox: any = $("#createaccount")[0];
+        let $create_account = $("#createaccount");
+        let register_user_checkbox: any = ($create_account.length > 0) ? $create_account : null;
         let register_container: any = $("#cfw-login-details .cfw-check-input");
 
         if(!login_slide.hasClass("stay-open")) {
@@ -57,7 +58,7 @@ export class AccountExistsAction extends Action {
 			if (resp.account_exists) {
 				login_slide.slideDown(300);
 
-                if ( typeof register_user_checkbox != "undefined" && register_user_checkbox.is(':checkbox') ) {
+                if ( register_user_checkbox && register_user_checkbox.is(':checkbox') ) {
                     register_user_checkbox.checked = false;
                     $(register_user_checkbox).trigger('change');
                 }
@@ -70,7 +71,7 @@ export class AccountExistsAction extends Action {
 				login_slide.slideUp(300);
 
 				if (AccountExistsAction.checkBox) {
-				    if ( typeof register_user_checkbox != "undefined" && register_user_checkbox.is(':checkbox') ) {
+				    if ( register_user_checkbox && register_user_checkbox.is(':checkbox') ) {
                         register_user_checkbox.checked = true;
                         $(register_user_checkbox).trigger('change');
                     }

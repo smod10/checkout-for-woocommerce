@@ -38,13 +38,15 @@ class Klarna extends Base {
 
 	function run() {
         add_filter('cfw_load_checkout_template', array($this, 'detect_confirmation_page'), 10, 1);
-        add_filter('cfw_replace_form', '__return_true');
-        add_action('cfw_checkout_form', array($this, 'klarna_checkout_form'));
+
+        if(WC()->session->get( 'chosen_payment_method' ) == 'kco') {
+			add_filter( 'cfw_replace_form', '__return_true' );
+			add_action( 'cfw_checkout_form', array( $this, 'klarna_checkout_form' ) );
+		}
 	}
 
 	function klarna_checkout_form() {
 		include wc_locate_template('checkout/form-checkout.php');
-
 	}
 
 	function detect_confirmation_page($load) {

@@ -28,7 +28,7 @@ class Form {
 	public function __construct() {
 		$this->phone_enabled = apply_filters( 'cfw_enable_phone_fields', false );
 
-		add_filter( 'woocommerce_default_address_fields', array( $this, 'get_custom_default_address_fields' ) );
+		add_filter( 'woocommerce_default_address_fields', array( $this, 'get_custom_default_address_fields' ), 100000 ); // seriously, run this last
 		add_filter( 'woocommerce_get_country_locale', array($this, 'prevent_postcode_sort_change') );
 
 		if ( $this->phone_enabled ) {

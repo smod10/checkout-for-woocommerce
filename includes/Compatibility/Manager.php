@@ -6,7 +6,9 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\AmazonPay;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetAIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetCIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Braintree;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Cielo;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\FirstData;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Klarna;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayTrace;
@@ -18,6 +20,8 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\Square;
 
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\AutomateWoo;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutFieldEditor;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutManager;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicks;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\FacebookWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
@@ -106,6 +110,12 @@ class Manager {
 		// CraftyClicks
 		new CraftyClicks();
 
+		// WooCommerce Checkout Manager
+		new CheckoutManager();
+
+		// Woo Checkout Field Editor Pro
+		new CheckoutFieldEditor();
+
 		/**
 		 * Gateways
 		 */
@@ -157,6 +167,12 @@ class Manager {
 
 		// Amazon Pay
 		new AmazonPay();
+
+		// Klarna
+		new Klarna();
+
+		// Cielo
+		new Cielo();
 
 		/**
 		 * Misc

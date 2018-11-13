@@ -44,6 +44,7 @@
 
 	            <?php do_action('cfw_checkout_before_form'); ?>
 
+                <?php if(!apply_filters('cfw_replace_form', false)): ?>
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
                     <div id="order_review" class="woocommerce-checkout-review-order">
                         <!-- Customer Info Panel -->
@@ -68,14 +69,8 @@
                                         </span>
 
                                         <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
-                                            <?php esc_html_e('Log in.', 'checkout-wc'); ?>
+		                                    <?php esc_html_e('Log in for a faster checkout experience.', 'checkout-wc'); ?>
                                         </a>
-
-                                        <?php if( WC()->checkout->is_registration_required() ): ?>
-                                            <span>
-                                                <?php esc_html_e('If you do not have an account, the information provided here will be used to create an account on checkout.', 'checkout-wc'); ?>
-                                            </span>
-                                        <?php endif; ?>
                                     </div>
 
                                     <div id="" class="cfw-input-container create-account">
@@ -106,14 +101,12 @@
 										<?php do_action('cfw_checkout_after_email'); ?>
 
                                         <div class="cfw-input-wrap cfw-check-input">
-
-                                            <?php if( ! WC()->checkout->is_registration_required() ): ?>
+		                                    <?php if( ! WC()->checkout->is_registration_required() ): ?>
                                                 <input type="checkbox" id="createaccount" class="garlic-auto-save" name="createaccount" />
-                                            <?php else: ?>
-                                                <input type="checkbox" id="createaccount" class="garlic-auto-save" name="createaccount" disabled="disabled" checked />
-                                            <?php endif; ?>
-
-                                            <label class="cfw-small" for="createaccount"><?php printf( apply_filters('cfw_create_account_checkbox_label', esc_html__('Create %s shopping account.', 'checkout-wc') ), get_bloginfo('name') ); ?></label>
+                                                <label class="cfw-small" for="createaccount"><?php printf( apply_filters('cfw_create_account_checkbox_label', esc_html__('Create %s shopping account.', 'checkout-wc') ), get_bloginfo('name') ); ?></label>
+		                                    <?php else: ?>
+                                                <span class="cfw-small"><?php esc_html_e('If you do not have an account, we will create one for you.', 'checkout-wc'); ?></span>
+		                                    <?php endif; ?>
                                         </div>
                                     </div>
 
@@ -320,9 +313,7 @@
                                     <?php endif; ?>
                                 </div>
                                 <div>
-                                    <a id="place_order" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate">
-		                                <?php echo apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ); ?>
-                                    </a>
+	                                <?php echo apply_filters( 'woocommerce_order_button_html', '<button type="submit" class="cfw-primary-btn cfw-next-tab validate" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr( $order_button_text ) . '" data-value="' . apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ) . '">' . apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ) . '</button>' ); // @codingStandardsIgnoreLine ?>
                                 </div>
                             </div>
 
@@ -332,6 +323,9 @@
 
 	                <?php wp_nonce_field( 'woocommerce-process_checkout', 'woocommerce-process-checkout-nonce' ); ?>
                 </form>
+                <?php else: ?>
+                    <?php do_action('cfw_checkout_form'); ?>
+                <?php endif; ?>
 
 	            <?php do_action('cfw_checkout_after_form'); ?>
             </div>

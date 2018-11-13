@@ -36,9 +36,18 @@ class Klarna extends Base {
 		return $is_available;
 	}
 
+	function typescript_class_and_params( $compatibility ) {
+
+		$compatibility[] = [
+			'class'  => 'Klarna',
+			'params' => [],
+		];
+
+		return $compatibility;
+	}
+
 	function run() {
         add_filter('cfw_load_checkout_template', array($this, 'detect_confirmation_page'), 10, 1);
-		add_filter('cfw_show_gateway_kco', '__return_false');
 		add_action('cfw_checkout_loaded_pre_head', array($this, 'klarna_template_hooks'));
 	}
 
@@ -46,11 +55,27 @@ class Klarna extends Base {
 		if(WC()->session->get( 'chosen_payment_method' ) == 'kco') {
 			add_filter( 'cfw_replace_form', '__return_true' );
 			add_action( 'cfw_checkout_form', array( $this, 'klarna_checkout_form' ) );
+		} else {
+			add_filter('cfw_show_gateway_kco', '__return_false');
+			add_action('cfw_checkout_before_customer_info_tab', array( $this, 'add_klarna_separator' ));
+			add_action('cfw_payment_request_buttons', array($this, 'add_klarna_pay_button'));
 		}
 	}
 
 	function klarna_checkout_form() {
 		include wc_locate_template('checkout/form-checkout.php');
+	}
+
+	function add_klarna_pay_button() {
+		?>
+		<button id="klarna-pay-button" class="klarna-pay-button">
+			Klarna
+		</button>
+		<?php
+	}
+
+	function add_klarna_separator() {
+		$this->add_separator();
 	}
 
 	function detect_confirmation_page($load) {

@@ -38,6 +38,7 @@ class Klarna extends Base {
 
 	function run() {
         add_filter('cfw_load_checkout_template', array($this, 'detect_confirmation_page'), 10, 1);
+		add_filter('cfw_show_gateway_kco', '__return_false');
 		add_action('cfw_checkout_loaded_pre_head', array($this, 'klarna_template_hooks'));
 	}
 

@@ -44,7 +44,7 @@
 
 	            <?php do_action('cfw_checkout_before_form'); ?>
 
-                <?php if(!apply_filters('cfw_replace_form', false)): ?>
+                <?php if( ! apply_filters('cfw_replace_form', false) ): ?>
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
                     <div id="order_review" class="woocommerce-checkout-review-order">
                         <!-- Customer Info Panel -->

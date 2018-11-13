@@ -79,14 +79,14 @@
                                         </span>
 
                                         <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
-                                            <?php esc_html_e('Log in.', 'checkout-wc'); ?>
+		                                    <?php esc_html_e('Log in for a faster checkout experience.', 'checkout-wc'); ?>
                                         </a>
 
-                                        <?php if( WC()->checkout->is_registration_required() ): ?>
+	                                    <?php if( WC()->checkout->is_registration_required() ): ?>
                                             <span>
-                                                <?php esc_html_e('If you do not have an account, the information provided here will be used to create an account on checkout.', 'checkout-wc'); ?>
+                                                <?php esc_html_e('If you do not have an account, we will create one for you.', 'checkout-wc'); ?>
                                             </span>
-                                        <?php endif; ?>
+	                                    <?php endif; ?>
                                     </div>
 
                                     <div id="" class="cfw-input-container">

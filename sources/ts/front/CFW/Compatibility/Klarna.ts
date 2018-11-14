@@ -5,7 +5,7 @@ export class Klarna extends Compatibility {
 
 	protected klarna_button_id = "#klarna-pay-button";
 
-	protected is_klarna_selected = false;
+	protected show_easy_tabs = false;
 
 	/**
 	 * @param params
@@ -17,10 +17,14 @@ export class Klarna extends Compatibility {
 
 	load(main: Main, params: any): void {
 
-		this.is_klarna_selected = params.showEasyTabs;
+		this.show_easy_tabs = params.showEasyTabs;
 
 		// Do not initialize easy tabs service
-		main.easyTabService.isDisplayed = params.showEasyTabs;
+		main.easyTabService.isDisplayed = this.show_easy_tabs;
+
+		if(!this.show_easy_tabs) {
+			this.hideWooCouponNotification();
+		}
 
 		$(document).on("ready", () => {
 			let pay_btn = $(this.klarna_button_id);
@@ -33,6 +37,7 @@ export class Klarna extends Compatibility {
 	}
 
 	hideWooCouponNotification() {
-		$(".woocommerce-form-coupon-toggle").hide();
+		$(".woocommerce-form-coupon-toggle").remove();
+		$(".checkout_coupon.woocommerce-form-coupon").remove();
 	}
 }

@@ -31,7 +31,7 @@ export class AmazonPay extends Compatibility {
 
 		if(getParams[errorKey] !== undefined) {
 			let alertInfo: AlertInfo = {
-				type: "AccPassRequiredField",
+				type: "error",
 				message: $(".woocommerce-error").html(),
 				cssClass: "cfw-alert-danger"
 			};
@@ -73,8 +73,6 @@ export class AmazonPay extends Compatibility {
 				$("#cfw-billing-methods > .cfw-module-title").hide();
 				$("#cfw-shipping-info > .cfw-module-title").hide();
 				$("#cfw-payment-method > .cfw-module-title").hide();
-
-				console.log("Fired amazon pay class actions");
 
 				easyTabsWrap.bind('easytabs:after', (event, clicked, target) => this.amazonRefresh());
 

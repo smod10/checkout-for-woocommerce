@@ -4,7 +4,6 @@ import { TabContainerBreadcrumb }           from "./front/CFW/Elements/TabContai
 import { TabContainerSection }              from "./front/CFW/Elements/TabContainerSection";
 import { Cart }                             from "./front/CFW/Elements/Cart";
 import { CompatibilityClasses }             from "./compatibility-classes";
-import { CompatibilityClassOptions }        from "./front/CFW/Types/Types";
 
 /**
  * This is our main kick off file. We used to do this in a require block in the Redirect file but since we've moved to
@@ -59,25 +58,3 @@ w.addEventListener("cfw-initialize", eventData => {
 	let main = new Main( checkoutFormEl, easyTabsWrapEl, alertContainerEl, tabContainer, data.ajaxInfo, cart, data.settings, data.compatibility );
 	main.setup();
 }, { once: true });
-
-w.addEventListener("cfw-main-after-setup", eventData => {
-	let main: Main = eventData.detail.main;
-	let CompatibilityClasses = (<any>window).CompatibilityClasses;
-	let compatibilityClassOptions: Array<CompatibilityClassOptions> = main.compatibility;
-
-	compatibilityClassOptions.forEach( compClassOps => {
-
-		compClassOps.params.unshift(main);
-
-		if(CompatibilityClasses[compClassOps.class] !== undefined && CompatibilityClasses[compClassOps.class] !== null) {
-			let classDef = CompatibilityClasses[compClassOps.class];
-			main.createdCompatibilityClasses.push(new classDef(compClassOps.params, compClassOps.fireLoad));
-		}
-	});
-
-	// Error observer messages to ignore
-	window.dispatchEvent(new CustomEvent("cfw-payment-error-observer-ignore-list"));
-
-	// Setup the errorObserver
-	main.errorObserverWatch();
-});

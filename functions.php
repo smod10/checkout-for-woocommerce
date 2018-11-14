@@ -379,7 +379,10 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		if ( ! empty( $available_gateways ) ) {
 			$count = 0;
 			foreach ( $available_gateways as $gateway ) {
+
+			    if(apply_filters("cfw_show_gateway_{$gateway->id}", true)):
 				?>
+
                 <li class="wc_payment_method payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-li">
                     <div class="payment_method_title_wrap cfw-radio-reveal-title-wrap">
                         <label class="payment_method_label cfw-radio-reveal-label" for="payment_method_<?php echo $gateway->id; ?>">
@@ -417,7 +420,10 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                         </div>
 					<?php endif; ?>
                 </li>
-				<?php
+
+                <?php
+                endif;
+
 				$count++;
 			}
 		} else {

@@ -1,16 +1,18 @@
 /// <reference path="Definitions/ArrayFind.d.ts" />
 
 import { TabContainer }							from "./Elements/TabContainer";
-import { AjaxInfo }								from "./Types/Types";
+import { AjaxInfo } 							from "./Types/Types";
 import { Cart }									from "./Elements/Cart";
 import { TabContainerSection }					from "./Elements/TabContainerSection";
 import { ValidationService }					from "./Services/ValidationService";
 import { EasyTabService }						from "./Services/EasyTabService";
 import { ParsleyService }						from "./Services/ParsleyService";
 import { LocalizationService }					from "./Services/LocalizationService";
-import { Compatibility }						from "./Compatibility/Compatibility";
 import { Alert, AlertInfo } 					from "./Elements/Alert";
 import { CompleteOrderAction } 					from "./Actions/CompleteOrderAction";
+import { Compatibility }						from "./Compatibility/Compatibility";
+import { CompatibilityClassOptions }        	from "./Types/Types";
+import { CompatibilityFactory } 				from "./Factories/CompatibilityFactory";
 
 declare let $: any;
 
@@ -62,10 +64,10 @@ export class Main {
 	private _compatibility: any;
 
 	/**
-	 * @type {Compatibility[]}
+	 * @type {Array<Compatibility>}
 	 * @private
 	 */
-	private _createdCompatibilityClasses: Compatibility[];
+	private _createdCompatibilityClasses: Array<Compatibility>;
 
 	/**
 	 * @type {ParsleyService}
@@ -155,28 +157,72 @@ export class Main {
 		this.validationService = new ValidationService(easyTabsWrap);
 		this.localizationService = new LocalizationService();
 
+		// Setup events and event listeners
+		this.eventSetup();
+	}
+
+	/**
+	 * Handles event setup and registration of listeners
+	 */
+	eventSetup(): void {
+		this.overlayEvents();
+		this.compatibilityEvents();
+		this.observerEvents();
+	};
+
+	/**
+	 * Overlay event setup
+	 */
+	overlayEvents(): void {
 		// Handle Stripe gateway UI blocking function
 		// Otherwise we throw errors
 		// Also discard our overlay when the modal is closed on desktop and mobile
-		$.fn.block = function (item) {
+		$.fn.block = function () {
 			window.dispatchEvent(new CustomEvent("cfw-block-event"));
 			Main.addOverlay();
 		};
-		$.fn.unblock = function (item) {
+		$.fn.unblock = function () {
 			window.dispatchEvent(new CustomEvent("cfw-un-block-event"));
 			Main.removeOverlay();
 		};
 
-		$.fn.blockUI = function (item) {
+		$.fn.blockUI = function () {
 			window.dispatchEvent(new CustomEvent("cfw-block-event"));
 			Main.addOverlay();
 		};
-		$.fn.unblockUI = function (item) {
+		$.fn.unblockUI = function () {
 			window.dispatchEvent(new CustomEvent("cfw-un-block-event"));
 			Main.removeOverlay();
 		};
 	}
 
+	/**
+	 * Event setup relating to the registration and creation of compatibility classes
+	 */
+	compatibilityEvents(): void {
+		// Access to window without the compiler yelling / having to cast every time
+		let w: any = window;
+
+		// Compatibility Class Creation
+		let beforeFilter = ops => ops.event && ops.event === 'before-setup';
+		let afterFilter = ops => !ops.event || ops.event === 'after-setup';
+
+		w.addEventListener("cfw-main-before-setup", ({ detail }) => CompatibilityFactory.filterAndCreate(detail.main, beforeFilter));
+		w.addEventListener("cfw-main-after-setup", ({ detail }) => CompatibilityFactory.filterAndCreate(detail.main, afterFilter));
+	}
+
+	/**
+	 * Event setup relating to observers
+	 */
+	observerEvents() {
+		(<any>window).addEventListener("cfw-main-after-setup", ({ detail }) => {
+			// Error observer messages to ignore
+			window.dispatchEvent(new CustomEvent("cfw-payment-error-observer-ignore-list"));
+
+			// Setup the errorObserver
+			detail.main.errorObserverWatch();
+		});
+	}
 
 	/**
 	 * Sets up the tab container by running easy tabs, setting up animation listeners, and setting up events and on load
@@ -188,7 +234,7 @@ export class Main {
 		window.dispatchEvent(new CustomEvent("cfw-main-before-setup", { detail: { main: this } }));
 
 		// Initialize the easy tabs
-		this.easyTabService.initialize();
+		this.easyTabService.initialize(this.tabContainer.tabContainerBreadcrumb);
 
 		// Setup animation listeners
 		this.setupAnimationListeners();
@@ -279,7 +325,7 @@ export class Main {
 
 					if ($errorNode) {
 						let alertInfo: AlertInfo = {
-							type: "CFWSubmitError",
+							type: "error",
 							message: $errorNode,
 							cssClass: "cfw-alert-danger"
 						};
@@ -470,16 +516,16 @@ export class Main {
 	}
 
 	/**
-	 * @return {Compatibility[]}
+	 * @return {Array<Compatibility>}
 	 */
-	get createdCompatibilityClasses(): Compatibility[] {
+	get createdCompatibilityClasses(): Array<Compatibility> {
 		return this._createdCompatibilityClasses;
 	}
 
 	/**
-	 * @param {Compatibility[]} value
+	 * @param {Array<Compatibility>} value
 	 */
-	set createdCompatibilityClasses(value: Compatibility[]) {
+	set createdCompatibilityClasses(value: Array<Compatibility>) {
 		this._createdCompatibilityClasses = value;
 	}
 

@@ -169,8 +169,7 @@ class Manager {
 		new AmazonPay();
 
 		// Klarna
-		// Disable until it's ready
-		//new Klarna();
+		new Klarna();
 
 		// Cielo
 		new Cielo();

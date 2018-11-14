@@ -1,7 +1,7 @@
 import { Main }                             from "../Main";
 import { TabContainerSection }              from "../Elements/TabContainerSection";
 import { TabContainer }                     from "../Elements/TabContainer";
-import {Alert} from "../Elements/Alert";
+import { TabContainerBreadcrumb } 			from "../Elements/TabContainerBreadcrumb";
 
 /**
  * EzTab Enum
@@ -27,6 +27,12 @@ export class EasyTabService {
      * @private
      */
     private _easyTabsWrap: any;
+
+	/**
+     * @type {boolean}
+     * @private
+	 */
+	private _isDisplayed: boolean = true;
 
     /**
      * @param easyTabsWrap
@@ -63,13 +69,19 @@ export class EasyTabService {
     /**
      *
      */
-    initialize() {
-        this.easyTabsWrap.easytabs({
-            defaultTab: "li.tab#default-tab",
-            tabs: "ul > li.tab"
-        });
+    initialize(breadcrumb: TabContainerBreadcrumb) {
+        if(this.isDisplayed) {
+			this.easyTabsWrap.easytabs({
+				defaultTab: "li.tab#default-tab",
+				tabs: "ul > li.tab"
+			});
 
-        this.easyTabsWrap.removeClass("cfw-tabs-not-initialized");
+			this.easyTabsWrap.removeClass("cfw-tabs-not-initialized");
+
+			breadcrumb.show();
+		} else {
+        	breadcrumb.hide();
+		}
     }
 
     /**
@@ -102,11 +114,31 @@ export class EasyTabService {
     }
 
 
-    get easyTabsWrap(): any {
+	/**
+	 * @return {any}
+	 */
+	get easyTabsWrap(): any {
         return this._easyTabsWrap;
     }
 
-    set easyTabsWrap(value: any) {
+	/**
+	 * @param {any} value
+	 */
+	set easyTabsWrap(value: any) {
         this._easyTabsWrap = value;
     }
+
+	/**
+	 * @return {boolean}
+	 */
+	get isDisplayed(): boolean {
+		return this._isDisplayed;
+	}
+
+	/**
+	 * @param {any} value
+	 */
+	set isDisplayed(value: boolean) {
+		this._isDisplayed = value;
+	}
 }

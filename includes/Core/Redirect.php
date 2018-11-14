@@ -166,7 +166,7 @@ class Redirect {
 				},
 				compatibility: <?php echo json_encode(apply_filters('cfw_typescript_compatibility_classes_and_params', [])); ?>,
 				settings: {
-					isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
+					isRegistrationRequired: <?php echo WC()->checkout()->is_registration_required() ? "true" : "false"; ?>,
 					user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
 					is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>,
 					default_address_fields: <?php echo $default_fields; ?>

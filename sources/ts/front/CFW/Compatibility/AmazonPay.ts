@@ -86,8 +86,8 @@ export class AmazonPay extends Compatibility {
 					}
 				});
 			}
-		}catch(error) {
-			console.log(error);
+		} catch( error ) {
+			console.log( error );
 		}
 	}
 

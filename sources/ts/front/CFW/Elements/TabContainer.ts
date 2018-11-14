@@ -16,6 +16,7 @@ import { CompleteOrderAction }              from "../Actions/CompleteOrderAction
 
 declare let wc_stripe_params: any;
 declare let $: any;
+declare let woocommerce_params: any;
 
 /**
  *
@@ -65,21 +66,23 @@ export class TabContainer extends Element {
      *
      */
     setAccountCheckListener() {
-        let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
-        let email_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
-        let ajax_info = Main.instance.ajaxInfo;
+        if ( woocommerce_params.enable_checkout_login_reminder == 1 ) {
+            let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
+            let email_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
+            let ajax_info = Main.instance.ajaxInfo;
 
-        if(email_input_wrap) {
-            let email_input: any = email_input_wrap.holder.jel;
+            if ( email_input_wrap ) {
+                let email_input: any = email_input_wrap.holder.jel;
 
-            let handler = () => new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
+                let handler = () => new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
 
-            // Add check to keyup event
-            email_input.on("keyup", handler);
-            email_input.on("change", handler);
+                // Add check to keyup event
+                email_input.on("keyup", handler);
+                email_input.on("change", handler);
 
-            // Handles page onload use case
-            new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
+                // Handles page onload use case
+                new AccountExistsAction("account_exists", ajax_info, email_input.val(), this.jel).load();
+            }
         }
     }
 

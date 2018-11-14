@@ -122,3 +122,41 @@ body.checkout-wc.woocommerce {
     }
   }
 }
+
+// Klarna General Mobile Styles
+@mixin klarna-mobile-view() {
+  #kco-order-review {
+    margin-bottom: 50px;
+    float: none;
+    width: 100%;
+    padding-right: 0;
+    box-sizing: border-box;
+  }
+
+  #kco-iframe {
+    float: none;
+    width: 100%;
+    padding-left: 0;
+    box-sizing: border-box;
+  }
+}
+
+@mixin klarna-mobile-button-view() {
+  #klarna-checkout-select-other {
+    display: inline-block;
+  }
+}
+
+// Other Theme Mobile Styles
+@media(max-width: 1100px) {
+  body.checkout-wc {
+    @include klarna-mobile-view();
+  }
+}
+
+// Other Theme Button Mobile Styles
+@media(max-width: 1150px) {
+  body.checkout-wc {
+    @include klarna-mobile-button-view();
+  }
+}

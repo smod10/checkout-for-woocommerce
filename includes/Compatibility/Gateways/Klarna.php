@@ -39,13 +39,12 @@ class Klarna extends Base {
 	}
 
 	function typescript_class_and_params( $compatibility ) {
-
 		$compatibility[] = [
 			'class'  => 'Klarna',
             'event' => 'before-setup',
 			'params' => [
                 [
-					"initEasyTabs" => WC()->session->get( 'chosen_payment_method' ) != 'kco'
+					"showEasyTabs" => WC()->session->get( 'chosen_payment_method' ) != 'kco'
                 ]
             ],
 		];

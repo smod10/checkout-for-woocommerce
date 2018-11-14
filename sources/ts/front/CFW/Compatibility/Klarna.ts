@@ -13,13 +13,8 @@ export class Klarna extends Compatibility {
 	}
 
 	load(main: Main, params: any): void {
-		let initEasyTabs = params.initEasyTabs;
-
-		console.log("Klarna Compat Loaded", initEasyTabs);
-
-		window.addEventListener("cfw-initialize-easyTabs", (detail) => {
-			console.log(detail);
-		});
+		// Do not initialize easy tabs service
+		main.easyTabService.isDisplayed = params.showEasyTabs;
 
 		$(document).on("ready", () => {
 			let pay_btn = $(this.klarna_button_id);

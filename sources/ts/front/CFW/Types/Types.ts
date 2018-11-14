@@ -89,9 +89,11 @@ export type StripeCard = {
 export type CompatibilityClassOptions = {
 	class: string,
 	params: any,
-	event: string,
+	event: CompatibilityClassOptionsEvent,
 	fireLoad: boolean
 }
+
+export type CompatibilityClassOptionsEvent = "before-setup" | "after-setup";
 
 export type StripeNoDataResponse = {
 	error: {type: string, message: string}

@@ -12,4 +12,18 @@ export class TabContainerBreadcrumb extends Element {
     constructor(jel: any) {
         super(jel);
     }
+
+	/**
+     * Hides the breadcrumb
+	 */
+	hide(): void {
+        this.jel.hide();
+    }
+
+	/**
+     * Shows the breadcrumb
+	 */
+	show(): void {
+        this.jel.show();
+    }
 }

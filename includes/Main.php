@@ -327,11 +327,6 @@ class Main extends Singleton {
 	 * @access private
 	 */
 	private function enable_dev_mode() {
-		// Enable Whoops
-		//      $whoops = new Run();
-		//      $whoops->pushHandler(new PrettyPageHandler());
-		//      $whoops->register();
-
 		// Enable Kint
 		\Kint::$enabled_mode = true;
 	}
@@ -519,6 +514,10 @@ class Main extends Singleton {
 
 			// Initiate form
 			$this->loader->add_action( 'init', array($this, 'init_hooks') );
+
+			if ( $this->get_settings_manager()->get_setting('enable_phone_fields') == 'yes' ) {
+				add_filter('cfw_enable_phone_fields', '__return_true', 1);
+			}
 		}
 
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
@@ -611,6 +610,7 @@ class Main extends Singleton {
 
 		// Init settings
 		$main->get_settings_manager()->add_setting( 'enable', 'no' );
+		$main->get_settings_manager()->add_setting( 'enable_phone_fields', 'no' );
 		$main->get_settings_manager()->add_setting( 'active_template', 'default' );
 		$main->get_settings_manager()->add_setting( 'settings_version', '200' );
 

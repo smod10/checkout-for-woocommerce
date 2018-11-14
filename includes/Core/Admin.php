@@ -145,6 +145,17 @@ class Admin {
 
                     <tr>
                         <th scope="row" valign="top">
+                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable_phone_fields'); ?>"><?php _e('Show Phone Fields', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+                            <input type="hidden" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable_phone_fields'); ?>" value="no" />
+                            <label><input type="checkbox" name="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable_phone_fields'); ?>" id="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('enable_phone_fields'); ?>" value="yes" <?php if ( $this->plugin_instance->get_settings_manager()->get_setting('enable_phone_fields') == "yes" ) echo "checked"; ?> /> <?php _e('Enable billing and shipping phone fields', 'checkout-wc'); ?></label>
+                            <p><span class="description"><?php _e('Enable or disable billing and shipping phone fields as required fields. (Default: Disabled)', 'checkout-wc'); ?></span></p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" valign="top">
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts'); ?>"><?php _e('Header Scripts', 'checkout-wc'); ?></label>
                         </th>
                         <td>

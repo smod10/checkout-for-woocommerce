@@ -82,6 +82,56 @@ body.checkout-wc.woocommerce {
     border-collapse: separate;
     border-radius: 5px;
 
+    tr:not(.woocommerce-shipping-totals) {
+      display: none !important;
+    }
+
+    tr.woocommerce-shipping-totals {
+      display: block;
+
+      &.shipping th { border-bottom: 1px solid rgba(0, 0, 0, .1) !important; }
+
+      td, th {
+        display: block;
+        border: none !important;
+
+        &[data-title="Shipping"] {
+          padding: 10px !important;
+        }
+
+        #shipping_method {
+          border: none;
+
+          .cfw-shipping-methods-list {
+            margin: 0 !important;
+            border: none;
+          }
+
+          li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+
+            &:last-child { margin-bottom: 0; }
+
+            label {
+              line-height: normal;
+              border-radius: 0;
+              border: none;
+              padding: 0;
+              width: 100% !important;
+            }
+            input {
+              margin-right: 6px;
+              margin-bottom: 0;
+              font-size: 100%;
+              line-height: 1.15;
+            }
+          }
+        }
+      }
+    }
+
     .quantity .qty {
       width: 3.631em;
       text-align: center;

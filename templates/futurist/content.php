@@ -55,6 +55,7 @@
 
                 <?php do_action('cfw_checkout_before_form'); ?>
 
+				<?php if( ! apply_filters('cfw_replace_form', false) ): ?>
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
                     <div id="order_review" class="woocommerce-checkout-review-order">
                         <!-- Customer Info Panel -->
@@ -329,6 +330,9 @@
 
 	                <?php wp_nonce_field( 'woocommerce-process_checkout', 'woocommerce-process-checkout-nonce' ); ?>
                 </form>
+				<?php else: ?>
+					<?php do_action('cfw_checkout_form'); ?>
+				<?php endif; ?>
 
 	            <?php do_action('cfw_checkout_after_form'); ?>
             </div>

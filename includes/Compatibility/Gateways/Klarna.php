@@ -66,7 +66,7 @@ class Klarna extends Base {
 	}
 
 	function is_klarna_payment_selected() {
-		return WC()->session->get( 'chosen_payment_method' ) == $this->klarna_id;
+		return WC()->session->get( 'chosen_payment_method' ) == $this->klarna_id && $_GET['payment_method'] == "klarna";
 	}
 
 	function klarna_template_hooks() {

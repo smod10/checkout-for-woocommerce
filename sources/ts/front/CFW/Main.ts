@@ -325,7 +325,7 @@ export class Main {
 
 					if ($errorNode) {
 						let alertInfo: AlertInfo = {
-							type: "CFWSubmitError",
+							type: "error",
 							message: $errorNode,
 							cssClass: "cfw-alert-danger"
 						};

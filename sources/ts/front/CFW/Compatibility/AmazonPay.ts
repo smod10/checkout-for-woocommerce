@@ -31,7 +31,7 @@ export class AmazonPay extends Compatibility {
 
 		if(getParams[errorKey] !== undefined) {
 			let alertInfo: AlertInfo = {
-				type: "AccPassRequiredField",
+				type: "error",
 				message: $(".woocommerce-error").html(),
 				cssClass: "cfw-alert-danger"
 			};

@@ -70,7 +70,7 @@ export class CompleteOrderAction extends Action {
 
         	if(resp.messages !== "") {
 				let alertInfo: AlertInfo = {
-					type: "AccPassRequiredField",
+					type: "error",
 					message: resp.messages,
 					cssClass: "cfw-alert-danger"
 				};

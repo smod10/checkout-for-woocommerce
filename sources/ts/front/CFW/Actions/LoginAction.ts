@@ -47,7 +47,7 @@ export class LoginAction extends Action {
             location.reload();
         } else {
             let alertInfo: AlertInfo = {
-                type: "LoginFailBadAccInfo",
+                type: "warning",
                 message: resp.message,
                 cssClass: "cfw-alert-danger"
             };

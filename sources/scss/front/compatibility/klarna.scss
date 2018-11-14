@@ -37,3 +37,88 @@ $klarna-fill-color: #000000;
     }
   }
 }
+
+body.checkout-wc.woocommerce {
+  .woocommerce-form-coupon-toggle { display: none; }
+
+  #kco-wrapper { padding: 0; }
+}
+
+#kco-order-review {
+  thead, tfoot, tbody, tr, th, td {
+    border: 0;
+    font-family: inherit;
+    font-size: 100%;
+    font-style: inherit;
+    font-weight: inherit;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+    vertical-align: baseline;
+  }
+
+  table {
+    border-spacing: 0;
+  }
+
+  table, th, td {
+    border: 1px solid rgba(51, 51, 51, 0.1);
+  }
+
+  th {
+    border-width: 0 1px 1px 0;
+  }
+
+  td {
+    border-width: 0 1px 1px 0;
+  }
+
+  .shop_table.woocommerce-checkout-review-order-table {
+    font-size: 0.9em;
+    border: 1px solid rgba(0, 0, 0, .1);
+    margin: 0 -1px 24px 0;
+    text-align: left;
+    width: 100%;
+    border-collapse: separate;
+    border-radius: 5px;
+
+    .quantity .qty {
+      width: 3.631em;
+      text-align: center;
+    }
+
+    .product-name {
+      width: auto;
+    }
+
+    #shipping_method {
+      list-style: none outside;
+      margin: 0;
+      padding: 0;
+    }
+
+    td {
+      border-top: 1px solid rgba(0,0,0,.1);
+      padding: 9px 12px;
+      vertical-align: middle;
+      line-height: 1.5em;
+    }
+
+    th {
+      font-weight: 700;
+      padding: 9px 12px;
+      line-height: 1.5em;
+    }
+
+    tfoot {
+      td {
+        font-weight: 700;
+        border-top: 1px solid rgba(0,0,0,.1);
+      }
+      th {
+        font-weight: 700;
+        border-top: 1px solid rgba(0,0,0,.1);
+      }
+    }
+  }
+}

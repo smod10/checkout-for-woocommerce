@@ -1,3 +1,4 @@
+import { CompatibilityFactory } from "./front/CFW/Factories/CompatibilityFactory";
 import { AmazonPay } from "./front/CFW/Compatibility/AmazonPay";
 import { Braintree } from "./front/CFW/Compatibility/Braintree";
 import { Klarna } from "./front/CFW/Compatibility/Klarna";
@@ -5,6 +6,7 @@ import { PayPalForWooCommerce } from "./front/CFW/Compatibility/PayPalForWooComm
 
 export let CompatibilityClasses: any = {};
 
+CompatibilityClasses.CompatibilityFactory = CompatibilityFactory;
 CompatibilityClasses.AmazonPay = AmazonPay;
 CompatibilityClasses.Braintree = Braintree;
 CompatibilityClasses.Klarna = Klarna;

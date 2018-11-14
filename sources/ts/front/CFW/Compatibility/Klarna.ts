@@ -4,6 +4,9 @@ import { Main } 					from "../Main";
 export class Klarna extends Compatibility {
 
 	protected klarna_button_id = "#klarna-pay-button";
+
+	protected is_klarna_selected = false;
+
 	/**
 	 * @param params
 	 * @param load
@@ -13,6 +16,9 @@ export class Klarna extends Compatibility {
 	}
 
 	load(main: Main, params: any): void {
+
+		this.is_klarna_selected = params.showEasyTabs;
+
 		// Do not initialize easy tabs service
 		main.easyTabService.isDisplayed = params.showEasyTabs;
 
@@ -24,5 +30,9 @@ export class Klarna extends Compatibility {
 				window.location.href = "?payment_method=klarna"
 			})
 		})
+	}
+
+	hideWooCouponNotification() {
+		$(".woocommerce-form-coupon-toggle").hide();
 	}
 }

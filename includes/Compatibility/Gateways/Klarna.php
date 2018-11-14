@@ -10,6 +10,8 @@ class Klarna extends Base {
 
 	protected $klarna_gateway = null;
 
+	protected $klarna_id = "kco";
+
 	public function __construct() {
 		parent::__construct();
 	}
@@ -20,7 +22,7 @@ class Klarna extends Base {
 		// If the Karna main class exists
 		if(class_exists( '\\Klarna_Checkout_For_WooCommerce' )) {
 			$available_gateways = WC()->payment_gateways->get_available_payment_gateways();
-			$klarna_gateway = $available_gateways["kco"] ?: null;
+			$klarna_gateway = $available_gateways[$this->klarna_id] ?: null;
 
 			// If the gateway is not null
 			if($klarna_gateway) {
@@ -44,7 +46,7 @@ class Klarna extends Base {
             'event' => 'before-setup',
 			'params' => [
                 [
-					"showEasyTabs" => WC()->session->get( 'chosen_payment_method' ) != 'kco'
+					"showEasyTabs" => !$this->is_klarna_payment_selected()
                 ]
             ],
 		];
@@ -59,12 +61,16 @@ class Klarna extends Base {
 
 	function klarna_pay_clicked() {
 		if($_GET["payment_method"] == "klarna") {
-			WC()->session->set("chosen_payment_method", "kco");
+			WC()->session->set("chosen_payment_method", $this->klarna_id);
 		}
-    }
+	}
+
+	function is_klarna_payment_selected() {
+		return WC()->session->get( 'chosen_payment_method' ) == $this->klarna_id;
+	}
 
 	function klarna_template_hooks() {
-		if(WC()->session->get( 'chosen_payment_method' ) == 'kco') {
+		if($this->is_klarna_payment_selected()) {
 			add_filter( 'cfw_replace_form', '__return_true' );
 			add_action( 'cfw_checkout_form', array( $this, 'klarna_checkout_form' ) );
 		} else {

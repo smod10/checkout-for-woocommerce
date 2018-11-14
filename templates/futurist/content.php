@@ -319,7 +319,9 @@
                                     <?php endif; ?>
                                 </div>
                                 <div>
-	                                <?php echo apply_filters( 'woocommerce_order_button_html', '<button type="submit" class="cfw-primary-btn cfw-next-tab validate" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr( $order_button_text ) . '" data-value="' . apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ) . '">' . apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ) . '</button>' ); // @codingStandardsIgnoreLine ?>
+                                    <a id="place_order" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate">
+			                            <?php echo apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ); ?>
+                                    </a>
                                 </div>
                             </div>
 

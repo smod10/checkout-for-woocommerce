@@ -71,7 +71,7 @@ export class ApplyCouponAction extends Action {
 
         if(resp.message.error) {
             alertInfo = {
-                type: "error",
+                type: "warning",
                 message: resp.message.error[0],
                 cssClass: "cfw-alert-danger"
             };

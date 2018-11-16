@@ -2,6 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility;
 
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\AfterPay;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AmazonPay;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetAIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetCIM;
@@ -173,6 +174,9 @@ class Manager {
 
 		// Cielo
 		new Cielo();
+
+		// AfterPay
+		new AfterPay();
 
 		/**
 		 * Misc

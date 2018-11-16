@@ -1,7 +1,11 @@
 import { Element }              from "./Element";
 import { Main }                 from "../Main";
 
-export type AlertInfo = { type: string, message: any, cssClass: string };
+export type AlertInfo = {
+    type: "error" | "warning" | "success",
+    message: any,
+    cssClass: string
+};
 
 /**
  *
@@ -36,7 +40,10 @@ export class Alert extends Element {
      *
      */
     addAlert(): void {
-        $( document.body ).trigger( 'checkout_error' );
+        // If error, trigger checkout_error event
+        if(this.alertInfo.type === "error") {
+			$(document.body).trigger('checkout_error');
+		}
 
         if(Alert.previousClass) {
             this.jel.removeClass(Alert.previousClass);

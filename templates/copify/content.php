@@ -52,6 +52,7 @@
 
 	            <?php do_action('cfw_checkout_before_form'); ?>
 
+				<?php if( ! apply_filters('cfw_replace_form', false) ): ?>
                 <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
                     <div id="order_review" class="woocommerce-checkout-review-order">
                         <!-- Customer Info Panel -->
@@ -70,15 +71,17 @@
 
                                 <?php if( ! is_user_logged_in() ): ?>
 
-                                    <div class="cfw-have-acc-text cfw-small">
-                                        <span>
-                                            <?php esc_html_e('Already have an account with us?', 'checkout-wc'); ?>
-                                        </span>
+	                                <?php if ( 'yes' === get_option( 'woocommerce_enable_checkout_login_reminder' ) ): ?>
+                                        <div class="cfw-have-acc-text cfw-small">
+                                            <span>
+                                                <?php esc_html_e('Already have an account with us?', 'checkout-wc'); ?>
+                                            </span>
 
-                                        <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
-                                            <?php esc_html_e('Log in for a faster checkout experience.', 'checkout-wc'); ?>
-                                        </a>
-                                    </div>
+                                            <a id="cfw-ci-login" class="cfw-link" href="#cfw-customer-info">
+                                                <?php esc_html_e('Log in for a faster checkout experience.', 'checkout-wc'); ?>
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
 
                                     <div id="" class="cfw-input-container">
 
@@ -98,7 +101,7 @@
 
                                             <div class="cfw-input-wrap cfw-button-input">
                                                 <input type="button" name="cfw-login-btn" id="cfw-login-btn" value="<?php esc_attr_e('Login', 'checkout-wc'); ?>" />
-                                                <?php if( ! WC()->checkout->is_registration_required() ): ?>
+                                                <?php if( ! WC()->checkout()->is_registration_required() ): ?>
                                                     <span class="login-optional cfw-small">
                                                         <?php esc_html_e('Login is optional. You may continue with your order below.', 'checkout-wc'); ?>
                                                     </span>
@@ -108,11 +111,11 @@
                                         </div>
 
                                         <div class="cfw-input-wrap cfw-check-input">
-                                            <?php if( ! WC()->checkout->is_registration_required() ): ?>
+	                                        <?php if( ! WC()->checkout()->is_registration_required() && WC()->checkout()->is_registration_enabled() ): ?>
                                                 <input type="checkbox" id="createaccount" class="garlic-auto-save" name="createaccount" />
                                                 <label class="cfw-small" for="createaccount"><?php printf( apply_filters('cfw_create_account_checkbox_label', esc_html__('Create %s shopping account.', 'checkout-wc') ), get_bloginfo('name') ); ?></label>
-                                            <?php else: ?>
-	                                            <span class="cfw-small"><?php esc_html_e('If you do not have an account, we will create one for you.', 'checkout-wc'); ?></span>
+	                                        <?php elseif ( WC()->checkout()->is_registration_required() ): ?>
+                                                <span class="cfw-small"><?php esc_html_e('If you do not have an account, we will create one for you.', 'checkout-wc'); ?></span>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -120,7 +123,7 @@
                                 <?php else: ?>
 
                                     <div class="cfw-have-acc-text cfw-small">
-                                        <?php printf( esc_html__('Welcome back, %s', 'checkout-wc'), "<strong>" . wp_get_current_user()->display_name . "</strong>" ); ?>
+	                                    <?php printf( esc_html__('Welcome back, %s (%s).', 'checkout-wc'), "<strong>" . wp_get_current_user()->display_name . "</strong>", wp_get_current_user()->user_email ); ?>
                                     </div>
 
                                 <?php endif; ?>
@@ -328,6 +331,9 @@
 
 	                <?php wp_nonce_field( 'woocommerce-process_checkout', 'woocommerce-process-checkout-nonce' ); ?>
                 </form>
+				<?php else: ?>
+					<?php do_action('cfw_checkout_form'); ?>
+				<?php endif; ?>
 
 	            <?php do_action('cfw_checkout_after_form'); ?>
 

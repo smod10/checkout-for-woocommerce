@@ -53,9 +53,9 @@ export class AccountExistsAction extends Action {
         let register_user_checkbox: any = ($create_account.length > 0) ? $create_account : null;
         let register_container: any = $("#cfw-login-details .cfw-check-input");
 
-        if(!login_slide.hasClass("stay-open")) {
+        if( ! login_slide.hasClass("stay-open") ) {
 			// If account exists slide down the password field, uncheck the register box, and hide the container for the checkbox
-			if (resp.account_exists) {
+			if ( resp.account_exists ) {
 				login_slide.slideDown(300);
 
                 if ( register_user_checkbox && register_user_checkbox.is(':checkbox') ) {

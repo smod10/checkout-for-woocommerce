@@ -63,7 +63,7 @@ export class ApplyCouponAction extends Action {
 
         if(resp.message.success) {
             alertInfo = {
-                type: "ApplyCouponSuccess",
+                type: "success",
                 message: resp.message.success[0],
                 cssClass: "cfw-alert-success"
             };
@@ -71,7 +71,7 @@ export class ApplyCouponAction extends Action {
 
         if(resp.message.error) {
             alertInfo = {
-                type: "ApplyCouponError",
+                type: "warning",
                 message: resp.message.error[0],
                 cssClass: "cfw-alert-danger"
             };

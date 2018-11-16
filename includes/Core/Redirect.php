@@ -59,6 +59,8 @@ class Redirect {
 			$global_template_parameters["customer"]     = WC()->customer;                   // Customer Object
 			$global_template_parameters["css_classes"]  = self::get_css_classes();
 
+			do_action('cfw_checkout_loaded_pre_head');
+
 			// Setup default cfw_wp_head actions
 			add_action('cfw_wp_head', 'wp_enqueue_scripts', 0, 0);
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_meta_tags'), 10, 4);
@@ -66,8 +68,10 @@ class Redirect {
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_init_block'), 30, 4);
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_styles'), 40, 5);
 
+			$css_classes = array('checkout-wc', 'woocommerce', $template_manager->get_selected_template());
+
 			// Output the contents of the <head></head> section
-			self::head($path_manager, $version, apply_filters('cfw_body_classes', array('checkout-wc', 'woocommerce')), $settings_manager, $template_manager);
+			self::head($path_manager, $version, apply_filters('cfw_body_classes', $css_classes), $settings_manager, $template_manager);
 
 			// Output the contents of the <body></body> section
 			self::body($template_manager, $global_template_parameters, $settings_manager);
@@ -162,7 +166,7 @@ class Redirect {
 				},
 				compatibility: <?php echo json_encode(apply_filters('cfw_typescript_compatibility_classes_and_params', [])); ?>,
 				settings: {
-					isRegistrationRequired: <?php echo WC()->checkout->is_registration_required() ? "true" : "false"; ?>,
+					isRegistrationRequired: <?php echo WC()->checkout()->is_registration_required() ? "true" : "false"; ?>,
 					user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
 					is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>,
 					default_address_fields: <?php echo $default_fields; ?>

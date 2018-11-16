@@ -32,6 +32,16 @@
   }
 }
 
+.paypal-cancel-wrapper {
+  text-align: right;
+  margin-top: 1em;
+
+  .button.alt.angelleye_cancel {
+    float: none !important;
+    clear: both;
+  }
+}
+
 @media(max-width: 500px) {
   #cfw-payment-request-buttons {
     #checkout_paypal_message {

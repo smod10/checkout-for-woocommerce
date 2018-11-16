@@ -56,9 +56,16 @@ class PayPalForWooCommerce extends Base {
 			if ( $existing_hooks[5] ) {
 				foreach ( $existing_hooks[5] as $key => $callback ) {
 					if ( false !== stripos( $key, 'checkout_message' ) ) {
+						global $WC_Gateway_PayPal_Express_AngellEYE;
+
 						$WC_Gateway_PayPal_Express_AngellEYE = $callback['function'][0];
 
 						if ( $WC_Gateway_PayPal_Express_AngellEYE->show_on_checkout == 'top' || $WC_Gateway_PayPal_Express_AngellEYE->show_on_checkout == 'both' ) {
+
+							add_action( 'cfw_checkout_after_payment_methods', function() {
+								global $WC_Gateway_PayPal_Express_AngellEYE;
+								echo '<p class="paypal-cancel-wrapper">' . $WC_Gateway_PayPal_Express_AngellEYE->angelleye_woocommerce_order_button_html( '' ) . '</p>';
+							} );
 
 							$checkout_message = (object) [
 								'instance'  => $callback['function'][0],
@@ -110,9 +117,21 @@ class PayPalForWooCommerce extends Base {
 					return;
 				}
 
-				add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_separator' ), 10 );
+				if ( ! $WC_Gateway_PayPal_Express_AngellEYE->function_helper->ec_is_express_checkout() ) {
+					add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_separator' ), 10 );
+				} else {
+					add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_notice' ), 10 );
+				}
 			}
 		}
+	}
+
+	function add_notice() {
+		?>
+		<div class="woocommerce-info">
+			<?php _e('Logged in with PayPal. Please continue your order below.', 'checkout-wc'); ?>
+		</div>
+		<?php
 	}
 
 	public function allowed_scripts( $scripts ) {

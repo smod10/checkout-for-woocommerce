@@ -1,6 +1,5 @@
 // Imports
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TypedocWebpackPlugin = require('typedoc-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -24,21 +23,12 @@ module.exports = (mainDir, assetsDir, version, delete_min_files, travis_build) =
 				// both options are optional
 				filename: `${assetsDir}/front/css/[name].min.css`
 			}),
-			new OptimizeCssAssetsPlugin(),
-			new TypedocWebpackPlugin({
-				out: `${mainDir}/docs/ts`,
-				module: 'commonjs',
-				target: 'es5',
-				exclude: '**/node_modules/**/*.*',
-				experimentalDecorators: true,
-				excludeExternals: true
-			})
+			new OptimizeCssAssetsPlugin()
 		]
 	};
 
 	if(version !== false && !travis_build) {
 		let delete_files = [
-			"./docs",
 			outPath + "/dist",
 			outPath + "/cypress",
 			outPath + "/**/node_modules",

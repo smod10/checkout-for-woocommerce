@@ -10,6 +10,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\Braintree;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Cielo;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\FirstData;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Klarna;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaPayments;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayTrace;
@@ -171,6 +172,7 @@ class Manager {
 
 		// Klarna
 		new Klarna();
+		new KlarnaPayments();
 
 		// Cielo
 		new Cielo();

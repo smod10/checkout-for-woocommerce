@@ -399,7 +399,7 @@
                             </div>
                             <div id="cfw-cart-shipping-total" class="cfw-flex-row cfw-flex-justify" style="<?php echo (!WC()->cart->needs_shipping()) ? 'display: none' : 'display: flex'; ?>">
                                 <span class="type"><?php esc_html_e('Shipping', 'checkout-wc'); ?></span>
-                                <span class="amount"><?php echo $cart->get_cart_shipping_total(); ?></span>
+                                <span class="amount"><?php echo cfw_get_shipping_total(); ?></span>
                             </div>
                             <div id="cfw-cart-fees"></div>
 	                        <?php foreach ( WC()->cart->get_fees() as $fee ) : ?>

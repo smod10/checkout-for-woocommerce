@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
 "POT-Creation-Date: 2018-11-16 12:24-0500\n"
-"PO-Revision-Date: 2018-11-16 12:30-0500\n"
+"PO-Revision-Date: 2018-11-26 11:40-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -376,7 +376,7 @@ msgstr "Dirección detallada"
 
 #: includes/Core/Form.php:145 includes/Core/Form.php:146
 msgid "Apt, suite, etc. (optional)"
-msgstr "Apt, suite, etc. (opcional)"
+msgstr "Apto, suite, etc. (opcional)"
 
 #: includes/Core/Form.php:158 includes/Core/Form.php:159
 msgid "Company name"
@@ -471,7 +471,7 @@ msgstr "Buscando&hellip;"
 #: includes/Main.php:494
 msgctxt "checkout-wc"
 msgid "Apt, suite, etc. (optional)"
-msgstr "Apt, suite, etc. (opcional)"
+msgstr "Apto, suite, etc. (opcional)"
 
 #: templates/copify/content.php:38 templates/default/content.php:30
 #: templates/futurist/content.php:28

@@ -79,7 +79,7 @@
 
                                         <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
                                             <label class="cfw-input-label" for="billing_email"><?php esc_html_e('Email', 'checkout-wc'); ?></label>
-                                            <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
+                                            <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="<?php esc_attr_e('Email', 'checkout-wc'); ?>" placeholder="<?php esc_attr_e('Email', 'checkout-wc'); ?>" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
                                         </div>
 
                                         <div id="cfw-login-slide">

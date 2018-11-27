@@ -1,7 +1,7 @@
 import { Compatibility } 			from "./Compatibility";
 import { Main } 					from "../Main";
 
-export class Klarna extends Compatibility {
+export class KlarnaCheckout extends Compatibility {
 
 	protected klarna_button_id = "#klarna-pay-button";
 

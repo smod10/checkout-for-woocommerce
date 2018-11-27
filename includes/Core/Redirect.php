@@ -122,7 +122,6 @@ class Redirect {
 		print_head_scripts();
 		?>
 		<script>
-			window.$ = jQuery;
 
 			var checkoutFormSelector = '<?php echo apply_filters('cfw_checkout_form_selector', '.woocommerce-checkout'); ?>';
 			var easyTabsWrapElClass = '.<?php echo apply_filters('cfw_template_easy_tabs_wrap_el_id', 'cfw-tabs-initialize'); ?>';
@@ -170,10 +169,11 @@ class Redirect {
 					user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
 					is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>,
 					default_address_fields: <?php echo $default_fields; ?>
-				}
+				},
+				$: jQuery
 			};
 
-			$(document).ready(function() {
+			jQuery(document).ready(function() {
 				var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
 				window.dispatchEvent(cfwInitEvent);
 

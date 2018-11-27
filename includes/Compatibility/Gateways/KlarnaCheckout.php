@@ -4,7 +4,7 @@ namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
 use Objectiv\Plugins\Checkout\Compatibility\Base;
 
-class Klarna extends Base {
+class KlarnaCheckout extends Base {
 
 	protected $klarna = null;
 
@@ -42,7 +42,7 @@ class Klarna extends Base {
 
 	function typescript_class_and_params( $compatibility ) {
 		$compatibility[] = [
-			'class'  => 'Klarna',
+			'class'  => 'KlarnaCheckout',
             'event' => 'before-setup',
 			'params' => [
                 [

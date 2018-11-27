@@ -520,6 +520,9 @@ class Main extends Singleton {
 			// Initiate form
 			$this->loader->add_action( 'init', array( $this, 'init_hooks' ) );
 
+			// Admin toolbar
+			$this->loader->add_action('admin_bar_menu', array( $this, 'add_admin_buttons' ), 100);
+
 			if ( $this->get_settings_manager()->get_setting( 'enable_phone_fields' ) == 'yes' ) {
 				add_filter( 'cfw_enable_phone_fields', '__return_true', 1 );
 			}
@@ -590,6 +593,27 @@ class Main extends Singleton {
 	function init_hooks() {
 		// Required to render form fields
 		$this->form = new Form();
+	}
+
+	function add_admin_buttons( $admin_bar ) {
+		if ( ! is_checkout() ) return;
+
+		$admin_bar->add_node(
+			array(
+				'id' => 'cfw-settings',
+				'title' => 'Checkout for WooCommerce',
+				'href' => admin_url( 'options-general.php?page=cfw-settings' ),
+			)
+		);
+
+		$admin_bar->add_node(
+			array(
+				'id' => 'cfw-design-settings',
+				'title' => 'Edit Design',
+				'href' => admin_url( 'options-general.php?page=cfw-settings&subpage=design' ),
+				'parent' => 'cfw-settings',
+			)
+		);
 	}
 
 	/**

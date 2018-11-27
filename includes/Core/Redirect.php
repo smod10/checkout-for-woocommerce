@@ -382,13 +382,7 @@ class Redirect {
 	 * @param TemplateManager $template_manager
 	 */
 	public static function cfw_wp_head($path_manager, $version, $classes, $settings_manager, $template_manager) {
-		// Prevent themes and plugins from injecting HTML on wp_head
-	    ob_start();
 	    do_action( 'wp_head' );
-	    $wp_head = ob_get_clean();
-
-	    echo "<div id='wp_head' style='display:none;'>{$wp_head}</div>";
-
 	    do_action_ref_array( 'cfw_wp_head', array($path_manager, $version, $classes, $settings_manager, $template_manager) );
 	}
 
@@ -460,7 +454,7 @@ class Redirect {
 		do_action( 'wp_footer' );
 		$wp_footer = ob_get_clean();
 
-		echo "<div id='wp_footer' style='display:none;'>{$wp_footer}</div>";
+		echo "<div id='wp_footer'>{$wp_footer}</div>";
 	    
 		do_action('cfw_wp_footer_before_scripts');
 		echo $settings_manager->get_setting('footer_scripts');

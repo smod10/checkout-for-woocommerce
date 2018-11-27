@@ -39,20 +39,6 @@ class Braintree extends Base {
 		return $available;
 	}
 
-	function allowed_scripts( $scripts ) {
-		$scripts[] = 'wc-braintree';
-		$scripts[] = 'braintree-data';
-		$scripts[] = 'braintree-js-hosted-fields';
-		$scripts[] = 'braintree-js-3d-secure';
-		$scripts[] = 'braintree-js-paypal';
-		$scripts[] = 'braintree-js-paypal-checkout';
-		$scripts[] = 'braintree-js-client';
-		$scripts[] = 'jquery-payment';
-		$scripts[] = 'jquery-tiptip';
-
-		return $scripts;
-	}
-
 	function typescript_class_and_params( $compatibility ) {
 		$braintree_gateways_available = $this->get_braintree_gateways_available();
 
@@ -67,12 +53,6 @@ class Braintree extends Base {
 		];
 
 		return $compatibility;
-	}
-
-	function allowed_styles( $styles ) {
-		$styles[] = 'wc-braintree';
-
-		return $styles;
 	}
 
 	/**

@@ -170,16 +170,6 @@ class AmazonPay extends Base {
 		echo $contents;
 	}
 
-	function allowed_scripts( $scripts ) {
-		$scripts[] = 'amazon_payments_advanced';
-		$scripts[] = 'amazon_payments_advanced_widgets';
-		$scripts[] = 'amazon_pa_drip_compat';
-		$scripts[] = 'amazon_pa_subscribe_to_newsletter_compat';
-		$scripts[] = '';
-
-		return $scripts;
-	}
-
 	function typescript_class_and_params( $compatibility ) {
 
 		$compatibility[] = [
@@ -188,11 +178,5 @@ class AmazonPay extends Base {
 		];
 
 		return $compatibility;
-	}
-
-	function allowed_styles( $styles ) {
-		$styles[] = 'amazon_payments_advanced';
-
-		return $styles;
 	}
 }

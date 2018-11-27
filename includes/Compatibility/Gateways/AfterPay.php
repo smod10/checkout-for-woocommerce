@@ -18,17 +18,4 @@ class AfterPay extends Base {
 			add_thickbox();
 		}
 	}
-
-	public function allowed_scripts( $scripts ) {
-		$scripts[] = 'afterpay_pre_check_customer';
-		$scripts[] = 'thickbox';
-
-		return $scripts;
-	}
-
-	public function allowed_styles( $styles ) {
-		$styles[] = 'thickbox';
-
-		return $styles;
-	}
 }

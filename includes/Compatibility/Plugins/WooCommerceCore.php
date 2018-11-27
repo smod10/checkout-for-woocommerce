@@ -12,7 +12,7 @@ class WooCommerceCore extends Base {
 	public function remove_scripts( $scripts ) {
 		global $wp_scripts;
 
-		$scripts[] = 'woocommerce';
+		$scripts['woocommerce'] = 'woocommerce';
 
 		return $scripts;
 	}

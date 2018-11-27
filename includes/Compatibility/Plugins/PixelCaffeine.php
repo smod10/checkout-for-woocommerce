@@ -36,10 +36,4 @@ class PixelCaffeine extends Base {
 
 		return $classes;
 	}
-
-	function allowed_scripts( $scripts ) {
-		$scripts[] = 'aepc-pixel-events';
-
-		return $scripts;
-	}
 }

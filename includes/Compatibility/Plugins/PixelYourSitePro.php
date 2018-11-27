@@ -43,13 +43,4 @@ class PixelYourSitePro extends Base {
 			);
 		}
 	}
-
-	public function allowed_scripts( $scripts ) {
-		$scripts[] = 'vimeo';
-		$scripts[] = 'jquery-bind-first';
-		$scripts[] = 'js-cookie';
-		$scripts[] = 'pys';
-
-		return $scripts;
-	}
 }

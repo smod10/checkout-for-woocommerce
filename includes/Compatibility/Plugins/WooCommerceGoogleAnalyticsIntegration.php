@@ -15,8 +15,6 @@ class WooCommerceGoogleAnalyticsIntegration extends Base {
 
 	function run() {
 		add_action( 'wp', array($this, 'init') );
-
-
 	}
 
 	function init() {

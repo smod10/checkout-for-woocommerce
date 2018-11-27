@@ -16,12 +16,4 @@ class CheckoutAddressAutoComplete extends Base {
 	function run() {
 		add_action( 'cfw_wp_head', 'ecr_addrac_scripts' );
 	}
-
-	function allowed_scripts( $scripts ) {
-		// Checkout Address AutoComplete
-		$scripts[] = 'google-autocomplete';
-		$scripts[] = 'rp-autocomplete';
-
-		return $scripts;
-	}
 }

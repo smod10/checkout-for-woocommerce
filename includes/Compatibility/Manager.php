@@ -4,21 +4,11 @@ namespace Objectiv\Plugins\Checkout\Compatibility;
 
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AfterPay;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AmazonPay;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetAIM;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\AuthorizeNetCIM;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Braintree;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\Cielo;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\FirstData;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Klarna;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayTrace;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\SkyVerge;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe3x;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe4x;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\BlueSnap;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\Square;
-
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\AutomateWoo;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutFieldEditor;
@@ -26,14 +16,12 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutManager;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicks;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\FacebookWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
-use Objectiv\Plugins\Checkout\Compatibility\Plugins\Jilt;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MonsterInsights;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OnePageCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Pakkelabels;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
-use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCat;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelYourSitePro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
@@ -82,9 +70,6 @@ class Manager {
 		// One Click Upsells
 		new OneClickUpsells();
 
-		// Jilt
-		new Jilt();
-
 		// Google Analytics Pro
 		new GoogleAnalyticsPro();
 
@@ -125,44 +110,17 @@ class Manager {
 		 * Gateways
 		 */
 
-		// SkyVerge Gateway Framework
-		new SkyVerge();
-
 		// PayPal Express
 		new PayPalExpress( $this );
 
-		// Stripe 3.x
-		new Stripe3x();
-
 		// Stripe 4.x
 		new Stripe4x();
-
-		// Authorize.net AIM
-		new AuthorizeNetAIM();
-
-		// Authorize.net CIM
-		new AuthorizeNetCIM();
-
-		// PayTrace
-		new PayTrace();
-
-		// BlueSnap
-		new BlueSnap();
 
 		// Enhanced Ecommerce Google Analytics
 		new EnhancedEcommerceGoogleAnalytics();
 
 		// Points and Rewards
 		new PointsRewards();
-
-		// Pixel Cat
-		new PixelCat();
-
-		// Square
-		new Square();
-
-		// First Data
-		new FirstData();
 
 		// PayPal for WooCommerce
 		new PayPalForWooCommerce( $this );
@@ -175,9 +133,6 @@ class Manager {
 
 		// Klarna
 		new Klarna();
-
-		// Cielo
-		new Cielo();
 
 		// AfterPay
 		new AfterPay();

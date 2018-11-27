@@ -18,18 +18,6 @@ class Pakkelabels extends Base {
 		return function_exists( 'pkl_is_woocommerce_active' ) && pkl_is_woocommerce_active();
 	}
 
-	public function allowed_scripts( $scripts ) {
-		$scripts[] = 'pakkelabels*';
-
-		return $scripts;
-	}
-
-	public function allowed_styles( $styles ) {
-		$styles[] = 'pakkelabels*';
-
-		return $styles;
-	}
-
 	function add_modal() {
 		Plugin::getTemplate( 'pickup-point-modal.modal' );
 	}

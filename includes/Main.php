@@ -328,7 +328,9 @@ class Main extends Singleton {
 	 */
 	private function enable_dev_mode() {
 		// Enable Kint
-		\Kint::$enabled_mode = true;
+		if ( class_exists('\Kint') && property_exists('\Kint', 'enabled_mode') ) {
+			\Kint::$enabled_mode = true;
+		}
 	}
 
 	/**

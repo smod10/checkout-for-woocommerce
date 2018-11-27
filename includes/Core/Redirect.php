@@ -62,7 +62,8 @@ class Redirect {
 			do_action('cfw_checkout_loaded_pre_head');
 
 			// Setup default cfw_wp_head actions
-			add_action('cfw_wp_head', 'wp_enqueue_scripts', 0, 0);
+			add_action( 'wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'remove_styles' ), 5 );
+            add_action( 'wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'remove_scripts' ), 5 );
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_meta_tags'), 10, 4);
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_scripts'), 20, 4);
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_init_block'), 30, 4);
@@ -115,11 +116,6 @@ class Redirect {
 
 		// We use this instead of _wp_render_title_tag because it requires the theme support title-tag capability.
 		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
-
-		self::remove_styles();
-		self::remove_scripts();
-
-		print_head_scripts();
 		?>
 		<script>
 			window.$ = jQuery;
@@ -386,7 +382,14 @@ class Redirect {
 	 * @param TemplateManager $template_manager
 	 */
 	public static function cfw_wp_head($path_manager, $version, $classes, $settings_manager, $template_manager) {
-		do_action_ref_array('cfw_wp_head', array($path_manager, $version, $classes, $settings_manager, $template_manager) );
+		// Prevent themes and plugins from injecting HTML on wp_head
+	    ob_start();
+	    do_action( 'wp_head' );
+	    $wp_head = ob_get_clean();
+
+	    echo "<div id='wp_head' style='display:none;'>{$wp_head}</div>";
+
+	    do_action_ref_array( 'cfw_wp_head', array($path_manager, $version, $classes, $settings_manager, $template_manager) );
 	}
 
 	/**
@@ -404,7 +407,7 @@ class Redirect {
     /**
      * Remove specifically excluded scripts
      */
-	function remove_scripts() {
+	public static function remove_scripts() {
 		$blocked_script_handles = apply_filters('cfw_blocked_script_handles', array() );
 
 		foreach ( $blocked_script_handles as $blocked_script_handle ) {
@@ -452,9 +455,14 @@ class Redirect {
 	 * @param SettingsManager $settings_manager
 	 */
 	public static function footer($path_manager, $settings_manager) {
+		// Prevent themes and plugins from injecting HTML on wp_footer
+		ob_start();
+		do_action( 'wp_footer' );
+		$wp_footer = ob_get_clean();
+
+		echo "<div id='wp_footer' style='display:none;'>{$wp_footer}</div>";
+	    
 		do_action('cfw_wp_footer_before_scripts');
-		print_footer_scripts();
-		wc_print_js();
 		echo $settings_manager->get_setting('footer_scripts');
 		do_action('cfw_wp_footer');
 		?>

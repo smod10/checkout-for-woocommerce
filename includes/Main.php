@@ -328,7 +328,7 @@ class Main extends Singleton {
 	 */
 	private function enable_dev_mode() {
 		// Enable Kint
-		if ( class_exists('\Kint') && property_exists('\Kint', 'enabled_mode') ) {
+		if ( class_exists( '\Kint' ) && property_exists( '\Kint', 'enabled_mode' ) ) {
 			\Kint::$enabled_mode = true;
 		}
 	}
@@ -521,7 +521,7 @@ class Main extends Singleton {
 			$this->loader->add_action( 'init', array( $this, 'init_hooks' ) );
 
 			// Admin toolbar
-			$this->loader->add_action('admin_bar_menu', array( $this, 'add_admin_buttons' ), 100);
+			$this->loader->add_action( 'admin_bar_menu', array( $this, 'add_admin_buttons' ), 100 );
 
 			if ( $this->get_settings_manager()->get_setting( 'enable_phone_fields' ) == 'yes' ) {
 				add_filter( 'cfw_enable_phone_fields', '__return_true', 1 );
@@ -596,21 +596,67 @@ class Main extends Singleton {
 	}
 
 	function add_admin_buttons( $admin_bar ) {
-		if ( ! is_checkout() ) return;
+		if ( ! is_checkout() ) {
+			return;
+		}
+
+		// Remove irrelevant buttons
+		$admin_bar->remove_node('customize');
+		$admin_bar->remove_node('new-content');
+		$admin_bar->remove_node('updates');
+		$admin_bar->remove_node('edit');
+		$admin_bar->remove_node('comments');
+
 
 		$admin_bar->add_node(
 			array(
-				'id' => 'cfw-settings',
-				'title' => 'Checkout for WooCommerce',
-				'href' => admin_url( 'options-general.php?page=cfw-settings' ),
+				'id'    => 'cfw-settings',
+				'title' => '<span class="ab-icon dashicons dashicons-cart"></span>' . __( 'Checkout for WooCommerce', 'checkout-wc' ),
+				'href'  => admin_url( 'options-general.php?page=cfw-settings' ),
 			)
 		);
 
 		$admin_bar->add_node(
 			array(
-				'id' => 'cfw-design-settings',
-				'title' => 'Edit Design',
-				'href' => admin_url( 'options-general.php?page=cfw-settings&subpage=design' ),
+				'id'     => 'cfw-general-settings',
+				'title'  => __( 'General', 'checkout-wc' ),
+				'href'   => admin_url( 'options-general.php?page=cfw-settings' ),
+				'parent' => 'cfw-settings',
+			)
+		);
+
+		$admin_bar->add_node(
+			array(
+				'id'     => 'cfw-template-settings',
+				'title'  => __( 'Template', 'checkout-wc' ),
+				'href'   => admin_url( 'options-general.php?page=cfw-settings&subpage=templates' ),
+				'parent' => 'cfw-settings',
+			)
+		);
+
+		$admin_bar->add_node(
+			array(
+				'id'     => 'cfw-design-settings',
+				'title'  => __( 'Design', 'checkout-wc' ),
+				'href'   => admin_url( 'options-general.php?page=cfw-settings&subpage=design' ),
+				'parent' => 'cfw-settings',
+			)
+		);
+
+		$admin_bar->add_node(
+			array(
+				'id'     => 'cfw-license-settings',
+				'title'  => __( 'License', 'checkout-wc' ),
+				'href'   => admin_url( 'options-general.php?page=cfw-settings&subpage=license' ),
+				'parent' => 'cfw-settings',
+			)
+		);
+
+		$admin_bar->add_node(
+			array(
+				'id'     => 'cfw-support-settings',
+				'title'  => __( 'Support', 'checkout-wc' ),
+				'href'   => admin_url( 'options-general.php?page=cfw-settings&subpage=support' ),
 				'parent' => 'cfw-settings',
 			)
 		);

@@ -382,13 +382,7 @@ class Redirect {
 	 * @param TemplateManager $template_manager
 	 */
 	public static function cfw_wp_head($path_manager, $version, $classes, $settings_manager, $template_manager) {
-		// Prevent themes and plugins from injecting HTML on wp_head
-	    ob_start();
 	    do_action( 'wp_head' );
-	    $wp_head = ob_get_clean();
-
-	    echo "<div id='wp_head' style='display:none;'>{$wp_head}</div>";
-
 	    do_action_ref_array( 'cfw_wp_head', array($path_manager, $version, $classes, $settings_manager, $template_manager) );
 	}
 

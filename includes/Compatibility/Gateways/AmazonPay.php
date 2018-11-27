@@ -76,19 +76,15 @@ class AmazonPay extends Base {
 				$this->amazon_payments = $GLOBALS['wc_amazon_payments_advanced'];
 
 				$available = true;
-
-				$enable_login_app = ( 'yes' === $settings['enable_login_app'] );
-
-				if ( $enable_login_app ) {
-					add_action( 'cfw_wp_head', array( $this->amazon_payments, 'init_amazon_login_app_widget' ) );
-				}
-
-				add_action( 'woocommerce_checkout_init', array( $this, 'checkout_init' ), 9 );
-				add_filter( 'woocommerce_pa_hijack_checkout_fields', '__return_false' );
 			}
 		}
 
 		return $available;
+	}
+
+	function run() {
+		add_action( 'woocommerce_checkout_init', array( $this, 'checkout_init' ), 9 );
+		add_filter( 'woocommerce_pa_hijack_checkout_fields', '__return_false' );
 	}
 
 	/**

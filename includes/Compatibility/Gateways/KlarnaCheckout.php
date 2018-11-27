@@ -4,7 +4,7 @@ namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
 use Objectiv\Plugins\Checkout\Compatibility\Base;
 
-class Klarna extends Base {
+class KlarnaCheckout extends Base {
 
 	protected $klarna = null;
 

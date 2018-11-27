@@ -22,7 +22,6 @@ class MixPanel extends Base {
 		$WC_Mixpanel      = isset( $all_integrations['mixpanel'] ) ? $all_integrations['mixpanel'] : null;
 
 		if ( $WC_Mixpanel ) {
-			$WC_Mixpanel->output_head();
 			$WC_Mixpanel->started_checkout();
 
 			// Payment form

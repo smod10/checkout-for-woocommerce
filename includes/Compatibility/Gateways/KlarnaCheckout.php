@@ -127,27 +127,18 @@ class KlarnaCheckout extends Base {
 		return $load;
     }
 
-	public function allowed_styles( $styles ) {
-		$styles[] = 'kco';
-		$styles[] = 'krokedil_events_style';
-
-		return $styles;
-	}
-
-	function allowed_scripts( $scripts ) {
-		$scripts[] = 'kco';
-		$scripts[] = 'kco_admin';
-		$scripts[] = 'krokedil_event_log';
-		$scripts[] = 'render_json';
-
-		if(WC()->session->get( 'chosen_payment_method' ) == 'kco') {
-			$scripts[] = 'woocommerce';
-			$scripts[] = 'wc-cart';
-			$scripts[] = 'wc-checkout';
-			$scripts[] = 'wc-country-select';
-			$scripts[] = 'wc-address-i18n';
-		}
-
+	/**
+     * Inverted use case. We are allowing a script by
+     * removing it from the blocked list.
+     *
+	 * @param array $scripts
+	 *
+	 * @return array|mixed
+	 */
+	function remove_scripts( $scripts ) {
+		if( WC()->session->get( 'chosen_payment_method' ) == 'kco' ) {
+		    unset( $scripts['woocommerce'] ); // allow script through if session is set
+        }
 		return $scripts;
 	}
 }

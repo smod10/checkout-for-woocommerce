@@ -43,17 +43,4 @@ class PayPalExpress extends Base {
 			add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_separator' ), 10 );
 		}
 	}
-
-	public function allowed_scripts( $scripts ) {
-		$scripts[] = 'wc-gateway-ppec-frontend-in-context-checkout';
-		$scripts[] = 'paypal-checkout-js';
-
-		return $scripts;
-	}
-
-	public function allowed_styles( $styles ) {
-		$styles[] = 'wc-gateway-ppec-frontend-cart';
-
-		return $styles;
-	}
 }

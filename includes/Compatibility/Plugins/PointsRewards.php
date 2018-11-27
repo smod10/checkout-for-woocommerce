@@ -27,13 +27,5 @@ class PointsRewards extends Base {
 
 		// Add redeem previously earned points message
 		add_action( 'cfw_checkout_before_form', array( $wc_points_rewards->cart, 'render_redeem_points_message' ) );
-
-		// Add redeem handler
-		//add_action( 'cfw_checkout_before_form', array( $wc_points_rewards->cart, 'remove_coupon_handler' ), 6 );
-	}
-
-	public function allowed_scripts( $scripts ) {
-
-		return $scripts;
 	}
 }

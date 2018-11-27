@@ -328,7 +328,9 @@ class Main extends Singleton {
 	 */
 	private function enable_dev_mode() {
 		// Enable Kint
-		\Kint::$enabled_mode = true;
+		if ( class_exists('\Kint') && property_exists('\Kint', 'enabled_mode') ) {
+			\Kint::$enabled_mode = true;
+		}
 	}
 
 	/**
@@ -491,7 +493,7 @@ class Main extends Singleton {
 			'cfw_front_js', 'wc_address_i18n_params', array(
 				'locale'             => json_encode( WC()->countries->get_country_locale() ),
 				'locale_fields'      => json_encode( WC()->countries->get_country_locale_field_selectors() ),
-				'add2_text'          => _x( 'Apt, suite, etc. (optional)', 'checkout-wc' ),
+				'add2_text'          => __( 'Apt, suite, etc. (optional)', 'checkout-wc' ),
 				'i18n_required_text' => esc_attr__( 'required', 'woocommerce' ),
 			)
 		);

@@ -19,13 +19,12 @@ import { CompatibilityClasses }             from "./compatibility-classes";
 
 let w: any = window;
 declare var $: any;
-
 (<any>window).CompatibilityClasses = CompatibilityClasses;
 (<any>window).errorObserverIgnoreList = [];
 
 w.addEventListener("cfw-initialize", eventData => {
 	let data = eventData.detail;
-	$ = data.$;
+    $ = data.$;
 
 	let checkoutFormEl = $(data.elements.checkoutFormSelector);
 	let easyTabsWrapEl = $(data.elements.easyTabsWrapElClass);

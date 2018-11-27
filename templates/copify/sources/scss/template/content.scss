@@ -113,7 +113,7 @@ $gutter: map-get($grid, gutter);
   }
 
   #cfw-breadcrumb {
-    display: none;
+    display: none !important;
   }
 
   #cfw-logo-container {

@@ -79,7 +79,7 @@
 
                                         <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
                                             <label class="cfw-input-label" for="billing_email"><?php esc_html_e('Email', 'checkout-wc'); ?></label>
-                                            <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
+                                            <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="<?php esc_attr_e('Email', 'checkout-wc'); ?>" placeholder="<?php esc_attr_e('Email', 'checkout-wc'); ?>" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
                                         </div>
 
                                         <div id="cfw-login-slide">
@@ -388,7 +388,7 @@
                             </div>
                             <div id="cfw-cart-shipping-total" class="cfw-flex-row cfw-flex-justify" style="<?php echo (!WC()->cart->needs_shipping()) ? 'display: none' : 'display: flex'; ?>">
                                 <span class="type"><?php esc_html_e('Shipping', 'checkout-wc'); ?></span>
-                                <span class="amount"><?php echo $cart->get_cart_shipping_total(); ?></span>
+                                <span class="amount"><?php echo cfw_get_shipping_total(); ?></span>
                             </div>
                             <div id="cfw-cart-fees"></div>
 	                        <?php foreach ( WC()->cart->get_fees() as $fee ) : ?>

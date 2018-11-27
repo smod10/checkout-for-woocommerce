@@ -71,16 +71,4 @@ class Stripe4x extends Base {
 	function add_apple_pay_separator() {
 		$this->add_separator( '', 'wc-stripe-payment-request-button-separator', 'text-align: center;' );
 	}
-
-	function allowed_scripts( $scripts ) {
-		$scripts[] = 'stripe';
-		$scripts[] = 'stripe_checkout';
-		$scripts[] = 'wc-stripe-payment-request';
-		$scripts[] = 'woocommerce_stripe';
-		$scripts[] = 'woocommerce_stripe_apple_pay';
-		$scripts[] = 'jquery-payment';
-		$scripts[] = 'wc_stripe_payment_request';
-
-		return $scripts;
-	}
 }

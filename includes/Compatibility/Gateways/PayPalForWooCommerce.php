@@ -133,21 +133,4 @@ class PayPalForWooCommerce extends Base {
 		</div>
 		<?php
 	}
-
-	public function allowed_scripts( $scripts ) {
-		$scripts[] = 'angelleye-in-context-checkout-js';
-		$scripts[] = 'angelleye-in-context-checkout-js-frontend';
-		$scripts[] = 'angelleye-express-checkout-js';
-		$scripts[] = 'angelleye_button';
-		$scripts[] = 'angelleye_frontend';
-
-		return $scripts;
-	}
-
-	public function allowed_styles( $styles ) {
-		$styles[] = 'angelleye-express-checkout-css';
-		$styles[] = 'ppe_checkout';
-
-		return $styles;
-	}
 }

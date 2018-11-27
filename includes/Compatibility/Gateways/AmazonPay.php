@@ -76,19 +76,15 @@ class AmazonPay extends Base {
 				$this->amazon_payments = $GLOBALS['wc_amazon_payments_advanced'];
 
 				$available = true;
-
-				$enable_login_app = ( 'yes' === $settings['enable_login_app'] );
-
-				if ( $enable_login_app ) {
-					add_action( 'cfw_wp_head', array( $this->amazon_payments, 'init_amazon_login_app_widget' ) );
-				}
-
-				add_action( 'woocommerce_checkout_init', array( $this, 'checkout_init' ), 9 );
-				add_filter( 'woocommerce_pa_hijack_checkout_fields', '__return_false' );
 			}
 		}
 
 		return $available;
+	}
+
+	function run() {
+		add_action( 'woocommerce_checkout_init', array( $this, 'checkout_init' ), 9 );
+		add_filter( 'woocommerce_pa_hijack_checkout_fields', '__return_false' );
 	}
 
 	/**
@@ -170,16 +166,6 @@ class AmazonPay extends Base {
 		echo $contents;
 	}
 
-	function allowed_scripts( $scripts ) {
-		$scripts[] = 'amazon_payments_advanced';
-		$scripts[] = 'amazon_payments_advanced_widgets';
-		$scripts[] = 'amazon_pa_drip_compat';
-		$scripts[] = 'amazon_pa_subscribe_to_newsletter_compat';
-		$scripts[] = '';
-
-		return $scripts;
-	}
-
 	function typescript_class_and_params( $compatibility ) {
 
 		$compatibility[] = [
@@ -188,11 +174,5 @@ class AmazonPay extends Base {
 		];
 
 		return $compatibility;
-	}
-
-	function allowed_styles( $styles ) {
-		$styles[] = 'amazon_payments_advanced';
-
-		return $styles;
 	}
 }

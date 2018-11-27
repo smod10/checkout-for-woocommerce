@@ -491,4 +491,19 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
         echo $result;
     }
+
+    function cfw_get_shipping_total() {
+	    $chosen_shipping_methods = WC()->session->get('chosen_shipping_methods');
+	    $new_shipping_total = __( 'Not Calculated', 'checkout-wc' );
+
+	    if ( WC()->customer->has_calculated_shipping() && is_array( $chosen_shipping_methods ) && $chosen_shipping_methods[ 0 ] !== false ) {
+		    $new_shipping_total = WC()->cart->get_cart_shipping_total();
+	    } else if ( WC()->customer->has_calculated_shipping() && is_array( $chosen_shipping_methods ) && $chosen_shipping_methods[ 0 ] === false ) {
+		    $new_shipping_total = __( 'Not Available', 'checkout-wc' );
+	    } else if ( ! WC()->customer->has_calculated_shipping() && is_array( $chosen_shipping_methods ) && $chosen_shipping_methods[ 0 ] === false ) {
+		    $new_shipping_total = __( 'Not Calculated', 'checkout-wc' );
+	    }
+
+	    return $new_shipping_total;
+    }
 }

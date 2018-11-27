@@ -454,7 +454,7 @@ class Redirect {
 		do_action( 'wp_footer' );
 		$wp_footer = ob_get_clean();
 
-		echo "<div id='wp_footer' style='display:none;'>{$wp_footer}</div>";
+		echo "<div id='wp_footer'>{$wp_footer}</div>";
 	    
 		do_action('cfw_wp_footer_before_scripts');
 		echo $settings_manager->get_setting('footer_scripts');

@@ -18,8 +18,9 @@ abstract class Base {
 	function compat_init() {
 		if ( $this->is_available() ) {
 			// Allow scripts and styles for certain plugins
-			add_filter( 'cfw_allowed_script_handles', array( $this, 'allowed_scripts' ), 10, 1 );
-			add_filter( 'cfw_allowed_style_handles', array( $this, 'allowed_styles' ), 10, 1 );
+			add_filter( 'cfw_blocked_style_handles', array( $this, 'remove_theme_styles' ), 10, 1 );
+			add_filter( 'cfw_blocked_style_handles', array( $this, 'remove_styles' ), 10, 1 );
+			add_filter( 'cfw_blocked_script_handles', array( $this, 'remove_scripts' ), 10, 1 );
 			add_filter( 'cfw_typescript_compatibility_classes_and_params', array( $this, 'typescript_class_and_params' ), 10, 1 );
 
 			$this->run();
@@ -59,24 +60,39 @@ abstract class Base {
 	}
 
 	/**
-	 * Array of allowed script handles.
-	 *
-	 * @param $scripts
+	 * @param $styles array Array of handles to remove from styles queue.
 	 *
 	 * @return mixed
 	 */
-	function allowed_scripts( $scripts ) {
-		return $scripts;
-	}
+	function remove_styles( $styles ) {
+	    return $styles;
+    }
 
 	/**
-	 * Array of allowed style handles.
+	 * @param $scripts array Array of handles to remove from scripts queue.
+     *
+     * @return mixed
+	 */
+    function remove_scripts( $scripts ) {
+	    return $scripts;
+    }
+
+	/**
+	 * Add WP theme styles to list of blocked style handles.
 	 *
 	 * @param $styles
 	 *
 	 * @return mixed
 	 */
-	function allowed_styles( $styles ) {
+	function remove_theme_styles( $styles ) {
+		global $wp_styles;
+
+		foreach ( $wp_styles->registered as $wp_style ) {
+			if ( ! empty($wp_style->src) && stripos( $wp_style->src, '/themes/') !== false ) {
+                $styles[] = $wp_style->handle;
+            }
+		}
+
 		return $styles;
 	}
 

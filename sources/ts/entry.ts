@@ -18,12 +18,13 @@ import { CompatibilityClasses }             from "./compatibility-classes";
  */
 
 let w: any = window;
-(<any>window).$ = ($ === undefined) ? jQuery : $;
+declare var $: any;
 (<any>window).CompatibilityClasses = CompatibilityClasses;
 (<any>window).errorObserverIgnoreList = [];
 
 w.addEventListener("cfw-initialize", eventData => {
 	let data = eventData.detail;
+    $ = data.$;
 
 	let checkoutFormEl = $(data.elements.checkoutFormSelector);
 	let easyTabsWrapEl = $(data.elements.easyTabsWrapElClass);

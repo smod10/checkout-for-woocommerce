@@ -116,8 +116,8 @@ class Redirect {
 		// We use this instead of _wp_render_title_tag because it requires the theme support title-tag capability.
 		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
 
-		self::remove_scripts();
 		self::remove_styles();
+		self::remove_scripts();
 
 		print_head_scripts();
 		?>
@@ -170,10 +170,11 @@ class Redirect {
 					user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
 					is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>,
 					default_address_fields: <?php echo $default_fields; ?>
-				}
+				},
+                $: jQuery
 			};
 
-			$(document).ready(function() {
+			jQuery(document).ready(function() {
 				var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
 				window.dispatchEvent(cfwInitEvent);
 
@@ -389,97 +390,29 @@ class Redirect {
 	}
 
 	/**
-	 * Removes all scripts besides the listed ignored scripts from being loaded onto the page.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 */
-	public static function remove_scripts() {
-		global $wp_scripts;
-		$ignore = array(
-			'jquery',
-			'admin-bar',
-			'cfw_front_js',
-			'cfw_front_template_js',
-			'cfw_front_js_vendor',
-			'cfw_front_js_hash_change',
-			'cfw_front_js_easy_tabs',
-			'cfw_front_js_garlic',
-			'cfw_front_js_parsley',
-			'cfw_front_js_array_find_poly',
-			'woocommerce-tokenization-form',
-			'wc-credit-card-form',
-			'jquery-payment',
-		);
-
-		$ignores = apply_filters('cfw_allowed_script_handles', $ignore);
-		$wildcard_ignores = [];
-
-		// Identify wildcard patterns
-		foreach ( $ignores as $key => $ignore ) {
-		    if ( stripos($ignore, '*') !== false ) {
-		        $wildcard_ignores[] = str_replace( '*', '', $ignore );
-		        unset( $ignores[ $key ] );
-            }
-        }
-
-        // Loop through and add to our ignores based on wildcard matches
-        foreach ( $wp_scripts->queue as $handle ) {
-		    foreach( $wildcard_ignores as $wildcard_ignore ) {
-		        if ( stripos( $handle, $wildcard_ignore ) !== false ) {
-		            $ignores[] = $handle;
-                }
-            }
-        }
-
-        // Finally, deregister everything not explicitly allowed
-		foreach ( $wp_scripts->queue as $handle ) {
-			if ( ! in_array($handle, $ignores) ) {
-				wp_dequeue_script( $handle );
-				wp_deregister_script( $handle );
-			}
-		}
-	}
-
-	/**
-	 *
+	 * Remove specifically excluded styles
 	 */
 	public static function remove_styles() {
-		global $wp_styles;
+		$blocked_style_handles = apply_filters('cfw_blocked_style_handles', array() );
 
-		$ignores = array(
-			'cfw_front_css',
-			'cfw_front_template_css',
-			'admin-bar',
-		);
-
-		$ignores = apply_filters('cfw_allowed_style_handles', $ignores);
-		$wildcard_ignores = [];
-
-		// Identify wildcard patterns
-		foreach ( $ignores as $key => $ignore ) {
-			if ( stripos($ignore, '*') !== false ) {
-				$wildcard_ignores[] = str_replace( '*', '', $ignore );
-				unset( $ignores[ $key ] );
-			}
-		}
-
-		// Loop through and add to our ignores based on wildcard matches
-		foreach ( $wp_styles->queue as $handle ) {
-			foreach( $wildcard_ignores as $wildcard_ignore ) {
-				if ( stripos( $handle, $wildcard_ignore ) !== false ) {
-					$ignores[] = $handle;
-				}
-			}
-		}
-
-		foreach ( $wp_styles->queue as $handle ) {
-			if ( ! in_array($handle, $ignores) ) {
-				wp_dequeue_style( $handle );
-				wp_deregister_style( $handle );
-			}
-		}
+		foreach ( $blocked_style_handles as $blocked_style_handle ) {
+			wp_dequeue_style( $blocked_style_handle );
+            wp_deregister_style( $blocked_style_handle );
+        }
 	}
+
+    /**
+     * Remove specifically excluded scripts
+     */
+	function remove_scripts() {
+		$blocked_script_handles = apply_filters('cfw_blocked_script_handles', array() );
+
+		foreach ( $blocked_script_handles as $blocked_script_handle ) {
+			wp_dequeue_script( $blocked_script_handle );
+			wp_deregister_script( $blocked_script_handle );
+		}
+    }
+
 	/**
 	 * @since 1.0.0
 	 * @access public

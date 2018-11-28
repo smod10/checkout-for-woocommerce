@@ -863,7 +863,7 @@ class Main extends Singleton {
 		);
 
 		$wp_customize->add_control(
-			new \WP_Customize_Image_Control(
+			new \WP_Customize_Media_Control(
 				$wp_customize,
 				$this->get_customizer_field_name( 'logo_attachment_id' ),
 				array(

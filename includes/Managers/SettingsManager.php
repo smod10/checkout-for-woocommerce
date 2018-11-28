@@ -79,10 +79,6 @@ class SettingsManager extends \WordPress_SimpleSettings {
 	}
 
 	function get_setting( $setting = false, $keys = array() ) {
-		if ( is_customize_preview() || ! empty( $_GET['customize_changeset_uuid'] ) ) {
-			$this->settings = $this->get_settings_obj( $this->prefix );
-		}
-
 		$suffix = '';
 
 		if ( ! empty( $keys ) ) {

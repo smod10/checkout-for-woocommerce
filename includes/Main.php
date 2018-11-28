@@ -514,10 +514,13 @@ class Main extends Singleton {
 			// Load Compatibility Class
 			$this->compatibility();
 
+			// Customizer workaround
+			$this->customizer_workaround();
+
 			// Load Assets
 			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
 
-			// Initiate form
+			// Initiate form - wp is late enough that the customizer will pick up the changes
 			$this->loader->add_action( 'wp', array( $this, 'init_hooks' ) );
 		}
 
@@ -546,6 +549,20 @@ class Main extends Singleton {
 
 	function compatibility() {
 		new CompatibilityManager();
+	}
+
+	function customizer_workaround() {
+		add_action('wp', function() {
+			if ( is_customize_preview() || ! empty( $_GET['customize_changeset_uuid'] ) ) {
+				// Reload the settings manager
+				$this->settings_manager = new SettingsManager();
+
+				$active_template = $this->settings_manager->get_setting( 'active_template' );
+
+				// Create the template manager
+				$this->template_manager = new TemplateManager( $this->path_manager, empty( $active_template ) ? 'default' : $active_template );
+			}
+		} );
 	}
 
 	/**

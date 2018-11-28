@@ -79,6 +79,8 @@ class SettingsManager extends \WordPress_SimpleSettings {
 	}
 
 	function get_setting( $setting = false, $keys = array() ) {
+		parent::__construct();
+
 		$suffix = '';
 
 		if ( ! empty( $keys ) ) {

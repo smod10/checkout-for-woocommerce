@@ -518,14 +518,7 @@ class Main extends Singleton {
 			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
 
 			// Initiate form
-			$this->loader->add_action( 'init', array( $this, 'init_hooks' ) );
-
-			// Admin toolbar
-			$this->loader->add_action( 'admin_bar_menu', array( $this, 'add_admin_buttons' ), 100 );
-
-			if ( $this->get_settings_manager()->get_setting( 'enable_phone_fields' ) == 'yes' ) {
-				add_filter( 'cfw_enable_phone_fields', '__return_true', 1 );
-			}
+			$this->loader->add_action( 'wp', array( $this, 'init_hooks' ) );
 		}
 
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
@@ -588,9 +581,19 @@ class Main extends Singleton {
 				}
 			}
 		);
+
+		// Admin toolbar
+		$this->loader->add_action( 'admin_bar_menu', array( $this, 'add_admin_buttons' ), 100 );
+
+		// Customizer
+		$this->loader->add_action( 'customize_register', array( $this, 'register_customizer_settings' ) );
 	}
 
 	function init_hooks() {
+		if ( $this->get_settings_manager()->get_setting( 'enable_phone_fields' ) == 'yes' ) {
+			add_filter( 'cfw_enable_phone_fields', '__return_true', 1 );
+		}
+
 		// Required to render form fields
 		$this->form = new Form();
 	}
@@ -601,12 +604,10 @@ class Main extends Singleton {
 		}
 
 		// Remove irrelevant buttons
-		$admin_bar->remove_node('customize');
-		$admin_bar->remove_node('new-content');
-		$admin_bar->remove_node('updates');
-		$admin_bar->remove_node('edit');
-		$admin_bar->remove_node('comments');
-
+		$admin_bar->remove_node( 'new-content' );
+		$admin_bar->remove_node( 'updates' );
+		$admin_bar->remove_node( 'edit' );
+		$admin_bar->remove_node( 'comments' );
 
 		$admin_bar->add_node(
 			array(
@@ -660,6 +661,240 @@ class Main extends Singleton {
 				'parent' => 'cfw-settings',
 			)
 		);
+	}
+
+	function register_customizer_settings( $wp_customize ) {
+		$prefix = $this->get_settings_manager()->prefix . '_settings';
+
+		/**
+		 * Register Settings
+		 */
+		// Enabled
+		$wp_customize->add_setting(
+			$this->get_customizer_field_name( 'enable' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+			array(
+				'default'           => 'no', //Default setting/value to save
+				'type'              => 'option', //Is this an 'option' or a 'theme_mod'?
+				'capability'        => 'edit_theme_options', //Optional. Special permissions for accessing this setting.
+				'transport'         => 'refresh', //What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+				'sanitize_callback' => array( $this, 'checkbox_sanitize' ),
+			)
+		);
+
+		// Show Phone Fields
+		$wp_customize->add_setting(
+			$this->get_customizer_field_name( 'enable_phone_fields' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+			array(
+				'default'           => 'no', // Default setting/value to save
+				'type'              => 'option', // Is this an 'option' or a 'theme_mod'?
+				'capability'        => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
+				'transport'         => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+				'sanitize_callback' => array( $this, 'checkbox_sanitize' ),
+			)
+		);
+
+		// Header Scripts
+		$wp_customize->add_setting(
+			$this->get_customizer_field_name( 'header_scripts' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+			array(
+				'default'    => '', // Default setting/value to save
+				'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
+				'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
+				'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+			)
+		);
+
+		// Footer Scripts
+		$wp_customize->add_setting(
+			$this->get_customizer_field_name( 'footer_scripts' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+			array(
+				'default'    => '', // Default setting/value to save
+				'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
+				'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
+				'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+			)
+		);
+
+		// Templates
+		$wp_customize->add_setting(
+			$this->get_customizer_field_name( 'active_template' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+			array(
+				'default'    => '', // Default setting/value to save
+				'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
+				'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
+				'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+			)
+		);
+
+		// Design
+		$wp_customize->add_setting(
+			$this->get_customizer_field_name( 'logo_attachment_id' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+			array(
+				'default'    => '', // Default setting/value to save
+				'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
+				'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
+				'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+			)
+		);
+
+		$wp_customize->add_setting(
+			$this->get_customizer_field_name( 'footer_text' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+			array(
+				'default'    => '', // Default setting/value to save
+				'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
+				'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
+				'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+			)
+		);
+
+		/**
+		 * Checkout for WooCommerce - Panel
+		 */
+		$wp_customize->add_panel(
+			'cfw',
+			array(
+				'title'       => __( 'Checkout for WooCommerce', 'checkout-wc' ),
+				'priority'    => 1000,
+				'capability'  => 'edit_theme_options',
+				'description' => __( 'Checkout for WooCommerce provides a beautiful, conversion optimized checkout template for WooCommerce.', 'checkout-wc' ),
+			)
+		);
+
+		/**
+		 * General Section
+		 */
+		$wp_customize->add_section(
+			'cfw-general',
+			array(
+				'title'      => __( 'General', 'checkout-wc' ),
+				'priority'   => 10,
+				'capability' => 'edit_theme_options',
+				'panel'      => 'cfw',
+			)
+		);
+
+		$wp_customize->add_control(
+			$this->get_customizer_field_name( 'enable' ),
+			array(
+				'type'     => 'checkbox',
+				'label'    => __( 'Enable / Disable', 'checkout-wc' ), // Admin-visible name of the control
+				'settings' => $this->get_customizer_field_name( 'enable' ), // Which setting to load and manipulate (serialized is okay)
+				'priority' => 10, // Determines the order this control appears in for the specified section
+				'section'  => 'cfw-general', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+			)
+		);
+
+		$wp_customize->add_control(
+			$this->get_customizer_field_name( 'enable_phone_fields' ),
+			array(
+				'type'     => 'checkbox',
+				'label'    => __( 'Show Phone Fields', 'checkout-wc' ), // Admin-visible name of the control
+				'settings' => $this->get_customizer_field_name( 'enable_phone_fields' ), // Which setting to load and manipulate (serialized is okay)
+				'priority' => 10, // Determines the order this control appears in for the specified section
+				'section'  => 'cfw-general', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+			)
+		);
+
+		$wp_customize->add_control(
+			$this->get_customizer_field_name( 'header_scripts' ),
+			array(
+				'type'     => 'textarea',
+				'label'    => __( 'Header Scripts', 'checkout-wc' ), // Admin-visible name of the control
+				'settings' => $this->get_customizer_field_name( 'header_scripts' ), // Which setting to load and manipulate (serialized is okay)
+				'priority' => 10, // Determines the order this control appears in for the specified section
+				'section'  => 'cfw-general', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+			)
+		);
+
+		$wp_customize->add_control(
+			$this->get_customizer_field_name( 'footer_scripts' ),
+			array(
+				'type'     => 'textarea',
+				'label'    => __( 'Footer Scripts', 'checkout-wc' ), // Admin-visible name of the control
+				'settings' => $this->get_customizer_field_name( 'footer_scripts' ), // Which setting to load and manipulate (serialized is okay)
+				'priority' => 10, // Determines the order this control appears in for the specified section
+				'section'  => 'cfw-general', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+			)
+		);
+
+		/**
+		 * Template Section
+		 */
+		$wp_customize->add_section(
+			'cfw-templates',
+			array(
+				'title'      => __( 'Template', 'checkout-wc' ),
+				'priority'   => 10,
+				'capability' => 'edit_theme_options',
+				'panel'      => 'cfw',
+			)
+		);
+
+		$cfw_templates    = $this->get_template_manager()->get_templates_information();
+		$template_choices = [];
+
+		foreach ( $cfw_templates as $folder_name => $cfw_template ) {
+			$template_choices[ $folder_name ] = $cfw_template['stylesheet_info']['Name'];
+		}
+
+		$wp_customize->add_control(
+			$this->get_customizer_field_name( 'active_template' ),
+			array(
+				'type'     => 'select',
+				'label'    => __( 'Template', 'checkout-wc' ), // Admin-visible name of the control
+				'settings' => $this->get_customizer_field_name( 'active_template' ), // Which setting to load and manipulate (serialized is okay)
+				'priority' => 10, // Determines the order this control appears in for the specified section
+				'section'  => 'cfw-templates', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+				'choices'  => $template_choices,
+			)
+		);
+
+		/**
+		 * Design Section
+		 */
+		$wp_customize->add_section(
+			'cfw-design',
+			array(
+				'title'      => __( 'Design', 'checkout-wc' ),
+				'priority'   => 10,
+				'capability' => 'edit_theme_options',
+				'panel'      => 'cfw',
+			)
+		);
+
+		$wp_customize->add_control(
+			new \WP_Customize_Image_Control(
+				$wp_customize,
+				$this->get_customizer_field_name( 'logo_attachment_id' ),
+				array(
+					'label'    => __( 'Logo', 'checkout-wc' ), // Admin-visible name of the control
+					'settings' => $this->get_customizer_field_name( 'logo_attachment_id' ), // Which setting to load and manipulate (serialized is okay)
+					'priority' => 10, // Determines the order this control appears in for the specified section
+					'section'  => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+				)
+			)
+		);
+
+		$wp_customize->add_control(
+			$this->get_customizer_field_name( 'footer_text' ),
+			array(
+				'type'     => 'textarea',
+				'label'    => __( 'Footer Text', 'checkout-wc' ), // Admin-visible name of the control
+				'settings' => $this->get_customizer_field_name( 'footer_text' ), // Which setting to load and manipulate (serialized is okay)
+				'priority' => 10, // Determines the order this control appears in for the specified section
+				'section'  => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+			)
+		);
+	}
+
+	function get_customizer_field_name( $setting, $keys = array() ) {
+		$field_name = str_ireplace( '[string]', '', $this->get_settings_manager()->get_field_name( $setting, $keys ) );
+
+		return str_ireplace( '__setting', '__settings', $field_name );
+	}
+
+	function checkbox_sanitize( $checked ) {
+		return $checked == 'yes' ? true : false;
 	}
 
 	/**

@@ -165,7 +165,8 @@ class Redirect {
 					isRegistrationRequired: <?php echo WC()->checkout()->is_registration_required() ? "true" : "false"; ?>,
 					user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
 					is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>,
-					default_address_fields: <?php echo $default_fields; ?>
+					default_address_fields: <?php echo $default_fields; ?>,
+                    enable_zip_autocomplete: <?php echo apply_filters( 'cfw_enable_zip_autocomplete', true ) ? 'true' : 'false'; ?>
 				},
                 $: jQuery
 			};

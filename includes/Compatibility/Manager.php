@@ -9,6 +9,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe4x;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutFieldEditor;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutManager;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicks;
@@ -77,6 +78,9 @@ class Manager {
 
 		// Woo Checkout Field Editor Pro
 		new CheckoutFieldEditor();
+
+		// Checkout Address Autocomplete
+		new CheckoutAddressAutoComplete();
 
 		/**
 		 * Gateways

@@ -402,7 +402,7 @@ class Customizer {
 				'priority'    => 10,
 				'capability'  => 'edit_theme_options',
 				'panel'       => 'cfw',
-				'description' => 'These settings only apply to the currently active template. If you switch templates in the customizer, these settings will become unavailable but saving will publish any changes here prior to switching templates!',
+				'description' => __( 'These settings only apply to the currently active template. If you switch templates in the customizer, these settings will become unavailable but saving will publish any changes here prior to switching templates!', 'checkout-wc' ),
 			)
 		);
 

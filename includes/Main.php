@@ -12,6 +12,7 @@ use Objectiv\BoosterSeat\Base\Singleton;
 use Objectiv\Plugins\Checkout\Action\ApplyCouponAction;
 use Objectiv\Plugins\Checkout\Action\CompleteOrderAction;
 use Objectiv\Plugins\Checkout\Action\UpdateCheckoutAction;
+use Objectiv\Plugins\Checkout\Core\Customizer;
 use Objectiv\Plugins\Checkout\Core\Form;
 use Objectiv\Plugins\Checkout\Core\Redirect;
 use Objectiv\Plugins\Checkout\Core\Loader;
@@ -119,6 +120,15 @@ class Main extends Singleton {
 	private $updater;
 
 	/**
+	 * Customizer compatibility class
+	 *
+	 * @since 2.5.0
+	 * @access private
+	 * @var Customizer $customizer The updater object.
+	 */
+	private $customizer;
+
+	/**
 	 * Settings class for accessing user defined settings.
 	 *
 	 * @since 1.1.4
@@ -218,6 +228,17 @@ class Main extends Singleton {
 	}
 
 	/**
+	 * Returns the template manager
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return void
+	 */
+	public function set_template_manager( $template_manager ) {
+		$this->template_manager = $template_manager;
+	}
+
+	/**
 	 * Retrieve the version number of the plugin.
 	 *
 	 * @since 1.0.0
@@ -237,6 +258,17 @@ class Main extends Singleton {
 	 */
 	public function get_settings_manager() {
 		return $this->settings_manager;
+	}
+
+	/**
+	 * Set the settings manager
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return void
+	 */
+	public function set_settings_manager( $settings_manager ) {
+		$this->settings_manager = $settings_manager;
 	}
 
 	/**
@@ -376,6 +408,9 @@ class Main extends Singleton {
 
 		// License updater
 		$this->updater = new \CGD_EDDSL_Magic( '_cfw_licensing', false, CFW_UPDATE_URL, $this->get_version(), CFW_NAME, 'Objectiv', $file, $theme = false );
+
+		// Customizer
+		$this->customizer = new Customizer( $this->get_settings_manager(), $this->get_template_manager(), $this->get_path_manager() );
 	}
 
 	public function get_activator_checks() {
@@ -517,15 +552,8 @@ class Main extends Singleton {
 			// Load Assets
 			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
 
-			// Initiate form
-			$this->loader->add_action( 'init', array( $this, 'init_hooks' ) );
-
-			// Admin toolbar
-			$this->loader->add_action( 'admin_bar_menu', array( $this, 'add_admin_buttons' ), 100 );
-
-			if ( $this->get_settings_manager()->get_setting( 'enable_phone_fields' ) == 'yes' ) {
-				add_filter( 'cfw_enable_phone_fields', '__return_true', 1 );
-			}
+			// Initiate form - wp is late enough that the customizer will pick up the changes
+			$this->loader->add_action( 'wp', array( $this, 'init_hooks' ) );
 		}
 
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
@@ -588,9 +616,16 @@ class Main extends Singleton {
 				}
 			}
 		);
+
+		// Admin toolbar
+		$this->loader->add_action( 'admin_bar_menu', array( $this, 'add_admin_buttons' ), 100 );
 	}
 
 	function init_hooks() {
+		if ( $this->get_settings_manager()->get_setting( 'enable_phone_fields' ) == 'yes' ) {
+			add_filter( 'cfw_enable_phone_fields', '__return_true', 1 );
+		}
+
 		// Required to render form fields
 		$this->form = new Form();
 	}
@@ -601,12 +636,10 @@ class Main extends Singleton {
 		}
 
 		// Remove irrelevant buttons
-		$admin_bar->remove_node('customize');
-		$admin_bar->remove_node('new-content');
-		$admin_bar->remove_node('updates');
-		$admin_bar->remove_node('edit');
-		$admin_bar->remove_node('comments');
-
+		$admin_bar->remove_node( 'new-content' );
+		$admin_bar->remove_node( 'updates' );
+		$admin_bar->remove_node( 'edit' );
+		$admin_bar->remove_node( 'comments' );
 
 		$admin_bar->add_node(
 			array(

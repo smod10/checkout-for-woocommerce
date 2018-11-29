@@ -69,7 +69,7 @@ class Admin {
 		add_action( 'admin_init', array($this, 'welcome_screen_do_activation_redirect') );
 
 		// Add settings link
-		add_filter( 'plugin_action_links_' . plugin_basename( $this->plugin_instance->get_path_manager()->get_raw_file() ), array( $this, 'add_action_links' ), 10, 1 );
+		add_filter( 'plugin_action_links_' . plugin_basename( CFW_MAIN_FILE ), array( $this, 'add_action_links' ), 10, 1 );
 
 		// Migrate settings
         add_action( 'admin_init', array( $this, 'maybe_migrate_settings' ) );

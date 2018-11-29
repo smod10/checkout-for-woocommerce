@@ -34,16 +34,17 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define('CFW_NAME', 'Checkout for WooCommerce');
-define('CFW_UPDATE_URL', 'https://www.checkoutwc.com');
-define('CFW_VERSION', '2.3.0');
-define('CFW_PATH', dirname(__FILE__) );
-define('CFW_URL', plugins_url('/', __FILE__) );
+define( 'CFW_NAME', 'Checkout for WooCommerce' );
+define( 'CFW_UPDATE_URL', 'https://www.checkoutwc.com' );
+define( 'CFW_VERSION', '2.3.0' );
+define( 'CFW_PATH', dirname( __FILE__ ) );
+define( 'CFW_URL', plugins_url( '/', __FILE__ ) );
+define( 'CFW_MAIN_FILE', __FILE__ );
 
 /**
  * Auto-loader (composer)
  */
-require_once "vendor/autoload.php";
+require_once 'vendor/autoload.php';
 
 use Objectiv\Plugins\Checkout\Main;
 use Objectiv\Plugins\Checkout\Core\Admin;
@@ -67,7 +68,7 @@ function cfw_plugin_init() {
 	global $cfw;
 
 	$cfw = Main::instance();
-	$cfw->run(__FILE__);
+	$cfw->run( CFW_MAIN_FILE );
 
 }
 cfw_plugin_init();
@@ -78,12 +79,12 @@ global $cfw;
 /**
  * Activation hook
  */
-register_activation_hook( __FILE__, array($cfw, 'activation') );
+register_activation_hook( __FILE__, array( $cfw, 'activation' ) );
 
 /**
  * Deactivation hook
  */
-register_deactivation_hook( __FILE__, array($cfw, 'deactivation') );
+register_deactivation_hook( __FILE__, array( $cfw, 'deactivation' ) );
 
 /*----------------------------------------------------------------------------*
  * Dashboard and Administrative Functionality

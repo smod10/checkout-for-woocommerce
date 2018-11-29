@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2018-11-16 12:24-0500\n"
-"PO-Revision-Date: 2018-11-26 11:40-0500\n"
+"POT-Creation-Date: 2018-11-28 22:08-0500\n"
+"PO-Revision-Date: 2018-11-28 22:12-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -29,7 +29,7 @@ msgstr "Nombre"
 msgid "Last Name"
 msgstr "Apellido"
 
-#: functions.php:59 includes/Main.php:495
+#: functions.php:59 includes/Main.php:532
 msgid "required"
 msgstr "obligatorio"
 
@@ -49,7 +49,7 @@ msgstr "Selecciona una província&hellip;"
 msgid "Choose an option"
 msgstr "Bir seçenek belirleyin"
 
-#: functions.php:338 includes/Action/UpdateCheckoutAction.php:164
+#: functions.php:338
 #, php-format
 msgctxt "shipping packages"
 msgid "Shipping"
@@ -74,15 +74,15 @@ msgstr ""
 "Lo sentimos, parece que no existen formas de pago disponibles para tu "
 "ubicación. Por favor, ponte en contacto con nosotros si necesitas ayuda."
 
-#: includes/Action/UpdateCheckoutAction.php:181
-msgid ""
-"There are no shipping methods available. Please ensure that your address has "
-"been entered correctly, or contact us if you need any help."
-msgstr ""
-"No hay métodos de envío disponibles. Compruebe por favor su dirección,o  "
-"contactenos  si usted necesita alguna ayuda."
+#: functions.php:497 functions.php:504
+msgid "Not Calculated"
+msgstr "No calculado"
 
-#: includes/Compatibility/Base.php:99
+#: functions.php:502
+msgid "Not Available"
+msgstr "No disponible"
+
+#: includes/Compatibility/Base.php:135
 msgid "Or"
 msgstr "O"
 
@@ -92,30 +92,34 @@ msgstr "Inicia sesión con PayPal. Por favor, continúe su pedido abajo."
 
 #. Plugin Name of the plugin/theme
 #: includes/Core/Admin.php:88 includes/Core/Admin.php:111
+#: includes/Core/Customizer.php:263 includes/Main.php:647
 msgid "Checkout for WooCommerce"
 msgstr "Checkout for WooCommerce"
 
-#: includes/Core/Admin.php:91
+#: includes/Core/Admin.php:91 includes/Core/Customizer.php:276
+#: includes/Main.php:655
 msgid "General"
 msgstr "General"
 
-#: includes/Core/Admin.php:92
+#: includes/Core/Admin.php:92 includes/Core/Customizer.php:333
+#: includes/Core/Customizer.php:350 includes/Main.php:664
 msgid "Template"
 msgstr "Plantilla"
 
-#: includes/Core/Admin.php:93
+#: includes/Core/Admin.php:93 includes/Core/Customizer.php:364
+#: includes/Core/Customizer.php:401 includes/Main.php:673
 msgid "Design"
 msgstr "Diseño"
 
-#: includes/Core/Admin.php:94
+#: includes/Core/Admin.php:94 includes/Main.php:682
 msgid "License"
 msgstr "Licencia"
 
-#: includes/Core/Admin.php:95
+#: includes/Core/Admin.php:95 includes/Main.php:691
 msgid "Support"
 msgstr "Soporte"
 
-#: includes/Core/Admin.php:112
+#: includes/Core/Admin.php:112 includes/Core/Customizer.php:266
 msgid ""
 "Checkout for WooCommerce provides a beautiful, conversion optimized checkout "
 "template for WooCommerce."
@@ -123,7 +127,7 @@ msgstr ""
 "La comprobación para WooCommerce proporciona una plantilla hermosa, de la "
 "conversión optimizada de la comprobación para WooCommerce."
 
-#: includes/Core/Admin.php:137
+#: includes/Core/Admin.php:137 includes/Core/Customizer.php:287
 msgid "Enable / Disable"
 msgstr "Activar / desactivar"
 
@@ -139,7 +143,7 @@ msgstr ""
 "Activar o desactivar la Checkout para WooCommerce tema. (Nota: Tema siempre "
 "está habilitado para usuarios admin.)"
 
-#: includes/Core/Admin.php:148
+#: includes/Core/Admin.php:148 includes/Core/Customizer.php:298
 msgid "Show Phone Fields"
 msgstr "Mostrar campos de teléfono"
 
@@ -155,7 +159,7 @@ msgstr ""
 "Habilite o deshabilite los campos de facturación y envío de teléfonos como "
 "campos requeridos. (Predeterminado: desHabilitado)"
 
-#: includes/Core/Admin.php:159
+#: includes/Core/Admin.php:159 includes/Core/Customizer.php:309
 msgid "Header Scripts"
 msgstr "Scripts de encabezado"
 
@@ -167,7 +171,7 @@ msgstr ""
 "Este código aparecerá inmediatamente antes de la etiqueta de cierre "
 "<code>&lt;/head&gt;</code> en el origen del documento."
 
-#: includes/Core/Admin.php:173
+#: includes/Core/Admin.php:173 includes/Core/Customizer.php:320
 msgid "Footer Scripts"
 msgstr "Scripts de pie de página"
 
@@ -208,7 +212,7 @@ msgstr "Ajustes globales"
 msgid "These settings apply to all themes."
 msgstr "Estos ajustes se aplican a todos los temas."
 
-#: includes/Core/Admin.php:269
+#: includes/Core/Admin.php:269 includes/Core/Customizer.php:376
 msgid "Logo"
 msgstr "Logotipo"
 
@@ -220,7 +224,7 @@ msgstr "Subir imágenes"
 msgid "Clear Logo"
 msgstr "Logo clara"
 
-#: includes/Core/Admin.php:284
+#: includes/Core/Admin.php:284 includes/Core/Customizer.php:388
 msgid "Footer Text"
 msgstr "Texto de pie de página"
 
@@ -232,51 +236,51 @@ msgstr ""
 "Si se deja en blanco, se mostrará un aviso de copyright estándar. Establecer "
 "en un solo espacio para anular este comportamiento."
 
-#: includes/Core/Admin.php:298
+#: includes/Core/Admin.php:298 includes/Core/Customizer.php:401
 msgid "Theme Specific Settings"
 msgstr "Configuración específica del tema"
 
-#: includes/Core/Admin.php:310
+#: includes/Core/Admin.php:310 includes/Core/Customizer.php:417
 msgid "Header Background Color"
 msgstr "Color de Fondo del Encabezado"
 
-#: includes/Core/Admin.php:320
+#: includes/Core/Admin.php:320 includes/Core/Customizer.php:431
 msgid "Header Text Color"
 msgstr "Color del texto de la cabecera"
 
-#: includes/Core/Admin.php:330
+#: includes/Core/Admin.php:330 includes/Core/Customizer.php:445
 msgid "Footer Background Color"
 msgstr "Color de fondo pie de página"
 
-#: includes/Core/Admin.php:340
+#: includes/Core/Admin.php:340 includes/Core/Customizer.php:459
 msgid "Footer Text Color"
 msgstr "Color del Texto del Pie de Página"
 
-#: includes/Core/Admin.php:350
+#: includes/Core/Admin.php:350 includes/Core/Customizer.php:473
 msgid "Summary Background Color"
 msgstr "Color de fondo de Resumen"
 
-#: includes/Core/Admin.php:360
+#: includes/Core/Admin.php:360 includes/Core/Customizer.php:487
 msgid "Primary Button Color"
 msgstr "Color del botón principal"
 
-#: includes/Core/Admin.php:369
+#: includes/Core/Admin.php:369 includes/Core/Customizer.php:501
 msgid "Primary Button Text Color"
 msgstr "Color del texto del botón principal"
 
-#: includes/Core/Admin.php:378
+#: includes/Core/Admin.php:378 includes/Core/Customizer.php:515
 msgid "Secondary Button Color"
 msgstr "Color de botón secundario"
 
-#: includes/Core/Admin.php:387
+#: includes/Core/Admin.php:387 includes/Core/Customizer.php:529
 msgid "Secondary Button Text Color"
 msgstr "Color de texto del botón secundario"
 
-#: includes/Core/Admin.php:396
+#: includes/Core/Admin.php:396 includes/Core/Customizer.php:543
 msgid "Link Color"
 msgstr "Color del Enlace"
 
-#: includes/Core/Admin.php:405
+#: includes/Core/Admin.php:405 includes/Core/Customizer.php:556
 msgid "Custom CSS"
 msgstr "CSS personalizado"
 
@@ -353,6 +357,17 @@ msgstr ""
 msgid "Settings"
 msgstr "Configuración"
 
+#: includes/Core/Customizer.php:405
+msgid ""
+"These settings only apply to the currently active template. If you switch "
+"templates in the customizer, these settings will become unavailable but "
+"saving will publish any changes here prior to switching templates!"
+msgstr ""
+"Estas configuraciones sólo se aplican a la plantilla activa actualmente. Si "
+"cambia las plantillas en el personalizador, esta configuración no estará "
+"disponible, pero guardar publicará los cambios aquí antes de cambiar las "
+"plantillas!"
+
 #: includes/Core/Form.php:76 includes/Core/Form.php:246
 #: includes/Core/Form.php:248
 msgid "Phone"
@@ -374,7 +389,7 @@ msgstr "Dirección"
 msgid "Street address"
 msgstr "Dirección detallada"
 
-#: includes/Core/Form.php:145 includes/Core/Form.php:146
+#: includes/Core/Form.php:145 includes/Core/Form.php:146 includes/Main.php:531
 msgid "Apt, suite, etc. (optional)"
 msgstr "Apto, suite, etc. (opcional)"
 
@@ -402,7 +417,7 @@ msgstr "Delegación o Municipio"
 msgid "Checkout is not available whilst your cart is empty."
 msgstr "No se puede finalizar la compra con un carro vacío."
 
-#: includes/Main.php:386
+#: includes/Main.php:423
 msgid ""
 "Activation failed: Please activate WooCommerce in order to use Checkout for "
 "WooCommerce"
@@ -410,68 +425,63 @@ msgstr ""
 "Error en la activación: active WooCommerce para usar Checkout para "
 "WooCommerce"
 
-#: includes/Main.php:462
+#: includes/Main.php:499
 msgid "Error processing checkout. Please try again."
 msgstr "Error procesando el pedido. Por favor, inténtalo de nuevo."
 
-#: includes/Main.php:476
+#: includes/Main.php:513
 msgid "Select an option&hellip;"
 msgstr "Selecciona una opción & hellip;"
 
-#: includes/Main.php:477
+#: includes/Main.php:514
 msgctxt "enhanced select"
 msgid "No matches found"
 msgstr "No se encontraron coincidencias"
 
-#: includes/Main.php:478
+#: includes/Main.php:515
 msgctxt "enhanced select"
 msgid "Loading failed"
 msgstr "Error al cargar"
 
-#: includes/Main.php:479
+#: includes/Main.php:516
 msgctxt "enhanced select"
 msgid "Please enter 1 or more characters"
 msgstr "Por favor, introduzca 1 o más caracteres"
 
-#: includes/Main.php:480
+#: includes/Main.php:517
 msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
 msgstr "Por favor, introduzca %qty% o más caracteres"
 
-#: includes/Main.php:481
+#: includes/Main.php:518
 msgctxt "enhanced select"
 msgid "Please delete 1 character"
 msgstr "Por favor, borra 1 carácter"
 
-#: includes/Main.php:482
+#: includes/Main.php:519
 msgctxt "enhanced select"
 msgid "Please delete %qty% characters"
 msgstr "Por favor elimina %qty% caracteres"
 
-#: includes/Main.php:483
+#: includes/Main.php:520
 msgctxt "enhanced select"
 msgid "You can only select 1 item"
 msgstr "Sólo puede seleccionar 1 elemento"
 
-#: includes/Main.php:484
+#: includes/Main.php:521
 msgctxt "enhanced select"
 msgid "You can only select %qty% items"
 msgstr "Solo puede seleccionar %qty% elementos"
 
-#: includes/Main.php:485
+#: includes/Main.php:522
 msgctxt "enhanced select"
 msgid "Loading more results&hellip;"
 msgstr "Cargando más resultados&hellip;"
 
-#: includes/Main.php:486
+#: includes/Main.php:523
 msgctxt "enhanced select"
 msgid "Searching&hellip;"
 msgstr "Buscando&hellip;"
-
-#: includes/Main.php:494
-msgctxt "checkout-wc"
-msgid "Apt, suite, etc. (optional)"
-msgstr "Apto, suite, etc. (opcional)"
 
 #: templates/copify/content.php:38 templates/default/content.php:30
 #: templates/futurist/content.php:28
@@ -506,8 +516,9 @@ msgstr "¿Ya tienes una cuenta con nostros?"
 msgid "Log in for a faster checkout experience."
 msgstr "Inicie sesión para obtener una experiencia de retirada más rápida."
 
-#: templates/copify/content.php:89 templates/default/content.php:81
-#: templates/futurist/content.php:92
+#: templates/copify/content.php:89 templates/copify/content.php:90
+#: templates/default/content.php:81 templates/default/content.php:82
+#: templates/futurist/content.php:92 templates/futurist/content.php:93
 msgid "Email"
 msgstr "Correo electrónico"
 
@@ -719,6 +730,17 @@ msgstr "Objectiv"
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
 msgstr "https://objectiv.co"
+
+#~ msgid ""
+#~ "There are no shipping methods available. Please ensure that your address "
+#~ "has been entered correctly, or contact us if you need any help."
+#~ msgstr ""
+#~ "No hay métodos de envío disponibles. Compruebe por favor su dirección,o  "
+#~ "contactenos  si usted necesita alguna ayuda."
+
+#~ msgctxt "checkout-wc"
+#~ msgid "Apt, suite, etc. (optional)"
+#~ msgstr "Apto, suite, etc. (opcional)"
 
 #~ msgid "Log in."
 #~ msgstr "Entrar."

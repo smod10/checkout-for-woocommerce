@@ -681,7 +681,7 @@ class Main extends Singleton {
 	}
 
 	function register_customizer_settings( $wp_customize ) {
-		$prefix = $this->get_settings_manager()->prefix . '_settings';
+		$active_template = $this->get_settings_manager()->get_setting( 'active_template' );
 
 		/**
 		 * Register Settings
@@ -690,7 +690,7 @@ class Main extends Singleton {
 		$wp_customize->add_setting(
 			$this->get_customizer_field_name( 'enable' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 			array(
-				'default'           => 'no', //Default setting/value to save
+				'default'           => $this->get_settings_manager()->get_setting( 'enable' ), //Default setting/value to save
 				'type'              => 'option', //Is this an 'option' or a 'theme_mod'?
 				'capability'        => 'edit_theme_options', //Optional. Special permissions for accessing this setting.
 				'transport'         => 'refresh', //What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -702,7 +702,7 @@ class Main extends Singleton {
 		$wp_customize->add_setting(
 			$this->get_customizer_field_name( 'enable_phone_fields' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 			array(
-				'default'           => 'no', // Default setting/value to save
+				'default'           => $this->get_settings_manager()->get_setting( 'enable_phone_fields' ), // Default setting/value to save
 				'type'              => 'option', // Is this an 'option' or a 'theme_mod'?
 				'capability'        => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 				'transport'         => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -714,7 +714,7 @@ class Main extends Singleton {
 		$wp_customize->add_setting(
 			$this->get_customizer_field_name( 'header_scripts' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 			array(
-				'default'    => '', // Default setting/value to save
+				'default'    => $this->get_settings_manager()->get_setting( 'header_scripts' ), // Default setting/value to save
 				'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 				'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 				'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -725,7 +725,7 @@ class Main extends Singleton {
 		$wp_customize->add_setting(
 			$this->get_customizer_field_name( 'footer_scripts' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 			array(
-				'default'    => '', // Default setting/value to save
+				'default'    => $this->get_settings_manager()->get_setting( 'footer_scripts' ), // Default setting/value to save
 				'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 				'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 				'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -736,7 +736,7 @@ class Main extends Singleton {
 		$wp_customize->add_setting(
 			$this->get_customizer_field_name( 'active_template' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 			array(
-				'default'    => '', // Default setting/value to save
+				'default'    => $this->get_settings_manager()->get_setting( 'active_template' ), // Default setting/value to save
 				'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 				'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 				'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -747,7 +747,7 @@ class Main extends Singleton {
 		$wp_customize->add_setting(
 			$this->get_customizer_field_name( 'logo_attachment_id' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 			array(
-				'default'    => '', // Default setting/value to save
+				'default'    => $this->get_settings_manager()->get_setting( 'logo_attachment_id' ), // Default setting/value to save
 				'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 				'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 				'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -757,7 +757,7 @@ class Main extends Singleton {
 		$wp_customize->add_setting(
 			$this->get_customizer_field_name( 'footer_text' ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 			array(
-				'default'    => '', // Default setting/value to save
+				'default'    => $this->get_settings_manager()->get_setting( 'footer_text' ), // Default setting/value to save
 				'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 				'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 				'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -765,15 +765,16 @@ class Main extends Singleton {
 		);
 
 		$cfw_templates = $this->get_template_manager()->get_templates_information();
+		$active_templates = array( $active_template => $cfw_templates[ $active_template ] );
 
-		foreach( $cfw_templates as $template_path => $template_information ) {
+		foreach( $active_templates as $template_path => $template_information ) {
 			$supports = ! empty( $template_information['stylesheet_info']['Supports'] ) ? array_map( 'trim', explode( ',', $template_information['stylesheet_info']['Supports'] ) ) : array();
 
 			if ( in_array('header-background', $supports) ) {
 				$wp_customize->add_setting(
 					$this->get_customizer_field_name( 'header_background_color', array($template_path) ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 					array(
-						'default'    => '#ffffff', // Default setting/value to save
+						'default'    => $this->get_settings_manager()->get_setting( 'header_background_color', array($template_path) ), // Default setting/value to save
 						'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 						'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 						'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -784,7 +785,7 @@ class Main extends Singleton {
 			$wp_customize->add_setting(
 				$this->get_customizer_field_name( 'header_text_color', array($template_path) ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 				array(
-					'default'    => '#2b2b2b', // Default setting/value to save
+					'default'    => $this->get_settings_manager()->get_setting( 'header_text_color', array($template_path) ), // Default setting/value to save
 					'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 					'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 					'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -795,7 +796,7 @@ class Main extends Singleton {
 				$wp_customize->add_setting(
 					$this->get_customizer_field_name( 'footer_background_color', array($template_path) ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 					array(
-						'default'    => '#ffffff', // Default setting/value to save
+						'default'    => $this->get_settings_manager()->get_setting( 'footer_background_color', array($template_path) ), // Default setting/value to save
 						'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 						'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 						'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -806,7 +807,7 @@ class Main extends Singleton {
 			$wp_customize->add_setting(
 				$this->get_customizer_field_name( 'footer_color', array($template_path) ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 				array(
-					'default'    => '#999999', // Default setting/value to save
+					'default'    => $this->get_settings_manager()->get_setting( 'footer_color', array($template_path) ), // Default setting/value to save
 					'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 					'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 					'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -817,7 +818,7 @@ class Main extends Singleton {
 				$wp_customize->add_setting(
 					$this->get_customizer_field_name( 'summary_background_color', array($template_path) ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 					array(
-						'default'    => '#fafafa', // Default setting/value to save
+						'default'    => $this->get_settings_manager()->get_setting( 'summary_background_color', array($template_path) ), // Default setting/value to save
 						'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 						'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 						'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -828,7 +829,7 @@ class Main extends Singleton {
 			$wp_customize->add_setting(
 				$this->get_customizer_field_name( 'button_color', array($template_path) ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 				array(
-					'default'    => '#e9a81d', // Default setting/value to save
+					'default'    => $this->get_settings_manager()->get_setting( 'button_color', array($template_path) ), // Default setting/value to save
 					'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 					'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 					'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -838,7 +839,7 @@ class Main extends Singleton {
 			$wp_customize->add_setting(
 				$this->get_customizer_field_name( 'button_text_color', array($template_path) ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 				array(
-					'default'    => '#000000', // Default setting/value to save
+					'default'    => $this->get_settings_manager()->get_setting( 'button_text_color', array($template_path) ), // Default setting/value to save
 					'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 					'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 					'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -848,7 +849,7 @@ class Main extends Singleton {
 			$wp_customize->add_setting(
 				$this->get_customizer_field_name( 'secondary_button_color', array($template_path) ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 				array(
-					'default'    => '#999999', // Default setting/value to save
+					'default'    => $this->get_settings_manager()->get_setting( 'secondary_button_color', array($template_path) ), // Default setting/value to save
 					'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 					'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 					'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -858,7 +859,7 @@ class Main extends Singleton {
 			$wp_customize->add_setting(
 				$this->get_customizer_field_name( 'secondary_button_text_color', array($template_path) ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 				array(
-					'default'    => '#ffffff', // Default setting/value to save
+					'default'    => $this->get_settings_manager()->get_setting( 'secondary_button_text_color', array($template_path) ), // Default setting/value to save
 					'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 					'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 					'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -868,7 +869,7 @@ class Main extends Singleton {
 			$wp_customize->add_setting(
 				$this->get_customizer_field_name( 'link_color', array($template_path) ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 				array(
-					'default'    => '#e9a81d', // Default setting/value to save
+					'default'    => $this->get_settings_manager()->get_setting( 'link_color', array($template_path) ), // Default setting/value to save
 					'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 					'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 					'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -878,7 +879,7 @@ class Main extends Singleton {
 			$wp_customize->add_setting(
 				$this->get_customizer_field_name( 'custom_css', array($template_path) ), // No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
 				array(
-					'default'    => '', // Default setting/value to save
+					'default'    => $this->get_settings_manager()->get_setting( 'custom_css', array($template_path) ), // Default setting/value to save
 					'type'       => 'option', // Is this an 'option' or a 'theme_mod'?
 					'capability' => 'edit_theme_options', // Optional. Special permissions for accessing this setting.
 					'transport'  => 'refresh', // What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
@@ -1023,6 +1024,170 @@ class Main extends Singleton {
 				'section'  => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
 			)
 		);
+
+		reset($cfw_templates);
+
+		foreach( $active_templates as $template_path => $template_information ) {
+			$wp_customize->add_control(
+				new \WP_Customize_Color_Control(
+					$wp_customize,
+					$this->get_customizer_field_name( 'header_background_color', array($template_path) ),
+					array(
+						'label'           => __( 'Header Background Color', 'checkout-wc' ), // Admin-visible name of the control
+						'settings'        => $this->get_customizer_field_name( 'header_background_color', array($template_path) ), // Which setting to load and manipulate (serialized is okay)
+						'priority'        => 10, // Determines the order this control appears in for the specified section
+						'section'         => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+						'active_callback' => array( $this, 'is_correct_template_active' ),
+					)
+				)
+			);
+
+			$wp_customize->add_control(
+				new \WP_Customize_Color_Control(
+					$wp_customize,
+					$this->get_customizer_field_name( 'header_text_color', array($template_path) ),
+					array(
+						'label'           => __( 'Header Text Color', 'checkout-wc' ), // Admin-visible name of the control
+						'settings'        => $this->get_customizer_field_name( 'header_text_color', array($template_path) ), // Which setting to load and manipulate (serialized is okay)
+						'priority'        => 10, // Determines the order this control appears in for the specified section
+						'section'         => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+						'active_callback' => array( $this, 'is_correct_template_active' ),
+					)
+				)
+			);
+
+			$wp_customize->add_control(
+				new \WP_Customize_Color_Control(
+					$wp_customize,
+					$this->get_customizer_field_name( 'footer_background_color', array($template_path) ),
+					array(
+						'label'           => __( 'Footer Background Color', 'checkout-wc' ), // Admin-visible name of the control
+						'settings'        => $this->get_customizer_field_name( 'footer_background_color', array($template_path) ), // Which setting to load and manipulate (serialized is okay)
+						'priority'        => 10, // Determines the order this control appears in for the specified section
+						'section'         => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+						'active_callback' => array( $this, 'is_correct_template_active' ),
+					)
+				)
+			);
+
+			$wp_customize->add_control(
+				new \WP_Customize_Color_Control(
+					$wp_customize,
+					$this->get_customizer_field_name( 'footer_color', array($template_path) ),
+					array(
+						'label'           => __( 'Footer Text Color', 'checkout-wc' ), // Admin-visible name of the control
+						'settings'        => $this->get_customizer_field_name( 'footer_color', array($template_path) ), // Which setting to load and manipulate (serialized is okay)
+						'priority'        => 10, // Determines the order this control appears in for the specified section
+						'section'         => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+						'active_callback' => array( $this, 'is_correct_template_active' ),
+					)
+				)
+			);
+
+			$wp_customize->add_control(
+				new \WP_Customize_Color_Control(
+					$wp_customize,
+					$this->get_customizer_field_name( 'summary_background_color', array($template_path) ),
+					array(
+						'label'           => __( 'Summary Background Color', 'checkout-wc' ), // Admin-visible name of the control
+						'settings'        => $this->get_customizer_field_name( 'summary_background_color', array($template_path) ), // Which setting to load and manipulate (serialized is okay)
+						'priority'        => 10, // Determines the order this control appears in for the specified section
+						'section'         => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+						'active_callback' => array( $this, 'is_correct_template_active' ),
+					)
+				)
+			);
+
+			$wp_customize->add_control(
+				new \WP_Customize_Color_Control(
+					$wp_customize,
+					$this->get_customizer_field_name( 'button_color', array($template_path) ),
+					array(
+						'label'           => __( 'Primary Button Color', 'checkout-wc' ), // Admin-visible name of the control
+						'settings'        => $this->get_customizer_field_name( 'button_color', array($template_path) ), // Which setting to load and manipulate (serialized is okay)
+						'priority'        => 10, // Determines the order this control appears in for the specified section
+						'section'         => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+						'active_callback' => array( $this, 'is_correct_template_active' ),
+					)
+				)
+			);
+
+			$wp_customize->add_control(
+				new \WP_Customize_Color_Control(
+					$wp_customize,
+					$this->get_customizer_field_name( 'button_text_color', array($template_path) ),
+					array(
+						'label'           => __( 'Primary Button Text Color', 'checkout-wc' ), // Admin-visible name of the control
+						'settings'        => $this->get_customizer_field_name( 'button_text_color', array($template_path) ), // Which setting to load and manipulate (serialized is okay)
+						'priority'        => 10, // Determines the order this control appears in for the specified section
+						'section'         => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+						'active_callback' => array( $this, 'is_correct_template_active' ),
+					)
+				)
+			);
+
+			$wp_customize->add_control(
+				new \WP_Customize_Color_Control(
+					$wp_customize,
+					$this->get_customizer_field_name( 'secondary_button_color', array($template_path) ),
+					array(
+						'label'           => __( 'Secondary Button Color', 'checkout-wc' ), // Admin-visible name of the control
+						'settings'        => $this->get_customizer_field_name( 'secondary_button_color', array($template_path) ), // Which setting to load and manipulate (serialized is okay)
+						'priority'        => 10, // Determines the order this control appears in for the specified section
+						'section'         => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+						'active_callback' => array( $this, 'is_correct_template_active' ),
+					)
+				)
+			);
+
+			$wp_customize->add_control(
+				new \WP_Customize_Color_Control(
+					$wp_customize,
+					$this->get_customizer_field_name( 'secondary_button_text_color', array($template_path) ),
+					array(
+						'label'           => __( 'Secondary Button Text Color', 'checkout-wc' ), // Admin-visible name of the control
+						'settings'        => $this->get_customizer_field_name( 'secondary_button_text_color', array($template_path) ), // Which setting to load and manipulate (serialized is okay)
+						'priority'        => 10, // Determines the order this control appears in for the specified section
+						'section'         => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+						'active_callback' => array( $this, 'is_correct_template_active' ),
+					)
+				)
+			);
+
+			$wp_customize->add_control(
+				new \WP_Customize_Color_Control(
+					$wp_customize,
+					$this->get_customizer_field_name( 'link_color', array($template_path) ),
+					array(
+						'label'           => __( 'Link Color', 'checkout-wc' ), // Admin-visible name of the control
+						'settings'        => $this->get_customizer_field_name( 'link_color', array($template_path) ), // Which setting to load and manipulate (serialized is okay)
+						'priority'        => 10, // Determines the order this control appears in for the specified section
+						'section'         => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section)
+						'active_callback' => array( $this, 'is_correct_template_active' ),
+					)
+				)
+			);
+
+			$wp_customize->add_control(
+				$this->get_customizer_field_name( 'custom_css', array($template_path) ),
+				array(
+					'type'     => 'textarea',
+					'label'    => __( 'Custom CSS', 'checkout-wc' ), // Admin-visible name of the control
+					'settings' => $this->get_customizer_field_name( 'custom_css', array($template_path) ), // Which setting to load and manipulate (serialized is okay)
+					'priority' => 10, // Determines the order this control appears in for the specified section
+					'section'  => 'cfw-design', // ID of the section this control should render in (can be one of yours, or a WordPress default section),
+					'active_callback' => array( $this, 'is_correct_template_active' ),
+				)
+			);
+		}
+	}
+
+	function is_correct_template_active( $control ) {
+//		\Kint::$max_depth = 2;
+		error_log( $control->id );
+		error_log( $control->manager->get_setting( $this->get_customizer_field_name( 'active_template' ) )->value() );
+
+		return stripos( $control->id, $control->manager->get_setting( $this->get_customizer_field_name( 'active_template' ) )->value() ) !== false;
 	}
 
 	function get_customizer_field_name( $setting, $keys = array() ) {

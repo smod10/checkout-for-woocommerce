@@ -122,7 +122,7 @@ class Main extends Singleton {
 	/**
 	 * Customizer compatibility class
 	 *
-	 * @since 2.5.0
+	 * @since 2.4.0
 	 * @access private
 	 * @var Customizer $customizer The updater object.
 	 */

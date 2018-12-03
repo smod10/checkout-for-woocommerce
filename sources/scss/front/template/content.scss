@@ -206,16 +206,16 @@ body.checkout-wc #cfw-payment-request-buttons {
   }
 
   .cfw-radio-reveal-label {
-    display: flex;
+    display: flex !important;
     align-items: center;
-    padding: 8px;
+    padding: 8px !important;
     clear: both;
     box-sizing: border-box;
     font-size: 1em;
 
     input[type="radio"] {
-      position: relative;
-      top: -1px;
+      position: relative !important;
+      top: -1px !important;
     }
   }
 

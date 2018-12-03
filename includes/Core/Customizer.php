@@ -9,7 +9,7 @@ use Objectiv\Plugins\Checkout\Managers\TemplateManager;
  * Class Customizer
  *
  * @link objectiv.co
- * @since 2.5.0
+ * @since 2.4.0
  * @package Objectiv\Plugins\Checkout\Core
  * @author Clifton Griffin <clif@objectiv.co>
  */

@@ -25,6 +25,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnaly
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceCore;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
 
 /**
  * Class Compatibility
@@ -112,6 +113,9 @@ class Manager {
 
 		// AfterPay
 		new AfterPay();
+
+		// Themes
+		new Avada();
 
 		/**
 		 * Misc

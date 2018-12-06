@@ -64,6 +64,7 @@ export class AccountExistsAction extends Action {
                 }
 
 				register_container.css("display", "none");
+                $create_account.prop('disabled', true);
 
 				AccountExistsAction.checkBox = true;
 				// If account does not exist, reverse
@@ -80,6 +81,7 @@ export class AccountExistsAction extends Action {
 				}
 
 				register_container.css("display", "block");
+                $create_account.prop('disabled', false);
 			}
 		}
     }

@@ -9,6 +9,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe4x;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\ToCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutFieldEditor;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutManager;
@@ -114,7 +115,12 @@ class Manager {
 		// AfterPay
 		new AfterPay();
 
-		// Themes
+		// ToCheckout
+		new ToCheckout();
+
+		/**
+		 * Themes
+		 */
 		new Avada();
 
 		/**

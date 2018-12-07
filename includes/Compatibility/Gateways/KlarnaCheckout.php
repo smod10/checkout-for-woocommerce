@@ -42,7 +42,7 @@ class KlarnaCheckout extends Base {
 
 	function typescript_class_and_params( $compatibility ) {
 		$compatibility[] = [
-			'class'  => 'Klarna',
+			'class'  => 'KlarnaCheckout',
             'event' => 'before-setup',
 			'params' => [
                 [

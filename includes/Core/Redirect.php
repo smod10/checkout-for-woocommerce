@@ -118,7 +118,6 @@ class Redirect {
 		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
 		?>
 		<script>
-			window.$ = jQuery;
 
 			var checkoutFormSelector = '<?php echo apply_filters('cfw_checkout_form_selector', '.woocommerce-checkout'); ?>';
 			var easyTabsWrapElClass = '.<?php echo apply_filters('cfw_template_easy_tabs_wrap_el_id', 'cfw-tabs-initialize'); ?>';
@@ -456,7 +455,7 @@ class Redirect {
 		$wp_footer = ob_get_clean();
 
 		echo "<div id='wp_footer'>{$wp_footer}</div>";
-	    
+
 		do_action('cfw_wp_footer_before_scripts');
 		echo $settings_manager->get_setting('footer_scripts');
 		do_action('cfw_wp_footer');

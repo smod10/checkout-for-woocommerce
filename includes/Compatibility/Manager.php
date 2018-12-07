@@ -6,6 +6,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\AfterPay;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AmazonPay;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Braintree;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaCheckout;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaPayment;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalExpress;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe4x;
@@ -111,6 +112,9 @@ class Manager {
 
 		// Klarna
 		new KlarnaCheckout();
+
+		// Klarna Payment
+		new KlarnaPayment();
 
 		// AfterPay
 		new AfterPay();

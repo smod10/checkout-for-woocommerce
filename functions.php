@@ -379,7 +379,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		if ( ! empty( $available_gateways ) ) {
 			$count = 0;
 			foreach ( $available_gateways as $gateway ) {
-                //d($gateway->id);
 			    if ( apply_filters( "cfw_show_gateway_{$gateway->id}", true ) ):
 				?>
 
@@ -422,6 +421,8 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                 </li>
 
                 <?php
+				else:
+					do_action("cfw_payment_gateway_list_{$gateway->id}_alternate");
                 endif;
 
 				$count++;

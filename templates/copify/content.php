@@ -261,6 +261,8 @@
                                 </div>
 	                        <?php endif; ?>
 
+	                        <?php do_action('cfw_checkout_after_payment_tab_billing_address'); ?>
+
                             <div id="cfw-billing-methods" class="cfw-module">
                                 <h3 class="cfw-module-title">
                                     <?php echo apply_filters('cfw_payment_method_heading', esc_html__('Payment method', 'checkout-wc') ); ?>

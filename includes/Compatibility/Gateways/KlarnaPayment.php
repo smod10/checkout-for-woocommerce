@@ -16,6 +16,16 @@ class KlarnaPayment extends Base {
 		return class_exists( '\\WC_Klarna_Payments' );
 	}
 
+	function typescript_class_and_params( $compatibility ) {
+		$compatibility[] = [
+			'class'  => 'KlarnaPayment',
+			'event'  => 'before-setup',
+			'params' => [],
+		];
+
+		return $compatibility;
+	}
+
 	function run() {
 		$available_gateways = WC()->payment_gateways()->get_available_payment_gateways();
 
@@ -25,15 +35,16 @@ class KlarnaPayment extends Base {
 
 		$this->klarna_payments = $available_gateways['klarna_payments'];
 
-		add_action( 'cfw_payment_gateway_list_klarna_payments_alternate', array( $this, 'klarna_payments_content' ) );
+		add_action( 'cfw_payment_gateway_list_klarna_payments_alternate', array( $this, 'klarna_payments_content' ), 10, 1 );
 		add_filter( 'cfw_show_gateway_klarna_payments', '__return_false' );
 	}
 
-	function klarna_payments_content() {
+	function klarna_payments_content( $count ) {
 		do_action( 'klarna_payments_template' );
 		if ( is_array( WC()->session->get( 'klarna_payments_categories' ) ) ) {
 			$available_gateways = WC()->payment_gateways()->get_available_payment_gateways();
 			$kp                 = $available_gateways['klarna_payments'];
+			$current_gateway    = WC()->session->get( 'chosen_payment_method' );
 
 			foreach ( apply_filters( 'wc_klarna_payments_available_payment_categories', WC()->session->get( 'klarna_payments_categories' ) ) as $payment_category ) {
 				$payment_category_id   = 'klarna_payments_' . $payment_category->identifier;
@@ -61,7 +72,7 @@ class KlarnaPayment extends Base {
 				<li class="wc_payment_method payment_method_<?php echo $kp->id; ?> cfw-radio-reveal-li">
 					<div class="payment_method_title_wrap cfw-radio-reveal-title-wrap">
 						<label class="payment_method_label cfw-radio-reveal-label" for="payment_method_<?php echo $kp->id; ?>">
-							<input id="payment_method_<?php echo $kp->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $kp->id ); ?>" <?php echo ($count == 0) ? "checked" : ""; ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
+							<input id="payment_method_<?php echo $kp->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $kp->id ); ?>" <?php echo ( ( empty($current_gateway) && $count == 0 ) || stripos($current_gateway, 'klarna_payments') !== false ) ? "checked" : ""; ?> data-order_button_text="<?php echo esc_attr( $kp->order_button_text ); ?>" />
 							<span class="payment_method_title cfw-radio-reveal-title"><?php echo $kp->get_title(); ?></span>
 						</label>
 
@@ -89,7 +100,7 @@ class KlarnaPayment extends Base {
 								$field_html = str_ireplace('•••• •••• •••• ••••', 'Card Number', $field_html);
 								$field_html = str_ireplace('&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;', 'Card Number', $field_html);
 
-								echo apply_filters("cfw_payment_gateway_field_html_{$gateway->id}", $field_html);
+								echo apply_filters("cfw_payment_gateway_field_html_{$kp->id}", $field_html);
 								?>
 							</div>
 						</div>

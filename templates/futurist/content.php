@@ -90,7 +90,7 @@
 
                                         <div id="cfw-email-wrap" class="cfw-input-wrap cfw-text-input">
                                             <label class="cfw-input-label" for="billing_email"><?php esc_html_e('Email', 'checkout-wc'); ?></label>
-                                            <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="Email" placeholder="Email" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
+                                            <input type="email" name="billing_email" id="billing_email" data-parsley-group="account" autocomplete="email" autofocus="autofocus" size="30" title="<?php esc_attr_e('Email', 'checkout-wc'); ?>" placeholder="<?php esc_attr_e('Email', 'checkout-wc'); ?>" class="garlic-auto-save" value="" required="" data-parsley-trigger="keyup">
                                         </div>
 
 										<?php do_action('cfw_checkout_after_email'); ?>
@@ -231,10 +231,42 @@
 
                         <!-- Payment Method Panel -->
                         <div id="cfw-payment-method" class="cfw-panel">
+                            <?php do_action('cfw_checkout_before_payment_method_tab'); ?>
+
+	                        <?php if ( WC()->cart->needs_shipping_address() ): ?>
+                                <h3 class="cfw-module-title">
+			                        <?php echo apply_filters('cfw_billing_address_heading', esc_html__( 'Billing address', 'checkout-wc' ) ); ?>
+                                </h3>
+                                <div id="cfw-shipping-same-billing" class="cfw-module">
+                                    <ul class="cfw-radio-reveal-group">
+                                        <li class="cfw-radio-reveal-li cfw-no-reveal">
+                                            <div class="cfw-radio-reveal-title-wrap">
+                                                <label class="cfw-radio-reveal-title-wrap cfw-radio-reveal-label">
+                                                    <input type="radio" name="ship_to_different_address" id="ship_to_different_address_as_billing" value="0" class="garlic-auto-save" checked />
+                                                    <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Same as shipping address', 'checkout-wc' ); ?></span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="cfw-radio-reveal-li">
+                                            <div class="cfw-radio-reveal-title-wrap">
+                                                <label class="cfw-radio-reveal-label">
+                                                    <input type="radio" name="ship_to_different_address" id="shipping_dif_from_billing" value="1" class="garlic-auto-save" />
+                                                    <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Use a different billing address', 'checkout-wc' ); ?></span>
+                                                </label>
+                                            </div>
+                                            <div class="cfw-radio-reveal-content-wrap" style="display: none">
+                                                <div id="cfw-billing-fields-container" class="cfw-radio-reveal-content <?php cfw_address_class_wrap( false ); ?>">
+							                        <?php cfw_get_billing_checkout_fields($checkout); ?>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+	                        <?php endif; ?>
+
+	                        <?php do_action('cfw_checkout_after_payment_tab_billing_address'); ?>
 
                             <div id="cfw-billing-methods" class="cfw-module">
-	                            <?php do_action('cfw_checkout_before_payment_method_tab'); ?>
-
                                 <h3 class="cfw-module-title">
                                     <?php echo apply_filters('cfw_payment_method_heading', esc_html__('Payment method', 'checkout-wc') ); ?>
                                 </h3>
@@ -259,37 +291,6 @@
 
 	                            <?php do_action('cfw_checkout_after_payment_methods'); ?>
                             </div>
-
-                            <?php if ( WC()->cart->needs_shipping_address() ): ?>
-                                <h3 class="cfw-module-title">
-		                            <?php echo apply_filters('cfw_billing_address_heading', esc_html__( 'Billing address', 'checkout-wc' ) ); ?>
-                                </h3>
-                                <div id="cfw-shipping-same-billing" class="cfw-module">
-                                    <ul class="cfw-radio-reveal-group">
-                                        <li class="cfw-radio-reveal-li cfw-no-reveal">
-                                            <div class="cfw-radio-reveal-title-wrap">
-                                                <label class="cfw-radio-reveal-title-wrap cfw-radio-reveal-label">
-                                                    <input type="radio" name="ship_to_different_address" id="ship_to_different_address_as_billing" value="0" class="garlic-auto-save" checked />
-                                                    <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Same as shipping address', 'checkout-wc' ); ?></span>
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li class="cfw-radio-reveal-li">
-                                            <div class="cfw-radio-reveal-title-wrap">
-                                                <label class="cfw-radio-reveal-label">
-                                                    <input type="radio" name="ship_to_different_address" id="shipping_dif_from_billing" value="1" class="garlic-auto-save" />
-                                                    <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Use a different billing address', 'checkout-wc' ); ?></span>
-                                                </label>
-                                            </div>
-                                            <div class="cfw-radio-reveal-content-wrap" style="display: none">
-                                                <div id="cfw-billing-fields-container" class="cfw-radio-reveal-content <?php cfw_address_class_wrap( false ); ?>">
-                                                    <?php cfw_get_billing_checkout_fields($checkout); ?>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            <?php endif; ?>
 
 	                        <?php do_action('cfw_checkout_before_payment_method_terms_checkbox'); ?>
 
@@ -399,7 +400,7 @@
                             </div>
                             <div id="cfw-cart-shipping-total" class="cfw-flex-row cfw-flex-justify" style="<?php echo (!WC()->cart->needs_shipping()) ? 'display: none' : 'display: flex'; ?>">
                                 <span class="type"><?php esc_html_e('Shipping', 'checkout-wc'); ?></span>
-                                <span class="amount"><?php echo $cart->get_cart_shipping_total(); ?></span>
+                                <span class="amount"><?php echo cfw_get_shipping_total(); ?></span>
                             </div>
                             <div id="cfw-cart-fees"></div>
 	                        <?php foreach ( WC()->cart->get_fees() as $fee ) : ?>

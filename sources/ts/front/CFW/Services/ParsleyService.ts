@@ -98,6 +98,9 @@ export class ParsleyService {
     stateAndZipValidator(): void {
         this.parsley.addValidator('stateAndZip', {
             validateString: function(_ignoreValue, country, instance) {
+                if ( w.cfwEventData.settings.enable_zip_autocomplete != true ) {
+                    return true;
+                }
 
                 let aborting = false;
 
@@ -129,7 +132,7 @@ export class ParsleyService {
                 }
 
                 // If we aren't already checking, check.
-                if(!ParsleyService.cityStateValidating) {
+                if( ! ParsleyService.cityStateValidating ) {
 
                     // Start the check
                     ParsleyService.cityStateValidating = true;

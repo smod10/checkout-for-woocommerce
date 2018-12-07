@@ -62,15 +62,4 @@ class OneClickUpsells extends Base {
 			}
 		}
 	}
-
-	function allowed_scripts( $scripts ) {
-		// One Click Upsell Stripe
-		$scripts[] = 'stripe';
-		$scripts[] = 'ocustripe';
-		$scripts[] = 'ocuadyen';
-		$scripts[] = 'ocuamazon';
-		$scripts[] = 'ocubraintree';
-
-		return $scripts;
-	}
 }

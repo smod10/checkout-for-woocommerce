@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2018-11-16 12:24-0500\n"
-"PO-Revision-Date: 2018-11-16 12:26-0500\n"
+"POT-Creation-Date: 2018-11-28 22:08-0500\n"
+"PO-Revision-Date: 2018-11-28 22:09-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -29,7 +29,7 @@ msgstr "名字"
 msgid "Last Name"
 msgstr "姓"
 
-#: functions.php:59 includes/Main.php:495
+#: functions.php:59 includes/Main.php:532
 msgid "required"
 msgstr "必要的"
 
@@ -49,7 +49,7 @@ msgstr "选择一个地区&hellip;"
 msgid "Choose an option"
 msgstr "选择一个选项"
 
-#: functions.php:338 includes/Action/UpdateCheckoutAction.php:164
+#: functions.php:338
 #, php-format
 msgctxt "shipping packages"
 msgid "Shipping"
@@ -72,15 +72,15 @@ msgstr ""
 "很抱歉，似乎你所在的位置没有可用的付款方式。如果您需要帮助请联系我们，或希望"
 "使其他安排。"
 
-#: includes/Action/UpdateCheckoutAction.php:181
-msgid ""
-"There are no shipping methods available. Please ensure that your address has "
-"been entered correctly, or contact us if you need any help."
-msgstr ""
-"没有可用的运送方式。 请确保您的地址已正确输入，如果您需要任何帮助，请联系我"
-"们。"
+#: functions.php:497 functions.php:504
+msgid "Not Calculated"
+msgstr "未计算"
 
-#: includes/Compatibility/Base.php:99
+#: functions.php:502
+msgid "Not Available"
+msgstr "不可用"
+
+#: includes/Compatibility/Base.php:135
 msgid "Or"
 msgstr "或"
 
@@ -90,37 +90,41 @@ msgstr "与PayPal签约。 请继续下面的订单。"
 
 #. Plugin Name of the plugin/theme
 #: includes/Core/Admin.php:88 includes/Core/Admin.php:111
+#: includes/Core/Customizer.php:263 includes/Main.php:647
 #, fuzzy
 msgid "Checkout for WooCommerce"
 msgstr "Checkout for WooCommerce"
 
-#: includes/Core/Admin.php:91
+#: includes/Core/Admin.php:91 includes/Core/Customizer.php:276
+#: includes/Main.php:655
 msgid "General"
 msgstr "一般"
 
-#: includes/Core/Admin.php:92
+#: includes/Core/Admin.php:92 includes/Core/Customizer.php:333
+#: includes/Core/Customizer.php:350 includes/Main.php:664
 msgid "Template"
 msgstr "模板"
 
-#: includes/Core/Admin.php:93
+#: includes/Core/Admin.php:93 includes/Core/Customizer.php:364
+#: includes/Core/Customizer.php:401 includes/Main.php:673
 msgid "Design"
 msgstr "设计"
 
-#: includes/Core/Admin.php:94
+#: includes/Core/Admin.php:94 includes/Main.php:682
 msgid "License"
 msgstr "许可证"
 
-#: includes/Core/Admin.php:95
+#: includes/Core/Admin.php:95 includes/Main.php:691
 msgid "Support"
 msgstr "支持"
 
-#: includes/Core/Admin.php:112
+#: includes/Core/Admin.php:112 includes/Core/Customizer.php:266
 msgid ""
 "Checkout for WooCommerce provides a beautiful, conversion optimized checkout "
 "template for WooCommerce."
 msgstr "结帐 WooCommerce 提供了一个美丽的, 转换优化的 WooCommerce 结帐模板."
 
-#: includes/Core/Admin.php:137
+#: includes/Core/Admin.php:137 includes/Core/Customizer.php:287
 msgid "Enable / Disable"
 msgstr "启用/停用"
 
@@ -134,7 +138,7 @@ msgid ""
 "enabled for admin users.)"
 msgstr "启用或禁用 WooCommerce 主题的签出。(注： 主题始终为管理员用户启用。)"
 
-#: includes/Core/Admin.php:148
+#: includes/Core/Admin.php:148 includes/Core/Customizer.php:298
 msgid "Show Phone Fields"
 msgstr "显示电话字段"
 
@@ -148,7 +152,7 @@ msgid ""
 "(Default: Disabled)"
 msgstr "启用或禁用所需的计费和送货电话字段。(默认值: 已禁用)"
 
-#: includes/Core/Admin.php:159
+#: includes/Core/Admin.php:159 includes/Core/Customizer.php:309
 msgid "Header Scripts"
 msgstr "页眉脚本"
 
@@ -158,7 +162,7 @@ msgid ""
 "code> tag in the document source."
 msgstr "此代码将在文档源中的关闭 <code>&lt;/head&gt;</code> 标记之前立即输出。"
 
-#: includes/Core/Admin.php:173
+#: includes/Core/Admin.php:173 includes/Core/Customizer.php:320
 msgid "Footer Scripts"
 msgstr "頁尾腳本"
 
@@ -196,7 +200,7 @@ msgstr "全局设置"
 msgid "These settings apply to all themes."
 msgstr "这些设置适用于所有主题。"
 
-#: includes/Core/Admin.php:269
+#: includes/Core/Admin.php:269 includes/Core/Customizer.php:376
 msgid "Logo"
 msgstr "标识"
 
@@ -208,7 +212,7 @@ msgstr "上传图片"
 msgid "Clear Logo"
 msgstr "删除徽标"
 
-#: includes/Core/Admin.php:284
+#: includes/Core/Admin.php:284 includes/Core/Customizer.php:388
 msgid "Footer Text"
 msgstr "页脚文本"
 
@@ -218,51 +222,51 @@ msgid ""
 "single space to override this behavior."
 msgstr "如果保留空白, 将显示标准版权声明。设置为单个空格以覆盖此行为。"
 
-#: includes/Core/Admin.php:298
+#: includes/Core/Admin.php:298 includes/Core/Customizer.php:401
 msgid "Theme Specific Settings"
 msgstr "主题特定设置"
 
-#: includes/Core/Admin.php:310
+#: includes/Core/Admin.php:310 includes/Core/Customizer.php:417
 msgid "Header Background Color"
 msgstr "页眉背景色"
 
-#: includes/Core/Admin.php:320
+#: includes/Core/Admin.php:320 includes/Core/Customizer.php:431
 msgid "Header Text Color"
 msgstr "页眉文本颜色"
 
-#: includes/Core/Admin.php:330
+#: includes/Core/Admin.php:330 includes/Core/Customizer.php:445
 msgid "Footer Background Color"
 msgstr "页脚背景颜色"
 
-#: includes/Core/Admin.php:340
+#: includes/Core/Admin.php:340 includes/Core/Customizer.php:459
 msgid "Footer Text Color"
 msgstr "页脚文字颜色"
 
-#: includes/Core/Admin.php:350
+#: includes/Core/Admin.php:350 includes/Core/Customizer.php:473
 msgid "Summary Background Color"
 msgstr "概要背景颜色"
 
-#: includes/Core/Admin.php:360
+#: includes/Core/Admin.php:360 includes/Core/Customizer.php:487
 msgid "Primary Button Color"
 msgstr "主按钮颜色"
 
-#: includes/Core/Admin.php:369
+#: includes/Core/Admin.php:369 includes/Core/Customizer.php:501
 msgid "Primary Button Text Color"
 msgstr "主按钮文字颜色"
 
-#: includes/Core/Admin.php:378
+#: includes/Core/Admin.php:378 includes/Core/Customizer.php:515
 msgid "Secondary Button Color"
 msgstr "次级按钮颜色"
 
-#: includes/Core/Admin.php:387
+#: includes/Core/Admin.php:387 includes/Core/Customizer.php:529
 msgid "Secondary Button Text Color"
 msgstr "次要按钮文字颜色"
 
-#: includes/Core/Admin.php:396
+#: includes/Core/Admin.php:396 includes/Core/Customizer.php:543
 msgid "Link Color"
 msgstr "链接颜色"
 
-#: includes/Core/Admin.php:405
+#: includes/Core/Admin.php:405 includes/Core/Customizer.php:556
 msgid "Custom CSS"
 msgstr "自定义样式"
 
@@ -333,6 +337,15 @@ msgstr ""
 msgid "Settings"
 msgstr "设置"
 
+#: includes/Core/Customizer.php:405
+msgid ""
+"These settings only apply to the currently active template. If you switch "
+"templates in the customizer, these settings will become unavailable but "
+"saving will publish any changes here prior to switching templates!"
+msgstr ""
+"这些设置仅适用于当前活动的模板。如果您在自定义程序中切换模板, 这些设置将变得"
+"不可用, 但保存将在切换模板之前在此处发布任何更改!"
+
 #: includes/Core/Form.php:76 includes/Core/Form.php:246
 #: includes/Core/Form.php:248
 msgid "Phone"
@@ -354,7 +367,7 @@ msgstr "地址"
 msgid "Street address"
 msgstr "街道地址"
 
-#: includes/Core/Form.php:145 includes/Core/Form.php:146
+#: includes/Core/Form.php:145 includes/Core/Form.php:146 includes/Main.php:531
 msgid "Apt, suite, etc. (optional)"
 msgstr "Apt，Suite，Bldg。 （可选）"
 
@@ -382,74 +395,69 @@ msgstr "城市"
 msgid "Checkout is not available whilst your cart is empty."
 msgstr "当您的购物车为空时, 结帐不可用。"
 
-#: includes/Main.php:386
+#: includes/Main.php:423
 msgid ""
 "Activation failed: Please activate WooCommerce in order to use Checkout for "
 "WooCommerce"
 msgstr "激活失败：请激活WooCommerce以便为WooCommerce使用Checkout"
 
-#: includes/Main.php:462
+#: includes/Main.php:499
 msgid "Error processing checkout. Please try again."
 msgstr "处理结帐错误。 请再试一次。"
 
-#: includes/Main.php:476
+#: includes/Main.php:513
 msgid "Select an option&hellip;"
 msgstr "选择一个选项&hellip;"
 
-#: includes/Main.php:477
+#: includes/Main.php:514
 msgctxt "enhanced select"
 msgid "No matches found"
 msgstr "找不到匹配项"
 
-#: includes/Main.php:478
+#: includes/Main.php:515
 msgctxt "enhanced select"
 msgid "Loading failed"
 msgstr "加载失败"
 
-#: includes/Main.php:479
+#: includes/Main.php:516
 msgctxt "enhanced select"
 msgid "Please enter 1 or more characters"
 msgstr "请输入1个或更多字符"
 
-#: includes/Main.php:480
+#: includes/Main.php:517
 msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
 msgstr "请输入％qty％或更多字符"
 
-#: includes/Main.php:481
+#: includes/Main.php:518
 msgctxt "enhanced select"
 msgid "Please delete 1 character"
 msgstr "请删除1个字符"
 
-#: includes/Main.php:482
+#: includes/Main.php:519
 msgctxt "enhanced select"
 msgid "Please delete %qty% characters"
 msgstr "请删除 %qty% 个字符"
 
-#: includes/Main.php:483
+#: includes/Main.php:520
 msgctxt "enhanced select"
 msgid "You can only select 1 item"
 msgstr "您只能选择1个项目"
 
-#: includes/Main.php:484
+#: includes/Main.php:521
 msgctxt "enhanced select"
 msgid "You can only select %qty% items"
 msgstr "您只能选择％qty％项目"
 
-#: includes/Main.php:485
+#: includes/Main.php:522
 msgctxt "enhanced select"
 msgid "Loading more results&hellip;"
 msgstr "载入更多结果＆hellip;"
 
-#: includes/Main.php:486
+#: includes/Main.php:523
 msgctxt "enhanced select"
 msgid "Searching&hellip;"
 msgstr "搜索&hellip;"
-
-#: includes/Main.php:494
-msgctxt "checkout-wc"
-msgid "Apt, suite, etc. (optional)"
-msgstr "Apt，Suite，Bldg。 （可选）"
 
 #: templates/copify/content.php:38 templates/default/content.php:30
 #: templates/futurist/content.php:28
@@ -484,8 +492,9 @@ msgstr "已经拥有账户?"
 msgid "Log in for a faster checkout experience."
 msgstr "登录以获得更快的结账体验。"
 
-#: templates/copify/content.php:89 templates/default/content.php:81
-#: templates/futurist/content.php:92
+#: templates/copify/content.php:89 templates/copify/content.php:90
+#: templates/default/content.php:81 templates/default/content.php:82
+#: templates/futurist/content.php:92 templates/futurist/content.php:93
 msgid "Email"
 msgstr "电子邮件"
 
@@ -690,6 +699,17 @@ msgstr "Objectiv"
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
 msgstr "https://objectiv.co"
+
+#~ msgid ""
+#~ "There are no shipping methods available. Please ensure that your address "
+#~ "has been entered correctly, or contact us if you need any help."
+#~ msgstr ""
+#~ "没有可用的运送方式。 请确保您的地址已正确输入，如果您需要任何帮助，请联系"
+#~ "我们。"
+
+#~ msgctxt "checkout-wc"
+#~ msgid "Apt, suite, etc. (optional)"
+#~ msgstr "Apt，Suite，Bldg。 （可选）"
 
 #~ msgid "Log in."
 #~ msgstr "登录."

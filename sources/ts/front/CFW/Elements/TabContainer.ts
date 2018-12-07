@@ -322,6 +322,10 @@ export class TabContainer extends Element {
         $('input[name^="shipping_method"][type="radio"]').each((index, el) => {
             $(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
         });
+
+        $('input[name^="payment_method"][type="radio"]').each((index, el) => {
+            $(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
+        });
     }
 
     /**

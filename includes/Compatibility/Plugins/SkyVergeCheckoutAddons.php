@@ -20,20 +20,4 @@ class SkyVergeCheckoutAddons extends Base {
 	function set_checkout_add_ons_position() {
 		return 'cfw_checkout_before_payment_method_tab';
 	}
-
-	function allowed_scripts( $scripts ) {
-		$scripts[] = 'plupload-all';
-		$scripts[] = 'wc-checkout-add-ons-frontend';
-		$scripts[] = 'selectWoo';
-
-		return $scripts;
-	}
-
-	function allowed_styles( $styles ) {
-		// Checkout Add-ons
-		$styles[] = 'wc-checkout-add-ons-frontend';
-		$styles[] = 'select2';
-
-		return $styles;
-	}
 }

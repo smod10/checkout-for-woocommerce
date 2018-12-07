@@ -8,3 +8,9 @@
 #cfw-footer .cfw-footer-inner {
   padding: 40px 0;
 }
+
+#wp_footer {
+  & > *:not(#wpadminbar) {
+    display: none;
+  }
+}

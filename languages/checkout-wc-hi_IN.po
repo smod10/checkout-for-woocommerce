@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2018-11-16 12:24-0500\n"
-"PO-Revision-Date: 2018-11-16 12:28-0500\n"
+"POT-Creation-Date: 2018-11-28 22:08-0500\n"
+"PO-Revision-Date: 2018-11-28 22:10-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: hi_IN\n"
@@ -29,7 +29,7 @@ msgstr "प्रथम नाम"
 msgid "Last Name"
 msgstr "कुल नाम"
 
-#: functions.php:59 includes/Main.php:495
+#: functions.php:59 includes/Main.php:532
 msgid "required"
 msgstr "आवश्यक"
 
@@ -49,7 +49,7 @@ msgstr "किसी राज्य का चयन करें &hellip;"
 msgid "Choose an option"
 msgstr "कोई विकल्प चुनें"
 
-#: functions.php:338 includes/Action/UpdateCheckoutAction.php:164
+#: functions.php:338
 #, php-format
 msgctxt "shipping packages"
 msgid "Shipping"
@@ -73,15 +73,15 @@ msgstr ""
 "क्षमा करें, यह लगता है कि वहाँ कोई उपलब्ध भुगतान विधियाँ आपके स्थान के लिए कर रहे हैं। आप सहायता की आवश्यकता "
 "होती है या वैकल्पिक व्यवस्था करने के लिए चाहते हैं, तो कृपया हमसे संपर्क करें।"
 
-#: includes/Action/UpdateCheckoutAction.php:181
-msgid ""
-"There are no shipping methods available. Please ensure that your address has been entered "
-"correctly, or contact us if you need any help."
-msgstr ""
-"इसमें कोई शिपिंग विधियां उपलब्ध नहीं हैं कृपया अपना पता दोबारा जांच लें, या अगर आपको कोई मदद की ज़रूरत है तो "
-"हमसे संपर्क करें।"
+#: functions.php:497 functions.php:504
+msgid "Not Calculated"
+msgstr "परिकलित नहीं"
 
-#: includes/Compatibility/Base.php:99
+#: functions.php:502
+msgid "Not Available"
+msgstr "उपलब्ध नहीं"
+
+#: includes/Compatibility/Base.php:135
 msgid "Or"
 msgstr "या"
 
@@ -90,37 +90,40 @@ msgid "Logged in with PayPal. Please continue your order below."
 msgstr "पेपैल के साथ में लॉग इन किया । कृपया नीचे अपना ऑर्डर जारी रखें ।"
 
 #. Plugin Name of the plugin/theme
-#: includes/Core/Admin.php:88 includes/Core/Admin.php:111
+#: includes/Core/Admin.php:88 includes/Core/Admin.php:111 includes/Core/Customizer.php:263
+#: includes/Main.php:647
 msgid "Checkout for WooCommerce"
 msgstr "Checkout for WooCommerce"
 
-#: includes/Core/Admin.php:91
+#: includes/Core/Admin.php:91 includes/Core/Customizer.php:276 includes/Main.php:655
 msgid "General"
 msgstr "सामान्य"
 
-#: includes/Core/Admin.php:92
+#: includes/Core/Admin.php:92 includes/Core/Customizer.php:333 includes/Core/Customizer.php:350
+#: includes/Main.php:664
 msgid "Template"
 msgstr "टेम्पलेट"
 
-#: includes/Core/Admin.php:93
+#: includes/Core/Admin.php:93 includes/Core/Customizer.php:364 includes/Core/Customizer.php:401
+#: includes/Main.php:673
 msgid "Design"
 msgstr "डिजाइन"
 
-#: includes/Core/Admin.php:94
+#: includes/Core/Admin.php:94 includes/Main.php:682
 msgid "License"
 msgstr "लाइसैंस"
 
-#: includes/Core/Admin.php:95
+#: includes/Core/Admin.php:95 includes/Main.php:691
 msgid "Support"
 msgstr "समर्थन करना"
 
-#: includes/Core/Admin.php:112
+#: includes/Core/Admin.php:112 includes/Core/Customizer.php:266
 msgid ""
 "Checkout for WooCommerce provides a beautiful, conversion optimized checkout template for "
 "WooCommerce."
 msgstr "WooCommerce के लिए चेकआउट WooCommerce के लिए एक सुंदर, रूपांतरण अनुकूलित चेकआउट टेम्पलेट प्रदान करता है."
 
-#: includes/Core/Admin.php:137
+#: includes/Core/Admin.php:137 includes/Core/Customizer.php:287
 msgid "Enable / Disable"
 msgstr "अक्षम सक्षम"
 
@@ -136,7 +139,7 @@ msgstr ""
 "WooCommerce विषयवस्तु के लिए चेकआउट सक्षम या अक्षम करें. (ध्यान दें: विषय हमेशा व्यवस्थापक उपयोगकर्ताओं के लिए "
 "सक्षम है.)"
 
-#: includes/Core/Admin.php:148
+#: includes/Core/Admin.php:148 includes/Core/Customizer.php:298
 msgid "Show Phone Fields"
 msgstr "फ़ोन फ़ील्ड्स दिखाएं"
 
@@ -148,7 +151,7 @@ msgstr "बिलिंग और शिपिंग फ़ोन फ़ील�
 msgid "Enable or disable billing and shipping phone fields as required fields. (Default: Disabled)"
 msgstr "आवश्यक फ़ील्ड्स के रूप में बिलिंग और शिपिंग फ़ोन फ़ील्ड्स सक्षम या अक्षम करें । (डिफ़ॉल्ट: अक्षम)"
 
-#: includes/Core/Admin.php:159
+#: includes/Core/Admin.php:159 includes/Core/Customizer.php:309
 msgid "Header Scripts"
 msgstr "शीर्ष लेख स्क्रिप्ट"
 
@@ -158,7 +161,7 @@ msgid ""
 "document source."
 msgstr "यह कोड तुरंत बंद <code>&lt;/head&gt;</code> टैग दस्तावेज़ स्रोत में आउटपुट होगा ।"
 
-#: includes/Core/Admin.php:173
+#: includes/Core/Admin.php:173 includes/Core/Customizer.php:320
 msgid "Footer Scripts"
 msgstr "पाद लेख स्क्रिप्ट"
 
@@ -196,7 +199,7 @@ msgstr "वैश्विक सेटिंग्स"
 msgid "These settings apply to all themes."
 msgstr "ये सेटिंग्स सभी विषयवस्तुओं पर लागू होती हैं ।"
 
-#: includes/Core/Admin.php:269
+#: includes/Core/Admin.php:269 includes/Core/Customizer.php:376
 msgid "Logo"
 msgstr "लो़गो"
 
@@ -208,7 +211,7 @@ msgstr "छवि अपलोड करें"
 msgid "Clear Logo"
 msgstr "स्पष्ट लोगो"
 
-#: includes/Core/Admin.php:284
+#: includes/Core/Admin.php:284 includes/Core/Customizer.php:388
 msgid "Footer Text"
 msgstr "फूटर टेक्स्ट"
 
@@ -220,51 +223,51 @@ msgstr ""
 "यदि खाली छोड़ा जाता है, तो मानक कॉपीराइट सूचना प्रदर्शित होगी. इस व्यवहार को ओवरराइड करने के लिए किसी "
 "एकल स्थान पर सेट करें."
 
-#: includes/Core/Admin.php:298
+#: includes/Core/Admin.php:298 includes/Core/Customizer.php:401
 msgid "Theme Specific Settings"
 msgstr "विषयवस्तु विशिष्ट सेटिंग्स"
 
-#: includes/Core/Admin.php:310
+#: includes/Core/Admin.php:310 includes/Core/Customizer.php:417
 msgid "Header Background Color"
 msgstr "हैडर पृष्ठभूमि का रंग"
 
-#: includes/Core/Admin.php:320
+#: includes/Core/Admin.php:320 includes/Core/Customizer.php:431
 msgid "Header Text Color"
 msgstr "शीर्ष लेख पाठ रंग"
 
-#: includes/Core/Admin.php:330
+#: includes/Core/Admin.php:330 includes/Core/Customizer.php:445
 msgid "Footer Background Color"
 msgstr "पाद पृष्ठभूमि का रंग"
 
-#: includes/Core/Admin.php:340
+#: includes/Core/Admin.php:340 includes/Core/Customizer.php:459
 msgid "Footer Text Color"
 msgstr "पाद लेख पाठ रंग"
 
-#: includes/Core/Admin.php:350
+#: includes/Core/Admin.php:350 includes/Core/Customizer.php:473
 msgid "Summary Background Color"
 msgstr "सारांश पृष्ठभूमि रंग"
 
-#: includes/Core/Admin.php:360
+#: includes/Core/Admin.php:360 includes/Core/Customizer.php:487
 msgid "Primary Button Color"
 msgstr "प्राथमिक बटन रंग"
 
-#: includes/Core/Admin.php:369
+#: includes/Core/Admin.php:369 includes/Core/Customizer.php:501
 msgid "Primary Button Text Color"
 msgstr "प्राथमिक बटन पाठ रंग"
 
-#: includes/Core/Admin.php:378
+#: includes/Core/Admin.php:378 includes/Core/Customizer.php:515
 msgid "Secondary Button Color"
 msgstr "बटन का द्वितीयक बटन रं"
 
-#: includes/Core/Admin.php:387
+#: includes/Core/Admin.php:387 includes/Core/Customizer.php:529
 msgid "Secondary Button Text Color"
 msgstr "द्वितीयक बटन पाठ रंग"
 
-#: includes/Core/Admin.php:396
+#: includes/Core/Admin.php:396 includes/Core/Customizer.php:543
 msgid "Link Color"
 msgstr "लिंक रंग"
 
-#: includes/Core/Admin.php:405
+#: includes/Core/Admin.php:405 includes/Core/Customizer.php:556
 msgid "Custom CSS"
 msgstr "कस्टम CSS"
 
@@ -332,6 +335,15 @@ msgstr ""
 msgid "Settings"
 msgstr "सेटिंग्स"
 
+#: includes/Core/Customizer.php:405
+msgid ""
+"These settings only apply to the currently active template. If you switch templates in the "
+"customizer, these settings will become unavailable but saving will publish any changes here "
+"prior to switching templates!"
+msgstr ""
+"ये सेटिंग्स केवल वर्तमान में सक्रिय टेंपलेट पर लागू होती हैं । यदि आप कस्टमाइज़र में टेम्पलेट्स स्विच करते हैं, तो ये सेटिंग्स "
+"अनुपलब्ध हो जाएंगी लेकिन सहेजने से टेंपलेट्स स्विच करने से पहले यहां कोई भी परिवर्तन प्रकाशित होगा!"
+
 #: includes/Core/Form.php:76 includes/Core/Form.php:246 includes/Core/Form.php:248
 msgid "Phone"
 msgstr "फोन"
@@ -352,7 +364,7 @@ msgstr "पता"
 msgid "Street address"
 msgstr "सड़क का पता"
 
-#: includes/Core/Form.php:145 includes/Core/Form.php:146
+#: includes/Core/Form.php:145 includes/Core/Form.php:146 includes/Main.php:531
 msgid "Apt, suite, etc. (optional)"
 msgstr "अपार्टमेंट, सूट, आदि। (वैकल्पिक)"
 
@@ -380,82 +392,77 @@ msgstr "शहर "
 msgid "Checkout is not available whilst your cart is empty."
 msgstr "चेकआउट उपलब्ध नहीं है, जबकि अपनी गाड़ी खाली है."
 
-#: includes/Main.php:386
+#: includes/Main.php:423
 msgid "Activation failed: Please activate WooCommerce in order to use Checkout for WooCommerce"
 msgstr "सक्रियण विफल: WooCommerce के लिए चेकआउट का उपयोग करने के लिए कृपया WooCommerce सक्रिय करें"
 
-#: includes/Main.php:462
+#: includes/Main.php:499
 msgid "Error processing checkout. Please try again."
 msgstr "त्रुटि संसाधन चेकआउट । कृपया पुन: प्रयास करें ।"
 
-#: includes/Main.php:476
+#: includes/Main.php:513
 msgid "Select an option&hellip;"
 msgstr "एक विकल्प चुनें&hellip;"
 
-#: includes/Main.php:477
+#: includes/Main.php:514
 #, fuzzy
 msgctxt "enhanced select"
 msgid "No matches found"
 msgstr "कोई मेल नहीं मिला"
 
-#: includes/Main.php:478
+#: includes/Main.php:515
 #, fuzzy
 msgctxt "enhanced select"
 msgid "Loading failed"
 msgstr "लोड करना विफल रहा"
 
-#: includes/Main.php:479
+#: includes/Main.php:516
 #, fuzzy
 msgctxt "enhanced select"
 msgid "Please enter 1 or more characters"
 msgstr "कृपया 1 या अधिक वर्ण दर्ज करें"
 
-#: includes/Main.php:480
+#: includes/Main.php:517
 #, fuzzy
 msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
 msgstr "कृपया% मात्रा% या अधिक वर्ण दर्ज करें"
 
-#: includes/Main.php:481
+#: includes/Main.php:518
 #, fuzzy
 msgctxt "enhanced select"
 msgid "Please delete 1 character"
 msgstr "कृपया 1 वर्ण हटाएं"
 
-#: includes/Main.php:482
+#: includes/Main.php:519
 #, fuzzy
 msgctxt "enhanced select"
 msgid "Please delete %qty% characters"
 msgstr "कृपया% मात्रा% वर्ण हटाएं"
 
-#: includes/Main.php:483
+#: includes/Main.php:520
 #, fuzzy
 msgctxt "enhanced select"
 msgid "You can only select 1 item"
 msgstr "आप केवल 1 आइटम का चयन कर सकते है"
 
-#: includes/Main.php:484
+#: includes/Main.php:521
 #, fuzzy
 msgctxt "enhanced select"
 msgid "You can only select %qty% items"
 msgstr "आप केवल% मात्रा% आइटम चुन सकते है"
 
-#: includes/Main.php:485
+#: includes/Main.php:522
 #, fuzzy
 msgctxt "enhanced select"
 msgid "Loading more results&hellip;"
 msgstr "अधिक परिणाम लोड हो रहा है &hellip;"
 
-#: includes/Main.php:486
+#: includes/Main.php:523
 #, fuzzy
 msgctxt "enhanced select"
 msgid "Searching&hellip;"
 msgstr "खोज &hellip;"
-
-#: includes/Main.php:494
-msgctxt "checkout-wc"
-msgid "Apt, suite, etc. (optional)"
-msgstr "अपार्टमेंट, सूट, आदि। (वैकल्पिक)"
 
 #: templates/copify/content.php:38 templates/default/content.php:30
 #: templates/futurist/content.php:28
@@ -490,8 +497,9 @@ msgstr "पहले से ही हमारे साथ एक खाता
 msgid "Log in for a faster checkout experience."
 msgstr "तेज़ चेकआउट अनुभव के लिए लॉग इन करें ।"
 
-#: templates/copify/content.php:89 templates/default/content.php:81
-#: templates/futurist/content.php:92
+#: templates/copify/content.php:89 templates/copify/content.php:90 templates/default/content.php:81
+#: templates/default/content.php:82 templates/futurist/content.php:92
+#: templates/futurist/content.php:93
 msgid "Email"
 msgstr "ई-मेल"
 
@@ -693,6 +701,17 @@ msgstr "Objectiv"
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
 msgstr "https://objectiv.co"
+
+#~ msgid ""
+#~ "There are no shipping methods available. Please ensure that your address has been entered "
+#~ "correctly, or contact us if you need any help."
+#~ msgstr ""
+#~ "इसमें कोई शिपिंग विधियां उपलब्ध नहीं हैं कृपया अपना पता दोबारा जांच लें, या अगर आपको कोई मदद की ज़रूरत है तो "
+#~ "हमसे संपर्क करें।"
+
+#~ msgctxt "checkout-wc"
+#~ msgid "Apt, suite, etc. (optional)"
+#~ msgstr "अपार्टमेंट, सूट, आदि। (वैकल्पिक)"
 
 #~ msgid "Log in."
 #~ msgstr "लॉगिन करें"

@@ -84,7 +84,7 @@ class UpdateCheckoutAction extends Action {
 				'fees'                     => $this->prep_fees(),
 				'new_totals'               => array(
 					'new_subtotal'       => WC()->cart->get_cart_subtotal(),
-					'new_shipping_total' => WC()->cart->get_cart_shipping_total(),
+					'new_shipping_total' => $this->get_shipping_total(),
 					'new_taxes_total'    => ( WC()->cart->get_cart_tax() != '' ) ? WC()->cart->get_cart_tax() : wc_price( 0.00 ),
 					'new_total'          => WC()->cart->get_total(),
 				),
@@ -133,6 +133,10 @@ class UpdateCheckoutAction extends Action {
 		return $fees;
 	}
 
+	function get_shipping_total() {
+		return cfw_get_shipping_total();
+	}
+
 	/**
 	 * Returns the shipping methods available
 	 *
@@ -144,43 +148,5 @@ class UpdateCheckoutAction extends Action {
 		ob_start();
 		cfw_cart_totals_shipping_html();
 		return ob_get_clean();
-		$packages = WC()->shipping->get_packages();
-		$out      = [];
-
-		foreach ( $packages as $i => $package ) {
-			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
-			$product_names = array();
-
-			if ( sizeof( $packages ) > 1 ) {
-				foreach ( $package['contents'] as $item_id => $values ) {
-					$product_names[ $item_id ] = $values['data']->get_name() . ' &times;' . $values['quantity'];
-				}
-				$product_names = apply_filters( 'woocommerce_shipping_package_details_array', $product_names, $package );
-			}
-
-			$available_methods    = $package['rates'];
-			$show_package_details = sizeof( $packages ) > 1;
-			$package_details      = implode( ', ', $product_names );
-			$package_name         = apply_filters( 'woocommerce_shipping_package_name', sprintf( _nx( 'Shipping', 'Shipping %d', ( $i + 1 ), 'shipping packages', 'woocommerce' ), ( $i + 1 ) ), $i, $package );
-			$index                = $i;
-
-			if ( 0 < count( $available_methods ) ) {
-				foreach ( $available_methods as $method ) {
-					ob_start();
-					do_action( 'woocommerce_after_shipping_rate', $method, $index );
-					$after_shipping_method = ob_get_clean();
-					$out[] = sprintf(
-						'<label for="shipping_method_%1$d_%2$s"><input type="radio" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" %4$s /> %5$s %6$s</label>', $index, sanitize_title( $method->id ), esc_attr( $method->id ),
-						checked( $method->id, $chosen_method, false ), wc_cart_totals_shipping_method_label( $method ), $after_shipping_method
-					);
-				}
-			}
-		}
-
-		if ( count( $out ) == 0 ) {
-			$out = apply_filters( 'woocommerce_no_shipping_available_html', wpautop( __( 'There are no shipping methods available. Please ensure that your address has been entered correctly, or contact us if you need any help.', 'woocommerce' ) ) );
-		}
-
-		return $out;
 	}
 }

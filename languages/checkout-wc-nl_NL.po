@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2018-11-16 12:24-0500\n"
-"PO-Revision-Date: 2018-11-16 12:27-0500\n"
+"POT-Creation-Date: 2018-11-28 22:08-0500\n"
+"PO-Revision-Date: 2018-11-28 22:09-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl_NL\n"
@@ -29,7 +29,7 @@ msgstr "Voornaam"
 msgid "Last Name"
 msgstr "Achternaam"
 
-#: functions.php:59 includes/Main.php:495
+#: functions.php:59 includes/Main.php:532
 msgid "required"
 msgstr "noodzakelijk"
 
@@ -49,7 +49,7 @@ msgstr "Selecteer een provincie&hellip;"
 msgid "Choose an option"
 msgstr "Kies een optie"
 
-#: functions.php:338 includes/Action/UpdateCheckoutAction.php:164
+#: functions.php:338
 #, php-format
 msgctxt "shipping packages"
 msgid "Shipping"
@@ -75,15 +75,15 @@ msgstr ""
 "beschikbaar zijn. Neem contact met ons op als u hulp nodig hebt of op zoek "
 "bent naar alternatieve mogelijkheden."
 
-#: includes/Action/UpdateCheckoutAction.php:181
-msgid ""
-"There are no shipping methods available. Please ensure that your address has "
-"been entered correctly, or contact us if you need any help."
-msgstr ""
-"Er zijn geen verzendmethoden beschikbaar. Zorg dat het juiste adres is "
-"ingevoerd of neem contact met ons op als u hulp nodig heeft."
+#: functions.php:497 functions.php:504
+msgid "Not Calculated"
+msgstr "Niet berekend"
 
-#: includes/Compatibility/Base.php:99
+#: functions.php:502
+msgid "Not Available"
+msgstr "Niet beschikbaar"
+
+#: includes/Compatibility/Base.php:135
 msgid "Or"
 msgstr "OF"
 
@@ -93,30 +93,34 @@ msgstr "InGelogd met PayPal. Ga verder met uw bestelling hieronder."
 
 #. Plugin Name of the plugin/theme
 #: includes/Core/Admin.php:88 includes/Core/Admin.php:111
+#: includes/Core/Customizer.php:263 includes/Main.php:647
 msgid "Checkout for WooCommerce"
 msgstr "Checkout voor WooCommerce"
 
-#: includes/Core/Admin.php:91
+#: includes/Core/Admin.php:91 includes/Core/Customizer.php:276
+#: includes/Main.php:655
 msgid "General"
 msgstr "Algemeen"
 
-#: includes/Core/Admin.php:92
+#: includes/Core/Admin.php:92 includes/Core/Customizer.php:333
+#: includes/Core/Customizer.php:350 includes/Main.php:664
 msgid "Template"
 msgstr "Sjabloon"
 
-#: includes/Core/Admin.php:93
+#: includes/Core/Admin.php:93 includes/Core/Customizer.php:364
+#: includes/Core/Customizer.php:401 includes/Main.php:673
 msgid "Design"
 msgstr "Ontwerp"
 
-#: includes/Core/Admin.php:94
+#: includes/Core/Admin.php:94 includes/Main.php:682
 msgid "License"
 msgstr "Licentie"
 
-#: includes/Core/Admin.php:95
+#: includes/Core/Admin.php:95 includes/Main.php:691
 msgid "Support"
 msgstr "Support"
 
-#: includes/Core/Admin.php:112
+#: includes/Core/Admin.php:112 includes/Core/Customizer.php:266
 msgid ""
 "Checkout for WooCommerce provides a beautiful, conversion optimized checkout "
 "template for WooCommerce."
@@ -124,7 +128,7 @@ msgstr ""
 "Checkout voor WooCommerce biedt een mooi, conversie geoptimaliseerde kassa "
 "sjabloon voor WooCommerce."
 
-#: includes/Core/Admin.php:137
+#: includes/Core/Admin.php:137 includes/Core/Customizer.php:287
 msgid "Enable / Disable"
 msgstr "Inschakelen / Uitschakelen"
 
@@ -140,7 +144,7 @@ msgstr ""
 "Schakel Checkout for WooCommerce-thema in of uit. (OPMERKING: Thema is "
 "altijd ingeschakeld voor gebruikers van admin.)"
 
-#: includes/Core/Admin.php:148
+#: includes/Core/Admin.php:148 includes/Core/Customizer.php:298
 msgid "Show Phone Fields"
 msgstr "Telefoon velden WeerGeven"
 
@@ -156,7 +160,7 @@ msgstr ""
 "In-of uitschakelen facturering en verzendkosten telefoon velden als "
 "verplichte velden. (Standaard: uitgeschakeld)"
 
-#: includes/Core/Admin.php:159
+#: includes/Core/Admin.php:159 includes/Core/Customizer.php:309
 msgid "Header Scripts"
 msgstr "Header-scripts"
 
@@ -168,7 +172,7 @@ msgstr ""
 "Deze code zal output onmiddellijk vóór de afsluitende <code>&lt;/head&gt;</"
 "code>-code in het brondocument."
 
-#: includes/Core/Admin.php:173
+#: includes/Core/Admin.php:173 includes/Core/Customizer.php:320
 msgid "Footer Scripts"
 msgstr "Voettekst Scripts"
 
@@ -209,7 +213,7 @@ msgstr "Algemene Instellingen"
 msgid "These settings apply to all themes."
 msgstr "Deze instellingen zijn van toepassing op alle Thema's."
 
-#: includes/Core/Admin.php:269
+#: includes/Core/Admin.php:269 includes/Core/Customizer.php:376
 msgid "Logo"
 msgstr "Logo"
 
@@ -221,7 +225,7 @@ msgstr "Upload afbeelding"
 msgid "Clear Logo"
 msgstr "Logo Verwijderen"
 
-#: includes/Core/Admin.php:284
+#: includes/Core/Admin.php:284 includes/Core/Customizer.php:388
 msgid "Footer Text"
 msgstr "Footertekst"
 
@@ -233,51 +237,51 @@ msgstr ""
 "Als het argument leeg is, wordt een standaard copyrightinformatie getoond. "
 "Ingesteld op een enkele spatie om deze instelling wijzigen."
 
-#: includes/Core/Admin.php:298
+#: includes/Core/Admin.php:298 includes/Core/Customizer.php:401
 msgid "Theme Specific Settings"
 msgstr "Thema specifieke instellingen"
 
-#: includes/Core/Admin.php:310
+#: includes/Core/Admin.php:310 includes/Core/Customizer.php:417
 msgid "Header Background Color"
 msgstr "Kop Achtergrond Kleur"
 
-#: includes/Core/Admin.php:320
+#: includes/Core/Admin.php:320 includes/Core/Customizer.php:431
 msgid "Header Text Color"
 msgstr "Tekstkleur Header"
 
-#: includes/Core/Admin.php:330
+#: includes/Core/Admin.php:330 includes/Core/Customizer.php:445
 msgid "Footer Background Color"
 msgstr "Voettekst Achtergrond Kleur"
 
-#: includes/Core/Admin.php:340
+#: includes/Core/Admin.php:340 includes/Core/Customizer.php:459
 msgid "Footer Text Color"
 msgstr "Kleur tekst footer"
 
-#: includes/Core/Admin.php:350
+#: includes/Core/Admin.php:350 includes/Core/Customizer.php:473
 msgid "Summary Background Color"
 msgstr "AchtergrondKleur SamenVatting"
 
-#: includes/Core/Admin.php:360
+#: includes/Core/Admin.php:360 includes/Core/Customizer.php:487
 msgid "Primary Button Color"
 msgstr "Kleur Primaire knop"
 
-#: includes/Core/Admin.php:369
+#: includes/Core/Admin.php:369 includes/Core/Customizer.php:501
 msgid "Primary Button Text Color"
 msgstr "Primaire knop tekst kleur"
 
-#: includes/Core/Admin.php:378
+#: includes/Core/Admin.php:378 includes/Core/Customizer.php:515
 msgid "Secondary Button Color"
 msgstr "Kleur van de secundaire knop"
 
-#: includes/Core/Admin.php:387
+#: includes/Core/Admin.php:387 includes/Core/Customizer.php:529
 msgid "Secondary Button Text Color"
 msgstr "Tekstknop van de secundaire toets"
 
-#: includes/Core/Admin.php:396
+#: includes/Core/Admin.php:396 includes/Core/Customizer.php:543
 msgid "Link Color"
 msgstr "Link kleur"
 
-#: includes/Core/Admin.php:405
+#: includes/Core/Admin.php:405 includes/Core/Customizer.php:556
 msgid "Custom CSS"
 msgstr "Aangepast CSS"
 
@@ -355,6 +359,17 @@ msgstr ""
 msgid "Settings"
 msgstr "Instellingen"
 
+#: includes/Core/Customizer.php:405
+msgid ""
+"These settings only apply to the currently active template. If you switch "
+"templates in the customizer, these settings will become unavailable but "
+"saving will publish any changes here prior to switching templates!"
+msgstr ""
+"Deze instellingen zijn alleen van toepassing op de huidige actieve sjabloon. "
+"Als u overschakelt op sjablonen in de Customizer, zullen deze instellingen "
+"niet meer beschikbaar zijn, maar zal het opslaan van eventuele wijzigingen "
+"hier voorafgaand aan het overschakelen templates!"
+
 #: includes/Core/Form.php:76 includes/Core/Form.php:246
 #: includes/Core/Form.php:248
 msgid "Phone"
@@ -376,7 +391,7 @@ msgstr "Adres"
 msgid "Street address"
 msgstr "Straat en huisnummer"
 
-#: includes/Core/Form.php:145 includes/Core/Form.php:146
+#: includes/Core/Form.php:145 includes/Core/Form.php:146 includes/Main.php:531
 msgid "Apt, suite, etc. (optional)"
 msgstr "Apt, suite, etc. (optioneel)"
 
@@ -404,7 +419,7 @@ msgstr "Plaats"
 msgid "Checkout is not available whilst your cart is empty."
 msgstr "Afrekenen is niet beschikbaar als uw winkelmand leeg is."
 
-#: includes/Main.php:386
+#: includes/Main.php:423
 msgid ""
 "Activation failed: Please activate WooCommerce in order to use Checkout for "
 "WooCommerce"
@@ -412,70 +427,65 @@ msgstr ""
 "Activatie mislukt: Activeer WooCommerce alstublieft om gebruik te maken van "
 "Checkout for WooCommerce"
 
-#: includes/Main.php:462
+#: includes/Main.php:499
 msgid "Error processing checkout. Please try again."
 msgstr ""
 "Er is iets misgegaan bij het verwerken van uw bestelling. Probeer het nog "
 "eens."
 
-#: includes/Main.php:476
+#: includes/Main.php:513
 msgid "Select an option&hellip;"
 msgstr "Selecteer een optie&hellip;"
 
-#: includes/Main.php:477
+#: includes/Main.php:514
 msgctxt "enhanced select"
 msgid "No matches found"
 msgstr "Geen matches gevonden"
 
-#: includes/Main.php:478
+#: includes/Main.php:515
 msgctxt "enhanced select"
 msgid "Loading failed"
 msgstr "Laden mislukt"
 
-#: includes/Main.php:479
+#: includes/Main.php:516
 msgctxt "enhanced select"
 msgid "Please enter 1 or more characters"
 msgstr "Voer 1 of meer tekens in"
 
-#: includes/Main.php:480
+#: includes/Main.php:517
 msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
 msgstr "Voer %qty% of meer tekens in"
 
-#: includes/Main.php:481
+#: includes/Main.php:518
 msgctxt "enhanced select"
 msgid "Please delete 1 character"
 msgstr "Verwijder 1 teken"
 
-#: includes/Main.php:482
+#: includes/Main.php:519
 msgctxt "enhanced select"
 msgid "Please delete %qty% characters"
 msgstr "Verwijder %qty% tekens"
 
-#: includes/Main.php:483
+#: includes/Main.php:520
 msgctxt "enhanced select"
 msgid "You can only select 1 item"
 msgstr "U mag slechts 1 artikel selecteren"
 
-#: includes/Main.php:484
+#: includes/Main.php:521
 msgctxt "enhanced select"
 msgid "You can only select %qty% items"
 msgstr "Je kan slechts %qty% items selecteren"
 
-#: includes/Main.php:485
+#: includes/Main.php:522
 msgctxt "enhanced select"
 msgid "Loading more results&hellip;"
 msgstr "Meer resultaten aan het laden&hellip;"
 
-#: includes/Main.php:486
+#: includes/Main.php:523
 msgctxt "enhanced select"
 msgid "Searching&hellip;"
 msgstr "Bezig met zoeken&hellip;"
-
-#: includes/Main.php:494
-msgctxt "checkout-wc"
-msgid "Apt, suite, etc. (optional)"
-msgstr "Apt, suite, etc. (optioneel)"
 
 #: templates/copify/content.php:38 templates/default/content.php:30
 #: templates/futurist/content.php:28
@@ -510,8 +520,9 @@ msgstr "Heb je al een account?"
 msgid "Log in for a faster checkout experience."
 msgstr "Log in voor een snellere ervaring."
 
-#: templates/copify/content.php:89 templates/default/content.php:81
-#: templates/futurist/content.php:92
+#: templates/copify/content.php:89 templates/copify/content.php:90
+#: templates/default/content.php:81 templates/default/content.php:82
+#: templates/futurist/content.php:92 templates/futurist/content.php:93
 msgid "Email"
 msgstr "E-mail"
 
@@ -721,6 +732,17 @@ msgstr "Objectiv"
 #. Author URI of the plugin/theme
 msgid "https://objectiv.co"
 msgstr "https://objectiv.co"
+
+#~ msgid ""
+#~ "There are no shipping methods available. Please ensure that your address "
+#~ "has been entered correctly, or contact us if you need any help."
+#~ msgstr ""
+#~ "Er zijn geen verzendmethoden beschikbaar. Zorg dat het juiste adres is "
+#~ "ingevoerd of neem contact met ons op als u hulp nodig heeft."
+
+#~ msgctxt "checkout-wc"
+#~ msgid "Apt, suite, etc. (optional)"
+#~ msgstr "Apt, suite, etc. (optioneel)"
 
 #~ msgid "Log in."
 #~ msgstr "Inloggen."

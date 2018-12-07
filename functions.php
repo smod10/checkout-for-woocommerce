@@ -374,19 +374,19 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 	function cfw_get_payment_methods_html() {
         $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
-
+		$current_gateway    = WC()->session->get( 'chosen_payment_method' );
+        
 		?><ul class="wc_payment_methods payment_methods methods cfw-radio-reveal-group"><?php
 		if ( ! empty( $available_gateways ) ) {
 			$count = 0;
 			foreach ( $available_gateways as $gateway ) {
-
-			    if(apply_filters("cfw_show_gateway_{$gateway->id}", true)):
+			    if ( apply_filters( "cfw_show_gateway_{$gateway->id}", true ) ):
 				?>
 
                 <li class="wc_payment_method payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-li">
                     <div class="payment_method_title_wrap cfw-radio-reveal-title-wrap">
                         <label class="payment_method_label cfw-radio-reveal-label" for="payment_method_<?php echo $gateway->id; ?>">
-                            <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php echo ($count == 0) ? "checked" : ""; ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
+                            <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php echo ( ( empty($current_gateway) && $count == 0 ) || $current_gateway === $gateway->id ) ? "checked" : ""; ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
                             <span class="payment_method_title cfw-radio-reveal-title"><?php echo $gateway->get_title(); ?></span>
                         </label>
 
@@ -422,6 +422,8 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                 </li>
 
                 <?php
+				else:
+					do_action_ref_array( "cfw_payment_gateway_list_{$gateway->id}_alternate", array( $count ) );
                 endif;
 
 				$count++;
@@ -490,5 +492,20 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
         }
 
         echo $result;
+    }
+
+    function cfw_get_shipping_total() {
+	    $chosen_shipping_methods = WC()->session->get('chosen_shipping_methods');
+	    $new_shipping_total = __( 'Not Calculated', 'checkout-wc' );
+
+	    if ( WC()->customer->has_calculated_shipping() && is_array( $chosen_shipping_methods ) && $chosen_shipping_methods[ 0 ] !== false ) {
+		    $new_shipping_total = WC()->cart->get_cart_shipping_total();
+	    } else if ( WC()->customer->has_calculated_shipping() && is_array( $chosen_shipping_methods ) && $chosen_shipping_methods[ 0 ] === false ) {
+		    $new_shipping_total = __( 'Not Available', 'checkout-wc' );
+	    } else if ( ! WC()->customer->has_calculated_shipping() && is_array( $chosen_shipping_methods ) && $chosen_shipping_methods[ 0 ] === false ) {
+		    $new_shipping_total = __( 'Not Calculated', 'checkout-wc' );
+	    }
+
+	    return $new_shipping_total;
     }
 }

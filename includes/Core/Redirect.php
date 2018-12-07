@@ -62,7 +62,8 @@ class Redirect {
 			do_action('cfw_checkout_loaded_pre_head');
 
 			// Setup default cfw_wp_head actions
-			add_action('cfw_wp_head', 'wp_enqueue_scripts', 0, 0);
+			add_action( 'wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'remove_styles' ), 5 );
+            add_action( 'wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'remove_scripts' ), 5 );
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_meta_tags'), 10, 4);
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_scripts'), 20, 4);
 			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_init_block'), 30, 4);
@@ -115,14 +116,8 @@ class Redirect {
 
 		// We use this instead of _wp_render_title_tag because it requires the theme support title-tag capability.
 		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
-
-		self::remove_scripts();
-		self::remove_styles();
-
-		print_head_scripts();
 		?>
 		<script>
-			window.$ = jQuery;
 
 			var checkoutFormSelector = '<?php echo apply_filters('cfw_checkout_form_selector', '.woocommerce-checkout'); ?>';
 			var easyTabsWrapElClass = '.<?php echo apply_filters('cfw_template_easy_tabs_wrap_el_id', 'cfw-tabs-initialize'); ?>';
@@ -169,11 +164,13 @@ class Redirect {
 					isRegistrationRequired: <?php echo WC()->checkout()->is_registration_required() ? "true" : "false"; ?>,
 					user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
 					is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>,
-					default_address_fields: <?php echo $default_fields; ?>
-				}
+					default_address_fields: <?php echo $default_fields; ?>,
+                    enable_zip_autocomplete: <?php echo apply_filters( 'cfw_enable_zip_autocomplete', true ) ? 'true' : 'false'; ?>
+				},
+                $: jQuery
 			};
 
-			$(document).ready(function() {
+			jQuery(document).ready(function() {
 				var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
 				window.dispatchEvent(cfwInitEvent);
 
@@ -385,101 +382,34 @@ class Redirect {
 	 * @param TemplateManager $template_manager
 	 */
 	public static function cfw_wp_head($path_manager, $version, $classes, $settings_manager, $template_manager) {
-		do_action_ref_array('cfw_wp_head', array($path_manager, $version, $classes, $settings_manager, $template_manager) );
+	    do_action( 'wp_head' );
+	    do_action_ref_array( 'cfw_wp_head', array($path_manager, $version, $classes, $settings_manager, $template_manager) );
 	}
 
 	/**
-	 * Removes all scripts besides the listed ignored scripts from being loaded onto the page.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 */
-	public static function remove_scripts() {
-		global $wp_scripts;
-		$ignore = array(
-			'jquery',
-			'admin-bar',
-			'cfw_front_js',
-			'cfw_front_template_js',
-			'cfw_front_js_vendor',
-			'cfw_front_js_hash_change',
-			'cfw_front_js_easy_tabs',
-			'cfw_front_js_garlic',
-			'cfw_front_js_parsley',
-			'cfw_front_js_array_find_poly',
-			'woocommerce-tokenization-form',
-			'wc-credit-card-form',
-			'jquery-payment',
-		);
-
-		$ignores = apply_filters('cfw_allowed_script_handles', $ignore);
-		$wildcard_ignores = [];
-
-		// Identify wildcard patterns
-		foreach ( $ignores as $key => $ignore ) {
-		    if ( stripos($ignore, '*') !== false ) {
-		        $wildcard_ignores[] = str_replace( '*', '', $ignore );
-		        unset( $ignores[ $key ] );
-            }
-        }
-
-        // Loop through and add to our ignores based on wildcard matches
-        foreach ( $wp_scripts->queue as $handle ) {
-		    foreach( $wildcard_ignores as $wildcard_ignore ) {
-		        if ( stripos( $handle, $wildcard_ignore ) !== false ) {
-		            $ignores[] = $handle;
-                }
-            }
-        }
-
-        // Finally, deregister everything not explicitly allowed
-		foreach ( $wp_scripts->queue as $handle ) {
-			if ( ! in_array($handle, $ignores) ) {
-				wp_dequeue_script( $handle );
-				wp_deregister_script( $handle );
-			}
-		}
-	}
-
-	/**
-	 *
+	 * Remove specifically excluded styles
 	 */
 	public static function remove_styles() {
-		global $wp_styles;
+		$blocked_style_handles = apply_filters('cfw_blocked_style_handles', array() );
 
-		$ignores = array(
-			'cfw_front_css',
-			'cfw_front_template_css',
-			'admin-bar',
-		);
-
-		$ignores = apply_filters('cfw_allowed_style_handles', $ignores);
-		$wildcard_ignores = [];
-
-		// Identify wildcard patterns
-		foreach ( $ignores as $key => $ignore ) {
-			if ( stripos($ignore, '*') !== false ) {
-				$wildcard_ignores[] = str_replace( '*', '', $ignore );
-				unset( $ignores[ $key ] );
-			}
-		}
-
-		// Loop through and add to our ignores based on wildcard matches
-		foreach ( $wp_styles->queue as $handle ) {
-			foreach( $wildcard_ignores as $wildcard_ignore ) {
-				if ( stripos( $handle, $wildcard_ignore ) !== false ) {
-					$ignores[] = $handle;
-				}
-			}
-		}
-
-		foreach ( $wp_styles->queue as $handle ) {
-			if ( ! in_array($handle, $ignores) ) {
-				wp_dequeue_style( $handle );
-				wp_deregister_style( $handle );
-			}
-		}
+		foreach ( $blocked_style_handles as $blocked_style_handle ) {
+			wp_dequeue_style( $blocked_style_handle );
+            wp_deregister_style( $blocked_style_handle );
+        }
 	}
+
+    /**
+     * Remove specifically excluded scripts
+     */
+	public static function remove_scripts() {
+		$blocked_script_handles = apply_filters('cfw_blocked_script_handles', array() );
+
+		foreach ( $blocked_script_handles as $blocked_script_handle ) {
+			wp_dequeue_script( $blocked_script_handle );
+			wp_deregister_script( $blocked_script_handle );
+		}
+    }
+
 	/**
 	 * @since 1.0.0
 	 * @access public
@@ -519,9 +449,14 @@ class Redirect {
 	 * @param SettingsManager $settings_manager
 	 */
 	public static function footer($path_manager, $settings_manager) {
+		// Prevent themes and plugins from injecting HTML on wp_footer
+		ob_start();
+		do_action( 'wp_footer' );
+		$wp_footer = ob_get_clean();
+
+		echo "<div id='wp_footer'>{$wp_footer}</div>";
+
 		do_action('cfw_wp_footer_before_scripts');
-		print_footer_scripts();
-		wc_print_js();
 		echo $settings_manager->get_setting('footer_scripts');
 		do_action('cfw_wp_footer');
 		?>

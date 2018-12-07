@@ -379,8 +379,8 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		if ( ! empty( $available_gateways ) ) {
 			$count = 0;
 			foreach ( $available_gateways as $gateway ) {
-                d($gateway->id);
-			    if(apply_filters("cfw_show_gateway_{$gateway->id}", true)):
+                //d($gateway->id);
+			    if ( apply_filters( "cfw_show_gateway_{$gateway->id}", true ) ):
 				?>
 
                 <li class="wc_payment_method payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-li">

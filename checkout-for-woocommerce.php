@@ -49,10 +49,12 @@ require_once 'vendor/autoload.php';
 use Objectiv\Plugins\Checkout\Main;
 use Objectiv\Plugins\Checkout\Core\Admin;
 
-/**
- * Kint disabled by default. Enable by enabling developer mode (see docs)
- */
-Kint::$enabled_mode = false;
+if ( class_exists( '\Kint' ) && property_exists( '\Kint', 'enabled_mode' ) ) {
+	/**
+	 * Kint disabled by default. Enable by enabling developer mode (see docs)
+	 */
+	\Kint::$enabled_mode = false;
+}
 
 /**
  * Begins execution of the plugin.

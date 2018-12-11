@@ -16,7 +16,7 @@
  * Plugin Name:       Checkout for WooCommerce
  * Plugin URI:        https://www.CheckoutWC.com
  * Description:       Beautiful, conversion optimized checkout template for WooCommerce.
- * Version:           2.4.0
+ * Version:           2.4.1
  * Author:            Objectiv
  * Author URI:        https://objectiv.co
  * License:           GPL-2.0+
@@ -36,7 +36,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'CFW_NAME', 'Checkout for WooCommerce' );
 define( 'CFW_UPDATE_URL', 'https://www.checkoutwc.com' );
-define( 'CFW_VERSION', '2.4.0' );
+define( 'CFW_VERSION', '2.4.1' );
 define( 'CFW_PATH', dirname( __FILE__ ) );
 define( 'CFW_URL', plugins_url( '/', __FILE__ ) );
 define( 'CFW_MAIN_FILE', __FILE__ );
@@ -49,10 +49,12 @@ require_once 'vendor/autoload.php';
 use Objectiv\Plugins\Checkout\Main;
 use Objectiv\Plugins\Checkout\Core\Admin;
 
-/**
- * Kint disabled by default. Enable by enabling developer mode (see docs)
- */
-Kint::$enabled_mode = false;
+if ( class_exists( '\Kint' ) && property_exists( '\Kint', 'enabled_mode' ) ) {
+	/**
+	 * Kint disabled by default. Enable by enabling developer mode (see docs)
+	 */
+	\Kint::$enabled_mode = false;
+}
 
 /**
  * Begins execution of the plugin.

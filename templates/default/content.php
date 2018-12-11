@@ -86,7 +86,7 @@
 
                                             <div id="cfw-password-wrap" class="cfw-input-wrap cfw-password-input">
                                                 <label class="cfw-input-label" for="cfw-password"><?php esc_html_e('Password', 'checkout-wc'); ?></label>
-                                                <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="Password" placeholder="Password">
+                                                <input type="password" name="cfw-password" id="cfw-password" autocomplete="off" title="<?php esc_attr_e('Password', 'checkout-wc'); ?>" placeholder="<?php esc_attr_e('Password', 'checkout-wc'); ?>">
                                             </div>
 
                                             <div class="cfw-input-wrap cfw-button-input">

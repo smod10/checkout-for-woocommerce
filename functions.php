@@ -494,17 +494,37 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
         echo $result;
     }
 
+	function cfw_get_all_package_shipping_methods() {
+		$packages = WC()->shipping->get_packages();
+		$all_methods = [];
+
+		foreach ( $packages as $i => $package ) {
+			$available_methods = $package['rates'];
+
+			if ( count( $available_methods ) > 0 ) {
+			    foreach ( $available_methods as $available_method ) {
+				    $all_methods[ $available_method->id ] = $available_method;
+                }
+            }
+		}
+
+		return $all_methods;
+	}
+
     function cfw_get_shipping_total() {
 	    $chosen_shipping_methods = WC()->session->get('chosen_shipping_methods');
+	    $shipping_methods = cfw_get_all_package_shipping_methods();
 	    $new_shipping_total = __( 'Not Calculated', 'checkout-wc' );
 
 	    if ( WC()->customer->has_calculated_shipping() && is_array( $chosen_shipping_methods ) && $chosen_shipping_methods[ 0 ] !== false ) {
 		    $new_shipping_total = WC()->cart->get_cart_shipping_total();
 	    } else if ( WC()->customer->has_calculated_shipping() && is_array( $chosen_shipping_methods ) && $chosen_shipping_methods[ 0 ] === false ) {
 		    $new_shipping_total = __( 'Not Available', 'checkout-wc' );
-	    } else if ( ! WC()->customer->has_calculated_shipping() && is_array( $chosen_shipping_methods ) && $chosen_shipping_methods[ 0 ] === false ) {
+	    } else if ( ! WC()->customer->has_calculated_shipping() && ( is_array( $chosen_shipping_methods ) && $chosen_shipping_methods[ 0 ] === false ) && count( $shipping_methods ) == 0 ) {
 		    $new_shipping_total = __( 'Not Calculated', 'checkout-wc' );
-	    }
+	    } else if ( count( $shipping_methods ) > 0 ) {
+		    $new_shipping_total = WC()->cart->get_cart_shipping_total();
+        }
 
 	    return $new_shipping_total;
     }

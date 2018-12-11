@@ -154,7 +154,6 @@ export class Main {
 		this.createdCompatibilityClasses = [];
 		this.parsleyService = new ParsleyService();
 		this.easyTabService = new EasyTabService(easyTabsWrap);
-		this.validationService = new ValidationService(easyTabsWrap);
 		this.localizationService = new LocalizationService();
 
 		// Setup events and event listeners
@@ -235,6 +234,9 @@ export class Main {
 
 		// Initialize the easy tabs
 		this.easyTabService.initialize(this.tabContainer.tabContainerBreadcrumb);
+
+		// Setup the validation service - has to happen after tabs are setup
+        this.validationService = new ValidationService(this.easyTabService.easyTabsWrap);
 
 		// Setup animation listeners
 		this.setupAnimationListeners();

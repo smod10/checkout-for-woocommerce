@@ -281,10 +281,10 @@ class Admin {
 
                     <tr>
                         <th scope="row" valign="top">
-                            <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'); ?>"><?php _e('Footer Text', 'checkout-wc'); ?></label>
+                            <label for="<?php echo sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('footer_text') ); ?>"><?php _e('Footer Text', 'checkout-wc'); ?></label>
                         </th>
                         <td>
-                            <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'), array('textarea_rows' => 5) ); ?>
+                            <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('footer_text') ), array('textarea_rows' => 5, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name('footer_text') ) ); ?>
                             <p>
                                         <span class="description">
                                             <?php _e('If left blank, a standard copyright notice will be displayed. Set to a single space to override this behavior.', 'checkout-wc'); ?>

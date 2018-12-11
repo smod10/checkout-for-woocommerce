@@ -450,11 +450,9 @@ class Redirect {
 	 */
 	public static function footer($path_manager, $settings_manager) {
 		// Prevent themes and plugins from injecting HTML on wp_footer
-		ob_start();
+		echo '<div id="wp_footer">';
 		do_action( 'wp_footer' );
-		$wp_footer = ob_get_clean();
-
-		echo "<div id='wp_footer'>{$wp_footer}</div>";
+		echo "</div>";
 
 		do_action('cfw_wp_footer_before_scripts');
 		echo $settings_manager->get_setting('footer_scripts');

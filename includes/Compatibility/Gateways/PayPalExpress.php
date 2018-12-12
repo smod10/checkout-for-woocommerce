@@ -20,13 +20,13 @@ class PayPalExpress extends Base {
 
 	public function run() {
 		// Add PayPal Express Checkout Button
-		add_action( 'wp', array( $this, 'add_paypal_express_to_checkout' ) );
+		//add_action( 'wp', array( $this, 'add_paypal_express_to_checkout' ) );
 	}
 
 	public function add_paypal_express_to_checkout() {
 		if ( is_checkout() ) {
 			// Remove "OR" separator
-			remove_all_actions( 'woocommerce_proceed_to_checkout' );
+			//remove_all_actions( 'woocommerce_proceed_to_checkout' );
 
 			// Add button above customer info tab
 			// 0 puts us above the stripe apple pay button if it's there so we can use it's separator

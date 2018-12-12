@@ -92,6 +92,8 @@ class UpdateCheckoutAction extends Action {
 				'updated_ship_methods'     => $this->get_shipping_methods(),
 				'updated_shipping_preview' => cfw_get_shipping_details( WC()->checkout() ),
 				'updated_other_totals'     => $other_totals,
+				'updated_payment_methods'  => cfw_get_payment_methods(),
+				'updated_place_order'      => cfw_get_place_order(),
 			)
 		);
 	}

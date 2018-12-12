@@ -243,15 +243,20 @@ export class TabContainer extends Element {
      */
     setUpPaymentTabRadioButtons() {
         // The payment radio buttons to register the click events too
-        let payment_radio_buttons: Array<Element> = this
-            .tabContainerSectionBy("name", "payment_method")
-            .getInputsFromSection('[type="radio"][name="payment_method"]');
+        // let payment_radio_buttons: Array<Element> = this
+        //     .tabContainerSectionBy("name", "payment_method")
+        //     .getInputsFromSection('[type="radio"][name="payment_method"]');
 
         let ship_to_different_address_radio_buttons: Array<Element> = this
             .tabContainerSectionBy("name", "payment_method")
             .getInputsFromSection('[type="radio"][name="ship_to_different_address"]');
 
-        this.setRevealOnRadioButtonGroup(payment_radio_buttons);
+        $(document.body).on('click', '[type="radio"][name="payment_method"]', function() {
+            let out: Array<Element> = [];
+            out.push( new Element( $(this) ) );
+            Main.instance.tabContainer.setRevealOnRadioButtonGroup( out );
+        });
+       // this.setRevealOnRadioButtonGroup(payment_radio_buttons);
         this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, true);
     }
 
@@ -323,9 +328,9 @@ export class TabContainer extends Element {
             $(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
         });
 
-        $('input[name^="payment_method"][type="radio"]').each((index, el) => {
-            $(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
-        });
+        // $('input[name^="payment_method"][type="radio"]').each((index, el) => {
+        //     $(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
+        // });woocommerce-checkout-payment
     }
 
     /**
@@ -446,10 +451,9 @@ export class TabContainer extends Element {
      */
     setCompleteOrderHandlers(): void {
         let checkout_form: any = Main.instance.checkoutForm;
-        let completeOrderButton: Element = new Element($("#place_order"));
 
-        checkout_form.on('submit', this.completeOrderSubmitHandler.bind(this));
-        completeOrderButton.jel.on('click', this.completeOrderClickHandler.bind(this));
+        checkout_form.on( 'submit', this.completeOrderSubmitHandler.bind(this) );
+        $(document.body).on( 'click', '#place_order', this.completeOrderClickHandler.bind(this) );
     }
 
     /**

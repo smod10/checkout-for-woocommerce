@@ -252,67 +252,76 @@ export class TabContainer extends Element {
             .getInputsFromSection('[type="radio"][name="ship_to_different_address"]');
 
         this.setRevealOnRadioButtonGroup(payment_radio_buttons);
-        this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, true);
+        this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, [this.toggleRequiredInputAttribute]);
     }
 
     /**
      * Handles the payment method revealing and registering the click events.
      */
-    setRevealOnRadioButtonGroup(radio_buttons: Array<Element>, remove_add_required: boolean = false) {
-
-        // Handles sliding down the containers that aren't supposed to be open, and opens the one that is.
-        let slideUpAndDownContainers = (rb: Element) => {
-            // Filter out the current radio button
-            // Slide up the other buttons
-            radio_buttons
-                .filter((filterItem: Element) => filterItem != rb)
-                .forEach((other: Element) => other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300));
-
-            // Slide down our button
-            rb.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideDown(300);
-
-            let input_wraps = $("#cfw-billing-fields-container").find(".cfw-input-wrap");
-
-            if(remove_add_required) {
-                input_wraps.each((index, elem) => {
-                    let input: any = $(elem).find("input");
-                    let select: any = $(elem).find("select");
-                    let items = [input, select];
-
-                    items.forEach((item) => {
-                        if(item.length > 0) {
-                            if(rb.jel.val() == 1) {
-                                if(item[0].hasAttribute("cfw-required-placeholder")) {
-                                    item[0].setAttribute("required", "");
-                                    item[0].removeAttribute("cfw-required-placeholder");
-                                }
-                            } else {
-                                if(item[0].hasAttribute("required")) {
-                                    item[0].setAttribute("cfw-required-placeholder", "");
-                                }
-                                item[0].removeAttribute("required");
-                            }
-                        }
-                    })
-                });
-            }
-        };
-
+    setRevealOnRadioButtonGroup(radio_buttons: Array<Element>, callbacks: Array<(radio_button: Element) => void> = []) {
         // Register the slide up and down container on click
         radio_buttons
-            .forEach((rb: Element) => {
+            .forEach((radio_button: Element) => {
+                let $radio_button = radio_button.jel;
+
                 // On payment radio button click....
-                rb.jel.on('click', () => {
-                    slideUpAndDownContainers(rb);
+                $radio_button.on('click', () => {
+                    this.toggleRadioButtonContainers(radio_button, radio_buttons, callbacks);
                 });
 
                 // Fire it once for page load if selected
                 $(window).on('load', () => {
-                    if(rb.jel.is(":checked")) {
-                        slideUpAndDownContainers(rb);
+                    if($radio_button.is(":checked")) {
+                        this.toggleRadioButtonContainers(radio_button, radio_buttons, callbacks);
                     }
                 });
             });
+    }
+
+    toggleRadioButtonContainers(radio_button: Element, radio_buttons: Array<Element>, callbacks: Array<(radio_button: Element) => void>) {
+        // Filter out the current radio button
+        // Slide up the other buttons
+        radio_buttons
+            .filter((filterItem: Element) => filterItem != radio_button)
+            .forEach((other: Element) => other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300));
+
+        // Slide down our button
+        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideDown(300);
+
+        // Fire any callbacks
+        callbacks.forEach(callback => callback(radio_button));
+    }
+
+    toggleRequiredInputAttribute(radio_button: Element) {
+        const selected_radio_value = parseInt(radio_button.jel.val());
+        const shipping_dif_than_billing = 1;
+        const billing_selected = selected_radio_value === shipping_dif_than_billing;
+        const placeholder_attribute = 'cfw-required-placeholder';
+        const required_attribute = 'required';
+        const attribute_value = '';
+        const input_wraps = $('#cfw-billing-fields-container').find('.cfw-input-wrap');
+
+        let toggleRequired = (item, {search, replace, value}) => {
+            if(item.hasAttribute(search)) {
+                item.setAttribute(replace, value);
+                item.removeAttribute(search);
+            }
+        };
+
+        input_wraps.each((index, elem) => {
+            let items = $(elem).find('input, select');
+
+            items.each((index, item) => {
+
+                let attributes_data = {
+                    search: billing_selected ? placeholder_attribute : required_attribute,
+                    replace: billing_selected ? required_attribute : placeholder_attribute,
+                    value: attribute_value
+                };
+
+                toggleRequired(item, attributes_data);
+            })
+        });
     }
 
     /**

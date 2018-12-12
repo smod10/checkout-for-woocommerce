@@ -13,6 +13,7 @@ import { UpdateShippingFieldsRI }           from "../Actions/UpdateCheckoutActio
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { Alert }                            from "./Alert";
 import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
+import { UpdatePaymentMethod }              from "../Actions/UpdatePaymentMethod";
 
 declare let wc_stripe_params: any;
 declare let $: any;
@@ -148,7 +149,7 @@ export class TabContainer extends Element {
 
                     });
 
-                    $(window).on('load', () => {
+                    $(window).on('load update_checkout', () => {
                         if($(elem).is(":checked")) {
                             $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
                         }
@@ -328,14 +329,19 @@ export class TabContainer extends Element {
     /**
      *
      */
-    setShippingPaymentUpdate(): void {
+    setShippingMethodUpdate(): void {
         $('input[name^="shipping_method"][type="radio"]').each((index, el) => {
             $(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
         });
+    }
 
-        // $('input[name^="payment_method"][type="radio"]').each((index, el) => {
-        //     $(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
-        // });woocommerce-checkout-payment
+    /**
+     *
+     */
+    setPaymentMethodUpdate(): void {
+        $(document.body).on('click', 'input[name^="payment_method"][type="radio"]', function() {
+            new UpdatePaymentMethod("update_payment_method", Main.instance.ajaxInfo, $(this).val() ).load();
+        });
     }
 
     /**

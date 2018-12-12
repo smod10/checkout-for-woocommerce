@@ -265,7 +265,8 @@ export class Main {
 		this.tabContainer.setAccountCheckListener();
 		this.tabContainer.setLogInListener();
 		this.tabContainer.setUpdateAllShippingFieldsListener();
-		this.tabContainer.setShippingPaymentUpdate();
+		this.tabContainer.setShippingMethodUpdate();
+        this.tabContainer.setPaymentMethodUpdate();
 		this.tabContainer.setUpPaymentTabRadioButtons();
 		this.tabContainer.setUpCreditCardRadioReveal();
 		this.tabContainer.setUpMobileCartDetailsReveal();

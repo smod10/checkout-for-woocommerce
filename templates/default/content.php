@@ -257,33 +257,7 @@
 
 	                        <?php do_action('cfw_checkout_after_payment_tab_billing_address'); ?>
 
-                            <div id="cfw-billing-methods" class="cfw-module">
-                                <h3 class="cfw-module-title">
-                                    <?php echo apply_filters('cfw_payment_method_heading', esc_html__('Payment method', 'checkout-wc') ); ?>
-                                </h3>
-
-								<?php do_action('cfw_checkout_before_payment_methods'); ?>
-
-                                <div class="cfw-payment-method-information-wrap">
-                                    <div>
-                                        <span class="cfw-small secure-notice"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', 'checkout-wc' ); ?></span>
-                                    </div>
-
-                                    <div id="order_review" class="cfw-payment-methods-wrap">
-                                        <div id="payment" class="woocommerce-checkout-payment">
-                                            <?php cfw_get_payment_methods_html(); ?>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="cfw-no-payment-method-wrap">
-                                    <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Your order is free. No payment is required.', 'checkout-wc') ); ?></span>
-                                </div>
-
-	                            <div>
-                                    <?php do_action('cfw_checkout_after_payment_methods'); ?>
-                                </div>
-                            </div>
+	                        <?php cfw_payment_methods(); ?>
 
 	                        <?php do_action('cfw_checkout_before_payment_method_terms_checkbox'); ?>
 
@@ -315,11 +289,8 @@
                                         <a href="#cfw-customer-info" class="cfw-prev-tab" rel="0">« <?php esc_html_e( 'Return to customer information', 'checkout-wc' ); ?></a>
                                     <?php endif; ?>
                                 </div>
-                                <div>
-                                    <a id="place_order" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate">
-			                            <?php echo apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ); ?>
-                                    </a>
-                                </div>
+
+	                            <?php cfw_place_order(); ?>
                             </div>
 
 	                        <?php do_action('cfw_checkout_after_payment_methods_tab'); ?>

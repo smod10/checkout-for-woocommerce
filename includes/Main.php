@@ -12,6 +12,7 @@ use Objectiv\BoosterSeat\Base\Singleton;
 use Objectiv\Plugins\Checkout\Action\ApplyCouponAction;
 use Objectiv\Plugins\Checkout\Action\CompleteOrderAction;
 use Objectiv\Plugins\Checkout\Action\UpdateCheckoutAction;
+use Objectiv\Plugins\Checkout\Action\UpdatePaymentMethod;
 use Objectiv\Plugins\Checkout\Core\Customizer;
 use Objectiv\Plugins\Checkout\Core\Form;
 use Objectiv\Plugins\Checkout\Core\Redirect;
@@ -445,6 +446,7 @@ class Main extends Singleton {
 			new CompleteOrderAction( 'complete_order', false, 'wc_ajax_' ),
 			new ApplyCouponAction( 'cfw_apply_coupon', false, 'wc_ajax_' ),
 			new UpdateCheckoutAction( 'update_checkout', false, 'wc_ajax_' ),
+			new UpdatePaymentMethod( 'update_payment_method', false, 'wc_ajax_' ),
 		);
 	}
 

@@ -45,7 +45,8 @@ export class KlarnaPayment extends Compatibility {
             var selected_value = <string>selected_gateway.val();
 
             if ( selected_value.indexOf('klarna_payments') !== -1 ) {
-                selected_gateway.trigger('change');
+                console.log('got here bro');
+                selected_gateway.trigger('click').trigger('change');
 			}
         }
     }

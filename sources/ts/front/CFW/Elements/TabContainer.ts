@@ -134,7 +134,7 @@ export class TabContainer extends Element {
                         $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
                     });
 
-                    $(window).on('load', () => {
+                    $(window).on('load updated_checkout', () => {
                         if($(elem).is(":checked")) {
                             $("#wc-stripe-cc-form").slideDown(300);
                             $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
@@ -149,7 +149,7 @@ export class TabContainer extends Element {
 
                     });
 
-                    $(window).on('load update_checkout', () => {
+                    $(window).on('load updated_checkout', () => {
                         if($(elem).is(":checked")) {
                             $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
                         }
@@ -272,7 +272,8 @@ export class TabContainer extends Element {
                 });
 
                 // Fire it once for page load if selected
-                $(window).on('load', () => {
+                // Also fire on updated_checkout
+                $(window).on('load updated_checkout', () => {
                     if($radio_button.is(":checked")) {
                         this.toggleRadioButtonContainers(radio_button, radio_buttons, callbacks);
                     }
@@ -288,7 +289,7 @@ export class TabContainer extends Element {
             .forEach((other: Element) => other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300));
 
         // Slide down our button
-        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideDown(300);
+        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").not(':visible').slideDown(300);
 
         // Fire any callbacks
         callbacks.forEach(callback => callback(radio_button));

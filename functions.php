@@ -386,7 +386,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                 <li class="wc_payment_method payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-li">
                     <div class="payment_method_title_wrap cfw-radio-reveal-title-wrap">
                         <label class="payment_method_label cfw-radio-reveal-label" for="payment_method_<?php echo $gateway->id; ?>">
-                            <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php echo ( ( empty($current_gateway) && $count == 0 ) || $current_gateway === $gateway->id ) ? "checked" : ""; ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
+                            <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php echo ( ( empty($current_gateway) && $count == 0 ) || $current_gateway === $gateway->id ) ? "checked='checked'" : ""; ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
                             <span class="payment_method_title cfw-radio-reveal-title"><?php echo $gateway->get_title(); ?></span>
                         </label>
 

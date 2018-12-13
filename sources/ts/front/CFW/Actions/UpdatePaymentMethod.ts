@@ -33,6 +33,6 @@ export class UpdatePaymentMethod extends Action {
      */
     @ResponsePrep
     public response(resp: any): void {
-        console.log(resp);
+
     }
 }

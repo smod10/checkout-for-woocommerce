@@ -10,6 +10,7 @@ export type AccountExistsData = { "wc-ajax": string, security: string, email: st
 
 export type LogInResponse = { logged_in: boolean, message: string };
 export type LogInData = { "wc-ajax": string, security: string, email: string, password: string };
+export type PaymentMethodData = { "wc-ajax": string, security: string, "payment_method": string };
 
 export type CompleteOrderResponse = { response: any };
 

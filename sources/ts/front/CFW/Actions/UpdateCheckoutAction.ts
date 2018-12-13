@@ -82,14 +82,24 @@ export class UpdateCheckoutAction extends Action {
         let shipping_preview_container = $('#cfw-shipping-details-fields');
         shipping_preview_container.html(`${resp.updated_shipping_preview}`);
 
+        // Other totals
         let other_totals_container = $('#cfw-other-totals');
         other_totals_container.html(`${resp.updated_other_totals}`);
+
+        // Payment methods
+        let updated_payment_methods_container = $('#cfw-billing-methods');
+        updated_payment_methods_container.html(`${resp.updated_payment_methods}`);
+
+        // Place order button
+        let updated_place_order_container = $('#cfw-place-order');
+        updated_place_order_container.html(`${resp.updated_place_order}`);
 
         Main.togglePaymentRequired(resp.needs_payment);
 
         Cart.outputValues(main.cart, resp.new_totals);
 
-        Main.instance.tabContainer.setShippingPaymentUpdate();
+        Main.instance.tabContainer.setShippingMethodUpdate();
+        Main.instance.tabContainer.setUpPaymentTabRadioButtons();
 
 		window.dispatchEvent(new CustomEvent("cfw-custom-update-finished"));
 

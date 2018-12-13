@@ -61,13 +61,21 @@ class Redirect {
 
 			do_action('cfw_checkout_loaded_pre_head');
 
+			/**
+			 * Remove scripts and styles
+			 *
+			 * Do this at wp_head as well as wp_enqueue_scripts. This gives us two chances to win.
+			 */
+			add_action( 'wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'remove_styles' ), 100000 );
+			add_action( 'wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'remove_scripts' ), 100000 );
+			add_action( 'wp_enqueue_scripts', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'remove_styles' ), 100000 );
+			add_action( 'wp_enqueue_scripts', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'remove_scripts' ), 100000 );
+
 			// Setup default cfw_wp_head actions
-			add_action( 'wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'remove_styles' ), 5 );
-            add_action( 'wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'remove_scripts' ), 5 );
-			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_meta_tags'), 10, 4);
-			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_scripts'), 20, 4);
-			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_init_block'), 30, 4);
-			add_action('cfw_wp_head', array('Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_styles'), 40, 5);
+			add_action( 'cfw_wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'output_meta_tags' ), 10, 4 );
+			add_action( 'cfw_wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_scripts' ), 20, 4 );
+			add_action( 'cfw_wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'output_init_block' ), 30, 4 );
+			add_action( 'cfw_wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_styles' ), 40, 5 );
 
 			$css_classes = array('checkout-wc', 'woocommerce', $template_manager->get_selected_template());
 
@@ -382,7 +390,7 @@ class Redirect {
 	 * @param TemplateManager $template_manager
 	 */
 	public static function cfw_wp_head($path_manager, $version, $classes, $settings_manager, $template_manager) {
-	    do_action( 'wp_head' );
+		wp_head();
 	    do_action_ref_array( 'cfw_wp_head', array($path_manager, $version, $classes, $settings_manager, $template_manager) );
 	}
 
@@ -451,7 +459,7 @@ class Redirect {
 	public static function footer($path_manager, $settings_manager) {
 		// Prevent themes and plugins from injecting HTML on wp_footer
 		echo '<div id="wp_footer">';
-		do_action( 'wp_footer' );
+		wp_footer();
 		echo "</div>";
 
 		do_action('cfw_wp_footer_before_scripts');

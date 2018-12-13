@@ -10,10 +10,14 @@ class WooCommerceCore extends Base {
 	}
 
 	public function remove_scripts( $scripts ) {
-		global $wp_scripts;
-
 		$scripts['woocommerce'] = 'woocommerce';
 
 		return $scripts;
+	}
+
+	public function remove_styles( $styles ) {
+		$styles['woocommerce-general'] = 'woocommerce-general';
+
+		return $styles;
 	}
 }

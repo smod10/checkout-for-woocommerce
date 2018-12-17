@@ -1,5 +1,9 @@
 $wrap-row-bot-margin: map-get($grid-sg, gutter) * 1.25;
 
+html {
+  background-color: #ffffff !important;
+}
+
 #cfw-login-slide {
   display: none;
   margin-bottom: $wrap-row-bot-margin;

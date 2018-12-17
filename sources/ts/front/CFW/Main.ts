@@ -164,36 +164,9 @@ export class Main {
 	 * Handles event setup and registration of listeners
 	 */
 	eventSetup(): void {
-		this.overlayEvents();
 		this.compatibilityEvents();
 		this.observerEvents();
 	};
-
-	/**
-	 * Overlay event setup
-	 */
-	overlayEvents(): void {
-		// Handle Stripe gateway UI blocking function
-		// Otherwise we throw errors
-		// Also discard our overlay when the modal is closed on desktop and mobile
-		$.fn.block = function () {
-			window.dispatchEvent(new CustomEvent("cfw-block-event"));
-			Main.addOverlay();
-		};
-		$.fn.unblock = function () {
-			window.dispatchEvent(new CustomEvent("cfw-un-block-event"));
-			Main.removeOverlay();
-		};
-
-		$.fn.blockUI = function () {
-			window.dispatchEvent(new CustomEvent("cfw-block-event"));
-			Main.addOverlay();
-		};
-		$.fn.unblockUI = function () {
-			window.dispatchEvent(new CustomEvent("cfw-un-block-event"));
-			Main.removeOverlay();
-		};
-	}
 
 	/**
 	 * Event setup relating to the registration and creation of compatibility classes

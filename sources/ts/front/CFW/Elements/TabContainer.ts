@@ -504,11 +504,13 @@ export class TabContainer extends Element {
 
         CompleteOrderAction.initCompleteOrder = true;
 
+        checkout_form.addClass( 'processing' );
         Main.addOverlay();
 
 		checkout_form.find(".woocommerce-error").remove();
 
 		$(document.body).on("checkout_error", () => {
+		    checkout_form.removeClass( 'processing' ).unblock(); // compatibility with gateways / plugins that expect this
 			Main.removeOverlay();
 			CompleteOrderAction.initCompleteOrder = false
 		});

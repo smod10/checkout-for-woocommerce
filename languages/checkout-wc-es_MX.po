@@ -407,7 +407,7 @@ msgstr "Código postal"
 
 #: includes/Core/Form.php:205 includes/Core/Form.php:206
 msgid "State / County"
-msgstr "Provincia"
+msgstr "Estado"
 
 #: includes/Core/Form.php:225 includes/Core/Form.php:227
 msgid "Town / City"

@@ -125,11 +125,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </div>
 
                                 <?php else: ?>
+                                    <input type="hidden" name="billing_email" id="billing_email" value="<?php echo WC()->checkout()->get_value('billing_email'); ?>">
 
                                     <div class="cfw-have-acc-text cfw-small">
                                         <?php printf( esc_html__('Welcome back, %s (%s).', 'checkout-wc'), "<strong>" . wp_get_current_user()->display_name . "</strong>", wp_get_current_user()->user_email ); ?>
                                     </div>
-
                                 <?php endif; ?>
 
                             </div>

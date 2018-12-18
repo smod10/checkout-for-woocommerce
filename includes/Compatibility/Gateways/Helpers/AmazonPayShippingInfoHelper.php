@@ -7,7 +7,7 @@ class AmazonPayShippingInfoHelper {
 	protected $gateway = null;
 
 	public function __construct() {
-		if(class_exists('\\WC_Amazon_Payments_Advanced_API')) {
+		if ( class_exists( '\\WC_Amazon_Payments_Advanced_API' ) ) {
 			add_action( 'cfw_amazon_payment_gateway_found', array( $this, 'get_gateway' ), 10, 1 );
 		}
 	}
@@ -17,13 +17,13 @@ class AmazonPayShippingInfoHelper {
 	 *
 	 * @param $gateway
 	 */
-	function get_gateway($gateway) {
+	function get_gateway( $gateway ) {
 		$settings = \WC_Amazon_Payments_Advanced_API::get_settings();
 
 		// Set the gateway
 		$this->gateway = $gateway;
 
-		if($settings['enabled'] == "yes") {
+		if ( $settings['enabled'] == 'yes' ) {
 			// Set the add/remove
 			$this->add_remove_shipping_info_function();
 		}
@@ -34,7 +34,7 @@ class AmazonPayShippingInfoHelper {
 	 */
 	function add_remove_shipping_info_function() {
 		// Remove amazon's store_shipping_info_in_session
-		remove_action( 'woocommerce_checkout_update_order_review', array( $this->gateway, 'store_shipping_info_in_session' ), 11);
+		remove_action( 'woocommerce_checkout_update_order_review', array( $this->gateway, 'store_shipping_info_in_session' ), 10 );
 		// Add ours
 		add_action( 'woocommerce_checkout_update_order_review', array( $this, 'store_shipping_info_in_session' ) );
 	}

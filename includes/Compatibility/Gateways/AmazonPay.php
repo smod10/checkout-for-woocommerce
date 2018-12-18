@@ -11,13 +11,13 @@ class AmazonPay extends Base {
 
 	protected $wc_gateway = null;
 
-	protected $ref_id = "";
+	protected $ref_id = '';
 
 	protected $shipping_info_helper = null;
 
 	protected $gateway_classes = [
-		"WC_Gateway_Amazon_Payments_Advanced_Subscriptions",
-		"WC_Gateway_Amazon_Payments_Advanced"
+		'WC_Gateway_Amazon_Payments_Advanced_Subscriptions',
+		'WC_Gateway_Amazon_Payments_Advanced',
 	];
 
 	protected $available = false;
@@ -34,44 +34,41 @@ class AmazonPay extends Base {
 	 */
 	function pre_init() {
 		$this->shipping_info_helper = new AmazonPayShippingInfoHelper();
-
-		add_filter( 'woocommerce_payment_gateways',  array($this, 'get_amazon_gateway'), 100, 1);
 	}
 
 	/**
 	 * @param $gateways
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	function get_amazon_gateway($gateways) {
+	function get_amazon_gateway() {
+		$gateways = WC()->payment_gateways->get_available_payment_gateways();
 
-		foreach($gateways as $gateway) {
+		foreach ( $gateways as $gateway ) {
 			// If class is a string. It's not the gateway
-			if(is_string($gateway))
+			if ( is_string( $gateway ) ) {
 				continue;
+			}
 
 			// Get the gateway class
-			$class = get_class($gateway);
+			$class = get_class( $gateway );
 
 			// If in the set classes we are looking for, set the wc_gateway
-			if(in_array($class, $this->gateway_classes)) {
+			if ( in_array( $class, $this->gateway_classes ) ) {
 				$this->wc_gateway = $gateway;
 			}
 		}
 
-		do_action('cfw_amazon_payment_gateway_found', $this->wc_gateway );
-
-		// Return the gateways
-		return $gateways;
+		do_action( 'cfw_amazon_payment_gateway_found', $this->wc_gateway );
 	}
 
 	function is_available() {
 		$available = false;
 
-		if(class_exists('\\WC_Amazon_Payments_Advanced_API')) {
+		if ( class_exists( '\\WC_Amazon_Payments_Advanced_API' ) ) {
 			$settings = \WC_Amazon_Payments_Advanced_API::get_settings();
 
-			if ( class_exists( '\\WC_Amazon_Payments_Advanced' ) && $settings['enabled'] === "yes" ) {
+			if ( class_exists( '\\WC_Amazon_Payments_Advanced' ) && $settings['enabled'] === 'yes' ) {
 
 				$this->amazon_payments = $GLOBALS['wc_amazon_payments_advanced'];
 
@@ -85,6 +82,7 @@ class AmazonPay extends Base {
 	function run() {
 		add_action( 'woocommerce_checkout_init', array( $this, 'checkout_init' ), 9 );
 		add_filter( 'woocommerce_pa_hijack_checkout_fields', '__return_false' );
+		$this->get_amazon_gateway();
 	}
 
 	/**
@@ -92,7 +90,7 @@ class AmazonPay extends Base {
 	 * for more details
 	 */
 	function checkout_init() {
-		$settings = \WC_Amazon_Payments_Advanced_API::get_settings();
+		$settings     = \WC_Amazon_Payments_Advanced_API::get_settings();
 		$reference_id = \WC_Amazon_Payments_Advanced_API::get_reference_id();
 		$access_token = \WC_Amazon_Payments_Advanced_API::get_access_token();
 
@@ -104,7 +102,7 @@ class AmazonPay extends Base {
 
 		if ( ! WC()->cart->needs_payment() && ! $enable_login_app ) {
 			add_action( 'cfw_checkout_before_form', array( $this->amazon_payments, 'placeholder_checkout_message_container' ), 5 );
-			add_action( 'cfw_checkout_before_customer_info_tab', array( $this->amazon_payments, 'placeholder_widget_container') );
+			add_action( 'cfw_checkout_before_customer_info_tab', array( $this->amazon_payments, 'placeholder_widget_container' ) );
 		}
 
 		if ( empty( $reference_id ) && empty( $access_token ) ) {
@@ -112,7 +110,7 @@ class AmazonPay extends Base {
 			add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_separator' ), 10 );
 		} else {
 			add_action( 'cfw_checkout_before_form', array( $this->amazon_payments, 'checkout_message' ) );
-			remove_all_actions('cfw_payment_request_buttons');
+			remove_all_actions( 'cfw_payment_request_buttons' );
 		}
 
 		if ( ( ! $enable_login_app && empty( $reference_id ) ) || ( $enable_login_app && empty( $access_token ) ) ) {
@@ -121,20 +119,20 @@ class AmazonPay extends Base {
 
 		$this->are_extra_login_fields_needed();
 
-		add_action( 'cfw_checkout_before_customer_info_address', array($this, 'output_address_widget'), 10 );
+		add_action( 'cfw_checkout_before_customer_info_address', array( $this, 'output_address_widget' ), 10 );
 		add_action( 'cfw_checkout_after_payment_methods', array( $this, 'output_payment_widget' ), 20 );
 
-		$checkout = \WC_Checkout::instance();
+		$checkout                             = \WC_Checkout::instance();
 		$checkout->checkout_fields['billing'] = null;
 
-		$this->amazon_payments->hijack_checkout_fields($checkout);
+		$this->amazon_payments->hijack_checkout_fields( $checkout );
 	}
 
 	function are_extra_login_fields_needed() {
 		$checkout = \WC_Checkout::instance();
 
-		if( !is_user_logged_in() && $checkout->enable_signup ) {
-			add_action('cfw_checkout_after_email', 'cfw_extra_account_fields');
+		if ( ! is_user_logged_in() && $checkout->enable_signup ) {
+			add_action( 'cfw_checkout_after_email', 'cfw_extra_account_fields' );
 		}
 	}
 
@@ -147,7 +145,7 @@ class AmazonPay extends Base {
 		$contents = ob_get_contents();
 		ob_end_clean();
 
-		$contents .= "</div></div>";
+		$contents .= '</div></div>';
 
 		echo $contents;
 	}
@@ -156,7 +154,7 @@ class AmazonPay extends Base {
 	 * We need to add 2 div tags here to the content output
 	 */
 	function output_payment_widget() {
-		$contents = "<div><div>";
+		$contents = '<div><div>';
 
 		ob_start();
 		$this->amazon_payments->payment_widget();

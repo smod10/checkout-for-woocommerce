@@ -585,6 +585,9 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
     function cfw_wc_print_notices() {
 	    // Show non-cart errors
 	    $wc_notices = wc_print_notices( $return = true );
+
+	    if ( empty($wc_notices) ) return;
+	    
 	    echo "<div id='cfw-wc-print-notices' class='cfw-alert cfw-alert-danger' style='display:block;'><div class='message'>$wc_notices</div></div>";
     }
 }

@@ -1,7 +1,7 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        exit; // Exit if accessed directly
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
 ?>
 <div class="overlay">
     <div class="spinner-wrap">
@@ -10,9 +10,10 @@
 </div>
 <main id="cfw-content" class="<?php echo $css_classes; ?> cfw-tabs-initialize cfw-tabs-not-initialized">
     <div class="wrap">
-
         <div class="cfw-container">
             <div class="cfw-column-12">
+	            <?php cfw_wc_print_notices(); ?>
+
                 <div id="cfw-alert-container" class="cfw-alert">
                     <div class="message"></div>
                 </div>
@@ -124,11 +125,11 @@
                                     </div>
 
                                 <?php else: ?>
+                                    <input type="hidden" name="billing_email" id="billing_email" value="<?php echo WC()->checkout()->get_value('billing_email'); ?>">
 
                                     <div class="cfw-have-acc-text cfw-small">
                                         <?php printf( esc_html__('Welcome back, %s (%s).', 'checkout-wc'), "<strong>" . wp_get_current_user()->display_name . "</strong>", wp_get_current_user()->user_email ); ?>
                                     </div>
-
                                 <?php endif; ?>
 
                             </div>

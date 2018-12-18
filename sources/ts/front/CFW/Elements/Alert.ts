@@ -55,6 +55,9 @@ export class Alert extends Element {
         this.jel.addClass(this.alertInfo.cssClass);
         this.jel.slideDown(300);
 
+        // We don't really need this once other alerts are showing up.
+        $('#cfw-wc-print-notices').slideUp(300);
+
         window.scrollTo(0,0);
 
         Alert.previousClass = this.alertInfo.cssClass;

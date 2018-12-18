@@ -292,7 +292,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		}
 	}
 
-	function cfw_get_shipping_details($checkout) {
+	function cfw_get_shipping_details( $checkout ) {
         return WC()->countries->get_formatted_address(
 	        array(
 		        'first_name' => $checkout->get_value( 'shipping_first_name' ),

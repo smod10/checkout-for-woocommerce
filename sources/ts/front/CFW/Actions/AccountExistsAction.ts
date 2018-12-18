@@ -63,8 +63,7 @@ export class AccountExistsAction extends Action {
                     $(register_user_checkbox).trigger('change');
                 }
 
-				register_container.css("display", "none");
-                $create_account.prop('disabled', true);
+                $create_account.prop('checked', false);
 
 				AccountExistsAction.checkBox = true;
 				// If account does not exist, reverse
@@ -79,9 +78,8 @@ export class AccountExistsAction extends Action {
 
 					AccountExistsAction.checkBox = false;
 				}
-
-				register_container.css("display", "block");
-                $create_account.prop('disabled', false);
+				
+                $create_account.prop('checked', true);
 			}
 		}
     }

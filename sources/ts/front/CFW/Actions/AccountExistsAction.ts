@@ -53,35 +53,37 @@ export class AccountExistsAction extends Action {
         let register_user_checkbox: any = ($create_account.length > 0) ? $create_account : null;
         let register_container: any = $("#cfw-login-details .cfw-check-input");
 
-        if( ! login_slide.hasClass("stay-open") ) {
-			// If account exists slide down the password field, uncheck the register box, and hide the container for the checkbox
-			if ( resp.account_exists ) {
-				login_slide.slideDown(300);
+        // If account exists slide down the password field, uncheck the register box, and hide the container for the checkbox
+        if ( resp.account_exists ) {
+            if( ! login_slide.hasClass("stay-open") ) {
+                login_slide.slideDown(300);
+            }
 
+            if ( register_user_checkbox && register_user_checkbox.is(':checkbox') ) {
+                register_user_checkbox.checked = false;
+                $(register_user_checkbox).trigger('change');
+            }
+
+            $create_account.prop('checked', false).prop('disabled', true);
+
+            AccountExistsAction.checkBox = true;
+            // If account does not exist, reverse
+        } else {
+            if( ! login_slide.hasClass("stay-open") ) {
+                login_slide.slideUp(300);
+            }
+
+            if (AccountExistsAction.checkBox) {
                 if ( register_user_checkbox && register_user_checkbox.is(':checkbox') ) {
-                    register_user_checkbox.checked = false;
+                    register_user_checkbox.checked = true;
                     $(register_user_checkbox).trigger('change');
                 }
 
-                $create_account.prop('checked', false);
+                AccountExistsAction.checkBox = false;
+            }
 
-				AccountExistsAction.checkBox = true;
-				// If account does not exist, reverse
-			} else {
-				login_slide.slideUp(300);
-
-				if (AccountExistsAction.checkBox) {
-				    if ( register_user_checkbox && register_user_checkbox.is(':checkbox') ) {
-                        register_user_checkbox.checked = true;
-                        $(register_user_checkbox).trigger('change');
-                    }
-
-					AccountExistsAction.checkBox = false;
-				}
-				
-                $create_account.prop('checked', true);
-			}
-		}
+            $create_account.prop('checked', true).prop('disabled', false);
+        }
     }
 
     /**

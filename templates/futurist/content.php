@@ -10,9 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 <main id="cfw-content" class="<?php echo $css_classes; ?> cfw-tabs-initialize cfw-tabs-not-initialized">
     <div class="wrap">
-
         <div class="cfw-container">
             <div class="cfw-column-12">
+	            <?php cfw_wc_print_notices(); ?>
+
                 <div id="cfw-alert-container" class="cfw-alert">
                     <div class="message"></div>
                 </div>

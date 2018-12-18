@@ -10,7 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 <main id="cfw-content" class="<?php echo $css_classes; ?> cfw-tabs-initialize cfw-tabs-not-initialized">
     <div class="wrap">
-
         <div id="cfw-logo-container-mobile">
             <div class="cfw-logo">
                 <a title="<?php echo get_bloginfo( 'name' ); ?>" href="<?php echo get_home_url(); ?>" class="logo"></a>
@@ -22,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             <!-- Easy Tab Container -->
             <div id="cfw-tab-container" class="cfw-left-column cfw-column-7 tab-container">
+	            <?php cfw_wc_print_notices(); ?>
 
                 <div id="cfw-alert-container" class="cfw-alert">
                     <div class="message"></div>

@@ -515,7 +515,7 @@ label[for="card-element"] {
   display: none;
 }
 
-#cfw-alert-container {
+#cfw-alert-container, #cfw-wc-print-notices {
   ul {
     list-style-type: none;
     padding-left: 0;
@@ -955,7 +955,7 @@ textarea {
     display: none;
     margin-top: 20px;
   }
-  
+
   #cfw-cart-list {
     .cfw-cart-row .cfw-cart-item-col {
       margin-left: 20px;

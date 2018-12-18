@@ -35,8 +35,12 @@ class AmazonPayShippingInfoHelper {
 	function add_remove_shipping_info_function() {
 		// Remove amazon's store_shipping_info_in_session
 		remove_action( 'woocommerce_checkout_update_order_review', array( $this->gateway, 'store_shipping_info_in_session' ), 10 );
+
 		// Add ours
 		add_action( 'woocommerce_checkout_update_order_review', array( $this, 'store_shipping_info_in_session' ) );
+
+		// Disable payment method refresh
+		add_action( 'woocommerce_checkout_update_order_review', array( $this, 'disable_refresh' ) );
 	}
 
 	/**
@@ -76,6 +80,17 @@ class AmazonPayShippingInfoHelper {
 			$this->set_customer_info( $field, $address[ $field ] );
 			$this->set_customer_info( 'shipping_' . $field, $address[ $field ] );
 		}
+	}
+
+	function disable_refresh() {
+		// Get the reference id
+		$reference_id = \WC_Amazon_Payments_Advanced_API::get_reference_id();
+
+		if ( ! $reference_id ) {
+			return;
+		}
+
+		add_filter( 'cfw_update_payment_methods', '__return_false' );
 	}
 
 	/**

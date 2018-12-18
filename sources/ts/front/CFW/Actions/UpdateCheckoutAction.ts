@@ -88,7 +88,10 @@ export class UpdateCheckoutAction extends Action {
 
         // Payment methods
         let updated_payment_methods_container = $('#cfw-billing-methods');
-        updated_payment_methods_container.html(`${resp.updated_payment_methods}`);
+
+        if ( false !== resp.updated_payment_methods ) {
+            updated_payment_methods_container.html(`${resp.updated_payment_methods}`);
+        }
 
         // Place order button
         let updated_place_order_container = $('#cfw-place-order');

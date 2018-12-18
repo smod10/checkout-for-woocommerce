@@ -2,6 +2,10 @@
   iframe {
     border: none !important;
   }
+
+  .widget-container {
+    height: auto !important;
+  }
 }
 
 #checkout.has-overlay, #cfw-deductors-list.has-overlay {

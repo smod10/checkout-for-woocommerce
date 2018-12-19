@@ -376,6 +376,7 @@ export class Main {
 		$("#cfw-ci-login").on("click", function(){
 			$("#cfw-login-slide").addClass("stay-open");
 			$("#cfw-login-slide").slideDown(300);
+            $("#createaccount").prop('checked', false);
 		});
 	}
 

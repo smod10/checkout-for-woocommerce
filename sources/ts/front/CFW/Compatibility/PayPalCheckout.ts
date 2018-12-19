@@ -11,9 +11,11 @@ export class PayPalCheckout extends Compatibility {
 
     load(): void {
         $(window).on('load updated_checkout', () => {
-            var isPPEC = $( '#payment_method_ppec_paypal' ).is(':checked');
-            $( '#place_order' ).toggle( ! isPPEC );
-            $( '#woo_pp_ec_button_checkout' ).toggle( isPPEC );
+            if ( $('#woo_pp_ec_button_checkout').is(':visible') ) {
+                var isPPEC = $( '#payment_method_ppec_paypal' ).is(':checked');
+                $( '#place_order' ).toggle( ! isPPEC );
+                $( '#woo_pp_ec_button_checkout' ).toggle( isPPEC );
+            }
         });
     }
 }

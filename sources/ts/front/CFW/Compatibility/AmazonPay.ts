@@ -67,12 +67,9 @@ export class AmazonPay extends Compatibility {
 				amazon_payments_advanced_params !== undefined &&
 				(amazon_payments_advanced_params.reference_id !== "" || amazon_payments_advanced_params.access_token !== "")
 			) {
-				$("#cfw-billing-methods .create-account").remove();
-				$("#payment-info-separator-wrap").hide();
-				$("#cfw-shipping-same-billing").hide();
-				$("#cfw-billing-methods > .cfw-module-title").hide();
-				$("#cfw-shipping-info > .cfw-module-title").hide();
-				$("#cfw-payment-method > .cfw-module-title").hide();
+				$(window).on('load', () => {
+                    this.cleanUpExtraStuff();
+				});
 
 				easyTabsWrap.bind('easytabs:after', (event, clicked, target) => this.amazonRefresh());
 
@@ -104,10 +101,20 @@ export class AmazonPay extends Compatibility {
 		return map;
 	}
 
+	cleanUpExtraStuff() {
+        $("#cfw-billing-methods .create-account").remove();
+        $("#payment-info-separator-wrap").hide();
+        $("#cfw-shipping-same-billing").hide();
+        $("#cfw-billing-methods > .cfw-module-title").hide();
+        $("#cfw-shipping-info > .cfw-module-title").hide();
+        $("#cfw-payment-method > .cfw-module-title").hide();
+	}
+
 	/**
 	 * Refreshes and loads the split amazon setup
 	 */
 	amazonRefresh() {
 		OffAmazonPayments.Widgets.Utilities.setup();
+        this.cleanUpExtraStuff();
 	}
 }

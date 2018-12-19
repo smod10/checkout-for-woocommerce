@@ -60,11 +60,12 @@ export class AccountExistsAction extends Action {
             }
 
             if ( register_user_checkbox && register_user_checkbox.is(':checkbox') ) {
-                register_user_checkbox.checked = false;
-                $(register_user_checkbox).trigger('change');
+                register_user_checkbox.prop('checked', false);
+                register_user_checkbox.trigger('change');
+                register_user_checkbox.prop('disabled', true);
             }
 
-            $create_account.prop('checked', false).prop('disabled', true);
+            register_container.css("display", "none");
 
             AccountExistsAction.checkBox = true;
             // If account does not exist, reverse
@@ -73,16 +74,17 @@ export class AccountExistsAction extends Action {
                 login_slide.slideUp(300);
             }
 
+            register_container.css("display", "block");
+
             if (AccountExistsAction.checkBox) {
                 if ( register_user_checkbox && register_user_checkbox.is(':checkbox') ) {
-                    register_user_checkbox.checked = true;
-                    $(register_user_checkbox).trigger('change');
+                    register_user_checkbox.prop('checked', true);
+                    register_user_checkbox.trigger('change');
+                    register_user_checkbox.prop('disabled', false);
                 }
 
                 AccountExistsAction.checkBox = false;
             }
-
-            $create_account.prop('checked', true).prop('disabled', false);
         }
     }
 

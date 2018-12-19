@@ -11,7 +11,7 @@ import { ValidationService }                from "../Services/ValidationService"
 import { UpdateCheckoutAction }             from "../Actions/UpdateCheckoutAction";
 import { UpdateShippingFieldsRI }           from "../Actions/UpdateCheckoutAction";
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
-import { Alert }                            from "./Alert";
+import { Alert, AlertInfo}                  from "./Alert";
 import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
 import { UpdatePaymentMethod }              from "../Actions/UpdatePaymentMethod";
 
@@ -481,6 +481,7 @@ export class TabContainer extends Element {
 
         // If all the payment stuff has finished any ajax calls, run the complete order.
         if ( checkout_form.triggerHandler( 'checkout_place_order' ) !== false && checkout_form.triggerHandler( 'checkout_place_order_' + checkout_form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
+            checkout_form.addClass( 'processing' );
 
             // Reset data
             for ( let field in preSwapData ) {
@@ -490,6 +491,14 @@ export class TabContainer extends Element {
             }
 
             this.orderKickOff(main.ajaxInfo, this.getFormObject());
+        } else {
+            let alertInfo: AlertInfo = {
+                type: "error",
+                message: 'An unknown payment processing error has occured. Please contact support for more options.',
+                cssClass: "cfw-alert-danger"
+            };
+            let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo );
+            alert.addAlert();
         }
     }
 
@@ -504,7 +513,6 @@ export class TabContainer extends Element {
 
         CompleteOrderAction.initCompleteOrder = true;
 
-        checkout_form.addClass( 'processing' );
         Main.addOverlay();
 
 		checkout_form.find(".woocommerce-error").remove();

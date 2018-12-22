@@ -492,13 +492,7 @@ export class TabContainer extends Element {
 
             this.orderKickOff(main.ajaxInfo, this.getFormObject());
         } else {
-            let alertInfo: AlertInfo = {
-                type: "error",
-                message: 'An unknown payment processing error has occured. Please contact support for more options.',
-                cssClass: "cfw-alert-danger"
-            };
-            let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo );
-            alert.addAlert();
+            // TODO: Throwing an error here seems to cause situations where the error briefly appears during a successful order
         }
     }
 

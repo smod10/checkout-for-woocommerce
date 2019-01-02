@@ -334,7 +334,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <div id="cfw-cart-details-collapse-wrap">
                     <h3 class="cfw-module-title">
-                        Your Cart
+                        <?php _e('Your Cart', 'checkout-wc'); ?>
                     </h3>
                     <div id="cfw-cart-list" class="cfw-module">
                         <?php cfw_get_checkout_cart_html(); ?>

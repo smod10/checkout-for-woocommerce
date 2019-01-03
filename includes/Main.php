@@ -17,6 +17,7 @@ use Objectiv\Plugins\Checkout\Core\Customizer;
 use Objectiv\Plugins\Checkout\Core\Form;
 use Objectiv\Plugins\Checkout\Core\Redirect;
 use Objectiv\Plugins\Checkout\Core\Loader;
+use Objectiv\Plugins\Checkout\Managers\ActivationManager;
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 use Objectiv\Plugins\Checkout\Managers\AjaxManager;
@@ -130,13 +131,13 @@ class Main extends Singleton {
 	private $customizer;
 
 	/**
-	 * Settings class for accessing user defined settings.
+	 * Activation manager for handling activation conditions
 	 *
 	 * @since 1.1.4
 	 * @access private
-	 * @var Activator $activator Handles activation
+	 * @var ActivationManager $activation_manager Handles activation
 	 */
-	private $activator;
+	private $activation_manager;
 
 	/**
 	 * Settings class for accessing user defined settings.
@@ -288,10 +289,10 @@ class Main extends Singleton {
 	 *
 	 * @since 1.1.4
 	 * @access public
-	 * @return Activator The class handling activation of the plugin
+	 * @return ActivationManager The class handling activation of the plugin
 	 */
-	public function get_activator() {
-		return $this->activator;
+	public function get_activation_manager() {
+		return $this->activation_manager;
 	}
 
 	/**
@@ -383,8 +384,8 @@ class Main extends Singleton {
 		// Set up localization
 		$this->i18n = new i18n( 'checkout-wc' );
 
-		// Activator
-		$this->activator = new Activator( $this->get_activator_checks() );
+		// Activation Manager
+		$this->activation_manager = new ActivationManager( $this->get_activator_checks() );
 
 		// Deactivator
 		$this->deactivator = new Deactivator();
@@ -416,14 +417,16 @@ class Main extends Singleton {
 
 	public function get_activator_checks() {
 		return array(
-			'woocommerce/woocommerce.php' => [
-				'checkout-woocommerce_activation',
-				array(
+			array(
+				'id'       => 'checkout-woocommerce_activation',
+				'function' => 'class_exists',
+				'value'    => 'WooCommerce',
+				'message'  => array(
 					'success' => false,
 					'class'   => 'notice error',
-					'message' => __( 'Activation failed: Please activate WooCommerce in order to use Checkout for WooCommerce', $this->get_i18n()->get_text_domain() ),
+					'message' => __( 'Activation failed: Please activate WooCommerce in order to use Checkout for WooCommerce', 'checkout-wc' ),
 				),
-			],
+			),
 		);
 	}
 
@@ -605,7 +608,7 @@ class Main extends Singleton {
 		// Handle the Activation notices
 		$this->loader->add_action(
 			'admin_notices', function() {
-				$this->get_activator()->activate_admin_notice( $this->get_path_manager() );
+				$this->get_activation_manager()->activate_admin_notice( $this->get_path_manager() );
 			}
 		);
 
@@ -633,7 +636,7 @@ class Main extends Singleton {
 	}
 
 	function add_admin_buttons( $admin_bar ) {
-		if ( ! is_checkout() ) {
+		if ( ! function_exists('is_checkout') || ! is_checkout() ) {
 			return;
 		}
 
@@ -716,7 +719,7 @@ class Main extends Singleton {
 		// Get main
 		$main = Main::instance();
 
-		$errors = $main->get_activator()->activate();
+		$errors = $main->get_activation_manager()->activate();
 
 		// Init settings
 		$main->get_settings_manager()->add_setting( 'enable', 'no' );

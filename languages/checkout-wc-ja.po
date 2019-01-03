@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2018-11-28 22:08-0500\n"
-"PO-Revision-Date: 2018-11-28 22:10-0500\n"
+"POT-Creation-Date: 2019-01-02 11:42-0500\n"
+"PO-Revision-Date: 2019-01-02 11:44-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -21,48 +21,50 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: functions.php:8
+#: dist/checkout-for-woocommerce/functions.php:8 functions.php:8
 msgid "First Name"
 msgstr "名"
 
-#: functions.php:13
+#: dist/checkout-for-woocommerce/functions.php:13 functions.php:13
 msgid "Last Name"
 msgstr "姓"
 
-#: functions.php:59 includes/Main.php:532
+#: dist/checkout-for-woocommerce/functions.php:59
+#: dist/checkout-for-woocommerce/includes/Main.php:534 functions.php:59
+#: includes/Main.php:534
 msgid "required"
 msgstr "必須"
 
-#: functions.php:120
+#: dist/checkout-for-woocommerce/functions.php:120 functions.php:120
 msgid "Select a country&hellip;"
 msgstr "国を選択&hellip;"
 
-#: functions.php:128
+#: dist/checkout-for-woocommerce/functions.php:128 functions.php:128
 msgid "Update country"
 msgstr "更新语种"
 
-#: functions.php:147
+#: dist/checkout-for-woocommerce/functions.php:147 functions.php:147
 msgid "Select a state&hellip;"
 msgstr "郵便番号;"
 
-#: functions.php:192
+#: dist/checkout-for-woocommerce/functions.php:192 functions.php:192
 msgid "Choose an option"
 msgstr "オプションを選択してください"
 
-#: functions.php:338
+#: dist/checkout-for-woocommerce/functions.php:338 functions.php:338
 #, php-format
 msgctxt "shipping packages"
 msgid "Shipping"
 msgid_plural "Shipping %d"
 msgstr[0] "送料 %d"
 
-#: functions.php:364
+#: dist/checkout-for-woocommerce/functions.php:364 functions.php:364
 msgid ""
 "There are no shipping methods available. Please double check your address, "
 "or contact us if you need any help."
 msgstr "利用可能な配送方法がありません。お問合わせください。"
 
-#: functions.php:430
+#: dist/checkout-for-woocommerce/functions.php:432 functions.php:432
 msgid ""
 "Sorry, it seems that there are no available payment methods for your "
 "location. Please contact us if you require assistance or wish to make "
@@ -72,51 +74,101 @@ msgstr ""
 "たがヘルプを必要とするか、または代替の手段を試したい場合は、運営管理にお問い"
 "合わせください。"
 
-#: functions.php:497 functions.php:504
+#: dist/checkout-for-woocommerce/functions.php:517
+#: dist/checkout-for-woocommerce/functions.php:524 functions.php:517
+#: functions.php:524
 msgid "Not Calculated"
 msgstr "計算されない"
 
-#: functions.php:502
+#: dist/checkout-for-woocommerce/functions.php:522 functions.php:522
 msgid "Not Available"
 msgstr "使用不可"
 
+#: dist/checkout-for-woocommerce/functions.php:537 functions.php:537
+msgid "Complete Order"
+msgstr "完全な注文"
+
+#: dist/checkout-for-woocommerce/functions.php:554
+#: dist/checkout-for-woocommerce/templates/copify/content.php:49
+#: dist/checkout-for-woocommerce/templates/default/content.php:42
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:46
+#: functions.php:554 templates/copify/content.php:49
+#: templates/default/content.php:42 templates/futurist/content.php:46
+msgid "Payment method"
+msgstr "お支払方法"
+
+#: dist/checkout-for-woocommerce/functions.php:561 functions.php:561
+msgid ""
+"All transactions are secure and encrypted. Credit card information is never "
+"stored on our servers."
+msgstr ""
+"すべてのトランザクションは、安全で暗号化されたです。クレジット カード情報は、"
+"当社のサーバーに決して保存されます。"
+
+#: dist/checkout-for-woocommerce/functions.php:572 functions.php:572
+msgid "Your order is free. No payment is required."
+msgstr "あなたの注文は無料です。支払いは必要ありません。"
+
+#: dist/checkout-for-woocommerce/includes/Compatibility/Base.php:135
 #: includes/Compatibility/Base.php:135
 msgid "Or"
 msgstr "それか"
 
+#: dist/checkout-for-woocommerce/includes/Compatibility/Gateways/PayPalForWooCommerce.php:132
 #: includes/Compatibility/Gateways/PayPalForWooCommerce.php:132
 msgid "Logged in with PayPal. Please continue your order below."
 msgstr "PayPal でログインしています。以下のご注文を継続してください。"
 
 #. Plugin Name of the plugin/theme
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:88
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:111
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:263
+#: dist/checkout-for-woocommerce/includes/Main.php:649
 #: includes/Core/Admin.php:88 includes/Core/Admin.php:111
-#: includes/Core/Customizer.php:263 includes/Main.php:647
+#: includes/Core/Customizer.php:263 includes/Main.php:649
 msgid "Checkout for WooCommerce"
 msgstr "Checkout for WooCommerce"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:91
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:276
+#: dist/checkout-for-woocommerce/includes/Main.php:657
 #: includes/Core/Admin.php:91 includes/Core/Customizer.php:276
-#: includes/Main.php:655
+#: includes/Main.php:657
 msgid "General"
 msgstr "一般"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:92
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:333
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:350
+#: dist/checkout-for-woocommerce/includes/Main.php:666
 #: includes/Core/Admin.php:92 includes/Core/Customizer.php:333
-#: includes/Core/Customizer.php:350 includes/Main.php:664
+#: includes/Core/Customizer.php:350 includes/Main.php:666
 msgid "Template"
 msgstr "テンプレート"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:93
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:364
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:401
+#: dist/checkout-for-woocommerce/includes/Main.php:675
 #: includes/Core/Admin.php:93 includes/Core/Customizer.php:364
-#: includes/Core/Customizer.php:401 includes/Main.php:673
+#: includes/Core/Customizer.php:401 includes/Main.php:675
 msgid "Design"
 msgstr "デザイン"
 
-#: includes/Core/Admin.php:94 includes/Main.php:682
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:94
+#: dist/checkout-for-woocommerce/includes/Main.php:684
+#: includes/Core/Admin.php:94 includes/Main.php:684
 msgid "License"
 msgstr "ライセンス"
 
-#: includes/Core/Admin.php:95 includes/Main.php:691
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:95
+#: dist/checkout-for-woocommerce/includes/Main.php:693
+#: includes/Core/Admin.php:95 includes/Main.php:693
 msgid "Support"
 msgstr "サポート"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:112
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:266
 #: includes/Core/Admin.php:112 includes/Core/Customizer.php:266
 msgid ""
 "Checkout for WooCommerce provides a beautiful, conversion optimized checkout "
@@ -125,14 +177,18 @@ msgstr ""
 "Woocommerce のためのチェックアウトは、Woocommerce のための美しい、変換最適化"
 "されたチェックアウトテンプレートを提供します."
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:137
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:287
 #: includes/Core/Admin.php:137 includes/Core/Customizer.php:287
 msgid "Enable / Disable"
 msgstr "有効化/無効化"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:141
 #: includes/Core/Admin.php:141
 msgid "Use Checkout for WooCommerce Template"
 msgstr "WooCommerce テンプレートのチェック アウトを使用します。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:142
 #: includes/Core/Admin.php:142
 msgid ""
 "Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always "
@@ -141,14 +197,18 @@ msgstr ""
 "WooCommerce テーマのチェックアウトを有効または無効にします。(注: テーマは常に"
 "管理者ユーザーに対して有効になります。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:148
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:298
 #: includes/Core/Admin.php:148 includes/Core/Customizer.php:298
 msgid "Show Phone Fields"
 msgstr "電話フィールドの表示"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:152
 #: includes/Core/Admin.php:152
 msgid "Enable billing and shipping phone fields"
 msgstr "請求と出荷の電話フィールドを有効にする"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:153
 #: includes/Core/Admin.php:153
 msgid ""
 "Enable or disable billing and shipping phone fields as required fields. "
@@ -157,10 +217,13 @@ msgstr ""
 "請求および出荷の電話フィールドを必須フィールドとして有効または無効にします。"
 "(デフォルト: 無効)"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:159
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:309
 #: includes/Core/Admin.php:159 includes/Core/Customizer.php:309
 msgid "Header Scripts"
 msgstr "ヘッダー スクリプト"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:165
 #: includes/Core/Admin.php:165
 msgid ""
 "This code will output immediately before the closing <code>&lt;/head&gt;</"
@@ -169,10 +232,13 @@ msgstr ""
 "このコードは、ドキュメントソース内の <code>&lt;/head&gt;</code> タグを閉じる"
 "直前に出力されます。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:173
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:320
 #: includes/Core/Admin.php:173 includes/Core/Customizer.php:320
 msgid "Footer Scripts"
 msgstr "フッタースクリプト"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:179
 #: includes/Core/Admin.php:179
 msgid ""
 "This code will output immediately before the closing <code>&lt;/body&gt;</"
@@ -181,18 +247,23 @@ msgstr ""
 "このコードは、ドキュメントソース内の <code>&lt;/body&gt;</code> タグを閉じる"
 "直前に出力されます。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:203
 #: includes/Core/Admin.php:203
 msgid "Templates"
 msgstr "テンプレート"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:227
 #: includes/Core/Admin.php:227
 msgid "Active: "
 msgstr "有効: "
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:235
 #: includes/Core/Admin.php:235
 msgid "Activate"
 msgstr "有効化"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:245
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:419
 #: includes/Core/Admin.php:245 includes/Core/Admin.php:419
 msgid ""
 "You are using a legacy child theme which will be disabled in a future "
@@ -201,30 +272,39 @@ msgstr ""
 "将来のバージョンで無効になるレガシ子テーマを使用しています。従来のテーマで"
 "は、テーマの設定を変更することはできません。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:263
 #: includes/Core/Admin.php:263
 msgid "Global Settings"
 msgstr "グローバル設定"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:264
 #: includes/Core/Admin.php:264
 msgid "These settings apply to all themes."
 msgstr "これらの設定はすべてのテーマに適用されます。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:269
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:376
 #: includes/Core/Admin.php:269 includes/Core/Customizer.php:376
 msgid "Logo"
 msgstr "ロゴ"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:275
 #: includes/Core/Admin.php:275
 msgid "Upload image"
 msgstr "画像のアップロード"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:278
 #: includes/Core/Admin.php:278
 msgid "Clear Logo"
 msgstr "明確なロゴ"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:284
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:388
 #: includes/Core/Admin.php:284 includes/Core/Customizer.php:388
 msgid "Footer Text"
 msgstr "フッターテキスト"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:290
 #: includes/Core/Admin.php:290
 msgid ""
 "If left blank, a standard copyright notice will be displayed. Set to a "
@@ -233,54 +313,79 @@ msgstr ""
 "空白のままにすると、標準の著作権表記が表示されます。この動作をオーバーライド"
 "するには、1つの領域に設定します。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:298
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:401
 #: includes/Core/Admin.php:298 includes/Core/Customizer.php:401
 msgid "Theme Specific Settings"
 msgstr "テーマ固有の設定"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:310
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:417
 #: includes/Core/Admin.php:310 includes/Core/Customizer.php:417
 msgid "Header Background Color"
 msgstr "ヘッダー 背景色"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:320
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:431
 #: includes/Core/Admin.php:320 includes/Core/Customizer.php:431
 msgid "Header Text Color"
 msgstr "ヘッダーテキストの色"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:330
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:445
 #: includes/Core/Admin.php:330 includes/Core/Customizer.php:445
 msgid "Footer Background Color"
 msgstr "フッターの背景色"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:340
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:459
 #: includes/Core/Admin.php:340 includes/Core/Customizer.php:459
 msgid "Footer Text Color"
 msgstr "フッターテキスト色"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:350
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:473
 #: includes/Core/Admin.php:350 includes/Core/Customizer.php:473
 msgid "Summary Background Color"
 msgstr "概要の背景色"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:360
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:487
 #: includes/Core/Admin.php:360 includes/Core/Customizer.php:487
 msgid "Primary Button Color"
 msgstr "主ボタンの色"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:369
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:501
 #: includes/Core/Admin.php:369 includes/Core/Customizer.php:501
 msgid "Primary Button Text Color"
 msgstr "プライマリボタンのテキストの色"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:378
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:515
 #: includes/Core/Admin.php:378 includes/Core/Customizer.php:515
 msgid "Secondary Button Color"
 msgstr "2次ボタンの色"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:387
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:529
 #: includes/Core/Admin.php:387 includes/Core/Customizer.php:529
 msgid "Secondary Button Text Color"
 msgstr "セカンダリボタンのテキストの色"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:396
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:543
 #: includes/Core/Admin.php:396 includes/Core/Customizer.php:543
 msgid "Link Color"
 msgstr "リンクの色"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:405
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:556
 #: includes/Core/Admin.php:405 includes/Core/Customizer.php:556
 msgid "Custom CSS"
 msgstr "カスタム CSS"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:411
 #: includes/Core/Admin.php:411
 msgid ""
 "Add Custom CSS rules to fully control the appearance of the checkout "
@@ -289,18 +394,22 @@ msgstr ""
 "カスタム CSS ルールを追加して、チェックアウトテンプレートの外観を完全に制御し"
 "ます。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:445
 #: includes/Core/Admin.php:445
 msgid "Need help?"
 msgstr "ヘルプが必要ですか?"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:447
 #: includes/Core/Admin.php:447
 msgid "Excellent support is in our DNA."
 msgstr "優れたサポートが私たちの DNA です。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:449
 #: includes/Core/Admin.php:449
 msgid "Contact Support"
 msgstr "サポートに問い合わせる"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:573
 #: includes/Core/Admin.php:573
 #, php-format
 msgid ""
@@ -314,6 +423,7 @@ msgstr ""
 "\"https://www.checkoutwc.com/checkout/? edd_license_key = %s\" > ライセンスを"
 "更新して、完全な機能を復元することを確認してください </a>。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:576
 #: includes/Core/Admin.php:576
 msgid ""
 "Checkout for WooCommerce: Your license key is missing or invalid. Please "
@@ -325,6 +435,7 @@ msgstr ""
 "checkoutwc.com/\" > ライセンス </a> を購入してフル機能を復元することを確認し"
 "てください。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:581
 #: includes/Core/Admin.php:581
 #, fuzzy
 msgid ""
@@ -335,6 +446,7 @@ msgstr ""
 "ます!開始するには, 下の <strong> ライセンス </strong> をクリックしてライセン"
 "スキーを有効にする!"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:592
 #: includes/Core/Admin.php:592
 #, php-format
 msgid ""
@@ -352,10 +464,12 @@ msgstr ""
 "files/upgrading-legacy-custom-templates/\">移行ガイドを参照してください。 </"
 "a>"
 
+#: dist/checkout-for-woocommerce/includes/Core/Admin.php:616
 #: includes/Core/Admin.php:616
 msgid "Settings"
 msgstr "設定"
 
+#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:405
 #: includes/Core/Customizer.php:405
 msgid ""
 "These settings only apply to the currently active template. If you switch "
@@ -366,56 +480,78 @@ msgstr ""
 "でテンプレートを切り替えると、これらの設定は使用できなくなりますが、テンプ"
 "レートを切り替える前に、ここで変更内容が発行されます。"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:76
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:246
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:248
 #: includes/Core/Form.php:76 includes/Core/Form.php:246
 #: includes/Core/Form.php:248
 msgid "Phone"
 msgstr "電話番号"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:96
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:97
 #: includes/Core/Form.php:96 includes/Core/Form.php:97
 msgid "First name"
 msgstr "名"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:113
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:114
 #: includes/Core/Form.php:113 includes/Core/Form.php:114
 msgid "Last name"
 msgstr "氏"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:129
 #: includes/Core/Form.php:129
 msgid "Address"
 msgstr "住所"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:130
 #: includes/Core/Form.php:130
 msgid "Street address"
 msgstr "住所"
 
-#: includes/Core/Form.php:145 includes/Core/Form.php:146 includes/Main.php:531
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:145
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:146
+#: dist/checkout-for-woocommerce/includes/Main.php:533
+#: includes/Core/Form.php:145 includes/Core/Form.php:146 includes/Main.php:533
 msgid "Apt, suite, etc. (optional)"
 msgstr "アパートメント、スイートなど（オプション）"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:158
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:159
 #: includes/Core/Form.php:158 includes/Core/Form.php:159
 msgid "Company name"
 msgstr "事業所名"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:171
 #: includes/Core/Form.php:171
 msgid "Country"
 msgstr "国"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:184
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:185
 #: includes/Core/Form.php:184 includes/Core/Form.php:185
 msgid "Postcode / ZIP"
 msgstr "郵便番号"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:205
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:206
 #: includes/Core/Form.php:205 includes/Core/Form.php:206
 msgid "State / County"
 msgstr "都道府県 (State / Prefecture)"
 
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:225
+#: dist/checkout-for-woocommerce/includes/Core/Form.php:227
 #: includes/Core/Form.php:225 includes/Core/Form.php:227
 msgid "Town / City"
 msgstr "市区町村 (City)"
 
+#: dist/checkout-for-woocommerce/includes/Core/Redirect.php:36
 #: includes/Core/Redirect.php:36
 msgid "Checkout is not available whilst your cart is empty."
 msgstr "カートが空の間、チェックアウトは利用できません。"
 
-#: includes/Main.php:423
+#: dist/checkout-for-woocommerce/includes/Main.php:424 includes/Main.php:424
 msgid ""
 "Activation failed: Please activate WooCommerce in order to use Checkout for "
 "WooCommerce"
@@ -423,249 +559,340 @@ msgstr ""
 "アクティベーションに失敗しました: WooCommerce のためのチェックアウトを使用す"
 "るために WooCommerce をアクティブにしてください"
 
-#: includes/Main.php:499
+#: dist/checkout-for-woocommerce/includes/Main.php:501 includes/Main.php:501
 msgid "Error processing checkout. Please try again."
 msgstr "チェックアウトの処理エラーです。もう一度やり直してください。"
 
-#: includes/Main.php:513
+#: dist/checkout-for-woocommerce/includes/Main.php:515 includes/Main.php:515
 msgid "Select an option&hellip;"
 msgstr "オプションを選択&hellip;"
 
-#: includes/Main.php:514
+#: dist/checkout-for-woocommerce/includes/Main.php:516 includes/Main.php:516
 msgctxt "enhanced select"
 msgid "No matches found"
 msgstr "一致するものが見つかりませんでした。"
 
-#: includes/Main.php:515
+#: dist/checkout-for-woocommerce/includes/Main.php:517 includes/Main.php:517
 msgctxt "enhanced select"
 msgid "Loading failed"
 msgstr "読み込み失敗"
 
-#: includes/Main.php:516
+#: dist/checkout-for-woocommerce/includes/Main.php:518 includes/Main.php:518
 msgctxt "enhanced select"
 msgid "Please enter 1 or more characters"
 msgstr "1文字以上の文字を入力してください。"
 
-#: includes/Main.php:517
+#: dist/checkout-for-woocommerce/includes/Main.php:519 includes/Main.php:519
 msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
 msgstr "％qty％以上の文字を入力してください"
 
-#: includes/Main.php:518
+#: dist/checkout-for-woocommerce/includes/Main.php:520 includes/Main.php:520
 msgctxt "enhanced select"
 msgid "Please delete 1 character"
 msgstr "1文字削除してください。"
 
-#: includes/Main.php:519
+#: dist/checkout-for-woocommerce/includes/Main.php:521 includes/Main.php:521
 msgctxt "enhanced select"
 msgid "Please delete %qty% characters"
 msgstr "%qty%文字削除してください。"
 
-#: includes/Main.php:520
+#: dist/checkout-for-woocommerce/includes/Main.php:522 includes/Main.php:522
 msgctxt "enhanced select"
 msgid "You can only select 1 item"
 msgstr "1つのみ選択可能です"
 
-#: includes/Main.php:521
+#: dist/checkout-for-woocommerce/includes/Main.php:523 includes/Main.php:523
 msgctxt "enhanced select"
 msgid "You can only select %qty% items"
 msgstr "％qty％個のアイテムしか選択できません"
 
-#: includes/Main.php:522
+#: dist/checkout-for-woocommerce/includes/Main.php:524 includes/Main.php:524
 msgctxt "enhanced select"
 msgid "Loading more results&hellip;"
 msgstr "結果をさらに読み込む&hellip;"
 
-#: includes/Main.php:523
+#: dist/checkout-for-woocommerce/includes/Main.php:525 includes/Main.php:525
 msgctxt "enhanced select"
 msgid "Searching&hellip;"
 msgstr "検索中&hellip;"
 
-#: templates/copify/content.php:38 templates/default/content.php:30
-#: templates/futurist/content.php:28
+#: dist/checkout-for-woocommerce/templates/copify/content.php:38
+#: dist/checkout-for-woocommerce/templates/default/content.php:31
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:29
+#: templates/copify/content.php:38 templates/default/content.php:31
+#: templates/futurist/content.php:29
 msgid "Cart"
 msgstr "カート"
 
+#: dist/checkout-for-woocommerce/templates/copify/content.php:41
+#: dist/checkout-for-woocommerce/templates/copify/content.php:69
+#: dist/checkout-for-woocommerce/templates/default/content.php:34
+#: dist/checkout-for-woocommerce/templates/default/content.php:62
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:34
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:73
 #: templates/copify/content.php:41 templates/copify/content.php:69
-#: templates/default/content.php:33 templates/default/content.php:61
-#: templates/futurist/content.php:33 templates/futurist/content.php:72
+#: templates/default/content.php:34 templates/default/content.php:62
+#: templates/futurist/content.php:34 templates/futurist/content.php:73
 msgid "Customer information"
 msgstr "顧客情報"
 
+#: dist/checkout-for-woocommerce/templates/copify/content.php:45
+#: dist/checkout-for-woocommerce/templates/copify/content.php:204
+#: dist/checkout-for-woocommerce/templates/default/content.php:38
+#: dist/checkout-for-woocommerce/templates/default/content.php:199
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:40
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:208
 #: templates/copify/content.php:45 templates/copify/content.php:204
-#: templates/default/content.php:37 templates/default/content.php:198
-#: templates/futurist/content.php:39 templates/futurist/content.php:207
+#: templates/default/content.php:38 templates/default/content.php:199
+#: templates/futurist/content.php:40 templates/futurist/content.php:208
 msgid "Shipping method"
 msgstr "発送方法"
 
-#: templates/copify/content.php:49 templates/copify/content.php:236
-#: templates/default/content.php:41 templates/default/content.php:230
-#: templates/futurist/content.php:45 templates/futurist/content.php:239
-msgid "Payment method"
-msgstr "お支払方法"
-
-#: templates/copify/content.php:77 templates/default/content.php:69
-#: templates/futurist/content.php:80
+#: dist/checkout-for-woocommerce/templates/copify/content.php:77
+#: dist/checkout-for-woocommerce/templates/default/content.php:70
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:81
+#: templates/copify/content.php:77 templates/default/content.php:70
+#: templates/futurist/content.php:81
 msgid "Already have an account with us?"
 msgstr "既に私たちと口座をお持ちですか？"
 
-#: templates/copify/content.php:81 templates/default/content.php:73
-#: templates/futurist/content.php:84
+#: dist/checkout-for-woocommerce/templates/copify/content.php:81
+#: dist/checkout-for-woocommerce/templates/default/content.php:74
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:85
+#: templates/copify/content.php:81 templates/default/content.php:74
+#: templates/futurist/content.php:85
 msgid "Log in for a faster checkout experience."
 msgstr "より速いチェックアウトの経験のためにログインしてください。"
 
+#: dist/checkout-for-woocommerce/templates/copify/content.php:89
+#: dist/checkout-for-woocommerce/templates/copify/content.php:90
+#: dist/checkout-for-woocommerce/templates/default/content.php:82
+#: dist/checkout-for-woocommerce/templates/default/content.php:83
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:93
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:94
 #: templates/copify/content.php:89 templates/copify/content.php:90
-#: templates/default/content.php:81 templates/default/content.php:82
-#: templates/futurist/content.php:92 templates/futurist/content.php:93
+#: templates/default/content.php:82 templates/default/content.php:83
+#: templates/futurist/content.php:93 templates/futurist/content.php:94
 msgid "Email"
 msgstr "メール"
 
-#: templates/copify/content.php:98 templates/default/content.php:88
-#: templates/futurist/content.php:101
+#: dist/checkout-for-woocommerce/templates/copify/content.php:98
+#: dist/checkout-for-woocommerce/templates/copify/content.php:99
+#: dist/checkout-for-woocommerce/templates/default/content.php:89
+#: dist/checkout-for-woocommerce/templates/default/content.php:90
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:102
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:103
+#: templates/copify/content.php:98 templates/copify/content.php:99
+#: templates/default/content.php:89 templates/default/content.php:90
+#: templates/futurist/content.php:102 templates/futurist/content.php:103
 msgid "Password"
 msgstr "パスワード"
 
-#: templates/copify/content.php:103 templates/default/content.php:93
-#: templates/futurist/content.php:106
+#: dist/checkout-for-woocommerce/templates/copify/content.php:103
+#: dist/checkout-for-woocommerce/templates/default/content.php:94
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:107
+#: templates/copify/content.php:103 templates/default/content.php:94
+#: templates/futurist/content.php:107
 msgid "Login"
 msgstr "ログイン"
 
-#: templates/copify/content.php:106 templates/default/content.php:96
-#: templates/futurist/content.php:109
+#: dist/checkout-for-woocommerce/templates/copify/content.php:106
+#: dist/checkout-for-woocommerce/templates/default/content.php:97
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:110
+#: templates/copify/content.php:106 templates/default/content.php:97
+#: templates/futurist/content.php:110
 msgid "Login is optional. You may continue with your order below."
 msgstr "ログインはオプションです。以下のご注文の続行することがあります。"
 
-#: templates/copify/content.php:116 templates/default/content.php:108
-#: templates/futurist/content.php:119
+#: dist/checkout-for-woocommerce/templates/copify/content.php:116
+#: dist/checkout-for-woocommerce/templates/default/content.php:109
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:120
+#: templates/copify/content.php:116 templates/default/content.php:109
+#: templates/futurist/content.php:120
 #, php-format
 msgid "Create %s shopping account."
 msgstr "ショッピング アカウント %s を作成します。"
 
-#: templates/copify/content.php:118 templates/default/content.php:110
-#: templates/futurist/content.php:121
+#: dist/checkout-for-woocommerce/templates/copify/content.php:118
+#: dist/checkout-for-woocommerce/templates/default/content.php:111
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:122
+#: templates/copify/content.php:118 templates/default/content.php:111
+#: templates/futurist/content.php:122
 msgid "If you do not have an account, we will create one for you."
 msgstr ""
 "あなたがアカウントを持っていない場合は、我々はあなたのために1つを作成します。"
 
-#: templates/copify/content.php:126 templates/default/content.php:118
-#: templates/futurist/content.php:129
+#: dist/checkout-for-woocommerce/templates/copify/content.php:127
+#: dist/checkout-for-woocommerce/templates/default/content.php:120
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:131
+#: templates/copify/content.php:127 templates/default/content.php:120
+#: templates/futurist/content.php:131
 #, php-format
 msgid "Welcome back, %s (%s)."
 msgstr "ようこそ、 %s ( %s) に戻ります。"
 
-#: templates/copify/content.php:139 templates/copify/content.php:262
-#: templates/default/content.php:133 templates/default/content.php:258
-#: templates/futurist/content.php:142 templates/futurist/content.php:265
+#: dist/checkout-for-woocommerce/templates/copify/content.php:139
+#: dist/checkout-for-woocommerce/templates/copify/content.php:235
+#: dist/checkout-for-woocommerce/templates/default/content.php:134
+#: dist/checkout-for-woocommerce/templates/default/content.php:230
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:143
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:239
+#: templates/copify/content.php:139 templates/copify/content.php:235
+#: templates/default/content.php:134 templates/default/content.php:230
+#: templates/futurist/content.php:143 templates/futurist/content.php:239
 msgid "Billing address"
 msgstr "お客様情報"
 
+#: dist/checkout-for-woocommerce/templates/copify/content.php:141
+#: dist/checkout-for-woocommerce/templates/copify/content.php:189
+#: dist/checkout-for-woocommerce/templates/default/content.php:136
+#: dist/checkout-for-woocommerce/templates/default/content.php:184
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:145
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:193
 #: templates/copify/content.php:141 templates/copify/content.php:189
-#: templates/default/content.php:135 templates/default/content.php:183
-#: templates/futurist/content.php:144 templates/futurist/content.php:192
+#: templates/default/content.php:136 templates/default/content.php:184
+#: templates/futurist/content.php:145 templates/futurist/content.php:193
 msgid "Shipping address"
 msgstr "お届け先住所"
 
-#: templates/copify/content.php:171 templates/default/content.php:165
-#: templates/futurist/content.php:174
+#: dist/checkout-for-woocommerce/templates/copify/content.php:171
+#: dist/checkout-for-woocommerce/templates/default/content.php:166
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:175
+#: templates/copify/content.php:171 templates/default/content.php:166
+#: templates/futurist/content.php:175
 msgid "Return to cart"
 msgstr "戻る"
 
-#: templates/copify/content.php:174 templates/default/content.php:168
-#: templates/futurist/content.php:177
+#: dist/checkout-for-woocommerce/templates/copify/content.php:174
+#: dist/checkout-for-woocommerce/templates/default/content.php:169
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:178
+#: templates/copify/content.php:174 templates/default/content.php:169
+#: templates/futurist/content.php:178
 msgid "Continue to shipping method"
 msgstr "配送方法に進む"
 
+#: dist/checkout-for-woocommerce/templates/copify/content.php:176
+#: dist/checkout-for-woocommerce/templates/copify/content.php:222
+#: dist/checkout-for-woocommerce/templates/default/content.php:171
+#: dist/checkout-for-woocommerce/templates/default/content.php:217
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:180
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:226
 #: templates/copify/content.php:176 templates/copify/content.php:222
-#: templates/default/content.php:170 templates/default/content.php:216
-#: templates/futurist/content.php:179 templates/futurist/content.php:225
+#: templates/default/content.php:171 templates/default/content.php:217
+#: templates/futurist/content.php:180 templates/futurist/content.php:226
 msgid "Continue to payment method"
 msgstr "お支払い方法に進みます"
 
-#: templates/copify/content.php:195 templates/default/content.php:189
-#: templates/futurist/content.php:198
+#: dist/checkout-for-woocommerce/templates/copify/content.php:195
+#: dist/checkout-for-woocommerce/templates/default/content.php:190
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:199
+#: templates/copify/content.php:195 templates/default/content.php:190
+#: templates/futurist/content.php:199
 msgid "Edit shipping address"
 msgstr "配送先住所を編集する"
 
-#: templates/copify/content.php:206 templates/default/content.php:200
-#: templates/futurist/content.php:209
+#: dist/checkout-for-woocommerce/templates/copify/content.php:206
+#: dist/checkout-for-woocommerce/templates/default/content.php:201
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:210
+#: templates/copify/content.php:206 templates/default/content.php:201
+#: templates/futurist/content.php:210
 msgid "Select a shipping method:"
 msgstr "発送方法を選択してください。:"
 
-#: templates/copify/content.php:219 templates/copify/content.php:318
-#: templates/default/content.php:213 templates/default/content.php:314
-#: templates/futurist/content.php:222 templates/futurist/content.php:321
+#: dist/checkout-for-woocommerce/templates/copify/content.php:219
+#: dist/checkout-for-woocommerce/templates/copify/content.php:295
+#: dist/checkout-for-woocommerce/templates/default/content.php:214
+#: dist/checkout-for-woocommerce/templates/default/content.php:290
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:223
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:299
+#: templates/copify/content.php:219 templates/copify/content.php:295
+#: templates/default/content.php:214 templates/default/content.php:290
+#: templates/futurist/content.php:223 templates/futurist/content.php:299
 msgid "Return to customer information"
 msgstr "顧客情報に戻る"
 
-#: templates/copify/content.php:243 templates/default/content.php:237
-#: templates/futurist/content.php:246
-msgid ""
-"All transactions are secure and encrypted. Credit card information is never "
-"stored on our servers."
-msgstr ""
-"すべてのトランザクションは、安全で暗号化されたです。クレジット カード情報は、"
-"当社のサーバーに決して保存されます。"
-
-#: templates/copify/content.php:254 templates/default/content.php:248
-#: templates/futurist/content.php:257
-msgid "Your order is free. No payment is required."
-msgstr "あなたの注文は無料です。支払いは必要ありません。"
-
-#: templates/copify/content.php:270 templates/default/content.php:266
-#: templates/futurist/content.php:273
+#: dist/checkout-for-woocommerce/templates/copify/content.php:243
+#: dist/checkout-for-woocommerce/templates/default/content.php:238
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:247
+#: templates/copify/content.php:243 templates/default/content.php:238
+#: templates/futurist/content.php:247
 msgid "Same as shipping address"
 msgstr "配送先住所と同じ"
 
-#: templates/copify/content.php:278 templates/default/content.php:274
-#: templates/futurist/content.php:281
+#: dist/checkout-for-woocommerce/templates/copify/content.php:251
+#: dist/checkout-for-woocommerce/templates/default/content.php:246
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:255
+#: templates/copify/content.php:251 templates/default/content.php:246
+#: templates/futurist/content.php:255
 msgid "Use a different billing address"
 msgstr "異なる請求先住所を使用します"
 
-#: templates/copify/content.php:316 templates/default/content.php:312
-#: templates/futurist/content.php:319
+#: dist/checkout-for-woocommerce/templates/copify/content.php:293
+#: dist/checkout-for-woocommerce/templates/default/content.php:288
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:297
+#: templates/copify/content.php:293 templates/default/content.php:288
+#: templates/futurist/content.php:297
 msgid "Return to shipping information"
 msgstr "配送情報に戻る"
 
-#: templates/copify/content.php:323 templates/default/content.php:319
-#: templates/futurist/content.php:326
-msgid "Complete Order"
-msgstr "完全な注文"
-
-#: templates/copify/content.php:360 templates/default/content.php:342
-#: templates/futurist/content.php:349
+#: dist/checkout-for-woocommerce/templates/copify/content.php:334
+#: dist/checkout-for-woocommerce/templates/default/content.php:315
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:324
+#: templates/copify/content.php:334 templates/default/content.php:315
+#: templates/futurist/content.php:324
 msgid "Show order summary"
 msgstr "注文の要約を表示する"
 
-#: templates/copify/content.php:381 templates/default/content.php:363
-#: templates/futurist/content.php:373
+#: dist/checkout-for-woocommerce/templates/copify/content.php:355
+#: dist/checkout-for-woocommerce/templates/default/content.php:336
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:348
+#: templates/copify/content.php:355 templates/default/content.php:336
+#: templates/futurist/content.php:348
 msgid "Enter Promo Code"
 msgstr "プロモーションコードを入力"
 
-#: templates/copify/content.php:386 templates/default/content.php:368
-#: templates/futurist/content.php:378
+#: dist/checkout-for-woocommerce/templates/copify/content.php:360
+#: dist/checkout-for-woocommerce/templates/default/content.php:341
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:353
+#: templates/copify/content.php:360 templates/default/content.php:341
+#: templates/futurist/content.php:353
 msgid "Apply"
 msgstr "許可"
 
-#: templates/copify/content.php:396 templates/default/content.php:378
-#: templates/futurist/content.php:389
+#: dist/checkout-for-woocommerce/templates/copify/content.php:370
+#: dist/checkout-for-woocommerce/templates/default/content.php:351
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:364
+#: templates/copify/content.php:370 templates/default/content.php:351
+#: templates/futurist/content.php:364
 msgid "Subtotal"
 msgstr "小計"
 
-#: templates/copify/content.php:408 templates/default/content.php:390
-#: templates/futurist/content.php:401
+#: dist/checkout-for-woocommerce/templates/copify/content.php:382
+#: dist/checkout-for-woocommerce/templates/default/content.php:363
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:376
+#: templates/copify/content.php:382 templates/default/content.php:363
+#: templates/futurist/content.php:376
 msgid "Shipping"
 msgstr "送料"
 
-#: templates/copify/content.php:421 templates/default/content.php:403
-#: templates/futurist/content.php:414
+#: dist/checkout-for-woocommerce/templates/copify/content.php:395
+#: dist/checkout-for-woocommerce/templates/default/content.php:376
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:389
+#: templates/copify/content.php:395 templates/default/content.php:376
+#: templates/futurist/content.php:389
 msgid "Taxes"
 msgstr "税金"
 
-#: templates/copify/content.php:427 templates/default/content.php:409
-#: templates/futurist/content.php:420
+#: dist/checkout-for-woocommerce/templates/copify/content.php:401
+#: dist/checkout-for-woocommerce/templates/default/content.php:382
+#: dist/checkout-for-woocommerce/templates/futurist/content.php:395
+#: templates/copify/content.php:401 templates/default/content.php:382
+#: templates/futurist/content.php:395
 msgid "Total"
 msgstr "合計"
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
 #, php-format
 msgid ""
@@ -675,6 +902,7 @@ msgstr ""
 "利用可能な %1$s の新しいバージョンがあります。<a target=\"_blank\" class="
 "\"thickbox\" href=\"%2$s\">バージョン %3$s の詳細を表示</a>します。"
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
 #, php-format
 msgid ""
@@ -686,11 +914,14 @@ msgstr ""
 "\"thickbox\" href=\"%2$s\">%3$s バージョンの詳細を表示</a> か <a href=\"%4$s"
 "\">今すぐ更新</a>。"
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 #: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "You do not have permission to install plugin updates"
 msgstr "プラグインを更新する権限がありません"
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
 #, php-format
 msgid ""
@@ -699,6 +930,7 @@ msgstr ""
 "利用可能な%1$sの新しいバージョンがあります。 %2$sViewバージョン%3$sの詳"
 "細%4$s。"
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
 #, php-format
 msgid ""
@@ -708,9 +940,14 @@ msgstr ""
 "利用可能な %1$s の新しいバージョンがあります。%2$sバージョン %3$sの詳細%4$sを"
 "確認するか、%5$s今すぐ更新%6$sしてください。"
 
+#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 #: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
 msgid "Error"
 msgstr "エラー"
+
+#: templates/futurist/content.php:337
+msgid "Your Cart"
+msgstr "カート"
 
 #. Plugin URI of the plugin/theme
 msgid "https://www.CheckoutWC.com"

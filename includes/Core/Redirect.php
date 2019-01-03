@@ -179,7 +179,11 @@ class Redirect {
 				var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
 				window.dispatchEvent(cfwInitEvent);
 
-                window.Parsley.setLocale('<?php echo defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ); ?>');
+				try {
+                    window.Parsley.setLocale('<?php echo defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ); ?>');
+                } catch( error ) {
+				    console.log('Failed to set parsley locale.');
+                }
 			});
 		</script>
 		<?php
@@ -236,8 +240,6 @@ class Redirect {
 	 * @param SettingsManager $settings_manager
 	 */
 	public static function output_init_block($path_manager, $version, $classes, $settings_manager) {
-		WC()->payment_gateways->get_available_payment_gateways();
-
 		self::init_block(( ! CFW_DEV_MODE ) ? ".min" : "", $path_manager);
 	}
 
@@ -387,6 +389,10 @@ class Redirect {
 	 * @param TemplateManager $template_manager
 	 */
 	public static function cfw_wp_head($path_manager, $version, $classes, $settings_manager, $template_manager) {
+	    // Make sure gateways load before we call wp_head()
+		WC()->payment_gateways->get_available_payment_gateways();
+		\WC_Payment_Gateways::instance();
+
 		wp_head();
 	    do_action_ref_array( 'cfw_wp_head', array($path_manager, $version, $classes, $settings_manager, $template_manager) );
 	}

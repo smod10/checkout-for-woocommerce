@@ -56,31 +56,34 @@ class KlarnaCheckout extends Base {
 
 	function run() {
         add_filter('cfw_load_checkout_template', array($this, 'detect_confirmation_page'), 10, 1);
-		add_action('cfw_checkout_loaded_pre_head', array($this, 'klarna_template_hooks'), 10);
+        add_action('cfw_checkout_loaded_pre_head', array($this, 'klarna_template_hooks'), 10);
 	}
 
 	function klarna_pay_clicked() {
-		if($_GET["payment_method"] == "klarna") {
+		if($_GET["payment_method"] == "kco") {
 			WC()->session->set("chosen_payment_method", $this->klarna_id);
 		}
 	}
 
 	function is_klarna_payment_selected() {
-		return WC()->session->get( 'chosen_payment_method' ) == $this->klarna_id && $_GET['payment_method'] == "klarna";
+		return WC()->session->get( 'chosen_payment_method' ) == $this->klarna_id && $_GET['payment_method'] == $this->klarna_id;
 	}
 
 	function klarna_template_hooks() {
-		if($this->is_klarna_payment_selected()) {
+		if ( $this->is_klarna_payment_selected() ) {
 			add_filter( 'cfw_replace_form', '__return_true' );
 			add_action( 'cfw_checkout_form', array( $this, 'klarna_checkout_form' ) );
 		} else {
-			add_filter('cfw_show_gateway_kco', '__return_false');
 			add_action('cfw_checkout_before_customer_info_tab', array( $this, 'add_klarna_separator' ));
 			add_action('cfw_payment_request_buttons', array($this, 'add_klarna_pay_button'));
 		}
 	}
 
 	function klarna_checkout_form() {
+		// Global Klarna Expects
+		global $checkout;
+		$checkout = WC()->checkout();
+
 		include wc_locate_template('checkout/form-checkout.php');
 	}
 

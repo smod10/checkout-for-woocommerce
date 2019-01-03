@@ -29,10 +29,14 @@ export class KlarnaCheckout extends Compatibility {
 		$(document).on("ready", () => {
 			let pay_btn = $(this.klarna_button_id);
 			pay_btn.on('click', (evt) => {
-				evt.preventDefault();
+                evt.preventDefault();
 
-				window.location.href = "?payment_method=klarna"
-			})
+                window.location.href = "?payment_method=kco";
+            });
+
+            $(document).on('click', '#payment_method_kco', (evt) => {
+                window.location.href = "?payment_method=kco";
+            });
 		})
 	}
 

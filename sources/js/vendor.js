@@ -6,6 +6,7 @@ require('script-loader!EasyTabs/lib/jquery.easytabs.min.js');
 require('script-loader!garlicjs/dist/garlic.min.js');
 require('script-loader!parsleyjs/dist/parsley.min.js');
 require('script-loader!parsleyjs/dist/i18n/de.js');
+require('script-loader!parsleyjs/dist/i18n/da.js');
 require('script-loader!parsleyjs/dist/i18n/es.js');
 require('script-loader!parsleyjs/dist/i18n/fr.js');
 require('script-loader!parsleyjs/dist/i18n/it.js');

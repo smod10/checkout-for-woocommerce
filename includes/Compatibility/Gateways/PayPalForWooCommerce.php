@@ -113,7 +113,7 @@ class PayPalForWooCommerce extends Base {
 
 				// Don't add the separator if PayPal Express isn't actually active
 
-				if ( empty( $WC_Gateway_PayPal_Express_AngellEYE ) && ! $this->gateway_instance->is_available() ) {
+				if ( empty( $WC_Gateway_PayPal_Express_AngellEYE ) || ! $this->gateway_instance->is_available() ) {
 					return;
 				}
 

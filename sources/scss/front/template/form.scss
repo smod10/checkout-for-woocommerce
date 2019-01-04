@@ -24,50 +24,52 @@
 }
 
 form {
-  .form-row {
-    padding: 3px;
-    margin: 0 0 6px;
-    @include clearfix();
+  .cfw-additional-fields-container, #payment, #wc_checkout_add_ons, div:not([class]) {
+    .form-row {
+      padding: 3px;
+      margin: 0 0 6px;
+      @include clearfix();
 
-    label {
-      display: block;
+      label {
+        display: block;
 
-      &.checkbox {
-        display: inline;
+        &.checkbox {
+          display: inline;
+        }
+      }
+
+      select {
+        width: 100%;
+        background-color: #fff;
+      }
+
+      .input-text {
+        box-sizing: border-box;
+        width: 100%;
       }
     }
 
-    select {
-      width: 100%;
-      background-color: #fff;
+    .form-row-first,
+    .form-row-last {
+      width: 47%;
+      overflow: visible;
     }
 
-    .input-text {
-      box-sizing: border-box;
-      width: 100%;
+    .form-row-first {
+      float: left;
+
+      /*rtl:raw:
+      float: right;
+      */
     }
-  }
 
-  .form-row-first,
-  .form-row-last {
-    width: 47%;
-    overflow: visible;
-  }
+    .form-row-last {
+      float: right;
+    }
 
-  .form-row-first {
-    float: left;
-
-    /*rtl:raw:
-    float: right;
-    */
-  }
-
-  .form-row-last {
-    float: right;
-  }
-
-  .form-row-wide {
-    clear: both;
+    .form-row-wide {
+      clear: both;
+    }
   }
 }
 
@@ -82,36 +84,3 @@ form {
 body.checkout-wc .woocommerce-checkout input[type=checkbox] {
   margin-right: 0.25em;
 }
-/**
-Start Checkbox Alignments
- */
-// Stripe - Save new
-//body.checkout-wc .woocommerce-checkout #payment .woocommerce-SavedPaymentMethods-saveNew {
-//  display: flex;
-//  align-items: flex-start;
-//
-//  input[type=checkbox] {
-//    margin-top: 0.25em;
-//  }
-//
-//  label {
-//    margin-top: 0px;
-//  }
-//}
-//
-//// Terms and Conditions
-//form .form-row label.woocommerce-form__label-for-checkbox {
-//  display: flex;
-//  align-items: flex-start;
-//
-//  input[type=checkbox] {
-//    margin-top: 0.4em;
-//  }
-//
-//  span {
-//    margin-top: 0px;
-//  }
-//}
-/**
-End Checkbox Alignments
- */

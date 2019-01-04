@@ -176,7 +176,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 			case 'email' :
 			case 'tel' :
 			case 'number' :
-
 				$field .= '<input type="' . esc_attr( $args['type'] ) . '" field_key="' . $key_sans_type . '" class="input-text ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" placeholder="' . esc_attr( $args['placeholder'] ) . '"  value="' . esc_attr( $value ) . '" ' . implode( ' ', $custom_attributes ) . $parsleyOut . ' />';
 
 				break;
@@ -227,7 +226,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 			$field_html = '';
 
-			if($args['label'] != "Order notes") {
+			if ( $args['label'] != "Order notes" ) {
 				if ( $args['label'] && 'checkbox' != $args['type'] ) {
 					$field_html .= '<label for="' . esc_attr( $label_id ) . '" class="' . esc_attr( implode( ' ', $args['label_class'] ) ) . '">' . $args['label'] . $required . '</label>';
 				}

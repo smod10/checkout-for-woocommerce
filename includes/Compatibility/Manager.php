@@ -2,7 +2,7 @@
 
 namespace Objectiv\Plugins\Checkout\Compatibility;
 
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\AfterPay;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\AfterPayKrokedil;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\AmazonPay;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Braintree;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaCheckout;
@@ -17,6 +17,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutManager;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicks;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\NLPostcodeChecker;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OnePageCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
@@ -85,6 +86,9 @@ class Manager {
 		// Checkout Address Autocomplete
 		new CheckoutAddressAutoComplete();
 
+		// NL Postcode Checker
+		new NLPostcodeChecker();
+
 		/**
 		 * Gateways
 		 */
@@ -117,7 +121,7 @@ class Manager {
 		new KlarnaPayment();
 
 		// AfterPay
-		new AfterPay();
+		new AfterPayKrokedil();
 
 		// ToCheckout
 		new ToCheckout();

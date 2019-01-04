@@ -16,6 +16,7 @@ class NLPostcodeChecker extends Base {
 		add_filter( 'woocommerce_default_address_fields', array( $this, 'sort_fields' ), 200000, 1 ); // run after our normal hook
 		add_filter( 'woocommerce_get_country_locale', array($this, 'prevent_postcode_sort_change') );
 		add_action( 'wp_enqueue_scripts', array($this, 'adjust_deps'), 1000 );
+		add_filter( 'cfw_enable_zip_autocomplete', '__return_false' );
 	}
 
 	function disable_nl_hooks() {

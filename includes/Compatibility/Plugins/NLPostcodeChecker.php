@@ -17,6 +17,10 @@ class NLPostcodeChecker extends Base {
 		add_filter( 'woocommerce_get_country_locale', array($this, 'prevent_postcode_sort_change') );
 		add_action( 'wp_enqueue_scripts', array($this, 'adjust_deps'), 1000 );
 		add_filter( 'cfw_enable_zip_autocomplete', '__return_false' );
+
+		// Move form-row class to input container from row
+		add_filter( 'cfw_input_wrap_start', array($this, 'input_wrap_start') );
+		add_filter( 'cfw_input_row_wrap', array($this, 'input_row_wrap') );
 	}
 
 	function disable_nl_hooks() {
@@ -126,5 +130,17 @@ class NLPostcodeChecker extends Base {
 		global $wp_scripts;
 
 		$wp_scripts->registered['wpo-wcnlpc']->deps = array('jquery');
+	}
+
+	function input_wrap_start( $input_wrap_start ) {
+		$input_wrap_start = str_replace( 'cfw-col', 'form-row cfw-col', $input_wrap_start );
+
+		return $input_wrap_start;
+	}
+
+	function input_row_wrap( $input_row_wrap ) {
+		$input_row_wrap = str_replace( 'form-row', '', $input_row_wrap );
+
+		return $input_row_wrap;
 	}
 }

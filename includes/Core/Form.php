@@ -313,9 +313,12 @@ class Form {
 
 		$priority = esc_attr( $priority );
 
-		$start = '<div class="form-row cfw-column-' . $col . ' %1$s" id="%2$s" data-priority="' . $priority . '">' . $inner_start . '%3$s';
+		$start = '<div class="cfw-column-' . $col . ' %1$s" id="%2$s" data-priority="' . $priority . '">' . $inner_start . '%3$s';
 
 		$end = "$inner_end</div>";
+
+		$start = apply_filters( 'cfw_input_wrap_start', $start, $type, $col, $priority );
+		$end   = apply_filters( 'cfw_input_wrap_end', $end, $type, $col, $priority );
 
 		return (object) [
 			'start' => $start,

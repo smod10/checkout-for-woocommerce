@@ -31,6 +31,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceCore;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\Porto;
 
 /**
  * Class Compatibility
@@ -137,7 +138,11 @@ class Manager {
 		/**
 		 * Themes
 		 */
+		// Avada
 		new Avada();
+
+		// Porto
+		new Porto();
 
 		/**
 		 * Misc

@@ -100,7 +100,7 @@ abstract class Base {
 	/**
 	 * Add WP theme styles to list of blocked style handles.
 	 *
-	 * @param $styles
+	 * @param $scripts
 	 *
 	 * @return mixed
 	 */

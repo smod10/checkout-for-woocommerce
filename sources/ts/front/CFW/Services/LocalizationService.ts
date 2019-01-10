@@ -26,6 +26,7 @@ export class LocalizationService {
 
         // When the country (shipping or billing) get's changed
         let country_change = (event) => {
+            let $wrapper    = $( this ).closest('.woocommerce-billing-fields, .woocommerce-shipping-fields, .woocommerce-shipping-calculator');
             let target: any = $(event.target);
             let target_country: string = target.val();
             let info_type: InfoType = <InfoType>target.attr("id").split("_")[0];
@@ -67,6 +68,7 @@ export class LocalizationService {
             Main.instance.checkoutForm.parsley();
 
 			$(document.body).trigger("update_checkout");
+            $( document.body ).trigger( 'country_to_state_changing', [target_country, $wrapper ] );
         };
 
         let locale_data = JSON.parse(wc_address_i18n_params.locale);

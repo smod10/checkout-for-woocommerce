@@ -1,0 +1,15 @@
+form {
+  #mailchimp_for_woocommerce {
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+
+      .form-row.mailchimp-newsletter {
+          padding: 0;
+
+          label {
+            display: inline-block;
+            font-size: 0.875em;
+          }
+      }
+  }
+}

@@ -132,6 +132,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </div>
                                 <?php endif; ?>
 
+	                            <?php do_action('cfw_checkout_after_login'); ?>
                             </div>
 
 	                        <?php do_action('cfw_checkout_before_customer_info_address'); ?>

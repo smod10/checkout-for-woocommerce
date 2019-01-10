@@ -121,11 +121,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </div>
                                 <?php endif; ?>
 
+	                            <?php do_action('cfw_checkout_after_login'); ?>
                             </div>
 
-                            <div>
-                                <?php do_action('cfw_checkout_before_customer_info_address'); ?>
-                            </div>
+	                        <?php do_action('cfw_checkout_before_customer_info_address'); ?>
 
                             <div id="cfw-shipping-info" class="cfw-module">
                                 <h3 class="cfw-module-title">

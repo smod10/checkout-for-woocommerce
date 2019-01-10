@@ -24,7 +24,7 @@
 }
 
 form {
-  .cfw-additional-fields-container, #payment, #wc_checkout_add_ons, #mailchimp_for_woocommerce {
+  #cfw_additional_fields_container, #payment, #wc_checkout_add_ons, #mailchimp_for_woocommerce {
     .form-row {
       padding: 3px;
       margin: 0 0 6px;

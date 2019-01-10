@@ -272,7 +272,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	                        <?php do_action('cfw_checkout_before_payment_method_terms_checkbox'); ?>
 
-                            <div class="cfw-additional-fields-container">
+                            <div id="cfw_additional_fields_container" class="cfw-additional-fields-container">
 		                        <?php do_action( 'woocommerce_before_order_notes', $checkout ); ?>
 
 		                        <?php if ( apply_filters( 'woocommerce_enable_order_notes_field', false ) ) : ?>

@@ -15,6 +15,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutFieldEditor;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutManager;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicks;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\DirectCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MailChimpforWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
@@ -92,6 +93,9 @@ class Manager {
 
 		// MailChimp for WooCommerce
 		new MailChimpforWooCommerce();
+
+		// WooCommerce Direct Checkout
+		new DirectCheckout();
 
 		/**
 		 * Gateways

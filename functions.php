@@ -243,8 +243,10 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 
                 if(isset($args['start']) && $args['start']) {
-                    $row_wrap = '<div class="cfw-sg-container cfw-input-wrap-row">';
+                    $row_wrap = '<div class="cfw-sg-container cfw-input-wrap-row form-row">';
                 }
+
+				$row_wrap = apply_filters( 'cfw_input_row_wrap', $row_wrap, $key, $args, $value );
 
                 $field = $row_wrap . sprintf( $field_container_start, $container_class, $container_id, $field_html );
 

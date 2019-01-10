@@ -313,7 +313,7 @@ class Form {
 
 		$priority = esc_attr( $priority );
 
-		$start = '<div class="cfw-column-' . $col . ' %1$s" id="%2$s" data-priority="' . $priority . '">' . $inner_start . '%3$s';
+		$start = '<div class="form-row cfw-column-' . $col . ' %1$s" id="%2$s" data-priority="' . $priority . '">' . $inner_start . '%3$s';
 
 		$end = "$inner_end</div>";
 

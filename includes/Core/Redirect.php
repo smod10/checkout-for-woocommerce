@@ -337,14 +337,12 @@ class Redirect {
 				color: #fff;
 				clear: both;
 				border-left: .6180469716em solid rgba(0, 0, 0, 0.15);
+                box-sizing: border-box;
+                width: 100%;
+                display: inline-block;
 			}
 			.woocommerce-info a {
 				color: #fff;
-			}
-
-			.woocommerce-info:hover {
-				color: #fff;
-				opacity: 0.7;
 			}
 
 			.woocommerce-info .button:hover {

@@ -129,7 +129,9 @@ class NLPostcodeChecker extends Base {
 	function adjust_deps() {
 		global $wp_scripts;
 
-		$wp_scripts->registered['wpo-wcnlpc']->deps = array('jquery');
+		if ( ! empty($wp_scripts->registered['wpo-wcnlpc']) ) {
+			$wp_scripts->registered['wpo-wcnlpc']->deps = array('jquery');
+		}
 	}
 
 	function input_wrap_start( $input_wrap_start ) {

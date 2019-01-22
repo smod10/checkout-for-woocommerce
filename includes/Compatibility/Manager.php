@@ -28,10 +28,12 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnalytics;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\UltimateRewardsPoints;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceCore;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Porto;
 
 /**
@@ -102,6 +104,9 @@ class Manager {
 		// ActiveCampaign for WooCommerce
 		new ActiveCampaign();
 
+		// Ultimate Points and Rewards
+		new UltimateRewardsPoints();
+
 		/**
 		 * Gateways
 		 */
@@ -147,6 +152,9 @@ class Manager {
 
 		// Porto
 		new Porto();
+
+		// GeneratePress / GP Premium
+		new GeneratePress();
 
 		/**
 		 * Misc

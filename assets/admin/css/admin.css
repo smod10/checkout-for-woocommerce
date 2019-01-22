@@ -42,7 +42,7 @@
 	cursor: zoom-in;
 }
 
-#TB_window {
+.settings_page_cfw-settings #TB_window {
 	top: 50% !important;
 	left: 50% !important;
 	transform: translate(-50%, -50%) !important;
@@ -53,21 +53,21 @@
 	margin: 0 !important;
 }
 
-#TB_ajaxContent {
+.settings_page_cfw-settings #TB_ajaxContent {
 	width: 100% !important;
 	height: 100% !important;
 	padding: 0 !important;
 
 }
 
-#TB_ajaxContent img {
+.settings_page_cfw-settings #TB_ajaxContent img {
 	width: 100%;
 	max-width: 1200px;
 	height: auto;
 }
 
 @media(max-width: 900px) {
-	#TB_window {
+	.settings_page_cfw-settings #TB_window {
 		width: calc(100% - 60px) !important;
 		height: calc(100% - 60px) !important;
 	}

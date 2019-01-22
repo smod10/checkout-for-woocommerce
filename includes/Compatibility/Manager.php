@@ -33,6 +33,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceCore;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Porto;
 
 /**
@@ -151,6 +152,9 @@ class Manager {
 
 		// Porto
 		new Porto();
+
+		// GeneratePress / GP Premium
+		new GeneratePress();
 
 		/**
 		 * Misc

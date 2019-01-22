@@ -79,6 +79,12 @@ export class EasyTabService {
 			this.easyTabsWrap.removeClass("cfw-tabs-not-initialized");
 
 			breadcrumb.show();
+
+            this.easyTabsWrap.bind('easytabs:after', function(event, clicked, target) {
+                $(document.body).animate({
+                    scrollTop: $('#cfw-tab-container').offset().top
+                }, 300);
+            } );
 		} else {
         	breadcrumb.hide();
 		}

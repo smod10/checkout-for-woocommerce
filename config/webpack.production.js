@@ -30,6 +30,7 @@ module.exports = (mainDir, assetsDir, version, delete_min_files, travis_build) =
 	if(version !== false && !travis_build) {
 		let delete_files = [
 			outPath + "/dist",
+			outPath + "/tests",
 			outPath + "/cypress",
 			outPath + "/**/node_modules",
 			outPath + "/assets/front/js/checkout-woocommerce-front.js*",

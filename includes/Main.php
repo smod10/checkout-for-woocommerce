@@ -484,13 +484,17 @@ class Main extends Singleton {
 		$user_style_min = ( $selected_template_stylesheet_is_min ) ? '.min' : '';
 		$user_js_min    = ( $selected_template_javascript_is_min ) ? '.min' : '';
 
+		// Styles
 		wp_enqueue_style( 'cfw_front_css', "{$front}/css/checkout-woocommerce-front{$min}.css", array(), $this->get_version() );
 		wp_enqueue_style( 'cfw_front_template_css', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_style_filename()}{$user_style_min}.css", array(), $this->get_version() );
+
+		// Scripts
+		wp_enqueue_script( 'cfw_init_js', "{$front}/js/checkout-woocommerce-init.js", array( 'jquery' ), $this->get_version() );
 		wp_enqueue_script( 'cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array( 'jquery', 'jquery-blockui' ), $this->get_version(), true );
 		wp_enqueue_script( 'cfw_front_template_js', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_javascript_filename()}{$user_js_min}.js", array( 'jquery' ), $this->get_version(), true );
 
 		wp_localize_script(
-			'cfw_front_js', 'cfwEventData', array(
+			'cfw_init_js', 'cfwEventData', array(
 				'elements'           => array(
 					'easyTabsWrapElClass'  => apply_filters( 'cfw_template_easy_tabs_wrap_el_id', '.cfw-tabs-initialize' ),
 					'breadCrumbElId'       => apply_filters( 'cfw_template_breadcrumb_id', '#cfw-breadcrumb' ),
@@ -518,7 +522,7 @@ class Main extends Singleton {
 					'isRegistrationRequired'  => WC()->checkout()->is_registration_required() ? 'true' : 'false',
 					'user_logged_in'          => ( is_user_logged_in() ) ? 'true' : 'false',
 					'is_stripe_three'         => ( defined( 'WC_STRIPE_VERSION' ) && ( version_compare( WC_STRIPE_VERSION, '4.0.0' ) >= 0 || version_compare( WC_STRIPE_VERSION, '3.0.0', '<' ) ) ) ? 'false' : 'true',
-					'default_address_fields'  => $default_fields,
+					'default_address_fields'  => json_encode( array_keys( WC()->countries->get_default_address_fields() ) ),
 					'enable_zip_autocomplete' => apply_filters( 'cfw_enable_zip_autocomplete', true ) ? 'true' : 'false',
 					'locale'                  => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ),
 				),

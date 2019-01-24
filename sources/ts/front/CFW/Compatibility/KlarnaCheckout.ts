@@ -1,6 +1,8 @@
 import { Compatibility } 			from "./Compatibility";
 import { Main } 					from "../Main";
 
+declare let jQuery: any;
+
 export class KlarnaCheckout extends Compatibility {
 
 	protected klarna_button_id = "#klarna-pay-button";
@@ -26,22 +28,22 @@ export class KlarnaCheckout extends Compatibility {
 			this.hideWooCouponNotification();
 		}
 
-		$(document).on("ready", () => {
-			let pay_btn = $(this.klarna_button_id);
+		jQuery(document).on("ready", () => {
+			let pay_btn = jQuery(this.klarna_button_id);
 			pay_btn.on('click', (evt) => {
                 evt.preventDefault();
 
                 window.location.href = "?payment_method=kco";
             });
 
-            $(document).on('click', '#payment_method_kco', (evt) => {
+            jQuery(document).on('click', '#payment_method_kco', (evt) => {
                 window.location.href = "?payment_method=kco";
             });
 		})
 	}
 
 	hideWooCouponNotification() {
-		$(".woocommerce-form-coupon-toggle").remove();
-		$(".checkout_coupon.woocommerce-form-coupon").remove();
+		jQuery(".woocommerce-form-coupon-toggle").remove();
+		jQuery(".checkout_coupon.woocommerce-form-coupon").remove();
 	}
 }

@@ -3,6 +3,8 @@ import { TabContainerSection }              from "../Elements/TabContainerSectio
 import { TabContainer }                     from "../Elements/TabContainer";
 import { TabContainerBreadcrumb } 			from "../Elements/TabContainerBreadcrumb";
 
+declare let jQuery: any;
+
 /**
  * EzTab Enum
  */
@@ -58,7 +60,7 @@ export class EasyTabService {
                 currentTabIndex = index;
             }
 
-            if($tab.is($(target))) {
+            if($tab.is(jQuery(target))) {
                 targetTabIndex = index;
             }
         });
@@ -81,8 +83,8 @@ export class EasyTabService {
 			breadcrumb.show();
 
             this.easyTabsWrap.bind('easytabs:after', function(event, clicked, target) {
-                $(document.body).animate({
-                    scrollTop: $('#cfw-tab-container').offset().top
+                jQuery(document.body).animate({
+                    scrollTop: jQuery('#cfw-tab-container').offset().top
                 }, 300);
             } );
 		} else {

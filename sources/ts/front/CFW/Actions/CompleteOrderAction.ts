@@ -7,7 +7,7 @@ import { EValidationSections }                  from "../Services/ValidationServ
 import { Main }                                 from "../Main";
 import { TabContainer }                         from "../Elements/TabContainer";
 
-declare let $: any;
+declare let jQuery: any;
 
 export class CompleteOrderAction extends Action {
 
@@ -55,7 +55,7 @@ export class CompleteOrderAction extends Action {
 
         if(resp.result === "success") {
             // Destroy all the cache!
-            $('.garlic-auto-save').each((index: number, elem: Element) => $(elem).garlic('destroy'));
+            jQuery('.garlic-auto-save').each((index: number, elem: Element) => jQuery(elem).garlic('destroy'));
 
             // Destroy all the parsley!
             Main.instance.checkoutForm.parsley().destroy();

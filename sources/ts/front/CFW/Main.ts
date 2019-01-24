@@ -14,7 +14,7 @@ import { Compatibility }						from "./Compatibility/Compatibility";
 import { CompatibilityClassOptions }        	from "./Types/Types";
 import { CompatibilityFactory } 				from "./Factories/CompatibilityFactory";
 
-declare let $: any;
+declare let jQuery: any;
 
 /**
  * The main class of the front end checkout system
@@ -279,19 +279,19 @@ export class Main {
 	errorMutationListener(mutationsList) {
 		let ignoreList = (<any>window).errorObserverIgnoreList;
 
-		if($("#cfw-payment-method:visible").length > 0) {
-			for (let mutation of mutationsList) {
-				if (mutation.type === "childList") {
+		if( jQuery("#cfw-payment-method:visible").length > 0 ) {
+			for ( let mutation of mutationsList ) {
+				if ( mutation.type === "childList" ) {
 					let addedNodes = mutation.addedNodes;
 					let $errorNode: any = null;
 
 					addedNodes.forEach(node => {
-						let $node: any = $(node);
+						let $node: any = jQuery(node);
 						let hasClass: boolean = $node.hasClass("woocommerce-error");
 						let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
 
-						if (hasClass || hasGroupCheckoutClass) {
-							if(ignoreList.indexOf($node.text()) == -1) {
+						if ( hasClass || hasGroupCheckoutClass ) {
+							if( ignoreList.indexOf( $node.text() ) == -1 ) {
 								Main.removeOverlay();
 								$errorNode = $node;
 								$errorNode.attr("class", "");
@@ -320,8 +320,8 @@ export class Main {
 	 * Adds a visual indicator that the checkout is doing something
 	 */
 	static addOverlay(): void {
-		if($("#cfw-payment-method:visible").length > 0) {
-			$("body").addClass("show-overlay");
+		if(jQuery("#cfw-payment-method:visible").length > 0) {
+			jQuery("body").addClass("show-overlay");
 		}
 	}
 
@@ -329,14 +329,14 @@ export class Main {
 	 * Remove the visual indicator
 	 */
 	static removeOverlay(): void {
-		$("body").removeClass("show-overlay");
+		jQuery("body").removeClass("show-overlay");
 	}
 
 	/**
 	 * @param {boolean} isPaymentRequired
 	 */
 	static togglePaymentRequired(isPaymentRequired: boolean): void {
-		let $cfw = $("#cfw-content");
+		let $cfw = jQuery("#cfw-content");
 		let noPaymentCssClass = "cfw-payment-false";
 
 		if( ! isPaymentRequired ) {
@@ -349,7 +349,7 @@ export class Main {
 			}
 
 			// Always uncheck the payment method if order does not require payment
-			$('[name="payment_method"]:checked').prop("checked", false);
+			jQuery('[name="payment_method"]:checked').prop("checked", false);
 		} else {
 			if(EasyTabService.isThereAShippingTab()) {
 				this.toggleBillingFieldsAbility(false);
@@ -361,11 +361,11 @@ export class Main {
 
 	static toggleBillingFieldsAbility( enabled: boolean ) {
 		Main.instance.settings.default_address_fields.forEach( function( field_name ) {
-			$(`[name="billing_${field_name}"]`).prop('disabled', enabled);
+			jQuery(`[name="billing_${field_name}"]`).prop('disabled', enabled);
 		} );
 
 		if(enabled) {
-			$("#ship_to_different_address_as_billing").prop("checked", true);
+			jQuery("#ship_to_different_address_as_billing").prop("checked", true);
 		}
 	}
 
@@ -373,10 +373,10 @@ export class Main {
 	 * Sets up animation listeners
 	 */
 	setupAnimationListeners(): void {
-		$("#cfw-ci-login").on("click", function(){
-			$("#cfw-login-slide").addClass("stay-open");
-			$("#cfw-login-slide").slideDown(300);
-            $("#createaccount").prop('checked', false);
+		jQuery("#cfw-ci-login").on("click", function(){
+			jQuery("#cfw-login-slide").addClass("stay-open");
+			jQuery("#cfw-login-slide").slideDown(300);
+            jQuery("#createaccount").prop('checked', false);
 		});
 	}
 

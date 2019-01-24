@@ -7,6 +7,8 @@ export type AlertInfo = {
     cssClass: string
 };
 
+declare let jQuery: any;
+
 /**
  *
  */
@@ -42,7 +44,7 @@ export class Alert extends Element {
     addAlert(): void {
         // If error, trigger checkout_error event
         if(this.alertInfo.type === "error") {
-			$(document.body).trigger('checkout_error');
+			jQuery(document.body).trigger('checkout_error');
 		}
 
         if(Alert.previousClass) {
@@ -56,7 +58,7 @@ export class Alert extends Element {
         this.jel.slideDown(300);
 
         // We don't really need this once other alerts are showing up.
-        $('#cfw-wc-print-notices').slideUp(300);
+        jQuery('#cfw-wc-print-notices').slideUp(300);
 
         window.scrollTo(0,0);
 

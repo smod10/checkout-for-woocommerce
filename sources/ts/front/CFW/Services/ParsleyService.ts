@@ -4,6 +4,7 @@ import {Main} from "../Main";
 import {ValidationService} from "./ValidationService";
 
 let w: any = window;
+declare var jQuery: any;
 
 export type InfoType = "shipping" | "billing" | "error";
 
@@ -55,12 +56,12 @@ export class ParsleyService {
      */
     handleStateZipFailure(): void {
         // Parsley isn't a any default, this gets around it.
-        let $temp: any = $;
         let shipping_action = () => EasyTabService.go(EasyTab.CUSTOMER);
+        let shipping_postcode = jQuery("#shipping_postcode");
 
-        if ( $temp("#shipping_postcode").length !== 0 ) {
-            $temp("#shipping_postcode").parsley().on("field:error", shipping_action);
-            $temp("#shipping_state").parsley().on("field:error", shipping_action);
+        if ( shipping_postcode.length !== 0 ) {
+            shipping_postcode.parsley().on("field:error", shipping_action);
+            jQuery("#shipping_state").parsley().on("field:error", shipping_action);
         }
     }
 
@@ -122,9 +123,9 @@ export class ParsleyService {
                 let failLocation: EasyTab = ParsleyService.getFailLocation(infoType);
 
                 // Zip, State, and City
-                let zipElement: any = $(`#${infoType}_postcode`);
-                let stateElement: any = $(`#${infoType}_state`);
-                let cityElement: any = $(`#${infoType}_city`);
+                let zipElement: any = jQuery(`#${infoType}_postcode`);
+                let stateElement: any = jQuery(`#${infoType}_state`);
+                let cityElement: any = jQuery(`#${infoType}_city`);
 
                 // If the stateElement is not visible, it's null
                 if(stateElement.is(":disabled")) {
@@ -141,7 +142,7 @@ export class ParsleyService {
                     let requestLocation = `//api.zippopotam.us/${country}/${zipElement.val()}`;
 
                     // Our request
-                    ParsleyService.zipRequest = $.ajax(requestLocation);
+                    ParsleyService.zipRequest = jQuery.ajax(requestLocation);
 
                     // Setup our callbacks
                     ParsleyService.zipRequest
@@ -153,7 +154,7 @@ export class ParsleyService {
                             window.dispatchEvent(event);
 
                             if(failLocation != EasyTab.PAYMENT && !CompleteOrderAction.initCompleteOrder) {
-								$(document.body).trigger("update_checkout");
+								jQuery(document.body).trigger("update_checkout");
 							}
                         });
                 }
@@ -185,7 +186,7 @@ export class ParsleyService {
                 let cityResponseValue = json.places[0]["place name"];
 
                 // Billing or Shipping?
-                let fieldType = $(instance.element).attr("id").split("_")[1];
+                let fieldType = jQuery(instance.element).attr("id").split("_")[1];
 
                 // Set the city field
                 cityElement.val(cityResponseValue);

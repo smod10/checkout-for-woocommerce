@@ -6,7 +6,7 @@ import { ResponsePrep }                     from "../Decorators/ResponsePrep";
 import { TabContainerSection }              from "../Elements/TabContainerSection";
 import { Element }                          from "../Elements/Element";
 
-declare let $:any;
+declare let jQuery: any;
 
 export type UpdateShippingFieldsResponse = {
     error: boolean,
@@ -48,7 +48,7 @@ export class UpdateCheckoutAction extends Action {
             UpdateCheckoutAction.underlyingRequest.abort();
         }
 
-        UpdateCheckoutAction.underlyingRequest = $.post(this.url, this.data, this.response.bind(this));
+        UpdateCheckoutAction.underlyingRequest = jQuery.post(this.url, this.data, this.response.bind(this));
     }
 
     /**
@@ -60,13 +60,13 @@ export class UpdateCheckoutAction extends Action {
         main.updating = false;
 
         if(resp.fees) {
-            let fees = $.map(resp.fees, value => [value]);
+            let fees = jQuery.map(resp.fees, value => [value]);
 
             Cart.outputFees(main.cart.fees, fees);
         }
 
         if(resp.coupons) {
-            let coupons = $.map(resp.coupons, function(value, index) {
+            let coupons = jQuery.map(resp.coupons, function(value, index) {
                 return [value];
             });
 
@@ -74,27 +74,27 @@ export class UpdateCheckoutAction extends Action {
         }
 
         // Update shipping methods
-        let shipping_method_container = $("#shipping_method");
+        let shipping_method_container = jQuery("#shipping_method");
 
         shipping_method_container.html("");
         shipping_method_container.append(`${resp.updated_ship_methods}`);
 
-        let shipping_preview_container = $('#cfw-shipping-details-fields');
+        let shipping_preview_container = jQuery('#cfw-shipping-details-fields');
         shipping_preview_container.html(`${resp.updated_shipping_preview}`);
 
         // Other totals
-        let other_totals_container = $('#cfw-other-totals');
+        let other_totals_container = jQuery('#cfw-other-totals');
         other_totals_container.html(`${resp.updated_other_totals}`);
 
         // Payment methods
-        let updated_payment_methods_container = $('#cfw-billing-methods');
+        let updated_payment_methods_container = jQuery('#cfw-billing-methods');
 
         if ( false !== resp.updated_payment_methods ) {
             updated_payment_methods_container.html(`${resp.updated_payment_methods}`);
         }
 
         // Place order button
-        let updated_place_order_container = $('#cfw-place-order');
+        let updated_place_order_container = jQuery('#cfw-place-order');
         updated_place_order_container.html(`${resp.updated_place_order}`);
 
         Main.togglePaymentRequired(resp.needs_payment);
@@ -106,7 +106,7 @@ export class UpdateCheckoutAction extends Action {
 
 		window.dispatchEvent(new CustomEvent("cfw-custom-update-finished"));
 
-        $(document.body).trigger( 'updated_checkout' );
+        jQuery(document.body).trigger( 'updated_checkout' );
     }
 
     /**

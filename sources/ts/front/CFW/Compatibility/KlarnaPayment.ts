@@ -2,6 +2,8 @@ import { Compatibility } 			from "./Compatibility";
 import { Main } 					from "../Main";
 import {EasyTabDirection, EasyTabService} from "../Services/EasyTabService";
 
+declare let jQuery: any;
+
 export class KlarnaPayment extends Compatibility {
 
 	/**
@@ -41,7 +43,7 @@ export class KlarnaPayment extends Compatibility {
         let paymentContainerId: string = main.tabContainer.tabContainerSectionBy("name", "payment_method").jel.attr("id");
 
         if ( paymentContainerId === easyTabID ) {
-        	var selected_gateway = $('input[name="payment_method"]:checked');
+        	var selected_gateway = jQuery('input[name="payment_method"]:checked');
             var selected_value = <string>selected_gateway.val();
 
             if ( selected_value.indexOf('klarna_payments') !== -1 ) {

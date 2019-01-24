@@ -15,9 +15,8 @@ import { Alert, AlertInfo}                  from "./Alert";
 import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
 import { UpdatePaymentMethod }              from "../Actions/UpdatePaymentMethod";
 
-declare let wc_stripe_params: any;
 declare let $: any;
-declare let woocommerce_params: any;
+declare let cfwEventData: any;
 
 /**
  *
@@ -67,7 +66,7 @@ export class TabContainer extends Element {
      *
      */
     setAccountCheckListener() {
-        if ( woocommerce_params.enable_checkout_login_reminder == 1 ) {
+        if ( cfwEventData.woocommerce_params.enable_checkout_login_reminder == 1 ) {
             let customer_info: TabContainerSection = this.tabContainerSectionBy("name", "customer_info");
             let email_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-email-wrap");
             let ajax_info = Main.instance.ajaxInfo;

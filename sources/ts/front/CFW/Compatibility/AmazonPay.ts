@@ -4,7 +4,6 @@ import {Alert, AlertInfo} from "../Elements/Alert";
 
 declare let OffAmazonPayments: any;
 declare let amazon_payments_advanced_params: any;
-declare let woocommerce_params: any;
 
 export class AmazonPay extends Compatibility {
 	/**

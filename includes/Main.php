@@ -490,55 +490,53 @@ class Main extends Singleton {
 		wp_enqueue_script( 'cfw_front_template_js', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_javascript_filename()}{$user_js_min}.js", array( 'jquery' ), $this->get_version(), true );
 
 		wp_localize_script(
-			'cfw_front_js', 'woocommerce_params', array(
-				'ajax_url'                       => WC()->ajax_url(),
-				'wc_ajax_url'                    => \WC_AJAX::get_endpoint( '%%endpoint%%' ),
-				'update_order_review_nonce'      => wp_create_nonce( 'update-order-review' ),
-				'apply_coupon_nonce'             => wp_create_nonce( 'apply-coupon' ),
-				'remove_coupon_nonce'            => wp_create_nonce( 'remove-coupon' ),
-				'option_guest_checkout'          => get_option( 'woocommerce_enable_guest_checkout' ),
-				'checkout_url'                   => \WC_AJAX::get_endpoint( 'checkout' ),
-				'cart_url'                       => wc_get_cart_url(),
-				'is_checkout'                    => is_page( wc_get_page_id( 'checkout' ) ) && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
-				'debug_mode'                     => defined( 'WP_DEBUG' ) && WP_DEBUG,
-				'i18n_checkout_error'            => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
-				'is_registration_enabled'        => WC()->checkout()->is_registration_enabled() ? 1 : 0,
-				'is_registration_required'       => WC()->checkout()->is_registration_required() ? 1 : 0,
-				'enable_checkout_login_reminder' => 'yes' === get_option( 'woocommerce_enable_checkout_login_reminder' ) ? 1 : 0,
-			)
-		);
-
-		wp_localize_script( 'cfw_front_js', 'cfwEventData', array(
-				'elements' => array (
-					'easyTabsWrapElClass'=> apply_filters('cfw_template_easy_tabs_wrap_el_id', '.cfw-tabs-initialize'),
-					'breadCrumbElId' => apply_filters('cfw_template_breadcrumb_id', '#cfw-breadcrumb'),
-					'customerInfoElId' => apply_filters('cfw_template_customer_info_el', '#cfw-customer-info'),
-					'shippingMethodElId' => apply_filters('cfw_template_shipping_method_el', '#cfw-shipping-method'),
-					'paymentMethodElId' => apply_filters('cfw_template_payment_method_el', '#cfw-payment-method'),
-					'tabContainerElId' => apply_filters('cfw_template_tab_container_el', '#cfw-tab-container'),
-					'alertContainerId' => apply_filters('cfw_template_alert_container_el', '#cfw-alert-container'),
-					'cartContainerId' => apply_filters('cfw_template_cart_el', "#cfw-totals-list"),
-					'cartSubtotalId' => apply_filters('cfw_template_cart_subtotal_el', '#cfw-cart-subtotal'),
-					'cartShippingId' => apply_filters('cfw_template_cart_shipping_el', '#cfw-cart-shipping-total'),
-					'cartTaxesId' => apply_filters('cfw_template_cart_taxes_el', '#cfw-cart-taxes'),
-					'cartFeesId' => apply_filters('cfw_template_cart_fees_el', '#cfw-cart-fees'),
-					'cartTotalId' => apply_filters('cfw_template_cart_total_el','#cfw-cart-total'),
-					'cartCouponsId' => apply_filters('cfw_template_cart_coupons_el', '#cfw-cart-coupons'),
-					'cartReviewBarId' => apply_filters('cfw_template_cart_review_bar_id', '#cfw-cart-details-review-bar'),
-					'checkoutFormSelector' => apply_filters('cfw_checkout_form_selector', '.woocommerce-checkout'),
+			'cfw_front_js', 'cfwEventData', array(
+				'elements'           => array(
+					'easyTabsWrapElClass'  => apply_filters( 'cfw_template_easy_tabs_wrap_el_id', '.cfw-tabs-initialize' ),
+					'breadCrumbElId'       => apply_filters( 'cfw_template_breadcrumb_id', '#cfw-breadcrumb' ),
+					'customerInfoElId'     => apply_filters( 'cfw_template_customer_info_el', '#cfw-customer-info' ),
+					'shippingMethodElId'   => apply_filters( 'cfw_template_shipping_method_el', '#cfw-shipping-method' ),
+					'paymentMethodElId'    => apply_filters( 'cfw_template_payment_method_el', '#cfw-payment-method' ),
+					'tabContainerElId'     => apply_filters( 'cfw_template_tab_container_el', '#cfw-tab-container' ),
+					'alertContainerId'     => apply_filters( 'cfw_template_alert_container_el', '#cfw-alert-container' ),
+					'cartContainerId'      => apply_filters( 'cfw_template_cart_el', '#cfw-totals-list' ),
+					'cartSubtotalId'       => apply_filters( 'cfw_template_cart_subtotal_el', '#cfw-cart-subtotal' ),
+					'cartShippingId'       => apply_filters( 'cfw_template_cart_shipping_el', '#cfw-cart-shipping-total' ),
+					'cartTaxesId'          => apply_filters( 'cfw_template_cart_taxes_el', '#cfw-cart-taxes' ),
+					'cartFeesId'           => apply_filters( 'cfw_template_cart_fees_el', '#cfw-cart-fees' ),
+					'cartTotalId'          => apply_filters( 'cfw_template_cart_total_el', '#cfw-cart-total' ),
+					'cartCouponsId'        => apply_filters( 'cfw_template_cart_coupons_el', '#cfw-cart-coupons' ),
+					'cartReviewBarId'      => apply_filters( 'cfw_template_cart_review_bar_id', '#cfw-cart-details-review-bar' ),
+					'checkoutFormSelector' => apply_filters( 'cfw_checkout_form_selector', '.woocommerce-checkout' ),
 				),
-				'ajaxInfo' => array(
-					'url' => get_home_url(),
-					'nonce' => wp_create_nonce("some-seed-word"),
+				'ajaxInfo'           => array(
+					'url'   => get_home_url(),
+					'nonce' => wp_create_nonce( 'some-seed-word' ),
 				),
-				'compatibility' => json_encode( apply_filters('cfw_typescript_compatibility_classes_and_params', []) ),
-				'settings' => array(
-					'isRegistrationRequired' => WC()->checkout()->is_registration_required() ? "true" : "false",
-					'user_logged_in' => (is_user_logged_in()) ? "true" : "false",
-					'is_stripe_three' => ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true',
-					'default_address_fields' => $default_fields,
-                    'enable_zip_autocomplete' => apply_filters( 'cfw_enable_zip_autocomplete', true ) ? 'true' : 'false',
-					'locale' => defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ),
+				'compatibility'      => json_encode( apply_filters( 'cfw_typescript_compatibility_classes_and_params', [] ) ),
+				'settings'           => array(
+					'isRegistrationRequired'  => WC()->checkout()->is_registration_required() ? 'true' : 'false',
+					'user_logged_in'          => ( is_user_logged_in() ) ? 'true' : 'false',
+					'is_stripe_three'         => ( defined( 'WC_STRIPE_VERSION' ) && ( version_compare( WC_STRIPE_VERSION, '4.0.0' ) >= 0 || version_compare( WC_STRIPE_VERSION, '3.0.0', '<' ) ) ) ? 'false' : 'true',
+					'default_address_fields'  => $default_fields,
+					'enable_zip_autocomplete' => apply_filters( 'cfw_enable_zip_autocomplete', true ) ? 'true' : 'false',
+					'locale'                  => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ),
+				),
+				'woocommerce_params' => array(
+					'ajax_url'                       => WC()->ajax_url(),
+					'wc_ajax_url'                    => \WC_AJAX::get_endpoint( '%%endpoint%%' ),
+					'update_order_review_nonce'      => wp_create_nonce( 'update-order-review' ),
+					'apply_coupon_nonce'             => wp_create_nonce( 'apply-coupon' ),
+					'remove_coupon_nonce'            => wp_create_nonce( 'remove-coupon' ),
+					'option_guest_checkout'          => get_option( 'woocommerce_enable_guest_checkout' ),
+					'checkout_url'                   => \WC_AJAX::get_endpoint( 'checkout' ),
+					'cart_url'                       => wc_get_cart_url(),
+					'is_checkout'                    => is_page( wc_get_page_id( 'checkout' ) ) && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
+					'debug_mode'                     => defined( 'WP_DEBUG' ) && WP_DEBUG,
+					'i18n_checkout_error'            => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
+					'is_registration_enabled'        => WC()->checkout()->is_registration_enabled() ? 1 : 0,
+					'is_registration_required'       => WC()->checkout()->is_registration_required() ? 1 : 0,
+					'enable_checkout_login_reminder' => 'yes' === get_option( 'woocommerce_enable_checkout_login_reminder' ) ? 1 : 0,
 				),
 			)
 		);
@@ -671,7 +669,7 @@ class Main extends Singleton {
 	}
 
 	function add_admin_buttons( $admin_bar ) {
-		if ( ! function_exists('is_checkout') || ! is_checkout() ) {
+		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 			return;
 		}
 

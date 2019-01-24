@@ -517,11 +517,11 @@ class Main extends Singleton {
 					'url'   => get_home_url(),
 					'nonce' => wp_create_nonce( 'some-seed-word' ),
 				),
-				'compatibility' => json_encode( apply_filters( 'cfw_typescript_compatibility_classes_and_params', [] ) ),
+				'compatibility' => apply_filters( 'cfw_typescript_compatibility_classes_and_params', array() ),
 				'settings'      => array(
 					'user_logged_in'          => ( is_user_logged_in() ) ? 'true' : 'false',
 					'is_stripe_three'         => ( defined( 'WC_STRIPE_VERSION' ) && ( version_compare( WC_STRIPE_VERSION, '4.0.0' ) >= 0 || version_compare( WC_STRIPE_VERSION, '3.0.0', '<' ) ) ) ? 'false' : 'true',
-					'default_address_fields'  => json_encode( array_keys( WC()->countries->get_default_address_fields() ) ),
+					'default_address_fields'  => array_keys( WC()->countries->get_default_address_fields() ),
 					'enable_zip_autocomplete' => apply_filters( 'cfw_enable_zip_autocomplete', true ) ? 'true' : 'false',
 					'locale'                  => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ),
 				),

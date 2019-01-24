@@ -282,13 +282,13 @@ export class TabContainer extends Element {
 
     toggleRadioButtonContainers(radio_button: Element, radio_buttons: Array<Element>, callbacks: Array<(radio_button: Element) => void>) {
         // Filter out the current radio button
-        // Slide up the other buttons
+        // Slide up the other containers
         radio_buttons
             .filter((filterItem: Element) => filterItem != radio_button)
-            .forEach((other: Element) => other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300));
+            .forEach((other: Element) => other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300).find(':input').prop('disabled', true) );
 
-        // Slide down our button
-        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").not(':visible').slideDown(300);
+        // Slide down our container
+        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").not(':visible').slideDown(300).find(':input').prop('disabled', false);
 
         // Fire any callbacks
         callbacks.forEach(callback => callback(radio_button));
@@ -420,7 +420,7 @@ export class TabContainer extends Element {
         formData["has_full_address"] = has_full_address;
         formData["ship_to_different_address"] = ship_to_different_address;
 
-        if(ship_to_different_address === 0) {
+        if( ship_to_different_address === 1 ) {
             lookFor.forEach(field => {
                 if(jQuery(`#billing_${field}`).length > 0) {
                     formData[`billing_${field}`] = formData[`shipping_${field}`];
@@ -516,7 +516,7 @@ export class TabContainer extends Element {
 			CompleteOrderAction.initCompleteOrder = false
 		});
 
-        if ( parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0 ) {
+        if ( parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 1 ) {
             lookFor.forEach( field => {
                 let billing = jQuery(`#billing_${field}`);
                 let shipping = jQuery(`#shipping_${field}`);

@@ -508,6 +508,41 @@ class Main extends Singleton {
 			)
 		);
 
+		wp_localize_script( 'cfw_front_js', 'cfwEventData', array(
+				'elements' => array (
+					'easyTabsWrapElClass'=> apply_filters('cfw_template_easy_tabs_wrap_el_id', '.cfw-tabs-initialize'),
+					'breadCrumbElId' => apply_filters('cfw_template_breadcrumb_id', '#cfw-breadcrumb'),
+					'customerInfoElId' => apply_filters('cfw_template_customer_info_el', '#cfw-customer-info'),
+					'shippingMethodElId' => apply_filters('cfw_template_shipping_method_el', '#cfw-shipping-method'),
+					'paymentMethodElId' => apply_filters('cfw_template_payment_method_el', '#cfw-payment-method'),
+					'tabContainerElId' => apply_filters('cfw_template_tab_container_el', '#cfw-tab-container'),
+					'alertContainerId' => apply_filters('cfw_template_alert_container_el', '#cfw-alert-container'),
+					'cartContainerId' => apply_filters('cfw_template_cart_el', "#cfw-totals-list"),
+					'cartSubtotalId' => apply_filters('cfw_template_cart_subtotal_el', '#cfw-cart-subtotal'),
+					'cartShippingId' => apply_filters('cfw_template_cart_shipping_el', '#cfw-cart-shipping-total'),
+					'cartTaxesId' => apply_filters('cfw_template_cart_taxes_el', '#cfw-cart-taxes'),
+					'cartFeesId' => apply_filters('cfw_template_cart_fees_el', '#cfw-cart-fees'),
+					'cartTotalId' => apply_filters('cfw_template_cart_total_el','#cfw-cart-total'),
+					'cartCouponsId' => apply_filters('cfw_template_cart_coupons_el', '#cfw-cart-coupons'),
+					'cartReviewBarId' => apply_filters('cfw_template_cart_review_bar_id', '#cfw-cart-details-review-bar'),
+					'checkoutFormSelector' => apply_filters('cfw_checkout_form_selector', '.woocommerce-checkout'),
+				),
+				'ajaxInfo' => array(
+					'url' => get_home_url(),
+					'nonce' => wp_create_nonce("some-seed-word"),
+				),
+				'compatibility' => json_encode( apply_filters('cfw_typescript_compatibility_classes_and_params', []) ),
+				'settings' => array(
+					'isRegistrationRequired' => WC()->checkout()->is_registration_required() ? "true" : "false",
+					'user_logged_in' => (is_user_logged_in()) ? "true" : "false",
+					'is_stripe_three' => ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true',
+					'default_address_fields' => $default_fields,
+                    'enable_zip_autocomplete' => apply_filters( 'cfw_enable_zip_autocomplete', true ) ? 'true' : 'false',
+					'locale' => defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ),
+				),
+			)
+		);
+
 		$this->handle_countries();
 	}
 

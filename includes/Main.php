@@ -495,7 +495,7 @@ class Main extends Singleton {
 
 		wp_localize_script(
 			'cfw_init_js', 'cfwEventData', array(
-				'elements'           => array(
+				'elements'      => array(
 					'easyTabsWrapElClass'  => apply_filters( 'cfw_template_easy_tabs_wrap_el_id', '.cfw-tabs-initialize' ),
 					'breadCrumbElId'       => apply_filters( 'cfw_template_breadcrumb_id', '#cfw-breadcrumb' ),
 					'customerInfoElId'     => apply_filters( 'cfw_template_customer_info_el', '#cfw-customer-info' ),
@@ -513,35 +513,37 @@ class Main extends Singleton {
 					'cartReviewBarId'      => apply_filters( 'cfw_template_cart_review_bar_id', '#cfw-cart-details-review-bar' ),
 					'checkoutFormSelector' => apply_filters( 'cfw_checkout_form_selector', '.woocommerce-checkout' ),
 				),
-				'ajaxInfo'           => array(
+				'ajaxInfo'      => array(
 					'url'   => get_home_url(),
 					'nonce' => wp_create_nonce( 'some-seed-word' ),
 				),
-				'compatibility'      => json_encode( apply_filters( 'cfw_typescript_compatibility_classes_and_params', [] ) ),
-				'settings'           => array(
-					'isRegistrationRequired'  => WC()->checkout()->is_registration_required() ? 'true' : 'false',
+				'compatibility' => json_encode( apply_filters( 'cfw_typescript_compatibility_classes_and_params', [] ) ),
+				'settings'      => array(
 					'user_logged_in'          => ( is_user_logged_in() ) ? 'true' : 'false',
 					'is_stripe_three'         => ( defined( 'WC_STRIPE_VERSION' ) && ( version_compare( WC_STRIPE_VERSION, '4.0.0' ) >= 0 || version_compare( WC_STRIPE_VERSION, '3.0.0', '<' ) ) ) ? 'false' : 'true',
 					'default_address_fields'  => json_encode( array_keys( WC()->countries->get_default_address_fields() ) ),
 					'enable_zip_autocomplete' => apply_filters( 'cfw_enable_zip_autocomplete', true ) ? 'true' : 'false',
 					'locale'                  => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ),
 				),
-				'woocommerce_params' => array(
-					'ajax_url'                       => WC()->ajax_url(),
-					'wc_ajax_url'                    => \WC_AJAX::get_endpoint( '%%endpoint%%' ),
-					'update_order_review_nonce'      => wp_create_nonce( 'update-order-review' ),
-					'apply_coupon_nonce'             => wp_create_nonce( 'apply-coupon' ),
-					'remove_coupon_nonce'            => wp_create_nonce( 'remove-coupon' ),
-					'option_guest_checkout'          => get_option( 'woocommerce_enable_guest_checkout' ),
-					'checkout_url'                   => \WC_AJAX::get_endpoint( 'checkout' ),
-					'cart_url'                       => wc_get_cart_url(),
-					'is_checkout'                    => is_page( wc_get_page_id( 'checkout' ) ) && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
-					'debug_mode'                     => defined( 'WP_DEBUG' ) && WP_DEBUG,
-					'i18n_checkout_error'            => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
-					'is_registration_enabled'        => WC()->checkout()->is_registration_enabled() ? 1 : 0,
-					'is_registration_required'       => WC()->checkout()->is_registration_required() ? 1 : 0,
-					'enable_checkout_login_reminder' => 'yes' === get_option( 'woocommerce_enable_checkout_login_reminder' ) ? 1 : 0,
-				),
+			)
+		);
+
+		wp_localize_script(
+			'cfw_front_js', 'woocommerce_params', array(
+				'ajax_url'                       => WC()->ajax_url(),
+				'wc_ajax_url'                    => \WC_AJAX::get_endpoint( '%%endpoint%%' ),
+				'update_order_review_nonce'      => wp_create_nonce( 'update-order-review' ),
+				'apply_coupon_nonce'             => wp_create_nonce( 'apply-coupon' ),
+				'remove_coupon_nonce'            => wp_create_nonce( 'remove-coupon' ),
+				'option_guest_checkout'          => get_option( 'woocommerce_enable_guest_checkout' ),
+				'checkout_url'                   => \WC_AJAX::get_endpoint( 'checkout' ),
+				'cart_url'                       => wc_get_cart_url(),
+				'is_checkout'                    => is_page( wc_get_page_id( 'checkout' ) ) && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
+				'debug_mode'                     => defined( 'WP_DEBUG' ) && WP_DEBUG,
+				'i18n_checkout_error'            => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
+				'is_registration_enabled'        => WC()->checkout()->is_registration_enabled() ? 1 : 0,
+				'is_registration_required'       => WC()->checkout()->is_registration_required() ? 1 : 0,
+				'enable_checkout_login_reminder' => 'yes' === get_option( 'woocommerce_enable_checkout_login_reminder' ) ? 1 : 0,
 			)
 		);
 

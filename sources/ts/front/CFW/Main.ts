@@ -364,7 +364,7 @@ export class Main {
 			jQuery(`[name="billing_${field_name}"]`).prop('disabled', enabled);
 		} );
 
-		if(enabled) {
+		if( enabled ) {
 			jQuery("#ship_to_different_address_as_billing").prop("checked", true);
 		}
 	}

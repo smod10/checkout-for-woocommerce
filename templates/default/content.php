@@ -233,7 +233,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <li class="cfw-radio-reveal-li cfw-no-reveal">
                                             <div class="cfw-radio-reveal-title-wrap">
                                                 <label class="cfw-radio-reveal-title-wrap cfw-radio-reveal-label">
-                                                    <input type="radio" name="ship_to_different_address" id="ship_to_different_address_as_billing" value="0" class="garlic-auto-save" checked />
+                                                    <input type="radio" name="ship_to_different_address" id="ship_to_different_address_as_billing" value="1" class="garlic-auto-save" checked />
                                                     <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Same as shipping address', 'checkout-wc' ); ?></span>
                                                 </label>
                                             </div>
@@ -241,7 +241,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <li class="cfw-radio-reveal-li">
                                             <div class="cfw-radio-reveal-title-wrap">
                                                 <label class="cfw-radio-reveal-label">
-                                                    <input type="radio" name="ship_to_different_address" id="shipping_dif_from_billing" value="1" class="garlic-auto-save" />
+                                                    <input type="radio" name="ship_to_different_address" id="shipping_dif_from_billing" value="2" class="garlic-auto-save" />
                                                     <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Use a different billing address', 'checkout-wc' ); ?></span>
                                                 </label>
                                             </div>

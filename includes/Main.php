@@ -489,8 +489,8 @@ class Main extends Singleton {
 		wp_enqueue_style( 'cfw_front_template_css', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_style_filename()}{$user_style_min}.css", array(), $this->get_version() );
 
 		// Scripts
-		wp_enqueue_script( 'cfw_init_js', "{$front}/js/checkout-woocommerce-init.js", array( 'jquery' ), $this->get_version() );
-		wp_enqueue_script( 'cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array( 'jquery', 'jquery-blockui' ), $this->get_version(), true );
+		wp_enqueue_script( 'cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array( 'jquery', 'jquery-blockui' ), $this->get_version() );
+		wp_enqueue_script( 'cfw_init_js', "{$front}/js/checkout-woocommerce-init.js", array( 'jquery', 'cfw_front_js' ), $this->get_version() );
 		wp_enqueue_script( 'cfw_front_template_js', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_javascript_filename()}{$user_js_min}.js", array( 'jquery' ), $this->get_version(), true );
 
 		wp_localize_script(

@@ -17,6 +17,7 @@ use Objectiv\Plugins\Checkout\Core\Customizer;
 use Objectiv\Plugins\Checkout\Core\Form;
 use Objectiv\Plugins\Checkout\Core\Redirect;
 use Objectiv\Plugins\Checkout\Core\Loader;
+use Objectiv\Plugins\Checkout\Stats\StatCollection;
 use Objectiv\Plugins\Checkout\Managers\ActivationManager;
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
@@ -154,6 +155,13 @@ class Main extends Singleton {
 	 * @var Form $form Handles the WooCommerce form changes
 	 */
 	private $form;
+
+	/**
+	 * @since 2.4.12
+	 * @access private
+	 * @var StatCollection Handles the stat collection for CFW
+	 */
+	private $stat_collection;
 
 	/**
 	 * Main constructor.
@@ -316,6 +324,15 @@ class Main extends Singleton {
 	}
 
 	/**
+	 * @since 2.4.12
+	 * @access public
+	 * @return Stats\StatCollection The form object
+	 */
+	public function get_stat_collection() {
+		return $this->stat_collection;
+	}
+
+	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
 	 * @since 1.0.0
@@ -395,6 +412,9 @@ class Main extends Singleton {
 
 		// The settings manager for the plugin
 		$this->settings_manager = new SettingsManager();
+
+		// Stat collection
+		$this->stat_collection = StatCollection::instance($this->settings_manager);
 
 		$active_template = $this->settings_manager->get_setting( 'active_template' );
 

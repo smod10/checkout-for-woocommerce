@@ -4,6 +4,7 @@ namespace Objectiv\Plugins\Checkout\Core;
 
 use Objectiv\Plugins\Checkout\Main;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
+use Objectiv\Plugins\Checkout\Stats\StatCollection;
 
 /**
  * Class Admin
@@ -127,6 +128,7 @@ class Admin {
      * @access public
 	 */
 	public function general_tab() {
+	    $stat_collection = StatCollection::instance();
 	    ?>
         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 			<?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
@@ -181,6 +183,40 @@ class Admin {
                             </p>
                         </td>
                     </tr>
+                    <tr>
+                        <?php
+                            $tracking_field_name = $this->plugin_instance->get_settings_manager()->get_field_name('allow_tracking');
+                            $tracking_value = $this->plugin_instance->get_settings_manager()->get_setting('allow_tracking');
+                        ?>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $tracking_field_name; ?>"><?php _e('Allow Stat Collection', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+                            <input type="hidden" name="<?php echo $tracking_field_name; ?>" value="0" />
+                            <label for="<?php echo $tracking_field_name; ?>">
+                                <input type="checkbox" name="<?php echo $tracking_field_name; ?>" id="<?php echo $tracking_field_name; ?>" value="1" <?php if ( $tracking_value == 1 ) echo "checked"; ?> />
+								<?php _e('Allow Stat Collection', 'checkout-wc'); ?>
+                            </label>
+                        </td>
+                    </tr>
+                    <?php if(CFW_DEV_MODE): ?>
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="#cfw-stat-collection-testing"><?php _e('Stat Collection Data Viewer', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+							<?php
+                                $stats = $this->plugin_instance->get_stat_collection();
+							    $stats->setup_data();
+                            ?>
+                            <div>
+                                <?php
+                                    d($stats->get_data());
+                                ?>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
 

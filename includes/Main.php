@@ -493,7 +493,7 @@ class Main extends Singleton {
 		wp_enqueue_script( 'cfw_front_template_js', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_javascript_filename()}{$user_js_min}.js", array( 'jquery' ), $this->get_version(), true );
 
 		wp_localize_script(
-			'cfw_init_js', 'cfwEventData', array(
+			'cfw_front_js', 'cfwEventData', array(
 				'elements'      => array(
 					'easyTabsWrapElClass'  => apply_filters( 'cfw_template_easy_tabs_wrap_el_id', '.cfw-tabs-initialize' ),
 					'breadCrumbElId'       => apply_filters( 'cfw_template_breadcrumb_id', '#cfw-breadcrumb' ),

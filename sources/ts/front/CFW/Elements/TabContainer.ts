@@ -299,8 +299,8 @@ export class TabContainer extends Element {
     }
 
     toggleRequiredInputAttribute(radio_button: Element) {
-        const selected_radio_value = parseInt(radio_button.jel.val());
-        const shipping_dif_than_billing = 1;
+        const selected_radio_value = radio_button.jel.val();
+        const shipping_dif_than_billing = "different_from_shipping";
         const billing_selected = selected_radio_value === shipping_dif_than_billing;
         const placeholder_attribute = 'cfw-required-placeholder';
         const required_attribute = 'required';

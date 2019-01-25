@@ -285,10 +285,14 @@ export class TabContainer extends Element {
         // Slide up the other containers
         radio_buttons
             .filter((filterItem: Element) => filterItem != radio_button)
-            .forEach((other: Element) => other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300).find(':input').prop('disabled', true) );
+            .forEach((other: Element) => {
+                other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").find(':input').prop('disabled', true);
+                other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300);
+            } );
 
         // Slide down our container
-        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").not(':visible').slideDown(300).find(':input').prop('disabled', false);
+        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").find(':input').prop('disabled', false);
+        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").not(':visible').slideDown(300);
 
         // Fire any callbacks
         callbacks.forEach(callback => callback(radio_button));
@@ -392,7 +396,7 @@ export class TabContainer extends Element {
     getFormObject() {
         let main: Main = Main.instance;
         let checkout_form: any = main.checkoutForm;
-        let ship_to_different_address = parseInt( <string>jQuery("[name='ship_to_different_address']:checked").val() );
+        let ship_to_different_address = <string>jQuery("[name='ship_to_different_address']:checked").val();
         let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
         let has_full_address: boolean = true;
         let lookFor: Array<string> = main.settings.default_address_fields;
@@ -420,7 +424,7 @@ export class TabContainer extends Element {
         formData["has_full_address"] = has_full_address;
         formData["ship_to_different_address"] = ship_to_different_address;
 
-        if( ship_to_different_address === 1 ) {
+        if( ship_to_different_address === "same_as_shipping" ) {
             lookFor.forEach(field => {
                 if(jQuery(`#billing_${field}`).length > 0) {
                     formData[`billing_${field}`] = formData[`shipping_${field}`];
@@ -516,7 +520,7 @@ export class TabContainer extends Element {
 			CompleteOrderAction.initCompleteOrder = false
 		});
 
-        if ( parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 1 ) {
+        if ( checkout_form.find('input[name="ship_to_different_address"]:checked').val() === "same_as_shipping" ) {
             lookFor.forEach( field => {
                 let billing = jQuery(`#billing_${field}`);
                 let shipping = jQuery(`#shipping_${field}`);
@@ -539,7 +543,7 @@ export class TabContainer extends Element {
      * @param data
      */
     orderKickOff(ajaxInfo: AjaxInfo, data): void {
-        let isShippingDifferentFromBilling: boolean = jQuery("#shipping_dif_from_billing:checked").length !== 0;
+        let isShippingDifferentFromBilling: boolean = <string>jQuery("[name='ship_to_different_address']:checked").val() === "different_from_shipping";
 
         ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, data);
     }

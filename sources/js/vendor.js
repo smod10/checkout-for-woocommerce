@@ -15,3 +15,4 @@ require('script-loader!parsleyjs/dist/i18n/nl.js');
 require('script-loader!parsleyjs/dist/i18n/pt-br.js');
 require('script-loader!parsleyjs/dist/i18n/zh_cn.js');
 require('script-loader!parsleyjs/dist/i18n/en.js');
+require('script-loader!./checkout-woocommerce-init.js');

@@ -15,8 +15,7 @@ import { Alert, AlertInfo}                  from "./Alert";
 import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
 import { UpdatePaymentMethod }              from "../Actions/UpdatePaymentMethod";
 
-declare let wc_stripe_params: any;
-declare let $: any;
+declare let jQuery: any;
 declare let woocommerce_params: any;
 
 /**
@@ -59,8 +58,8 @@ export class TabContainer extends Element {
      * via garlic. This will fix this issue and float the label like it should.
      */
     setFloatLabelOnGarlicRetrieve(): void {
-        $(".garlic-auto-save").each((index: number, elem) => {
-            $(elem).garlic({ onRetrieve: element => $(element).parent().addClass(FormElement.labelClass) })
+        jQuery(".garlic-auto-save").each((index: number, elem) => {
+            jQuery(elem).garlic({ onRetrieve: element => jQuery(element).parent().addClass(FormElement.labelClass) })
         });
     }
     /**
@@ -100,7 +99,7 @@ export class TabContainer extends Element {
             let password_input_wrap: InputLabelWrap = customer_info.getInputLabelWrapById("cfw-password-wrap");
             let password_input: any = password_input_wrap.holder.jel;
 
-            let login_btn: any = $("#cfw-login-btn");
+            let login_btn: any = jQuery("#cfw-login-btn");
 
             // Fire the login action on click
             login_btn.on("click", () => new LoginAction("login", Main.instance.ajaxInfo, email_input.val(), password_input.val()).load() );
@@ -111,47 +110,47 @@ export class TabContainer extends Element {
      * Handles updating all the fields on a breadcrumb click or a move to the next section button
      */
     setUpdateAllShippingFieldsListener() {
-        let continueBtn: any = $("#cfw-shipping-info-action .cfw-next-tab");
+        let continueBtn: any = jQuery("#cfw-shipping-info-action .cfw-next-tab");
         let shipping_payment_bc: any = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
 
-        continueBtn.on("click", () => $(document.body).trigger("update_checkout"));
-        shipping_payment_bc.on("click", () => $(document.body).trigger("update_checkout"));
+        continueBtn.on("click", () => jQuery(document.body).trigger("update_checkout"));
+        shipping_payment_bc.on("click", () => jQuery(document.body).trigger("update_checkout"));
     }
 
     /**
      *
      */
     setUpCreditCardRadioReveal() {
-        let stripe_container: any = $(".payment_method_stripe");
+        let stripe_container: any = jQuery(".payment_method_stripe");
 
         if(stripe_container.length > 0) {
             let stripe_options = stripe_container.find('input[type="radio"][name="wc-stripe-payment-token"]');
             stripe_options.each((index: number, elem: HTMLElement) => {
-                if($(elem).attr("id") == "wc-stripe-payment-token-new") {
-                    $(elem).on('click', () => {
-                        $("#wc-stripe-cc-form").slideDown(300);
-                        $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
-                        $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
+                if(jQuery(elem).attr("id") == "wc-stripe-payment-token-new") {
+                    jQuery(elem).on('click', () => {
+                        jQuery("#wc-stripe-cc-form").slideDown(300);
+                        jQuery(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
+                        jQuery(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
                     });
 
-                    $(window).on('load updated_checkout', () => {
-                        if($(elem).is(":checked")) {
-                            $("#wc-stripe-cc-form").slideDown(300);
-                            $(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
-                            $(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
+                    jQuery(window).on('load updated_checkout', () => {
+                        if(jQuery(elem).is(":checked")) {
+                            jQuery("#wc-stripe-cc-form").slideDown(300);
+                            jQuery(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
+                            jQuery(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
                         }
                     });
                 } else {
-                    $(elem).on('click', () => {
-                        $("#wc-stripe-cc-form").slideUp(300);
-                        $(".woocommerce-SavedPaymentMethods-saveNew").slideUp(300);
-                        $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
+                    jQuery(elem).on('click', () => {
+                        jQuery("#wc-stripe-cc-form").slideUp(300);
+                        jQuery(".woocommerce-SavedPaymentMethods-saveNew").slideUp(300);
+                        jQuery(".wc-saved-payment-methods").addClass("kill-bottom-margin");
 
                     });
 
-                    $(window).on('load updated_checkout', () => {
-                        if($(elem).is(":checked")) {
-                            $(".wc-saved-payment-methods").addClass("kill-bottom-margin");
+                    jQuery(window).on('load updated_checkout', () => {
+                        if(jQuery(elem).is(":checked")) {
+                            jQuery(".wc-saved-payment-methods").addClass("kill-bottom-margin");
                         }
                     });
                 }
@@ -168,73 +167,73 @@ export class TabContainer extends Element {
         const CARD = "paytrace_card_choice";
 
         // PayTrace Credit
-        let paytrace_form_wraps = $("#paytrace-cards-form .form-row");
+        let paytrace_form_wraps = jQuery("#paytrace-cards-form .form-row");
 
-        $("#paytrace-cards-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        jQuery("#paytrace-cards-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
 
         paytrace_form_wraps.each(function(index, elem) {
-            $(elem).addClass("cfw-input-wrap");
-            $(elem).addClass("cfw-text-input");
-            $(elem).find("label").addClass("cfw-input-label");
-            $(elem).find("input").css("width", "100%");
+            jQuery(elem).addClass("cfw-input-wrap");
+            jQuery(elem).addClass("cfw-text-input");
+            jQuery(elem).find("label").addClass("cfw-input-label");
+            jQuery(elem).find("input").css("width", "100%");
 
-            if( $(elem).hasClass("form-row-wide") ) {
-                $(elem).wrap("<div class='cfw-column-6'></div>")
+            if( jQuery(elem).hasClass("form-row-wide") ) {
+                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
             }
 
-            if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
-                $(elem).wrap("<div class='cfw-column-3'></div>")
+            if( jQuery(elem).hasClass("form-row-first") || jQuery(elem).hasClass("form-row-last") ) {
+                jQuery(elem).wrap("<div class='cfw-column-3'></div>")
             }
         });
 
-        let paytrace_check_form_wraps = $("#paytrace-checks-form .form-row");
+        let paytrace_check_form_wraps = jQuery("#paytrace-checks-form .form-row");
 
-        $("#paytrace-checks-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
+        jQuery("#paytrace-checks-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
 
         paytrace_check_form_wraps.each(function(index, elem) {
-            $(elem).addClass("cfw-input-wrap");
-            $(elem).addClass("cfw-text-input");
-            $(elem).find("label").addClass("cfw-input-label");
-            $(elem).find("input").css("width", "100%");
+            jQuery(elem).addClass("cfw-input-wrap");
+            jQuery(elem).addClass("cfw-text-input");
+            jQuery(elem).find("label").addClass("cfw-input-label");
+            jQuery(elem).find("input").css("width", "100%");
 
-            if( $(elem).hasClass("form-row-wide") ) {
-                $(elem).wrap("<div class='cfw-column-6'></div>")
+            if( jQuery(elem).hasClass("form-row-wide") ) {
+                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
             }
 
-            if( $(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last") ) {
-                $(elem).wrap("<div class='cfw-column-6'></div>")
+            if( jQuery(elem).hasClass("form-row-first") || jQuery(elem).hasClass("form-row-last") ) {
+                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
             }
         });
 
-        $(window).on('load', () => {
+        jQuery(window).on('load', () => {
             // PayTrace gateway field state workaround
-            let checked_radio: any = $("input[type='radio'][name='paytrace_type_choice']:checked");
+            let checked_radio: any = jQuery("input[type='radio'][name='paytrace_type_choice']:checked");
             checked_radio.trigger("change");
 
-            $(document.body).trigger('wc-credit-card-form-init');
+            jQuery(document.body).trigger('wc-credit-card-form-init');
         });
 
         // One Click Upsells - Stripe Form
-        let ocu_stripe_form_wraps = $("#wc-ocustripe-cc-form .form-row");
-        let ocu_stripe_container = $("#wc-ocustripe-cc-form");
+        let ocu_stripe_form_wraps = jQuery("#wc-ocustripe-cc-form .form-row");
+        let ocu_stripe_container = jQuery("#wc-ocustripe-cc-form");
 
         ocu_stripe_container.wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
         ocu_stripe_container.find(".clear").remove();
 
         ocu_stripe_form_wraps.each(function(index, elem) {
-            $(elem).addClass("cfw-input-wrap");
-            $(elem).addClass("cfw-text-input");
-            $(elem).find("label").addClass("cfw-input-label");
-            $(elem).find("input").css("width", "100%");
+            jQuery(elem).addClass("cfw-input-wrap");
+            jQuery(elem).addClass("cfw-text-input");
+            jQuery(elem).find("label").addClass("cfw-input-label");
+            jQuery(elem).find("input").css("width", "100%");
 
-            if( $(elem).hasClass("form-row-wide") && $(elem).index() !== 0 ) {
-                $(elem).wrap("<div class='cfw-column-6'></div>")
-            } else if ( $(elem).hasClass("form-row-wide") && $(elem).index() === 0 ) {
-                $(elem).wrap("<div class='cfw-column-12'></div>")
+            if( jQuery(elem).hasClass("form-row-wide") && jQuery(elem).index() !== 0 ) {
+                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
+            } else if ( jQuery(elem).hasClass("form-row-wide") && jQuery(elem).index() === 0 ) {
+                jQuery(elem).wrap("<div class='cfw-column-12'></div>")
             }
 
-            if($(elem).hasClass("form-row-first") || $(elem).hasClass("form-row-last")) {
-                $(elem).wrap("<div class='cfw-column-3'></div>")
+            if(jQuery(elem).hasClass("form-row-first") || jQuery(elem).hasClass("form-row-last")) {
+                jQuery(elem).wrap("<div class='cfw-column-3'></div>")
             }
         });
     }
@@ -273,7 +272,7 @@ export class TabContainer extends Element {
 
                 // Fire it once for page load if selected
                 // Also fire on updated_checkout
-                $(window).on('load updated_checkout', () => {
+                jQuery(window).on('load updated_checkout', () => {
                     if($radio_button.is(":checked")) {
                         this.toggleRadioButtonContainers(radio_button, radio_buttons, callbacks);
                     }
@@ -283,12 +282,16 @@ export class TabContainer extends Element {
 
     toggleRadioButtonContainers(radio_button: Element, radio_buttons: Array<Element>, callbacks: Array<(radio_button: Element) => void>) {
         // Filter out the current radio button
-        // Slide up the other buttons
+        // Slide up the other containers
         radio_buttons
             .filter((filterItem: Element) => filterItem != radio_button)
-            .forEach((other: Element) => other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300));
+            .forEach((other: Element) => {
+                other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").find(':input').prop('disabled', true);
+                other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300);
+            } );
 
-        // Slide down our button
+        // Slide down our container
+        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").find(':input').prop('disabled', false);
         radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").not(':visible').slideDown(300);
 
         // Fire any callbacks
@@ -296,13 +299,13 @@ export class TabContainer extends Element {
     }
 
     toggleRequiredInputAttribute(radio_button: Element) {
-        const selected_radio_value = parseInt(radio_button.jel.val());
-        const shipping_dif_than_billing = 1;
+        const selected_radio_value = radio_button.jel.val();
+        const shipping_dif_than_billing = "different_from_shipping";
         const billing_selected = selected_radio_value === shipping_dif_than_billing;
         const placeholder_attribute = 'cfw-required-placeholder';
         const required_attribute = 'required';
         const attribute_value = '';
-        const input_wraps = $('#cfw-billing-fields-container').find('.cfw-input-wrap');
+        const input_wraps = jQuery('#cfw-billing-fields-container').find('.cfw-input-wrap');
 
         let toggleRequired = (item, {search, replace, value}) => {
             if(item.hasAttribute(search)) {
@@ -312,7 +315,7 @@ export class TabContainer extends Element {
         };
 
         input_wraps.each((index, elem) => {
-            let items = $(elem).find('input, select');
+            let items = jQuery(elem).find('input, select');
 
             items.each((index, item) => {
 
@@ -331,8 +334,8 @@ export class TabContainer extends Element {
      *
      */
     setShippingMethodUpdate(): void {
-        $('input[name^="shipping_method"][type="radio"]').each((index, el) => {
-            $(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
+        jQuery('input[name^="shipping_method"][type="radio"]').each((index, el) => {
+            jQuery(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
         });
     }
 
@@ -340,8 +343,8 @@ export class TabContainer extends Element {
      *
      */
     setPaymentMethodUpdate(): void {
-        $(document.body).on('click', 'input[name^="payment_method"][type="radio"]', function() {
-            new UpdatePaymentMethod("update_payment_method", Main.instance.ajaxInfo, $(this).val() ).load();
+        jQuery(document.body).on('click', 'input[name^="payment_method"][type="radio"]', function() {
+            new UpdatePaymentMethod("update_payment_method", Main.instance.ajaxInfo, jQuery(this).val() ).load();
         });
     }
 
@@ -351,7 +354,7 @@ export class TabContainer extends Element {
     setUpdateCheckout() {
         let main: Main = Main.instance;
 
-        $(document.body).on("update_checkout", () => {
+        jQuery(document.body).on("update_checkout", () => {
             if(!main.updating) {
                 main.updating = true;
 
@@ -360,7 +363,7 @@ export class TabContainer extends Element {
         });
 
         if(!CompleteOrderAction.initCompleteOrder) {
-			$(document.body).trigger('update_checkout');
+			jQuery(document.body).trigger('update_checkout');
 		}
     }
 
@@ -368,22 +371,22 @@ export class TabContainer extends Element {
      *
      */
     setUpMobileCartDetailsReveal(): void {
-        let showCartDetails: Element = new Element($("#cfw-show-cart-details"));
+        let showCartDetails: Element = new Element(jQuery("#cfw-show-cart-details"));
         showCartDetails.jel.on('click tap', () => {
-            $("#cfw-cart-details-collapse-wrap").slideToggle(300).parent().toggleClass("active")
+            jQuery("#cfw-cart-details-collapse-wrap").slideToggle(300).parent().toggleClass("active")
         });
 
-        $(window).on('resize', () => {
+        jQuery(window).on('resize', () => {
             if(window.innerWidth >= 770) {
-                $("#cfw-cart-details-collapse-wrap").css('display', 'block');
-                $("#cfw-cart-details").removeClass('active');
+                jQuery("#cfw-cart-details-collapse-wrap").css('display', 'block');
+                jQuery("#cfw-cart-details").removeClass('active');
             }
         });
 
         if(window.innerWidth >= 770) {
-            $("#cfw-cart-details-collapse-wrap").css('display', 'block');
+            jQuery("#cfw-cart-details-collapse-wrap").css('display', 'block');
         } else {
-            $("#cfw-cart-details-collapse-wrap").css('display', 'none');
+            jQuery("#cfw-cart-details-collapse-wrap").css('display', 'none');
         }
     }
 
@@ -393,7 +396,7 @@ export class TabContainer extends Element {
     getFormObject() {
         let main: Main = Main.instance;
         let checkout_form: any = main.checkoutForm;
-        let ship_to_different_address = parseInt( <string>$("[name='ship_to_different_address']:checked").val() );
+        let ship_to_different_address = <string>jQuery("[name='ship_to_different_address']:checked").val();
         let $required_inputs = checkout_form.find( '.address-field.validate-required:visible' );
         let has_full_address: boolean = true;
         let lookFor: Array<string> = main.settings.default_address_fields;
@@ -404,7 +407,7 @@ export class TabContainer extends Element {
 
         if ( $required_inputs.length ) {
             $required_inputs.each( function() {
-                if ( $( this ).find( ':input' ).val() === '' ) {
+                if ( jQuery( this ).find( ':input' ).val() === '' ) {
                     has_full_address = false;
                 }
             });
@@ -414,16 +417,16 @@ export class TabContainer extends Element {
         formArr.forEach((item: any) => formData[item.name] = item.value);
 
         // Handle shipped subscriptions since they are render outside of the form
-        $('#cfw-other-totals input[name^="shipping_method"][type="radio"]:checked, #cfw-other-totals input[name^="shipping_method"][type="hidden"]').each((index, el) => {
-            formData[ $(el).attr('name') ] = $(el).val();
+        jQuery('#cfw-other-totals input[name^="shipping_method"][type="radio"]:checked, #cfw-other-totals input[name^="shipping_method"][type="hidden"]').each((index, el) => {
+            formData[ jQuery(el).attr('name') ] = jQuery(el).val();
         });
 
         formData["has_full_address"] = has_full_address;
         formData["ship_to_different_address"] = ship_to_different_address;
 
-        if(ship_to_different_address === 0) {
+        if( ship_to_different_address === "same_as_shipping" ) {
             lookFor.forEach(field => {
-                if($(`#billing_${field}`).length > 0) {
+                if(jQuery(`#billing_${field}`).length > 0) {
                     formData[`billing_${field}`] = formData[`shipping_${field}`];
                 }
             });
@@ -433,9 +436,9 @@ export class TabContainer extends Element {
          * Some gateways remove the checkout and shipping fields. If guest checkout is enabled we need to check for
          * these fields
 		 */
-		if($("#cfw-first-for-plugins #billing_first_name").length > 0 && $("#cfw-last-for-plugins #billing_last_name").length > 0) {
-            formData["billing_first_name"] = $("#cfw-first-for-plugins #billing_first_name").val();
-            formData["billing_last_name"] = $("#cfw-last-for-plugins #billing_last_name").val();
+		if(jQuery("#cfw-first-for-plugins #billing_first_name").length > 0 && jQuery("#cfw-last-for-plugins #billing_last_name").length > 0) {
+            formData["billing_first_name"] = jQuery("#cfw-first-for-plugins #billing_first_name").val();
+            formData["billing_last_name"] = jQuery("#cfw-last-for-plugins #billing_last_name").val();
         }
 
         return formData;
@@ -448,8 +451,8 @@ export class TabContainer extends Element {
         const termsAndConditionsLinkClass: string = "woocommerce-terms-and-conditions-link";
         const termsAndConditionsContentClass: string = "woocommerce-terms-and-conditions";
 
-        let termsAndConditionsLink: Element = new Element($(`.${termsAndConditionsLinkClass}`));
-        let termsAndConditionsContent: Element = new Element($(`.${termsAndConditionsContentClass}`));
+        let termsAndConditionsLink: Element = new Element(jQuery(`.${termsAndConditionsLinkClass}`));
+        let termsAndConditionsContent: Element = new Element(jQuery(`.${termsAndConditionsContentClass}`));
 
         termsAndConditionsLink.jel.on('click', (eventObject) => {
             eventObject.preventDefault();
@@ -465,7 +468,7 @@ export class TabContainer extends Element {
         let checkout_form: any = Main.instance.checkoutForm;
 
         checkout_form.on( 'submit', this.completeOrderSubmitHandler.bind(this) );
-        $(document.body).on( 'click', '#place_order', this.completeOrderClickHandler.bind(this) );
+        jQuery(document.body).on( 'click', '#place_order', this.completeOrderClickHandler.bind(this) );
     }
 
     /**
@@ -485,7 +488,7 @@ export class TabContainer extends Element {
 
             // Reset data
             for ( let field in preSwapData ) {
-                let billing = $(`#billing_${field}`);
+                let billing = jQuery(`#billing_${field}`);
 
                 billing.val(preSwapData[field]);
             }
@@ -511,16 +514,16 @@ export class TabContainer extends Element {
 
 		checkout_form.find(".woocommerce-error").remove();
 
-		$(document.body).on("checkout_error", () => {
+		jQuery(document.body).on("checkout_error", () => {
 		    checkout_form.removeClass( 'processing' ).unblock(); // compatibility with gateways / plugins that expect this
 			Main.removeOverlay();
 			CompleteOrderAction.initCompleteOrder = false
 		});
 
-        if ( parseInt(checkout_form.find('input[name="ship_to_different_address"]:checked').val()) === 0 ) {
+        if ( checkout_form.find('input[name="ship_to_different_address"]:checked').val() === "same_as_shipping" ) {
             lookFor.forEach( field => {
-                let billing = $(`#billing_${field}`);
-                let shipping = $(`#shipping_${field}`);
+                let billing = jQuery(`#billing_${field}`);
+                let shipping = jQuery(`#shipping_${field}`);
 
                 if(billing.length > 0) {
                     preSwapData[field] = billing.val();
@@ -540,7 +543,7 @@ export class TabContainer extends Element {
      * @param data
      */
     orderKickOff(ajaxInfo: AjaxInfo, data): void {
-        let isShippingDifferentFromBilling: boolean = $("#shipping_dif_from_billing:checked").length !== 0;
+        let isShippingDifferentFromBilling: boolean = <string>jQuery("[name='ship_to_different_address']:checked").val() === "different_from_shipping";
 
         ValidationService.createOrder(isShippingDifferentFromBilling, ajaxInfo, data);
     }
@@ -549,8 +552,8 @@ export class TabContainer extends Element {
      *
      */
     setApplyCouponListener() {
-        $("#cfw-promo-code-btn").on('click', () => {
-            let coupon_field: any = $("#cfw-promo-code");
+        jQuery("#cfw-promo-code-btn").on('click', () => {
+            let coupon_field: any = jQuery("#cfw-promo-code");
 
             if(coupon_field.val() !== "") {
                 new ApplyCouponAction('cfw_apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFormObject()).load();
@@ -565,11 +568,11 @@ export class TabContainer extends Element {
      * @returns {UpdateShippingFieldsRI}
      */
     getUpdateShippingRequiredItems(): UpdateShippingFieldsRI {
-        let sdf_any_results: any = $("#cfw-shipping-details-fields .cfw-shipping-details-field");
+        let sdf_any_results: any = jQuery("#cfw-shipping-details-fields .cfw-shipping-details-field");
         let shipping_details_fields: Array<any> = [];
         let action: string = "update_shipping_fields";
 
-        sdf_any_results.each((index, val) => { shipping_details_fields.push($(val)) });
+        sdf_any_results.each((index, val) => { shipping_details_fields.push(jQuery(val)) });
 
         return <UpdateShippingFieldsRI>{
             action: action,

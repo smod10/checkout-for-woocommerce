@@ -1,5 +1,7 @@
 import {AjaxInfo} from "../Types/Types";
 
+declare let jQuery: any;
+
 /**
  * Base class for our ajax handling. Child classes will extend this and override the response function and implement their
  * own custom solutions for the php side of actions
@@ -58,7 +60,7 @@ export abstract class Action {
      * Fire ze ajax
      */
     load(): void {
-        $.post(this.url, this.data, this.response.bind(this));
+        jQuery.post(this.url, this.data, this.response.bind(this));
     }
 
     /**

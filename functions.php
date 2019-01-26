@@ -591,4 +591,34 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 	    echo "<div id='cfw-wc-print-notices' class='cfw-alert cfw-alert-danger' style='display:block;'><div class='message'>$wc_notices</div></div>";
     }
+
+    function cfw_billing_address_radio_group() {
+	    ?>
+        <div id="cfw-shipping-same-billing" class="cfw-module">
+            <ul class="cfw-radio-reveal-group">
+                <li class="cfw-radio-reveal-li cfw-no-reveal">
+                    <div class="cfw-radio-reveal-title-wrap">
+                        <label class="cfw-radio-reveal-title-wrap cfw-radio-reveal-label">
+                            <input type="radio" name="ship_to_different_address" id="ship_to_different_address_as_billing" value="same_as_shipping" class="garlic-auto-save" checked />
+                            <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Same as shipping address', 'checkout-wc' ); ?></span>
+                        </label>
+                    </div>
+                </li>
+                <li class="cfw-radio-reveal-li">
+                    <div class="cfw-radio-reveal-title-wrap">
+                        <label class="cfw-radio-reveal-label">
+                            <input type="radio" name="ship_to_different_address" id="shipping_dif_from_billing" value="different_from_shipping" class="garlic-auto-save" />
+                            <span class="cfw-radio-reveal-title"><?php esc_html_e( 'Use a different billing address', 'checkout-wc' ); ?></span>
+                        </label>
+                    </div>
+                    <div class="cfw-radio-reveal-content-wrap" style="display: none">
+                        <div id="cfw-billing-fields-container" class="cfw-radio-reveal-content <?php cfw_address_class_wrap( false ); ?>">
+						    <?php cfw_get_billing_checkout_fields( WC()->checkout() ); ?>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <?php
+    }
 }

@@ -5,6 +5,8 @@ import { InputLabelType }           from "../Types/Types";
 import { SelectLabelWrap }          from "./SelectLabelWrap";
 import { FormElement }              from "./FormElement";
 
+declare let jQuery: any;
+
 /**
  *
  */
@@ -101,7 +103,7 @@ export class TabContainerSection extends Element {
         let out: Array<Element> = [];
 
         this.jel.find(`input${query}`).each((index, elem) => {
-            out.push(new Element($(elem)));
+            out.push(new Element(jQuery(elem)));
         });
 
         return out;
@@ -118,12 +120,12 @@ export class TabContainerSection extends Element {
 
         jLabelWrap.each((index, wrap) => {
 
-            if($(wrap).hasClass("cfw-select-input") && $(wrap).find("select").length > 0) {
-                let slw: SelectLabelWrap = new SelectLabelWrap( $(wrap) );
+            if(jQuery(wrap).hasClass("cfw-select-input") && jQuery(wrap).find("select").length > 0) {
+                let slw: SelectLabelWrap = new SelectLabelWrap( jQuery(wrap) );
 
                 selectLabelWraps.push( slw );
             } else {
-                let ilw: InputLabelWrap = new InputLabelWrap( $(wrap) );
+                let ilw: InputLabelWrap = new InputLabelWrap( jQuery(wrap) );
 
                 inputLabelWraps.push( ilw );
             }

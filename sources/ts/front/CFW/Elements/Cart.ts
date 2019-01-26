@@ -1,5 +1,7 @@
 import { Element }                      from "./Element";
 
+declare let jQuery: any;
+
 export type UpdateCartTotalsData = {
     new_subtotal: any,
     new_shipping_total: any,
@@ -105,9 +107,9 @@ export class Cart extends Element {
 
         if(cartLineItem.jel.length > 0) {
             coupons.forEach((coupon: any) => {
-                let wrap = $('<div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">');
-                let type = $('<span class="type"></span>').html(coupon.label);
-                let amount = $('<span class="amount"></span>').html(coupon.amount);
+                let wrap = jQuery('<div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">');
+                let type = jQuery('<span class="type"></span>').html(coupon.label);
+                let amount = jQuery('<span class="amount"></span>').html(coupon.amount);
 
                 wrap.append(type);
                 wrap.append(amount);
@@ -126,9 +128,9 @@ export class Cart extends Element {
 
         if(cartLineItem.jel.length > 0) {
             fees.forEach((fee: any) => {
-                let wrap = $('<div class="cfw-cart-fee cfw-flex-row cfw-flex-justify">');
-                let type = $('<span class="type"></span>').html(fee.name);
-                let amount = $('<span class="amount"></span>').html(fee.amount);
+                let wrap = jQuery('<div class="cfw-cart-fee cfw-flex-row cfw-flex-justify">');
+                let type = jQuery('<span class="type"></span>').html(fee.name);
+                let amount = jQuery('<span class="amount"></span>').html(fee.amount);
 
                 wrap.append(type);
                 wrap.append(amount);

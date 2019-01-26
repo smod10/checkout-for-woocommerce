@@ -2,6 +2,8 @@ import { Element }              from "./Element";
 import { LabelType }            from "../Enums/LabelType";
 import { EventCallback }        from "../Types/Types";
 
+declare let jQuery: any;
+
 /**
  *
  */
@@ -44,7 +46,7 @@ export class FormElement extends Element {
      * @returns {any}
      */
     static getLabelTypes(): Array<any> {
-        return $.map(LabelType, function(value, index) {
+        return jQuery.map(LabelType, function(value, index) {
             return [value];
         });
     }

@@ -4,6 +4,8 @@ import { AccountExistsData }            from "../Types/Types";
 import { AjaxInfo }                     from "../Types/Types";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 
+declare let jQuery: any;
+
 /**
  * Ajax does the account exist action. Takes the information from email box and fires of a request to see if the account
  * exists
@@ -48,10 +50,10 @@ export class AccountExistsAction extends Action {
      */
     @ResponsePrep
     public response(resp: AccountExistsResponse): void {
-        let login_slide: any = $("#cfw-login-slide");
-        let $create_account = $("#createaccount");
+        let login_slide: any = jQuery("#cfw-login-slide");
+        let $create_account = jQuery("#createaccount");
         let register_user_checkbox: any = ($create_account.length > 0) ? $create_account : null;
-        let register_container: any = $("#cfw-login-details .cfw-check-input");
+        let register_container: any = jQuery("#cfw-login-details .cfw-check-input");
 
         // If account exists slide down the password field, uncheck the register box, and hide the container for the checkbox
         if ( resp.account_exists ) {

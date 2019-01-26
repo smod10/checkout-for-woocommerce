@@ -6,6 +6,8 @@ import { Alert, AlertInfo }             from "../Elements/Alert";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 import { Main }                         from "../Main";
 
+declare let jQuery: any;
+
 /**
  *
  */

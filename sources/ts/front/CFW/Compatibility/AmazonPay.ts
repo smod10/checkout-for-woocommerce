@@ -4,7 +4,7 @@ import {Alert, AlertInfo} from "../Elements/Alert";
 
 declare let OffAmazonPayments: any;
 declare let amazon_payments_advanced_params: any;
-declare let woocommerce_params: any;
+declare let jQuery: any;
 
 export class AmazonPay extends Compatibility {
 	/**
@@ -25,26 +25,26 @@ export class AmazonPay extends Compatibility {
 		let easyTabsWrap: any = main.easyTabService.easyTabsWrap;
 		let getParams = this.getUrlParamsMap();
 
-		$(window.document).on("wc_amazon_pa_widget_ready", () => {
-			$("#cfw-first-for-plugins, #cfw-last-for-plugins, #cfw-email-wrap").addClass("cfw-floating-label");
+		jQuery(window.document).on("wc_amazon_pa_widget_ready", () => {
+			jQuery("#cfw-first-for-plugins, #cfw-last-for-plugins, #cfw-email-wrap").addClass("cfw-floating-label");
 		});
 
 		if(getParams[errorKey] !== undefined) {
 			let alertInfo: AlertInfo = {
 				type: "error",
-				message: $(".woocommerce-error").html(),
+				message: jQuery(".woocommerce-error").html(),
 				cssClass: "cfw-alert-danger"
 			};
 
-			$(".woocommerce-error").remove();
+			jQuery(".woocommerce-error").remove();
 
 			let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
 			alert.addAlert();
 
-			$("#checkout").addClass("has-overlay");
-			$("#cfw-deductors-list").addClass("has-overlay");
-			$("#checkout").append("<div class='amazon-pay-overlay'></div>");
-			$("#cfw-deductors-list").append("<div class='amazon-pay-overlay'></div>");
+			jQuery("#checkout").addClass("has-overlay");
+			jQuery("#cfw-deductors-list").addClass("has-overlay");
+			jQuery("#checkout").append("<div class='amazon-pay-overlay'></div>");
+			jQuery("#cfw-deductors-list").append("<div class='amazon-pay-overlay'></div>");
 
 			if(amazon_payments_advanced_params !== undefined &&
 				amazon_payments_advanced_params.declined_code !== undefined &&
@@ -67,7 +67,7 @@ export class AmazonPay extends Compatibility {
 				amazon_payments_advanced_params !== undefined &&
 				(amazon_payments_advanced_params.reference_id !== "" || amazon_payments_advanced_params.access_token !== "")
 			) {
-				$(window).on('load', () => {
+				jQuery(window).on('load', () => {
                     this.cleanUpExtraStuff();
 				});
 
@@ -102,12 +102,12 @@ export class AmazonPay extends Compatibility {
 	}
 
 	cleanUpExtraStuff() {
-        $("#cfw-billing-methods .create-account").remove();
-        $("#payment-info-separator-wrap").hide();
-        $("#cfw-shipping-same-billing").hide();
-        $("#cfw-billing-methods > .cfw-module-title").hide();
-        $("#cfw-shipping-info > .cfw-module-title").hide();
-        $("#cfw-payment-method > .cfw-module-title").hide();
+        jQuery("#cfw-billing-methods .create-account").remove();
+        jQuery("#payment-info-separator-wrap").hide();
+        jQuery("#cfw-shipping-same-billing").hide();
+        jQuery("#cfw-billing-methods > .cfw-module-title").hide();
+        jQuery("#cfw-shipping-info > .cfw-module-title").hide();
+        jQuery("#cfw-payment-method > .cfw-module-title").hide();
 	}
 
 	/**

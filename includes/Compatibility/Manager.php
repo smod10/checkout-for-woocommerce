@@ -31,6 +31,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnaly
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\UltimateRewardsPoints;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceCore;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSmartCoupons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
@@ -106,6 +107,9 @@ class Manager {
 
 		// Ultimate Points and Rewards
 		new UltimateRewardsPoints();
+
+		// Smart Coupons
+		new WooCommerceSmartCoupons();
 
 		/**
 		 * Gateways

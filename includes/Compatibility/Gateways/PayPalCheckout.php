@@ -23,7 +23,7 @@ class PayPalCheckout extends Base {
 	}
 
 	function set_billing_info_if_required( $data ) {
-		if ( $_POST['ship_to_different_address'] == 1 ) {
+		if ( $_POST['ship_to_different_address'] == "same_as_shipping" ) {
 			foreach ( WC()->checkout()->get_checkout_fields( 'billing' ) as $key => $field ) {
 				if ( $key == "billing_email" ) continue;
 				$data[ $key ] = isset( $data[ 'shipping_' . substr( $key, 8 ) ] ) ? $data[ 'shipping_' . substr( $key, 8 ) ] : '';

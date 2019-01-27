@@ -22,16 +22,15 @@ export class PayPalCheckout extends Compatibility {
             let current_tab_id = EasyTabService.getTabId(easyTabDirection.target);
 
             if ( payment_tab_id == current_tab_id ) {
+                jQuery('#woo_pp_ec_button_checkout').hide();
                 jQuery(document.body).trigger( 'updated_checkout' );
             }
         });
 
         jQuery(window).on('load updated_checkout', () => {
-            if ( jQuery('#woo_pp_ec_button_checkout').is(':visible') ) {
-                var isPPEC = jQuery( '#payment_method_ppec_paypal' ).is(':checked');
-                jQuery( '#place_order' ).toggle( ! isPPEC );
-                jQuery( '#woo_pp_ec_button_checkout' ).toggle( isPPEC );
-            }
+            var isPPEC = jQuery( '#payment_method_ppec_paypal' ).is(':checked');
+            jQuery( '#place_order' ).toggle( ! isPPEC );
+            jQuery( '#woo_pp_ec_button_checkout' ).toggle( isPPEC );
         });
     }
 }

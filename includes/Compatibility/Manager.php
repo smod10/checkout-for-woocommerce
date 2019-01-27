@@ -25,6 +25,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OnePageCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\PostNL;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnalytics;
@@ -95,6 +96,9 @@ class Manager {
 
 		// NL Postcode Checker
 		new NLPostcodeChecker();
+
+		// WooCommerce PostNL
+		new PostNL();
 
 		// MailChimp for WooCommerce
 		new MailChimpforWooCommerce();

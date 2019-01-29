@@ -4,6 +4,9 @@ const TsClassMetaGeneratorPlugin = require('ts-class-meta-generator');
 
 module.exports = sourcesDir => {
 	return {
+        externals: {
+            jquery: 'jQuery',
+        },
 		entry: {
 			"checkout-woocommerce-front": [
 				`${sourcesDir}/js/vendor.js`,

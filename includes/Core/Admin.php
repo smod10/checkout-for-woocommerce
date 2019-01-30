@@ -211,7 +211,7 @@ class Admin {
                             ?>
                             <div>
                                 <?php
-                                    d($stats->get_data());
+                                    d(json_encode($stats->get_data()));
                                 ?>
                             </div>
                         </td>

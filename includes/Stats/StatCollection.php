@@ -61,6 +61,12 @@ class StatCollection extends Singleton {
 	private $cfw_home_site_url = 'http://www.checkoutwc.com';
 
 	/**
+	 * @var array
+     * @access private
+	 */
+	private $woocommerce_settings = [];
+
+	/**
 	 * @var bool
      * @access private
 	 */
@@ -174,17 +180,37 @@ class StatCollection extends Singleton {
     }
 
     public function get_woo_site_settings() {
-	    // Filter non woo settings
-		$options = array_filter(wp_load_alloptions(), function($option){
-            return strpos($option, 'woocommerce_') === 0;
-        },ARRAY_FILTER_USE_KEY);
+		array_walk(\WC_Admin_Settings::get_settings_pages(), function($item) {
+		    array_walk($item->get_settings(), function($setting) {
+		        if(empty($setting['id']))
+		            return;
 
-		// Unserialize child data
-		$options = array_map(function($option){
-		    return !unserialize($option) ? $option : unserialize($option);
-        }, $options);
+				$stats = StatCollection::instance();
+				$settings = $stats->get_woocommerce_settings();
+				$id = $setting['id'];
 
-		return $options;
+				if(strpos($id, 'woocommerce_') !== 0) {
+				    $id = "woocommerce_{$id}";
+                }
+
+		        $setting_name = $id;
+				$settings[] = $setting_name;
+				$stats->set_woocommerce_settings($settings);
+            });
+        });
+
+		$options = (object)['ops' => []];
+
+		array_walk($this->get_woocommerce_settings(), \Closure::bind(function($setting) {
+		    $op_value = get_option($setting);
+
+		    if($op_value === false || empty($op_value))
+		        return;
+
+			$this->ops[$setting] = get_option($setting);
+		}, $options));
+
+		return $options->ops;
     }
 
 	public function get_woo_order_stats($interval = 'P7D') {
@@ -242,9 +268,6 @@ class StatCollection extends Singleton {
 		}
 
 		$this->setup_data();
-
-		d($this->data);
-		d(\WooCommerce::plugin_path());
 
 //		wp_remote_post( 'https://easydigitaldownloads.com/?cfw_action=checkin', array(
 //			'method'      => 'POST',
@@ -436,6 +459,20 @@ class StatCollection extends Singleton {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function get_woocommerce_settings(): array {
+		return $this->woocommerce_settings;
+	}
+
+	/**
+	 * @param array $woocommerce_settings
+	 */
+	public function set_woocommerce_settings( array $woocommerce_settings ): void {
+		$this->woocommerce_settings = $woocommerce_settings;
+	}
+
+	/**
 	 * @return mixed
 	 */
 	public function get_data() {
@@ -490,6 +527,4 @@ class StatCollection extends Singleton {
 	public function get_track_data_message(): string {
 		return $this->track_data_message;
 	}
-
-
 }

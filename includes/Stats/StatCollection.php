@@ -418,7 +418,7 @@ class StatCollection extends Singleton {
 		$this->setup_data();
 		$remote_url = CFW_DEV_MODE ? $this->dev_stat_collection_url : $this->stat_collection_url;
 
-		d(wp_remote_request( $remote_url, array(
+		wp_remote_request( $remote_url, array(
 			'method'      => 'POST',
 			'headers'     => [
 				'Content-Type' => 'application/json',
@@ -428,7 +428,7 @@ class StatCollection extends Singleton {
 			'httpversion' => '1.1',
 			'body'        => json_encode($this->data),
 			'user-agent'  => 'CFW/' . Main::instance()->get_version() . '; ' . get_bloginfo( 'url' ),
-		) ));
+		));
 
 		$this->settings_manager->update_setting( $this->last_send_key, time() );
 

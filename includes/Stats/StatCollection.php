@@ -18,11 +18,50 @@ use \DateTime;
 
 class StatCollection extends Singleton {
 	/**
-	 * The data to send to the EDD site
+	 * The data to send to the CFW stat collection site
 	 *
 	 * @access private
 	 */
 	private $data = [];
+
+	/**
+     * The stat collection url
+     *
+	 * @var string
+     * @access private
+	 */
+	private $stat_collection_url = '';
+
+	/**
+     * The development stat collection url
+     *
+	 * @var string
+     * @access private
+	 */
+	private $dev_stat_collection_url = 'http://127.0.0.1:8000/api/v1/stats';
+
+	/**
+     * The list of settings from CFW to grab
+     *
+	 * @var array
+     * @access private
+	 */
+	private $approved_cfw_settings = [];
+
+	/**
+     * The list of settings from WooCommerce to grab
+	 * @var array
+     * @access private
+	 */
+	private $approved_woocommerce_settings = [];
+
+	/**
+     * The list of store stats from WooCommerce to grab
+     *
+	 * @var array
+     * @access private
+	 */
+	private $approved_woocomerce_store_stats = [];
 
 	/**
 	 * @var string
@@ -95,6 +134,81 @@ class StatCollection extends Singleton {
 		add_action( 'cfw_opt_out_of_tracking', array( $this, 'check_for_optout' ) );
 		add_action( 'admin_notices',           array( $this, 'admin_notice'     ) );
 
+		$this->approved_cfw_settings = [
+			"active_template" => (object) [
+				"rename" => false,
+				"name" => null,
+				"action" => null
+			],
+			"enable" => (object) [
+				"rename" => false,
+				"name" => null,
+				"action" => null
+			],
+			"enable_phone_fields" => (object) [
+				"rename" => false,
+				"name" => null,
+				"action" => null
+			],
+			"header_scripts" => (object) [
+				"rename"    => true,
+				"name"      => "header_scripts_empty",
+				"action"    => function($setting) {
+					return empty($setting);
+				}
+			],
+			"footer_scripts" => (object) [
+				"rename"    => true,
+				"name"      => "footer_scripts_empty",
+				"action"    => function($setting) {
+					return empty($setting);
+				}
+			]
+		];
+
+		$this->approved_woocommerce_settings = [
+			"woocommerce_store_city",
+			"woocommerce_default_country",
+			"woocommerce_default_customer_address",
+			"woocommerce_calc_taxes",
+			"woocommerce_enable_coupons",
+			"woocommerce_calc_discounts_sequentially",
+			"woocommerce_currency",
+			"woocommerce_prices_include_tax",
+			"woocommerce_tax_based_on",
+			"woocommerce_tax_round_at_subtotal",
+			"woocommerce_tax_classes",
+			"woocommerce_tax_display_shop",
+			"woocommerce_tax_display_cart",
+			"woocommerce_tax_total_display",
+			"woocommerce_enable_shipping_calc",
+			"woocommerce_shipping_cost_requires_address",
+			"woocommerce_ship_to_destination",
+			"woocommerce_enable_guest_checkout",
+			"woocommerce_enable_checkout_login_reminder",
+			"woocommerce_enable_signup_and_login_from_checkout",
+			"woocommerce_registration_generate_username",
+			"woocommerce_registration_generate_password"
+        ];
+
+		$this->approved_woocomerce_store_stats = [
+            "total_tax_refunded",
+            "total_shipping_refunded",
+            "total_shipping_tax_refunded",
+            "total_refunds",
+            "total_tax",
+            "total_shipping",
+            "total_shipping_tax",
+            "total_sales",
+            "net_sales",
+            "average_sales",
+            "average_total_sales",
+            "total_coupons",
+            "total_refunded_orders",
+            "total_orders",
+            "total_items"
+        ];
+
 		$this->settings_manager = $settings_manager;
 	}
 
@@ -136,7 +250,7 @@ class StatCollection extends Singleton {
 		$theme      = $theme_data->Name . ' ' . $theme_data->Version;
 
 		$data['php_version'] = phpversion();
-		$data['edd_version'] = Main::instance()->get_version();
+		$data['cfw_version'] = Main::instance()->get_version();
 		$data['wp_version']  = get_bloginfo( 'version' );
 		$data['server']      = isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : '';
 
@@ -146,7 +260,6 @@ class StatCollection extends Singleton {
 		$data['multisite']   = is_multisite();
 		$data['url']         = home_url();
 		$data['theme']       = $theme;
-		$data['email']       = get_bloginfo( 'admin_email' );
 
 		// Retrieve current plugin information
 		if( ! function_exists( 'get_plugins' ) ) {
@@ -168,7 +281,6 @@ class StatCollection extends Singleton {
 		$data['cfw_settings'] = $this->get_cfw_settings();
 
 		$data['active_plugins']   = $active_plugins;
-		$data['inactive_plugins'] = $plugins;
 		$data['active_gateways']  = array_keys( WC()->payment_gateways()->get_available_payment_gateways() );
 		$data['locale']           = get_locale();
 
@@ -176,7 +288,33 @@ class StatCollection extends Singleton {
 	}
 
 	public function get_cfw_settings() {
-	    return Main::instance()->get_settings_manager()->settings;
+	    // Filter function for the cfw settings list
+	    $filter_settings = \Closure::bind(function($setting) {
+	        // Is the setting key in the settings approved list? Then allow it through
+			return in_array($setting, array_keys($this->approved_cfw_settings));
+		}, $this);
+
+	    $settings = array_filter(Main::instance()->get_settings_manager()->settings, $filter_settings, ARRAY_FILTER_USE_KEY);
+
+	    return $this->prep_approved_cfw_settings($settings);
+    }
+
+    public function prep_approved_cfw_settings($settings) {
+		foreach($settings as $key => $value) {
+			$setting_metadata = $this->approved_cfw_settings[$key];
+
+			if($setting_metadata->rename) {
+				unset($settings[$key]);
+				$settings[$setting_metadata->name] = $value;
+				$key = $setting_metadata->name;
+			}
+
+			if($setting_metadata->action) {
+				$settings[$key] = ($setting_metadata->action)($value);
+			}
+		}
+
+	    return $settings;
     }
 
     public function get_woo_site_settings() {
@@ -193,6 +331,9 @@ class StatCollection extends Singleton {
 				    $id = "woocommerce_{$id}";
                 }
 
+				if(!in_array($id, $this->approved_woocommerce_settings))
+				    return;
+
 		        $setting_name = $id;
 				$settings[] = $setting_name;
 				$stats->set_woocommerce_settings($settings);
@@ -204,7 +345,7 @@ class StatCollection extends Singleton {
 		array_walk($this->get_woocommerce_settings(), \Closure::bind(function($setting) {
 		    $op_value = get_option($setting);
 
-		    if($op_value === false || empty($op_value))
+		    if($op_value === false)
 		        return;
 
 			$this->ops[$setting] = get_option($setting);
@@ -236,7 +377,14 @@ class StatCollection extends Singleton {
 			$sales_by_date->group_by_query = 'YEAR(posts.post_date), MONTH(posts.post_date), DAY(posts.post_date)';
 		}
 
-		return $sales_by_date->get_report_data();
+		$report_data = $sales_by_date->get_report_data();
+		$report_data_arr = get_object_vars($report_data);
+
+		$report_data = array_filter($report_data_arr, \Closure::bind(function($key) {
+		    return in_array($key, $this->approved_woocomerce_store_stats);
+        }, $this), ARRAY_FILTER_USE_KEY);
+
+		return $report_data;
     }
 
 	/**
@@ -268,16 +416,19 @@ class StatCollection extends Singleton {
 		}
 
 		$this->setup_data();
+		$remote_url = CFW_DEV_MODE ? $this->dev_stat_collection_url : $this->stat_collection_url;
 
-//		wp_remote_post( 'https://easydigitaldownloads.com/?cfw_action=checkin', array(
-//			'method'      => 'POST',
-//			'timeout'     => 8,
-//			'redirection' => 5,
-//			'httpversion' => '1.1',
-//			'blocking'    => false,
-//			'body'        => $this->data,
-//			'user-agent'  => 'CFW/' . Main::instance()->get_version() . '; ' . get_bloginfo( 'url' )
-//		) );
+		d(wp_remote_request( $remote_url, array(
+			'method'      => 'POST',
+			'headers'     => [
+				'Content-Type' => 'application/json',
+			],
+            'timeout'     => 8,
+			'redirection' => 5,
+			'httpversion' => '1.1',
+			'body'        => json_encode($this->data),
+			'user-agent'  => 'CFW/' . Main::instance()->get_version() . '; ' . get_bloginfo( 'url' ),
+		) ));
 
 		$this->settings_manager->update_setting( $this->last_send_key, time() );
 

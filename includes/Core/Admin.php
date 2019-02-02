@@ -207,11 +207,10 @@ class Admin {
                         <td>
 							<?php
                                 $stats = $this->plugin_instance->get_stat_collection();
-							    $stats->setup_data();
                             ?>
                             <div>
                                 <?php
-                                    d(json_encode($stats->get_data()));
+								    $stats->send_checkin(true, true);
                                 ?>
                             </div>
                         </td>

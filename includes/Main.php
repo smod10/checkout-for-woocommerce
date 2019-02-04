@@ -457,7 +457,7 @@ class Main extends Singleton {
 	 * Set the plugin assets
 	 */
 	public function set_assets() {
-		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+		if ( ! apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) ) {
 			return;
 		}
 

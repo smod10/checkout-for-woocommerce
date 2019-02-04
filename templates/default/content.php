@@ -339,7 +339,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <span class="type"><?php esc_html_e('Shipping', 'checkout-wc'); ?></span>
                                 <span class="amount"><?php echo cfw_get_shipping_total(); ?></span>
                             </div>
-                            <div id="cfw-cart-fees"></div>
+                            <div id="cfw-cart-fees">
 	                        <?php foreach ( WC()->cart->get_fees() as $fee ) : ?>
                                 <div class="cfw-cart-fee cfw-flex-row cfw-flex-justify">
                                     <span class="type"><?php echo esc_html( $fee->name ); ?></span>
@@ -364,8 +364,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <div id="cfw-other-totals" class="cfw-other-totals">
                             <table><?php do_action( 'woocommerce_review_order_after_order_total' ); ?></table>
                         </div>
+
+	                    <?php do_action( 'cfw_after_cart_summary_totals' ); ?>
                     </div>
                 </div>
+
+	            <?php do_action( 'cfw_after_cart_summary' ); ?>
             </div>
         </div>
 	    <?php endif; ?>

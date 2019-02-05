@@ -34,13 +34,11 @@ class PayPalCheckout extends Base {
 	}
 
 	function typescript_class_and_params( $compatibility ) {
-
 		$compatibility[] = [
 			'class'  => 'PayPalCheckout',
 			'params' => [],
 		];
 
 		return $compatibility;
-
 	}
 }

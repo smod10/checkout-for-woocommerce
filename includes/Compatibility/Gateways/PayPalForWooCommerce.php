@@ -171,8 +171,6 @@ class PayPalForWooCommerce extends Base {
 				}
 
 				// Don't add the separator if PayPal Express isn't actually active
-
-
 			}
 		}
 	}

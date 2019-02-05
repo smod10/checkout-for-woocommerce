@@ -532,13 +532,14 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
     function cfw_get_place_order() {
 	    ob_start();
+
+	    $order_button_text = apply_filters( 'woocommerce_order_button_text', __( 'Complete Order', 'woocommerce' ) );
 	    ?>
-        <div class="place-order" id="cfw-place-order">
-            <a id="place_order" href="javascript:;" class="cfw-primary-btn cfw-next-tab validate">
-			    <?php echo apply_filters( 'woocommerce_order_button_text' , esc_html__( 'Complete Order', 'checkout-wc' ) ); ?>
-            </a>
-		    <?php do_action( 'woocommerce_review_order_after_submit' ); ?>
-        </div>
+	    <?php do_action( 'woocommerce_pay_order_before_submit' ); ?>
+
+	    <?php echo apply_filters( 'woocommerce_pay_order_button_html', '<button type="submit" class="cfw-primary-btn cfw-next-tab validate" id="place_order" value="' . esc_attr( $order_button_text ) . '" data-value="' . esc_attr( $order_button_text ) . '">' . esc_html( $order_button_text ) . '</button>' ); // @codingStandardsIgnoreLine ?>
+
+	    <?php do_action( 'woocommerce_pay_order_after_submit' ); ?>
         <?php
         return ob_get_clean();
     }

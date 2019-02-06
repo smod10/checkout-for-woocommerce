@@ -535,11 +535,13 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 	    $order_button_text = apply_filters( 'woocommerce_order_button_text', __( 'Complete Order', 'woocommerce' ) );
 	    ?>
-	    <?php do_action( 'woocommerce_pay_order_before_submit' ); ?>
+        <div class="place-order" id="cfw-place-order">
+            <?php do_action( 'woocommerce_review_order_before_submit' ); ?>
 
-	    <?php echo apply_filters( 'woocommerce_pay_order_button_html', '<button type="submit" class="cfw-primary-btn cfw-next-tab validate" id="place_order" value="' . esc_attr( $order_button_text ) . '" data-value="' . esc_attr( $order_button_text ) . '">' . esc_html( $order_button_text ) . '</button>' ); // @codingStandardsIgnoreLine ?>
+            <?php echo apply_filters( 'woocommerce_order_button_html', '<button type="submit" class="cfw-primary-btn cfw-next-tab validate" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr( $order_button_text ) . '" data-value="' . esc_attr( $order_button_text ) . '">' . esc_html( $order_button_text ) . '</button>' ); // @codingStandardsIgnoreLine ?>
 
-	    <?php do_action( 'woocommerce_pay_order_after_submit' ); ?>
+            <?php do_action( 'woocommerce_review_order_after_submit' ); ?>
+        </div>
         <?php
         return ob_get_clean();
     }

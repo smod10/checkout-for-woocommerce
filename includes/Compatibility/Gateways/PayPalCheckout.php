@@ -34,10 +34,14 @@ class PayPalCheckout extends Base {
 	}
 
 	function typescript_class_and_params( $compatibility ) {
-		$compatibility[] = [
-			'class'  => 'PayPalCheckout',
-			'params' => [],
-		];
+		$settings = wc_gateway_ppec()->settings;
+
+		if ( 'yes' == $settings->use_spb ) {
+			$compatibility[] = [
+				'class'  => 'PayPalCheckout',
+				'params' => [],
+			];
+		}
 
 		return $compatibility;
 	}

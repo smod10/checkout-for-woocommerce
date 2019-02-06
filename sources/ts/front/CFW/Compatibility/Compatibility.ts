@@ -1,4 +1,4 @@
-declare let $: any;
+declare let jQuery: any;
 
 export abstract class Compatibility {
 

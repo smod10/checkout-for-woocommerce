@@ -17,7 +17,9 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutFieldEditor;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutManager;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicks;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\DirectCheckout;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\EUVATNumber;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\KodiakGiftCards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MailChimpforWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\NLPostcodeChecker;
@@ -114,6 +116,12 @@ class Manager {
 
 		// Smart Coupons
 		new WooCommerceSmartCoupons();
+
+		// EU VAT Number
+		new EUVATNumber();
+
+		// Kodiak Gift Cards
+		new KodiakGiftCards();
 
 		/**
 		 * Gateways

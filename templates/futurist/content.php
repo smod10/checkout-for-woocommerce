@@ -336,38 +336,37 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
 
                     <div id="<?php echo apply_filters('cfw_template_cart_el', "cfw-totals-list"); ?>" class="cfw-module">
-
                         <div class="cfw-totals-normal">
                             <div id="cfw-cart-subtotal" class="cfw-flex-row cfw-flex-justify">
                                 <span class="type"><?php esc_html_e('Subtotal', 'checkout-wc'); ?></span>
                                 <span class="amount"><?php echo $cart->get_cart_subtotal(); ?></span>
                             </div>
                             <div id="cfw-cart-coupons">
-                            <?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
-                                <div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">
-                                    <span class="type"><?php wc_cart_totals_coupon_label( $coupon ); ?></span>
-                                    <span class="amount"><?php wc_cart_totals_coupon_html( $coupon ); ?></span>
-                                </div>
-                            <?php endforeach; ?>
+			                    <?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
+                                    <div class="cfw-cart-coupon cfw-flex-row cfw-flex-justify">
+                                        <span class="type"><?php wc_cart_totals_coupon_label( $coupon ); ?></span>
+                                        <span class="amount"><?php wc_cart_totals_coupon_html( $coupon ); ?></span>
+                                    </div>
+			                    <?php endforeach; ?>
                             </div>
                             <div id="cfw-cart-shipping-total" class="cfw-flex-row cfw-flex-justify" style="<?php echo (!WC()->cart->needs_shipping()) ? 'display: none' : 'display: flex'; ?>">
                                 <span class="type"><?php esc_html_e('Shipping', 'checkout-wc'); ?></span>
                                 <span class="amount"><?php echo cfw_get_shipping_total(); ?></span>
                             </div>
-                            <div id="cfw-cart-fees"></div>
-	                        <?php foreach ( WC()->cart->get_fees() as $fee ) : ?>
-                                <div class="cfw-cart-fee cfw-flex-row cfw-flex-justify">
-                                    <span class="type"><?php echo esc_html( $fee->name ); ?></span>
-                                    <span class="amount"><?php wc_cart_totals_fee_html( $fee ); ?></span>
-                                </div>
-	                        <?php endforeach; ?>
+                            <div id="cfw-cart-fees">
+			                    <?php foreach ( WC()->cart->get_fees() as $fee ) : ?>
+                                    <div class="cfw-cart-fee cfw-flex-row cfw-flex-justify">
+                                        <span class="type"><?php echo esc_html( $fee->name ); ?></span>
+                                        <span class="amount"><?php wc_cart_totals_fee_html( $fee ); ?></span>
+                                    </div>
+			                    <?php endforeach; ?>
                             </div>
-                            <?php if ( wc_tax_enabled() ): ?>
+		                    <?php if ( wc_tax_enabled() ): ?>
                                 <div id="cfw-cart-taxes" class="cfw-flex-row cfw-flex-justify">
                                     <span class="type"><?php esc_html_e('Taxes', 'checkout-wc'); ?></span>
                                     <span class="amount"><?php wc_cart_totals_taxes_total_html(); ?></span>
                                 </div>
-                            <?php endif; ?>
+		                    <?php endif; ?>
                             <div class="cfw-totals-total">
                                 <div id="cfw-cart-total" class="cfw-flex-row cfw-flex-justify">
                                     <span class="type"><?php esc_html_e('Total', 'checkout-wc'); ?></span>
@@ -379,8 +378,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <div id="cfw-other-totals" class="cfw-other-totals">
                             <table><?php do_action( 'woocommerce_review_order_after_order_total' ); ?></table>
                         </div>
+
+	                    <?php do_action( 'cfw_after_cart_summary_totals' ); ?>
                     </div>
                 </div>
+
+                <?php do_action( 'cfw_after_cart_summary' ); ?>
             </div>
         </div>
 	    <?php endif; ?>

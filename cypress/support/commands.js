@@ -48,23 +48,27 @@ Cypress.Commands.add("clear_info_fields", (type, ignore) => {
 	fields.customerInfoMapSingle(type, "", cy, ignore)
 });
 
-Cypress.Commands.add("fill_customer_information_tab_and_advance", () => {
-	let account = Cypress.env("account");
-	let userShippingValues = Cypress.env("shipping").default;
-	let updateCheckoutRequest = dataScaffolding.getRequest("updateCheckout");
+Cypress.Commands.add( "fill_customer_information_tab_and_advance", () => {
+	let account = Cypress.env( "account" );
+	let userShippingValues = Cypress.env( "shipping" ).default;
+	let updateCheckoutRequest = dataScaffolding.getRequest( "updateCheckout" );
+	let accountExistsRequest = dataScaffolding.getRequest( "accountExists" );
 
 	cy.server();
 	cy.route(updateCheckoutRequest.method, updateCheckoutRequest.url).as("updateCheckout");
+	cy.route(accountExistsRequest.method, accountExistsRequest.url).as("accountExists");
 
 	// Set the email
-	cy.get( accountFields.email ).then( ($input) => $input.val( account.email ).change());
+	cy.get( accountFields.email ).type( account.email );
+
+	cy.wait("@accountExists");
 
 	// Map the cypress env customer info details to the customer info field id's
-	fields.customerInfoMapMultiple('shipping', userShippingValues, cy);
+	fields.customerInfoMapMultiple( 'shipping', userShippingValues, cy );
 
 	cy.get( general.ctnToShipMethodBtn ).click();
 
-	cy.wait("@updateCheckout");
+	cy.wait( "@updateCheckout" );
 
 	cy.hash().should( 'eq', tabs.shippingMethod );
-});
+} );

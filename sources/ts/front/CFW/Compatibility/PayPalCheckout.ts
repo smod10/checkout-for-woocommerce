@@ -1,6 +1,6 @@
 import { Compatibility } from "./Compatibility";
-import {Main} from "../Main";
-import {EasyTabDirection, EasyTabService} from "../Services/EasyTabService";
+import { Main } from "../Main";
+import { EasyTabDirection, EasyTabService } from "../Services/EasyTabService";
 
 declare let jQuery: any;
 

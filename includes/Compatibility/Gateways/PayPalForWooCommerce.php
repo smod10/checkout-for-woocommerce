@@ -78,7 +78,7 @@ class PayPalForWooCommerce extends Base {
 
 				$Angelleye_PayPal_Express_Checkout_Helper->checkout_message();
 
-				if ( empty( $Angelleye_PayPal_Express_Checkout_Helper ) || ! $this->gateway_instance->is_available() ) {
+				if ( empty( $Angelleye_PayPal_Express_Checkout_Helper ) ) {
 					return;
 				}
 
@@ -171,8 +171,6 @@ class PayPalForWooCommerce extends Base {
 				}
 
 				// Don't add the separator if PayPal Express isn't actually active
-
-
 			}
 		}
 	}

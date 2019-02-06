@@ -468,41 +468,12 @@ export class TabContainer extends Element {
         let checkout_form: any = Main.instance.checkoutForm;
 
         checkout_form.on( 'submit', this.completeOrderSubmitHandler.bind(this) );
-        jQuery(document.body).on( 'click', '#place_order', this.completeOrderClickHandler.bind(this) );
     }
 
     /**
      *
      */
     completeOrderSubmitHandler(e) {
-        let main: Main = Main.instance;
-        let checkout_form: any = Main.instance.checkoutForm;
-        let preSwapData = this.checkoutDataAtSubmitClick;
-
-        // Prevent any weirdness by preventing default
-        e.preventDefault();
-
-        // If all the payment stuff has finished any ajax calls, run the complete order.
-        if ( checkout_form.triggerHandler( 'checkout_place_order' ) !== false && checkout_form.triggerHandler( 'checkout_place_order_' + checkout_form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
-            checkout_form.addClass( 'processing' );
-
-            // Reset data
-            for ( let field in preSwapData ) {
-                let billing = jQuery(`#billing_${field}`);
-
-                billing.val(preSwapData[field]);
-            }
-
-            this.orderKickOff(main.ajaxInfo, this.getFormObject());
-        } else {
-            // TODO: Throwing an error here seems to cause situations where the error briefly appears during a successful order
-        }
-    }
-
-    /**
-     *
-     */
-    completeOrderClickHandler() {
         let main: Main = Main.instance;
         let checkout_form: any = main.checkoutForm;
         let lookFor: Array<string> = main.settings.default_address_fields;
@@ -512,13 +483,13 @@ export class TabContainer extends Element {
 
         Main.addOverlay();
 
-		checkout_form.find(".woocommerce-error").remove();
+        checkout_form.find(".woocommerce-error").remove();
 
-		jQuery(document.body).on("checkout_error", () => {
-		    checkout_form.removeClass( 'processing' ).unblock(); // compatibility with gateways / plugins that expect this
-			Main.removeOverlay();
-			CompleteOrderAction.initCompleteOrder = false
-		});
+        jQuery(document.body).on("checkout_error", () => {
+            checkout_form.removeClass( 'processing' ).unblock(); // compatibility with gateways / plugins that expect this
+            Main.removeOverlay();
+            CompleteOrderAction.initCompleteOrder = false
+        });
 
         if ( checkout_form.find('input[name="ship_to_different_address"]:checked').val() === "same_as_shipping" ) {
             lookFor.forEach( field => {
@@ -534,7 +505,22 @@ export class TabContainer extends Element {
             });
         }
 
-        checkout_form.trigger('submit');
+        // If all the payment stuff has finished any ajax calls, run the complete order.
+        if ( checkout_form.triggerHandler( 'checkout_place_order' ) !== false && checkout_form.triggerHandler( 'checkout_place_order_' + checkout_form.find( 'input[name="payment_method"]:checked' ).val() ) !== false ) {
+            checkout_form.addClass( 'processing' );
+
+            // Reset data
+            for ( let field in preSwapData ) {
+                let billing = jQuery(`#billing_${field}`);
+
+                billing.val(preSwapData[field]);
+            }
+
+            this.orderKickOff(main.ajaxInfo, this.getFormObject());
+        }
+
+        // TODO: Throwing an error here seems to cause situations where the error briefly appears during a successful order
+        return false;
     }
 
     /**

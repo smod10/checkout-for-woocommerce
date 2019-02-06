@@ -19,6 +19,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicks;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\DirectCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EUVATNumber;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\KodiakGiftCards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MailChimpforWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\NLPostcodeChecker;
@@ -118,6 +119,9 @@ class Manager {
 
 		// EU VAT Number
 		new EUVATNumber();
+
+		// Kodiak Gift Cards
+		new KodiakGiftCards();
 
 		/**
 		 * Gateways

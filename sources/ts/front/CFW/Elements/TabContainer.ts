@@ -479,6 +479,10 @@ export class TabContainer extends Element {
         let lookFor: Array<string> = main.settings.default_address_fields;
         let preSwapData = this.checkoutDataAtSubmitClick = {};
 
+        if ( checkout_form.is( '.processing' ) ) {
+            return false;
+        }
+
         CompleteOrderAction.initCompleteOrder = true;
 
         Main.addOverlay();

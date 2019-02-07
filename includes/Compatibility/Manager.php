@@ -36,6 +36,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceCore;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSmartCoupons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\WPGensReferAFriend;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Porto;
@@ -122,6 +123,9 @@ class Manager {
 
 		// Kodiak Gift Cards
 		new KodiakGiftCards();
+
+		// WP Gens Refer a Friend
+		new WPGensReferAFriend();
 
 		/**
 		 * Gateways

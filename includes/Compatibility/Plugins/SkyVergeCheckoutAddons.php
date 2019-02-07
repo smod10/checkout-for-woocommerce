@@ -10,7 +10,7 @@ class SkyVergeCheckoutAddons extends Base {
 	}
 
 	public function is_available() {
-		return function_exists( 'init_woocommerce_checkout_add_ons' );
+		return function_exists( 'init_woocommerce_checkout_add_ons' ) || class_exists( '\\WC_Checkout_Add_Ons_Loader' );
 	}
 
 	public function run() {

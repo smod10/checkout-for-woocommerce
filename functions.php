@@ -533,7 +533,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
     function cfw_get_place_order() {
 	    ob_start();
 
-	    $order_button_text = apply_filters( 'woocommerce_order_button_text', __( 'Complete Order', 'woocommerce' ) );
+	    $order_button_text = apply_filters( 'woocommerce_order_button_text', __( 'Complete Order', 'checkout-wc' ) );
 	    ?>
         <div class="place-order" id="cfw-place-order">
             <?php do_action( 'woocommerce_review_order_before_submit' ); ?>

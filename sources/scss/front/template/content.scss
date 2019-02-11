@@ -768,27 +768,26 @@ a.button {
   }
 }
 
-dl.variation {
+div.variation-data-wrapper {
   font-size: 14px;
   line-height: 1;
   padding-top: 0.7em;
 
-  dt, dd {
-    margin: 0;
-    width: 50px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  div.variation-data {
+    width: 100px;
     float: left;
+    margin-bottom: 0.4em;
+    margin-right: 0.4em;
+
+    > div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
-  dt {
+  .variation-data-key {
     font-weight: bold;
-    margin-top: -1em;
-  }
-
-  dd:not(:last-child) {
-    margin-right: 1em;
   }
 
   p {

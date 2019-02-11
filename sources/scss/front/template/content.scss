@@ -749,7 +749,7 @@ a.button {
 
 .cfw-cart-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 0.7em;
 
   .cfw-cart-item-image {
@@ -763,7 +763,40 @@ a.button {
       border: 1px solid #e1e1e1;
     }
   }
+
+  .cfw-cart-item-title {
+  }
 }
+
+dl.variation {
+  font-size: 14px;
+  line-height: 1;
+  padding-top: 0.7em;
+
+  dt, dd {
+    margin: 0;
+    width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    float: left;
+  }
+
+  dt {
+    font-weight: bold;
+    margin-top: -1em;
+  }
+
+  dd:not(:last-child) {
+    margin-right: 1em;
+  }
+
+  p {
+    font-size: inherit;
+    display: inherit;
+  }
+}
+
 
 .cfw-input-container {
   .cfw-input-wrap {

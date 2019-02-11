@@ -467,7 +467,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                     </div>
                     <?php endif; ?>
                     <div class="cfw-cart-item-title-quantity cfw-cart-item-col <?php echo "${column_base}${columns["title"]}"; ?>">
-                        <div>
+                        <div class="cfw-cart-item-title">
                             <?php if ( apply_filters('cfw_link_cart_items', __return_false() ) ): ?>
                                 <a target="_blank" href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
                             <?php else: ?>
@@ -475,6 +475,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                             <?php endif; ?>
                             <strong><?php echo $item_quantity; ?></strong>
                         </div>
+	                    <?php echo wc_get_formatted_cart_item_data( $cart_item ); ?>
                     </div>
                     <div class="cfw-cart-item-subtotal cfw-cart-item-col <?php echo "${column_base}${columns["subtotal"]}"; ?>">
 				        <?php echo $item_subtotal; ?>

@@ -10,6 +10,8 @@ class GeneratePress extends Base {
 	}
 
 	public function run() {
+		if ( ! is_checkout() ) return;
+
 		remove_action( 'wp_enqueue_scripts', 'generatepress_wc_scripts', 100 );
 	}
 }

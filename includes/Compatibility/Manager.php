@@ -29,6 +29,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PostNL;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeSocialLogin;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnalytics;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\UltimateRewardsPoints;
@@ -126,6 +127,9 @@ class Manager {
 
 		// WP Gens Refer a Friend
 		new WPGensReferAFriend();
+
+		// SkyVerge WooCommerce Social Login
+		new SkyVergeSocialLogin();
 
 		/**
 		 * Gateways

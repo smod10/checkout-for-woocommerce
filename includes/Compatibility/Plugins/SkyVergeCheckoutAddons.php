@@ -18,6 +18,6 @@ class SkyVergeCheckoutAddons extends Base {
 	}
 
 	function set_checkout_add_ons_position() {
-		return 'cfw_checkout_before_payment_method_tab';
+		return 'cfw_checkout_before_payment_method_terms_checkbox';
 	}
 }

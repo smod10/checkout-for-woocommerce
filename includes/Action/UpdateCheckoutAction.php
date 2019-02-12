@@ -79,8 +79,7 @@ class UpdateCheckoutAction extends Action {
 		/**
 		 * If gateways haven't changed, set to false so that we don't replace
 		 */
-		error_log( var_export($payment_methods_html, true ) );
-		if ( cfw_get_payment_methods_html_fingerprint( $payment_methods_html ) == $_POST[ 'cfw_payment_methods_fingerprint' ] ) {
+		if ( cfw_get_payment_methods_html_fingerprint( $payment_methods_html ) == $_POST[ 'cfw_payment_methods_fingerprint' ] && $_POST['force_updated_checkout'] !== "true" ) {
 			$updated_payment_methods = false;
 		}
 

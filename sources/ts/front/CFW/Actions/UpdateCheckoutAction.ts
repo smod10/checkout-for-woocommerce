@@ -141,6 +141,7 @@ export class UpdateCheckoutAction extends Action {
         Main.instance.tabContainer.setUpPaymentGatewayRadioButtons();
 
 		main.updating = false;
+        updated_payment_methods_container.unblock();
 
         /**
          * A custom event that runs every time, since we are supressing
@@ -149,7 +150,6 @@ export class UpdateCheckoutAction extends Action {
 		jQuery(document.body).trigger( 'cfw_updated_checkout' );
 
 		if ( this.data['force_updated_checkout'] == true || false !== resp.updated_payment_methods ) {
-		    alert('this ran');
             Main.instance.tabContainer.triggerUpdatedCheckout();
         }
     }

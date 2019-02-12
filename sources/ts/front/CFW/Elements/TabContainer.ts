@@ -104,7 +104,17 @@ export class TabContainer extends Element {
      * Some gateways look for a click action to init themselves properly
      */
     initSelectedPaymentGateway() {
+        // If there are none selected, select the first.
+        if ( 0 === jQuery('input[name^="payment_method"][type="radio"]:checked').length ) {
+            jQuery('input[name^="payment_method"][type="radio"]').eq(0).prop( 'checked', true );
+        }
+
         jQuery('input[name^="payment_method"][type="radio"]:checked').trigger( 'click' );
+
+        /**
+         * TODO: This should probably only run when the gateway has changed, not on init
+         */
+        jQuery( document.body ).trigger( 'payment_method_selected' );
     }
     /**
      *
@@ -271,9 +281,19 @@ export class TabContainer extends Element {
         jQuery(document.body).on("update_checkout", (e, data) => {
             if( ! main.updating ) {
                 main.updating = true;
+                jQuery("#cfw-billing-methods").block({
+                    message: null,
+                    overlayCSS: {
+                        background: '#fff',
+                        opacity: 0.6
+                    }
+                });
 
                 let form_object = this.getFormObject();
-                form_object['force_updated_checkout'] = data.force_updated_checkout;
+
+                if ( data.hasOwnProperty('force_updated_checkout') ) {
+                    form_object['force_updated_checkout'] = data.force_updated_checkout;
+                }
 
                 new UpdateCheckoutAction( "update_checkout", main.ajaxInfo, form_object ).load();
             }

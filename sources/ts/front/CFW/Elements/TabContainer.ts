@@ -120,47 +120,6 @@ export class TabContainer extends Element {
     /**
      *
      */
-    setUpCreditCardRadioReveal() {
-        let stripe_container: any = jQuery(".payment_method_stripe");
-
-        if(stripe_container.length > 0) {
-            let stripe_options = stripe_container.find('input[type="radio"][name="wc-stripe-payment-token"]');
-            stripe_options.each((index: number, elem: HTMLElement) => {
-                if(jQuery(elem).attr("id") == "wc-stripe-payment-token-new") {
-                    jQuery(elem).on('click', () => {
-                        jQuery("#wc-stripe-cc-form").slideDown(300);
-                        jQuery(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
-                        jQuery(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
-                    });
-
-                    jQuery(window).on('load updated_checkout', () => {
-                        if(jQuery(elem).is(":checked")) {
-                            jQuery("#wc-stripe-cc-form").slideDown(300);
-                            jQuery(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
-                            jQuery(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
-                        }
-                    });
-                } else {
-                    jQuery(elem).on('click', () => {
-                        jQuery("#wc-stripe-cc-form").slideUp(300);
-                        jQuery(".woocommerce-SavedPaymentMethods-saveNew").slideUp(300);
-                        jQuery(".wc-saved-payment-methods").addClass("kill-bottom-margin");
-
-                    });
-
-                    jQuery(window).on('load updated_checkout', () => {
-                        if(jQuery(elem).is(":checked")) {
-                            jQuery(".wc-saved-payment-methods").addClass("kill-bottom-margin");
-                        }
-                    });
-                }
-            })
-        }
-    }
-
-    /**
-     *
-     */
     setUpCreditCardFields() {
         // TODO: Once Compatibility class is setup move each of these pieces to it's relevant class
         const CHECK = "paytrace_check_choice";

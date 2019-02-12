@@ -242,7 +242,6 @@ export class Main {
 		this.tabContainer.setShippingMethodUpdate();
         this.tabContainer.setPaymentMethodUpdate();
 		this.tabContainer.setUpPaymentTabRadioButtons();
-		this.tabContainer.setUpCreditCardRadioReveal();
 		this.tabContainer.setUpMobileCartDetailsReveal();
 		this.tabContainer.setCompleteOrderHandlers();
 		this.tabContainer.setApplyCouponListener();

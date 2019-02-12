@@ -13,6 +13,7 @@ import { UpdateShippingFieldsRI }           from "../Actions/UpdateCheckoutActio
 import { ApplyCouponAction }                from "../Actions/ApplyCouponAction";
 import { Alert, AlertInfo}                  from "./Alert";
 import { CompleteOrderAction }              from "../Actions/CompleteOrderAction";
+import { UpdatePaymentMethod }              from "../Actions/UpdatePaymentMethod";
 
 declare let jQuery: any;
 declare let woocommerce_params: any;
@@ -224,9 +225,9 @@ export class TabContainer extends Element {
      *
      */
     setPaymentMethodUpdate(): void {
-        // jQuery(document.body).on('click', 'input[name^="payment_method"][type="radio"]', () => {
-        //     new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load();
-        // });
+        jQuery(document.body).on('click', 'input[name^="payment_method"][type="radio"]', function() {
+            new UpdatePaymentMethod("update_payment_method", Main.instance.ajaxInfo, jQuery(this).val() ).load();
+        });
     }
 
     /**

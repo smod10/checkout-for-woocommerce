@@ -598,7 +598,13 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
     function cfw_get_payment_methods_html_fingerprint( $payment_methods_html, $strip = true ) {
 	    if ( $strip ) {
+	        // TODO: Move this into the compat classes with some magicness and a filter
+            
+	        // Stripe
 		    $payment_methods_html = preg_replace( '/data-amount="[0-9]+"/', '', $payment_methods_html );
+
+		    // Braintree
+		    $payment_methods_html = preg_replace( '/<input type="hidden" name="wc-braintree-credit-card-3d-secure-order-total" value="[0-9]+\.?[0-9]+" />/', '', $payment_methods_html );
         }
 
 	    return md5( $payment_methods_html );

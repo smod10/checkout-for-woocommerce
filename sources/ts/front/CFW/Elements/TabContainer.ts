@@ -431,6 +431,7 @@ export class TabContainer extends Element {
      */
     completeOrderSubmitHandler(e) {
         let main: Main = Main.instance;
+        main.updating = true;
         let checkout_form: any = main.checkoutForm;
         let lookFor: Array<string> = main.settings.default_address_fields;
         let preSwapData = this.checkoutDataAtSubmitClick = {};
@@ -482,6 +483,7 @@ export class TabContainer extends Element {
         }
 
         // TODO: Throwing an error here seems to cause situations where the error briefly appears during a successful order
+        main.updating = false;
         return false;
     }
 

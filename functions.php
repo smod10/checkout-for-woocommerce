@@ -561,7 +561,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
     function cfw_get_payment_methods() {
 	    $payment_methods_html = cfw_get_payment_methods_html();
 
-	    $payment_methods_fingerprint = md5($payment_methods_html);
+	    $payment_methods_fingerprint = cfw_get_payment_methods_html_fingerprint( $payment_methods_html );
 
 	    ob_start();
 	    ?>
@@ -588,13 +588,20 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                 <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Your order is free. No payment is required.', 'checkout-wc') ); ?></span>
             </div>
 
+            <?php echo "<input type='hidden' id='cfw_payment_methods_fingerprint' name='cfw_payment_methods_fingerprint' value='{$payment_methods_fingerprint}' />"; ?>
 		    <?php do_action('cfw_checkout_after_payment_methods'); ?>
         </div>
         <?php
 
-	    echo "<input type='hidden' id='cfw_payment_methods_fingerprint' name='cfw_payment_methods_fingerprint' value='{$payment_methods_fingerprint}' />";
-
         return ob_get_clean();
+    }
+
+    function cfw_get_payment_methods_html_fingerprint( $payment_methods_html, $strip = true ) {
+	    if ( $strip ) {
+		    $payment_methods_html = preg_replace( '/data-amount="[0-9]+"/', '', $payment_methods_html );
+        }
+
+	    return md5( $payment_methods_html );
     }
 
     function cfw_payment_methods() {

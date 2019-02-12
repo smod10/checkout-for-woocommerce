@@ -62,6 +62,7 @@ export class TabContainer extends Element {
             jQuery(elem).garlic({ onRetrieve: element => jQuery(element).parent().addClass(FormElement.labelClass) })
         });
     }
+
     /**
      *
      */
@@ -115,86 +116,6 @@ export class TabContainer extends Element {
 
         continueBtn.on("click", () => jQuery(document.body).trigger("update_checkout"));
         shipping_payment_bc.on("click", () => jQuery(document.body).trigger("update_checkout"));
-    }
-
-    /**
-     *
-     */
-    setUpCreditCardFields() {
-        // TODO: Once Compatibility class is setup move each of these pieces to it's relevant class
-        const CHECK = "paytrace_check_choice";
-        const CARD = "paytrace_card_choice";
-
-        // PayTrace Credit
-        let paytrace_form_wraps = jQuery("#paytrace-cards-form .form-row");
-
-        jQuery("#paytrace-cards-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-
-        paytrace_form_wraps.each(function(index, elem) {
-            jQuery(elem).addClass("cfw-input-wrap");
-            jQuery(elem).addClass("cfw-text-input");
-            jQuery(elem).find("label").addClass("cfw-input-label");
-            jQuery(elem).find("input").css("width", "100%");
-
-            if( jQuery(elem).hasClass("form-row-wide") ) {
-                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
-            }
-
-            if( jQuery(elem).hasClass("form-row-first") || jQuery(elem).hasClass("form-row-last") ) {
-                jQuery(elem).wrap("<div class='cfw-column-3'></div>")
-            }
-        });
-
-        let paytrace_check_form_wraps = jQuery("#paytrace-checks-form .form-row");
-
-        jQuery("#paytrace-checks-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-
-        paytrace_check_form_wraps.each(function(index, elem) {
-            jQuery(elem).addClass("cfw-input-wrap");
-            jQuery(elem).addClass("cfw-text-input");
-            jQuery(elem).find("label").addClass("cfw-input-label");
-            jQuery(elem).find("input").css("width", "100%");
-
-            if( jQuery(elem).hasClass("form-row-wide") ) {
-                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
-            }
-
-            if( jQuery(elem).hasClass("form-row-first") || jQuery(elem).hasClass("form-row-last") ) {
-                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
-            }
-        });
-
-        jQuery(window).on('load', () => {
-            // PayTrace gateway field state workaround
-            let checked_radio: any = jQuery("input[type='radio'][name='paytrace_type_choice']:checked");
-            checked_radio.trigger("change");
-
-            jQuery(document.body).trigger('wc-credit-card-form-init');
-        });
-
-        // One Click Upsells - Stripe Form
-        let ocu_stripe_form_wraps = jQuery("#wc-ocustripe-cc-form .form-row");
-        let ocu_stripe_container = jQuery("#wc-ocustripe-cc-form");
-
-        ocu_stripe_container.wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-        ocu_stripe_container.find(".clear").remove();
-
-        ocu_stripe_form_wraps.each(function(index, elem) {
-            jQuery(elem).addClass("cfw-input-wrap");
-            jQuery(elem).addClass("cfw-text-input");
-            jQuery(elem).find("label").addClass("cfw-input-label");
-            jQuery(elem).find("input").css("width", "100%");
-
-            if( jQuery(elem).hasClass("form-row-wide") && jQuery(elem).index() !== 0 ) {
-                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
-            } else if ( jQuery(elem).hasClass("form-row-wide") && jQuery(elem).index() === 0 ) {
-                jQuery(elem).wrap("<div class='cfw-column-12'></div>")
-            }
-
-            if(jQuery(elem).hasClass("form-row-first") || jQuery(elem).hasClass("form-row-last")) {
-                jQuery(elem).wrap("<div class='cfw-column-3'></div>")
-            }
-        });
     }
 
     /**

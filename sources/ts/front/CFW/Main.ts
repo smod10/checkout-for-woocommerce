@@ -215,9 +215,6 @@ export class Main {
 		// Setup animation listeners
 		this.setupAnimationListeners();
 
-		// Set up credit card fields if there. Needs to happen before wrap
-		this.tabContainer.setUpCreditCardFields();
-
 		// Fix floating labels
 		this.tabContainer.setFloatLabelOnGarlicRetrieve();
 
@@ -379,8 +376,7 @@ export class Main {
 	 */
 	setupAnimationListeners(): void {
 		jQuery("#cfw-ci-login").on("click", function(){
-			jQuery("#cfw-login-slide").addClass("stay-open");
-			jQuery("#cfw-login-slide").slideDown(300);
+			jQuery("#cfw-login-slide").addClass("stay-open").slideDown(300);
             jQuery("#createaccount").prop('checked', false);
 		});
 	}

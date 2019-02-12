@@ -257,6 +257,12 @@ export class Main {
 			this.tabContainer.setUpPaymentGatewayRadioButtons();
 			this.tabContainer.setUpPaymentTabAddressRadioButtons();
 			this.tabContainer.triggerUpdatedCheckout();
+			this.tabContainer.initSelectedPaymentGateway();
+		});
+
+		// Make sure this happens every time
+		jQuery(window).on('cfw_updated_checkout', () => {
+			this.tabContainer.initSelectedPaymentGateway();
 		});
 
 		// Localization

@@ -142,6 +142,12 @@ export class UpdateCheckoutAction extends Action {
 
 		main.updating = false;
 
+        /**
+         * A custom event that runs every time, since we are supressing
+         * updated_checkout if the payment gateways haven't updated
+         */
+		jQuery(document.body).trigger( 'cfw_updated_checkout' );
+
 		if ( false !== resp.updated_payment_methods ) {
             Main.instance.tabContainer.triggerUpdatedCheckout();
         }

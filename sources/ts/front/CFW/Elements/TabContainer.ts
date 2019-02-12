@@ -78,14 +78,32 @@ export class TabContainer extends Element {
         checkout_form.on( 'keydown', '.address-field input.input-text, .update_totals_on_change input.input-text', this.triggerUpdateCheckout );
     }
 
+    /**
+     * Call update_checkout
+     *
+     * This should be the ONLY place we call this ourselves
+     */
     triggerUpdateCheckout() {
         jQuery(document.body).trigger( 'update_checkout' );
     }
 
+    /**
+     * Call updated_checkout
+     *
+     * This should be the ONLY place we call this ourselves
+     */
     triggerUpdatedCheckout() {
         jQuery(document.body).trigger( 'updated_checkout' );
     }
 
+    /**
+     * Find the selected payment gateway and trigger a click
+     *
+     * Some gateways look for a click action to init themselves properly
+     */
+    initSelectedPaymentGateway() {
+        jQuery('input[name^="payment_method"][type="radio"]:checked').trigger( 'click' );
+    }
     /**
      *
      */

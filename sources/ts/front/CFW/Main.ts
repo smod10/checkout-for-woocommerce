@@ -262,8 +262,12 @@ export class Main {
 			this.tabContainer.setUpPaymentGatewayRadioButtons();
 			this.tabContainer.setUpPaymentTabAddressRadioButtons();
 			this.tabContainer.initSelectedPaymentGateway();
-			this.tabContainer.triggerUpdateCheckout();
-			this.tabContainer.triggerUpdatedCheckout();
+
+			/**
+			 * On first load, we force updated_checkout to run for gateways
+			 * that need it / want it / gotta have it
+			 */
+			this.tabContainer.triggerUpdateCheckout( true );
 		});
 
 		// Localization

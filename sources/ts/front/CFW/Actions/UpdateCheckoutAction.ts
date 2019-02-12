@@ -148,7 +148,8 @@ export class UpdateCheckoutAction extends Action {
          */
 		jQuery(document.body).trigger( 'cfw_updated_checkout' );
 
-		if ( false !== resp.updated_payment_methods ) {
+		if ( this.data['force_updated_checkout'] == true || false !== resp.updated_payment_methods ) {
+		    alert('this ran');
             Main.instance.tabContainer.triggerUpdatedCheckout();
         }
     }

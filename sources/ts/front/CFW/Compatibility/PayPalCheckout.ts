@@ -1,6 +1,7 @@
 import { Compatibility } from "./Compatibility";
 import { Main } from "../Main";
 import { EasyTabDirection, EasyTabService } from "../Services/EasyTabService";
+import {CompleteOrderAction} from "../Actions/CompleteOrderAction";
 
 declare let jQuery: any;
 
@@ -14,22 +15,24 @@ export class PayPalCheckout extends Compatibility {
     }
 
     load(main: Main): void {
-        let easyTabsWrap: any = main.easyTabService.easyTabsWrap;
+        jQuery(window).one('cfw_updated_checkout', () => {
+            let max_iterations = 100;
+            let iterations = 0;
 
-        easyTabsWrap.bind('easytabs:after', (event, clicked, target) => {
-            let easyTabDirection: EasyTabDirection = EasyTabService.getTabDirection(target);
-            let payment_tab_id = main.tabContainer.tabContainerSectionBy("name", "payment_method").jel.attr("id");
-            let current_tab_id = EasyTabService.getTabId(easyTabDirection.target);
+            let interval: any = setInterval(() => {
+                let main: Main = Main.instance;
 
-            if ( payment_tab_id == current_tab_id ) {
-                jQuery('#woo_pp_ec_button_checkout').hide();
-            }
-        });
+                if ( jQuery('input[name="payment_method"]:checked').is('#payment_method_ppec_paypal') && jQuery( '#woo_pp_ec_button_checkout' ).is(':empty') ) {
+                    main.tabContainer.triggerUpdatedCheckout();
 
-        jQuery(window).on('load updated_checkout', () => {
-            var isPPEC = jQuery( '#payment_method_ppec_paypal' ).is(':checked');
-            jQuery( '#place_order' ).toggle( ! isPPEC );
-            jQuery( '#woo_pp_ec_button_checkout' ).toggle( isPPEC );
+                    clearInterval(interval);
+                } else if( iterations >= max_iterations ) {
+                    // Give up
+                    clearInterval(interval);
+                } else {
+                    iterations++;
+                }
+            }, 50);
         });
     }
 }

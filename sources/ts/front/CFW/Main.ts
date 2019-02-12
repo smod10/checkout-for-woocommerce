@@ -240,6 +240,7 @@ export class Main {
 		window.dispatchEvent(new CustomEvent("cfw-main-after-tab-container-set-wraps", { detail: { main: this } }));
 
 		// Set up event handlers
+		this.tabContainer.setUpdateCheckoutHandler();
 		this.tabContainer.setUpdateCheckoutTriggers();
 		this.tabContainer.setAccountCheckListener();
 		this.tabContainer.setLogInListener();
@@ -249,20 +250,20 @@ export class Main {
 		this.tabContainer.setCompleteOrderHandlers();
 		this.tabContainer.setApplyCouponListener();
 		this.tabContainer.setTermsAndConditions();
-		this.tabContainer.setUpdateCheckout();
 		this.zipAutocompleteService.setZipAutocompleteHandlers();
 
-		// Fire it once for page load if selected
-		jQuery(window).on('load', () => {
-			this.tabContainer.setUpPaymentGatewayRadioButtons();
-			this.tabContainer.setUpPaymentTabAddressRadioButtons();
-			this.tabContainer.triggerUpdatedCheckout();
+		// Make sure this happens every time
+		jQuery(document.body).on('cfw_updated_checkout', () => {
 			this.tabContainer.initSelectedPaymentGateway();
 		});
 
-		// Make sure this happens every time
-		jQuery(window).on('cfw_updated_checkout', () => {
+		// Page load actions
+		jQuery(window).on('load', () => {
+			this.tabContainer.setUpPaymentGatewayRadioButtons();
+			this.tabContainer.setUpPaymentTabAddressRadioButtons();
 			this.tabContainer.initSelectedPaymentGateway();
+			this.tabContainer.triggerUpdateCheckout();
+			this.tabContainer.triggerUpdatedCheckout();
 		});
 
 		// Localization

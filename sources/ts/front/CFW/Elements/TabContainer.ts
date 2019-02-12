@@ -84,7 +84,9 @@ export class TabContainer extends Element {
      * This should be the ONLY place we call this ourselves
      */
     triggerUpdateCheckout() {
-        jQuery(document.body).trigger( 'update_checkout' );
+        if( ! CompleteOrderAction.initCompleteOrder ) {
+            jQuery(document.body).trigger('update_checkout');
+        }
     }
 
     /**
@@ -263,7 +265,7 @@ export class TabContainer extends Element {
     /**
      *
      */
-    setUpdateCheckout() {
+    setUpdateCheckoutHandler() {
         let main: Main = Main.instance;
 
         jQuery(document.body).on("update_checkout", () => {
@@ -273,10 +275,6 @@ export class TabContainer extends Element {
                 new UpdateCheckoutAction( "update_checkout", main.ajaxInfo, this.getFormObject() ).load();
             }
         });
-
-        if( ! CompleteOrderAction.initCompleteOrder ) {
-			jQuery(document.body).trigger('update_checkout');
-		}
     }
 
     /**

@@ -29,6 +29,8 @@ describe( 'Billing Fields', function() {
 				cy.wrap($input).focus().blur().should( 'have.class', 'parsley-error' );
 			});
 
+			cy.wait(300);
+
 			cy.get( general.placeOrderBtn ).click();
 
 			cy.get( billFields.country ).should( 'not.have.class', 'parsley-error' );

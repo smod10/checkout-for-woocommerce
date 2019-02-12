@@ -13,7 +13,7 @@ import { CompleteOrderAction } 					from "./Actions/CompleteOrderAction";
 import { Compatibility }						from "./Compatibility/Compatibility";
 import { CompatibilityClassOptions }        	from "./Types/Types";
 import { CompatibilityFactory } 				from "./Factories/CompatibilityFactory";
-import from = require("core-js/es6/array");
+import { ZipAutocompleteService }               from "./Services/ZipAutocompleteService";
 
 declare let jQuery: any;
 
@@ -95,6 +95,12 @@ export class Main {
 	private _localizationService: LocalizationService;
 
 	/**
+	 * @type {ZipAutocompleteService}
+	 * @private
+	 */
+	private _zipAutocompleteService: ZipAutocompleteService;
+
+	/**
 	 * @type {boolean}
 	 * @private
 	 */
@@ -156,6 +162,7 @@ export class Main {
 		this.parsleyService = new ParsleyService();
 		this.easyTabService = new EasyTabService(easyTabsWrap);
 		this.localizationService = new LocalizationService();
+		this.zipAutocompleteService = new ZipAutocompleteService();
 
 		// Setup events and event listeners
 		this.eventSetup();
@@ -243,6 +250,7 @@ export class Main {
 		this.tabContainer.setApplyCouponListener();
 		this.tabContainer.setTermsAndConditions();
 		this.tabContainer.setUpdateCheckout();
+		this.zipAutocompleteService.setZipAutocompleteHandlers();
 
 		// Fire it once for page load if selected
 		jQuery(window).on('load', () => {
@@ -561,6 +569,20 @@ export class Main {
 	 */
 	set localizationService(value: LocalizationService) {
 		this._localizationService = value;
+	}
+
+	/**
+	 * @returns {LocalizationService}
+	 */
+	get zipAutocompleteService(): ZipAutocompleteService {
+		return this._zipAutocompleteService;
+	}
+
+	/**
+	 * @param {LocalizationService} value
+	 */
+	set zipAutocompleteService(value: ZipAutocompleteService) {
+		this._zipAutocompleteService = value;
 	}
 
 	/**

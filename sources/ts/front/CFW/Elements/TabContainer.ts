@@ -108,14 +108,12 @@ export class TabContainer extends Element {
     }
 
     /**
-     * Handles updating all the fields on a breadcrumb click or a move to the next section button
+     * Call update checkout when advancing to the shipping tab from customer information tab
      */
     setUpdateAllShippingFieldsListener() {
         let continueBtn: any = jQuery("#cfw-shipping-info-action .cfw-next-tab");
-        let shipping_payment_bc: any = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
 
         continueBtn.on("click", () => jQuery(document.body).trigger("update_checkout"));
-        shipping_payment_bc.on("click", () => jQuery(document.body).trigger("update_checkout"));
     }
 
     /**
@@ -237,14 +235,14 @@ export class TabContainer extends Element {
         let main: Main = Main.instance;
 
         jQuery(document.body).on("update_checkout", () => {
-            if(!main.updating) {
+            if( ! main.updating ) {
                 main.updating = true;
 
-                new UpdateCheckoutAction("update_checkout", main.ajaxInfo, this.getFormObject()).load();
+                new UpdateCheckoutAction( "update_checkout", main.ajaxInfo, this.getFormObject() ).load();
             }
         });
 
-        if(!CompleteOrderAction.initCompleteOrder) {
+        if( ! CompleteOrderAction.initCompleteOrder ) {
 			jQuery(document.body).trigger('update_checkout');
 		}
     }

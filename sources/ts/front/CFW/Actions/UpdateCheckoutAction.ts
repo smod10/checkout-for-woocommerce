@@ -57,7 +57,6 @@ export class UpdateCheckoutAction extends Action {
     @ResponsePrep
     public response(resp: any): void {
         let main: Main = Main.instance;
-        main.updating = false;
 
         if(resp.fees) {
             let fees = jQuery.map(resp.fees, value => [value]);
@@ -135,6 +134,7 @@ export class UpdateCheckoutAction extends Action {
 
 		window.dispatchEvent(new CustomEvent("cfw-custom-update-finished"));
 
+		main.updating = false;
         jQuery(document.body).trigger( 'updated_checkout' );
     }
 

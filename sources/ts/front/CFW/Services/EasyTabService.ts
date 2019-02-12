@@ -83,17 +83,9 @@ export class EasyTabService {
 			breadcrumb.show();
 
             this.easyTabsWrap.bind('easytabs:after', function(event, clicked, target) {
-                let easyTabDirection: EasyTabDirection = EasyTabService.getTabDirection(target);
-                let payment_tab_id = Main.instance.tabContainer.tabContainerSectionBy("name", "payment_method").jel.attr("id");
-                let current_tab_id = EasyTabService.getTabId(easyTabDirection.target);
-
                 jQuery(document.body).animate({
                     scrollTop: jQuery('#cfw-tab-container').offset().top
                 }, 300);
-
-                if ( payment_tab_id == current_tab_id ) {
-                    jQuery(document.body).trigger('updated_checkout');
-                }
             } );
 		} else {
         	breadcrumb.hide();

@@ -127,7 +127,7 @@ export class TabContainer extends Element {
             .tabContainerSectionBy("name", "payment_method")
             .getInputsFromSection('[type="radio"][name="payment_method"]');
 
-        this.setRevealOnRadioButtonGroup( payment_radio_buttons, false );
+        this.setRevealOnRadioButtonGroup( payment_radio_buttons );
     }
 
     /**

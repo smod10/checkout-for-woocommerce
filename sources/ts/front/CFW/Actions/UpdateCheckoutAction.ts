@@ -129,10 +129,7 @@ export class UpdateCheckoutAction extends Action {
 
         Cart.outputValues(main.cart, resp.new_totals);
 
-        Main.instance.tabContainer.setShippingMethodUpdate();
         Main.instance.tabContainer.setUpPaymentTabRadioButtons();
-
-		window.dispatchEvent(new CustomEvent("cfw-custom-update-finished"));
 
 		main.updating = false;
         jQuery(document.body).trigger( 'updated_checkout' );

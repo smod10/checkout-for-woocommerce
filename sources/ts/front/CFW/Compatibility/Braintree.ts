@@ -52,26 +52,15 @@ export class Braintree extends Compatibility {
 		let easyTabsWrap: any = main.easyTabService.easyTabsWrap;
 
 		if(params.cc_gateway_available) {
-			// Bind to the easytabs after
-			this.easyTabsCreditCardAfterEvent(easyTabsWrap, main);
-
-			(<any>window).addEventListener("cfw-custom-update-finished", () => {
+			jQuery(document.body).on( 'updated_checkout', () => {
 				this.creditCardRefresh();
 				this.savedPaymentMethods();
-			});
+			} );
 
 			window.addEventListener("cfw-payment-error-observer-ignore-list", () => {
 				(<any>window).errorObserverIgnoreList.push("Currently unavailable. Please try a different payment method.");
 			});
 		}
-	}
-
-    /**
-     * @param easyTabsWrap
-     * @param main
-     */
-	easyTabsCreditCardAfterEvent(easyTabsWrap: any, main: Main): void {
-        easyTabsWrap.bind('easytabs:after', (event, clicked, target) => this.creditCardPaymentRefreshOnTabSwitch(main, event, clicked, target));
 	}
 
 	/**

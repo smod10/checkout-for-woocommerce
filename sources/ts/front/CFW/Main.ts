@@ -241,12 +241,17 @@ export class Main {
 		this.tabContainer.setUpdateAllShippingFieldsListener();
 		this.tabContainer.setShippingMethodUpdate();
         this.tabContainer.setPaymentMethodUpdate();
-		this.tabContainer.setUpPaymentTabRadioButtons();
 		this.tabContainer.setUpMobileCartDetailsReveal();
 		this.tabContainer.setCompleteOrderHandlers();
 		this.tabContainer.setApplyCouponListener();
 		this.tabContainer.setTermsAndConditions();
 		this.tabContainer.setUpdateCheckout();
+
+		// Fire it once for page load if selected
+		// Also fire on updated_checkout
+		jQuery(window).on('load updated_checkout', () => {
+			this.tabContainer.setUpPaymentTabRadioButtons();
+		});
 
 		// Localization
 		this.localizationService.setCountryChangeHandlers();

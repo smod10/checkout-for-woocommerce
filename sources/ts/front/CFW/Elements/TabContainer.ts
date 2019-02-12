@@ -211,31 +211,29 @@ export class TabContainer extends Element {
             .getInputsFromSection('[type="radio"][name="ship_to_different_address"]');
 
 
-        this.setRevealOnRadioButtonGroup(payment_radio_buttons);
+        this.setRevealOnRadioButtonGroup(payment_radio_buttons, [], false );
         this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, [this.toggleRequiredInputAttribute]);
     }
 
     /**
      * Handles the payment method revealing and registering the click events.
      */
-    setRevealOnRadioButtonGroup(radio_buttons: Array<Element>, callbacks: Array<(radio_button: Element) => void> = []) {
+    setRevealOnRadioButtonGroup(radio_buttons: Array<Element>, callbacks: Array<(radio_button: Element) => void> = [], click_event: Boolean = true ) {
         // Register the slide up and down container on click
         radio_buttons
             .forEach((radio_button: Element) => {
                 let $radio_button = radio_button.jel;
 
                 // On payment radio button click....
-                $radio_button.on('click', () => {
-                    this.toggleRadioButtonContainers(radio_button, radio_buttons, callbacks);
-                });
-
-                // Fire it once for page load if selected
-                // Also fire on updated_checkout
-                jQuery(window).on('load updated_checkout', () => {
-                    if($radio_button.is(":checked")) {
+                if ( click_event ) {
+                    $radio_button.on('click', () => {
                         this.toggleRadioButtonContainers(radio_button, radio_buttons, callbacks);
-                    }
-                });
+                    });
+                }
+
+                if( $radio_button.is(":checked") ) {
+                    this.toggleRadioButtonContainers(radio_button, radio_buttons, callbacks);
+                }
             });
     }
 
@@ -246,12 +244,12 @@ export class TabContainer extends Element {
             .filter((filterItem: Element) => filterItem != radio_button)
             .forEach((other: Element) => {
                 other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").find(':input').prop('disabled', true);
-                other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300);
+                other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").stop().slideUp(300);
             } );
 
         // Slide down our container
         radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").find(':input').prop('disabled', false);
-        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").not(':visible').slideDown(300);
+        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").not(':visible').stop().slideDown(300);
 
         // Fire any callbacks
         callbacks.forEach(callback => callback(radio_button));
@@ -293,8 +291,8 @@ export class TabContainer extends Element {
      *
      */
     setShippingMethodUpdate(): void {
-        jQuery('input[name^="shipping_method"][type="radio"]').each((index, el) => {
-            jQuery(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
+        jQuery(document.body).on('click', 'input[name^="shipping_method"][type="radio"]', () => {
+            new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load();
         });
     }
 
@@ -480,6 +478,8 @@ export class TabContainer extends Element {
             }
 
             this.orderKickOff(main.ajaxInfo, this.getFormObject());
+        } else {
+            checkout_form.removeClass( 'processing' ).unblock();
         }
 
         // TODO: Throwing an error here seems to cause situations where the error briefly appears during a successful order

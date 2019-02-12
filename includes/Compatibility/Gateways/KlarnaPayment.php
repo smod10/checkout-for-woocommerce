@@ -16,16 +16,6 @@ class KlarnaPayment extends Base {
 		return class_exists( '\\WC_Klarna_Payments' );
 	}
 
-	function typescript_class_and_params( $compatibility ) {
-		$compatibility[] = [
-			'class'  => 'KlarnaPayment',
-			'event'  => 'before-setup',
-			'params' => [],
-		];
-
-		return $compatibility;
-	}
-
 	function run() {
 		$available_gateways = WC()->payment_gateways()->get_available_payment_gateways();
 

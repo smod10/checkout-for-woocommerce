@@ -23,7 +23,6 @@ export class PayPalCheckout extends Compatibility {
 
             if ( payment_tab_id == current_tab_id ) {
                 jQuery('#woo_pp_ec_button_checkout').hide();
-                jQuery(document.body).trigger( 'updated_checkout' );
             }
         });
 

@@ -245,16 +245,21 @@ export class Main {
 		this.tabContainer.setUpdateCheckout();
 
 		// Fire it once for page load if selected
+		jQuery(window).on('load', () => {
+			this.tabContainer.setUpPaymentGatewayRadioButtons();
+			this.tabContainer.setUpPaymentTabAddressRadioButtons();
+		});
+
 		// Also fire on updated_checkout
-		jQuery(window).on('load updated_checkout', () => {
-			this.tabContainer.setUpPaymentTabRadioButtons();
+		jQuery(window).on('updated_checkout', () => {
+			this.tabContainer.setUpPaymentGatewayRadioButtons();
 		});
 
 		// Localization
 		this.localizationService.setCountryChangeHandlers();
 
 		// After setup event
-		window.dispatchEvent(new CustomEvent("cfw-main-after-setup", { detail: { main: this } }));
+		window.dispatchEvent( new CustomEvent("cfw-main-after-setup", { detail: { main: this } }) );
 	}
 
 	errorObserverWatch() {

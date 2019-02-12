@@ -119,20 +119,25 @@ export class TabContainer extends Element {
     }
 
     /**
-     *
+     * Setup payment gateway radio buttons
      */
-    setUpPaymentTabRadioButtons() {
+    setUpPaymentGatewayRadioButtons() {
         // The payment radio buttons to register the click events too
         let payment_radio_buttons: Array<Element> = this
             .tabContainerSectionBy("name", "payment_method")
             .getInputsFromSection('[type="radio"][name="payment_method"]');
 
+        this.setRevealOnRadioButtonGroup(payment_radio_buttons, [], false );
+    }
+
+    /**
+     * Setup payment tab address radio buttons (Billing address)
+     */
+    setUpPaymentTabAddressRadioButtons() {
         let ship_to_different_address_radio_buttons: Array<Element> = this
             .tabContainerSectionBy("name", "payment_method")
             .getInputsFromSection('[type="radio"][name="ship_to_different_address"]');
 
-
-        this.setRevealOnRadioButtonGroup(payment_radio_buttons, [], false );
         this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, [this.toggleRequiredInputAttribute]);
     }
 

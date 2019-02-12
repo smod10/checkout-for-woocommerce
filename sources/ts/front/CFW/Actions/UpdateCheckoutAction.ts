@@ -2,9 +2,7 @@ import { Action }                           from "./Action";
 import { AjaxInfo, FieldTypeInfo }          from "../Types/Types";
 import { Main }                             from "../Main";
 import { Cart, UpdateCartTotalsData }       from "../Elements/Cart";
-import { ResponsePrep }                     from "../Decorators/ResponsePrep";
-import { TabContainerSection }              from "../Elements/TabContainerSection";
-import { Element }                          from "../Elements/Element";
+import { ResponsePrep }                     from "../Decorators/ResponsePrep";;
 
 declare let jQuery: any;
 
@@ -40,15 +38,15 @@ export class UpdateCheckoutAction extends Action {
      * @param fields
      */
     constructor(id: string, ajaxInfo: AjaxInfo, fields: any) {
-        super(id, ajaxInfo.url, Action.prep(id, ajaxInfo, fields));
+        super( id, ajaxInfo.url, Action.prep(id, ajaxInfo, fields) );
     }
 
     public load(): void {
-        if(UpdateCheckoutAction.underlyingRequest !== null) {
+        if( UpdateCheckoutAction.underlyingRequest !== null ) {
             UpdateCheckoutAction.underlyingRequest.abort();
         }
 
-        UpdateCheckoutAction.underlyingRequest = jQuery.post(this.url, this.data, this.response.bind(this));
+        UpdateCheckoutAction.underlyingRequest = jQuery.post( this.url, this.data, this.response.bind(this) );
     }
 
     /**
@@ -85,7 +83,9 @@ export class UpdateCheckoutAction extends Action {
         let other_totals_container = jQuery('#cfw-other-totals');
         other_totals_container.html(`${resp.updated_other_totals}`);
 
-        // Save payment details to a temporary object
+        /**
+         * Save payment details to a temporary object
+         */
         let paymentDetails = {};
         jQuery( '.payment_box :input' ).each( function() {
             let ID = jQuery( this ).attr( 'id' );
@@ -105,7 +105,9 @@ export class UpdateCheckoutAction extends Action {
         if ( false !== resp.updated_payment_methods ) {
             updated_payment_methods_container.html(`${resp.updated_payment_methods}`);
 
-            // Fill in the payment details if possible without overwriting data if set.
+            /**
+             * Fill in the payment details if possible without overwriting data if set.
+             */
             if ( ! jQuery.isEmptyObject( paymentDetails ) ) {
                 jQuery( '.payment_box :input' ).each( function() {
                     let ID = jQuery( this ).attr( 'id' );
@@ -121,15 +123,18 @@ export class UpdateCheckoutAction extends Action {
             }
         }
 
-        // Place order button
+        // Update Place Order Button Container
         let updated_place_order_container = jQuery('#cfw-place-order');
         updated_place_order_container.html(`${resp.updated_place_order}`);
 
+        // Toggle payment required, in case it has changed
         Main.togglePaymentRequired(resp.needs_payment);
 
+        // Update Cart Totals
         Cart.outputValues(main.cart, resp.new_totals);
 
-        Main.instance.tabContainer.setUpPaymentTabRadioButtons();
+        //
+        Main.instance.tabContainer.setUpPaymentGatewayRadioButtons();
 
 		main.updating = false;
         jQuery(document.body).trigger( 'updated_checkout' );

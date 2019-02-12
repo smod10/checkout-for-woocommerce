@@ -224,7 +224,6 @@ export class TabContainer extends Element {
             .forEach((radio_button: Element) => {
                 let $radio_button = radio_button.jel;
 
-                // On payment radio button click....
                 if ( click_event ) {
                     $radio_button.on('click', () => {
                         this.toggleRadioButtonContainers(radio_button, radio_buttons, callbacks);

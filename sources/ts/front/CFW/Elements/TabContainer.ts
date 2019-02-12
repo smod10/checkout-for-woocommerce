@@ -82,6 +82,10 @@ export class TabContainer extends Element {
         jQuery(document.body).trigger( 'update_checkout' );
     }
 
+    triggerUpdatedCheckout() {
+        jQuery(document.body).trigger( 'updated_checkout' );
+    }
+
     /**
      *
      */

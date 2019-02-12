@@ -83,26 +83,29 @@ export class UpdateCheckoutAction extends Action {
         let other_totals_container = jQuery('#cfw-other-totals');
         other_totals_container.html(`${resp.updated_other_totals}`);
 
-        /**
-         * Save payment details to a temporary object
-         */
-        let paymentDetails = {};
-        jQuery( '.payment_box :input' ).each( function() {
-            let ID = jQuery( this ).attr( 'id' );
-
-            if ( ID ) {
-                if ( jQuery.inArray( jQuery( this ).attr( 'type' ), [ 'checkbox', 'radio' ] ) !== -1 ) {
-                    paymentDetails[ ID ] = jQuery( this ).prop( 'checked' );
-                } else {
-                    paymentDetails[ ID ] = jQuery( this ).val();
-                }
-            }
-        });
-
         // Payment methods
         let updated_payment_methods_container = jQuery('#cfw-billing-methods');
 
+        /**
+         * Updated payment methods will be false if md5 fingerprint hasn't changed
+         */
         if ( false !== resp.updated_payment_methods ) {
+            /**
+             * Save payment details to a temporary object
+             */
+            let paymentDetails = {};
+            jQuery( '.payment_box :input' ).each( function() {
+                let ID = jQuery( this ).attr( 'id' );
+
+                if ( ID ) {
+                    if ( jQuery.inArray( jQuery( this ).attr( 'type' ), [ 'checkbox', 'radio' ] ) !== -1 ) {
+                        paymentDetails[ ID ] = jQuery( this ).prop( 'checked' );
+                    } else {
+                        paymentDetails[ ID ] = jQuery( this ).val();
+                    }
+                }
+            });
+
             updated_payment_methods_container.html(`${resp.updated_payment_methods}`);
 
             /**
@@ -138,7 +141,10 @@ export class UpdateCheckoutAction extends Action {
         Main.instance.tabContainer.setUpPaymentGatewayRadioButtons();
 
 		main.updating = false;
-        jQuery(document.body).trigger( 'updated_checkout' );
+
+		if ( false !== resp.updated_payment_methods ) {
+            Main.instance.tabContainer.triggerUpdatedCheckout();
+        }
     }
 
     /**

@@ -256,6 +256,7 @@ export class Main {
 		jQuery(window).on('load', () => {
 			this.tabContainer.setUpPaymentGatewayRadioButtons();
 			this.tabContainer.setUpPaymentTabAddressRadioButtons();
+			this.tabContainer.triggerUpdatedCheckout();
 		});
 
 		// Localization

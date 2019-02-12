@@ -126,7 +126,7 @@ export class TabContainer extends Element {
             .tabContainerSectionBy("name", "payment_method")
             .getInputsFromSection('[type="radio"][name="payment_method"]');
 
-        this.setRevealOnRadioButtonGroup(payment_radio_buttons, [], false );
+        this.setRevealOnRadioButtonGroup( payment_radio_buttons, false );
     }
 
     /**
@@ -137,13 +137,13 @@ export class TabContainer extends Element {
             .tabContainerSectionBy("name", "payment_method")
             .getInputsFromSection('[type="radio"][name="ship_to_different_address"]');
 
-        this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, [this.toggleRequiredInputAttribute]);
+        this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, true, [this.toggleRequiredInputAttribute]);
     }
 
     /**
      * Handles the payment method revealing and registering the click events.
      */
-    setRevealOnRadioButtonGroup(radio_buttons: Array<Element>, callbacks: Array<(radio_button: Element) => void> = [], click_event: Boolean = true ) {
+    setRevealOnRadioButtonGroup(radio_buttons: Array<Element>, click_event: Boolean = true, callbacks: Array<(radio_button: Element) => void> = [] ) {
         // Register the slide up and down container on click
         radio_buttons
             .forEach((radio_button: Element) => {
@@ -168,12 +168,12 @@ export class TabContainer extends Element {
             .filter((filterItem: Element) => filterItem != radio_button)
             .forEach((other: Element) => {
                 other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").find(':input').prop('disabled', true);
-                other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").stop().slideUp(300);
+                other.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideUp(300);
             } );
 
         // Slide down our container
         radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").find(':input').prop('disabled', false);
-        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").not(':visible').stop().slideDown(300);
+        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideDown(300);
 
         // Fire any callbacks
         callbacks.forEach(callback => callback(radio_button));
@@ -224,9 +224,9 @@ export class TabContainer extends Element {
      *
      */
     setPaymentMethodUpdate(): void {
-        jQuery(document.body).on('click', 'input[name^="payment_method"][type="radio"]', () => {
-            new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load();
-        });
+        // jQuery(document.body).on('click', 'input[name^="payment_method"][type="radio"]', () => {
+        //     new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load();
+        // });
     }
 
     /**

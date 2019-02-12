@@ -86,11 +86,40 @@ export class UpdateCheckoutAction extends Action {
         let other_totals_container = jQuery('#cfw-other-totals');
         other_totals_container.html(`${resp.updated_other_totals}`);
 
+        // Save payment details to a temporary object
+        var paymentDetails = {};
+        jQuery( '.payment_box :input' ).each( function() {
+            var ID = jQuery( this ).attr( 'id' );
+
+            if ( ID ) {
+                if ( jQuery.inArray( jQuery( this ).attr( 'type' ), [ 'checkbox', 'radio' ] ) !== -1 ) {
+                    paymentDetails[ ID ] = jQuery( this ).prop( 'checked' );
+                } else {
+                    paymentDetails[ ID ] = jQuery( this ).val();
+                }
+            }
+        });
+
         // Payment methods
         let updated_payment_methods_container = jQuery('#cfw-billing-methods');
 
         if ( false !== resp.updated_payment_methods ) {
             updated_payment_methods_container.html(`${resp.updated_payment_methods}`);
+
+            // Fill in the payment details if possible without overwriting data if set.
+            if ( ! jQuery.isEmptyObject( paymentDetails ) ) {
+                jQuery( '.payment_box :input' ).each( function() {
+                    var ID = jQuery( this ).attr( 'id' );
+
+                    if ( ID ) {
+                        if ( jQuery.inArray( jQuery( this ).attr( 'type' ), [ 'checkbox', 'radio' ] ) !== -1 ) {
+                            jQuery( this ).prop( 'checked', paymentDetails[ ID ] ).change();
+                        } else if ( null !== jQuery( this ).val() && 0 === jQuery( this ).val().length ) {
+                            jQuery( this ).val( paymentDetails[ ID ] ).change();
+                        }
+                    }
+                });
+            }
         }
 
         // Place order button

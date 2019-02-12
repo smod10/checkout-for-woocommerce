@@ -250,11 +250,6 @@ export class Main {
 			this.tabContainer.setUpPaymentTabAddressRadioButtons();
 		});
 
-		// Also fire on updated_checkout
-		jQuery(window).on('updated_checkout', () => {
-			this.tabContainer.setUpPaymentGatewayRadioButtons();
-		});
-
 		// Localization
 		this.localizationService.setCountryChangeHandlers();
 

@@ -133,7 +133,8 @@ export class UpdateCheckoutAction extends Action {
         // Update Cart Totals
         Cart.outputValues(main.cart, resp.new_totals);
 
-        //
+        // Setup payment gateway radio buttons again
+        // since we replaced the HTML
         Main.instance.tabContainer.setUpPaymentGatewayRadioButtons();
 
 		main.updating = false;

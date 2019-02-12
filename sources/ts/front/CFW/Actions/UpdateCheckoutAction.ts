@@ -87,9 +87,9 @@ export class UpdateCheckoutAction extends Action {
         other_totals_container.html(`${resp.updated_other_totals}`);
 
         // Save payment details to a temporary object
-        var paymentDetails = {};
+        let paymentDetails = {};
         jQuery( '.payment_box :input' ).each( function() {
-            var ID = jQuery( this ).attr( 'id' );
+            let ID = jQuery( this ).attr( 'id' );
 
             if ( ID ) {
                 if ( jQuery.inArray( jQuery( this ).attr( 'type' ), [ 'checkbox', 'radio' ] ) !== -1 ) {
@@ -109,7 +109,7 @@ export class UpdateCheckoutAction extends Action {
             // Fill in the payment details if possible without overwriting data if set.
             if ( ! jQuery.isEmptyObject( paymentDetails ) ) {
                 jQuery( '.payment_box :input' ).each( function() {
-                    var ID = jQuery( this ).attr( 'id' );
+                    let ID = jQuery( this ).attr( 'id' );
 
                     if ( ID ) {
                         if ( jQuery.inArray( jQuery( this ).attr( 'type' ), [ 'checkbox', 'radio' ] ) !== -1 ) {

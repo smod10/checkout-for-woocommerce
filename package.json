@@ -58,6 +58,7 @@
     "normalize.css": "^8.0.1",
     "parsleyjs": "^2.8.1",
     "requirejs": "^2.3.6",
+    "ts-polyfill": "^3.0.1",
     "typings": "^2.1.1"
   }
 }

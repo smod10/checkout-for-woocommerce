@@ -13,6 +13,7 @@ import { CompleteOrderAction } 					from "./Actions/CompleteOrderAction";
 import { Compatibility }						from "./Compatibility/Compatibility";
 import { CompatibilityClassOptions }        	from "./Types/Types";
 import { CompatibilityFactory } 				from "./Factories/CompatibilityFactory";
+import from = require("core-js/es6/array");
 
 declare let jQuery: any;
 
@@ -285,7 +286,7 @@ export class Main {
 					let addedNodes = mutation.addedNodes;
 					let $errorNode: any = null;
 
-					addedNodes.forEach(node => {
+					Array.from(addedNodes).forEach(node => {
 						let $node: any = jQuery(node);
 						let hasClass: boolean = $node.hasClass("woocommerce-error");
 						let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");

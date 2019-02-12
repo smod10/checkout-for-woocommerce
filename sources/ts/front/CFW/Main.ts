@@ -240,9 +240,9 @@ export class Main {
 		window.dispatchEvent(new CustomEvent("cfw-main-after-tab-container-set-wraps", { detail: { main: this } }));
 
 		// Set up event handlers
+		this.tabContainer.setUpdateCheckoutTriggers();
 		this.tabContainer.setAccountCheckListener();
 		this.tabContainer.setLogInListener();
-		this.tabContainer.setUpdateAllShippingFieldsListener();
 		this.tabContainer.setShippingMethodUpdate();
         this.tabContainer.setPaymentMethodUpdate();
 		this.tabContainer.setUpMobileCartDetailsReveal();

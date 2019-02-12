@@ -64,6 +64,25 @@ export class TabContainer extends Element {
     }
 
     /**
+     * All update_checkout triggers should happen here
+     *
+     * Exceptions would be edge cases involving TS compat classes
+     */
+    setUpdateCheckoutTriggers() {
+        let main: Main = Main.instance;
+        let checkout_form: any = main.checkoutForm;
+
+        checkout_form.on( 'change', 'select.shipping_method, input[name^="shipping_method"], [name="ship_to_different_address"], .update_totals_on_change select, .update_totals_on_change input[type="radio"], .update_totals_on_change input[type="checkbox"]', this.triggerUpdateCheckout );
+        checkout_form.on( 'change', '.address-field select', this.triggerUpdateCheckout );
+        checkout_form.on( 'change', '.address-field input.input-text, .update_totals_on_change input.input-text', this.triggerUpdateCheckout );
+        checkout_form.on( 'keydown', '.address-field input.input-text, .update_totals_on_change input.input-text', this.triggerUpdateCheckout );
+    }
+
+    triggerUpdateCheckout() {
+        jQuery(document.body).trigger( 'update_checkout' );
+    }
+
+    /**
      *
      */
     setAccountCheckListener() {
@@ -105,15 +124,6 @@ export class TabContainer extends Element {
             // Fire the login action on click
             login_btn.on("click", () => new LoginAction("login", Main.instance.ajaxInfo, email_input.val(), password_input.val()).load() );
         }
-    }
-
-    /**
-     * Call update checkout when advancing to the shipping tab from customer information tab
-     */
-    setUpdateAllShippingFieldsListener() {
-        let continueBtn: any = jQuery("#cfw-shipping-info-action .cfw-next-tab");
-
-        continueBtn.on("click", () => jQuery(document.body).trigger("update_checkout"));
     }
 
     /**

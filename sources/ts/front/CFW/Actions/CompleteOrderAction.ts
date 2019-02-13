@@ -82,6 +82,9 @@ export class CompleteOrderAction extends Action {
 			}
 
 			CompleteOrderAction.initCompleteOrder = false;
+
+            // Fire updated_checkout event.
+            jQuery(document.body).trigger( 'updated_checkout' );
         }
     }
 

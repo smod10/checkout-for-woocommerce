@@ -235,6 +235,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <div id="cfw-payment-method" class="cfw-panel">
                             <?php do_action('cfw_checkout_before_payment_method_tab'); ?>
 
+                            <?php cfw_payment_methods(); ?>
+
 	                        <?php if ( WC()->cart->needs_shipping_address() ): ?>
                                 <h3 class="cfw-module-title">
 			                        <?php echo apply_filters('cfw_billing_address_heading', esc_html__( 'Billing address', 'checkout-wc' ) ); ?>
@@ -244,8 +246,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	                        <?php endif; ?>
 
 	                        <?php do_action('cfw_checkout_after_payment_tab_billing_address'); ?>
-
-                            <?php cfw_payment_methods(); ?>
 
 	                        <?php do_action('cfw_checkout_before_payment_method_terms_checkbox'); ?>
 

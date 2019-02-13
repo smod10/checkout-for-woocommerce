@@ -374,58 +374,59 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	}
 
 	function cfw_get_payment_methods_html() {
-        $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
+		$available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 		$current_gateway    = WC()->session->get( 'chosen_payment_method' );
-        
+        ob_start();
+
 		?><ul class="wc_payment_methods payment_methods methods cfw-radio-reveal-group"><?php
 		if ( ! empty( $available_gateways ) ) {
 			$count = 0;
 			foreach ( $available_gateways as $gateway ) {
-			    if ( apply_filters( "cfw_show_gateway_{$gateway->id}", true ) ):
-				?>
+				if ( apply_filters( "cfw_show_gateway_{$gateway->id}", true ) ):
+					?>
 
-                <li class="wc_payment_method payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-li">
-                    <div class="payment_method_title_wrap cfw-radio-reveal-title-wrap">
-                        <label class="payment_method_label cfw-radio-reveal-label" for="payment_method_<?php echo $gateway->id; ?>">
-                            <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php echo ( ( empty($current_gateway) && $count == 0 ) || $current_gateway === $gateway->id ) ? "checked='checked'" : ""; ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
-                            <span class="payment_method_title cfw-radio-reveal-title"><?php echo $gateway->get_title(); ?></span>
-                        </label>
+                    <li class="wc_payment_method payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-li">
+                        <div class="payment_method_title_wrap cfw-radio-reveal-title-wrap">
+                            <label class="payment_method_label cfw-radio-reveal-label" for="payment_method_<?php echo $gateway->id; ?>">
+                                <input id="payment_method_<?php echo $gateway->id; ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php echo ( ( empty($current_gateway) && $count == 0 ) || $current_gateway === $gateway->id ) ? "checked='checked'" : ""; ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
+                                <span class="payment_method_title cfw-radio-reveal-title"><?php echo $gateway->get_title(); ?></span>
+                            </label>
 
-                        <span class="payment_method_icons">
+                            <span class="payment_method_icons">
                             <?php echo $gateway->get_icon(); ?>
                         </span>
-                    </div>
-					<?php if ( apply_filters("cfw_payment_gateway_{$gateway->id}_content", $gateway->has_fields() || $gateway->get_description() ) ) : ?>
-                        <div class="payment_box_wrap cfw-radio-reveal-content-wrap" <?php if ( ! $gateway->chosen ) : ?>style="display:none;"<?php endif; ?>>
-                            <div class="payment_box payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-content">
-								<?php
-								ob_start();
-								$gateway->payment_fields();
-
-								$field_html = ob_get_clean();
-
-								/**
-								 * Gateway Compatibility Patches
-								 */
-								// Expiration field fix
-								$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-expiry', 'js-sv-wc-payment-gateway-credit-card-form-expiry  wc-credit-card-form-card-expiry', $field_html);
-								$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-account-number', 'js-sv-wc-payment-gateway-credit-card-form-account-number  wc-credit-card-form-card-number', $field_html);
-
-                                // Credit Card Field Placeholders
-                                $field_html = str_ireplace('•••• •••• •••• ••••', 'Card Number', $field_html);
-                                $field_html = str_ireplace('&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;', 'Card Number', $field_html);
-
-								echo apply_filters("cfw_payment_gateway_field_html_{$gateway->id}", $field_html);
-								?>
-                            </div>
                         </div>
-					<?php endif; ?>
-                </li>
+						<?php if ( apply_filters("cfw_payment_gateway_{$gateway->id}_content", $gateway->has_fields() || $gateway->get_description() ) ) : ?>
+                            <div class="payment_box_wrap cfw-radio-reveal-content-wrap" <?php if ( ! $gateway->chosen ) : ?>style="display:none;"<?php endif; ?>>
+                                <div class="payment_box payment_method_<?php echo $gateway->id; ?> cfw-radio-reveal-content">
+									<?php
+									ob_start();
+									$gateway->payment_fields();
 
-                <?php
+									$field_html = ob_get_clean();
+
+									/**
+									 * Gateway Compatibility Patches
+									 */
+									// Expiration field fix
+									$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-expiry', 'js-sv-wc-payment-gateway-credit-card-form-expiry  wc-credit-card-form-card-expiry', $field_html);
+									$field_html = str_ireplace('js-sv-wc-payment-gateway-credit-card-form-account-number', 'js-sv-wc-payment-gateway-credit-card-form-account-number  wc-credit-card-form-card-number', $field_html);
+
+									// Credit Card Field Placeholders
+									$field_html = str_ireplace('•••• •••• •••• ••••', 'Card Number', $field_html);
+									$field_html = str_ireplace('&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;', 'Card Number', $field_html);
+
+									echo apply_filters("cfw_payment_gateway_field_html_{$gateway->id}", $field_html);
+									?>
+                                </div>
+                            </div>
+						<?php endif; ?>
+                    </li>
+
+				<?php
 				else:
 					do_action_ref_array( "cfw_payment_gateway_list_{$gateway->id}_alternate", array( $count ) );
-                endif;
+				endif;
 
 				$count++;
 			}
@@ -433,6 +434,12 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 			echo '<li class="woocommerce-notice woocommerce-notice--info woocommerce-info">' . apply_filters( 'woocommerce_no_available_payment_methods_message', __( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) ) . '</li>';
 		}
 		?></ul><?php
+
+        return ob_get_clean();
+    }
+
+	function cfw_payment_methods_html() {
+        echo cfw_get_payment_methods_html();
     }
 
     function cfw_get_checkout_cart_html() {
@@ -467,7 +474,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                     </div>
                     <?php endif; ?>
                     <div class="cfw-cart-item-title-quantity cfw-cart-item-col <?php echo "${column_base}${columns["title"]}"; ?>">
-                        <div>
+                        <div class="cfw-cart-item-title">
                             <?php if ( apply_filters('cfw_link_cart_items', __return_false() ) ): ?>
                                 <a target="_blank" href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
                             <?php else: ?>
@@ -475,6 +482,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                             <?php endif; ?>
                             <strong><?php echo $item_quantity; ?></strong>
                         </div>
+	                    <?php echo cfw_get_formatted_cart_item_data( $cart_item ); ?>
                     </div>
                     <div class="cfw-cart-item-subtotal cfw-cart-item-col <?php echo "${column_base}${columns["subtotal"]}"; ?>">
 				        <?php echo $item_subtotal; ?>
@@ -533,7 +541,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
     function cfw_get_place_order() {
 	    ob_start();
 
-	    $order_button_text = apply_filters( 'woocommerce_order_button_text', __( 'Complete Order', 'woocommerce' ) );
+	    $order_button_text = apply_filters( 'woocommerce_order_button_text', __( 'Complete Order', 'checkout-wc' ) );
 	    ?>
         <div class="place-order" id="cfw-place-order">
             <?php do_action( 'woocommerce_review_order_before_submit' ); ?>
@@ -551,6 +559,10 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
     }
 
     function cfw_get_payment_methods() {
+	    $payment_methods_html = cfw_get_payment_methods_html();
+
+	    $payment_methods_fingerprint = cfw_get_payment_methods_html_fingerprint( $payment_methods_html );
+
 	    ob_start();
 	    ?>
         <div id="cfw-billing-methods" class="cfw-module">
@@ -567,7 +579,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
                 <div id="order_review" class="cfw-payment-methods-wrap">
                     <div id="payment" class="woocommerce-checkout-payment">
-					    <?php cfw_get_payment_methods_html(); ?>
+					    <?php echo $payment_methods_html; ?>
                     </div>
                 </div>
             </div>
@@ -576,10 +588,26 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                 <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Your order is free. No payment is required.', 'checkout-wc') ); ?></span>
             </div>
 
+            <?php echo "<input type='hidden' id='cfw_payment_methods_fingerprint' name='cfw_payment_methods_fingerprint' value='{$payment_methods_fingerprint}' />"; ?>
 		    <?php do_action('cfw_checkout_after_payment_methods'); ?>
         </div>
         <?php
+
         return ob_get_clean();
+    }
+
+    function cfw_get_payment_methods_html_fingerprint( $payment_methods_html, $strip = true ) {
+	    if ( $strip ) {
+	        // TODO: Move this into the compat classes with some magicness and a filter
+            
+	        // Stripe
+		    $payment_methods_html = preg_replace( '/data-amount="[0-9]+"/', '', $payment_methods_html );
+
+		    // Braintree
+		    $payment_methods_html = preg_replace( '/<input type="hidden" name="wc-braintree-credit-card-3d-secure-order-total" value="[0-9]+\.?[0-9]+" />/', '', $payment_methods_html );
+        }
+
+	    return md5( $payment_methods_html );
     }
 
     function cfw_payment_methods() {
@@ -624,4 +652,87 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
         </div>
         <?php
     }
+
+	/**
+	 * Gets and formats a list of cart item data + variations for display on the frontend.
+	 *
+	 * @since 3.3.0
+	 * @param array $cart_item Cart item object.
+	 * @param bool  $flat Should the data be returned flat or in a list.
+	 * @return string
+	 */
+	function cfw_get_formatted_cart_item_data( $cart_item, $flat = false ) {
+		$item_data = array();
+
+		// Variation values are shown only if they are not found in the title as of 3.0.
+		// This is because variation titles display the attributes.
+		if ( $cart_item['data']->is_type( 'variation' ) && is_array( $cart_item['variation'] ) ) {
+			foreach ( $cart_item['variation'] as $name => $value ) {
+				$taxonomy = wc_attribute_taxonomy_name( str_replace( 'attribute_pa_', '', urldecode( $name ) ) );
+
+				if ( taxonomy_exists( $taxonomy ) ) {
+					// If this is a term slug, get the term's nice name.
+					$term = get_term_by( 'slug', $value, $taxonomy );
+					if ( ! is_wp_error( $term ) && $term && $term->name ) {
+						$value = $term->name;
+					}
+					$label = wc_attribute_label( $taxonomy );
+				} else {
+					// If this is a custom option slug, get the options name.
+					$value = apply_filters( 'woocommerce_variation_option_name', $value );
+					$label = wc_attribute_label( str_replace( 'attribute_', '', $name ), $cart_item['data'] );
+				}
+
+				// Check the nicename against the title.
+				if ( '' === $value || wc_is_attribute_in_product_name( $value, $cart_item['data']->get_name() ) ) {
+					continue;
+				}
+
+				$item_data[] = array(
+					'key'   => $label,
+					'value' => $value,
+				);
+			}
+		}
+
+		// Filter item data to allow 3rd parties to add more to the array.
+		$item_data = apply_filters( 'woocommerce_get_item_data', $item_data, $cart_item );
+
+		// Format item data ready to display.
+		foreach ( $item_data as $key => $data ) {
+			// Set hidden to true to not display meta on cart.
+			if ( ! empty( $data['hidden'] ) ) {
+				unset( $item_data[ $key ] );
+				continue;
+			}
+			$item_data[ $key ]['key']     = ! empty( $data['key'] ) ? $data['key'] : $data['name'];
+			$item_data[ $key ]['display'] = ! empty( $data['display'] ) ? $data['display'] : $data['value'];
+		}
+
+		// Output flat or in list format.
+		if ( count( $item_data ) > 0 ) {
+			ob_start();
+
+			if ( $flat ) {
+				foreach ( $item_data as $data ) {
+					echo esc_html( $data['key'] ) . ': ' . wp_kses_post( $data['display'] ) . "\n";
+				}
+			} else {
+			    ?>
+                <div class="variation-data-wrapper">
+					<?php foreach ( $item_data as $data ) : ?>
+                        <div class="variation-data">
+                            <div class="variation-data-key <?php echo sanitize_html_class( 'variation-' . $data['key'] ); ?>"><?php echo wp_kses_post( $data['key'] ); ?>:</div>
+                            <div class="variation-data-value <?php echo sanitize_html_class( 'variation-' . $data['key'] ); ?>"><?php echo wp_kses_post( wpautop( $data['display'] ) ); ?></div>
+                        </div>
+					<?php endforeach; ?>
+                </div>
+                <?php
+			}
+
+			return ob_get_clean();
+		}
+
+		return '';
+	}
 }

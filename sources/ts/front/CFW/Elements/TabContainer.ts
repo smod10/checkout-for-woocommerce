@@ -62,6 +62,66 @@ export class TabContainer extends Element {
             jQuery(elem).garlic({ onRetrieve: element => jQuery(element).parent().addClass(FormElement.labelClass) })
         });
     }
+
+    /**
+     * All update_checkout triggers should happen here
+     *
+     * Exceptions would be edge cases involving TS compat classes
+     */
+    setUpdateCheckoutTriggers() {
+        let main: Main = Main.instance;
+        let checkout_form: any = main.checkoutForm;
+
+        checkout_form.on( 'change', 'select.shipping_method, input[name^="shipping_method"], [name="ship_to_different_address"], .update_totals_on_change select, .update_totals_on_change input[type="radio"], .update_totals_on_change input[type="checkbox"]', this.triggerUpdateCheckout );
+        checkout_form.on( 'change', '.address-field select', this.triggerUpdateCheckout );
+        checkout_form.on( 'change', '.address-field input.input-text, .update_totals_on_change input.input-text', this.triggerUpdateCheckout );
+        checkout_form.on( 'keydown', '.address-field input.input-text, .update_totals_on_change input.input-text', this.triggerUpdateCheckout );
+    }
+
+    /**
+     * Call update_checkout
+     *
+     * This should be the ONLY place we call this ourselves
+     */
+    triggerUpdateCheckout( force_updated_checkout: boolean = false ) {
+        let main: Main = Main.instance;
+
+        if( ! CompleteOrderAction.initCompleteOrder ) {
+            if ( force_updated_checkout ) {
+                main.force_updated_checkout = force_updated_checkout;
+            }
+
+            jQuery(document.body).trigger( 'update_checkout' );
+        }
+    }
+
+    /**
+     * Call updated_checkout
+     *
+     * This should be the ONLY place we call this ourselves
+     */
+    triggerUpdatedCheckout() {
+        jQuery(document.body).trigger( 'updated_checkout' );
+    }
+
+    /**
+     * Find the selected payment gateway and trigger a click
+     *
+     * Some gateways look for a click action to init themselves properly
+     */
+    initSelectedPaymentGateway() {
+        // If there are none selected, select the first.
+        if ( 0 === jQuery('input[name^="payment_method"][type="radio"]:checked').length ) {
+            jQuery('input[name^="payment_method"][type="radio"]').eq(0).prop( 'checked', true );
+        }
+
+        jQuery('input[name^="payment_method"][type="radio"]:checked').trigger( 'click' );
+
+        /**
+         * TODO: This should probably only run when the gateway has changed, not on init
+         */
+        jQuery( document.body ).trigger( 'payment_method_selected' );
+    }
     /**
      *
      */
@@ -107,176 +167,46 @@ export class TabContainer extends Element {
     }
 
     /**
-     * Handles updating all the fields on a breadcrumb click or a move to the next section button
+     * Setup payment gateway radio buttons
      */
-    setUpdateAllShippingFieldsListener() {
-        let continueBtn: any = jQuery("#cfw-shipping-info-action .cfw-next-tab");
-        let shipping_payment_bc: any = this.tabContainerBreadcrumb.jel.find(".tab:nth-child(2), .tab:nth-child(3)");
-
-        continueBtn.on("click", () => jQuery(document.body).trigger("update_checkout"));
-        shipping_payment_bc.on("click", () => jQuery(document.body).trigger("update_checkout"));
-    }
-
-    /**
-     *
-     */
-    setUpCreditCardRadioReveal() {
-        let stripe_container: any = jQuery(".payment_method_stripe");
-
-        if(stripe_container.length > 0) {
-            let stripe_options = stripe_container.find('input[type="radio"][name="wc-stripe-payment-token"]');
-            stripe_options.each((index: number, elem: HTMLElement) => {
-                if(jQuery(elem).attr("id") == "wc-stripe-payment-token-new") {
-                    jQuery(elem).on('click', () => {
-                        jQuery("#wc-stripe-cc-form").slideDown(300);
-                        jQuery(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
-                        jQuery(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
-                    });
-
-                    jQuery(window).on('load updated_checkout', () => {
-                        if(jQuery(elem).is(":checked")) {
-                            jQuery("#wc-stripe-cc-form").slideDown(300);
-                            jQuery(".woocommerce-SavedPaymentMethods-saveNew").slideDown(300);
-                            jQuery(".wc-saved-payment-methods").removeClass("kill-bottom-margin");
-                        }
-                    });
-                } else {
-                    jQuery(elem).on('click', () => {
-                        jQuery("#wc-stripe-cc-form").slideUp(300);
-                        jQuery(".woocommerce-SavedPaymentMethods-saveNew").slideUp(300);
-                        jQuery(".wc-saved-payment-methods").addClass("kill-bottom-margin");
-
-                    });
-
-                    jQuery(window).on('load updated_checkout', () => {
-                        if(jQuery(elem).is(":checked")) {
-                            jQuery(".wc-saved-payment-methods").addClass("kill-bottom-margin");
-                        }
-                    });
-                }
-            })
-        }
-    }
-
-    /**
-     *
-     */
-    setUpCreditCardFields() {
-        // TODO: Once Compatibility class is setup move each of these pieces to it's relevant class
-        const CHECK = "paytrace_check_choice";
-        const CARD = "paytrace_card_choice";
-
-        // PayTrace Credit
-        let paytrace_form_wraps = jQuery("#paytrace-cards-form .form-row");
-
-        jQuery("#paytrace-cards-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-
-        paytrace_form_wraps.each(function(index, elem) {
-            jQuery(elem).addClass("cfw-input-wrap");
-            jQuery(elem).addClass("cfw-text-input");
-            jQuery(elem).find("label").addClass("cfw-input-label");
-            jQuery(elem).find("input").css("width", "100%");
-
-            if( jQuery(elem).hasClass("form-row-wide") ) {
-                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
-            }
-
-            if( jQuery(elem).hasClass("form-row-first") || jQuery(elem).hasClass("form-row-last") ) {
-                jQuery(elem).wrap("<div class='cfw-column-3'></div>")
-            }
-        });
-
-        let paytrace_check_form_wraps = jQuery("#paytrace-checks-form .form-row");
-
-        jQuery("#paytrace-checks-form").wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-
-        paytrace_check_form_wraps.each(function(index, elem) {
-            jQuery(elem).addClass("cfw-input-wrap");
-            jQuery(elem).addClass("cfw-text-input");
-            jQuery(elem).find("label").addClass("cfw-input-label");
-            jQuery(elem).find("input").css("width", "100%");
-
-            if( jQuery(elem).hasClass("form-row-wide") ) {
-                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
-            }
-
-            if( jQuery(elem).hasClass("form-row-first") || jQuery(elem).hasClass("form-row-last") ) {
-                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
-            }
-        });
-
-        jQuery(window).on('load', () => {
-            // PayTrace gateway field state workaround
-            let checked_radio: any = jQuery("input[type='radio'][name='paytrace_type_choice']:checked");
-            checked_radio.trigger("change");
-
-            jQuery(document.body).trigger('wc-credit-card-form-init');
-        });
-
-        // One Click Upsells - Stripe Form
-        let ocu_stripe_form_wraps = jQuery("#wc-ocustripe-cc-form .form-row");
-        let ocu_stripe_container = jQuery("#wc-ocustripe-cc-form");
-
-        ocu_stripe_container.wrapInner("<div class='cfw-sg-container cfw-input-wrap-row'>");
-        ocu_stripe_container.find(".clear").remove();
-
-        ocu_stripe_form_wraps.each(function(index, elem) {
-            jQuery(elem).addClass("cfw-input-wrap");
-            jQuery(elem).addClass("cfw-text-input");
-            jQuery(elem).find("label").addClass("cfw-input-label");
-            jQuery(elem).find("input").css("width", "100%");
-
-            if( jQuery(elem).hasClass("form-row-wide") && jQuery(elem).index() !== 0 ) {
-                jQuery(elem).wrap("<div class='cfw-column-6'></div>")
-            } else if ( jQuery(elem).hasClass("form-row-wide") && jQuery(elem).index() === 0 ) {
-                jQuery(elem).wrap("<div class='cfw-column-12'></div>")
-            }
-
-            if(jQuery(elem).hasClass("form-row-first") || jQuery(elem).hasClass("form-row-last")) {
-                jQuery(elem).wrap("<div class='cfw-column-3'></div>")
-            }
-        });
-    }
-
-    /**
-     *
-     */
-    setUpPaymentTabRadioButtons() {
+    setUpPaymentGatewayRadioButtons() {
         // The payment radio buttons to register the click events too
         let payment_radio_buttons: Array<Element> = this
             .tabContainerSectionBy("name", "payment_method")
             .getInputsFromSection('[type="radio"][name="payment_method"]');
 
+        this.setRevealOnRadioButtonGroup( payment_radio_buttons );
+    }
+
+    /**
+     * Setup payment tab address radio buttons (Billing address)
+     */
+    setUpPaymentTabAddressRadioButtons() {
         let ship_to_different_address_radio_buttons: Array<Element> = this
             .tabContainerSectionBy("name", "payment_method")
             .getInputsFromSection('[type="radio"][name="ship_to_different_address"]');
 
-
-        this.setRevealOnRadioButtonGroup(payment_radio_buttons);
-        this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, [this.toggleRequiredInputAttribute]);
+        this.setRevealOnRadioButtonGroup(ship_to_different_address_radio_buttons, true, [this.toggleRequiredInputAttribute]);
     }
 
     /**
      * Handles the payment method revealing and registering the click events.
      */
-    setRevealOnRadioButtonGroup(radio_buttons: Array<Element>, callbacks: Array<(radio_button: Element) => void> = []) {
+    setRevealOnRadioButtonGroup(radio_buttons: Array<Element>, click_event: Boolean = true, callbacks: Array<(radio_button: Element) => void> = [] ) {
         // Register the slide up and down container on click
         radio_buttons
             .forEach((radio_button: Element) => {
                 let $radio_button = radio_button.jel;
 
-                // On payment radio button click....
-                $radio_button.on('click', () => {
-                    this.toggleRadioButtonContainers(radio_button, radio_buttons, callbacks);
-                });
-
-                // Fire it once for page load if selected
-                // Also fire on updated_checkout
-                jQuery(window).on('load updated_checkout', () => {
-                    if($radio_button.is(":checked")) {
+                if ( click_event ) {
+                    $radio_button.on('click', () => {
                         this.toggleRadioButtonContainers(radio_button, radio_buttons, callbacks);
-                    }
-                });
+                    });
+                }
+
+                if( $radio_button.is(":checked") ) {
+                    this.toggleRadioButtonContainers(radio_button, radio_buttons, callbacks);
+                }
             });
     }
 
@@ -292,7 +222,7 @@ export class TabContainer extends Element {
 
         // Slide down our container
         radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").find(':input').prop('disabled', false);
-        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").not(':visible').slideDown(300);
+        radio_button.jel.parents(".cfw-radio-reveal-title-wrap").siblings(".cfw-radio-reveal-content-wrap").slideDown(300);
 
         // Fire any callbacks
         callbacks.forEach(callback => callback(radio_button));
@@ -334,8 +264,8 @@ export class TabContainer extends Element {
      *
      */
     setShippingMethodUpdate(): void {
-        jQuery('input[name^="shipping_method"][type="radio"]').each((index, el) => {
-            jQuery(el).on("click", () => new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load());
+        jQuery(document.body).on('click', 'input[name^="shipping_method"][type="radio"]', () => {
+            new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load();
         });
     }
 
@@ -351,20 +281,24 @@ export class TabContainer extends Element {
     /**
      *
      */
-    setUpdateCheckout() {
+    setUpdateCheckoutHandler() {
         let main: Main = Main.instance;
 
-        jQuery(document.body).on("update_checkout", () => {
-            if(!main.updating) {
+        jQuery(document.body).on("update_checkout", (e) => {
+            if( ! main.updating ) {
                 main.updating = true;
 
-                new UpdateCheckoutAction("update_checkout", main.ajaxInfo, this.getFormObject()).load();
+                jQuery("#cfw-billing-methods").block({
+                    message: null,
+                    overlayCSS: {
+                        background: '#fff',
+                        opacity: 0.6
+                    }
+                });
+
+                new UpdateCheckoutAction( "update_checkout", main.ajaxInfo, this.getFormObject() ).load();
             }
         });
-
-        if(!CompleteOrderAction.initCompleteOrder) {
-			jQuery(document.body).trigger('update_checkout');
-		}
     }
 
     /**
@@ -475,9 +409,14 @@ export class TabContainer extends Element {
      */
     completeOrderSubmitHandler(e) {
         let main: Main = Main.instance;
+        main.updating = true;
         let checkout_form: any = main.checkoutForm;
         let lookFor: Array<string> = main.settings.default_address_fields;
         let preSwapData = this.checkoutDataAtSubmitClick = {};
+
+        if ( checkout_form.is( '.processing' ) ) {
+            return false;
+        }
 
         CompleteOrderAction.initCompleteOrder = true;
 
@@ -517,9 +456,12 @@ export class TabContainer extends Element {
             }
 
             this.orderKickOff(main.ajaxInfo, this.getFormObject());
+        } else {
+            checkout_form.removeClass( 'processing' ).unblock();
         }
 
         // TODO: Throwing an error here seems to cause situations where the error briefly appears during a successful order
+        main.updating = false;
         return false;
     }
 

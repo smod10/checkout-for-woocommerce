@@ -564,10 +564,6 @@ class Customizer {
 	}
 
 	function is_correct_template_active( $control ) {
-		//      \Kint::$max_depth = 2;
-		error_log( $control->id );
-		error_log( $control->manager->get_setting( $this->get_customizer_field_name( 'active_template' ) )->value() );
-
 		return stripos( $control->id, $control->manager->get_setting( $this->get_customizer_field_name( 'active_template' ) )->value() ) !== false;
 	}
 

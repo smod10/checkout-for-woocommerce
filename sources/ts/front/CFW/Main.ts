@@ -13,6 +13,7 @@ import { CompleteOrderAction } 					from "./Actions/CompleteOrderAction";
 import { Compatibility }						from "./Compatibility/Compatibility";
 import { CompatibilityClassOptions }        	from "./Types/Types";
 import { CompatibilityFactory } 				from "./Factories/CompatibilityFactory";
+import { ZipAutocompleteService }               from "./Services/ZipAutocompleteService";
 
 declare let jQuery: any;
 
@@ -20,7 +21,6 @@ declare let jQuery: any;
  * The main class of the front end checkout system
  */
 export class Main {
-
 	/**
 	 * @type {any}
 	 * @private
@@ -94,10 +94,22 @@ export class Main {
 	private _localizationService: LocalizationService;
 
 	/**
+	 * @type {ZipAutocompleteService}
+	 * @private
+	 */
+	private _zipAutocompleteService: ZipAutocompleteService;
+
+	/**
 	 * @type {boolean}
 	 * @private
 	 */
 	private _updating: boolean;
+
+	/**
+	 * @type {boolean}
+	 * @private
+	 */
+	private _force_updated_checkout: boolean;
 
 	/**
 	 * @type {MutationObserver}
@@ -155,6 +167,7 @@ export class Main {
 		this.parsleyService = new ParsleyService();
 		this.easyTabService = new EasyTabService(easyTabsWrap);
 		this.localizationService = new LocalizationService();
+		this.zipAutocompleteService = new ZipAutocompleteService();
 
 		// Setup events and event listeners
 		this.eventSetup();
@@ -214,9 +227,6 @@ export class Main {
 		// Setup animation listeners
 		this.setupAnimationListeners();
 
-		// Set up credit card fields if there. Needs to happen before wrap
-		this.tabContainer.setUpCreditCardFields();
-
 		// Fix floating labels
 		this.tabContainer.setFloatLabelOnGarlicRetrieve();
 
@@ -235,24 +245,41 @@ export class Main {
 		window.dispatchEvent(new CustomEvent("cfw-main-after-tab-container-set-wraps", { detail: { main: this } }));
 
 		// Set up event handlers
+		this.tabContainer.setUpdateCheckoutHandler();
+		this.tabContainer.setUpdateCheckoutTriggers();
 		this.tabContainer.setAccountCheckListener();
 		this.tabContainer.setLogInListener();
-		this.tabContainer.setUpdateAllShippingFieldsListener();
 		this.tabContainer.setShippingMethodUpdate();
         this.tabContainer.setPaymentMethodUpdate();
-		this.tabContainer.setUpPaymentTabRadioButtons();
-		this.tabContainer.setUpCreditCardRadioReveal();
 		this.tabContainer.setUpMobileCartDetailsReveal();
 		this.tabContainer.setCompleteOrderHandlers();
 		this.tabContainer.setApplyCouponListener();
 		this.tabContainer.setTermsAndConditions();
-		this.tabContainer.setUpdateCheckout();
+		this.zipAutocompleteService.setZipAutocompleteHandlers();
+
+		// Make sure this happens every time
+		jQuery(document.body).on('cfw_updated_checkout', () => {
+			this.tabContainer.initSelectedPaymentGateway();
+		});
+
+		// Page load actions
+		jQuery(window).on('load', () => {
+			this.tabContainer.setUpPaymentGatewayRadioButtons();
+			this.tabContainer.setUpPaymentTabAddressRadioButtons();
+			this.tabContainer.initSelectedPaymentGateway();
+
+			/**
+			 * On first load, we force updated_checkout to run for gateways
+			 * that need it / want it / gotta have it
+			 */
+			this.tabContainer.triggerUpdateCheckout( true );
+		});
 
 		// Localization
 		this.localizationService.setCountryChangeHandlers();
 
 		// After setup event
-		window.dispatchEvent(new CustomEvent("cfw-main-after-setup", { detail: { main: this } }));
+		window.dispatchEvent( new CustomEvent("cfw-main-after-setup", { detail: { main: this } }) );
 	}
 
 	errorObserverWatch() {
@@ -285,7 +312,7 @@ export class Main {
 					let addedNodes = mutation.addedNodes;
 					let $errorNode: any = null;
 
-					addedNodes.forEach(node => {
+					Array.from(addedNodes).forEach(node => {
 						let $node: any = jQuery(node);
 						let hasClass: boolean = $node.hasClass("woocommerce-error");
 						let hasGroupCheckoutClass: boolean = $node.hasClass("woocommerce-NoticeGroup-checkout");
@@ -374,8 +401,7 @@ export class Main {
 	 */
 	setupAnimationListeners(): void {
 		jQuery("#cfw-ci-login").on("click", function(){
-			jQuery("#cfw-login-slide").addClass("stay-open");
-			jQuery("#cfw-login-slide").slideDown(300);
+			jQuery("#cfw-login-slide").addClass("stay-open").slideDown(300);
             jQuery("#createaccount").prop('checked', false);
 		});
 	}
@@ -563,6 +589,20 @@ export class Main {
 	}
 
 	/**
+	 * @returns {LocalizationService}
+	 */
+	get zipAutocompleteService(): ZipAutocompleteService {
+		return this._zipAutocompleteService;
+	}
+
+	/**
+	 * @param {LocalizationService} value
+	 */
+	set zipAutocompleteService(value: ZipAutocompleteService) {
+		this._zipAutocompleteService = value;
+	}
+
+	/**
 	 * @returns {MutationObserver}
 	 */
 	get errorObserver(): MutationObserver {
@@ -574,6 +614,20 @@ export class Main {
 	 */
 	set errorObserver(value: MutationObserver) {
 		this._errorObserver = value;
+	}
+
+	/**
+	 * @returns {boolean}
+	 */
+	get force_updated_checkout(): boolean {
+		return this._force_updated_checkout;
+	}
+
+	/**
+	 * @param {boolean} value
+	 */
+	set force_updated_checkout(value: boolean) {
+		this._force_updated_checkout = value;
 	}
 
 	/**

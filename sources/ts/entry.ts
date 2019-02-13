@@ -1,3 +1,4 @@
+import 'ts-polyfill';
 import { Main }                             from "./front/CFW/Main";
 import { TabContainer }                     from "./front/CFW/Elements/TabContainer";
 import { TabContainerBreadcrumb }           from "./front/CFW/Elements/TabContainerBreadcrumb";

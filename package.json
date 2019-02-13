@@ -1,6 +1,6 @@
 {
   "name": "checkout-for-woocommerce",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "description": "### Development installation instructions",
   "scripts": {
     "dev": "npx webpack --env development",
@@ -58,6 +58,7 @@
     "normalize.css": "^8.0.1",
     "parsleyjs": "^2.8.1",
     "requirejs": "^2.3.6",
+    "ts-polyfill": "^3.0.1",
     "typings": "^2.1.1"
   }
 }

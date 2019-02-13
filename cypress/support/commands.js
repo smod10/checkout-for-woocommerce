@@ -68,7 +68,5 @@ Cypress.Commands.add( "fill_customer_information_tab_and_advance", () => {
 
 	cy.get( general.ctnToShipMethodBtn ).click();
 
-	cy.wait( "@updateCheckout" );
-
 	cy.hash().should( 'eq', tabs.shippingMethod );
 } );

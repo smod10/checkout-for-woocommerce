@@ -76,6 +76,11 @@ export class TabContainer extends Element {
         checkout_form.on( 'change', '.address-field select', this.triggerUpdateCheckout );
         checkout_form.on( 'change', '.address-field input.input-text, .update_totals_on_change input.input-text', this.triggerUpdateCheckout );
         checkout_form.on( 'keydown', '.address-field input.input-text, .update_totals_on_change input.input-text', this.triggerUpdateCheckout );
+
+        /**
+         * We were going to rely on field changes, but ultimately this is a leaner way to do it
+         */
+        checkout_form.on( 'click', '#cfw-shipping-info-action .cfw-next-tab', this.triggerUpdateCheckout );
     }
 
     /**

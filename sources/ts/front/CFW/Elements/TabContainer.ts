@@ -83,9 +83,15 @@ export class TabContainer extends Element {
      *
      * This should be the ONLY place we call this ourselves
      */
-    triggerUpdateCheckout( force_updated_checkout: Boolean = false ) {
+    triggerUpdateCheckout( force_updated_checkout: boolean = false ) {
+        let main: Main = Main.instance;
+
         if( ! CompleteOrderAction.initCompleteOrder ) {
-            jQuery(document.body).trigger('update_checkout', [{force_updated_checkout: force_updated_checkout}] );
+            if ( force_updated_checkout ) {
+                main.force_updated_checkout = force_updated_checkout;
+            }
+
+            jQuery(document.body).trigger( 'update_checkout' );
         }
     }
 
@@ -278,9 +284,10 @@ export class TabContainer extends Element {
     setUpdateCheckoutHandler() {
         let main: Main = Main.instance;
 
-        jQuery(document.body).on("update_checkout", (e, data) => {
+        jQuery(document.body).on("update_checkout", (e) => {
             if( ! main.updating ) {
                 main.updating = true;
+
                 jQuery("#cfw-billing-methods").block({
                     message: null,
                     overlayCSS: {
@@ -289,13 +296,7 @@ export class TabContainer extends Element {
                     }
                 });
 
-                let form_object = this.getFormObject();
-
-                if ( data.hasOwnProperty('force_updated_checkout') ) {
-                    form_object['force_updated_checkout'] = data.force_updated_checkout;
-                }
-
-                new UpdateCheckoutAction( "update_checkout", main.ajaxInfo, form_object ).load();
+                new UpdateCheckoutAction( "update_checkout", main.ajaxInfo, this.getFormObject() ).load();
             }
         });
     }

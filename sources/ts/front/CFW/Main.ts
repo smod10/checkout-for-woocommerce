@@ -21,7 +21,6 @@ declare let jQuery: any;
  * The main class of the front end checkout system
  */
 export class Main {
-
 	/**
 	 * @type {any}
 	 * @private
@@ -105,6 +104,12 @@ export class Main {
 	 * @private
 	 */
 	private _updating: boolean;
+
+	/**
+	 * @type {boolean}
+	 * @private
+	 */
+	private _force_updated_checkout: boolean;
 
 	/**
 	 * @type {MutationObserver}
@@ -609,6 +614,20 @@ export class Main {
 	 */
 	set errorObserver(value: MutationObserver) {
 		this._errorObserver = value;
+	}
+
+	/**
+	 * @returns {boolean}
+	 */
+	get force_updated_checkout(): boolean {
+		return this._force_updated_checkout;
+	}
+
+	/**
+	 * @param {boolean} value
+	 */
+	set force_updated_checkout(value: boolean) {
+		this._force_updated_checkout = value;
 	}
 
 	/**

@@ -140,18 +140,19 @@ export class UpdateCheckoutAction extends Action {
         // since we replaced the HTML
         Main.instance.tabContainer.setUpPaymentGatewayRadioButtons();
 
-		main.updating = false;
-        updated_payment_methods_container.unblock();
-
         /**
          * A custom event that runs every time, since we are supressing
          * updated_checkout if the payment gateways haven't updated
          */
 		jQuery(document.body).trigger( 'cfw_updated_checkout' );
 
-		if ( this.data['force_updated_checkout'] == true || false !== resp.updated_payment_methods ) {
+		if ( main.force_updated_checkout == true || false !== resp.updated_payment_methods ) {
+		    main.force_updated_checkout = false;
             Main.instance.tabContainer.triggerUpdatedCheckout();
         }
+
+        main.updating = false;
+        updated_payment_methods_container.unblock();
     }
 
     /**

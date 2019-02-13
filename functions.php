@@ -604,7 +604,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		    $payment_methods_html = preg_replace( '/data-amount="[0-9]+"/', '', $payment_methods_html );
 
 		    // Braintree
-		    $payment_methods_html = preg_replace( '/<input type="hidden" name="wc-braintree-credit-card-3d-secure-order-total" value="[0-9]+\.?[0-9]+" />/', '', $payment_methods_html );
+		    $payment_methods_html = preg_replace( '/<input type="hidden" name="wc-braintree-credit-card-3d-secure-order-total" value="[0-9]+\.?[0-9]+" \/>/', '', $payment_methods_html );
         }
 
 	    return md5( $payment_methods_html );

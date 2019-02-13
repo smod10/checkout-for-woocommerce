@@ -73,13 +73,13 @@ class UpdateCheckoutAction extends Action {
 
 		unset( WC()->session->refresh_totals, WC()->session->reload_checkout );
 
-		$updated_payment_methods = apply_filters('cfw_update_payment_methods', cfw_get_payment_methods() );
-		$payment_methods_html = cfw_get_payment_methods_html();
+		$updated_payment_methods = apply_filters( 'cfw_update_payment_methods', cfw_get_payment_methods() );
+		$payment_methods_html    = cfw_get_payment_methods_html();
 
 		/**
 		 * If gateways haven't changed, set to false so that we don't replace
 		 */
-		if ( cfw_get_payment_methods_html_fingerprint( $payment_methods_html ) == $_POST[ 'cfw_payment_methods_fingerprint' ] && ( empty($_POST['force_updated_checkout']) || $_POST['force_updated_checkout'] !== "true" ) ) {
+		if ( cfw_get_payment_methods_html_fingerprint( $payment_methods_html ) == $_POST['cfw_payment_methods_fingerprint'] && ( empty( $_POST['force_updated_checkout'] ) || $_POST['force_updated_checkout'] !== 'true' ) ) {
 			$updated_payment_methods = false;
 		}
 

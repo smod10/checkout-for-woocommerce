@@ -26,6 +26,13 @@ class Redirect {
 	 */
 	public static function checkout($settings_manager, $path_manager, $template_manager, $version) {
 		if ( apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) ) {
+			/**
+			 * PHP Warning / Notice Suppression
+			 */
+			if ( ! defined( 'CFW_DEV_MODE' ) || ! CFW_DEV_MODE ) {
+				ini_set( 'display_errors', 'Off' );
+            }
+
 			// This seems to be a 3.5 requirement
 			// Ensure gateways and shipping methods are loaded early.
 			WC()->payment_gateways();

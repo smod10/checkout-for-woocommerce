@@ -280,8 +280,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	                        <?php do_action('cfw_checkout_after_payment_methods_tab'); ?>
                         </div>
                     </div>
-
-	                <?php wp_nonce_field( 'woocommerce-process_checkout', 'woocommerce-process-checkout-nonce' ); ?>
                 </form>
 				<?php else: ?>
 					<?php do_action('cfw_checkout_form'); ?>

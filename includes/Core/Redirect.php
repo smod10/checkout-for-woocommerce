@@ -33,6 +33,18 @@ class Redirect {
 				ini_set( 'display_errors', 'Off' );
             }
 
+			/**
+			 * Discourage Caching if Anyone Dares Try
+			 */
+			header( 'Cache-Control: no-store, no-cache, must-revalidate, max-age=0' );
+			header( 'Cache-Control: post-check=0, pre-check=0', false );
+			header( 'Pragma: no-cache' );
+
+			/**
+			 * Set Checkout Constant
+			 */
+			wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
+
 			// This seems to be a 3.5 requirement
 			// Ensure gateways and shipping methods are loaded early.
 			WC()->payment_gateways();
@@ -44,8 +56,6 @@ class Redirect {
 				wp_redirect( wc_get_page_permalink( 'cart' ) );
 				exit;
 			}
-
-			wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());

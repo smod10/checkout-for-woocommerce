@@ -121,12 +121,8 @@ export class TabContainer extends Element {
         }
 
         jQuery('input[name^="payment_method"][type="radio"]:checked').trigger( 'click' );
-
-        /**
-         * TODO: This should probably only run when the gateway has changed, not on init
-         */
-        jQuery( document.body ).trigger( 'payment_method_selected' );
     }
+
     /**
      *
      */
@@ -279,7 +275,15 @@ export class TabContainer extends Element {
      */
     setPaymentMethodUpdate(): void {
         jQuery(document.body).on('click', 'input[name^="payment_method"][type="radio"]', function() {
+            if ( jQuery( this ).data( 'order_button_text' ) ) {
+                jQuery( '#place_order' ).text( jQuery( this ).data( 'order_button_text' ) );
+            } else {
+                jQuery( '#place_order' ).text( jQuery( '#place_order' ).data( 'value' ) );
+            }
+
             new UpdatePaymentMethod("update_payment_method", Main.instance.ajaxInfo, jQuery(this).val() ).load();
+
+            jQuery( document.body ).trigger( 'payment_method_selected' );
         });
     }
 

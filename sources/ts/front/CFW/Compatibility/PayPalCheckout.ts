@@ -13,7 +13,7 @@ export class PayPalCheckout extends Compatibility {
     }
 
     load(main: Main): void {
-        jQuery(window).one('cfw_updated_checkout', () => {
+        jQuery(window).on('cfw_updated_checkout', () => {
             let max_iterations = 200;
             let iterations = 0;
 

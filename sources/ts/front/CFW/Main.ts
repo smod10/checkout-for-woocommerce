@@ -257,11 +257,6 @@ export class Main {
 		this.tabContainer.setTermsAndConditions();
 		this.zipAutocompleteService.setZipAutocompleteHandlers();
 
-		// Make sure this happens every time
-		jQuery(document.body).on('cfw_updated_checkout', () => {
-			this.tabContainer.initSelectedPaymentGateway();
-		});
-
 		// Page load actions
 		jQuery(window).on('load', () => {
 			this.tabContainer.setUpPaymentGatewayRadioButtons();

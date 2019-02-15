@@ -10,6 +10,10 @@ class WooCommerceCore extends Base {
 	}
 
 	public function pre_init() {
+		if ( is_ajax() ) {
+			return;
+		}
+		
 		add_action( 'wp_loaded', array( $this, 'move_add_to_cart_action' ), 0 );
 		add_filter( 'wc_add_to_cart_message_html', array( $this, 'suppress_add_to_cart_notices' ), 1 ); // run this late
 	}

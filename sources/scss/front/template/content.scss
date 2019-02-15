@@ -579,6 +579,16 @@ label[for="card-element"] {
     font-weight: 700;
     color: #000;
   }
+
+  .place-order {
+    display: none;
+    margin-top: 1em;
+    text-align: right;
+  }
+}
+
+.payment-tab-active #cfw-totals-list .place-order {
+  display: block;
 }
 
 .cfw-flex-row {
@@ -700,7 +710,9 @@ select {
   justify-content: space-between;
   align-items: center;
   margin-top: 1.5em;
+}
 
+.cfw-bottom-controls, .place-order {
   .cfw-primary-btn {
     cursor: pointer;
     display: inline-block;

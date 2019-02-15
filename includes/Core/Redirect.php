@@ -245,7 +245,8 @@ class Redirect {
 			.cfw-link, .woocommerce-remove-coupon {
 				color: <?php echo $settings_manager->get_setting('link_color', array($active_theme) ); ?> !important;
 			}
-			.cfw-bottom-controls .cfw-primary-btn {
+
+            .cfw-bottom-controls .cfw-primary-btn, .place-order .cfw-primary-btn {
 				background-color: <?php echo $settings_manager->get_setting('button_color', array($active_theme) ); ?>;
 				color: <?php echo $settings_manager->get_setting('button_text_color', array($active_theme) ); ?>;
 			}

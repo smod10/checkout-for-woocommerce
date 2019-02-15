@@ -128,7 +128,7 @@ export class UpdateCheckoutAction extends Action {
 
         // Update Place Order Button Container
         let updated_place_order_container = jQuery('#cfw-place-order');
-        updated_place_order_container.html(`${resp.updated_place_order}`);
+        updated_place_order_container.replaceWith(`${resp.updated_place_order}`);
 
         // Toggle payment required, in case it has changed
         Main.togglePaymentRequired(resp.needs_payment);

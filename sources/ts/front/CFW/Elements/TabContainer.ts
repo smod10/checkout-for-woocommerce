@@ -489,16 +489,26 @@ export class TabContainer extends Element {
      *
      */
     setApplyCouponListener() {
-        jQuery("#cfw-promo-code-btn").on('click', () => {
+        let promo_apply_button = jQuery( "#cfw-promo-code-btn" );
+
+        jQuery("#cfw-promo-code").on( 'keypress', function(e) {
+            if ( e.which == 13 ) {
+                e.preventDefault();
+
+                promo_apply_button.trigger( 'click' );
+            }
+        } );
+
+        promo_apply_button.on( 'click', () => {
             let coupon_field: any = jQuery("#cfw-promo-code");
 
-            if(coupon_field.val() !== "") {
-                new ApplyCouponAction('cfw_apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFormObject()).load();
+            if( coupon_field.val() !== "" ) {
+                new ApplyCouponAction( 'cfw_apply_coupon', Main.instance.ajaxInfo, coupon_field.val(), Main.instance.cart, this.getFormObject() ).load();
             } else {
                 // Remove alerts
-                Alert.removeAlerts(Main.instance.alertContainer);
+                Alert.removeAlerts( Main.instance.alertContainer );
             }
-        })
+        } );
     }
 
     /**

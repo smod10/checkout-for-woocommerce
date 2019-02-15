@@ -64,8 +64,9 @@ export class ParsleyService {
     setParsleyValidators(): void {
         let max_iterations = 1000;
         let iterations = 0;
+        let interval = 0;
 
-        let interval: any = setInterval(() => {
+        interval = setInterval(() => {
             if ( w.Parsley !== undefined ) {
                 this.parsley = w.Parsley;
                 this.parsley.on('form:error', () => {

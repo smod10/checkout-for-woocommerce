@@ -6,6 +6,10 @@ export class ZipAutocompleteService {
      * Attach change events to postcode fields
      */
     setZipAutocompleteHandlers() {
+        if ( w.cfwEventData.settings.enable_zip_autocomplete != true ) {
+            return true;
+        }
+        
         jQuery( document.body ).on( 'textInput input change keypress paste', '#shipping_postcode, #billing_postcode', this.autoCompleteCityState );
     }
 

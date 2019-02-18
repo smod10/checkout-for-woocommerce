@@ -124,6 +124,10 @@ export class UpdateCheckoutAction extends Action {
                     }
                 });
             }
+
+            // Setup payment gateway radio buttons again
+            // since we replaced the HTML
+            Main.instance.tabContainer.setUpPaymentGatewayRadioButtons();
         }
 
         // Update Place Order Button Container
@@ -136,9 +140,10 @@ export class UpdateCheckoutAction extends Action {
         // Update Cart Totals
         Cart.outputValues(main.cart, resp.new_totals);
 
-        // Setup payment gateway radio buttons again
-        // since we replaced the HTML
-        Main.instance.tabContainer.setUpPaymentGatewayRadioButtons();
+        /**
+         * Re-init Payment Gateways
+         */
+        main.tabContainer.initSelectedPaymentGateway();
 
         /**
          * A custom event that runs every time, since we are supressing

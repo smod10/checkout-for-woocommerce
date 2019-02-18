@@ -103,7 +103,7 @@ export class EasyTabService {
             // Add payment tab active class on window load
             jQuery( window ).on( 'load cfw_updated_checkout', () => {
                 let hash = window.location.hash;
-                console.log( 'HASH: ' + hash );
+                
                 this.setPaymentTabActiveClass( payment_tab.is( hash ) );
             } );
 		} else {

@@ -13,6 +13,13 @@ class WooCommerceGermanized extends Base {
 		return function_exists( 'WC_germanized' );
 	}
 
+	public function pre_init() {
+		/**
+		 * Don't monkey around with gateways
+		 */
+		add_filter( 'woocommerce_gzd_compatibilities', array( $this, 'override_ppec_compat' ), 1000, 1 );
+	}
+
 	public function run() {
 		add_action( 'cfw_checkout_before_payment_method_tab_nav', 'woocommerce_gzd_template_render_checkout_checkboxes' );
 		add_action( 'cfw_checkout_before_payment_method_tab_nav', 'woocommerce_gzd_template_checkout_set_terms_manually' );
@@ -23,5 +30,13 @@ class WooCommerceGermanized extends Base {
 		remove_action( 'woocommerce_review_order_before_submit', 'woocommerce_gzd_template_set_order_button_remove_filter', PHP_INT_MAX );
 		remove_action( 'woocommerce_review_order_after_submit', 'woocommerce_gzd_template_set_order_button_show_filter', PHP_INT_MAX );
 		remove_action( 'woocommerce_gzd_review_order_before_submit', 'woocommerce_gzd_template_set_order_button_show_filter', PHP_INT_MAX );
+	}
+
+	function override_ppec_compat( $plugins ) {
+		if ( ( $key = array_search( 'woocommerce-gateway-paypal-express-checkout', $plugins ) ) !== false ) {
+			unset( $plugins[ $key ] );
+		}
+
+		return $plugins;
 	}
 }

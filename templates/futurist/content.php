@@ -307,9 +307,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <h3 class="cfw-module-title">
                                 <?php _e('Your Cart', 'checkout-wc'); ?>
                             </h3>
-                            <div id="cfw-cart-list" class="cfw-module">
-                                <?php cfw_get_checkout_cart_html(); ?>
-                            </div>
+
+	                        <?php cfw_cart_html(); ?>
 
                             <div id="cfw-deductors-list" class="cfw-module">
                                 <?php if ( wc_coupons_enabled() ): ?>

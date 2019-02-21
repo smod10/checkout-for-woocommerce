@@ -35,6 +35,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnaly
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\UltimateRewardsPoints;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceCore;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommercePriceBasedOnCountry;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSmartCoupons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WPGensReferAFriend;
@@ -167,6 +168,9 @@ class Manager {
 
 		// ToCheckout
 		new ToCheckout();
+
+		// WooCommerce Price Based on Country
+		new WooCommercePriceBasedOnCountry();
 
 		/**
 		 * Themes

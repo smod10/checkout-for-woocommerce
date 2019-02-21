@@ -50,10 +50,16 @@ class NLPostcodeChecker extends Base {
 			}
 		}
 
-		remove_filter( 'woocommerce_billing_fields', array( $WPO_WCNLPC_Checkout, 'nl_billing_fields' ), 100, 2 );
-		remove_filter( 'woocommerce_shipping_fields', array( $WPO_WCNLPC_Checkout, 'nl_shipping_fields' ), 100, 2 );
-		remove_filter( 'woocommerce_billing_fields', array( $WC_NLPostcode_Fields, 'nl_billing_fields' ), $priority, 2 );
-		remove_filter( 'woocommerce_shipping_fields', array( $WC_NLPostcode_Fields, 'nl_shipping_fields' ),$priority, 2 );
+		if ( ! empty( $WPO_WCNLPC_Checkout ) ) {
+			remove_filter( 'woocommerce_billing_fields', array( $WPO_WCNLPC_Checkout, 'nl_billing_fields' ), 100 );
+			remove_filter( 'woocommerce_shipping_fields', array( $WPO_WCNLPC_Checkout, 'nl_shipping_fields' ), 100 );
+		}
+
+		if ( ! empty( $WC_NLPostcode_Fields ) ) {
+			remove_filter( 'woocommerce_billing_fields', array( $WC_NLPostcode_Fields, 'nl_billing_fields' ), $priority );
+			remove_filter( 'woocommerce_shipping_fields', array( $WC_NLPostcode_Fields, 'nl_shipping_fields' ),$priority );
+			remove_action('woocommerce_checkout_update_order_meta', array( &$WC_NLPostcode_Fields, 'merge_street_number_suffix' ), 20 );
+		}
 	}
 
 	function wp() {

@@ -104,6 +104,7 @@ class UpdateCheckoutAction extends Action {
 				'updated_other_totals'     => $other_totals,
 				'updated_payment_methods'  => $updated_payment_methods,
 				'updated_place_order'      => cfw_get_place_order(),
+				'updated_cart'             => cfw_get_cart_html(),
 			)
 		);
 	}

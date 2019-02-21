@@ -16,6 +16,7 @@ class UpdateCheckoutAction extends Action {
 		wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
 		do_action( 'woocommerce_checkout_update_order_review', $_POST['post_data'] );
+		do_action( 'cfw_checkout_update_order_review' );
 
 		$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
 
@@ -104,6 +105,7 @@ class UpdateCheckoutAction extends Action {
 				'updated_other_totals'     => $other_totals,
 				'updated_payment_methods'  => $updated_payment_methods,
 				'updated_place_order'      => cfw_get_place_order(),
+				'updated_cart'             => cfw_get_cart_html(),
 			)
 		);
 	}

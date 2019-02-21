@@ -316,9 +316,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </div>
 
                             <div id="cfw-cart-details-collapse-wrap">
-                                <div id="cfw-cart-list" class="cfw-module">
-                                    <?php cfw_get_checkout_cart_html(); ?>
-                                </div>
+	                            <?php cfw_cart_html(); ?>
 
                                 <div id="cfw-deductors-list" class="cfw-module">
                                     <?php if ( wc_coupons_enabled() ): ?>

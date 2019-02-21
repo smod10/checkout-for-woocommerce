@@ -442,7 +442,70 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
         echo cfw_get_payment_methods_html();
     }
 
+    function cfw_cart_html() {
+	    echo cfw_get_cart_html();
+    }
+
+	function cfw_get_cart_html() {
+		$cart = WC()->cart;
+
+		ob_start(); ?>
+        <div id="cfw-cart-list" class="cfw-module">
+        <?php foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {
+			$_product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
+			if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_checkout_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
+				$item_data = $cart_item['data'];
+
+				$item_thumb_url = wp_get_attachment_url( $item_data->get_image_id() );
+				$item_quantity  = $cart_item['quantity'];
+				$item_title     = $item_data->get_name();
+				$item_url       = get_permalink( $cart_item['product_id'] );
+				$item_subtotal  = $cart->get_product_subtotal( $_product, $cart_item['quantity'] );
+				/**
+				 * If the product doesn't have an image increment the title and subtotal by half the image column size
+				 * to accommodate the lack of an image
+				 */
+				$columns        = array(
+					"image"     => 2,
+					"title"     => 7 + ((!$item_thumb_url) ? 1 : 0),
+					"subtotal"  => 3 + ((!$item_thumb_url) ? 1 : 0)
+				);
+				$column_base = "cfw-column-";
+				?>
+                <div class="cfw-cart-row cfw-sg-container cfw-collapse">
+					<?php if($item_thumb_url): ?>
+                        <div class="cfw-cart-item-image cfw-cart-item-col <?php echo "${column_base}${columns["image"]}"; ?>">
+                            <img src="<?php echo $item_thumb_url; ?>"/>
+                        </div>
+					<?php endif; ?>
+                    <div class="cfw-cart-item-title-quantity cfw-cart-item-col <?php echo "${column_base}${columns["title"]}"; ?>">
+                        <div class="cfw-cart-item-title">
+							<?php if ( apply_filters('cfw_link_cart_items', __return_false() ) ): ?>
+                                <a target="_blank" href="<?php echo $item_url; ?>" class="cfw-link"><?php echo $item_title; ?></a> x
+							<?php else: ?>
+								<?php echo $item_title; ?> x
+							<?php endif; ?>
+                            <strong><?php echo $item_quantity; ?></strong>
+                        </div>
+						<?php echo cfw_get_formatted_cart_item_data( $cart_item ); ?>
+                    </div>
+                    <div class="cfw-cart-item-subtotal cfw-cart-item-col <?php echo "${column_base}${columns["subtotal"]}"; ?>">
+						<?php echo $item_subtotal; ?>
+                    </div>
+                </div>
+				<?php
+			}
+		}
+		?>
+        </div>
+        <?php
+		return ob_get_clean();
+	}
+
     function cfw_get_checkout_cart_html() {
+	    _deprecated_function( __FUNCTION__, '2.9.0', 'cfw_cart_html' );
+
 	    $cart = WC()->cart;
 
         foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {

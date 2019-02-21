@@ -33,6 +33,10 @@ class WooCommerceCore extends Base {
 
 	public function remove_scripts( $scripts ) {
 		$scripts['woocommerce'] = 'woocommerce';
+		$scripts['wc-checkout'] = 'wc-checkout';
+		$scripts['wc-cart-fragments'] = 'wc-cart-fragments';
+		$scripts['wc-address-i18n'] = 'wc-address-i18n';
+		$scripts['wc-country-select'] = 'wc-country-select';
 
 		return $scripts;
 	}

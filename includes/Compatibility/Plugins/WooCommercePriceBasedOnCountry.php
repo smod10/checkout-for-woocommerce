@@ -27,6 +27,10 @@ class WooCommercePriceBasedOnCountry extends Base {
 			wcpbc_set_wc_biling_country( $country );
 		}
 
+		if ( ! empty( $_POST['ship_to_different_address'] ) && $_POST['ship_to_different_address'] == 'same_as_shipping' && $s_country ) {
+			wcpbc_set_wc_biling_country( $s_country );
+		}
+
 		if ( wc_ship_to_billing_address_only() ) {
 			if ( $country ) {
 				WC()->customer->set_shipping_country( $country );

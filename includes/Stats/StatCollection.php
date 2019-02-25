@@ -322,6 +322,9 @@ class StatCollection extends Singleton {
 	    return $settings;
     }
 
+	/**
+	 * @return mixed
+	 */
     public function get_woo_site_settings() {
         $settings_pages = \WC_Admin_Settings::get_settings_pages();
 

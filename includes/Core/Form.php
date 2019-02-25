@@ -317,6 +317,9 @@ class Form {
 
 		$end = "$inner_end</div>";
 
+		$start = apply_filters( 'cfw_input_wrap_start', $start, $type, $col, $priority );
+		$end   = apply_filters( 'cfw_input_wrap_end', $end, $type, $col, $priority );
+
 		return (object) [
 			'start' => $start,
 			'end'   => $end,

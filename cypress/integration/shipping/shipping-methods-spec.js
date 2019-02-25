@@ -20,9 +20,10 @@ describe( 'Test Shipping Tab', function() {
 
 		// TODO: This test is very configuration specific. Please refactor
 		it( 'Ground shipping costs correct amount', () => {
-			cy.get( 'input[name="shipping_method[0]"]' ).first().check();
-
-			cy.wait("@updateCheckout");
+			// The first shipping option should always be checked
+			// So using .check() isn't going to fire updateCheckout
+			// Thus, we work with what should be true
+			cy.get( 'input[name="shipping_method[0]"]' ).first().should('be.checked');
 
 			cy.get( '#cfw-cart-shipping-total .amount' ).should( 'contain', '10.00' );
 		});
@@ -30,7 +31,7 @@ describe( 'Test Shipping Tab', function() {
 		it( 'Free shipping costs the correct amount', () => {
 			cy.get( 'input[name="shipping_method[0]"]' ).last().check();
 
-			cy.wait("@updateCheckout");
+			cy.wait("@updateCheckout", { timeout: 10000} );
 
 			cy.get( '#cfw-cart-shipping-total .amount' ).should( 'contain', 'Free' );
 		});

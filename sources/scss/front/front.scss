@@ -74,11 +74,13 @@ body {
 @import "compatibility/woocommerce-hear-about-us";
 @import "compatibility/craftyclicks";
 @import "compatibility/woocommerce-subscriptions";
-@import "compatibility/mailchimp";
+@import "compatibility/mailchimp-for-woocommerce";
 @import "compatibility/klarna";
 @import "compatibility/cielo";
 @import "compatibility/tocheckout";
 @import "compatibility/woocommerce-germanized";
+@import "compatibility/wc-postcode-checker";
+@import "compatibility/eu-vat-number";
 @import "template/form";
 @import "template/header";
 @import "template/content";

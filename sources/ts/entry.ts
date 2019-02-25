@@ -1,3 +1,4 @@
+import 'ts-polyfill';
 import { Main }                             from "./front/CFW/Main";
 import { TabContainer }                     from "./front/CFW/Elements/TabContainer";
 import { TabContainerBreadcrumb }           from "./front/CFW/Elements/TabContainerBreadcrumb";
@@ -18,30 +19,29 @@ import { CompatibilityClasses }             from "./compatibility-classes";
  */
 
 let w: any = window;
-declare var $: any;
+declare var jQuery: any;
 (<any>window).CompatibilityClasses = CompatibilityClasses;
 (<any>window).errorObserverIgnoreList = [];
 
 w.addEventListener("cfw-initialize", eventData => {
 	let data = eventData.detail;
-    $ = data.$;
 
-	let checkoutFormEl = $(data.elements.checkoutFormSelector);
-	let easyTabsWrapEl = $(data.elements.easyTabsWrapElClass);
-	let breadCrumbEl = $(data.elements.breadCrumbElId);
-	let customerInfoEl = $(data.elements.customerInfoElId);
-	let shippingMethodEl = $(data.elements.shippingMethodElId);
-	let paymentMethodEl = $(data.elements.paymentMethodElId);
-	let alertContainerEl = $(data.elements.alertContainerId);
-	let tabContainerEl = $(data.elements.tabContainerElId);
-	let cartContainer = $(data.elements.cartContainerId);
-	let cartSubtotal = $(data.elements.cartSubtotalId);
-	let cartShipping = $(data.elements.cartShippingId);
-	let cartTaxes = $(data.elements.cartTaxesId);
-	let cartFees = $(data.elements.cartFeesId);
-	let cartTotal = $(data.elements.cartTotalId);
-	let cartCoupons = $(data.elements.cartCouponsId);
-	let cartReviewBar = $(data.elements.cartReviewBarId);
+	let checkoutFormEl = jQuery(data.elements.checkoutFormSelector);
+	let easyTabsWrapEl = jQuery(data.elements.easyTabsWrapElClass);
+	let breadCrumbEl = jQuery(data.elements.breadCrumbElId);
+	let customerInfoEl = jQuery(data.elements.customerInfoElId);
+	let shippingMethodEl = jQuery(data.elements.shippingMethodElId);
+	let paymentMethodEl = jQuery(data.elements.paymentMethodElId);
+	let alertContainerEl = jQuery(data.elements.alertContainerId);
+	let tabContainerEl = jQuery(data.elements.tabContainerElId);
+	let cartContainer = jQuery(data.elements.cartContainerId);
+	let cartSubtotal = jQuery(data.elements.cartSubtotalId);
+	let cartShipping = jQuery(data.elements.cartShippingId);
+	let cartTaxes = jQuery(data.elements.cartTaxesId);
+	let cartFees = jQuery(data.elements.cartFeesId);
+	let cartTotal = jQuery(data.elements.cartTotalId);
+	let cartCoupons = jQuery(data.elements.cartCouponsId);
+	let cartReviewBar = jQuery(data.elements.cartReviewBarId);
 
 	// Allow users to add their own Typescript Compatibility classes
 	window.dispatchEvent(new CustomEvent("cfw-add-user-compatibility-definitions"));

@@ -16,6 +16,7 @@ class UpdateCheckoutAction extends Action {
 		wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
 		do_action( 'woocommerce_checkout_update_order_review', $_POST['post_data'] );
+		do_action( 'cfw_checkout_update_order_review' );
 
 		$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
 
@@ -73,6 +74,16 @@ class UpdateCheckoutAction extends Action {
 
 		unset( WC()->session->refresh_totals, WC()->session->reload_checkout );
 
+		$updated_payment_methods = apply_filters( 'cfw_update_payment_methods', cfw_get_payment_methods() );
+		$payment_methods_html    = cfw_get_payment_methods_html();
+
+		/**
+		 * If gateways haven't changed, set to false so that we don't replace
+		 */
+		if ( cfw_get_payment_methods_html_fingerprint( $payment_methods_html ) == $_POST['cfw_payment_methods_fingerprint'] && ( empty( $_POST['force_updated_checkout'] ) || $_POST['force_updated_checkout'] !== 'true' ) ) {
+			$updated_payment_methods = false;
+		}
+
 		ob_start();
 		do_action( 'woocommerce_review_order_after_order_total' );
 		$other_totals = ob_get_clean();
@@ -92,8 +103,9 @@ class UpdateCheckoutAction extends Action {
 				'updated_ship_methods'     => $this->get_shipping_methods(),
 				'updated_shipping_preview' => cfw_get_shipping_details( WC()->checkout() ),
 				'updated_other_totals'     => $other_totals,
-				'updated_payment_methods'  => apply_filters('cfw_update_payment_methods', cfw_get_payment_methods() ),
+				'updated_payment_methods'  => $updated_payment_methods,
 				'updated_place_order'      => cfw_get_place_order(),
+				'updated_cart'             => cfw_get_cart_html(),
 			)
 		);
 	}

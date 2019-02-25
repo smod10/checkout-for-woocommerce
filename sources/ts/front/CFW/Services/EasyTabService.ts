@@ -3,6 +3,8 @@ import { TabContainerSection }              from "../Elements/TabContainerSectio
 import { TabContainer }                     from "../Elements/TabContainer";
 import { TabContainerBreadcrumb } 			from "../Elements/TabContainerBreadcrumb";
 
+declare let jQuery: any;
+
 /**
  * EzTab Enum
  */
@@ -58,7 +60,7 @@ export class EasyTabService {
                 currentTabIndex = index;
             }
 
-            if($tab.is($(target))) {
+            if($tab.is(jQuery(target))) {
                 targetTabIndex = index;
             }
         });
@@ -70,7 +72,10 @@ export class EasyTabService {
      *
      */
     initialize(breadcrumb: TabContainerBreadcrumb) {
-        if(this.isDisplayed) {
+        if( this.isDisplayed ) {
+            let main = Main.instance;
+            let payment_tab = main.tabContainer.tabContainerSectionBy("name", "payment_method").jel;
+
 			this.easyTabsWrap.easytabs({
 				defaultTab: "li.tab#default-tab",
 				tabs: "ul > li.tab"
@@ -79,9 +84,46 @@ export class EasyTabService {
 			this.easyTabsWrap.removeClass("cfw-tabs-not-initialized");
 
 			breadcrumb.show();
+
+            this.easyTabsWrap.bind( 'easytabs:after', ( event, clicked, target ) => {
+                // Scroll to the top of current tab on tab switch
+                jQuery( document.body ).animate( {
+                    scrollTop: jQuery( '#cfw-tab-container' ).offset().top
+                }, 300 );
+
+                // Add a class to checkout form to indicate payment tab is active tab
+                // Doesn't work when tab is initialized by hash in URL
+                let easyTabDirection: EasyTabDirection = EasyTabService.getTabDirection(target);
+                let payment_tab_id = payment_tab.attr("id");
+                let current_tab_id = EasyTabService.getTabId(easyTabDirection.target);
+
+                this.setPaymentTabActiveClass( payment_tab_id == current_tab_id );
+            } );
+
+            // Add payment tab active class on window load
+            jQuery( window ).on( 'load cfw_updated_checkout', () => {
+                let hash = window.location.hash;
+                
+                this.setPaymentTabActiveClass( payment_tab.is( hash ) );
+            } );
 		} else {
         	breadcrumb.hide();
 		}
+    }
+
+    /**
+     *
+     * @param active Boolean
+     */
+    setPaymentTabActiveClass( active: Boolean ) {
+        let main = Main.instance;
+        let checkout_form = main.checkoutForm;
+
+        if ( active ) {
+            checkout_form.addClass( 'payment-tab-active' );
+        } else {
+            checkout_form.removeClass( 'payment-tab-active' );
+        }
     }
 
     /**

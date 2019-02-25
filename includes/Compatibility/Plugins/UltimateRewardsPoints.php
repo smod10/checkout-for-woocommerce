@@ -1,0 +1,34 @@
+<?php
+
+namespace Objectiv\Plugins\Checkout\Compatibility\Plugins;
+
+use Objectiv\Plugins\Checkout\Compatibility\Base;
+
+class UltimateRewardsPoints extends Base {
+	public function is_available() {
+		return defined('MWB_WPR_DIRPATH');
+	}
+
+	public function run() {
+		// Add earn points and save message
+		add_action( 'cfw_checkout_before_form', array( $this, 'render_earn_points_message' ) );
+	}
+
+	function render_earn_points_message() {
+		$user_id = get_current_user_ID();
+		if(isset($user_id) && !empty($user_id)){
+
+			$get_points = (int)get_user_meta($user_id,'mwb_wpr_points',true);
+			$mwb_wpr_cart_points_rate = get_option("mwb_wpr_cart_points_rate",1);
+			$mwb_wpr_cart_price_rate = get_option("mwb_wpr_cart_price_rate",1);
+			$conversion = ($get_points * $mwb_wpr_cart_price_rate / $mwb_wpr_cart_points_rate); ?>
+			<div class="custom_point_checkout woocommerce-info">
+				<input type="number" name="mwb_cart_points" class="input-text" id="mwb_cart_points" value="" placeholder="<?php esc_attr_e( 'Points', MWB_WPR_Domain ); ?>"/>
+				<input type="button" name="mwb_cart_points_apply" data-point="<?php echo $get_points;?>" data-id="<?php echo $user_id;?>"" class="button mwb_cart_points_apply" id="mwb_cart_points_apply" value="<?php _e('Apply Points',MWB_WPR_Domain);?>"/>
+				<p><?php echo $get_points.__(' Points',MWB_WPR_Domain) .' = '.wc_price($conversion); ?></p>
+			</div>
+
+			<?php
+		}
+	}
+}

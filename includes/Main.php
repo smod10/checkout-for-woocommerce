@@ -477,7 +477,7 @@ class Main extends Singleton {
 	 * Set the plugin assets
 	 */
 	public function set_assets() {
-		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+		if ( ! apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) ) {
 			return;
 		}
 
@@ -504,10 +504,48 @@ class Main extends Singleton {
 		$user_style_min = ( $selected_template_stylesheet_is_min ) ? '.min' : '';
 		$user_js_min    = ( $selected_template_javascript_is_min ) ? '.min' : '';
 
+		// Styles
 		wp_enqueue_style( 'cfw_front_css', "{$front}/css/checkout-woocommerce-front{$min}.css", array(), $this->get_version() );
 		wp_enqueue_style( 'cfw_front_template_css', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_style_filename()}{$user_style_min}.css", array(), $this->get_version() );
-		wp_enqueue_script( 'cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array( 'jquery', 'jquery-blockui' ), $this->get_version(), true );
+
+		// Scripts
+		wp_enqueue_script( 'cfw_front_js', "{$front}/js/checkout-woocommerce-front{$min}.js", array( 'jquery', 'jquery-blockui', 'jquery-migrate' ), $this->get_version() );
 		wp_enqueue_script( 'cfw_front_template_js', "{$selected_template_base_url_path}/{$this->template_manager->get_theme_javascript_filename()}{$user_js_min}.js", array( 'jquery' ), $this->get_version(), true );
+
+		wp_localize_script(
+			'cfw_front_js', 'cfwEventData', array(
+				'elements'      => array(
+					'easyTabsWrapElClass'  => apply_filters( 'cfw_template_easy_tabs_wrap_el_id', '.cfw-tabs-initialize' ),
+					'breadCrumbElId'       => apply_filters( 'cfw_template_breadcrumb_id', '#cfw-breadcrumb' ),
+					'customerInfoElId'     => apply_filters( 'cfw_template_customer_info_el', '#cfw-customer-info' ),
+					'shippingMethodElId'   => apply_filters( 'cfw_template_shipping_method_el', '#cfw-shipping-method' ),
+					'paymentMethodElId'    => apply_filters( 'cfw_template_payment_method_el', '#cfw-payment-method' ),
+					'tabContainerElId'     => apply_filters( 'cfw_template_tab_container_el', '#cfw-tab-container' ),
+					'alertContainerId'     => apply_filters( 'cfw_template_alert_container_el', '#cfw-alert-container' ),
+					'cartContainerId'      => apply_filters( 'cfw_template_cart_el', '#cfw-totals-list' ),
+					'cartSubtotalId'       => apply_filters( 'cfw_template_cart_subtotal_el', '#cfw-cart-subtotal' ),
+					'cartShippingId'       => apply_filters( 'cfw_template_cart_shipping_el', '#cfw-cart-shipping-total' ),
+					'cartTaxesId'          => apply_filters( 'cfw_template_cart_taxes_el', '#cfw-cart-taxes' ),
+					'cartFeesId'           => apply_filters( 'cfw_template_cart_fees_el', '#cfw-cart-fees' ),
+					'cartTotalId'          => apply_filters( 'cfw_template_cart_total_el', '#cfw-cart-total' ),
+					'cartCouponsId'        => apply_filters( 'cfw_template_cart_coupons_el', '#cfw-cart-coupons' ),
+					'cartReviewBarId'      => apply_filters( 'cfw_template_cart_review_bar_id', '#cfw-cart-details-review-bar' ),
+					'checkoutFormSelector' => apply_filters( 'cfw_checkout_form_selector', '.woocommerce-checkout' ),
+				),
+				'ajaxInfo'      => array(
+					'url'   => get_home_url(),
+					'nonce' => wp_create_nonce( 'some-seed-word' ),
+				),
+				'compatibility' => apply_filters( 'cfw_typescript_compatibility_classes_and_params', array() ),
+				'settings'      => array(
+					'user_logged_in'          => ( is_user_logged_in() ) ? true : false,
+					'is_stripe_three'         => ( defined( 'WC_STRIPE_VERSION' ) && ( version_compare( WC_STRIPE_VERSION, '4.0.0' ) >= 0 || version_compare( WC_STRIPE_VERSION, '3.0.0', '<' ) ) ) ? false : true,
+					'default_address_fields'  => array_keys( WC()->countries->get_default_address_fields() ),
+					'enable_zip_autocomplete' => apply_filters( 'cfw_enable_zip_autocomplete', true ) ? true : false,
+					'locale'                  => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ),
+				),
+			)
+		);
 
 		wp_localize_script(
 			'cfw_front_js', 'woocommerce_params', array(
@@ -656,7 +694,7 @@ class Main extends Singleton {
 	}
 
 	function add_admin_buttons( $admin_bar ) {
-		if ( ! function_exists('is_checkout') || ! is_checkout() ) {
+		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 			return;
 		}
 

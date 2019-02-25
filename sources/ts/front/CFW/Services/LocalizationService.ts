@@ -7,7 +7,7 @@ import {EValidationSections, ValidationService} from "./ValidationService";
 
 declare let wc_address_i18n_params: any;
 declare let wc_country_select_params: any;
-declare let $: any;
+declare let jQuery: any;
 
 export class LocalizationService {
 
@@ -15,25 +15,26 @@ export class LocalizationService {
      *  Handles localization information for countries and relevant states
      */
     setCountryChangeHandlers() {
-        let shipping_country: any = $("#shipping_country");
-        let billing_country: any = $("#billing_country");
+        let shipping_country: any = jQuery("#shipping_country");
+        let billing_country: any = jQuery("#billing_country");
 
-        let shipping_postcode: any = $("#shipping_postcode");
-        let billing_postcode: any = $("#billing_postcode");
+        let shipping_postcode: any = jQuery("#shipping_postcode");
+        let billing_postcode: any = jQuery("#billing_postcode");
 
-        let shipping_state: any = $("#shipping_state");
-        let billing_state: any = $("#billing_state");
+        let shipping_state: any = jQuery("#shipping_state");
+        let billing_state: any = jQuery("#billing_state");
 
         // When the country (shipping or billing) get's changed
         let country_change = (event) => {
-            let target: any = $(event.target);
+            let $wrapper    = jQuery( this ).closest('.woocommerce-billing-fields, .woocommerce-shipping-fields, .woocommerce-shipping-calculator');
+            let target: any = jQuery(event.target);
             let target_country: string = target.val();
             let info_type: InfoType = <InfoType>target.attr("id").split("_")[0];
             let country_state_list = JSON.parse(wc_country_select_params.countries);
             let state_list_for_country = country_state_list[target_country];
             let locale_data = JSON.parse(wc_address_i18n_params.locale);
 
-            $(`#${info_type}_state`).parsley().reset();
+            jQuery(`#${info_type}_state`).parsley().reset();
 
             // If there is a state list for the country and it actually has states in it. Handle the field generation
             if(state_list_for_country && Object.keys(state_list_for_country).length > 0) {
@@ -61,12 +62,13 @@ export class LocalizationService {
              */
             this.layoutDefaultLabelsAndRequirements(target_country, locale_data, info_type, wc_address_i18n_params.add2_text);
 
-            $(`#${info_type}_state`).parsley().reset();
+            jQuery(`#${info_type}_state`).parsley().reset();
 
             // Re-register all the elements
             Main.instance.checkoutForm.parsley();
 
-			$(document.body).trigger("update_checkout");
+			jQuery(document.body).trigger("update_checkout");
+            jQuery( document.body ).trigger( 'country_to_state_changing', [target_country, $wrapper ] );
         };
 
         let locale_data = JSON.parse(wc_address_i18n_params.locale);
@@ -90,8 +92,8 @@ export class LocalizationService {
      * Add mobile margin removal for state if it doesn't exist on page load. Also removes down arrow if no select state.
      */
     static initStateMobileMargin(): void {
-        let shipping_state_field: any = $("#shipping_state_field");
-        let billing_state_field: any = $("#billing_state_field");
+        let shipping_state_field: any = jQuery("#shipping_state_field");
+        let billing_state_field: any = jQuery("#billing_state_field");
 
         [shipping_state_field, billing_state_field].forEach(field => {
 
@@ -114,7 +116,7 @@ export class LocalizationService {
      * @param info_type
      */
     static addOrRemoveStateMarginForMobile(type: "add" | "remove", info_type) {
-        let info_type_state_field = $(`#${info_type}_state_field`);
+        let info_type_state_field = jQuery(`#${info_type}_state_field`);
         let state_gone_wrap_class = "state-gone-margin";
 
         if(type === "remove") {
@@ -146,10 +148,10 @@ export class LocalizationService {
         let label_class = "cfw-input-label";
         let asterisk = ' <abbr class="required" title="required">*</abbr>';
 
-        let $postcode = $(`#${info_type}_postcode`);
-        let $state = $(`#${info_type}_state`);
-        let $city = $(`#${info_type}_city`);
-        let $address_2 = $(`#${info_type}_address_2`);
+        let $postcode = jQuery(`#${info_type}_postcode`);
+        let $state = jQuery(`#${info_type}_state`);
+        let $city = jQuery(`#${info_type}_city`);
+        let $address_2 = jQuery(`#${info_type}_address_2`);
 
         let fields = [["postcode", $postcode], ["state", $state], ["city", $city], ["address_2", $address_2]];
 
@@ -299,7 +301,7 @@ export class LocalizationService {
      * @param info_type
      */
     removeStateAndReplaceWithTextInput(country_display_data, info_type) {
-        let current_state_field = $(`#${info_type}_state`);
+        let current_state_field = jQuery(`#${info_type}_state`);
         let state_element_wrap: any = current_state_field.parents(".cfw-input-wrap");
         let group: string = info_type;
         let tab_section: TabContainerSection = Main.instance
@@ -317,7 +319,7 @@ export class LocalizationService {
         state_element_wrap.removeClass("cfw-floating-label");
 
         // Get reference to new element
-        let new_state_input = $(`#${info_type}_state`);
+        let new_state_input = jQuery(`#${info_type}_state`);
 
         // Amend new element further
         new_state_input.attr("field_key", "state")
@@ -343,7 +345,7 @@ export class LocalizationService {
      * @param info_type
      */
     removeStateAndReplaceWithHiddenInput(country_display_data, info_type) {
-        let current_state_field: any = $(`#${info_type}_state`);
+        let current_state_field: any = jQuery(`#${info_type}_state`);
         let state_element_wrap: any = current_state_field.parents(".cfw-input-wrap");
 
         current_state_field.remove();
@@ -391,7 +393,7 @@ export class LocalizationService {
         state_input_wrap.addClass("cfw-select-input");
 
         // Set the selects properties
-        let new_state_input = $(`#${id}`);
+        let new_state_input = jQuery(`#${id}`);
 
         new_state_input.attr("field_key", "state")
             .attr("class", classes)
@@ -424,9 +426,9 @@ export class LocalizationService {
      */
     handleFieldsIfStateListExistsForCountry(info_type, state_list_for_country, target_country): void {
         // Get the current state handler field (either a select or input)
-        let current_state_field = $(`#${info_type}_state`);
-        let current_state_field_wrap = $(`#${info_type}_state_field`);
-        let current_zip_field = $(`#${info_type}_postcode`)
+        let current_state_field = jQuery(`#${info_type}_state`);
+        let current_state_field_wrap = jQuery(`#${info_type}_state_field`);
+        let current_zip_field = jQuery(`#${info_type}_postcode`)
 
         current_state_field_wrap.removeClass("remove-state-down-arrow");
 

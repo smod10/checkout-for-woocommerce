@@ -54,7 +54,7 @@ export class ApplyCouponAction extends Action {
         }
 
         if(resp.coupons) {
-            let coupons = $.map(resp.coupons, function(value, index) {
+            let coupons = jQuery.map(resp.coupons, function(value, index) {
                 return [value];
             });
 

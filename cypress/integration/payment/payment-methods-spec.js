@@ -11,6 +11,8 @@ describe( 'Test Shipping Tab', function() {
 	} );
 
 	it( 'Can complete checkout with check payments', function() {
+		let completeOrderRequest = dataScaffolding.getRequest("completeOrder");
+
 		cy.on('uncaught:exception', (err, runnable) => {
 			expect(err.message).to.include("Cannot read property 'elements'");
 
@@ -24,9 +26,15 @@ describe( 'Test Shipping Tab', function() {
 			return false
 		} );
 
+		cy.server();
+		cy.route(completeOrderRequest.method, completeOrderRequest.url).as('completeOrder');
+
 		cy.get( '#payment_method_cheque' ).check();
 		cy.get( '#terms' ).check();
 		cy.get( '#place_order' ).click();
+
+		cy.wait('@completeOrder', { timeout: 10000} );
+
 		cy.get('.woocommerce-notice').should( 'contain', 'Thank you. Your order has been received.' );
 	} );
 
@@ -83,7 +91,7 @@ describe( 'Test Shipping Tab', function() {
 
 		cy.get( '#place_order' ).click();
 
-		cy.wait('@completeOrder');
+		cy.wait('@completeOrder', { timeout: 10000} );
 
 		cy.get('.woocommerce-notice').should( 'contain', 'Thank you. Your order has been received.' );
 	} );

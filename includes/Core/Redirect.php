@@ -26,6 +26,25 @@ class Redirect {
 	 */
 	public static function checkout($settings_manager, $path_manager, $template_manager, $version) {
 		if ( apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) ) {
+			/**
+			 * PHP Warning / Notice Suppression
+			 */
+			if ( ! defined( 'CFW_DEV_MODE' ) || ! CFW_DEV_MODE ) {
+				ini_set( 'display_errors', 'Off' );
+            }
+
+			/**
+			 * Discourage Caching if Anyone Dares Try
+			 */
+			header( 'Cache-Control: no-store, no-cache, must-revalidate, max-age=0' );
+			header( 'Cache-Control: post-check=0, pre-check=0', false );
+			header( 'Pragma: no-cache' );
+
+			/**
+			 * Set Checkout Constant
+			 */
+			wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
+
 			// This seems to be a 3.5 requirement
 			// Ensure gateways and shipping methods are loaded early.
 			WC()->payment_gateways();
@@ -37,8 +56,6 @@ class Redirect {
 				wp_redirect( wc_get_page_permalink( 'cart' ) );
 				exit;
 			}
-
-			wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
 			// Allow global parameters accessible by the templates
 			$global_template_parameters = apply_filters('cfw_template_global_params', array());
@@ -71,7 +88,8 @@ class Redirect {
 			// Setup default cfw_wp_head actions
 			add_action( 'cfw_wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'output_meta_tags' ), 10, 4 );
 			add_action( 'cfw_wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_scripts' ), 20, 4 );
-			add_action( 'cfw_wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'output_init_block' ), 30, 4 );
+			add_action( 'cfw_wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'output_page_title' ), 30, 4 );
+			add_action( 'cfw_wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'output_wp_styles' ), 30, 4 );
 			add_action( 'cfw_wp_head', array( 'Objectiv\Plugins\Checkout\Core\Redirect', 'output_custom_styles' ), 40, 5 );
 
 			$css_classes = array('checkout-wc', 'woocommerce', $template_manager->get_selected_template());
@@ -112,84 +130,15 @@ class Redirect {
 	/**
 	 * @since 1.0.0
 	 * @access public
-	 *
-	 * @param $env_extension
-	 * @param ExtendedPathManager $path_manager
 	 */
-	public static function init_block($env_extension, $path_manager) {
-		$default_fields = json_encode(array_keys(WC()->countries->get_default_address_fields()));
-
+	public static function title_block() {
 		// We use this instead of _wp_render_title_tag because it requires the theme support title-tag capability.
 		echo '<title>' . wp_get_document_title() . '</title>' . "\n";
-		?>
-		<script>
-
-			var checkoutFormSelector = '<?php echo apply_filters('cfw_checkout_form_selector', '.woocommerce-checkout'); ?>';
-			var easyTabsWrapElClass = '.<?php echo apply_filters('cfw_template_easy_tabs_wrap_el_id', 'cfw-tabs-initialize'); ?>';
-			var breadCrumbElId = '#<?php echo apply_filters('cfw_template_breadcrumb_id', 'cfw-breadcrumb'); ?>';
-			var customerInfoElId = '#<?php echo apply_filters('cfw_template_customer_info_el', 'cfw-customer-info'); ?>';
-			var shippingMethodElId = '#<?php echo apply_filters('cfw_template_shipping_method_el', 'cfw-shipping-method'); ?>';
-			var paymentMethodElId = '#<?php echo apply_filters('cfw_template_payment_method_el', 'cfw-payment-method'); ?>';
-			var tabContainerElId = '#<?php echo apply_filters('cfw_template_tab_container_el', 'cfw-tab-container'); ?>';
-			var alertContainerElId = '#<?php echo apply_filters('cfw_template_alert_container_el', 'cfw-alert-container'); ?>';
-			var cartContainerId = '#<?php echo apply_filters('cfw_template_cart_el', "cfw-totals-list"); ?>';
-			var cartSubtotalId = '#<?php echo apply_filters('cfw_template_cart_subtotal_el', 'cfw-cart-subtotal'); ?>';
-			var cartShippingId = '#<?php echo apply_filters('cfw_template_cart_shipping_el', 'cfw-cart-shipping-total'); ?>';
-			var cartTaxesId = '#<?php echo apply_filters('cfw_template_cart_taxes_el', 'cfw-cart-taxes'); ?>';
-			var cartFeesId = '#<?php echo apply_filters('cfw_template_cart_fees_el', 'cfw-cart-fees'); ?>';
-			var cartTotalId = '#<?php echo apply_filters('cfw_template_cart_total_el','cfw-cart-total'); ?>';
-			var cartCoupons = '#<?php echo apply_filters('cfw_template_cart_coupons_el', 'cfw-cart-coupons'); ?>';
-			var cartReviewBarId = '#<?php echo apply_filters('cfw_template_cart_review_bar_id', 'cfw-cart-details-review-bar'); ?>';
-
-			var cfwEventData = {
-				elements: {
-					easyTabsWrapElClass: easyTabsWrapElClass,
-					breadCrumbElId: breadCrumbElId,
-					customerInfoElId: customerInfoElId,
-					shippingMethodElId: shippingMethodElId,
-					paymentMethodElId: paymentMethodElId,
-					tabContainerElId: tabContainerElId,
-					alertContainerId: alertContainerElId,
-					cartContainerId: cartContainerId,
-					cartSubtotalId: cartSubtotalId,
-					cartShippingId: cartShippingId,
-					cartTaxesId: cartTaxesId,
-					cartFeesId: cartFeesId,
-					cartTotalId: cartTotalId,
-					cartCouponsId: cartCoupons,
-					cartReviewBarId: cartReviewBarId,
-					checkoutFormSelector: checkoutFormSelector
-				},
-				ajaxInfo: {
-					url: '<?php echo get_home_url(); ?>',
-					nonce: '<?php echo wp_create_nonce("some-seed-word"); ?>'
-				},
-				compatibility: <?php echo json_encode(apply_filters('cfw_typescript_compatibility_classes_and_params', [])); ?>,
-				settings: {
-					isRegistrationRequired: <?php echo WC()->checkout()->is_registration_required() ? "true" : "false"; ?>,
-					user_logged_in: '<?php echo (is_user_logged_in()) ? "true" : "false"; ?>',
-					is_stripe_three: <?php echo ( defined('WC_STRIPE_VERSION') && ( version_compare(WC_STRIPE_VERSION, '4.0.0') >= 0 || version_compare(WC_STRIPE_VERSION, '3.0.0', '<') ) ) ? 'false' : 'true'; ?>,
-					default_address_fields: <?php echo $default_fields; ?>,
-                    enable_zip_autocomplete: <?php echo apply_filters( 'cfw_enable_zip_autocomplete', true ) ? 'true' : 'false'; ?>
-				},
-                $: jQuery
-			};
-
-			jQuery(document).ready(function() {
-				var cfwInitEvent = new CustomEvent("cfw-initialize", { detail: cfwEventData });
-				window.dispatchEvent(cfwInitEvent);
-
-				try {
-                    window.Parsley.setLocale('<?php echo defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ); ?>');
-                } catch( error ) {
-				    console.log('Failed to set parsley locale.');
-                }
-			});
-		</script>
-		<?php
-
-		wp_print_styles();
 	}
+
+	public static function wp_styles() {
+		wp_print_styles();
+    }
 
 	/**
 	 * @since 1.0.0
@@ -239,9 +188,13 @@ class Redirect {
 	 * @param array $classes
 	 * @param SettingsManager $settings_manager
 	 */
-	public static function output_init_block($path_manager, $version, $classes, $settings_manager) {
-		self::init_block(( ! CFW_DEV_MODE ) ? ".min" : "", $path_manager);
+	public static function output_page_title() {
+		self::title_block();
 	}
+
+	public static function output_wp_styles() {
+		self::wp_styles();
+    }
 
 	/**
 	 * @param ExtendedPathManager $path_manager
@@ -292,7 +245,8 @@ class Redirect {
 			.cfw-link, .woocommerce-remove-coupon {
 				color: <?php echo $settings_manager->get_setting('link_color', array($active_theme) ); ?> !important;
 			}
-			.cfw-bottom-controls .cfw-primary-btn {
+
+            .cfw-bottom-controls .cfw-primary-btn, .place-order .cfw-primary-btn {
 				background-color: <?php echo $settings_manager->get_setting('button_color', array($active_theme) ); ?>;
 				color: <?php echo $settings_manager->get_setting('button_text_color', array($active_theme) ); ?>;
 			}
@@ -337,14 +291,12 @@ class Redirect {
 				color: #fff;
 				clear: both;
 				border-left: .6180469716em solid rgba(0, 0, 0, 0.15);
+                box-sizing: border-box;
+                width: 100%;
+                display: inline-block;
 			}
 			.woocommerce-info a {
 				color: #fff;
-			}
-
-			.woocommerce-info:hover {
-				color: #fff;
-				opacity: 0.7;
 			}
 
 			.woocommerce-info .button:hover {
@@ -460,13 +412,15 @@ class Redirect {
 	 * @param SettingsManager $settings_manager
 	 */
 	public static function footer($path_manager, $settings_manager) {
+		do_action('cfw_wp_footer_before_scripts');
+
 		// Prevent themes and plugins from injecting HTML on wp_footer
 		echo '<div id="wp_footer">';
 		wp_footer();
 		echo "</div>";
 
-		do_action('cfw_wp_footer_before_scripts');
 		echo $settings_manager->get_setting('footer_scripts');
+
 		do_action('cfw_wp_footer');
 		?>
 		</body>

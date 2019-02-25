@@ -2,11 +2,9 @@ import { Action }                           from "./Action";
 import { AjaxInfo, FieldTypeInfo }          from "../Types/Types";
 import { Main }                             from "../Main";
 import { Cart, UpdateCartTotalsData }       from "../Elements/Cart";
-import { ResponsePrep }                     from "../Decorators/ResponsePrep";
-import { TabContainerSection }              from "../Elements/TabContainerSection";
-import { Element }                          from "../Elements/Element";
+import { ResponsePrep }                     from "../Decorators/ResponsePrep";;
 
-declare let $:any;
+declare let jQuery: any;
 
 export type UpdateShippingFieldsResponse = {
     error: boolean,
@@ -40,15 +38,15 @@ export class UpdateCheckoutAction extends Action {
      * @param fields
      */
     constructor(id: string, ajaxInfo: AjaxInfo, fields: any) {
-        super(id, ajaxInfo.url, Action.prep(id, ajaxInfo, fields));
+        super( id, ajaxInfo.url, Action.prep(id, ajaxInfo, fields) );
     }
 
     public load(): void {
-        if(UpdateCheckoutAction.underlyingRequest !== null) {
+        if( UpdateCheckoutAction.underlyingRequest !== null ) {
             UpdateCheckoutAction.underlyingRequest.abort();
         }
 
-        UpdateCheckoutAction.underlyingRequest = $.post(this.url, this.data, this.response.bind(this));
+        UpdateCheckoutAction.underlyingRequest = jQuery.post( this.url, this.data, this.response.bind(this) );
     }
 
     /**
@@ -57,16 +55,15 @@ export class UpdateCheckoutAction extends Action {
     @ResponsePrep
     public response(resp: any): void {
         let main: Main = Main.instance;
-        main.updating = false;
 
         if(resp.fees) {
-            let fees = $.map(resp.fees, value => [value]);
+            let fees = jQuery.map(resp.fees, value => [value]);
 
             Cart.outputFees(main.cart.fees, fees);
         }
 
         if(resp.coupons) {
-            let coupons = $.map(resp.coupons, function(value, index) {
+            let coupons = jQuery.map(resp.coupons, function(value, index) {
                 return [value];
             });
 
@@ -74,39 +71,97 @@ export class UpdateCheckoutAction extends Action {
         }
 
         // Update shipping methods
-        let shipping_method_container = $("#shipping_method");
+        let shipping_method_container = jQuery("#shipping_method");
 
         shipping_method_container.html("");
         shipping_method_container.append(`${resp.updated_ship_methods}`);
 
-        let shipping_preview_container = $('#cfw-shipping-details-fields');
+        let shipping_preview_container = jQuery('#cfw-shipping-details-fields');
         shipping_preview_container.html(`${resp.updated_shipping_preview}`);
 
         // Other totals
-        let other_totals_container = $('#cfw-other-totals');
+        let other_totals_container = jQuery('#cfw-other-totals');
         other_totals_container.html(`${resp.updated_other_totals}`);
 
         // Payment methods
-        let updated_payment_methods_container = $('#cfw-billing-methods');
+        let updated_payment_methods_container = jQuery('#cfw-billing-methods');
 
+        /**
+         * Updated payment methods will be false if md5 fingerprint hasn't changed
+         */
         if ( false !== resp.updated_payment_methods ) {
+            /**
+             * Save payment details to a temporary object
+             */
+            let paymentDetails = {};
+            jQuery( '.payment_box :input' ).each( function() {
+                let ID = jQuery( this ).attr( 'id' );
+
+                if ( ID ) {
+                    if ( jQuery.inArray( jQuery( this ).attr( 'type' ), [ 'checkbox', 'radio' ] ) !== -1 ) {
+                        paymentDetails[ ID ] = jQuery( this ).prop( 'checked' );
+                    } else {
+                        paymentDetails[ ID ] = jQuery( this ).val();
+                    }
+                }
+            });
+
             updated_payment_methods_container.html(`${resp.updated_payment_methods}`);
+
+            /**
+             * Fill in the payment details if possible without overwriting data if set.
+             */
+            if ( ! jQuery.isEmptyObject( paymentDetails ) ) {
+                jQuery( '.payment_box :input' ).each( function() {
+                    let ID = jQuery( this ).attr( 'id' );
+
+                    if ( ID ) {
+                        if ( jQuery.inArray( jQuery( this ).attr( 'type' ), [ 'checkbox', 'radio' ] ) !== -1 ) {
+                            jQuery( this ).prop( 'checked', paymentDetails[ ID ] ).change();
+                        } else if ( null !== jQuery( this ).val() && 0 === jQuery( this ).val().length ) {
+                            jQuery( this ).val( paymentDetails[ ID ] ).change();
+                        }
+                    }
+                });
+            }
+
+            // Setup payment gateway radio buttons again
+            // since we replaced the HTML
+            Main.instance.tabContainer.setUpPaymentGatewayRadioButtons();
         }
 
-        // Place order button
-        let updated_place_order_container = $('#cfw-place-order');
-        updated_place_order_container.html(`${resp.updated_place_order}`);
+        // Update Place Order Button Container
+        let updated_place_order_container = jQuery('#cfw-place-order');
+        updated_place_order_container.replaceWith(`${resp.updated_place_order}`);
 
+        // Update cart
+        let updated_cart = jQuery('#cfw-cart-list');
+        updated_cart.replaceWith(`${resp.updated_cart}`)
+
+        // Toggle payment required, in case it has changed
         Main.togglePaymentRequired(resp.needs_payment);
 
+        // Update Cart Totals
         Cart.outputValues(main.cart, resp.new_totals);
 
-        Main.instance.tabContainer.setShippingMethodUpdate();
-        Main.instance.tabContainer.setUpPaymentTabRadioButtons();
+        /**
+         * Re-init Payment Gateways
+         */
+        main.tabContainer.initSelectedPaymentGateway();
 
-		window.dispatchEvent(new CustomEvent("cfw-custom-update-finished"));
+        /**
+         * A custom event that runs every time, since we are supressing
+         * updated_checkout if the payment gateways haven't updated
+         */
+		jQuery(document.body).trigger( 'cfw_updated_checkout' );
 
-        $(document.body).trigger( 'updated_checkout' );
+		if ( main.force_updated_checkout == true || false !== resp.updated_payment_methods ) {
+		    main.force_updated_checkout = false;
+            Main.instance.tabContainer.triggerUpdatedCheckout();
+        }
+
+        main.updating = false;
+        updated_payment_methods_container.unblock();
     }
 
     /**

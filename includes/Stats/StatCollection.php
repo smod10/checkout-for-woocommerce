@@ -8,7 +8,6 @@
 
 namespace Objectiv\Plugins\Checkout\Stats;
 
-use Braintree\Exception;
 use Objectiv\Plugins\Checkout\Main;
 use Objectiv\BoosterSeat\Base\Singleton;
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
@@ -30,7 +29,7 @@ class StatCollection extends Singleton {
 	 * @var string
      * @access private
 	 */
-	private $stat_collection_url = '';
+	private $stat_collection_url = 'http://stats.checkoutwc.com/api/v1/stats';
 
 	/**
      * The development stat collection url
@@ -132,7 +131,8 @@ class StatCollection extends Singleton {
 		add_action( 'settings_general_sanitize', array( $this, 'check_for_settings_optin' ) );
 		add_action( 'cfw_opt_into_tracking',   array( $this, 'check_for_optin'  ) );
 		add_action( 'cfw_opt_out_of_tracking', array( $this, 'check_for_optout' ) );
-		add_action( 'admin_notices',           array( $this, 'admin_notice'     ) );
+		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
+		add_filter( 'cron_schedules', array( $this, 'add_schedules' ) );
 
 		$this->approved_cfw_settings = [
 			"active_template" => (object) [
@@ -255,7 +255,7 @@ class StatCollection extends Singleton {
 		$data['server']      = isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : '';
 
 		$checkout_page        = $this->get_option( $this->tracked_page_key );
-		$data['install_date'] = false !== $checkout_page ? get_post_field( 'post_date', $checkout_page ) : 'not set';
+		$data['install_date'] = false !== $checkout_page ? get_post_field( 'post_date', $checkout_page ) : null;
 
 		$data['multisite']   = is_multisite();
 		$data['url']         = home_url();
@@ -299,6 +299,11 @@ class StatCollection extends Singleton {
 	    return $this->prep_approved_cfw_settings($settings);
     }
 
+	/**
+	 * @param $settings
+	 *
+	 * @return mixed
+	 */
     public function prep_approved_cfw_settings($settings) {
 		foreach($settings as $key => $value) {
 			$setting_metadata = $this->approved_cfw_settings[$key];
@@ -318,8 +323,12 @@ class StatCollection extends Singleton {
     }
 
     public function get_woo_site_settings() {
-		array_walk(\WC_Admin_Settings::get_settings_pages(), function($item) {
-		    array_walk($item->get_settings(), function($setting) {
+        $settings_pages = \WC_Admin_Settings::get_settings_pages();
+
+		array_walk($settings_pages, function($item) {
+		    $settings = $item->get_settings();
+
+		    array_walk($settings, function($setting) {
 		        if(empty($setting['id']))
 		            return;
 
@@ -354,6 +363,11 @@ class StatCollection extends Singleton {
 		return $options->ops;
     }
 
+	/**
+	 * @param string $interval
+	 *
+	 * @return array|\stdClass
+	 */
 	public function get_woo_order_stats($interval = 'P7D') {
 	    try {
 			$start_date_interval = new DateInterval( $interval );
@@ -362,7 +376,7 @@ class StatCollection extends Singleton {
 	        d($exception);
         }
 
-		$wc_path = \WooCommerce::plugin_path();
+		$wc_path = WC()->plugin_path();
 
 		include_once "$wc_path/includes/admin/reports/class-wc-admin-report.php";
 		include_once "$wc_path/includes/admin/reports/class-wc-report-sales-by-date.php";
@@ -455,6 +469,23 @@ class StatCollection extends Singleton {
 	}
 
 	/**
+	 * Registers new cron schedules
+	 *
+	 * @since 1.6
+	 *
+	 * @param array $schedules
+	 * @return array
+	 */
+	public function add_schedules( $schedules = array() ) {
+		// Adds once weekly to the existing schedules.
+		$schedules['weekly'] = array(
+			'interval' => 604800,
+			'display'  => __( 'Once Weekly', 'easy-digital-downloads' )
+		);
+		return $schedules;
+	}
+
+	/**
 	 * Check for a new opt-in via the admin notice
 	 *
 	 * @return void
@@ -506,8 +537,8 @@ class StatCollection extends Singleton {
 	 * @return void
 	 */
 	public function schedule_send() {
-		if ( wp_doing_cron() ) {
-			add_action( 'cfw_weekly_scheduled_events', array( $this, 'send_checkin' ) );
+		if ( $this->tracking_allowed() ) {
+			add_action( 'cfw_weekly_scheduled_events_tracking', array( $this, 'send_checkin' ) );
 		}
 	}
 

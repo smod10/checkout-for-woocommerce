@@ -787,6 +787,9 @@ class Main extends Singleton {
 		// Updater license status cron
 		$main->updater->set_license_check_cron();
 
+		// Set the stat collection cron
+		$main->set_stat_collection_cron();
+
 		if ( ! $errors ) {
 
 			// Welcome screen transient
@@ -806,9 +809,30 @@ class Main extends Singleton {
 
 		// Remove cron for license update check
 		$main->updater->unset_license_check_cron();
+
+		// Unset the stat collection cron
+		$main->unset_stat_collection_cron();
 	}
 
 	/**
+	 * Stat collection cron
+	 */
+	public function set_stat_collection_cron() {
+		if (! wp_next_scheduled ( 'cfw_weekly_scheduled_events_tracking' )) {
+			wp_schedule_event(time(), 'weekly', 'cfw_weekly_scheduled_events_tracking');
+		}
+	}
+
+	/**
+	 * Unset the collection cron
+	 */
+	public function unset_stat_collection_cron() {
+		wp_clear_scheduled_hook('cfw_weekly_scheduled_events_tracking');
+	}
+
+	/**
+	 * @param string $result
+	 *
 	 * @return string
 	 */
 	function override_woocommerce_registration_generate_password( $result ) {

@@ -155,12 +155,12 @@ class StatCollection extends Singleton {
 			"header_scripts" => (object) [
 				"rename"    => true,
 				"name"      => "header_scripts_empty",
-				"action"    => [$this, 'check_empty_setting']
+				"action"    => 'check_empty_setting'
 			],
 			"footer_scripts" => (object) [
 				"rename"    => true,
 				"name"      => "footer_scripts_empty",
-				"action"    => [$this, 'check_empty_setting']
+				"action"    => 'check_empty_setting'
 			]
 		];
 
@@ -325,7 +325,7 @@ class StatCollection extends Singleton {
 			}
 
 			if($setting_metadata->action) {
-				$settings[$key] = call_user_func($setting_metadata->action, $value);
+				$settings[$key] = call_user_func([$this, $setting_metadata->action], $value);
 			}
 		}
 

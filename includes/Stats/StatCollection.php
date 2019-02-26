@@ -320,7 +320,9 @@ class StatCollection extends Singleton {
 			}
 
 			if($setting_metadata->action) {
-				$settings[$key] = ($setting_metadata->action)($value);
+			    $func = $setting_metadata->action;
+
+				$settings[$key] = $func($value);
 			}
 		}
 
@@ -358,8 +360,9 @@ class StatCollection extends Singleton {
         });
 
 		$options = (object)['ops' => []];
+		$woo_settings = $this->get_woocommerce_settings();
 
-		array_walk($this->get_woocommerce_settings(), \Closure::bind(function($setting) {
+		array_walk($woo_settings, \Closure::bind(function($setting) {
 		    $op_value = get_option($setting);
 
 		    if($op_value === false)
@@ -419,7 +422,7 @@ class StatCollection extends Singleton {
 	 *
 	 * @return bool
 	 */
-	public function send_checkin( $override = false, $ignore_last_checkin = false ) {
+	public function send_checkin( $override = false, $ignore_last_checkin = true ) {
 
 		$home_url = trailingslashit( home_url() );
 		// Allows us to stop our own site from checking in, and a filter for our additional sites

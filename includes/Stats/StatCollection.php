@@ -105,12 +105,6 @@ class StatCollection extends Singleton {
 	private $woocommerce_settings = [];
 
 	/**
-	 * @var bool
-     * @access private
-	 */
-	private $just_opted_in = false;
-
-	/**
 	 * @var string
 	 * @access private
 	 */
@@ -320,7 +314,8 @@ class StatCollection extends Singleton {
 			}
 
 			if($setting_metadata->action) {
-				$settings[$key] = ($setting_metadata->action)($value);
+			    $func = $setting_metadata->action;
+				$settings[$key] = $func($value);
 			}
 		}
 
@@ -463,6 +458,8 @@ class StatCollection extends Singleton {
 	 * Check for a new opt-in on settings save
 	 *
 	 * This runs during the sanitation of General settings, thus the return
+     *
+     * @param $input
 	 *
 	 * @return array
 	 */

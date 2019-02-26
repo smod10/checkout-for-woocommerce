@@ -155,12 +155,16 @@ class StatCollection extends Singleton {
 			"header_scripts" => (object) [
 				"rename"    => true,
 				"name"      => "header_scripts_empty",
-				"action"    => 'check_empty_setting'
+				"action"    => function($setting) {
+					return empty($setting);
+				}
 			],
 			"footer_scripts" => (object) [
 				"rename"    => true,
 				"name"      => "footer_scripts_empty",
-				"action"    => 'check_empty_setting'
+				"action"    => function($setting) {
+					return empty($setting);
+				}
 			]
 		];
 
@@ -209,15 +213,6 @@ class StatCollection extends Singleton {
 
 		$this->settings_manager = $settings_manager;
 	}
-
-	/**
-	 * @param $setting
-	 *
-	 * @return bool
-	 */
-	public function check_empty_setting($setting) {
-	    return empty($setting);
-    }
 
 	/**
 	 * If the tracking get parameter exists on the page lets grab the acton name and fire it off
@@ -325,7 +320,7 @@ class StatCollection extends Singleton {
 			}
 
 			if($setting_metadata->action) {
-				$settings[$key] = call_user_func([$this, $setting_metadata->action], $value);
+				$settings[$key] = ($setting_metadata->action)($value);
 			}
 		}
 
@@ -657,14 +652,14 @@ class StatCollection extends Singleton {
 	/**
 	 * @return array
 	 */
-	public function get_woocommerce_settings(): array {
+	public function get_woocommerce_settings() {
 		return $this->woocommerce_settings;
 	}
 
 	/**
 	 * @param array $woocommerce_settings
 	 */
-	public function set_woocommerce_settings( array $woocommerce_settings ): void {
+	public function set_woocommerce_settings($woocommerce_settings ) {
 		$this->woocommerce_settings = $woocommerce_settings;
 	}
 
@@ -678,49 +673,49 @@ class StatCollection extends Singleton {
 	/**
 	 * @return string
 	 */
-	public function get_allow_tracking_key(): string {
+	public function get_allow_tracking_key() {
 		return $this->allow_tracking_key;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_tracked_page_key(): string {
+	public function get_tracked_page_key() {
 		return $this->tracked_page_key;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_tracking_notice_key(): string {
+	public function get_tracking_notice_key() {
 		return $this->tracking_notice_key;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_last_send_key(): string {
+	public function get_last_send_key() {
 		return $this->last_send_key;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_tracking_action_param(): string {
+	public function get_tracking_action_param() {
 		return $this->tracking_action_param;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_cfw_home_site_url(): string {
+	public function get_cfw_home_site_url() {
 		return $this->cfw_home_site_url;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_track_data_message(): string {
+	public function get_track_data_message() {
 		return $this->track_data_message;
 	}
 }

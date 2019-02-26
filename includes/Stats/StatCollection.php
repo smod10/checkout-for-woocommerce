@@ -123,7 +123,9 @@ class StatCollection extends Singleton {
 	private $settings_manager = null;
 
 	/**
+	 * StatCollection constructor.
 	 *
+	 * @param SettingsManager $settings_manager
 	 */
 	public function __construct($settings_manager) {
 		add_action( 'init', array( $this, 'schedule_send' ) );
@@ -287,6 +289,9 @@ class StatCollection extends Singleton {
 		$this->data = $data;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function get_cfw_settings() {
 	    // Filter function for the cfw settings list
 	    $filter_settings = \Closure::bind(function($setting) {

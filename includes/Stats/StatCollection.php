@@ -155,16 +155,12 @@ class StatCollection extends Singleton {
 			"header_scripts" => (object) [
 				"rename"    => true,
 				"name"      => "header_scripts_empty",
-				"action"    => function($setting) {
-					return empty($setting);
-				}
+				"action"    => [$this, 'check_empty_setting']
 			],
 			"footer_scripts" => (object) [
 				"rename"    => true,
 				"name"      => "footer_scripts_empty",
-				"action"    => function($setting) {
-					return empty($setting);
-				}
+				"action"    => [$this, 'check_empty_setting']
 			]
 		];
 
@@ -213,6 +209,15 @@ class StatCollection extends Singleton {
 
 		$this->settings_manager = $settings_manager;
 	}
+
+	/**
+	 * @param $setting
+	 *
+	 * @return bool
+	 */
+	public function check_empty_setting($setting) {
+	    return empty($setting);
+    }
 
 	/**
 	 * If the tracking get parameter exists on the page lets grab the acton name and fire it off
@@ -320,9 +325,7 @@ class StatCollection extends Singleton {
 			}
 
 			if($setting_metadata->action) {
-			    $func = $setting_metadata->action;
-
-				$settings[$key] = $func($value);
+				$settings[$key] = call_user_func($setting_metadata->action, $value);
 			}
 		}
 

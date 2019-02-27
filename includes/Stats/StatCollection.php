@@ -255,7 +255,6 @@ class StatCollection extends Singleton {
 		$data['install_date'] = false !== $checkout_page ? get_post_field( 'post_date', $checkout_page ) : null;
 
 		$data['multisite'] = is_multisite();
-		$data['url']       = home_url();
 		$data['theme']     = $this->get_theme_info();
 
 		// Payment gateway info.

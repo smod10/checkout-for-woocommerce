@@ -24,41 +24,41 @@ class StatCollection extends Singleton {
 	private $data = [];
 
 	/**
-     * The stat collection url
-     *
+	 * The stat collection url
+	 *
 	 * @var string
-     * @access private
+	 * @access private
 	 */
 	private $stat_collection_url = 'http://stats.checkoutwc.com/api/v1/stats';
 
 	/**
-     * The development stat collection url
-     *
+	 * The development stat collection url
+	 *
 	 * @var string
-     * @access private
+	 * @access private
 	 */
 	private $dev_stat_collection_url = 'http://127.0.0.1:8000/api/v1/stats';
 
 	/**
-     * The list of settings from CFW to grab
-     *
+	 * The list of settings from CFW to grab
+	 *
 	 * @var array
-     * @access private
+	 * @access private
 	 */
 	private $approved_cfw_settings = [];
 
 	/**
-     * The list of settings from WooCommerce to grab
+	 * The list of settings from WooCommerce to grab
 	 * @var array
-     * @access private
+	 * @access private
 	 */
 	private $approved_woocommerce_settings = [];
 
 	/**
-     * The list of store stats from WooCommerce to grab
-     *
+	 * The list of store stats from WooCommerce to grab
+	 *
 	 * @var array
-     * @access private
+	 * @access private
 	 */
 	private $approved_woocomerce_store_stats = [];
 
@@ -81,7 +81,7 @@ class StatCollection extends Singleton {
 	private $tracking_notice_key = 'tracking_notice';
 
 	/**
-	 * @var string 
+	 * @var string
 	 * @access private
 	 */
 	private $last_send_key = 'tracking_last_send';
@@ -100,7 +100,7 @@ class StatCollection extends Singleton {
 
 	/**
 	 * @var array
-     * @access private
+	 * @access private
 	 */
 	private $woocommerce_settings = [];
 
@@ -112,7 +112,7 @@ class StatCollection extends Singleton {
 
 	/**
 	 * @var SettingsManager
-     * @access private
+	 * @access private
 	 */
 	private $settings_manager = null;
 
@@ -121,89 +121,89 @@ class StatCollection extends Singleton {
 	 *
 	 * @param SettingsManager $settings_manager
 	 */
-	public function __construct($settings_manager) {
+	public function __construct( $settings_manager ) {
 		add_action( 'init', array( $this, 'schedule_send' ) );
-		add_action( 'init', array($this, 'tracking_opt_in_out_listener') );
+		add_action( 'init', array( $this, 'tracking_opt_in_out_listener' ) );
 		add_action( 'settings_general_sanitize', array( $this, 'check_for_settings_optin' ) );
-		add_action( 'cfw_opt_into_tracking',   array( $this, 'check_for_optin'  ) );
+		add_action( 'cfw_opt_into_tracking', array( $this, 'check_for_optin' ) );
 		add_action( 'cfw_opt_out_of_tracking', array( $this, 'check_for_optout' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
 		add_filter( 'cron_schedules', array( $this, 'add_schedules' ) );
 
 		$this->approved_cfw_settings = [
-			"active_template" => (object) [
-				"rename" => false,
-				"name" => null,
-				"action" => null
+			'active_template'     => (object) [
+				'rename' => false,
+				'name'   => null,
+				'action' => null,
 			],
-			"enable" => (object) [
-				"rename" => false,
-				"name" => null,
-				"action" => null
+			'enable'              => (object) [
+				'rename' => false,
+				'name'   => null,
+				'action' => null,
 			],
-			"enable_phone_fields" => (object) [
-				"rename" => false,
-				"name" => null,
-				"action" => null
+			'enable_phone_fields' => (object) [
+				'rename' => false,
+				'name'   => null,
+				'action' => null,
 			],
-			"header_scripts" => (object) [
-				"rename"    => true,
-				"name"      => "header_scripts_empty",
-				"action"    => function($setting) {
-					return empty($setting);
-				}
+			'header_scripts'      => (object) [
+				'rename' => true,
+				'name'   => 'header_scripts_empty',
+				'action' => function( $setting ) {
+					return empty( $setting );
+				},
 			],
-			"footer_scripts" => (object) [
-				"rename"    => true,
-				"name"      => "footer_scripts_empty",
-				"action"    => function($setting) {
-					return empty($setting);
-				}
-			]
+			'footer_scripts'      => (object) [
+				'rename' => true,
+				'name'   => 'footer_scripts_empty',
+				'action' => function( $setting ) {
+					return empty( $setting );
+				},
+			],
 		];
 
 		$this->approved_woocommerce_settings = [
-			"woocommerce_store_city",
-			"woocommerce_default_country",
-			"woocommerce_default_customer_address",
-			"woocommerce_calc_taxes",
-			"woocommerce_enable_coupons",
-			"woocommerce_calc_discounts_sequentially",
-			"woocommerce_currency",
-			"woocommerce_prices_include_tax",
-			"woocommerce_tax_based_on",
-			"woocommerce_tax_round_at_subtotal",
-			"woocommerce_tax_classes",
-			"woocommerce_tax_display_shop",
-			"woocommerce_tax_display_cart",
-			"woocommerce_tax_total_display",
-			"woocommerce_enable_shipping_calc",
-			"woocommerce_shipping_cost_requires_address",
-			"woocommerce_ship_to_destination",
-			"woocommerce_enable_guest_checkout",
-			"woocommerce_enable_checkout_login_reminder",
-			"woocommerce_enable_signup_and_login_from_checkout",
-			"woocommerce_registration_generate_username",
-			"woocommerce_registration_generate_password"
-        ];
+			'woocommerce_store_city',
+			'woocommerce_default_country',
+			'woocommerce_default_customer_address',
+			'woocommerce_calc_taxes',
+			'woocommerce_enable_coupons',
+			'woocommerce_calc_discounts_sequentially',
+			'woocommerce_currency',
+			'woocommerce_prices_include_tax',
+			'woocommerce_tax_based_on',
+			'woocommerce_tax_round_at_subtotal',
+			'woocommerce_tax_classes',
+			'woocommerce_tax_display_shop',
+			'woocommerce_tax_display_cart',
+			'woocommerce_tax_total_display',
+			'woocommerce_enable_shipping_calc',
+			'woocommerce_shipping_cost_requires_address',
+			'woocommerce_ship_to_destination',
+			'woocommerce_enable_guest_checkout',
+			'woocommerce_enable_checkout_login_reminder',
+			'woocommerce_enable_signup_and_login_from_checkout',
+			'woocommerce_registration_generate_username',
+			'woocommerce_registration_generate_password',
+		];
 
 		$this->approved_woocomerce_store_stats = [
-            "total_tax_refunded",
-            "total_shipping_refunded",
-            "total_shipping_tax_refunded",
-            "total_refunds",
-            "total_tax",
-            "total_shipping",
-            "total_shipping_tax",
-            "total_sales",
-            "net_sales",
-            "average_sales",
-            "average_total_sales",
-            "total_coupons",
-            "total_refunded_orders",
-            "total_orders",
-            "total_items"
-        ];
+			'total_tax_refunded',
+			'total_shipping_refunded',
+			'total_shipping_tax_refunded',
+			'total_refunds',
+			'total_tax',
+			'total_shipping',
+			'total_shipping_tax',
+			'total_sales',
+			'net_sales',
+			'average_sales',
+			'average_total_sales',
+			'total_coupons',
+			'total_refunded_orders',
+			'total_orders',
+			'total_items',
+		];
 
 		$this->settings_manager = $settings_manager;
 	}
@@ -214,10 +214,10 @@ class StatCollection extends Singleton {
 	 * @return void
 	 */
 	public function tracking_opt_in_out_listener() {
-		add_action( 'updated_option', array($this, 'updated_option'), 10, 3 );
+		add_action( 'updated_option', array( $this, 'updated_option' ), 10, 3 );
 
-		if(key_exists($this->tracking_action_param, $_GET) && !empty($_GET[$this->tracking_action_param])) {
-			do_action("cfw_{$_GET[$this->tracking_action_param]}");
+		if ( key_exists( $this->tracking_action_param, $_GET ) && ! empty( $_GET[ $this->tracking_action_param ] ) ) {
+			do_action( "cfw_{$_GET[$this->tracking_action_param]}" );
 		}
 	}
 
@@ -253,12 +253,12 @@ class StatCollection extends Singleton {
 		$checkout_page        = $this->get_option( $this->tracked_page_key );
 		$data['install_date'] = false !== $checkout_page ? get_post_field( 'post_date', $checkout_page ) : null;
 
-		$data['multisite']   = is_multisite();
-		$data['url']         = home_url();
-		$data['theme']       = $theme;
+		$data['multisite'] = is_multisite();
+		$data['url']       = home_url();
+		$data['theme']     = $theme;
 
 		// Retrieve current plugin information
-		if( ! function_exists( 'get_plugins' ) ) {
+		if ( ! function_exists( 'get_plugins' ) ) {
 			include ABSPATH . '/wp-admin/includes/plugin.php';
 		}
 
@@ -273,12 +273,12 @@ class StatCollection extends Singleton {
 		}
 
 		$data['wc_order_stats'] = $this->get_woo_order_stats();
-		$data['wc_settings'] = $this->get_woo_site_settings();
-		$data['cfw_settings'] = $this->get_cfw_settings();
+		$data['wc_settings']    = $this->get_woo_site_settings();
+		$data['cfw_settings']   = $this->get_cfw_settings();
 
-		$data['active_plugins']   = $active_plugins;
-		$data['active_gateways']  = array_keys( WC()->payment_gateways()->get_available_payment_gateways() );
-		$data['locale']           = get_locale();
+		$data['active_plugins']  = $active_plugins;
+		$data['active_gateways'] = array_keys( WC()->payment_gateways()->get_available_payment_gateways() );
+		$data['locale']          = get_locale();
 
 		$this->data = $data;
 	}
@@ -287,98 +287,111 @@ class StatCollection extends Singleton {
 	 * @return mixed
 	 */
 	public function get_cfw_settings() {
-	    // Filter function for the cfw settings list
-	    $filter_settings = \Closure::bind(function($setting) {
-	        // Is the setting key in the settings approved list? Then allow it through
-			return in_array($setting, array_keys($this->approved_cfw_settings));
-		}, $this);
+		// Filter function for the cfw settings list
+		$filter_settings = \Closure::bind(
+			function( $setting ) {
+				// Is the setting key in the settings approved list? Then allow it through
+				return in_array( $setting, array_keys( $this->approved_cfw_settings ) );
+			}, $this
+		);
 
-	    $settings = array_filter(Main::instance()->get_settings_manager()->settings, $filter_settings, ARRAY_FILTER_USE_KEY);
+		$settings = array_filter( Main::instance()->get_settings_manager()->settings, $filter_settings, ARRAY_FILTER_USE_KEY );
 
-	    return $this->prep_approved_cfw_settings($settings);
-    }
+		return $this->prep_approved_cfw_settings( $settings );
+	}
 
 	/**
 	 * @param $settings
 	 *
 	 * @return mixed
 	 */
-    public function prep_approved_cfw_settings($settings) {
-		foreach($settings as $key => $value) {
-			$setting_metadata = $this->approved_cfw_settings[$key];
+	public function prep_approved_cfw_settings( $settings ) {
+		foreach ( $settings as $key => $value ) {
+			$setting_metadata = $this->approved_cfw_settings[ $key ];
 
-			if($setting_metadata->rename) {
-				unset($settings[$key]);
-				$settings[$setting_metadata->name] = $value;
-				$key = $setting_metadata->name;
+			if ( $setting_metadata->rename ) {
+				unset( $settings[ $key ] );
+				$settings[ $setting_metadata->name ] = $value;
+				$key                                 = $setting_metadata->name;
 			}
 
-			if($setting_metadata->action) {
-			    $func = $setting_metadata->action;
-				$settings[$key] = $func($value);
+			if ( $setting_metadata->action ) {
+				$func             = $setting_metadata->action;
+				$settings[ $key ] = $func( $value );
 			}
 		}
 
-	    return $settings;
-    }
+		return $settings;
+	}
 
 	/**
 	 * @return mixed
 	 */
-    public function get_woo_site_settings() {
-        $settings_pages = \WC_Admin_Settings::get_settings_pages();
+	public function get_woo_site_settings() {
+		$settings_pages = \WC_Admin_Settings::get_settings_pages();
 
-		array_walk($settings_pages, function($item) {
-		    $settings = $item->get_settings();
+		array_walk(
+			$settings_pages, function( $item ) {
+				$settings = $item->get_settings();
 
-		    array_walk($settings, function($setting) {
-		        if(empty($setting['id']))
-		            return;
+				array_walk(
+					$settings, function( $setting ) {
+						if ( empty( $setting['id'] ) ) {
+							return;
+						}
 
-				$stats = StatCollection::instance();
-				$settings = $stats->get_woocommerce_settings();
-				$id = $setting['id'];
+						$stats    = StatCollection::instance();
+						$settings = $stats->get_woocommerce_settings();
+						$id       = $setting['id'];
 
-				if(strpos($id, 'woocommerce_') !== 0) {
-				    $id = "woocommerce_{$id}";
-                }
+						if ( strpos( $id, 'woocommerce_' ) !== 0 ) {
+							$id = "woocommerce_{$id}";
+						}
 
-				if(!in_array($id, $this->approved_woocommerce_settings))
-				    return;
+						if ( ! in_array( $id, $this->approved_woocommerce_settings ) ) {
+							return;
+						}
 
-		        $setting_name = $id;
-				$settings[] = $setting_name;
-				$stats->set_woocommerce_settings($settings);
-            });
-        });
+						$setting_name = $id;
+						$settings[]   = $setting_name;
+						$stats->set_woocommerce_settings( $settings );
+					}
+				);
+			}
+		);
 
-		$options = (object)['ops' => []];
+		$options      = (object) [ 'ops' => [] ];
 		$woo_settings = $this->get_woocommerce_settings();
 
-		array_walk($woo_settings, \Closure::bind(function($setting) {
-		    $op_value = get_option($setting);
+		array_walk(
+			$woo_settings, \Closure::bind(
+				function( $setting ) {
+					$op_value = get_option( $setting );
 
-		    if($op_value === false)
-		        return;
+					if ( $op_value === false ) {
+						return;
+					}
 
-			$this->ops[$setting] = get_option($setting);
-		}, $options));
+					$this->ops[ $setting ] = get_option( $setting );
+				}, $options
+			)
+		);
 
 		return $options->ops;
-    }
+	}
 
 	/**
 	 * @param string $interval
 	 *
 	 * @return array|\stdClass
 	 */
-	public function get_woo_order_stats($interval = 'P7D') {
-	    try {
+	public function get_woo_order_stats( $interval = 'P7D' ) {
+		try {
 			$start_date_interval = new DateInterval( $interval );
 			$start_date          = ( new DateTime() )->sub( $start_date_interval )->format( 'Y-m-d' );
-		} catch(\Exception $exception) {
-	        d($exception);
-        }
+		} catch ( \Exception $exception ) {
+			d( $exception );
+		}
 
 		$wc_path = WC()->plugin_path();
 
@@ -387,7 +400,7 @@ class StatCollection extends Singleton {
 
 		$sales_by_date = null;
 
-		if(class_exists('WC_Report_Sales_By_Date')) {
+		if ( class_exists( 'WC_Report_Sales_By_Date' ) ) {
 			$sales_by_date                 = new WC_Report_Sales_By_Date();
 			$sales_by_date->start_date     = strtotime( $start_date );
 			$sales_by_date->end_date       = current_time( 'timestamp' );
@@ -395,15 +408,19 @@ class StatCollection extends Singleton {
 			$sales_by_date->group_by_query = 'YEAR(posts.post_date), MONTH(posts.post_date), DAY(posts.post_date)';
 		}
 
-		$report_data = $sales_by_date->get_report_data();
-		$report_data_arr = get_object_vars($report_data);
+		$report_data     = $sales_by_date->get_report_data();
+		$report_data_arr = get_object_vars( $report_data );
 
-		$report_data = array_filter($report_data_arr, \Closure::bind(function($key) {
-		    return in_array($key, $this->approved_woocomerce_store_stats);
-        }, $this), ARRAY_FILTER_USE_KEY);
+		$report_data = array_filter(
+			$report_data_arr, \Closure::bind(
+				function( $key ) {
+					return in_array( $key, $this->approved_woocomerce_store_stats );
+				}, $this
+			), ARRAY_FILTER_USE_KEY
+		);
 
 		return $report_data;
-    }
+	}
 
 	/**
 	 * Send the data to the EDD server
@@ -423,30 +440,32 @@ class StatCollection extends Singleton {
 			return false;
 		}
 
-		if( ! $this->tracking_allowed() && ! $override ) {
+		if ( ! $this->tracking_allowed() && ! $override ) {
 			return false;
 		}
 
 		// Send a maximum of once per week
 		$last_send = $this->get_last_send();
-		if( is_numeric( $last_send ) && $last_send > strtotime( '-1 week' ) && ! $ignore_last_checkin ) {
+		if ( is_numeric( $last_send ) && $last_send > strtotime( '-1 week' ) && ! $ignore_last_checkin ) {
 			return false;
 		}
 
 		$this->setup_data();
 		$remote_url = CFW_DEV_MODE ? $this->dev_stat_collection_url : $this->stat_collection_url;
 
-		wp_remote_request( $remote_url, array(
-			'method'      => 'POST',
-			'headers'     => [
-				'Content-Type' => 'application/json',
-			],
-            'timeout'     => 8,
-			'redirection' => 5,
-			'httpversion' => '1.1',
-			'body'        => json_encode($this->data),
-			'user-agent'  => 'CFW/' . Main::instance()->get_version() . '; ' . get_bloginfo( 'url' ),
-		));
+		wp_remote_request(
+			$remote_url, array(
+				'method'      => 'POST',
+				'headers'     => [
+					'Content-Type' => 'application/json',
+				],
+				'timeout'     => 8,
+				'redirection' => 5,
+				'httpversion' => '1.1',
+				'body'        => json_encode( $this->data ),
+				'user-agent'  => 'CFW/' . Main::instance()->get_version() . '; ' . get_bloginfo( 'url' ),
+			)
+		);
 
 		$this->settings_manager->update_setting( $this->last_send_key, time() );
 
@@ -458,15 +477,15 @@ class StatCollection extends Singleton {
 	 * Check for a new opt-in on settings save
 	 *
 	 * This runs during the sanitation of General settings, thus the return
-     *
-     * @param $input
+	 *
+	 * @param $input
 	 *
 	 * @return array
 	 */
 	public function check_for_settings_optin( $input ) {
 		// Send an initial check in on settings save
 
-		if( isset( $input[$this->allow_tracking_key] ) && $input[$this->allow_tracking_key] == 1 ) {
+		if ( isset( $input[ $this->allow_tracking_key ] ) && $input[ $this->allow_tracking_key ] == 1 ) {
 			$this->send_checkin( true );
 		}
 
@@ -486,7 +505,7 @@ class StatCollection extends Singleton {
 		// Adds once weekly to the existing schedules.
 		$schedules['weekly'] = array(
 			'interval' => 604800,
-			'display'  => __( 'Once Weekly', 'easy-digital-downloads' )
+			'display'  => __( 'Once Weekly', 'easy-digital-downloads' ),
 		);
 		return $schedules;
 	}
@@ -520,8 +539,9 @@ class StatCollection extends Singleton {
 		}
 
 		$this->settings_manager->delete_setting( $this->allow_tracking_key );
-		$this->settings_manager->update_setting( $this->tracking_notice_key, '1');
-		wp_redirect( remove_query_arg( $this->tracking_action_param ) ); exit;
+		$this->settings_manager->update_setting( $this->tracking_notice_key, '1' );
+		wp_redirect( remove_query_arg( $this->tracking_action_param ) );
+		exit;
 	}
 
 	/**
@@ -569,9 +589,9 @@ class StatCollection extends Singleton {
 		}
 
 		if (
-			stristr( network_site_url( '/' ), 'dev'       ) !== false ||
+			stristr( network_site_url( '/' ), 'dev' ) !== false ||
 			stristr( network_site_url( '/' ), 'localhost' ) !== false ||
-			stristr( network_site_url( '/' ), ':8888'     ) !== false // This is common with MAMP on OS X
+			stristr( network_site_url( '/' ), ':8888' ) !== false // This is common with MAMP on OS X
 		) {
 			$this->settings_manager->update_setting( $this->tracking_notice_key, '1' );
 		} else {
@@ -587,7 +607,7 @@ class StatCollection extends Singleton {
 					</div>
 					<div class="cfw-tracking-actions" style="margin: 1em 0;">
 						<a href="<?php echo esc_url( $optin_url ); ?>" class="button-secondary"><?php echo __( 'Allow', $i18n->get_text_domain() ); ?></a>
-						<a href="<?php echo esc_url( $optout_url ); ?>" class="button-secondary"><?php echo __( 'Do not allow', $i18n->get_text_domain() ) ?></a>
+						<a href="<?php echo esc_url( $optout_url ); ?>" class="button-secondary"><?php echo __( 'Do not allow', $i18n->get_text_domain() ); ?></a>
 					</div>
 				</div>
 			<?php
@@ -599,8 +619,8 @@ class StatCollection extends Singleton {
 	 *
 	 * @return mixed
 	 */
-	public function get_option($key) {
-		return $this->settings_manager->get_setting($key);
+	public function get_option( $key ) {
+		return $this->settings_manager->get_setting( $key );
 	}
 
 	/**
@@ -608,26 +628,26 @@ class StatCollection extends Singleton {
 	 * @param $old_value
 	 * @param $value
 	 */
-	public function updated_option($key, $old_value, $value) {
-		if($key == "_cfw__settings") {
-		    if(is_array( $value ) && $value[$this->allow_tracking_key] != null && $old_value[$this->allow_tracking_key] != $value[$this->allow_tracking_key]) {
-                if($value[ $this->allow_tracking_key ] == "0") {
-                    $this->settings_manager->delete_setting( $this->allow_tracking_key );
-                    $this->settings_manager->update_setting( $this->tracking_notice_key, '0' );
-                    wp_redirect( remove_query_arg( $this->tracking_action_param ) );
-                    exit;
-                }
+	public function updated_option( $key, $old_value, $value ) {
+		if ( $key == '_cfw__settings' ) {
+			if ( is_array( $value ) && $value[ $this->allow_tracking_key ] != null && $old_value[ $this->allow_tracking_key ] != $value[ $this->allow_tracking_key ] ) {
+				if ( $value[ $this->allow_tracking_key ] == '0' ) {
+					$this->settings_manager->delete_setting( $this->allow_tracking_key );
+					$this->settings_manager->update_setting( $this->tracking_notice_key, '0' );
+					wp_redirect( remove_query_arg( $this->tracking_action_param ) );
+					exit;
+				}
 
-                if($value[ $this->allow_tracking_key ] == "1") {
-                    if ( ! current_user_can( 'manage_options' ) ) {
-                        return;
-                    }
+				if ( $value[ $this->allow_tracking_key ] == '1' ) {
+					if ( ! current_user_can( 'manage_options' ) ) {
+						return;
+					}
 
-                    $this->send_checkin( true );
+					$this->send_checkin( true );
 
-                    $this->settings_manager->update_setting( $this->tracking_notice_key, '1' );
-                }
-            }
+					$this->settings_manager->update_setting( $this->tracking_notice_key, '1' );
+				}
+			}
 		}
 	}
 
@@ -635,15 +655,15 @@ class StatCollection extends Singleton {
 	 * @param $key
 	 * @param $value
 	 */
-	public function set_option($key, $value) {
-		$this->settings_manager->add_setting($key, $value);
+	public function set_option( $key, $value ) {
+		$this->settings_manager->add_setting( $key, $value );
 	}
 
 	/**
 	 * @param $key
 	 */
-	public function delete_option($key) {
-		$this->settings_manager->delete_setting($key);
+	public function delete_option( $key ) {
+		$this->settings_manager->delete_setting( $key );
 	}
 
 	/**
@@ -656,7 +676,7 @@ class StatCollection extends Singleton {
 	/**
 	 * @param array $woocommerce_settings
 	 */
-	public function set_woocommerce_settings($woocommerce_settings ) {
+	public function set_woocommerce_settings( $woocommerce_settings ) {
 		$this->woocommerce_settings = $woocommerce_settings;
 	}
 

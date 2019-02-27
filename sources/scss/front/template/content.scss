@@ -128,13 +128,15 @@ body.checkout-wc #cfw-payment-request-buttons {
       td, th {
         color: #000;
         padding: 10px 0;
-        //border-top: #eee 1px solid;
-        border-bottom: 2px solid #333;
       }
 
       th {
-        font-weight: 700;
+        font-weight: normal;
       }
+    }
+
+    .form-row {
+      margin-top: 0;
     }
   }
 
@@ -151,6 +153,18 @@ body.checkout-wc #cfw-payment-request-buttons {
     small {
       position: absolute;
       top: 20px;
+    }
+  }
+}
+
+#cfw-after-totals {
+  tr:last-child {
+    td, th {
+      border-bottom: 2px solid #333;
+    }
+
+    th {
+      font-weight: 700;
     }
   }
 }

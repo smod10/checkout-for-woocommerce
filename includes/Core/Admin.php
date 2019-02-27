@@ -189,13 +189,13 @@ class Admin {
                             $tracking_value = $this->plugin_instance->get_settings_manager()->get_setting('allow_tracking');
                         ?>
                         <th scope="row" valign="top">
-                            <label for="<?php echo $tracking_field_name; ?>"><?php _e('Allow Stat Collection', 'checkout-wc'); ?></label>
+                            <label for="<?php echo $tracking_field_name; ?>"><?php _e('Enable Usage Tracking', 'checkout-wc'); ?></label>
                         </th>
                         <td>
                             <input type="hidden" name="<?php echo $tracking_field_name; ?>" value="0" />
                             <label for="<?php echo $tracking_field_name; ?>">
                                 <input type="checkbox" name="<?php echo $tracking_field_name; ?>" id="<?php echo $tracking_field_name; ?>" value="1" <?php if ( $tracking_value == 1 ) echo "checked"; ?> />
-								<?php _e('Allow Stat Collection', 'checkout-wc'); ?>
+								<?php _e('Allow Checkout for WooCommerce to track plugin usage?', 'checkout-wc'); ?>
                             </label>
                         </td>
                     </tr>

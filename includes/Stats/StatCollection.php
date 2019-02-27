@@ -163,7 +163,6 @@ class StatCollection extends Singleton {
 		];
 
 		$this->approved_woocommerce_settings = [
-			'woocommerce_store_city',
 			'woocommerce_default_country',
 			'woocommerce_default_customer_address',
 			'woocommerce_calc_taxes',
@@ -188,19 +187,7 @@ class StatCollection extends Singleton {
 		];
 
 		$this->approved_woocomerce_store_stats = [
-//			'total_tax_refunded',
-//			'total_shipping_refunded',
-//			'total_shipping_tax_refunded',
-//			'total_refunds',
-//			'total_tax',
-//			'total_shipping',
-//			'total_shipping_tax',
-//			'total_sales',
-//			'net_sales',
-//			'average_sales',
-//			'average_total_sales',
-//			'total_coupons',
-//			'total_refunded_orders',
+			'total_sales',
 			'total_orders',
 			'total_items',
 		];
@@ -241,44 +228,48 @@ class StatCollection extends Singleton {
 
 		$data = array();
 
-		// Retrieve current theme info
-		$theme_data = wp_get_theme();
-		$theme      = $theme_data->Name . ' ' . $theme_data->Version;
+		// Retrieve memory limit info
+		$database_version = wc_get_server_database_version();
+		$memory           = wc_let_to_num( WP_MEMORY_LIMIT );
 
-		$data['php_version'] = phpversion();
-		$data['cfw_version'] = Main::instance()->get_version();
-		$data['wp_version']  = get_bloginfo( 'version' );
-		$data['server']      = isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : '';
+		if ( function_exists( 'memory_get_usage' ) ) {
+			$system_memory = wc_let_to_num( @ini_get( 'memory_limit' ) );
+			$memory        = max( $memory, $system_memory );
+		}
+
+		$data['php_version']          = phpversion();
+		$data['cfw_version']          = Main::instance()->get_version();
+		$data['wp_version']           = get_bloginfo( 'version' );
+		$data['mysql_version']        = $database_version['number'];
+		$data['server']               = isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : '';
+		$data['php_max_upload_size']  = size_format( wp_max_upload_size() );
+		$data['php_default_timezone'] = date_default_timezone_get();
+		$data['php_soap']             = class_exists( 'SoapClient' ) ? 'Yes' : 'No';
+		$data['php_fsockopen']        = function_exists( 'fsockopen' ) ? 'Yes' : 'No';
+		$data['php_curl']             = function_exists( 'curl_init' ) ? 'Yes' : 'No';
+		$data['memory_limit']         = size_format( $memory );
+		$wp_data['wp_debug_mode']     = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No';
+		$wp_data['cfw_debug_mode']    = ( defined( 'CFW_DEV_MODE' ) && CFW_DEV_MODE ) ? 'Yes' : 'No';
 
 		$checkout_page        = $this->get_option( $this->tracked_page_key );
 		$data['install_date'] = false !== $checkout_page ? get_post_field( 'post_date', $checkout_page ) : null;
 
 		$data['multisite'] = is_multisite();
 		$data['url']       = home_url();
-		$data['theme']     = $theme;
+		$data['theme']     = $this->get_theme_info();
 
-		// Retrieve current plugin information
-		if ( ! function_exists( 'get_plugins' ) ) {
-			include ABSPATH . '/wp-admin/includes/plugin.php';
-		}
+		// Payment gateway info.
+		$data['gateways'] = self::get_active_payment_gateways();
 
-		$plugins        = array_keys( get_plugins() );
-		$active_plugins = get_option( 'active_plugins', array() );
-
-		foreach ( $plugins as $key => $plugin ) {
-			if ( in_array( $plugin, $active_plugins ) ) {
-				// Remove active plugins from list so we can show active and inactive separately
-				unset( $plugins[ $key ] );
-			}
-		}
+		// Shipping method info.
+		$data['shipping_methods'] = self::get_active_shipping_methods();
 
 		$data['wc_order_stats'] = $this->get_woo_order_stats();
 		$data['wc_settings']    = $this->get_woo_site_settings();
 		$data['cfw_settings']   = $this->get_cfw_settings();
 
-		$data['active_plugins']  = $active_plugins;
-		$data['active_gateways'] = array_keys( WC()->payment_gateways()->get_available_payment_gateways() );
-		$data['locale']          = get_locale();
+		$data['active_plugins'] = $this->get_active_plugins();
+		$data['locale']         = get_locale();
 
 		$this->data = $data;
 	}
@@ -298,6 +289,25 @@ class StatCollection extends Singleton {
 		$settings = array_filter( Main::instance()->get_settings_manager()->settings, $filter_settings, ARRAY_FILTER_USE_KEY );
 
 		return $this->prep_approved_cfw_settings( $settings );
+	}
+
+	public function get_active_plugins() {
+		// Retrieve current plugin information
+		if ( ! function_exists( 'get_plugins' ) ) {
+			include ABSPATH . '/wp-admin/includes/plugin.php';
+		}
+
+		$plugins        = array_keys( get_plugins() );
+		$active_plugins = get_option( 'active_plugins', array() );
+
+		foreach ( $plugins as $key => $plugin ) {
+			if ( in_array( $plugin, $active_plugins ) ) {
+				// Remove active plugins from list so we can show active and inactive separately
+				unset( $plugins[ $key ] );
+			}
+		}
+
+		return $plugins;
 	}
 
 	/**
@@ -378,6 +388,64 @@ class StatCollection extends Singleton {
 		);
 
 		return $options->ops;
+	}
+
+	/**
+	 * Get a list of all active shipping methods.
+	 *
+	 * @return array
+	 */
+	private static function get_active_shipping_methods() {
+		$active_methods   = array();
+		$shipping_methods = WC()->shipping->get_shipping_methods();
+		foreach ( $shipping_methods as $id => $shipping_method ) {
+			if ( isset( $shipping_method->enabled ) && 'yes' === $shipping_method->enabled ) {
+				$active_methods[ $id ] = array(
+					'title'      => $shipping_method->title,
+					'tax_status' => $shipping_method->tax_status,
+				);
+			}
+		}
+
+		return $active_methods;
+	}
+
+	/**
+	 * Get a list of all active payment gateways.
+	 *
+	 * @return array
+	 */
+	private static function get_active_payment_gateways() {
+		$active_gateways = array();
+		$gateways        = WC()->payment_gateways->payment_gateways();
+		foreach ( $gateways as $id => $gateway ) {
+			if ( isset( $gateway->enabled ) && 'yes' === $gateway->enabled ) {
+				$active_gateways[ $id ] = array(
+					'title'    => $gateway->title,
+					'supports' => $gateway->supports,
+				);
+			}
+		}
+
+		return $active_gateways;
+	}
+
+	/**
+	 * Get the current theme info, theme name and version.
+	 *
+	 * @return array
+	 */
+	public static function get_theme_info() {
+		$theme_data        = wp_get_theme();
+		$theme_child_theme = wc_bool_to_string( is_child_theme() );
+		$theme_wc_support  = wc_bool_to_string( current_theme_supports( 'woocommerce' ) );
+
+		return array(
+			'name'        => $theme_data->Name, // @phpcs:ignore
+			'version'     => $theme_data->Version, // @phpcs:ignore
+			'child_theme' => $theme_child_theme,
+			'wc_support'  => $theme_wc_support,
+		);
 	}
 
 	/**
@@ -589,7 +657,8 @@ class StatCollection extends Singleton {
 		}
 
 		if (
-			stristr( network_site_url( '/' ), 'dev' ) !== false ||
+			stristr( network_site_url( '/' ), '.test' ) !== false ||
+			stristr( network_site_url( '/' ), '.dev' ) !== false ||
 			stristr( network_site_url( '/' ), 'localhost' ) !== false ||
 			stristr( network_site_url( '/' ), ':8888' ) !== false // This is common with MAMP on OS X
 		) {
@@ -601,14 +670,14 @@ class StatCollection extends Singleton {
 			$main = Main::instance();
 			$i18n = $main->get_i18n();
 			?>
-				<div class="updated" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap">
-					<div class="cfw-tracking-message">
-						<?php echo __( $this->track_data_message, $i18n->get_text_domain() ); ?>
-					</div>
-					<div class="cfw-tracking-actions" style="margin: 1em 0;">
-						<a href="<?php echo esc_url( $optin_url ); ?>" class="button-secondary"><?php echo __( 'Allow', $i18n->get_text_domain() ); ?></a>
-						<a href="<?php echo esc_url( $optout_url ); ?>" class="button-secondary"><?php echo __( 'Do not allow', $i18n->get_text_domain() ); ?></a>
-					</div>
+				<div class="updated" style="display: block !important;">
+					<p>
+						<?php echo sprintf( __( 'Allow Checkout for WooCommerce to track plugin usage? Help make Checkout for WooCommerce better.', 'checkout-wc' ) ); ?><?php echo ' <a target="_blank" href="https://www.checkoutwc.com/checkout-for-woocommerce-usage-tracking/">' . esc_html__( 'Read more about what we collect.', 'woocommerce' ) . '</a>'; ?>
+					</p>
+					<p>
+						<a href="<?php echo esc_url( $optin_url ); ?>" class="button-secondary"><?php echo __( 'Allow', 'checkout-wc' ); ?></a>
+						&nbsp;<a href="<?php echo esc_url( $optout_url ); ?>" class="button-secondary"><?php echo __( 'Do not allow', 'checkout-wc' ); ?></a>
+					</p>
 				</div>
 			<?php
 		}

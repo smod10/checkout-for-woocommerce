@@ -6,7 +6,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Base;
 
 class DirectCheckout extends Base {
 	function is_available() {
-		return class_exists( 'WooCommerce_Direct_Checkout' );
+		return class_exists( '\\WooCommerce_Direct_Checkout' );
 	}
 
 	function run() {

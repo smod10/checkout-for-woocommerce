@@ -41,6 +41,13 @@ define( 'CFW_PATH', dirname( __FILE__ ) );
 define( 'CFW_URL', plugins_url( '/', __FILE__ ) );
 define( 'CFW_MAIN_FILE', __FILE__ );
 
+/*
+ * Protect our gentle, out of date users from our fancy modern code
+ */
+if ( version_compare( phpversion(), '5.6.0', '<' ) ) {
+	return;
+}
+
 /**
  * Auto-loader (composer)
  */

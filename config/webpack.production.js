@@ -1,6 +1,7 @@
 // Imports
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
+const WebpackShellPlugin = require('webpack-shell-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -46,30 +47,27 @@ module.exports = (mainDir, assetsDir, version, delete_min_files, travis_build) =
 
 		production.plugins.push(
 			new FileManagerPlugin({
-				onStart: {
-					delete: [
-						productionDir
-					]
-				},
-				onEnd: [
+				onStart:[
+					{
+						delete: [
+							productionDir
+						]
+					},
 					{
 						mkdir: [
 							outPath
 						]
-					},
-					{
-						copy: [
-							{ source: '.', destination: outPath }
-						]
-					},
-					{
-						delete: delete_files
-					},
-					{
-						archive: [
-							{ source: outPath, destination: zipName }
-						]
 					}
+				],
+			}),
+			new WebpackShellPlugin({
+				safe: true,
+				onBuildStart:[
+					'rm -rf ' + productionDir
+				],
+				onBuildEnd:[
+					"npx cpy --parents '.' '!./dist' '!./tests' '!./cypress' '!./**/node_modules' './assets/front/js/checkout-woocommerce-front.js*' '!./assets/front/css/checkout-woocommerce-front.css*' '!./templates/**/style.css*' '!./templates/**/theme.js*' " + outPath,
+					"npx bestzip --cwd='.' " + zipName + " " + outPath
 				]
 			})
 		)

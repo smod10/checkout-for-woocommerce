@@ -315,7 +315,8 @@ export class TabContainer extends Element {
      */
     setUpMobileCartDetailsReveal(): void {
         let showCartDetails: Element = new Element(jQuery("#cfw-show-cart-details"));
-        showCartDetails.jel.on('click tap', () => {
+        showCartDetails.jel.on('click', function( e ) {
+            e.preventDefault();
             jQuery("#cfw-cart-details-collapse-wrap").slideToggle(300).parent().toggleClass("active")
         });
 

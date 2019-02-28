@@ -596,8 +596,7 @@ class Main extends Singleton {
 			// Load Assets
 			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
 
-			// Initiate form - wp is late enough that the customizer will pick up the changes
-			$this->loader->add_action( 'wp', array( $this, 'init_hooks' ) );
+			$this->loader->add_action( 'init', array( $this, 'init_hooks' ) );
 		}
 
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
@@ -666,12 +665,17 @@ class Main extends Singleton {
 	}
 
 	function init_hooks() {
-		if ( $this->get_settings_manager()->get_setting( 'enable_phone_fields' ) == 'yes' ) {
-			add_filter( 'cfw_enable_phone_fields', '__return_true', 1 );
-		}
-
 		// Required to render form fields
 		$this->form = new Form();
+	}
+
+	/**
+	 * Get phone field setting
+	 *
+	 * @return boolean
+	 */
+	function is_phone_fields_enabled() {
+		return apply_filters( 'cfw_enable_phone_fields', $this->get_settings_manager()->get_setting( 'enable_phone_fields' ) == 'yes' );
 	}
 
 	function add_admin_buttons( $admin_bar ) {

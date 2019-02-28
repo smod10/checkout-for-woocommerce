@@ -42,6 +42,9 @@ class Customizer {
 					// Create the template manager
 					$cfw->set_template_manager( new TemplateManager( $this->path_manager, empty( $active_template ) ? 'default' : $active_template ) );
 					$this->template_manager = $cfw->get_template_manager();
+
+					// Initiate form - wp is late enough that the customizer will pick up the changes
+					$cfw->init_hooks();
 				}
 			}
 		);

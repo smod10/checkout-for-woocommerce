@@ -6,7 +6,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Base;
 
 class MailChimpforWooCommerce extends Base {
 	function is_available() {
-		return class_exists( 'MailChimp_Newsletter' );
+		return class_exists( '\\MailChimp_Newsletter' );
 	}
 
 	function run() {

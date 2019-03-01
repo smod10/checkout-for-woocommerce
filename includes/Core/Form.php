@@ -2,6 +2,8 @@
 
 namespace Objectiv\Plugins\Checkout\Core;
 
+use Objectiv\Plugins\Checkout\Main;
+
 /**
  * Class Form
  *
@@ -26,16 +28,15 @@ class Form {
 	 * @access public
 	 */
 	public function __construct() {
-		$this->phone_enabled = apply_filters( 'cfw_enable_phone_fields', false );
+		$cfw = Main::instance();
+		$this->phone_enabled = $cfw->is_phone_fields_enabled();
 
 		add_filter( 'woocommerce_default_address_fields', array( $this, 'get_custom_default_address_fields' ), 100000 ); // seriously, run this last
 		add_filter( 'woocommerce_get_country_locale', array($this, 'prevent_postcode_sort_change') );
 
 		if ( $this->phone_enabled ) {
 			add_filter( 'woocommerce_billing_fields', array( $this, 'enforce_billing_phone_options_from_default' ), 10, 2 );
-
 			add_action( 'woocommerce_checkout_create_order', array( $this, 'update_shipping_phone_on_order_create' ), 10, 2 );
-			add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $this, 'shipping_phone_display_admin_order_meta' ), 10, 1 );
 		} else {
 			add_filter( 'woocommerce_billing_fields', array( $this, 'unrequire_billing_phone' ), 10, 1 );
 		}
@@ -66,15 +67,6 @@ class Form {
 		return $address_fields;
 	}
 
-	/**
-	 * @since 1.1.5
-	 * @param $order
-	 */
-	public function shipping_phone_display_admin_order_meta( $order ) {
-		$shipping_phone = get_post_meta( $order->get_id(), '_shipping_phone', true );
-
-		echo '<p><strong>' . __( 'Phone' ) . ':</strong><br /><a href="tel:' . $shipping_phone . '">' . $shipping_phone . '</a></p>';
-	}
 
 	/**
 	 * @since 1.1.5

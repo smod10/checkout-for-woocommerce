@@ -235,7 +235,7 @@ class Form {
 		if ( $this->phone_enabled ) {
 			$defaults['phone'] = array(
 				'type'         => 'tel',
-				'label'        => __( 'Phone', 'woocommerce' ),
+				'label'        => cfw__( 'Phone', 'woocommerce' ),
 				'required'     => true,
 				'placeholder'  => esc_attr__( 'Phone', 'checkout-wc' ),
 				'class'        => array( 'address-field' ),

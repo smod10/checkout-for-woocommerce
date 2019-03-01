@@ -56,7 +56,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 		if ( $args['required'] ) {
 			$args['class'][] = 'validate-required';
-			$required = ' <abbr class="required" title="' . esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
+			$required = ' <abbr class="required" title="' . cfw_esc_attr__( 'required', 'woocommerce' ) . '">*</abbr>';
 		} else {
 			$required = '';
 		}
@@ -117,7 +117,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 				$countries = 'shipping_country' === $key ? WC()->countries->get_shipping_countries() : WC()->countries->get_allowed_countries();
 
-				$field = '<select field_key="' . $key_sans_type . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="country_to_state country_select ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . $parsleyOut .  '>' . '<option value="">' . esc_html__( 'Select a country&hellip;', 'woocommerce' ) . '</option>';
+				$field = '<select field_key="' . $key_sans_type . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="country_to_state country_select ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . $parsleyOut .  '>' . '<option value="">' . cfw_esc_html__( 'Select a country&hellip;', 'woocommerce' ) . '</option>';
 
 				foreach ( $countries as $ckey => $cvalue ) {
 					$field .= '<option value="' . esc_attr( $ckey ) . '" ' . selected( $value, $ckey, false ) . '>' . $cvalue . '</option>';
@@ -125,7 +125,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 				$field .= '</select>';
 
-				$field .= '<noscript><input type="submit" name="woocommerce_checkout_update_totals" value="' . esc_attr__( 'Update country', 'woocommerce' ) . '" /></noscript>';
+				$field .= '<noscript><input type="submit" name="woocommerce_checkout_update_totals" value="' . cfw_esc_attr__( 'Update country', 'woocommerce' ) . '" /></noscript>';
 
 				break;
 			case 'state' :
@@ -144,7 +144,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 				} elseif ( ! is_null( $current_cc ) && is_array( $states ) ) {
 
 					$field .= '<select field_key="' . $key_sans_type . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="state_select ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . $parsleyOut . ' data-placeholder="' . esc_attr( $args['placeholder'] ) . '">
-						<option value="">' . esc_html__( 'Select a state&hellip;', 'woocommerce' ) . '</option>';
+						<option value="">' . cfw_esc_html__( 'Select a state&hellip;', 'woocommerce' ) . '</option>';
 
 					foreach ( $states as $ckey => $cvalue ) {
 						$field .= '<option value="' . esc_attr( $ckey ) . '" ' . selected( $value, $ckey, false ) . '>' . $cvalue . '</option>';
@@ -188,7 +188,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 						if ( '' === $option_key ) {
 							// If we have a blank option, select2 needs a placeholder
 							if ( empty( $args['placeholder'] ) ) {
-								$args['placeholder'] = $option_text ? $option_text : __( 'Choose an option', 'woocommerce' );
+								$args['placeholder'] = $option_text ? $option_text : cfw__( 'Choose an option', 'woocommerce' );
 							}
 							$custom_attributes[] = 'data-allow_clear="true"';
 						}
@@ -336,7 +336,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 			$available_methods = $package['rates'];
 			$show_package_details = sizeof($packages) > 1;
 			$package_details = implode(', ', $product_names);
-			$package_name = apply_filters( 'woocommerce_shipping_package_name', sprintf( _nx( 'Shipping', 'Shipping %d', ( $i + 1 ), 'shipping packages', 'woocommerce' ), ( $i + 1 ) ), $i, $package );
+			$package_name = apply_filters( 'woocommerce_shipping_package_name', sprintf( cfw_nx( 'Shipping', 'Shipping %d', ( $i + 1 ), 'shipping packages', 'woocommerce' ), ( $i + 1 ) ), $i, $package );
 			$index = $i;
 
 			// Next section ripped straight from cart-shipping and edited for now
@@ -362,7 +362,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 				</ul>
 			<?php else : ?>
                 <div class="shipping-message">
-				    <?php echo apply_filters('woocommerce_no_shipping_available_html', wpautop( __( 'There are no shipping methods available. Please double check your address, or contact us if you need any help.', 'woocommerce' ) ) ); ?>
+				    <?php echo apply_filters('woocommerce_no_shipping_available_html', wpautop( cfw__( 'There are no shipping methods available. Please double check your address, or contact us if you need any help.', 'woocommerce' ) ) ); ?>
                 </div>
 			<?php endif; ?>
 
@@ -431,7 +431,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 				$count++;
 			}
 		} else {
-			echo '<li class="woocommerce-notice woocommerce-notice--info woocommerce-info">' . apply_filters( 'woocommerce_no_available_payment_methods_message', __( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) ) . '</li>';
+			echo '<li class="woocommerce-notice woocommerce-notice--info woocommerce-info">' . apply_filters( 'woocommerce_no_available_payment_methods_message', cfw__( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) ) . '</li>';
 		}
 		?></ul><?php
 

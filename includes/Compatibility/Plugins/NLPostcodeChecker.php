@@ -77,8 +77,8 @@ class NLPostcodeChecker extends Base {
 
 		// Then add house number
 		$fields['house_number'] = array(
-			'label'             => __( 'Nr.', 'checkout-wc' ),
-			'placeholder'       => esc_attr__( 'Nr.', 'checkout-wc' ),
+			'label'             => cfw__( 'Nr.', 'wpo_wcnlpc' ),
+			'placeholder'       => cfw_esc_attr__( 'Nr.', 'wpo_wcnlpc' ),
 			'required'          => true,
 			'class'             => array(),
 			'autocomplete'      => '',
@@ -95,8 +95,8 @@ class NLPostcodeChecker extends Base {
 
 		// Then house number suffix
 		$fields['house_number_suffix'] = array(
-			'label'             => __( 'Suffix', 'checkout-wc' ),
-			'placeholder'       => esc_attr__( 'Suffix', 'checkout-wc' ),
+			'label'             => cfw__( 'Suffix', 'wpo_wcnlpc' ),
+			'placeholder'       => cfw_esc_attr__( 'Suffix', 'wpo_wcnlpc' ),
 			'required'          => false,
 			'class'             => array(),
 			'autocomplete'      => '',

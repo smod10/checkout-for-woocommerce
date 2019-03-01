@@ -237,34 +237,34 @@ class StatCollection extends Singleton {
 			$memory        = max( $memory, $system_memory );
 		}
 
-		$plugins = $this->get_plugins();
-		$checkout_page = $this->get_option( $this->tracked_page_key );
-		$wp_data['wp_debug_mode'] = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'yes' : 'no';
+		$plugins                   = $this->get_plugins();
+		$checkout_page             = $this->get_option( $this->tracked_page_key );
+		$wp_data['wp_debug_mode']  = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'yes' : 'no';
 		$wp_data['cfw_debug_mode'] = ( defined( 'CFW_DEV_MODE' ) && CFW_DEV_MODE ) ? 'yes' : 'no';
 
-		$data['php_version'] = phpversion();
-		$data['cfw_version'] = Main::instance()->get_version();
-		$data['wp_version'] = get_bloginfo( 'version' );
-		$data['mysql_version'] = $database_version['number'];
-		$data['server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : '';
-		$data['php_max_upload_size'] = size_format( wp_max_upload_size() );
+		$data['php_version']          = phpversion();
+		$data['cfw_version']          = Main::instance()->get_version();
+		$data['wp_version']           = get_bloginfo( 'version' );
+		$data['mysql_version']        = $database_version['number'];
+		$data['server']               = isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : '';
+		$data['php_max_upload_size']  = size_format( wp_max_upload_size() );
 		$data['php_default_timezone'] = date_default_timezone_get();
-		$data['php_soap'] = class_exists( 'SoapClient' ) ? 'yes' : 'no';
-		$data['php_fsockopen'] = function_exists( 'fsockopen' ) ? 'yes' : 'no';
-		$data['php_curl'] = function_exists( 'curl_init' ) ? 'yes' : 'no';
-		$data['memory_limit'] = size_format( $memory );
-		$data['install_date'] = false !== $checkout_page ? get_post_field( 'post_date', $checkout_page ) : null;
-		$data['multisite'] = is_multisite();
-		$data['locale'] = get_locale();
-		$data['theme'] = $this->get_theme_info();
-		$data['gateways'] = self::get_active_payment_gateways();
-		$data['wc_order_stats'] = $this->get_woo_order_stats();
-		$data['shipping_methods'] = self::get_active_shipping_methods();
-		$data['wc_settings'] = $this->get_woo_site_settings();
-		$data['cfw_settings'] = $this->get_cfw_settings();
-		$data['inactive_plugins'] = $plugins['inactive'];
-		$data['active_plugins'] = $plugins['active'];
-		$data['debug_modes'] = $wp_data;
+		$data['php_soap']             = class_exists( 'SoapClient' ) ? 'yes' : 'no';
+		$data['php_fsockopen']        = function_exists( 'fsockopen' ) ? 'yes' : 'no';
+		$data['php_curl']             = function_exists( 'curl_init' ) ? 'yes' : 'no';
+		$data['memory_limit']         = size_format( $memory );
+		$data['install_date']         = false !== $checkout_page ? get_post_field( 'post_date', $checkout_page ) : null;
+		$data['multisite']            = is_multisite();
+		$data['locale']               = get_locale();
+		$data['theme']                = $this->get_theme_info();
+		$data['gateways']             = self::get_active_payment_gateways();
+		$data['wc_order_stats']       = $this->get_woo_order_stats();
+		$data['shipping_methods']     = self::get_active_shipping_methods();
+		$data['wc_settings']          = $this->get_woo_site_settings();
+		$data['cfw_settings']         = $this->get_cfw_settings();
+		$data['inactive_plugins']     = $plugins['inactive'];
+		$data['active_plugins']       = $plugins['active'];
+		$data['debug_modes']          = $wp_data;
 
 		$this->data = $data;
 	}
@@ -287,8 +287,8 @@ class StatCollection extends Singleton {
 	}
 
 	/**
-     * Get list of active and inactive plugins
-     *
+	 * Get list of active and inactive plugins
+	 *
 	 * @return array
 	 */
 	public function get_plugins() {
@@ -305,10 +305,10 @@ class StatCollection extends Singleton {
 		foreach ( $plugins as $key => $plugin ) {
 			if ( in_array( $plugin, $active_plugins ) ) {
 				// Remove active plugins from list so we can show active and inactive separately
-				$plugins_list['active'][] = $plugins[$key];
+				$plugins_list['active'][] = $plugins[ $key ];
 			} else {
-			    $plugins_list['inactive'][] = $plugins[$key];
-            }
+				$plugins_list['inactive'][] = $plugins[ $key ];
+			}
 		}
 
 		return $plugins_list;
@@ -405,9 +405,9 @@ class StatCollection extends Singleton {
 		foreach ( $shipping_methods as $id => $shipping_method ) {
 			if ( isset( $shipping_method->enabled ) && 'yes' === $shipping_method->enabled ) {
 				$active_methods[] = array(
-                    'id' => $id,
-                    'tax_status' => $shipping_method->tax_status
-                );
+					'id'         => $id,
+					'tax_status' => $shipping_method->tax_status,
+				);
 			}
 		}
 

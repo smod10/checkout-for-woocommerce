@@ -174,7 +174,7 @@ class Admin {
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts'); ?>"><?php _e('Header Scripts', 'checkout-wc'); ?></label>
                         </th>
                         <td>
-		                    <?php wp_editor( stripslashes_deep( $this->plugin_instance->get_settings_manager()->get_setting('header_scripts') ), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts') ), array('textarea_rows' => 6, 'quicktags' => false, 'media_buttons' => false, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts') ) ); ?>
+		                    <?php wp_editor( stripslashes_deep( $this->plugin_instance->get_settings_manager()->get_setting('header_scripts') ), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts') ), array('textarea_rows' => 6, 'quicktags' => false, 'media_buttons' => false, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts'), 'tinymce' => false ) ); ?>
                             <p>
                                 <span class="description">
 				                    <?php _e('This code will output immediately before the closing <code>&lt;/head&gt;</code> tag in the document source.', 'checkout-wc'); ?>
@@ -188,7 +188,7 @@ class Admin {
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_scripts'); ?>"><?php _e('Footer Scripts', 'checkout-wc'); ?></label>
                         </th>
                         <td>
-		                    <?php wp_editor( stripslashes_deep( $this->plugin_instance->get_settings_manager()->get_setting('footer_scripts') ), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('footer_scripts') ), array('textarea_rows' => 6, 'quicktags' => false, 'media_buttons' => false, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name('footer_scripts') ) ); ?>
+		                    <?php wp_editor( stripslashes_deep( $this->plugin_instance->get_settings_manager()->get_setting('footer_scripts') ), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('footer_scripts') ), array('textarea_rows' => 6, 'quicktags' => false, 'media_buttons' => false, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name('footer_scripts'), 'tinymce' => false ) ); ?>
                             <p>
                                 <span class="description">
 				                    <?php _e('This code will output immediately before the closing <code>&lt;/body&gt;</code> tag in the document source.', 'checkout-wc'); ?>
@@ -333,7 +333,7 @@ class Admin {
                             <label for="<?php echo sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('footer_text') ); ?>"><?php _e('Footer Text', 'checkout-wc'); ?></label>
                         </th>
                         <td>
-                            <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('footer_text') ), array('textarea_rows' => 5, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name('footer_text') ) ); ?>
+                            <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('footer_text') ), array('textarea_rows' => 5, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'), 'tinymce' => true ) ); ?>
                             <p>
                                         <span class="description">
                                             <?php _e('If left blank, a standard copyright notice will be displayed. Set to a single space to override this behavior.', 'checkout-wc'); ?>
@@ -454,7 +454,7 @@ class Admin {
                                 <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'custom_css',  array( $template_path ) ); ?>"><?php _e('Custom CSS', 'checkout-wc'); ?></label>
                             </th>
                             <td>
-                                <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting( 'custom_css',  array( $template_path ) ), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name( 'custom_css',  array( $template_path ) ) ), array('textarea_rows' => 5, 'quicktags' => false, 'media_buttons' => false, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name( 'custom_css',  array( $template_path ) ) ) ); ?>
+                                <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting( 'custom_css',  array( $template_path ) ), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name( 'custom_css',  array( $template_path ) ) ), array('textarea_rows' => 5, 'quicktags' => false, 'media_buttons' => false, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name( 'custom_css',  array( $template_path ) ), 'tinymce' => false ) ); ?>
                                 <p>
                                     <span class="description">
                                         <?php _e('Add Custom CSS rules to fully control the appearance of the checkout template.', 'checkout-wc'); ?>

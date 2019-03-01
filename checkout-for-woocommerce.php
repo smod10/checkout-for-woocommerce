@@ -53,6 +53,12 @@ if ( version_compare( phpversion(), '5.6.0', '<' ) ) {
  */
 require_once 'vendor/autoload.php';
 
+/**
+ * Our language function wrappers that we only use for
+ * external translation domains
+ */
+require_once 'sources/php/language-wrapper-functions.php';
+
 use Objectiv\Plugins\Checkout\Main;
 use Objectiv\Plugins\Checkout\Core\Admin;
 

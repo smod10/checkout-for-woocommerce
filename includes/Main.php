@@ -560,7 +560,7 @@ class Main extends Singleton {
 				'cart_url'                       => wc_get_cart_url(),
 				'is_checkout'                    => is_page( wc_get_page_id( 'checkout' ) ) && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
 				'debug_mode'                     => defined( 'WP_DEBUG' ) && WP_DEBUG,
-				'i18n_checkout_error'            => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
+				'i18n_checkout_error'            => cfw_esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
 				'is_registration_enabled'        => WC()->checkout()->is_registration_enabled() ? 1 : 0,
 				'is_registration_required'       => WC()->checkout()->is_registration_required() ? 1 : 0,
 				'enable_checkout_login_reminder' => 'yes' === get_option( 'woocommerce_enable_checkout_login_reminder' ) ? 1 : 0,
@@ -574,17 +574,17 @@ class Main extends Singleton {
 		wp_localize_script(
 			'cfw_front_js', 'wc_country_select_params', array(
 				'countries'                 => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) ),
-				'i18n_select_state_text'    => esc_attr__( 'Select an option&hellip;', 'woocommerce' ),
-				'i18n_no_matches'           => _x( 'No matches found', 'enhanced select', 'woocommerce' ),
-				'i18n_ajax_error'           => _x( 'Loading failed', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_short_1'    => _x( 'Please enter 1 or more characters', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_short_n'    => _x( 'Please enter %qty% or more characters', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_long_1'     => _x( 'Please delete 1 character', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_long_n'     => _x( 'Please delete %qty% characters', 'enhanced select', 'woocommerce' ),
-				'i18n_selection_too_long_1' => _x( 'You can only select 1 item', 'enhanced select', 'woocommerce' ),
-				'i18n_selection_too_long_n' => _x( 'You can only select %qty% items', 'enhanced select', 'woocommerce' ),
-				'i18n_load_more'            => _x( 'Loading more results&hellip;', 'enhanced select', 'woocommerce' ),
-				'i18n_searching'            => _x( 'Searching&hellip;', 'enhanced select', 'woocommerce' ),
+				'i18n_select_state_text'    => cfw_esc_attr__( 'Select an option&hellip;', 'woocommerce' ),
+				'i18n_no_matches'           => cfw_x( 'No matches found', 'enhanced select', 'woocommerce' ),
+				'i18n_ajax_error'           => cfw_x( 'Loading failed', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_short_1'    => cfw_x( 'Please enter 1 or more characters', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_short_n'    => cfw_x( 'Please enter %qty% or more characters', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_long_1'     => cfw_x( 'Please delete 1 character', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_long_n'     => cfw_x( 'Please delete %qty% characters', 'enhanced select', 'woocommerce' ),
+				'i18n_selection_too_long_1' => cfw_x( 'You can only select 1 item', 'enhanced select', 'woocommerce' ),
+				'i18n_selection_too_long_n' => cfw_x( 'You can only select %qty% items', 'enhanced select', 'woocommerce' ),
+				'i18n_load_more'            => cfw_x( 'Loading more results&hellip;', 'enhanced select', 'woocommerce' ),
+				'i18n_searching'            => cfw_x( 'Searching&hellip;', 'enhanced select', 'woocommerce' ),
 			)
 		);
 
@@ -593,7 +593,7 @@ class Main extends Singleton {
 				'locale'             => json_encode( WC()->countries->get_country_locale() ),
 				'locale_fields'      => json_encode( WC()->countries->get_country_locale_field_selectors() ),
 				'add2_text'          => __( 'Apt, suite, etc. (optional)', 'checkout-wc' ),
-				'i18n_required_text' => esc_attr__( 'required', 'woocommerce' ),
+				'i18n_required_text' => cfw_esc_attr__( 'required', 'woocommerce' ),
 			)
 		);
 	}

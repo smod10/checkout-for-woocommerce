@@ -255,20 +255,21 @@ class StatCollection extends Singleton {
 		$data['install_date'] = false !== $checkout_page ? get_post_field( 'post_date', $checkout_page ) : null;
 
 		$data['multisite'] = is_multisite();
+		$data['locale']         = get_locale();
+
 		$data['theme']     = $this->get_theme_info();
 
 		// Payment gateway info.
 		$data['gateways'] = self::get_active_payment_gateways();
 
-		// Shipping method info.
-		$data['shipping_methods'] = self::get_active_shipping_methods();
-
 		$data['wc_order_stats'] = $this->get_woo_order_stats();
 		$data['wc_settings']    = $this->get_woo_site_settings();
 		$data['cfw_settings']   = $this->get_cfw_settings();
 
-		$data['active_plugins'] = $this->get_active_plugins();
-		$data['locale']         = get_locale();
+		$plugins = $this->get_plugins();
+
+		$data['inactive_plugins'] = $plugins['inactive'];
+		$data['active_plugins'] = $plugins['active'];
 
 		$this->data = $data;
 	}
@@ -290,7 +291,12 @@ class StatCollection extends Singleton {
 		return $this->prep_approved_cfw_settings( $settings );
 	}
 
-	public function get_active_plugins() {
+	/**
+     * Get list of active and inactive plugins
+     *
+	 * @return array
+	 */
+	public function get_plugins() {
 		// Retrieve current plugin information
 		if ( ! function_exists( 'get_plugins' ) ) {
 			include ABSPATH . '/wp-admin/includes/plugin.php';
@@ -299,14 +305,18 @@ class StatCollection extends Singleton {
 		$plugins        = array_keys( get_plugins() );
 		$active_plugins = get_option( 'active_plugins', array() );
 
+		$plugins_list = [];
+
 		foreach ( $plugins as $key => $plugin ) {
 			if ( in_array( $plugin, $active_plugins ) ) {
 				// Remove active plugins from list so we can show active and inactive separately
-				unset( $plugins[ $key ] );
-			}
+				$plugins_list['active'][] = $plugins[$key];
+			} else {
+			    $plugins_list['inactive'][] = $plugins[$key];
+            }
 		}
 
-		return $plugins;
+		return $plugins_list;
 	}
 
 	/**
@@ -419,10 +429,7 @@ class StatCollection extends Singleton {
 		$gateways        = WC()->payment_gateways->payment_gateways();
 		foreach ( $gateways as $id => $gateway ) {
 			if ( isset( $gateway->enabled ) && 'yes' === $gateway->enabled ) {
-				$active_gateways[ $id ] = array(
-					'title'    => $gateway->title,
-					'supports' => $gateway->supports,
-				);
+				$active_gateways[] = $id;
 			}
 		}
 

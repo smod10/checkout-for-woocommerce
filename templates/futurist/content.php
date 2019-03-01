@@ -291,10 +291,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <div id="cfw-cart-details" class="cfw-right-column cfw-column-5">
                         <div id="cfw-cart-details-review-bar" class="cfw-sg-container">
                             <div class="cfw-column-8">
-                                <div id="cfw-show-cart-details">
-                                    <a href="javascript:;" class="cfw-link"><?php esc_html_e( 'Show order summary', 'checkout-wc' ); ?></a>
+                                <a id="cfw-show-cart-details">
+                                    <span class="cfw-link"><?php esc_html_e( 'Show order summary', 'checkout-wc' ); ?></span>
                                     <svg id="cfw-cart-details-arrow" height="512px" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 "/></svg>
-                                </div>
+                                </a>
                             </div>
                             <div class="cfw-column-4">
                                 <span class="total amount">
@@ -359,6 +359,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             <span class="amount"><?php wc_cart_totals_taxes_total_html(); ?></span>
                                         </div>
                                     <?php endif; ?>
+
+                                    <div id="cfw-before-totals" class="cfw-other-totals">
+                                        <table>
+			                                <?php do_action( 'woocommerce_review_order_before_order_total' ); ?>
+                                        </table>
+                                    </div>
+
                                     <div class="cfw-totals-total">
                                         <div id="cfw-cart-total" class="cfw-flex-row cfw-flex-justify">
                                             <span class="type"><?php esc_html_e('Total', 'checkout-wc'); ?></span>
@@ -367,8 +374,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </div>
                                 </div>
 
-                                <div id="cfw-other-totals" class="cfw-other-totals">
-                                    <table><?php do_action( 'woocommerce_review_order_after_order_total' ); ?></table>
+                                <div id="cfw-after-totals" class="cfw-other-totals">
+                                    <table>
+                                        <?php do_action( 'woocommerce_review_order_after_order_total' ); ?>
+                                    </table>
                                 </div>
 
                                 <?php do_action( 'cfw_after_cart_summary_totals' ); ?>

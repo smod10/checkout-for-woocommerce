@@ -6,7 +6,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Base;
 
 class EUVATNumber extends Base {
 	public function is_available() {
-		return class_exists( 'WC_EU_VAT_Number' );
+		return class_exists( '\\WC_EU_VAT_Number' );
 	}
 
 	public function run() {

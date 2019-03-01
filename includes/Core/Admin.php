@@ -47,34 +47,47 @@ class Admin {
      * @since 1.0.0
      * @access public
 	 */
+	public function run() {
+		// Run this as early as we can to maximize integrations
+		add_action(
+			'plugins_loaded', function() {
+			    // Adds the plugins hooks
+			    $this->start();
+		    }, 1
+		);
+	}
+
 	public function start() {
-	    // Admin Menu
+		// Admin Menu
 		add_action('admin_menu', array($this, 'admin_menu'), 100 );
 
 		// Key Nag
 		add_action('admin_menu', array($this, 'add_key_nag'), 11);
 
-        // Enqueue Admin Scripts
+		// Enqueue Admin Scripts
 		add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
 
 		// Admin notice
-        add_action('admin_notices', array($this, 'add_notice_key_nag') );
+		add_action('admin_notices', array($this, 'add_notice_key_nag') );
 
-        // Welcome notice
+		// Welcome notice
 		add_action('admin_notices', array($this, 'add_welcome_notice') );
 
 		// Add deprecated theme notice
 		add_action('admin_notices', array($this, 'add_deprecated_theme_notice') );
 
-        // Welcome redirect
+		// Welcome redirect
 		add_action( 'admin_init', array($this, 'welcome_screen_do_activation_redirect') );
 
 		// Add settings link
 		add_filter( 'plugin_action_links_' . plugin_basename( CFW_MAIN_FILE ), array( $this, 'add_action_links' ), 10, 1 );
 
 		// Migrate settings
-        add_action( 'admin_init', array( $this, 'maybe_migrate_settings' ) );
-	}
+		add_action( 'admin_init', array( $this, 'maybe_migrate_settings' ) );
+
+		// Show shipping phone on order editor
+		add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $this, 'shipping_phone_display_admin_order_meta' ), 10, 1 );
+    }
 
 	/**
 	 * The main admin menu setup
@@ -690,4 +703,18 @@ class Admin {
 		    $this->plugin_instance->get_settings_manager()->update_setting( 'settings_version', '200' );
         }
     }
+
+	/**
+	 * @since 1.1.5
+	 * @param $order
+	 */
+	public function shipping_phone_display_admin_order_meta( $order ) {
+		$shipping_phone = get_post_meta( $order->get_id(), '_shipping_phone', true );
+
+		if ( empty($shipping_phone) ) {
+		    return;
+        }
+
+		echo '<p><strong>' . __( 'Phone' ) . ':</strong><br /><a href="tel:' . $shipping_phone . '">' . $shipping_phone . '</a></p>';
+	}
 }

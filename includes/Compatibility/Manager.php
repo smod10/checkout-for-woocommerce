@@ -18,6 +18,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutManager;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CraftyClicks;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\DirectCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EUVATNumber;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\FacebookForWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\KodiakGiftCards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MailChimpforWooCommerce;
@@ -132,6 +133,13 @@ class Manager {
 		// SkyVerge WooCommerce Social Login
 		new SkyVergeSocialLogin();
 
+		// WooCommerce Price Based on Country
+		new WooCommercePriceBasedOnCountry();
+
+		// Facebook for WooCommerce
+		new FacebookForWooCommerce();
+
+
 		/**
 		 * Gateways
 		 */
@@ -169,8 +177,6 @@ class Manager {
 		// ToCheckout
 		new ToCheckout();
 
-		// WooCommerce Price Based on Country
-		new WooCommercePriceBasedOnCountry();
 
 		/**
 		 * Themes

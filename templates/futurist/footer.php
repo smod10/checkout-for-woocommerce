@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <footer id="cfw-footer">
     <div class="wrap">
         <div class="cfw-container cfw-column-12">
-            <div class="cfw-footer-inner">
+            <div class="cfw-footer-inner entry-footer">
                 <?php do_action( 'cfw_before_footer' ); ?>
                 <?php if ( ! empty( $footer_text = Objectiv\Plugins\Checkout\Main::instance()->get_settings_manager()->get_setting('footer_text') ) ): ?>
                     <?php echo $footer_text; ?>

@@ -5,6 +5,7 @@ import { AjaxInfo }                     from "../Types/Types";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 
 declare let jQuery: any;
+let w: any = window;
 
 /**
  * Ajax does the account exist action. Takes the information from email box and fires of a request to see if the account
@@ -80,7 +81,10 @@ export class AccountExistsAction extends Action {
 
             if (AccountExistsAction.checkBox) {
                 if ( register_user_checkbox && register_user_checkbox.is(':checkbox') ) {
-                    register_user_checkbox.prop('checked', true);
+                    if ( w.cfwEventData.settings.check_create_account_by_default == true ) {
+                        register_user_checkbox.prop('checked', true);
+                    }
+
                     register_user_checkbox.trigger('change');
                     register_user_checkbox.prop('disabled', false);
                 }

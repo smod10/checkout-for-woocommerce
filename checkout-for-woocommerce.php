@@ -103,5 +103,5 @@ if ( is_admin() && ! wp_doing_ajax() ) {
 	global $cfw_admin, $cfw;
 
 	$cfw_admin = new Admin( $cfw );
-	$cfw_admin->start();
+	$cfw_admin->run();
 }

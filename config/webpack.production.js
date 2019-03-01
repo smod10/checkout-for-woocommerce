@@ -1,13 +1,13 @@
 // Imports
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FileManagerPlugin = require('filemanager-webpack-plugin');
+const WebpackShellPlugin = require('webpack-shell-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = (mainDir, assetsDir, version, delete_min_files, travis_build) => {
 	const productionDir = "./dist";
 	const outPath = `${productionDir}/checkout-for-woocommerce`;
-	const zipName = `${outPath}-${version}.zip`;
+	const zipName = `checkout-for-woocommerce-${version}.zip`;
 
 	let production = {
 		optimization: {
@@ -45,31 +45,15 @@ module.exports = (mainDir, assetsDir, version, delete_min_files, travis_build) =
 		}
 
 		production.plugins.push(
-			new FileManagerPlugin({
-				onStart: {
-					delete: [
-						productionDir
-					]
-				},
-				onEnd: [
-					{
-						mkdir: [
-							outPath
-						]
-					},
-					{
-						copy: [
-							{ source: '.', destination: outPath }
-						]
-					},
-					{
-						delete: delete_files
-					},
-					{
-						archive: [
-							{ source: outPath, destination: zipName }
-						]
-					}
+			new WebpackShellPlugin({
+				safe: true,
+				onBuildStart:[
+					'rm -rf ' + productionDir + ' && mkdir -p ' + productionDir,
+				],
+				onBuildEnd:[
+					"npx cpy --parents '.' '!./dist' '!./tests' '!./cypress' '!./**/node_modules' '!./assets/front/js/checkout-woocommerce-front.js*' '!./assets/front/css/checkout-woocommerce-front.css*' '!./templates/**/style.css*' '!./templates/**/theme.js*' " + outPath
+					+ " && cd " + productionDir
+					+ " && zip --recurse-paths " + zipName + " ./checkout-for-woocommerce"
 				]
 			})
 		)

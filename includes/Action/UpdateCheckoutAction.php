@@ -85,9 +85,14 @@ class UpdateCheckoutAction extends Action {
 		}
 
 		ob_start();
+		do_action( 'woocommerce_review_order_before_order_total' );
+		$updated_before_totals = ob_get_clean();
+		$updated_before_totals = "<table>$updated_before_totals</table>";
+
+		ob_start();
 		do_action( 'woocommerce_review_order_after_order_total' );
-		$other_totals = ob_get_clean();
-		$other_totals = "<table>$other_totals</table>";
+		$updated_after_totals = ob_get_clean();
+		$updated_after_totals = "<table>$updated_after_totals</table>";
 
 		$this->out(
 			array(
@@ -102,7 +107,8 @@ class UpdateCheckoutAction extends Action {
 				'needs_payment'            => WC()->cart->needs_payment(),
 				'updated_ship_methods'     => $this->get_shipping_methods(),
 				'updated_shipping_preview' => cfw_get_shipping_details( WC()->checkout() ),
-				'updated_other_totals'     => $other_totals,
+				'updated_before_totals'    => $updated_before_totals,
+				'updated_after_totals'     => $updated_after_totals,
 				'updated_payment_methods'  => $updated_payment_methods,
 				'updated_place_order'      => cfw_get_place_order(),
 				'updated_cart'             => cfw_get_cart_html(),

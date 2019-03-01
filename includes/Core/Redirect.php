@@ -52,7 +52,7 @@ class Redirect {
 
 			// When on the checkout with an empty cart, redirect to cart page
 			if ( WC()->cart->is_empty() ) {
-				wc_add_notice( __( 'Checkout is not available whilst your cart is empty.', 'woocommerce' ), 'notice' );
+				wc_add_notice( cfw__( 'Checkout is not available whilst your cart is empty.', 'woocommerce' ), 'notice' );
 				wp_redirect( wc_get_page_permalink( 'cart' ) );
 				exit;
 			}

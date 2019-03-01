@@ -79,9 +79,13 @@ export class UpdateCheckoutAction extends Action {
         let shipping_preview_container = jQuery('#cfw-shipping-details-fields');
         shipping_preview_container.html(`${resp.updated_shipping_preview}`);
 
+        // Before totals
+        let before_totals_container = jQuery('#cfw-before-totals');
+        before_totals_container.html(`${resp.updated_before_totals}`);
+
         // Other totals
-        let other_totals_container = jQuery('#cfw-other-totals');
-        other_totals_container.html(`${resp.updated_other_totals}`);
+        let after_totals_container = jQuery('#cfw-after-totals');
+        after_totals_container.html(`${resp.updated_after_totals}`);
 
         // Payment methods
         let updated_payment_methods_container = jQuery('#cfw-billing-methods');

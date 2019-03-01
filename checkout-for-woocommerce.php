@@ -16,15 +16,15 @@
  * Plugin Name:       Checkout for WooCommerce
  * Plugin URI:        https://www.CheckoutWC.com
  * Description:       Beautiful, conversion optimized checkout template for WooCommerce.
- * Version:           2.9.0
+ * Version:           2.10.0
  * Author:            Objectiv
  * Author URI:        https://objectiv.co
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       checkout-wc
  * Domain Path:       /languages
- * Tested up to: 5.0.3
- * WC tested up to: 3.5.4
+ * Tested up to: 5.1.0
+ * WC tested up to: 3.5.5
  */
 
 /**
@@ -36,15 +36,28 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'CFW_NAME', 'Checkout for WooCommerce' );
 define( 'CFW_UPDATE_URL', 'https://www.checkoutwc.com' );
-define( 'CFW_VERSION', '2.9.0' );
+define( 'CFW_VERSION', '2.10.0' );
 define( 'CFW_PATH', dirname( __FILE__ ) );
 define( 'CFW_URL', plugins_url( '/', __FILE__ ) );
 define( 'CFW_MAIN_FILE', __FILE__ );
+
+/*
+ * Protect our gentle, out of date users from our fancy modern code
+ */
+if ( version_compare( phpversion(), '5.6.0', '<' ) ) {
+	return;
+}
 
 /**
  * Auto-loader (composer)
  */
 require_once 'vendor/autoload.php';
+
+/**
+ * Our language function wrappers that we only use for
+ * external translation domains
+ */
+require_once 'sources/php/language-wrapper-functions.php';
 
 use Objectiv\Plugins\Checkout\Main;
 use Objectiv\Plugins\Checkout\Core\Admin;
@@ -96,5 +109,5 @@ if ( is_admin() && ! wp_doing_ajax() ) {
 	global $cfw_admin, $cfw;
 
 	$cfw_admin = new Admin( $cfw );
-	$cfw_admin->start();
+	$cfw_admin->run();
 }

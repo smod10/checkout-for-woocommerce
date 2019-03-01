@@ -4,6 +4,7 @@ namespace Objectiv\Plugins\Checkout\Core;
 
 use Objectiv\Plugins\Checkout\Main;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
+use Objectiv\Plugins\Checkout\Stats\StatCollection;
 
 /**
  * Class Admin
@@ -46,34 +47,47 @@ class Admin {
      * @since 1.0.0
      * @access public
 	 */
+	public function run() {
+		// Run this as early as we can to maximize integrations
+		add_action(
+			'plugins_loaded', function() {
+			    // Adds the plugins hooks
+			    $this->start();
+		    }, 1
+		);
+	}
+
 	public function start() {
-	    // Admin Menu
+		// Admin Menu
 		add_action('admin_menu', array($this, 'admin_menu'), 100 );
 
 		// Key Nag
 		add_action('admin_menu', array($this, 'add_key_nag'), 11);
 
-        // Enqueue Admin Scripts
+		// Enqueue Admin Scripts
 		add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts') );
 
 		// Admin notice
-        add_action('admin_notices', array($this, 'add_notice_key_nag') );
+		add_action('admin_notices', array($this, 'add_notice_key_nag') );
 
-        // Welcome notice
+		// Welcome notice
 		add_action('admin_notices', array($this, 'add_welcome_notice') );
 
 		// Add deprecated theme notice
 		add_action('admin_notices', array($this, 'add_deprecated_theme_notice') );
 
-        // Welcome redirect
+		// Welcome redirect
 		add_action( 'admin_init', array($this, 'welcome_screen_do_activation_redirect') );
 
 		// Add settings link
 		add_filter( 'plugin_action_links_' . plugin_basename( CFW_MAIN_FILE ), array( $this, 'add_action_links' ), 10, 1 );
 
 		// Migrate settings
-        add_action( 'admin_init', array( $this, 'maybe_migrate_settings' ) );
-	}
+		add_action( 'admin_init', array( $this, 'maybe_migrate_settings' ) );
+
+		// Show shipping phone on order editor
+		add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $this, 'shipping_phone_display_admin_order_meta' ), 10, 1 );
+    }
 
 	/**
 	 * The main admin menu setup
@@ -127,6 +141,7 @@ class Admin {
      * @access public
 	 */
 	public function general_tab() {
+	    $stat_collection = StatCollection::instance();
 	    ?>
         <form name="settings" id="mg_gwp" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 			<?php $this->plugin_instance->get_settings_manager()->the_nonce(); ?>
@@ -159,7 +174,7 @@ class Admin {
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts'); ?>"><?php _e('Header Scripts', 'checkout-wc'); ?></label>
                         </th>
                         <td>
-		                    <?php wp_editor( stripslashes_deep( $this->plugin_instance->get_settings_manager()->get_setting('header_scripts') ), $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts'), array('textarea_rows' => 6, 'quicktags' => false, 'media_buttons' => false) ); ?>
+		                    <?php wp_editor( stripslashes_deep( $this->plugin_instance->get_settings_manager()->get_setting('header_scripts') ), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts') ), array('textarea_rows' => 6, 'quicktags' => false, 'media_buttons' => false, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name('header_scripts'), 'tinymce' => false ) ); ?>
                             <p>
                                 <span class="description">
 				                    <?php _e('This code will output immediately before the closing <code>&lt;/head&gt;</code> tag in the document source.', 'checkout-wc'); ?>
@@ -173,7 +188,7 @@ class Admin {
                             <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name('footer_scripts'); ?>"><?php _e('Footer Scripts', 'checkout-wc'); ?></label>
                         </th>
                         <td>
-		                    <?php wp_editor( stripslashes_deep( $this->plugin_instance->get_settings_manager()->get_setting('footer_scripts') ), $this->plugin_instance->get_settings_manager()->get_field_name('footer_scripts'), array('textarea_rows' => 6, 'quicktags' => false, 'media_buttons' => false) ); ?>
+		                    <?php wp_editor( stripslashes_deep( $this->plugin_instance->get_settings_manager()->get_setting('footer_scripts') ), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('footer_scripts') ), array('textarea_rows' => 6, 'quicktags' => false, 'media_buttons' => false, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name('footer_scripts'), 'tinymce' => false ) ); ?>
                             <p>
                                 <span class="description">
 				                    <?php _e('This code will output immediately before the closing <code>&lt;/body&gt;</code> tag in the document source.', 'checkout-wc'); ?>
@@ -181,6 +196,40 @@ class Admin {
                             </p>
                         </td>
                     </tr>
+                    <tr>
+                        <?php
+                            $tracking_field_name = $this->plugin_instance->get_settings_manager()->get_field_name('allow_tracking');
+                            $tracking_value = $this->plugin_instance->get_settings_manager()->get_setting('allow_tracking');
+                        ?>
+                        <th scope="row" valign="top">
+                            <label for="<?php echo $tracking_field_name; ?>"><?php _e('Enable Usage Tracking', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+                            <input type="hidden" name="<?php echo $tracking_field_name; ?>" value="0" />
+                            <label for="<?php echo $tracking_field_name; ?>">
+                                <input type="checkbox" name="<?php echo $tracking_field_name; ?>" id="<?php echo $tracking_field_name; ?>" value="1" <?php if ( $tracking_value == 1 ) echo "checked"; ?> />
+								<?php _e('Allow Checkout for WooCommerce to track plugin usage?', 'checkout-wc'); ?>
+                            </label>
+                        </td>
+                    </tr>
+                    <?php if( false && CFW_DEV_MODE ): ?>
+                    <tr>
+                        <th scope="row" valign="top">
+                            <label for="#cfw-stat-collection-testing"><?php _e('Stat Collection Data Viewer', 'checkout-wc'); ?></label>
+                        </th>
+                        <td>
+							<?php
+                                $stats = $this->plugin_instance->get_stat_collection();
+							    $stats->setup_data();
+                            ?>
+                            <div>
+                                <?php
+								    d($stats->get_data());
+                                ?>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
 
@@ -284,7 +333,7 @@ class Admin {
                             <label for="<?php echo sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('footer_text') ); ?>"><?php _e('Footer Text', 'checkout-wc'); ?></label>
                         </th>
                         <td>
-                            <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('footer_text') ), array('textarea_rows' => 5, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name('footer_text') ) ); ?>
+                            <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting('footer_text'), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name('footer_text') ), array('textarea_rows' => 5, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name('footer_text'), 'tinymce' => true ) ); ?>
                             <p>
                                         <span class="description">
                                             <?php _e('If left blank, a standard copyright notice will be displayed. Set to a single space to override this behavior.', 'checkout-wc'); ?>
@@ -405,7 +454,7 @@ class Admin {
                                 <label for="<?php echo $this->plugin_instance->get_settings_manager()->get_field_name( 'custom_css',  array( $template_path ) ); ?>"><?php _e('Custom CSS', 'checkout-wc'); ?></label>
                             </th>
                             <td>
-                                <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting( 'custom_css',  array( $template_path ) ), $this->plugin_instance->get_settings_manager()->get_field_name( 'custom_css',  array( $template_path ) ), array('textarea_rows' => 5, 'quicktags' => false, 'media_buttons' => false) ); ?>
+                                <?php wp_editor( $this->plugin_instance->get_settings_manager()->get_setting( 'custom_css',  array( $template_path ) ), sanitize_title_with_dashes( $this->plugin_instance->get_settings_manager()->get_field_name( 'custom_css',  array( $template_path ) ) ), array('textarea_rows' => 5, 'quicktags' => false, 'media_buttons' => false, 'textarea_name' => $this->plugin_instance->get_settings_manager()->get_field_name( 'custom_css',  array( $template_path ) ), 'tinymce' => false ) ); ?>
                                 <p>
                                     <span class="description">
                                         <?php _e('Add Custom CSS rules to fully control the appearance of the checkout template.', 'checkout-wc'); ?>
@@ -654,4 +703,18 @@ class Admin {
 		    $this->plugin_instance->get_settings_manager()->update_setting( 'settings_version', '200' );
         }
     }
+
+	/**
+	 * @since 1.1.5
+	 * @param $order
+	 */
+	public function shipping_phone_display_admin_order_meta( $order ) {
+		$shipping_phone = get_post_meta( $order->get_id(), '_shipping_phone', true );
+
+		if ( empty($shipping_phone) ) {
+		    return;
+        }
+
+		echo '<p><strong>' . __( 'Phone' ) . ':</strong><br /><a href="tel:' . $shipping_phone . '">' . $shipping_phone . '</a></p>';
+	}
 }

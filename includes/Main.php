@@ -17,6 +17,7 @@ use Objectiv\Plugins\Checkout\Core\Customizer;
 use Objectiv\Plugins\Checkout\Core\Form;
 use Objectiv\Plugins\Checkout\Core\Redirect;
 use Objectiv\Plugins\Checkout\Core\Loader;
+use Objectiv\Plugins\Checkout\Stats\StatCollection;
 use Objectiv\Plugins\Checkout\Managers\ActivationManager;
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
@@ -154,6 +155,13 @@ class Main extends Singleton {
 	 * @var Form $form Handles the WooCommerce form changes
 	 */
 	private $form;
+
+	/**
+	 * @since 2.4.12
+	 * @access private
+	 * @var StatCollection Handles the stat collection for CFW
+	 */
+	private $stat_collection;
 
 	/**
 	 * Main constructor.
@@ -316,6 +324,15 @@ class Main extends Singleton {
 	}
 
 	/**
+	 * @since 2.4.12
+	 * @access public
+	 * @return Stats\StatCollection The form object
+	 */
+	public function get_stat_collection() {
+		return $this->stat_collection;
+	}
+
+	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
 	 * @since 1.0.0
@@ -395,6 +412,9 @@ class Main extends Singleton {
 
 		// The settings manager for the plugin
 		$this->settings_manager = new SettingsManager();
+
+		// Stat collection
+		$this->stat_collection = StatCollection::instance($this->settings_manager);
 
 		$active_template = $this->settings_manager->get_setting( 'active_template' );
 
@@ -518,11 +538,12 @@ class Main extends Singleton {
 				),
 				'compatibility' => apply_filters( 'cfw_typescript_compatibility_classes_and_params', array() ),
 				'settings'      => array(
-					'user_logged_in'          => ( is_user_logged_in() ) ? true : false,
-					'is_stripe_three'         => ( defined( 'WC_STRIPE_VERSION' ) && ( version_compare( WC_STRIPE_VERSION, '4.0.0' ) >= 0 || version_compare( WC_STRIPE_VERSION, '3.0.0', '<' ) ) ) ? false : true,
-					'default_address_fields'  => array_keys( WC()->countries->get_default_address_fields() ),
-					'enable_zip_autocomplete' => apply_filters( 'cfw_enable_zip_autocomplete', true ) ? true : false,
-					'locale'                  => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ),
+					'user_logged_in'                  => ( is_user_logged_in() ) ? true : false,
+					'is_stripe_three'                 => ( defined( 'WC_STRIPE_VERSION' ) && ( version_compare( WC_STRIPE_VERSION, '4.0.0' ) >= 0 || version_compare( WC_STRIPE_VERSION, '3.0.0', '<' ) ) ) ? false : true,
+					'default_address_fields'          => array_keys( WC()->countries->get_default_address_fields() ),
+					'enable_zip_autocomplete'         => apply_filters( 'cfw_enable_zip_autocomplete', true ) ? true : false,
+					'locale'                          => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : strstr( get_user_locale(), '_', true ),
+					'check_create_account_by_default' => apply_filters( 'cfw_check_create_account_by_default', true ) ? true : false,
 				),
 			)
 		);
@@ -539,7 +560,7 @@ class Main extends Singleton {
 				'cart_url'                       => wc_get_cart_url(),
 				'is_checkout'                    => is_page( wc_get_page_id( 'checkout' ) ) && empty( $wp->query_vars['order-pay'] ) && ! isset( $wp->query_vars['order-received'] ) ? 1 : 0,
 				'debug_mode'                     => defined( 'WP_DEBUG' ) && WP_DEBUG,
-				'i18n_checkout_error'            => esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
+				'i18n_checkout_error'            => cfw_esc_attr__( 'Error processing checkout. Please try again.', 'woocommerce' ),
 				'is_registration_enabled'        => WC()->checkout()->is_registration_enabled() ? 1 : 0,
 				'is_registration_required'       => WC()->checkout()->is_registration_required() ? 1 : 0,
 				'enable_checkout_login_reminder' => 'yes' === get_option( 'woocommerce_enable_checkout_login_reminder' ) ? 1 : 0,
@@ -553,17 +574,17 @@ class Main extends Singleton {
 		wp_localize_script(
 			'cfw_front_js', 'wc_country_select_params', array(
 				'countries'                 => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) ),
-				'i18n_select_state_text'    => esc_attr__( 'Select an option&hellip;', 'woocommerce' ),
-				'i18n_no_matches'           => _x( 'No matches found', 'enhanced select', 'woocommerce' ),
-				'i18n_ajax_error'           => _x( 'Loading failed', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_short_1'    => _x( 'Please enter 1 or more characters', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_short_n'    => _x( 'Please enter %qty% or more characters', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_long_1'     => _x( 'Please delete 1 character', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_long_n'     => _x( 'Please delete %qty% characters', 'enhanced select', 'woocommerce' ),
-				'i18n_selection_too_long_1' => _x( 'You can only select 1 item', 'enhanced select', 'woocommerce' ),
-				'i18n_selection_too_long_n' => _x( 'You can only select %qty% items', 'enhanced select', 'woocommerce' ),
-				'i18n_load_more'            => _x( 'Loading more results&hellip;', 'enhanced select', 'woocommerce' ),
-				'i18n_searching'            => _x( 'Searching&hellip;', 'enhanced select', 'woocommerce' ),
+				'i18n_select_state_text'    => cfw_esc_attr__( 'Select an option&hellip;', 'woocommerce' ),
+				'i18n_no_matches'           => cfw_x( 'No matches found', 'enhanced select', 'woocommerce' ),
+				'i18n_ajax_error'           => cfw_x( 'Loading failed', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_short_1'    => cfw_x( 'Please enter 1 or more characters', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_short_n'    => cfw_x( 'Please enter %qty% or more characters', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_long_1'     => cfw_x( 'Please delete 1 character', 'enhanced select', 'woocommerce' ),
+				'i18n_input_too_long_n'     => cfw_x( 'Please delete %qty% characters', 'enhanced select', 'woocommerce' ),
+				'i18n_selection_too_long_1' => cfw_x( 'You can only select 1 item', 'enhanced select', 'woocommerce' ),
+				'i18n_selection_too_long_n' => cfw_x( 'You can only select %qty% items', 'enhanced select', 'woocommerce' ),
+				'i18n_load_more'            => cfw_x( 'Loading more results&hellip;', 'enhanced select', 'woocommerce' ),
+				'i18n_searching'            => cfw_x( 'Searching&hellip;', 'enhanced select', 'woocommerce' ),
 			)
 		);
 
@@ -572,7 +593,7 @@ class Main extends Singleton {
 				'locale'             => json_encode( WC()->countries->get_country_locale() ),
 				'locale_fields'      => json_encode( WC()->countries->get_country_locale_field_selectors() ),
 				'add2_text'          => __( 'Apt, suite, etc. (optional)', 'checkout-wc' ),
-				'i18n_required_text' => esc_attr__( 'required', 'woocommerce' ),
+				'i18n_required_text' => cfw_esc_attr__( 'required', 'woocommerce' ),
 			)
 		);
 	}
@@ -595,8 +616,7 @@ class Main extends Singleton {
 			// Load Assets
 			$this->loader->add_action( 'wp_enqueue_scripts', array( $this, 'set_assets' ) );
 
-			// Initiate form - wp is late enough that the customizer will pick up the changes
-			$this->loader->add_action( 'wp', array( $this, 'init_hooks' ) );
+			$this->loader->add_action( 'init', array( $this, 'init_hooks' ) );
 		}
 
 		// Add the actions and filters to the system. They were added to the class, this registers them in WordPress.
@@ -665,12 +685,17 @@ class Main extends Singleton {
 	}
 
 	function init_hooks() {
-		if ( $this->get_settings_manager()->get_setting( 'enable_phone_fields' ) == 'yes' ) {
-			add_filter( 'cfw_enable_phone_fields', '__return_true', 1 );
-		}
-
 		// Required to render form fields
 		$this->form = new Form();
+	}
+
+	/**
+	 * Get phone field setting
+	 *
+	 * @return boolean
+	 */
+	function is_phone_fields_enabled() {
+		return apply_filters( 'cfw_enable_phone_fields', $this->get_settings_manager()->get_setting( 'enable_phone_fields' ) == 'yes' );
 	}
 
 	function add_admin_buttons( $admin_bar ) {
@@ -805,6 +830,9 @@ class Main extends Singleton {
 		// Updater license status cron
 		$main->updater->set_license_check_cron();
 
+		// Set the stat collection cron
+		$main->set_stat_collection_cron();
+
 		if ( ! $errors ) {
 
 			// Welcome screen transient
@@ -824,9 +852,30 @@ class Main extends Singleton {
 
 		// Remove cron for license update check
 		$main->updater->unset_license_check_cron();
+
+		// Unset the stat collection cron
+		$main->unset_stat_collection_cron();
 	}
 
 	/**
+	 * Stat collection cron
+	 */
+	public function set_stat_collection_cron() {
+		if (! wp_next_scheduled ( 'cfw_weekly_scheduled_events_tracking' )) {
+			wp_schedule_event(time(), 'weekly', 'cfw_weekly_scheduled_events_tracking');
+		}
+	}
+
+	/**
+	 * Unset the collection cron
+	 */
+	public function unset_stat_collection_cron() {
+		wp_clear_scheduled_hook('cfw_weekly_scheduled_events_tracking');
+	}
+
+	/**
+	 * @param string $result
+	 *
 	 * @return string
 	 */
 	function override_woocommerce_registration_generate_password( $result ) {

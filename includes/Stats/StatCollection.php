@@ -673,7 +673,7 @@ class StatCollection extends Singleton {
 			?>
 				<div class="updated" style="display: block !important;">
 					<p>
-						<?php echo sprintf( __( 'Allow Checkout for WooCommerce to track plugin usage? Help make Checkout for WooCommerce better.', 'checkout-wc' ) ); ?><?php echo ' <a target="_blank" href="https://www.checkoutwc.com/checkout-for-woocommerce-usage-tracking/">' . esc_html__( 'Read more about what we collect.', 'woocommerce' ) . '</a>'; ?>
+						<?php echo sprintf( __( 'Allow Checkout for WooCommerce to track plugin usage? Help make Checkout for WooCommerce better.', 'checkout-wc' ) ); ?><?php echo ' <a target="_blank" href="https://www.checkoutwc.com/checkout-for-woocommerce-usage-tracking/">' . cfw_esc_html__( 'Read more about what we collect.', 'woocommerce' ) . '</a>'; ?>
 					</p>
 					<p>
 						<a href="<?php echo esc_url( $optin_url ); ?>" class="button-secondary"><?php echo __( 'Allow', 'checkout-wc' ); ?></a>

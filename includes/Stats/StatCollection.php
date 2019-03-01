@@ -255,12 +255,13 @@ class StatCollection extends Singleton {
 		$data['memory_limit'] = size_format( $memory );
 		$data['install_date'] = false !== $checkout_page ? get_post_field( 'post_date', $checkout_page ) : null;
 		$data['multisite'] = is_multisite();
-		$data['locale']         = get_locale();
-		$data['theme']     = $this->get_theme_info();
+		$data['locale'] = get_locale();
+		$data['theme'] = $this->get_theme_info();
 		$data['gateways'] = self::get_active_payment_gateways();
 		$data['wc_order_stats'] = $this->get_woo_order_stats();
-		$data['wc_settings']    = $this->get_woo_site_settings();
-		$data['cfw_settings']   = $this->get_cfw_settings();
+		$data['shipping_methods'] = self::get_active_shipping_methods();
+		$data['wc_settings'] = $this->get_woo_site_settings();
+		$data['cfw_settings'] = $this->get_cfw_settings();
 		$data['inactive_plugins'] = $plugins['inactive'];
 		$data['active_plugins'] = $plugins['active'];
 		$data['debug_modes'] = $wp_data;
@@ -403,10 +404,10 @@ class StatCollection extends Singleton {
 		$shipping_methods = WC()->shipping->get_shipping_methods();
 		foreach ( $shipping_methods as $id => $shipping_method ) {
 			if ( isset( $shipping_method->enabled ) && 'yes' === $shipping_method->enabled ) {
-				$active_methods[ $id ] = array(
-					'title'      => $shipping_method->title,
-					'tax_status' => $shipping_method->tax_status,
-				);
+				$active_methods[] = array(
+                    'id' => $id,
+                    'tax_status' => $shipping_method->tax_status
+                );
 			}
 		}
 

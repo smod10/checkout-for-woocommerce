@@ -17,6 +17,7 @@ use Objectiv\Plugins\Checkout\Core\Customizer;
 use Objectiv\Plugins\Checkout\Core\Form;
 use Objectiv\Plugins\Checkout\Core\Redirect;
 use Objectiv\Plugins\Checkout\Core\Loader;
+use Objectiv\Plugins\Checkout\Stats\StatCollection;
 use Objectiv\Plugins\Checkout\Managers\ActivationManager;
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
@@ -154,6 +155,13 @@ class Main extends Singleton {
 	 * @var Form $form Handles the WooCommerce form changes
 	 */
 	private $form;
+
+	/**
+	 * @since 2.4.12
+	 * @access private
+	 * @var StatCollection Handles the stat collection for CFW
+	 */
+	private $stat_collection;
 
 	/**
 	 * Main constructor.
@@ -316,6 +324,15 @@ class Main extends Singleton {
 	}
 
 	/**
+	 * @since 2.4.12
+	 * @access public
+	 * @return Stats\StatCollection The form object
+	 */
+	public function get_stat_collection() {
+		return $this->stat_collection;
+	}
+
+	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
 	 * @since 1.0.0
@@ -395,6 +412,9 @@ class Main extends Singleton {
 
 		// The settings manager for the plugin
 		$this->settings_manager = new SettingsManager();
+
+		// Stat collection
+		$this->stat_collection = StatCollection::instance($this->settings_manager);
 
 		$active_template = $this->settings_manager->get_setting( 'active_template' );
 
@@ -810,6 +830,9 @@ class Main extends Singleton {
 		// Updater license status cron
 		$main->updater->set_license_check_cron();
 
+		// Set the stat collection cron
+		$main->set_stat_collection_cron();
+
 		if ( ! $errors ) {
 
 			// Welcome screen transient
@@ -829,9 +852,30 @@ class Main extends Singleton {
 
 		// Remove cron for license update check
 		$main->updater->unset_license_check_cron();
+
+		// Unset the stat collection cron
+		$main->unset_stat_collection_cron();
 	}
 
 	/**
+	 * Stat collection cron
+	 */
+	public function set_stat_collection_cron() {
+		if (! wp_next_scheduled ( 'cfw_weekly_scheduled_events_tracking' )) {
+			wp_schedule_event(time(), 'weekly', 'cfw_weekly_scheduled_events_tracking');
+		}
+	}
+
+	/**
+	 * Unset the collection cron
+	 */
+	public function unset_stat_collection_cron() {
+		wp_clear_scheduled_hook('cfw_weekly_scheduled_events_tracking');
+	}
+
+	/**
+	 * @param string $result
+	 *
 	 * @return string
 	 */
 	function override_woocommerce_registration_generate_password( $result ) {

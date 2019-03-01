@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Checkout for WooCommerce\n"
-"POT-Creation-Date: 2019-03-01 13:20-0500\n"
+"POT-Creation-Date: 2019-03-01 15:32-0500\n"
 "PO-Revision-Date: 2017-10-14 11:44-0400\n"
 "Last-Translator: \n"
-"Language-Team: \n"
+"Language-Team: support@checkoutwc.com\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,910 +20,141 @@ msgstr ""
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SearchPathExcluded-1: dist\n"
+"X-Poedit-SearchPathExcluded-2: vendor\n"
 
-#: dist/checkout-for-woocommerce/functions.php:8 functions.php:8
+#: functions.php:8
 msgid "First Name"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/functions.php:13 functions.php:13
+#: functions.php:13
 msgid "Last Name"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/functions.php:59
-#: dist/checkout-for-woocommerce/includes/Main.php:576 functions.php:59
-#: includes/Main.php:596
-msgid "required"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/functions.php:120 functions.php:120
-msgid "Select a country&hellip;"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/functions.php:128 functions.php:128
-msgid "Update country"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/functions.php:147 functions.php:147
-msgid "Select a state&hellip;"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/functions.php:191 functions.php:191
-msgid "Choose an option"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/functions.php:339 functions.php:339
-#, php-format
-msgctxt "shipping packages"
-msgid "Shipping"
-msgid_plural "Shipping %d"
-msgstr[0] ""
-msgstr[1] ""
-
-#: dist/checkout-for-woocommerce/functions.php:365 functions.php:365
-msgid ""
-"There are no shipping methods available. Please double check your address, "
-"or contact us if you need any help."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/functions.php:434 functions.php:434
-msgid ""
-"Sorry, it seems that there are no available payment methods for your "
-"location. Please contact us if you require assistance or wish to make "
-"alternate arrangements."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/functions.php:589
-#: dist/checkout-for-woocommerce/functions.php:596 functions.php:589
-#: functions.php:596
+#: functions.php:589 functions.php:596
 msgid "Not Calculated"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/functions.php:594 functions.php:594
+#: functions.php:594
 msgid "Not Available"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/functions.php:607 functions.php:607
+#: functions.php:607
 msgid "Complete Order"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/functions.php:635
-#: dist/checkout-for-woocommerce/templates/copify/content.php:53
-#: dist/checkout-for-woocommerce/templates/default/content.php:46
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:51
 #: functions.php:635 templates/copify/content.php:53
 #: templates/default/content.php:46 templates/futurist/content.php:51
 msgid "Payment method"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/functions.php:642 functions.php:642
+#: functions.php:642
 msgid ""
 "All transactions are secure and encrypted. Credit card information is never "
 "stored on our servers."
 msgstr ""
 
-#: dist/checkout-for-woocommerce/functions.php:653 functions.php:653
+#: functions.php:653
 msgid "Your order is free. No payment is required."
 msgstr ""
 
-#: dist/checkout-for-woocommerce/functions.php:699 functions.php:699
+#: functions.php:699
 msgid "Same as shipping address"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/functions.php:707 functions.php:707
+#: functions.php:707
 msgid "Use a different billing address"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Compatibility/Base.php:135
 #: includes/Compatibility/Base.php:135
 msgid "Or"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Compatibility/Gateways/PayPalForWooCommerce.php:181
 #: includes/Compatibility/Gateways/PayPalForWooCommerce.php:181
 msgid "Logged in with PayPal. Please continue your order below."
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Compatibility/Plugins/NLPostcodeChecker.php:80
-#: dist/checkout-for-woocommerce/includes/Compatibility/Plugins/NLPostcodeChecker.php:81
-#: dist/checkout-for-woocommerce/includes/Compatibility/Plugins/PostNL.php:62
-#: dist/checkout-for-woocommerce/includes/Compatibility/Plugins/PostNL.php:63
-#: includes/Compatibility/Plugins/NLPostcodeChecker.php:80
-#: includes/Compatibility/Plugins/NLPostcodeChecker.php:81
-#: includes/Compatibility/Plugins/PostNL.php:62
-#: includes/Compatibility/Plugins/PostNL.php:63
-msgid "Nr."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Compatibility/Plugins/NLPostcodeChecker.php:98
-#: dist/checkout-for-woocommerce/includes/Compatibility/Plugins/NLPostcodeChecker.php:99
-#: dist/checkout-for-woocommerce/includes/Compatibility/Plugins/PostNL.php:80
-#: dist/checkout-for-woocommerce/includes/Compatibility/Plugins/PostNL.php:81
-#: includes/Compatibility/Plugins/NLPostcodeChecker.php:98
-#: includes/Compatibility/Plugins/NLPostcodeChecker.php:99
-#: includes/Compatibility/Plugins/PostNL.php:80
-#: includes/Compatibility/Plugins/PostNL.php:81
-msgid "Suffix"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Compatibility/Plugins/UltimateRewardsPoints.php:26
-#: includes/Compatibility/Plugins/UltimateRewardsPoints.php:26
-msgid "Points"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Compatibility/Plugins/UltimateRewardsPoints.php:27
-#: includes/Compatibility/Plugins/UltimateRewardsPoints.php:27
-msgid "Apply Points"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Compatibility/Plugins/UltimateRewardsPoints.php:28
-#: includes/Compatibility/Plugins/UltimateRewardsPoints.php:28
-msgid " Points"
-msgstr ""
-
 #. Plugin Name of the plugin/theme
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:101
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:124
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:266
-#: dist/checkout-for-woocommerce/includes/Main.php:695
 #: includes/Core/Admin.php:102 includes/Core/Admin.php:125
 #: includes/Core/Customizer.php:266 includes/Main.php:715
 msgid "Checkout for WooCommerce"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:104
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:279
-#: dist/checkout-for-woocommerce/includes/Main.php:703
 #: includes/Core/Admin.php:105 includes/Core/Customizer.php:279
 #: includes/Main.php:723
 msgid "General"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:105
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:336
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:353
-#: dist/checkout-for-woocommerce/includes/Main.php:712
 #: includes/Core/Admin.php:106 includes/Core/Customizer.php:336
 #: includes/Core/Customizer.php:353 includes/Main.php:732
 msgid "Template"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:106
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:367
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:404
-#: dist/checkout-for-woocommerce/includes/Main.php:721
 #: includes/Core/Admin.php:107 includes/Core/Customizer.php:367
 #: includes/Core/Customizer.php:404 includes/Main.php:741
 msgid "Design"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:107
-#: dist/checkout-for-woocommerce/includes/Main.php:730
 #: includes/Core/Admin.php:108 includes/Main.php:750
 msgid "License"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:108
-#: dist/checkout-for-woocommerce/includes/Main.php:739
 #: includes/Core/Admin.php:109 includes/Main.php:759
 msgid "Support"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:125
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:269
 #: includes/Core/Admin.php:126 includes/Core/Customizer.php:269
 msgid ""
 "Checkout for WooCommerce provides a beautiful, conversion optimized checkout "
 "template for WooCommerce."
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:150
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:290
 #: includes/Core/Admin.php:152 includes/Core/Customizer.php:290
 msgid "Enable / Disable"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:154
 #: includes/Core/Admin.php:156
 msgid "Use Checkout for WooCommerce Template"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:155
 #: includes/Core/Admin.php:157
 msgid ""
 "Enable or disable Checkout for WooCommerce theme. (NOTE: Theme is always "
 "enabled for admin users.)"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:161
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:301
 #: includes/Core/Admin.php:163 includes/Core/Customizer.php:301
 msgid "Show Phone Fields"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:165
 #: includes/Core/Admin.php:167
 msgid "Enable billing and shipping phone fields"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:166
 #: includes/Core/Admin.php:168
 msgid ""
 "Enable or disable billing and shipping phone fields as required fields. "
 "(Default: Disabled)"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:172
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:312
 #: includes/Core/Admin.php:174 includes/Core/Customizer.php:312
 msgid "Header Scripts"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:178
 #: includes/Core/Admin.php:180
 msgid ""
 "This code will output immediately before the closing <code>&lt;/head&gt;</"
 "code> tag in the document source."
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:186
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:323
 #: includes/Core/Admin.php:188 includes/Core/Customizer.php:323
 msgid "Footer Scripts"
 msgstr ""
 
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:192
 #: includes/Core/Admin.php:194
 msgid ""
 "This code will output immediately before the closing <code>&lt;/body&gt;</"
 "code> tag in the document source."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:216
-#: includes/Core/Admin.php:252
-msgid "Templates"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:240
-#: includes/Core/Admin.php:276
-msgid "Active: "
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:248
-#: includes/Core/Admin.php:284
-msgid "Activate"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:258
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:432
-#: includes/Core/Admin.php:294 includes/Core/Admin.php:468
-msgid ""
-"You are using a legacy child theme which will be disabled in a future "
-"version. Changing theme settings is not possible for legacy themes."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:276
-#: includes/Core/Admin.php:312
-msgid "Global Settings"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:277
-#: includes/Core/Admin.php:313
-msgid "These settings apply to all themes."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:282
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:379
-#: includes/Core/Admin.php:318 includes/Core/Customizer.php:379
-msgid "Logo"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:288
-#: includes/Core/Admin.php:324
-msgid "Upload image"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:291
-#: includes/Core/Admin.php:327
-msgid "Clear Logo"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:297
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:391
-#: includes/Core/Admin.php:333 includes/Core/Customizer.php:391
-msgid "Footer Text"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:303
-#: includes/Core/Admin.php:339
-msgid ""
-"If left blank, a standard copyright notice will be displayed. Set to a "
-"single space to override this behavior."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:311
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:404
-#: includes/Core/Admin.php:347 includes/Core/Customizer.php:404
-msgid "Theme Specific Settings"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:323
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:420
-#: includes/Core/Admin.php:359 includes/Core/Customizer.php:420
-msgid "Header Background Color"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:333
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:434
-#: includes/Core/Admin.php:369 includes/Core/Customizer.php:434
-msgid "Header Text Color"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:343
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:448
-#: includes/Core/Admin.php:379 includes/Core/Customizer.php:448
-msgid "Footer Background Color"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:353
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:462
-#: includes/Core/Admin.php:389 includes/Core/Customizer.php:462
-msgid "Footer Text Color"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:363
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:476
-#: includes/Core/Admin.php:399 includes/Core/Customizer.php:476
-msgid "Summary Background Color"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:373
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:490
-#: includes/Core/Admin.php:409 includes/Core/Customizer.php:490
-msgid "Primary Button Color"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:382
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:504
-#: includes/Core/Admin.php:418 includes/Core/Customizer.php:504
-msgid "Primary Button Text Color"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:391
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:518
-#: includes/Core/Admin.php:427 includes/Core/Customizer.php:518
-msgid "Secondary Button Color"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:400
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:532
-#: includes/Core/Admin.php:436 includes/Core/Customizer.php:532
-msgid "Secondary Button Text Color"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:409
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:546
-#: includes/Core/Admin.php:445 includes/Core/Customizer.php:546
-msgid "Link Color"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:418
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:559
-#: includes/Core/Admin.php:454 includes/Core/Customizer.php:559
-msgid "Custom CSS"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:424
-#: includes/Core/Admin.php:460
-msgid ""
-"Add Custom CSS rules to fully control the appearance of the checkout "
-"template."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:458
-#: includes/Core/Admin.php:494
-msgid "Need help?"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:460
-#: includes/Core/Admin.php:496
-msgid "Excellent support is in our DNA."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:462
-#: includes/Core/Admin.php:498
-msgid "Contact Support"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:586
-#: includes/Core/Admin.php:622
-#, php-format
-msgid ""
-"Checkout for WooCommerce: Your license key appears to have expired. Please "
-"verify that your license key is valid or <a target=\"_blank\" href=\"https://"
-"www.checkoutwc.com/checkout/?edd_license_key=%s\">renew your license now</a> "
-"to restore full functionality."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:589
-#: includes/Core/Admin.php:625
-msgid ""
-"Checkout for WooCommerce: Your license key is missing or invalid. Please "
-"verify that your license key is valid or <a target=\"_blank\" href=\"https://"
-"www.checkoutwc.com/\">purchase a license</a> to restore full functionality."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:594
-#: includes/Core/Admin.php:630
-msgid ""
-"Thank you for installing Checkout for WooCommerce! To get started, click on "
-"<strong>License</strong> below and activate your license key!"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:605
-#: includes/Core/Admin.php:641
-#, php-format
-msgid ""
-"It looks like you are using a legacy checkout theme, located in %s. Legacy "
-"themes are deprecated and you should upgrade to the new theme structure as "
-"soon as possible to prevent problems with future release. For more "
-"information, <a target=\"_blank\" href=\"https://www.checkoutwc.com/docs/"
-"developer-api/template-files/upgrading-legacy-custom-templates/\">read our "
-"migration guide.</a>"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:629
-#: includes/Core/Admin.php:665
-msgid "Settings"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Admin.php:682
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:238
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:240
-#: includes/Core/Admin.php:718 includes/Core/Form.php:238
-#: includes/Core/Form.php:240
-msgid "Phone"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Customizer.php:408
-#: includes/Core/Customizer.php:408
-msgid ""
-"These settings only apply to the currently active template. If you switch "
-"templates in the customizer, these settings will become unavailable but "
-"saving will publish any changes here prior to switching templates!"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:88
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:89
-#: includes/Core/Form.php:88 includes/Core/Form.php:89
-msgid "First name"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:105
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:106
-#: includes/Core/Form.php:105 includes/Core/Form.php:106
-msgid "Last name"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:121
-#: includes/Core/Form.php:121
-msgid "Address"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:122
-#: includes/Core/Form.php:122
-msgid "Street address"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:137
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:138
-#: dist/checkout-for-woocommerce/includes/Main.php:575
-#: includes/Core/Form.php:137 includes/Core/Form.php:138 includes/Main.php:595
-msgid "Apt, suite, etc. (optional)"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:150
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:151
-#: includes/Core/Form.php:150 includes/Core/Form.php:151
-msgid "Company name"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:163
-#: includes/Core/Form.php:163
-msgid "Country"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:176
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:177
-#: includes/Core/Form.php:176 includes/Core/Form.php:177
-msgid "Postcode / ZIP"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:197
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:198
-#: includes/Core/Form.php:197 includes/Core/Form.php:198
-msgid "State / County"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:217
-#: dist/checkout-for-woocommerce/includes/Core/Form.php:219
-#: includes/Core/Form.php:217 includes/Core/Form.php:219
-msgid "Town / City"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Core/Redirect.php:55
-#: includes/Core/Redirect.php:55
-msgid "Checkout is not available whilst your cart is empty."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:427 includes/Main.php:447
-msgid ""
-"Activation failed: Please activate WooCommerce in order to use Checkout for "
-"WooCommerce"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:543 includes/Main.php:563
-msgid "Error processing checkout. Please try again."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:557 includes/Main.php:577
-msgid "Select an option&hellip;"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:558 includes/Main.php:578
-msgctxt "enhanced select"
-msgid "No matches found"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:559 includes/Main.php:579
-msgctxt "enhanced select"
-msgid "Loading failed"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:560 includes/Main.php:580
-msgctxt "enhanced select"
-msgid "Please enter 1 or more characters"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:561 includes/Main.php:581
-msgctxt "enhanced select"
-msgid "Please enter %qty% or more characters"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:562 includes/Main.php:582
-msgctxt "enhanced select"
-msgid "Please delete 1 character"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:563 includes/Main.php:583
-msgctxt "enhanced select"
-msgid "Please delete %qty% characters"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:564 includes/Main.php:584
-msgctxt "enhanced select"
-msgid "You can only select 1 item"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:565 includes/Main.php:585
-msgctxt "enhanced select"
-msgid "You can only select %qty% items"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:566 includes/Main.php:586
-msgctxt "enhanced select"
-msgid "Loading more results&hellip;"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/includes/Main.php:567 includes/Main.php:587
-msgctxt "enhanced select"
-msgid "Searching&hellip;"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:42
-#: dist/checkout-for-woocommerce/templates/default/content.php:35
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:34
-#: templates/copify/content.php:42 templates/default/content.php:35
-#: templates/futurist/content.php:34
-msgid "Cart"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:45
-#: dist/checkout-for-woocommerce/templates/copify/content.php:69
-#: dist/checkout-for-woocommerce/templates/default/content.php:38
-#: dist/checkout-for-woocommerce/templates/default/content.php:62
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:39
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:74
-#: templates/copify/content.php:45 templates/copify/content.php:69
-#: templates/default/content.php:38 templates/default/content.php:62
-#: templates/futurist/content.php:39 templates/futurist/content.php:74
-msgid "Customer information"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:49
-#: dist/checkout-for-woocommerce/templates/copify/content.php:205
-#: dist/checkout-for-woocommerce/templates/default/content.php:42
-#: dist/checkout-for-woocommerce/templates/default/content.php:198
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:45
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:210
-#: templates/copify/content.php:49 templates/copify/content.php:205
-#: templates/default/content.php:42 templates/default/content.php:198
-#: templates/futurist/content.php:45 templates/futurist/content.php:210
-msgid "Shipping method"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:77
-#: dist/checkout-for-woocommerce/templates/default/content.php:70
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:82
-#: templates/copify/content.php:77 templates/default/content.php:70
-#: templates/futurist/content.php:82
-msgid "Already have an account with us?"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:81
-#: dist/checkout-for-woocommerce/templates/default/content.php:74
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:86
-#: templates/copify/content.php:81 templates/default/content.php:74
-#: templates/futurist/content.php:86
-msgid "Log in for a faster checkout experience."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:89
-#: dist/checkout-for-woocommerce/templates/copify/content.php:90
-#: dist/checkout-for-woocommerce/templates/default/content.php:82
-#: dist/checkout-for-woocommerce/templates/default/content.php:83
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:94
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:95
-#: templates/copify/content.php:89 templates/copify/content.php:90
-#: templates/default/content.php:82 templates/default/content.php:83
-#: templates/futurist/content.php:94 templates/futurist/content.php:95
-msgid "Email"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:98
-#: dist/checkout-for-woocommerce/templates/copify/content.php:99
-#: dist/checkout-for-woocommerce/templates/default/content.php:89
-#: dist/checkout-for-woocommerce/templates/default/content.php:90
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:103
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:104
-#: templates/copify/content.php:98 templates/copify/content.php:99
-#: templates/default/content.php:89 templates/default/content.php:90
-#: templates/futurist/content.php:103 templates/futurist/content.php:104
-msgid "Password"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:103
-#: dist/checkout-for-woocommerce/templates/default/content.php:94
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:108
-#: templates/copify/content.php:103 templates/default/content.php:94
-#: templates/futurist/content.php:108
-msgid "Login"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:106
-#: dist/checkout-for-woocommerce/templates/default/content.php:97
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:111
-#: templates/copify/content.php:106 templates/default/content.php:97
-#: templates/futurist/content.php:111
-msgid "Login is optional. You may continue with your order below."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:116
-#: dist/checkout-for-woocommerce/templates/default/content.php:109
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:121
-#: templates/copify/content.php:116 templates/default/content.php:109
-#: templates/futurist/content.php:121
-#, php-format
-msgid "Create %s shopping account."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:118
-#: dist/checkout-for-woocommerce/templates/default/content.php:111
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:123
-#: templates/copify/content.php:118 templates/default/content.php:111
-#: templates/futurist/content.php:123
-msgid "If you do not have an account, we will create one for you."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:127
-#: dist/checkout-for-woocommerce/templates/default/content.php:120
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:132
-#: templates/copify/content.php:127 templates/default/content.php:120
-#: templates/futurist/content.php:132
-#, php-format
-msgid "Welcome back, %s (%s)."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:140
-#: dist/checkout-for-woocommerce/templates/copify/content.php:238
-#: dist/checkout-for-woocommerce/templates/default/content.php:133
-#: dist/checkout-for-woocommerce/templates/default/content.php:231
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:145
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:243
-#: templates/copify/content.php:140 templates/copify/content.php:238
-#: templates/default/content.php:133 templates/default/content.php:231
-#: templates/futurist/content.php:145 templates/futurist/content.php:243
-msgid "Billing address"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:142
-#: dist/checkout-for-woocommerce/templates/copify/content.php:190
-#: dist/checkout-for-woocommerce/templates/default/content.php:135
-#: dist/checkout-for-woocommerce/templates/default/content.php:183
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:147
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:195
-#: templates/copify/content.php:142 templates/copify/content.php:190
-#: templates/default/content.php:135 templates/default/content.php:183
-#: templates/futurist/content.php:147 templates/futurist/content.php:195
-msgid "Shipping address"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:172
-#: dist/checkout-for-woocommerce/templates/default/content.php:165
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:177
-#: templates/copify/content.php:172 templates/default/content.php:165
-#: templates/futurist/content.php:177
-msgid "Return to cart"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:175
-#: dist/checkout-for-woocommerce/templates/default/content.php:168
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:180
-#: templates/copify/content.php:175 templates/default/content.php:168
-#: templates/futurist/content.php:180
-msgid "Continue to shipping method"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:177
-#: dist/checkout-for-woocommerce/templates/copify/content.php:223
-#: dist/checkout-for-woocommerce/templates/default/content.php:170
-#: dist/checkout-for-woocommerce/templates/default/content.php:216
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:182
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:228
-#: templates/copify/content.php:177 templates/copify/content.php:223
-#: templates/default/content.php:170 templates/default/content.php:216
-#: templates/futurist/content.php:182 templates/futurist/content.php:228
-msgid "Continue to payment method"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:196
-#: dist/checkout-for-woocommerce/templates/default/content.php:189
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:201
-#: templates/copify/content.php:196 templates/default/content.php:189
-#: templates/futurist/content.php:201
-msgid "Edit shipping address"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:207
-#: dist/checkout-for-woocommerce/templates/default/content.php:200
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:212
-#: templates/copify/content.php:207 templates/default/content.php:200
-#: templates/futurist/content.php:212
-msgid "Select a shipping method:"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:220
-#: dist/checkout-for-woocommerce/templates/copify/content.php:273
-#: dist/checkout-for-woocommerce/templates/default/content.php:213
-#: dist/checkout-for-woocommerce/templates/default/content.php:266
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:225
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:278
-#: templates/copify/content.php:220 templates/copify/content.php:273
-#: templates/default/content.php:213 templates/default/content.php:266
-#: templates/futurist/content.php:225 templates/futurist/content.php:278
-msgid "Return to customer information"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:271
-#: dist/checkout-for-woocommerce/templates/default/content.php:264
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:276
-#: templates/copify/content.php:271 templates/default/content.php:264
-#: templates/futurist/content.php:276
-msgid "Return to shipping information"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:307
-#: dist/checkout-for-woocommerce/templates/default/content.php:283
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:295
-#: templates/copify/content.php:307 templates/default/content.php:283
-#: templates/futurist/content.php:295
-msgid "Show order summary"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:326
-#: dist/checkout-for-woocommerce/templates/default/content.php:302
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:318
-#: templates/copify/content.php:326 templates/default/content.php:302
-#: templates/futurist/content.php:318
-msgid "Enter Promo Code"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:331
-#: dist/checkout-for-woocommerce/templates/default/content.php:307
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:323
-#: templates/copify/content.php:331 templates/default/content.php:307
-#: templates/futurist/content.php:323
-msgid "Apply"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:341
-#: dist/checkout-for-woocommerce/templates/default/content.php:317
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:333
-#: templates/copify/content.php:341 templates/default/content.php:317
-#: templates/futurist/content.php:333
-msgid "Subtotal"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:353
-#: dist/checkout-for-woocommerce/templates/default/content.php:329
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:345
-#: templates/copify/content.php:353 templates/default/content.php:329
-#: templates/futurist/content.php:345
-msgid "Shipping"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:366
-#: dist/checkout-for-woocommerce/templates/default/content.php:342
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:358
-#: templates/copify/content.php:366 templates/default/content.php:342
-#: templates/futurist/content.php:358
-msgid "Taxes"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/copify/content.php:379
-#: dist/checkout-for-woocommerce/templates/default/content.php:355
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:371
-#: templates/copify/content.php:379 templates/default/content.php:355
-#: templates/futurist/content.php:371
-msgid "Total"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/templates/futurist/content.php:308
-#: templates/futurist/content.php:308
-msgid "Your Cart"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
-#: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:154
-#, php-format
-msgid ""
-"There is a new version of %1$s available. <a target=\"_blank\" class="
-"\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
-#: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:161
-#, php-format
-msgid ""
-"There is a new version of %1$s available. <a target=\"_blank\" class="
-"\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s"
-"\">update now</a>."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
-#: vendor/objectivco/cgd_eddsl_magic/examples/awesome-plugin/lib/CGD_EDDSL_Magic/lib/EDD_SL_Plugin_Updater.php:301
-#: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
-msgid "You do not have permission to install plugin updates"
-msgstr ""
-
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
-#: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:201
-#, php-format
-msgid ""
-"There is a new version of %1$s available. %2$sView version %3$s details%4$s."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
-#: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:209
-#, php-format
-msgid ""
-"There is a new version of %1$s available. %2$sView version %3$s details%4$s "
-"or %5$supdate now%6$s."
-msgstr ""
-
-#: dist/checkout-for-woocommerce/vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
-#: vendor/objectivco/cgd_eddsl_magic/src/lib/EDD_SL_Plugin_Updater.php:396
-msgid "Error"
 msgstr ""
 
 #: includes/Core/Admin.php:205
@@ -938,8 +169,212 @@ msgstr ""
 msgid "Stat Collection Data Viewer"
 msgstr ""
 
-#: includes/Stats/StatCollection.php:577
-msgid "Once Weekly"
+#: includes/Core/Admin.php:252
+msgid "Templates"
+msgstr ""
+
+#: includes/Core/Admin.php:276
+msgid "Active: "
+msgstr ""
+
+#: includes/Core/Admin.php:284
+msgid "Activate"
+msgstr ""
+
+#: includes/Core/Admin.php:294 includes/Core/Admin.php:468
+msgid ""
+"You are using a legacy child theme which will be disabled in a future "
+"version. Changing theme settings is not possible for legacy themes."
+msgstr ""
+
+#: includes/Core/Admin.php:312
+msgid "Global Settings"
+msgstr ""
+
+#: includes/Core/Admin.php:313
+msgid "These settings apply to all themes."
+msgstr ""
+
+#: includes/Core/Admin.php:318 includes/Core/Customizer.php:379
+msgid "Logo"
+msgstr ""
+
+#: includes/Core/Admin.php:324
+msgid "Upload image"
+msgstr ""
+
+#: includes/Core/Admin.php:327
+msgid "Clear Logo"
+msgstr ""
+
+#: includes/Core/Admin.php:333 includes/Core/Customizer.php:391
+msgid "Footer Text"
+msgstr ""
+
+#: includes/Core/Admin.php:339
+msgid ""
+"If left blank, a standard copyright notice will be displayed. Set to a "
+"single space to override this behavior."
+msgstr ""
+
+#: includes/Core/Admin.php:347 includes/Core/Customizer.php:404
+msgid "Theme Specific Settings"
+msgstr ""
+
+#: includes/Core/Admin.php:359 includes/Core/Customizer.php:420
+msgid "Header Background Color"
+msgstr ""
+
+#: includes/Core/Admin.php:369 includes/Core/Customizer.php:434
+msgid "Header Text Color"
+msgstr ""
+
+#: includes/Core/Admin.php:379 includes/Core/Customizer.php:448
+msgid "Footer Background Color"
+msgstr ""
+
+#: includes/Core/Admin.php:389 includes/Core/Customizer.php:462
+msgid "Footer Text Color"
+msgstr ""
+
+#: includes/Core/Admin.php:399 includes/Core/Customizer.php:476
+msgid "Summary Background Color"
+msgstr ""
+
+#: includes/Core/Admin.php:409 includes/Core/Customizer.php:490
+msgid "Primary Button Color"
+msgstr ""
+
+#: includes/Core/Admin.php:418 includes/Core/Customizer.php:504
+msgid "Primary Button Text Color"
+msgstr ""
+
+#: includes/Core/Admin.php:427 includes/Core/Customizer.php:518
+msgid "Secondary Button Color"
+msgstr ""
+
+#: includes/Core/Admin.php:436 includes/Core/Customizer.php:532
+msgid "Secondary Button Text Color"
+msgstr ""
+
+#: includes/Core/Admin.php:445 includes/Core/Customizer.php:546
+msgid "Link Color"
+msgstr ""
+
+#: includes/Core/Admin.php:454 includes/Core/Customizer.php:559
+msgid "Custom CSS"
+msgstr ""
+
+#: includes/Core/Admin.php:460
+msgid ""
+"Add Custom CSS rules to fully control the appearance of the checkout "
+"template."
+msgstr ""
+
+#: includes/Core/Admin.php:494
+msgid "Need help?"
+msgstr ""
+
+#: includes/Core/Admin.php:496
+msgid "Excellent support is in our DNA."
+msgstr ""
+
+#: includes/Core/Admin.php:498
+msgid "Contact Support"
+msgstr ""
+
+#: includes/Core/Admin.php:622
+#, php-format
+msgid ""
+"Checkout for WooCommerce: Your license key appears to have expired. Please "
+"verify that your license key is valid or <a target=\"_blank\" href=\"https://"
+"www.checkoutwc.com/checkout/?edd_license_key=%s\">renew your license now</a> "
+"to restore full functionality."
+msgstr ""
+
+#: includes/Core/Admin.php:625
+msgid ""
+"Checkout for WooCommerce: Your license key is missing or invalid. Please "
+"verify that your license key is valid or <a target=\"_blank\" href=\"https://"
+"www.checkoutwc.com/\">purchase a license</a> to restore full functionality."
+msgstr ""
+
+#: includes/Core/Admin.php:630
+msgid ""
+"Thank you for installing Checkout for WooCommerce! To get started, click on "
+"<strong>License</strong> below and activate your license key!"
+msgstr ""
+
+#: includes/Core/Admin.php:641
+#, php-format
+msgid ""
+"It looks like you are using a legacy checkout theme, located in %s. Legacy "
+"themes are deprecated and you should upgrade to the new theme structure as "
+"soon as possible to prevent problems with future release. For more "
+"information, <a target=\"_blank\" href=\"https://www.checkoutwc.com/docs/"
+"developer-api/template-files/upgrading-legacy-custom-templates/\">read our "
+"migration guide.</a>"
+msgstr ""
+
+#: includes/Core/Admin.php:665
+msgid "Settings"
+msgstr ""
+
+#: includes/Core/Admin.php:718 includes/Core/Form.php:240
+msgid "Phone"
+msgstr ""
+
+#: includes/Core/Customizer.php:408
+msgid ""
+"These settings only apply to the currently active template. If you switch "
+"templates in the customizer, these settings will become unavailable but "
+"saving will publish any changes here prior to switching templates!"
+msgstr ""
+
+#: includes/Core/Form.php:88 includes/Core/Form.php:89
+msgid "First name"
+msgstr ""
+
+#: includes/Core/Form.php:105 includes/Core/Form.php:106
+msgid "Last name"
+msgstr ""
+
+#: includes/Core/Form.php:121
+msgid "Address"
+msgstr ""
+
+#: includes/Core/Form.php:122
+msgid "Street address"
+msgstr ""
+
+#: includes/Core/Form.php:137 includes/Core/Form.php:138 includes/Main.php:595
+msgid "Apt, suite, etc. (optional)"
+msgstr ""
+
+#: includes/Core/Form.php:150 includes/Core/Form.php:151
+msgid "Company name"
+msgstr ""
+
+#: includes/Core/Form.php:163
+msgid "Country"
+msgstr ""
+
+#: includes/Core/Form.php:176 includes/Core/Form.php:177
+msgid "Postcode / ZIP"
+msgstr ""
+
+#: includes/Core/Form.php:197 includes/Core/Form.php:198
+msgid "State / County"
+msgstr ""
+
+#: includes/Core/Form.php:217 includes/Core/Form.php:219
+msgid "Town / City"
+msgstr ""
+
+#: includes/Main.php:447
+msgid ""
+"Activation failed: Please activate WooCommerce in order to use Checkout for "
+"WooCommerce"
 msgstr ""
 
 #: includes/Stats/StatCollection.php:676
@@ -948,16 +383,161 @@ msgid ""
 "WooCommerce better."
 msgstr ""
 
-#: includes/Stats/StatCollection.php:676
-msgid "Read more about what we collect."
-msgstr ""
-
 #: includes/Stats/StatCollection.php:679
 msgid "Allow"
 msgstr ""
 
 #: includes/Stats/StatCollection.php:680
 msgid "Do not allow"
+msgstr ""
+
+#: templates/copify/content.php:45 templates/copify/content.php:69
+#: templates/default/content.php:38 templates/default/content.php:62
+#: templates/futurist/content.php:39 templates/futurist/content.php:74
+msgid "Customer information"
+msgstr ""
+
+#: templates/copify/content.php:49 templates/copify/content.php:205
+#: templates/default/content.php:42 templates/default/content.php:198
+#: templates/futurist/content.php:45 templates/futurist/content.php:210
+msgid "Shipping method"
+msgstr ""
+
+#: templates/copify/content.php:77 templates/default/content.php:70
+#: templates/futurist/content.php:82
+msgid "Already have an account with us?"
+msgstr ""
+
+#: templates/copify/content.php:81 templates/default/content.php:74
+#: templates/futurist/content.php:86
+msgid "Log in for a faster checkout experience."
+msgstr ""
+
+#: templates/copify/content.php:89 templates/copify/content.php:90
+#: templates/default/content.php:82 templates/default/content.php:83
+#: templates/futurist/content.php:94 templates/futurist/content.php:95
+msgid "Email"
+msgstr ""
+
+#: templates/copify/content.php:98 templates/copify/content.php:99
+#: templates/default/content.php:89 templates/default/content.php:90
+#: templates/futurist/content.php:103 templates/futurist/content.php:104
+msgid "Password"
+msgstr ""
+
+#: templates/copify/content.php:103 templates/default/content.php:94
+#: templates/futurist/content.php:108
+msgid "Login"
+msgstr ""
+
+#: templates/copify/content.php:106 templates/default/content.php:97
+#: templates/futurist/content.php:111
+msgid "Login is optional. You may continue with your order below."
+msgstr ""
+
+#: templates/copify/content.php:116 templates/default/content.php:109
+#: templates/futurist/content.php:121
+#, php-format
+msgid "Create %s shopping account."
+msgstr ""
+
+#: templates/copify/content.php:118 templates/default/content.php:111
+#: templates/futurist/content.php:123
+msgid "If you do not have an account, we will create one for you."
+msgstr ""
+
+#: templates/copify/content.php:127 templates/default/content.php:120
+#: templates/futurist/content.php:132
+#, php-format
+msgid "Welcome back, %s (%s)."
+msgstr ""
+
+#: templates/copify/content.php:140 templates/copify/content.php:238
+#: templates/default/content.php:133 templates/default/content.php:231
+#: templates/futurist/content.php:145 templates/futurist/content.php:243
+msgid "Billing address"
+msgstr ""
+
+#: templates/copify/content.php:142 templates/copify/content.php:190
+#: templates/default/content.php:135 templates/default/content.php:183
+#: templates/futurist/content.php:147 templates/futurist/content.php:195
+msgid "Shipping address"
+msgstr ""
+
+#: templates/copify/content.php:172 templates/default/content.php:165
+#: templates/futurist/content.php:177
+msgid "Return to cart"
+msgstr ""
+
+#: templates/copify/content.php:175 templates/default/content.php:168
+#: templates/futurist/content.php:180
+msgid "Continue to shipping method"
+msgstr ""
+
+#: templates/copify/content.php:177 templates/copify/content.php:223
+#: templates/default/content.php:170 templates/default/content.php:216
+#: templates/futurist/content.php:182 templates/futurist/content.php:228
+msgid "Continue to payment method"
+msgstr ""
+
+#: templates/copify/content.php:196 templates/default/content.php:189
+#: templates/futurist/content.php:201
+msgid "Edit shipping address"
+msgstr ""
+
+#: templates/copify/content.php:207 templates/default/content.php:200
+#: templates/futurist/content.php:212
+msgid "Select a shipping method:"
+msgstr ""
+
+#: templates/copify/content.php:220 templates/copify/content.php:273
+#: templates/default/content.php:213 templates/default/content.php:266
+#: templates/futurist/content.php:225 templates/futurist/content.php:278
+msgid "Return to customer information"
+msgstr ""
+
+#: templates/copify/content.php:271 templates/default/content.php:264
+#: templates/futurist/content.php:276
+msgid "Return to shipping information"
+msgstr ""
+
+#: templates/copify/content.php:307 templates/default/content.php:283
+#: templates/futurist/content.php:295
+msgid "Show order summary"
+msgstr ""
+
+#: templates/copify/content.php:326 templates/default/content.php:302
+#: templates/futurist/content.php:318
+msgid "Enter Promo Code"
+msgstr ""
+
+#: templates/copify/content.php:331 templates/default/content.php:307
+#: templates/futurist/content.php:323
+msgid "Apply"
+msgstr ""
+
+#: templates/copify/content.php:341 templates/default/content.php:317
+#: templates/futurist/content.php:333
+msgid "Subtotal"
+msgstr ""
+
+#: templates/copify/content.php:353 templates/default/content.php:329
+#: templates/futurist/content.php:345
+msgid "Shipping"
+msgstr ""
+
+#: templates/copify/content.php:366 templates/default/content.php:342
+#: templates/futurist/content.php:358
+msgid "Taxes"
+msgstr ""
+
+#: templates/copify/content.php:379 templates/default/content.php:355
+#: templates/futurist/content.php:371
+msgid "Total"
+msgstr ""
+
+#: templates/futurist/content.php:308
+msgid "Your Cart"
 msgstr ""
 
 #. Plugin URI of the plugin/theme

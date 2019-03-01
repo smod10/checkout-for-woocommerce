@@ -59,8 +59,8 @@ class PostNL extends Base {
 
 		// Then add house number
 		$fields['house_number'] = array(
-			'label'             => __( 'Nr.', 'checkout-wc' ),
-			'placeholder'       => esc_attr__( 'Nr.', 'checkout-wc' ),
+			'label'             => __( 'Nr.', 'woocommerce-postnl' ),
+			'placeholder'       => esc_attr__( 'Nr.', 'woocommerce-postnl' ),
 			'required'          => true,
 			'class'             => array(),
 			'autocomplete'      => '',
@@ -77,8 +77,8 @@ class PostNL extends Base {
 
 		// Then house number suffix
 		$fields['house_number_suffix'] = array(
-			'label'             => __( 'Suffix', 'checkout-wc' ),
-			'placeholder'       => esc_attr__( 'Suffix', 'checkout-wc' ),
+			'label'             => __( 'Suffix', 'woocommerce-postnl' ),
+			'placeholder'       => esc_attr__( 'Suffix', 'woocommerce-postnl' ),
 			'required'          => false,
 			'class'             => array(),
 			'autocomplete'      => '',

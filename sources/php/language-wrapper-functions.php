@@ -80,14 +80,6 @@ function cfw_ex( $text, $context, $domain = 'default' ) {
 
 /**
  * @param $text
- * @param string $domain
- */
-function cfw_e( $text, $domain = 'default' ) {
-	echo __( $text, $domain );
-}
-
-/**
- * @param $text
  * @param $context
  * @param string $domain
  *

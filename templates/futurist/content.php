@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <ul id="cfw-breadcrumb" class="etabs">
                         <li class="filled-circle" data-breadcrumb-number="1">
                             <a href="<?php echo wc_get_cart_url(); ?>#cart">
-                                <?php _e('Cart', 'woocommerce'); ?>
+                                <?php cfw_e('Cart', 'woocommerce'); ?>
                             </a>
                         </li>
                         <li class="tab filled-circle" id="default-tab" data-breadcrumb-number="2">

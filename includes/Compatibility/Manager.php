@@ -41,6 +41,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSmartCoupons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WPGensReferAFriend;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\BeaverBuilder;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Porto;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\TMOrganik;
@@ -193,6 +194,10 @@ class Manager {
 
 		// TM Organik / any theme that uses InsightFramework
 		new TMOrganik();
+
+		// Beaver Builder Theme
+		new BeaverBuilder();
+
 
 		/**
 		 * Misc

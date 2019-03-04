@@ -3,6 +3,7 @@
 namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
 use Objectiv\Plugins\Checkout\Compatibility\Base;
+use Objectiv\Plugins\Checkout\Main;
 
 class AfterPayKrokedil extends Base {
 	public function is_available() {
@@ -15,7 +16,7 @@ class AfterPayKrokedil extends Base {
 	}
 
 	function add_thickbox() {
-		if ( apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) ) {
+		if ( Main::is_checkout() ) {
 			add_thickbox();
 		}
 	}

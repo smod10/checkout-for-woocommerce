@@ -9,7 +9,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaPayment;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe4x;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\ToCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\ActiveCampaign;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
@@ -149,7 +149,7 @@ class Manager {
 		new PayPalCheckout( $this );
 
 		// Stripe 4.x
-		new Stripe4x();
+		new Stripe();
 
 		// Enhanced Ecommerce Google Analytics
 		new EnhancedEcommerceGoogleAnalytics();

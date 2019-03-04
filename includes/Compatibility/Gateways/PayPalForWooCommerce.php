@@ -4,6 +4,7 @@ namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
 use Closure;
 use Objectiv\Plugins\Checkout\Compatibility\Base;
+use Objectiv\Plugins\Checkout\Main;
 
 class PayPalForWooCommerce extends Base {
 
@@ -56,7 +57,7 @@ class PayPalForWooCommerce extends Base {
 	function add_paypal_express_to_checkout() {
 		global $Angelleye_PayPal_Express_Checkout_Helper;
 
-		if ( apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() )) {
+		if ( Main::is_checkout() ) {
 
 			$gateways = \WC_Payment_Gateways::instance()->payment_gateways();
 
@@ -94,7 +95,7 @@ class PayPalForWooCommerce extends Base {
 	public function legacy_add_paypal_express_to_checkout() {
 		global $wp_filter;
 
-		if ( apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) ) {
+		if ( Main::is_checkout() ) {
 
 			$gateways = \WC_Payment_Gateways::instance()->payment_gateways();
 

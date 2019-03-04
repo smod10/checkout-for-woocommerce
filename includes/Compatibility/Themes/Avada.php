@@ -3,6 +3,7 @@
 namespace Objectiv\Plugins\Checkout\Compatibility\Themes;
 
 use Objectiv\Plugins\Checkout\Compatibility\Base;
+use Objectiv\Plugins\Checkout\Main;
 
 class Avada extends Base {
 	public function is_available() {
@@ -14,7 +15,7 @@ class Avada extends Base {
 	}
 
 	function kill_dynamic_css() {
-		if ( apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) ) {
+		if ( Main::is_checkout() ) {
 			add_filter( 'fusion_dynamic_css_final', array($this, 'return_empty_string'), 10000 );
 		}
 	}

@@ -477,7 +477,7 @@ class Main extends Singleton {
 	 * Set the plugin assets
 	 */
 	public function set_assets() {
-		if ( ! apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) ) {
+		if ( ! Main::is_checkout() ) {
 			return;
 		}
 
@@ -908,5 +908,9 @@ class Main extends Singleton {
 		}
 
 		return $valid;
+	}
+
+	public static function is_checkout() {
+		return apply_filters('cfw_is_checkout', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() );
 	}
 }

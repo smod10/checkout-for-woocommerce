@@ -3,6 +3,7 @@
 namespace Objectiv\Plugins\Checkout\Compatibility\Themes;
 
 use Objectiv\Plugins\Checkout\Compatibility\Base;
+use Objectiv\Plugins\Checkout\Main;
 
 class GeneratePress extends Base {
 	function is_available() {
@@ -14,7 +15,7 @@ class GeneratePress extends Base {
 	}
 
 	function remove_gp_scripts() {
-		if ( ! is_checkout() ) {
+		if ( ! Main::is_checkout() ) {
 			return;
 		}
 

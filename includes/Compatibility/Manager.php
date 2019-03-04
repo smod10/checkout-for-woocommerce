@@ -9,7 +9,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaPayment;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
-use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe4x;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\ToCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\ActiveCampaign;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
@@ -41,8 +41,10 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSmartCoupons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WPGensReferAFriend;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\BeaverBuilder;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Porto;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\TMOrganik;
 
 /**
  * Class Compatibility
@@ -148,7 +150,7 @@ class Manager {
 		new PayPalCheckout( $this );
 
 		// Stripe 4.x
-		new Stripe4x();
+		new Stripe();
 
 		// Enhanced Ecommerce Google Analytics
 		new EnhancedEcommerceGoogleAnalytics();
@@ -189,6 +191,13 @@ class Manager {
 
 		// GeneratePress / GP Premium
 		new GeneratePress();
+
+		// TM Organik / any theme that uses InsightFramework
+		new TMOrganik();
+
+		// Beaver Builder Theme
+		new BeaverBuilder();
+
 
 		/**
 		 * Misc

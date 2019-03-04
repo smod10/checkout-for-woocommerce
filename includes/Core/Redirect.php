@@ -1,6 +1,7 @@
 <?php
 namespace Objectiv\Plugins\Checkout\Core;
 
+use Objectiv\Plugins\Checkout\Main;
 use Objectiv\Plugins\Checkout\Managers\SettingsManager;
 use Objectiv\Plugins\Checkout\Managers\ExtendedPathManager;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
@@ -25,7 +26,7 @@ class Redirect {
 	 * @param $version
 	 */
 	public static function checkout($settings_manager, $path_manager, $template_manager, $version) {
-		if ( apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) ) {
+		if ( apply_filters( 'cfw_load_checkout_template', Main::is_checkout() ) ) {
 			/**
 			 * PHP Warning / Notice Suppression
 			 */

@@ -3,8 +3,9 @@
 namespace Objectiv\Plugins\Checkout\Compatibility\Gateways;
 
 use Objectiv\Plugins\Checkout\Compatibility\Base;
+use Objectiv\Plugins\Checkout\Main;
 
-class Stripe4x extends Base {
+class Stripe extends Base {
 
 	protected $stripe_request_button_height = '35';
 
@@ -49,7 +50,7 @@ class Stripe4x extends Base {
 
 	function add_stripe_apple_pay() {
 		// Setup Apple Pay
-		if ( class_exists( '\\WC_Stripe_Payment_Request' ) && is_checkout() ) {
+		if ( class_exists( '\\WC_Stripe_Payment_Request' ) && Main::is_checkout() ) {
 			$stripe_payment_request = \WC_Stripe_Payment_Request::instance();
 
 			if ( class_exists( '\\WC_Stripe_Apple_Pay_Registration' ) ) {

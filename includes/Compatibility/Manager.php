@@ -43,6 +43,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\WPGensReferAFriend;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Porto;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\TMOrganik;
 
 /**
  * Class Compatibility
@@ -189,6 +190,9 @@ class Manager {
 
 		// GeneratePress / GP Premium
 		new GeneratePress();
+
+		// TM Organik / any theme that uses InsightFramework
+		new TMOrganik();
 
 		/**
 		 * Misc

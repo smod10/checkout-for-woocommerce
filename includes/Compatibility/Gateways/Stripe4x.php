@@ -49,7 +49,7 @@ class Stripe4x extends Base {
 
 	function add_stripe_apple_pay() {
 		// Setup Apple Pay
-		if ( class_exists( '\\WC_Stripe_Payment_Request' ) && is_checkout() ) {
+		if ( class_exists( '\\WC_Stripe_Payment_Request' ) && apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) ) {
 			$stripe_payment_request = \WC_Stripe_Payment_Request::instance();
 
 			if ( class_exists( '\\WC_Stripe_Apple_Pay_Registration' ) ) {

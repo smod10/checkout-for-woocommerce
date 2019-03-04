@@ -15,7 +15,7 @@ class AfterPayKrokedil extends Base {
 	}
 
 	function add_thickbox() {
-		if ( is_checkout() ) {
+		if ( apply_filters('cfw_load_checkout_template', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() ) ) {
 			add_thickbox();
 		}
 	}

@@ -277,7 +277,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		return $key_sans_type;
 	}
 
-	function cfw_get_shipping_checkout_fields($checkout) {
+	function cfw_get_shipping_checkout_fields( $checkout ) {
 	    $shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', $checkout->get_checkout_fields( 'shipping' ) );
 
 		foreach ( $shipping_checkout_fields as $key => $field ) {
@@ -285,7 +285,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		}
 	}
 
-	function cfw_get_billing_checkout_fields($checkout) {
+	function cfw_get_billing_checkout_fields( $checkout ) {
 	    $billing_checkout_fields = apply_filters('cfw_get_billing_checkout_fields', $checkout->get_checkout_fields( 'billing' ) );
 
 		foreach ( $billing_checkout_fields as $key => $field ) {
@@ -689,6 +689,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
     }
 
     function cfw_billing_address_radio_group() {
+	    do_action('cfw_checkout_before_billing_address');
 	    ?>
         <div id="cfw-shipping-same-billing" class="cfw-module">
             <ul class="cfw-radio-reveal-group">
@@ -716,6 +717,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
             </ul>
         </div>
         <?php
+	    do_action('cfw_checkout_after_billing_address');
     }
 
 	/**

@@ -2,10 +2,7 @@ import { Action }                               from "./Action";
 import { AjaxInfo }                             from "../Types/Types";
 import { AlertInfo }                            from "../Elements/Alert";
 import { Alert }                                from "../Elements/Alert";
-import { ValidationService }                    from "../Services/ValidationService";
-import { EValidationSections }                  from "../Services/ValidationService";
 import { Main }                                 from "../Main";
-import { TabContainer }                         from "../Elements/TabContainer";
 
 declare let jQuery: any;
 

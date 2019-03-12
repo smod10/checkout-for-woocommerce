@@ -18,6 +18,24 @@ class WooCommerceCore extends Base {
 		add_filter( 'wc_add_to_cart_message_html', array( $this, 'suppress_add_to_cart_notices' ), 1 ); // run this late
 	}
 
+	public function run() {
+		add_action( 'cfw_checkout_before_billing_address', function() {
+			do_action('woocommerce_before_checkout_billing_form');
+		} );
+
+		add_action( 'cfw_checkout_after_billing_address', function() {
+			do_action('woocommerce_after_checkout_billing_form');
+		} );
+
+		add_action( 'cfw_checkout_before_shipping_address', function() {
+			do_action('woocommerce_before_checkout_shipping_form');
+		} );
+
+		add_action( 'cfw_checkout_after_shipping_address', function() {
+			do_action('woocommerce_after_checkout_shipping_form');
+		} );
+	}
+
 	function move_add_to_cart_action() {
 		remove_action( 'wp_loaded', array( 'WC_Form_Handler', 'add_to_cart_action' ), 20 );
 		add_action( 'wp', array( 'WC_Form_Handler', 'add_to_cart_action' ), 10, 0 );

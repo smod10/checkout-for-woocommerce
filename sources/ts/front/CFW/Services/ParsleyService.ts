@@ -70,6 +70,7 @@ export class ParsleyService {
             if ( w.Parsley !== undefined ) {
                 this.parsley = w.Parsley;
                 this.parsley.on('form:error', () => {
+                    // TODO: Evil coupling!
                     Main.removeOverlay();
 					CompleteOrderAction.initCompleteOrder = false;
                 });

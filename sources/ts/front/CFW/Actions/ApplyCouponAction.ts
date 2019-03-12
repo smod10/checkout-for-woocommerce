@@ -4,7 +4,7 @@ import { Cart }                         from "../Elements/Cart";
 import { Alert, AlertInfo }             from "../Elements/Alert";
 import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 import { Main }                         from "../Main";
-import { UpdateCheckoutAction }         from "./UpdateCheckoutAction";
+import {TabContainer}                   from "../Elements/TabContainer";
 
 /**
  *
@@ -48,6 +48,7 @@ export class ApplyCouponAction extends Action {
     @ResponsePrep
     public response(resp: any): void {
         let alertInfo: AlertInfo;
+        let tabContainer: TabContainer = Main.instance.tabContainer;
 
         if(resp.new_totals) {
             Cart.outputValues(this.cart, resp.new_totals);
@@ -80,9 +81,7 @@ export class ApplyCouponAction extends Action {
         let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
         alert.addAlert();
 
-        Main.togglePaymentRequired(resp.needs_payment);
-
-        new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.fields).load();
+        tabContainer.triggerUpdateCheckout();
     }
 
     /**

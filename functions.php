@@ -277,7 +277,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		return $key_sans_type;
 	}
 
-	function cfw_get_shipping_checkout_fields($checkout) {
+	function cfw_get_shipping_checkout_fields( $checkout ) {
 	    $shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', $checkout->get_checkout_fields( 'shipping' ) );
 
 		foreach ( $shipping_checkout_fields as $key => $field ) {
@@ -285,7 +285,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		}
 	}
 
-	function cfw_get_billing_checkout_fields($checkout) {
+	function cfw_get_billing_checkout_fields( $checkout ) {
 	    $billing_checkout_fields = apply_filters('cfw_get_billing_checkout_fields', $checkout->get_checkout_fields( 'billing' ) );
 
 		foreach ( $billing_checkout_fields as $key => $field ) {
@@ -459,7 +459,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 				$item_thumb_url = wp_get_attachment_url( $item_data->get_image_id() );
 				$item_quantity  = $cart_item['quantity'];
-				$item_title     = $item_data->get_name();
+				$item_title     = apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key );
 				$item_url       = get_permalink( $cart_item['product_id'] );
 				$item_subtotal  = $cart->get_product_subtotal( $_product, $cart_item['quantity'] );
 				/**
@@ -637,23 +637,26 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 		    <?php do_action('cfw_checkout_before_payment_methods'); ?>
 
-            <div class="cfw-payment-method-information-wrap">
-                <div>
-                    <span class="cfw-small secure-notice"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', 'checkout-wc' ); ?></span>
-                </div>
+            <?php if ( WC()->cart->get_total( false ) > 0 ): ?>
+                <div class="cfw-payment-method-information-wrap">
+                    <div>
+                        <span class="cfw-small secure-notice"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', 'checkout-wc' ); ?></span>
+                    </div>
 
-                <div id="order_review" class="cfw-payment-methods-wrap">
-                    <div id="payment" class="woocommerce-checkout-payment">
-					    <?php echo $payment_methods_html; ?>
+                    <div id="order_review" class="cfw-payment-methods-wrap">
+                        <div id="payment" class="woocommerce-checkout-payment">
+                            <?php echo $payment_methods_html; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="cfw-no-payment-method-wrap">
-                <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Your order is free. No payment is required.', 'checkout-wc') ); ?></span>
-            </div>
+            <?php else: ?>
+                <div class="cfw-no-payment-method-wrap">
+                    <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Your order is free. No payment is required.', 'checkout-wc') ); ?></span>
+                </div>
+            <?php endif; ?>
 
             <?php echo "<input type='hidden' id='cfw_payment_methods_fingerprint' name='cfw_payment_methods_fingerprint' value='{$payment_methods_fingerprint}' />"; ?>
+
 		    <?php do_action('cfw_checkout_after_payment_methods'); ?>
         </div>
         <?php
@@ -689,6 +692,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
     }
 
     function cfw_billing_address_radio_group() {
+	    do_action('cfw_checkout_before_billing_address');
 	    ?>
         <div id="cfw-shipping-same-billing" class="cfw-module">
             <ul class="cfw-radio-reveal-group">
@@ -716,6 +720,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
             </ul>
         </div>
         <?php
+	    do_action('cfw_checkout_after_billing_address');
     }
 
 	/**

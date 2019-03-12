@@ -140,10 +140,7 @@ export class UpdateCheckoutAction extends Action {
 
         // Update cart
         let updated_cart = jQuery('#cfw-cart-list');
-        updated_cart.replaceWith(`${resp.updated_cart}`)
-
-        // Toggle payment required, in case it has changed
-        Main.togglePaymentRequired(resp.needs_payment);
+        updated_cart.replaceWith(`${resp.updated_cart}`);
 
         // Update Cart Totals
         Cart.outputValues(main.cart, resp.new_totals);

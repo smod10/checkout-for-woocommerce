@@ -127,33 +127,25 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <?php do_action('cfw_checkout_before_customer_info_address'); ?>
 
                                     <div id="cfw-shipping-info" class="cfw-module">
+		                                <?php do_action( sprintf( 'cfw_checkout_before_%s_address', WC()->cart->needs_shipping_address() ? 'shipping' : 'billing' ) ); ?>
+
                                         <h3 class="cfw-module-title">
-                                            <?php
-                                                if ( ! WC()->cart->needs_shipping_address() ) {
-                                                    echo apply_filters('cfw_billing_address_heading', esc_html__( 'Billing address', 'checkout-wc' ) );
-                                                } else {
-                                                    echo apply_filters('cfw_shipping_address_heading', esc_html__( 'Shipping address', 'checkout-wc' ) );
-                                                }
-                                            ?>
+			                                <?php if ( ! WC()->cart->needs_shipping_address() ): ?>
+				                                <?php echo apply_filters('cfw_billing_address_heading', esc_html__( 'Billing address', 'checkout-wc' ) ); ?>
+			                                <?php else: ?>
+				                                <?php echo apply_filters('cfw_shipping_address_heading', esc_html__( 'Shipping address', 'checkout-wc' ) ); ?>
+			                                <?php endif; ?>
                                         </h3>
 
                                         <div class="cfw-shipping-info-container cfw-parsley-shipping-details <?php cfw_address_class_wrap( WC()->cart->needs_shipping_address() ); ?>">
-                                            <?php
-                                                if ( ! WC()->cart->needs_shipping_address() ) {
-                                                    do_action('cfw_checkout_before_billing_address');
-
-                                                    cfw_get_billing_checkout_fields($checkout);
-
-                                                    do_action('cfw_checkout_after_billing_address');
-                                                } else {
-                                                    do_action('cfw_checkout_before_shipping_address');
-
-                                                    cfw_get_shipping_checkout_fields($checkout);
-
-                                                    do_action('cfw_checkout_after_shipping_address');
-                                                }
-                                            ?>
+			                                <?php if ( ! WC()->cart->needs_shipping_address() ): ?>
+				                                <?php cfw_get_billing_checkout_fields($checkout); ?>
+			                                <?php else: ?>
+				                                <?php cfw_get_shipping_checkout_fields($checkout); ?>
+			                                <?php endif; ?>
                                         </div>
+
+		                                <?php do_action( sprintf( 'cfw_checkout_after_%s_address', WC()->cart->needs_shipping_address() ? 'shipping' : 'billing' ) ); ?>
                                     </div>
 
                                     <?php do_action('cfw_checkout_after_customer_info_address'); ?>

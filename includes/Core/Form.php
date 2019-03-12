@@ -247,6 +247,9 @@ class Form {
 				'start'        => true,
 				'end'          => true,
 				'validate'     => array( 'phone' ),
+				'custom_attributes' => array(
+					'data-parsley-trigger' => 'change focusout',
+				),
 			);
 		}
 

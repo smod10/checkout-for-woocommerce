@@ -54,7 +54,7 @@ export class ValidationService {
 			let easyTabDirection: EasyTabDirection = EasyTabService.getTabDirection(target);
 
 			// If we are moving forward in the checkout process and we are currently on the customer tab
-			if(easyTabDirection.current === EasyTab.CUSTOMER && easyTabDirection.target > easyTabDirection.current) {
+			if ( easyTabDirection.current === EasyTab.CUSTOMER && easyTabDirection.target > easyTabDirection.current ) {
 
 				let validated: boolean = ValidationService.validateSectionsForCustomerTab(false);
 				let tabId: string = EasyTabService.getTabId(easyTabDirection.current);
@@ -85,6 +85,7 @@ export class ValidationService {
 	 * @param orderDetails
 	 */
 	static createOrder(difBilling: boolean = false, ajaxInfo: AjaxInfo, orderDetails: any): void {
+		// TODO: This looks like evil coupling
 		new CompleteOrderAction('complete_order', ajaxInfo, orderDetails);
 	}
 
@@ -98,7 +99,7 @@ export class ValidationService {
 
 		ValidationService.validateZip = validateZip;
 
-		if ( !EasyTabService.isThereAShippingTab() ) {
+		if ( ! EasyTabService.isThereAShippingTab() ) {
 			validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.BILLING);
 		} else {
 			validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.SHIPPING);

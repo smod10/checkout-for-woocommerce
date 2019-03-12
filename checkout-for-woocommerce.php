@@ -24,7 +24,7 @@
  * Text Domain:       checkout-wc
  * Domain Path:       /languages
  * Tested up to: 5.1.0
- * WC tested up to: 3.5.5
+ * WC tested up to: 3.5.6
  */
 
 /**

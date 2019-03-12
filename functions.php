@@ -459,7 +459,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 				$item_thumb_url = wp_get_attachment_url( $item_data->get_image_id() );
 				$item_quantity  = $cart_item['quantity'];
-				$item_title     = $item_data->get_name();
+				$item_title     = apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key );
 				$item_url       = get_permalink( $cart_item['product_id'] );
 				$item_subtotal  = $cart->get_product_subtotal( $_product, $cart_item['quantity'] );
 				/**

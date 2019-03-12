@@ -637,23 +637,26 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 		    <?php do_action('cfw_checkout_before_payment_methods'); ?>
 
-            <div class="cfw-payment-method-information-wrap">
-                <div>
-                    <span class="cfw-small secure-notice"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', 'checkout-wc' ); ?></span>
-                </div>
+            <?php if ( WC()->cart->get_total( false ) > 0 ): ?>
+                <div class="cfw-payment-method-information-wrap">
+                    <div>
+                        <span class="cfw-small secure-notice"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', 'checkout-wc' ); ?></span>
+                    </div>
 
-                <div id="order_review" class="cfw-payment-methods-wrap">
-                    <div id="payment" class="woocommerce-checkout-payment">
-					    <?php echo $payment_methods_html; ?>
+                    <div id="order_review" class="cfw-payment-methods-wrap">
+                        <div id="payment" class="woocommerce-checkout-payment">
+                            <?php echo $payment_methods_html; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="cfw-no-payment-method-wrap">
-                <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Your order is free. No payment is required.', 'checkout-wc') ); ?></span>
-            </div>
+            <?php else: ?>
+                <div class="cfw-no-payment-method-wrap">
+                    <span class="cfw-small"><?php echo apply_filters('cfw_no_payment_required_text', esc_html__('Your order is free. No payment is required.', 'checkout-wc') ); ?></span>
+                </div>
+            <?php endif; ?>
 
             <?php echo "<input type='hidden' id='cfw_payment_methods_fingerprint' name='cfw_payment_methods_fingerprint' value='{$payment_methods_fingerprint}' />"; ?>
+
 		    <?php do_action('cfw_checkout_after_payment_methods'); ?>
         </div>
         <?php

@@ -361,43 +361,6 @@ export class Main {
 	}
 
 	/**
-	 * @param {boolean} isPaymentRequired
-	 */
-	static togglePaymentRequired(isPaymentRequired: boolean): void {
-		let $cfw = jQuery("#cfw-content");
-		let noPaymentCssClass = "cfw-payment-false";
-
-		if( ! isPaymentRequired ) {
-			if( ! $cfw.hasClass(noPaymentCssClass) ) {
-				$cfw.addClass(noPaymentCssClass);
-			}
-
-			if(EasyTabService.isThereAShippingTab()) {
-				this.toggleBillingFieldsAbility(true);
-			}
-
-			// Always uncheck the payment method if order does not require payment
-			jQuery('[name="payment_method"]:checked').prop("checked", false);
-		} else {
-			if(EasyTabService.isThereAShippingTab()) {
-				this.toggleBillingFieldsAbility(false);
-			}
-
-			$cfw.removeClass(noPaymentCssClass);
-		}
-	}
-
-	static toggleBillingFieldsAbility( enabled: boolean ) {
-		Main.instance.settings.default_address_fields.forEach( function( field_name ) {
-			jQuery(`[name="billing_${field_name}"]`).prop('disabled', enabled);
-		} );
-
-		if( enabled ) {
-			jQuery("#ship_to_different_address_as_billing").prop("checked", true);
-		}
-	}
-
-	/**
 	 * Sets up animation listeners
 	 */
 	setupAnimationListeners(): void {

@@ -7,6 +7,8 @@
  *
  * Dev Mode - CFW_DEV_MODE - false
  */
+global $env;
+
 $env = new Dotenv\Dotenv( __DIR__ );
 if ( file_exists( __DIR__ . '/.env' ) ) {
 	$env->load();

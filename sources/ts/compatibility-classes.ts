@@ -4,6 +4,7 @@ import { Braintree } from "./front/CFW/Compatibility/Braintree";
 import { KlarnaCheckout } from "./front/CFW/Compatibility/KlarnaCheckout";
 import { PayPalCheckout } from "./front/CFW/Compatibility/PayPalCheckout";
 import { PayPalForWooCommerce } from "./front/CFW/Compatibility/PayPalForWooCommerce";
+import { Webshipper } from "./front/CFW/Compatibility/Webshipper";
 
 export let CompatibilityClasses: any = {};
 
@@ -13,3 +14,4 @@ CompatibilityClasses.Braintree = Braintree;
 CompatibilityClasses.KlarnaCheckout = KlarnaCheckout;
 CompatibilityClasses.PayPalCheckout = PayPalCheckout;
 CompatibilityClasses.PayPalForWooCommerce = PayPalForWooCommerce;
+CompatibilityClasses.Webshipper = Webshipper;

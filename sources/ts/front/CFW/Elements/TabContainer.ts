@@ -104,6 +104,7 @@ export class TabContainer extends Element {
         console.log(this);
 
         this.resetUpdateCheckoutTimer();
+        jQuery(document.body).trigger( 'cfw_queue_update_checkout' );
         main.updateCheckoutTimer = setTimeout( this.maybeUpdateCheckout, 100 );
     }
 

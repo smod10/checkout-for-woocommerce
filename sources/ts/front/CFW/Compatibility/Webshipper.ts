@@ -17,7 +17,7 @@ export class Webshipper extends Compatibility {
 
         cfw_before_totals_container.hide();
 
-        jQuery(window).on( 'update_checkout', () => {
+        jQuery(window).on( 'cfw_queue_update_checkout', () => {
             jQuery("#cfw-shipping-method-list .pakkeshop_dropdown").remove();
         } );
 

@@ -10,12 +10,14 @@ class WooCommerceCore extends Base {
 	}
 
 	public function pre_init() {
-		if ( is_ajax() ) {
+		// Using this instead of is_ajax() in case is_ajax() is not available
+		if ( apply_filters( 'wp_doing_ajax', defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			return;
 		}
-		
+
 		add_action( 'wp_loaded', array( $this, 'move_add_to_cart_action' ), 0 );
 		add_filter( 'wc_add_to_cart_message_html', array( $this, 'suppress_add_to_cart_notices' ), 1 ); // run this late
+		add_action( 'init', array($this, 'post_compatibility'), 1000 );
 	}
 
 	public function run() {
@@ -34,6 +36,25 @@ class WooCommerceCore extends Base {
 		add_action( 'cfw_checkout_after_shipping_address', function() {
 			do_action('woocommerce_after_checkout_shipping_form');
 		} );
+	}
+
+	/**
+	 * Some plugins rely too heavily on the exact field names Woo sends in their update $_POST
+	 *
+	 * This functionality isn't run by default, but it can be invoked by compat classes that need it.
+	 */
+	public function post_compatibility() {
+		if ( ! empty( $_POST ) && ! empty( $_GET['wc-ajax'] ) && $_GET['wc-ajax'] == "update_checkout" && apply_filters('cfw_needs_post_compatibility', false ) ) {
+			foreach ( $_POST as $key => $value ) {
+				if ( $key !== "shipping_method" && stripos( $key, 'shipping_') !== false ) {
+					if ( stripos( $key, 'address_1' ) ) {
+						$key = str_ireplace( 'address_1', 'address', $key );
+					}
+
+					$_POST[ str_ireplace( 'shipping_', 's_', $key ) ] = $value;
+				}
+			}
+		}
 	}
 
 	function move_add_to_cart_action() {

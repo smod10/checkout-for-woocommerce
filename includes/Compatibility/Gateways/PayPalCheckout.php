@@ -20,6 +20,15 @@ class PayPalCheckout extends Base {
 
 	public function run() {
 		add_filter( 'woocommerce_checkout_posted_data', array($this, 'set_billing_info_if_required'), 10, 1 );
+		add_filter( 'cfw_is_checkout', array($this, 'is_checkout'), 10, 1 );
+	}
+
+	function is_checkout( $is_checkout ) {
+		if ( wc_gateway_ppec()->checkout->has_active_session() ) {
+			return false;
+		}
+
+		return $is_checkout;
 	}
 
 	function set_billing_info_if_required( $data ) {

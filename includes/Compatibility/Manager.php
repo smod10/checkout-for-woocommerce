@@ -31,9 +31,11 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PostNL;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeSocialLogin;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\SmartSend;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnalytics;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\UltimateRewardsPoints;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\Webshipper;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceCore;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommercePriceBasedOnCountry;
@@ -140,6 +142,12 @@ class Manager {
 
 		// Facebook for WooCommerce
 		new FacebookForWooCommerce();
+
+		// Webshipper
+		new Webshipper();
+
+		// Smart Send
+		new SmartSend();
 
 
 		/**

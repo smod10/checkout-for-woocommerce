@@ -118,6 +118,12 @@ export class Main {
 	private _errorObserver: MutationObserver;
 
 	/**
+	 * @type any
+	 * @private
+	 */
+	private _updateCheckoutTimer: any;
+
+	/**
 	 * @type {Main}
 	 * @private
 	 * @static
@@ -592,6 +598,14 @@ export class Main {
 	 */
 	set force_updated_checkout(value: boolean) {
 		this._force_updated_checkout = value;
+	}
+
+	get updateCheckoutTimer(): any {
+		return this._updateCheckoutTimer;
+	}
+
+	set updateCheckoutTimer(value: any) {
+		this._updateCheckoutTimer = value;
 	}
 
 	/**

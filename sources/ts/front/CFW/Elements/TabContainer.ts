@@ -72,15 +72,53 @@ export class TabContainer extends Element {
         let main: Main = Main.instance;
         let checkout_form: any = main.checkoutForm;
 
-        checkout_form.on( 'change', 'select.shipping_method, input[name^="shipping_method"], [name="ship_to_different_address"], .update_totals_on_change select, .update_totals_on_change input[type="radio"], .update_totals_on_change input[type="checkbox"]', this.triggerUpdateCheckout );
-        checkout_form.on( 'change', '.address-field select', this.triggerUpdateCheckout );
-        checkout_form.on( 'change', '.address-field input.input-text, .update_totals_on_change input.input-text', this.triggerUpdateCheckout );
-        checkout_form.on( 'keydown', '.address-field input.input-text, .update_totals_on_change input.input-text', this.triggerUpdateCheckout );
+        console.log('setUp');
+        console.log(this);
+
+        checkout_form.on( 'change', 'select.shipping_method, input[name^="shipping_method"], [name="ship_to_different_address"], .update_totals_on_change select, .update_totals_on_change input[type="radio"], .update_totals_on_change input[type="checkbox"]', this.queueUpdateCheckout.bind( this ) );
+        checkout_form.on( 'change', '.address-field select', this.queueUpdateCheckout.bind( this ) );
+        checkout_form.on( 'change', '.address-field input.input-text, .update_totals_on_change input.input-text', this.queueUpdateCheckout.bind( this ) );
+        checkout_form.on( 'keydown', '.address-field input.input-text, .update_totals_on_change input.input-text', this.queueUpdateCheckout.bind( this ) );
 
         /**
          * We were going to rely on field changes, but ultimately this is a leaner way to do it
          */
-        checkout_form.on( 'click', '#cfw-shipping-info-action .cfw-next-tab', this.triggerUpdateCheckout );
+        checkout_form.on( 'click', '#cfw-shipping-info-action .cfw-next-tab', this.queueUpdateCheckout.bind( this ) );
+    }
+
+    resetUpdateCheckoutTimer() {
+        let main: Main = Main.instance;
+        clearTimeout( main.updateCheckoutTimer );
+    }
+
+    queueUpdateCheckout( e ) {
+        let main: Main = Main.instance;
+        let code = e.keyCode || e.which || 0;
+
+        if ( code === 9 ) {
+            return true;
+        }
+
+        console.log('queue');
+        console.log(this);
+
+        this.resetUpdateCheckoutTimer();
+        main.updateCheckoutTimer( setTimeout( this.maybeUpdateCheckout.bind( this ), 1000 ) );
+    }
+
+    /**
+     * Queue up an update_checkout
+     */
+    maybeUpdateCheckout( e, args ) {
+
+        console.log('maybe');
+        console.log(this);
+
+        let main: Main = Main.instance;
+
+        // Small timeout to prevent multiple requests when several fields update at the same time
+        this.resetUpdateCheckoutTimer();
+        main.updateCheckoutTimer = setTimeout( this.triggerUpdatedCheckout.bind( this ), 5, args );
     }
 
     /**

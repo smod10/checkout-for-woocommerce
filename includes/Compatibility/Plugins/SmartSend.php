@@ -4,9 +4,9 @@ namespace Objectiv\Plugins\Checkout\Compatibility\Plugins;
 
 use Objectiv\Plugins\Checkout\Compatibility\Base;
 
-class WooCommercePriceBasedOnCountry extends Base {
+class SmartSend extends Base {
 	public function is_available() {
-		return class_exists( '\\WC_Product_Price_Based_Country' );
+		return function_exists( 'SS_SHIPPING_WC' );
 	}
 
 	public function run() {

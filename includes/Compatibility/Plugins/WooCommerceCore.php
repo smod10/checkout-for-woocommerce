@@ -10,7 +10,8 @@ class WooCommerceCore extends Base {
 	}
 
 	public function pre_init() {
-		if ( is_ajax() ) {
+		// Using this instead of is_ajax() in case is_ajax() is not available
+		if ( apply_filters( 'wp_doing_ajax', defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			return;
 		}
 		

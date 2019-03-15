@@ -88,6 +88,7 @@ export class TabContainer extends Element {
 
     resetUpdateCheckoutTimer() {
         let main: Main = Main.instance;
+
         clearTimeout( main.updateCheckoutTimer );
     }
 
@@ -103,7 +104,7 @@ export class TabContainer extends Element {
         console.log(this);
 
         this.resetUpdateCheckoutTimer();
-        main.updateCheckoutTimer( setTimeout( this.maybeUpdateCheckout.bind( this ), 1000 ) );
+        main.updateCheckoutTimer = setTimeout( this.maybeUpdateCheckout, 100 );
     }
 
     /**
@@ -118,7 +119,7 @@ export class TabContainer extends Element {
 
         // Small timeout to prevent multiple requests when several fields update at the same time
         this.resetUpdateCheckoutTimer();
-        main.updateCheckoutTimer = setTimeout( this.triggerUpdatedCheckout.bind( this ), 5, args );
+        main.updateCheckoutTimer = setTimeout( this.triggerUpdateCheckout, 5, args );
     }
 
     /**

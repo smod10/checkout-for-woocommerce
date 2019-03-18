@@ -10,7 +10,6 @@ class EUVATNumber extends Base {
 	}
 
 	public function run() {
-		add_action( 'cfw_checkout_after_payment_tab_billing_address', array( 'WC_EU_VAT_Number', 'vat_number_field' ) );
 		add_action( 'wp_enqueue_scripts', array($this, 'adjust_deps'), 1000 );
 	}
 

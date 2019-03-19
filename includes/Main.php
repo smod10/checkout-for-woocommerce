@@ -588,11 +588,15 @@ class Main extends Singleton {
 			)
 		);
 
+		// Get shipping fields so we can access correct address 2 label
+		// TODO: Why do we need add2_text? 
+		$shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', WC()->checkout()->get_checkout_fields( 'shipping' ) );
+
 		wp_localize_script(
 			'cfw_front_js', 'wc_address_i18n_params', array(
 				'locale'             => json_encode( WC()->countries->get_country_locale() ),
 				'locale_fields'      => json_encode( WC()->countries->get_country_locale_field_selectors() ),
-				'add2_text'          => __( 'Apt, suite, etc. (optional)', 'checkout-wc' ),
+				'add2_text'          => $shipping_checkout_fields[ 'shipping_address_2' ][ 'label' ],
 				'i18n_required_text' => cfw_esc_attr__( 'required', 'woocommerce' ),
 			)
 		);

@@ -72,9 +72,6 @@ export class TabContainer extends Element {
         let main: Main = Main.instance;
         let checkout_form: any = main.checkoutForm;
 
-        console.log('setUp');
-        console.log(this);
-
         checkout_form.on( 'change', 'select.shipping_method, input[name^="shipping_method"], [name="ship_to_different_address"], .update_totals_on_change select, .update_totals_on_change input[type="radio"], .update_totals_on_change input[type="checkbox"]', this.queueUpdateCheckout.bind( this ) );
         checkout_form.on( 'change', '.address-field select', this.queueUpdateCheckout.bind( this ) );
         checkout_form.on( 'change', '.address-field input.input-text, .update_totals_on_change input.input-text', this.queueUpdateCheckout.bind( this ) );
@@ -100,9 +97,6 @@ export class TabContainer extends Element {
             return true;
         }
 
-        console.log('queue');
-        console.log(this);
-
         this.resetUpdateCheckoutTimer();
         jQuery(document.body).trigger( 'cfw_queue_update_checkout' );
         main.updateCheckoutTimer = setTimeout( this.maybeUpdateCheckout.bind( this ), 100 );
@@ -112,10 +106,6 @@ export class TabContainer extends Element {
      * Queue up an update_checkout
      */
     maybeUpdateCheckout( e, args ) {
-
-        console.log('maybe');
-        console.log(this);
-
         let main: Main = Main.instance;
 
         // Small timeout to prevent multiple requests when several fields update at the same time

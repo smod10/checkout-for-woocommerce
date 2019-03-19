@@ -32,7 +32,7 @@ class ApplyCouponAction extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer( 'some-seed-word', 'security' );
+		check_ajax_referer( 'cfw_nonce', 'security' );
 
 		wc_maybe_define_constant( 'WOOCOMMERCE_CART', true );
 

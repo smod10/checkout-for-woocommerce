@@ -233,10 +233,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
                 $field_html .= $field;
 
-    //			if ( $args['description'] ) {
-    //				$field_html .= '<span class="description">' . esc_html( $args['description'] ) . '</span>';
-    //			}
-
                 $container_class = esc_attr( implode( ' ', $args['class'] ) );
                 $container_id    = esc_attr( $args['id'] ) . '_field';
                 $row_wrap = '';
@@ -253,7 +249,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                 if( isset($args['end']) && $args['end'] ) {
                     $field .= "</div>";
                 }
-
 			} else {
 				$field_html .= '<h3 class="cfw-module-title">' . $args['label'] . '</h3>';
 				$field_html .= $field;

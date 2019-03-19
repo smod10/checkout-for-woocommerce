@@ -1,10 +1,6 @@
 import { Action }                       from "./Action";
-import { LogInResponse }                from "../Types/Types";
 import { PaymentMethodData }                    from "../Types/Types";
 import { AjaxInfo }                     from "../Types/Types";
-import { Alert, AlertInfo }             from "../Elements/Alert";
-import { ResponsePrep }                 from "../Decorators/ResponsePrep";
-import { Main }                         from "../Main";
 
 /**
  *
@@ -31,8 +27,18 @@ export class UpdatePaymentMethod extends Action {
      *
      * @param resp
      */
-    @ResponsePrep
-    public response(resp: any): void {
+    public response( resp: any ): void {
+        if ( typeof resp !== "object" ) {
+            resp = JSON.parse( resp );
+        }
+    }
 
+    /**
+     * @param xhr
+     * @param textStatus
+     * @param errorThrown
+     */
+    public error( xhr: any, textStatus: string, errorThrown: string ): void {
+        console.log(`Update Payment Method Error: ${errorThrown} (${textStatus})`);
     }
 }

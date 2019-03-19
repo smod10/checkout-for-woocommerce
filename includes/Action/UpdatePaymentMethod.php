@@ -32,7 +32,7 @@ class UpdatePaymentMethod extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer( 'some-seed-word', 'security' );
+		check_ajax_referer( 'cfw_nonce', 'security' );
 
 		WC()->session->set( 'chosen_payment_method', empty( $_POST['payment_method'] ) ? '' : $_POST['payment_method'] );
 

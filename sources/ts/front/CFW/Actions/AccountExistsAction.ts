@@ -2,7 +2,6 @@ import { Action }                       from "./Action";
 import { AccountExistsResponse }        from "../Types/Types";
 import { AccountExistsData }            from "../Types/Types";
 import { AjaxInfo }                     from "../Types/Types";
-import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 
 declare let jQuery: any;
 let w: any = window;
@@ -47,10 +46,14 @@ export class AccountExistsAction extends Action {
     }
 
     /**
+     *
      * @param resp
      */
-    @ResponsePrep
-    public response(resp: AccountExistsResponse): void {
+    public response( resp: any ): void {
+        if ( typeof resp !== "object" ) {
+            resp = JSON.parse( resp );
+        }
+
         let login_slide: any = jQuery("#cfw-login-slide");
         let $create_account = jQuery("#createaccount");
         let register_user_checkbox: any = ($create_account.length > 0) ? $create_account : null;
@@ -92,6 +95,15 @@ export class AccountExistsAction extends Action {
                 AccountExistsAction.checkBox = false;
             }
         }
+    }
+
+    /**
+     * @param xhr
+     * @param textStatus
+     * @param errorThrown
+     */
+    public error( xhr: any, textStatus: string, errorThrown: string ): void {
+        console.log(`Account Exists Error: ${errorThrown} (${textStatus})`);
     }
 
     /**

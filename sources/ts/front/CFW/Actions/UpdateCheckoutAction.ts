@@ -2,7 +2,6 @@ import { Action }                           from "./Action";
 import { AjaxInfo, FieldTypeInfo }          from "../Types/Types";
 import { Main }                             from "../Main";
 import { Cart, UpdateCartTotalsData }       from "../Elements/Cart";
-import { ResponsePrep }                     from "../Decorators/ResponsePrep";;
 
 declare let jQuery: any;
 
@@ -50,10 +49,14 @@ export class UpdateCheckoutAction extends Action {
     }
 
     /**
+     *
      * @param resp
      */
-    @ResponsePrep
-    public response(resp: any): void {
+    public response( resp: any ): void {
+        if ( typeof resp !== "object" ) {
+            resp = JSON.parse( resp );
+        }
+
         let main: Main = Main.instance;
 
         if(resp.fees) {
@@ -163,6 +166,15 @@ export class UpdateCheckoutAction extends Action {
 
         main.updating = false;
         updated_payment_methods_container.unblock();
+    }
+
+    /**
+     * @param xhr
+     * @param textStatus
+     * @param errorThrown
+     */
+    public error( xhr: any, textStatus: string, errorThrown: string ): void {
+        console.log(`Update Checkout Error: ${errorThrown} (${textStatus})`);
     }
 
     /**

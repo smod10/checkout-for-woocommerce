@@ -32,7 +32,7 @@ class LogInAction extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer( 'some-seed-word', 'security' );
+		check_ajax_referer( 'cfw_nonce', 'security' );
 
 		$info                  = array();
 		$info['user_login']    = $_POST['email'];

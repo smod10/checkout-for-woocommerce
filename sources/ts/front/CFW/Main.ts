@@ -177,12 +177,6 @@ export class Main {
 
 		// Setup events and event listeners
 		this.eventSetup();
-
-		jQuery('#shipping_first_name').on('keyup', (e) => this.someFunc(e));
-	}
-
-	someFunc(e): void {
-		console.log(this, jQuery(e.currentTarget));
 	}
 
 	/**

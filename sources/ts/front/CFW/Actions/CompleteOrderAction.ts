@@ -45,12 +45,17 @@ export class CompleteOrderAction extends Action {
         this.load();
     }
 
+
     /**
+     *
      * @param resp
      */
-    public response(resp: any): void {
+    public response( resp: any ): void {
+        if ( typeof resp !== "object" ) {
+            resp = JSON.parse( resp );
+        }
 
-        if(resp.result === "success") {
+        if( resp.result === "success" ) {
             // Destroy all the cache!
             jQuery('.garlic-auto-save').each((index: number, elem: Element) => jQuery(elem).garlic('destroy'));
 
@@ -59,30 +64,62 @@ export class CompleteOrderAction extends Action {
 
             // Redirect all the browsers! (well just the 1)
             window.location.href = resp.redirect;
-        }
+        } else if(resp.result === "failure") {
 
-        if(resp.result === "failure") {
+            window.dispatchEvent(new CustomEvent("cfw-checkout-failed-before-error-message", { detail: { response: resp } } ) );
 
-        	window.dispatchEvent(new CustomEvent("cfw-checkout-failed-before-error-message", { detail: { response: resp } } ) );
+            if(resp.messages !== "") {
+                let alertInfo: AlertInfo = {
+                    type: "error",
+                    message: resp.messages,
+                    cssClass: "cfw-alert-danger"
+                };
 
-        	if(resp.messages !== "") {
-				let alertInfo: AlertInfo = {
-					type: "error",
-					message: resp.messages,
-					cssClass: "cfw-alert-danger"
-				};
+                let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
+                alert.addAlert();
+            } else {
+                Main.removeOverlay();
+            }
 
-				let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
-				alert.addAlert();
-			} else {
-				Main.removeOverlay();
-			}
-
-			CompleteOrderAction.initCompleteOrder = false;
+            CompleteOrderAction.initCompleteOrder = false;
 
             // Fire updated_checkout event.
             jQuery(document.body).trigger( 'updated_checkout' );
         }
+    }
+
+    /**
+     * @param xhr
+     * @param textStatus
+     * @param errorThrown
+     */
+    public error( xhr: any, textStatus: string, errorThrown: string ): void {
+        let message: string;
+
+        if ( xhr.status === 0)  {
+            message = 'Could not connect to server. Please refresh and try again or contact site administrator.';
+        } else if ( xhr.status === 404 ) {
+            message = 'Requested resource could not be found. Please contact site administrator. (404)';
+        } else if ( xhr.status === 500 ) {
+            message = 'An internal server error occurred. Please contact site administrator. (500)';
+        } else if ( textStatus === 'parsererror' ) {
+            message = 'Server response could not be parsed. Please contact site administrator.';
+        } else if ( textStatus === 'timeout' || xhr.status === 504 ) {
+            message = 'The server timed out while processing your request. Please refresh and try again or contact site administrator.';
+        } else if ( textStatus === 'abort' ) {
+            message = 'Request was aborted. Please contact site administrator.';
+        } else {
+            message = `Uncaught Error: ${xhr.responseText}`;
+        }
+
+        let alertInfo: AlertInfo = {
+            type: "error",
+            message: message,
+            cssClass: "cfw-alert-danger"
+        };
+
+        let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
+        alert.addAlert();
     }
 
     /**

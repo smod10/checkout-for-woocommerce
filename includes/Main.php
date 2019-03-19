@@ -589,7 +589,7 @@ class Main extends Singleton {
 		);
 
 		// Get shipping fields so we can access correct address 2 label
-		// TODO: Why do we need add2_text? 
+		// TODO: Why do we need add2_text?
 		$shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', WC()->checkout()->get_checkout_fields( 'shipping' ) );
 
 		wp_localize_script(

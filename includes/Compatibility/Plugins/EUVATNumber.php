@@ -20,4 +20,13 @@ class EUVATNumber extends Base {
 			$wp_scripts->registered['wc-eu-vat']->deps = array('jquery');
 		}
 	}
+
+	function typescript_class_and_params( $compatibility ) {
+		$compatibility[] = [
+			'class'  => 'EUVatNumber',
+			'params' => [],
+		];
+
+		return $compatibility;
+	}
 }

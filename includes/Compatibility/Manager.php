@@ -42,6 +42,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommercePriceBasedOnCount
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSmartCoupons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WPGensReferAFriend;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\Astra;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\BeaverBuilder;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
@@ -205,6 +206,9 @@ class Manager {
 
 		// Beaver Builder Theme
 		new BeaverBuilder();
+
+		// Astra
+		new Astra();
 
 
 		/**

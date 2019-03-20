@@ -1,0 +1,22 @@
+<?php
+
+namespace Objectiv\Plugins\Checkout\Compatibility\Themes;
+
+use Objectiv\Plugins\Checkout\Compatibility\Base;
+use Objectiv\Plugins\Checkout\Main;
+
+class Astra extends Base {
+	public function is_available() {
+		return defined( 'ASTRA_THEME_VERSION' );
+	}
+
+	public function run() {
+		add_action( 'wp', array( $this, 'remove_astra_scripts' ) );
+	}
+
+	public function remove_astra_scripts() {
+		if ( Main::is_checkout() ) {
+			remove_all_actions( 'astra_get_js_files' );
+		}
+	}
+}

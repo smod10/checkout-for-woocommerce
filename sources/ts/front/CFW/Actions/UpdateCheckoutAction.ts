@@ -154,7 +154,7 @@ export class UpdateCheckoutAction extends Action {
         main.tabContainer.initSelectedPaymentGateway();
 
         /**
-         * A custom event that runs every time, since we are supressing
+         * A custom event that runs every time, since we are suppressing
          * updated_checkout if the payment gateways haven't updated
          */
 		jQuery(document.body).trigger( 'cfw_updated_checkout' );

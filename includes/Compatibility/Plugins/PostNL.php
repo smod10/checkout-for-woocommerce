@@ -15,6 +15,8 @@ class PostNL extends Base {
 		add_filter( 'woocommerce_default_address_fields', array( $this, 'add_new_fields' ), 100001, 1 ); // run after our normal hook
 		add_filter( 'woocommerce_default_address_fields', array( $this, 'sort_fields' ), 200000, 1 ); // run after our normal hook
 		add_filter( 'woocommerce_get_country_locale', array($this, 'prevent_postcode_sort_change') );
+		add_filter( 'cfw_enable_zip_autocomplete', '__return_false' );
+		add_action( 'wp_enqueue_scripts', array($this, 'adjust_deps'), 1000 );
 
 		// Move form-row class to input container from row
 		add_filter( 'cfw_input_wrap_start', array($this, 'input_wrap_start') );
@@ -40,8 +42,8 @@ class PostNL extends Base {
 
 		if ( empty($WC_NLPostcode_Fields) ) return;
 
-		remove_filter( 'woocommerce_billing_fields', array( $WC_NLPostcode_Fields, 'nl_billing_fields' ), $priority, 2 );
-		remove_filter( 'woocommerce_shipping_fields', array( $WC_NLPostcode_Fields, 'nl_shipping_fields' ),$priority, 2 );
+		remove_filter( 'woocommerce_billing_fields', array( $WC_NLPostcode_Fields, 'nl_billing_fields' ), $priority );
+		remove_filter( 'woocommerce_shipping_fields', array( $WC_NLPostcode_Fields, 'nl_shipping_fields' ),$priority );
 	}
 
 	function wp() {
@@ -124,5 +126,13 @@ class PostNL extends Base {
 		$input_row_wrap = str_replace( 'form-row', '', $input_row_wrap );
 
 		return $input_row_wrap;
+	}
+
+	function adjust_deps() {
+		global $wp_scripts;
+
+		if ( ! empty($wp_scripts->registered['wcmp-checkout-fields']) ) {
+			$wp_scripts->registered['wcmp-checkout-fields']->deps = array('jquery');
+		}
 	}
 }

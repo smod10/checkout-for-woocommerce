@@ -42,6 +42,8 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommercePriceBasedOnCount
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSmartCoupons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WPGensReferAFriend;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\YITHPointsRewards;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\Astra;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\BeaverBuilder;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
@@ -187,6 +189,9 @@ class Manager {
 		// ToCheckout
 		new ToCheckout();
 
+		// YITH Points and Rewards
+		new YITHPointsRewards();
+
 
 		/**
 		 * Themes
@@ -205,6 +210,9 @@ class Manager {
 
 		// Beaver Builder Theme
 		new BeaverBuilder();
+
+		// Astra
+		new Astra();
 
 
 		/**

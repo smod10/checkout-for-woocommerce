@@ -371,7 +371,6 @@ class Main extends Singleton {
 	/**
 	 * Enables libraries and functions for the specific task of aiding in development
 	 *
-	 * Whoops - Pretty Errors
 	 * Kint - Pretty Debug
 	 *
 	 * @since 1.0.0

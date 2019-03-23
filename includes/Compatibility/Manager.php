@@ -9,6 +9,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaPayment;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Square;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\ToCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\ActiveCampaign;
@@ -175,6 +176,9 @@ class Manager {
 
 		// ToCheckout
 		new ToCheckout();
+
+		// Square
+		new Square();
 
 
 		/**

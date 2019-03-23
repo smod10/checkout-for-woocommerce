@@ -101,7 +101,6 @@ class AmazonPay extends Base {
 		}
 
 		if ( ! WC()->cart->needs_payment() && ! $enable_login_app ) {
-			add_action( 'cfw_checkout_before_form', array( $this->amazon_payments, 'placeholder_checkout_message_container' ), 5 );
 			add_action( 'cfw_checkout_before_customer_info_tab', array( $this->amazon_payments, 'placeholder_widget_container' ) );
 		}
 
@@ -109,7 +108,6 @@ class AmazonPay extends Base {
 			add_action( 'cfw_payment_request_buttons', array( $this->amazon_payments, 'checkout_message' ) );
 			add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_separator' ), 10 );
 		} else {
-			add_action( 'cfw_checkout_before_form', array( $this->amazon_payments, 'checkout_message' ) );
 			remove_all_actions( 'cfw_payment_request_buttons' );
 		}
 

@@ -4,66 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e786cc802bce5c8c2f9efaaf4a1c0d2f",
+    "content-hash": "6baa274b545e8c7317344ca5b64f6168",
     "packages": [
-        {
-            "name": "filp/whoops",
-            "version": "1.1.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/filp/whoops.git",
-                "reference": "72538eeb70bbfb11964412a3d098d109efd012f7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/72538eeb70bbfb11964412a3d098d109efd012f7",
-                "reference": "72538eeb70bbfb11964412a3d098d109efd012f7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "0.9.*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.2-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Whoops": "src/"
-                },
-                "classmap": [
-                    "src/deprecated"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Filipe Dobreira",
-                    "homepage": "https://github.com/filp",
-                    "role": "Developer"
-                }
-            ],
-            "description": "php error handling for cool kids",
-            "homepage": "https://github.com/filp/whoops",
-            "keywords": [
-                "error",
-                "exception",
-                "handling",
-                "library",
-                "silex-provider",
-                "whoops",
-                "zf2"
-            ],
-            "time": "2015-06-29T05:42:04+00:00"
-        },
         {
             "name": "kint-php/kint",
             "version": "2.2",
@@ -171,16 +113,16 @@
         },
         {
             "name": "objectivco/cgd_eddsl_magic",
-            "version": "0.3.3",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Objectivco/CGD_EDDSL_Magic.git",
-                "reference": "337fad642a33b1992bdfcdb4f182021526f8a44e"
+                "reference": "cc9c675ba72fec61074cfa5083c931dec25dcaa7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Objectivco/CGD_EDDSL_Magic/zipball/337fad642a33b1992bdfcdb4f182021526f8a44e",
-                "reference": "337fad642a33b1992bdfcdb4f182021526f8a44e",
+                "url": "https://api.github.com/repos/Objectivco/CGD_EDDSL_Magic/zipball/cc9c675ba72fec61074cfa5083c931dec25dcaa7",
+                "reference": "cc9c675ba72fec61074cfa5083c931dec25dcaa7",
                 "shasum": ""
             },
             "require": {
@@ -203,7 +145,7 @@
                 }
             ],
             "description": "A drop-in class that magically manages Easy Digital Downloads Software Licensing for plugins and themes.",
-            "time": "2017-10-20T18:50:51+00:00"
+            "time": "2019-03-23T12:58:50+00:00"
         },
         {
             "name": "objectivco/wordpress-simple-settings",
@@ -281,16 +223,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
+                "reference": "82ebae02209c21113908c229e9883c419720738a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/82ebae02209c21113908c229e9883c419720738a",
+                "reference": "82ebae02209c21113908c229e9883c419720738a",
                 "shasum": ""
             },
             "require": {
@@ -302,7 +244,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -335,7 +277,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2018-08-06T14:22:27+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

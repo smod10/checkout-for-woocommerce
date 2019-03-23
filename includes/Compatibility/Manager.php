@@ -9,6 +9,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaPayment;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Square;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\ToCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\ActiveCampaign;
@@ -20,14 +21,12 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\DirectCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EUVATNumber;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\FacebookForWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
-use Objectiv\Plugins\Checkout\Compatibility\Plugins\KodiakGiftCards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MailChimpforWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\NLPostcodeChecker;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OnePageCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
-use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PostNL;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeSocialLogin;
@@ -41,8 +40,6 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommercePriceBasedOnCountry;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSmartCoupons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
-use Objectiv\Plugins\Checkout\Compatibility\Plugins\WPGensReferAFriend;
-use Objectiv\Plugins\Checkout\Compatibility\Plugins\YITHPointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Astra;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\BeaverBuilder;
@@ -130,12 +127,6 @@ class Manager {
 		// EU VAT Number
 		new EUVATNumber();
 
-		// Kodiak Gift Cards
-		new KodiakGiftCards();
-
-		// WP Gens Refer a Friend
-		new WPGensReferAFriend();
-
 		// SkyVerge WooCommerce Social Login
 		new SkyVergeSocialLogin();
 
@@ -165,9 +156,6 @@ class Manager {
 		// Enhanced Ecommerce Google Analytics
 		new EnhancedEcommerceGoogleAnalytics();
 
-		// Points and Rewards
-		new PointsRewards();
-
 		// PayPal for WooCommerce
 		new PayPalForWooCommerce( $this );
 
@@ -189,8 +177,8 @@ class Manager {
 		// ToCheckout
 		new ToCheckout();
 
-		// YITH Points and Rewards
-		new YITHPointsRewards();
+		// Square
+		new Square();
 
 
 		/**

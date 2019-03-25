@@ -36,6 +36,10 @@ class WooCommerceCore extends Base {
 		add_action( 'cfw_checkout_after_shipping_address', function() {
 			do_action('woocommerce_after_checkout_shipping_form');
 		} );
+
+		// Remove some default hooks
+		remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10 );
+		remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
 	}
 
 	/**

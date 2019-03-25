@@ -31,7 +31,7 @@ body.checkout-wc #cfw-payment-request-buttons {
   }
 }
 
-.woocommerce-info, ul.woocommerce-error {
+.woocommerce-info, .cfw-container > div > ul.woocommerce-error {
   list-style: none;
   
   a {

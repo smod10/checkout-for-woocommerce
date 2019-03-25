@@ -283,7 +283,7 @@ class Redirect {
                 box-shadow: 0 0 0 2px <?php echo $settings_manager->get_setting('button_color', array($active_theme) ); ?>;
             }
 
-            .woocommerce-info, ul.woocommerce-error {
+            .woocommerce-info, .cfw-container > div > ul.woocommerce-error {
 				padding: 1em 1.618em;
 				margin-bottom: 1.3em;
 				background-color: <?php echo $settings_manager->get_setting('secondary_button_color', array($active_theme) ); ?>;

@@ -23,7 +23,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	    <?php if ( ! WC()->cart->is_empty() ): ?>
 
 	    <?php do_action( 'cfw_checkout_before_form' ); ?>
-        <?php do_action( 'woocommerce_before_checkout_form', WC()->checkout() ); ?>
+
+        <div class="cfw-container">
+            <div class="cfw-column-12">
+                <?php do_action( 'woocommerce_before_checkout_form', WC()->checkout() ); ?>
+            </div>
+        </div>
 
 	    <?php if( ! apply_filters('cfw_replace_form', false) ): ?>
             <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">

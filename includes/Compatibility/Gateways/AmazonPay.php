@@ -82,7 +82,15 @@ class AmazonPay extends Base {
 	function run() {
 		add_action( 'woocommerce_checkout_init', array( $this, 'checkout_init' ), 9 );
 		add_filter( 'woocommerce_pa_hijack_checkout_fields', '__return_false' );
+		add_action( 'woocommerce_checkout_init', array($this, 'remove_banners' ), 100 );
+
 		$this->get_amazon_gateway();
+	}
+
+	function remove_banners() {
+		// Remove before the form messages
+		remove_action( 'woocommerce_before_checkout_form', array( $this->amazon_payments, 'checkout_message' ), 5 );
+		remove_action( 'woocommerce_before_checkout_form', array( $this->amazon_payments, 'placeholder_checkout_message_container' ), 5 );
 	}
 
 	/**

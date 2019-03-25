@@ -31,6 +31,44 @@ body.checkout-wc #cfw-payment-request-buttons {
   }
 }
 
+.woocommerce-info, .cfw-container > div > ul.woocommerce-error {
+  list-style: none;
+  
+  a {
+    color: #fff;
+  }
+
+  .button:hover {
+    opacity: 1;
+  }
+
+  .button {
+    float: right;
+    padding: 0;
+    background: none;
+    color: #fff;
+    box-shadow: none;
+    line-height: 1.3em;
+    padding-left: 1em;
+    border-width: 0;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: rgba(255, 255, 255, 0.25) !important;
+    border-radius: 0;
+  }
+
+  .button:hover {
+    background: none;
+    color: #fff;
+    opacity: 0.7;
+    cursor: pointer;
+  }
+
+  pre {
+    background-color: rgba(0,0,0,.1);
+  }
+}
+
 #cfw-login-btn {
   border: none;
   border-radius: 4px;

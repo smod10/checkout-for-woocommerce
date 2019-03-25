@@ -32,8 +32,13 @@ class PayPalForWooCommerce extends Base {
 
 	public function run() {
 		if ( version_compare( VERSION_PFW, '1.5.7', '>=' ) ) {
+			$Angelleye_PayPal_Express_Checkout_Helper = \Angelleye_PayPal_Express_Checkout_Helper::instance();
+
 			add_filter( 'angelleye_ec_checkout_page_buy_now_nutton', array( $this, 'modify_payment_button_output' ), 10, 1 );
 			add_action( 'cfw_payment_request_buttons', array( $this, 'add_paypal_express_to_checkout' ) );
+
+			// Remove top of checkout message
+			remove_action('woocommerce_before_checkout_form', array($Angelleye_PayPal_Express_Checkout_Helper, 'checkout_message'), 5);
 		} else {
 			// Legacy
 			add_action( 'wp', array( $this, 'legacy_add_paypal_express_to_checkout' ), 1 );
@@ -55,8 +60,6 @@ class PayPalForWooCommerce extends Base {
 	}
 
 	function add_paypal_express_to_checkout() {
-		global $Angelleye_PayPal_Express_Checkout_Helper;
-
 		if ( Main::is_checkout() ) {
 
 			$gateways = \WC_Payment_Gateways::instance()->payment_gateways();

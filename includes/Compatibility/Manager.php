@@ -45,6 +45,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\BeaverBuilder;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Porto;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\Savoy;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\TMOrganik;
 
 /**
@@ -201,6 +202,9 @@ class Manager {
 
 		// Astra
 		new Astra();
+
+		// Savoy
+		new Savoy();
 
 
 		/**

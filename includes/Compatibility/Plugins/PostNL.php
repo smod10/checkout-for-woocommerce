@@ -59,6 +59,24 @@ class PostNL extends Base {
 		$fields['postcode']['start'] = true;
 		$fields['postcode']['end'] = false;
 
+		// Add street name
+		$fields['street_name'] = array(
+			'label'             => cfw__( 'Street name', 'woocommerce-postnl' ),
+			'placeholder'       => cfw_esc_attr__( 'Street name', 'woocommerce-postnl' ),
+			'required'          => true,
+			'class'             => array(),
+			'autocomplete'      => '',
+			'input_class'       => array( 'garlic-auto-save' ),
+			'priority'          => 14,
+			'wrap'              => $cfw->get_form()->input_wrap( 'text', 12, 10 ),
+			'label_class'       => 'cfw-input-label',
+			'start'             => true,
+			'end'               => true,
+			'custom_attributes' => array(
+				'data-parsley-trigger' => 'change focusout',
+			),
+		);
+
 		// Then add house number
 		$fields['house_number'] = array(
 			'label'             => cfw__( 'Nr.', 'woocommerce-postnl' ),
@@ -94,6 +112,9 @@ class PostNL extends Base {
 				'data-parsley-trigger' => 'change focusout',
 			),
 		);
+
+		unset( $fields['address_1'] );
+		unset( $fields['address_2'] );
 
 		return $fields;
 	}

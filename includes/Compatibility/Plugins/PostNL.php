@@ -59,6 +59,24 @@ class PostNL extends Base {
 		$fields['postcode']['start'] = true;
 		$fields['postcode']['end'] = false;
 
+		// Add street name
+		$fields['street_name'] = array(
+			'label'             => cfw__( 'Street name', 'woocommerce-postnl' ),
+			'placeholder'       => cfw_esc_attr__( 'Street name', 'woocommerce-postnl' ),
+			'required'          => true,
+			'class'             => array(),
+			'autocomplete'      => '',
+			'input_class'       => array( 'garlic-auto-save' ),
+			'priority'          => 14,
+			'wrap'              => $cfw->get_form()->input_wrap( 'text', 12, 10 ),
+			'label_class'       => 'cfw-input-label',
+			'start'             => true,
+			'end'               => true,
+			'custom_attributes' => array(
+				'data-parsley-trigger' => 'change focusout',
+			),
+		);
+
 		// Then add house number
 		$fields['house_number'] = array(
 			'label'             => cfw__( 'Nr.', 'woocommerce-postnl' ),
@@ -94,6 +112,62 @@ class PostNL extends Base {
 				'data-parsley-trigger' => 'change focusout',
 			),
 		);
+
+		unset( $fields['address_1'] );
+		unset( $fields['address_2'] );
+
+		return $fields;
+	}
+
+	function fix_fields( $fields, $country ) {
+		$cfw = \Objectiv\Plugins\Checkout\Main::instance();
+
+		foreach( $fields as $key => $field ) {
+			if ( stripos($key, 'street_name') !== false ) {
+				$fields[ $key ][ 'placeholder' ] = __('Street name', 'woocommerce-postnl');
+				$fields[ $key ][ 'class' ] = array();
+				$fields[ $key ][ 'autocomplete' ] = '';
+				$fields[ $key ][ 'input_class' ] = array( 'garlic-auto-save' );
+				$fields[ $key ][ 'priority' ] = 15;
+				$fields[ $key ][ 'wrap' ] = $cfw->get_form()->input_wrap( 'text', 6, 15 );
+				$fields[ $key ][ 'label_class' ] = 'cfw-input-label';
+				$fields[ $key ][ 'start' ] = true;
+				$fields[ $key ][ 'end' ] = false;
+				$fields[ $key ][ 'custom_attributes' ] = array(
+					'data-parsley-trigger' => 'change focusout',
+				);
+			}
+
+			if ( stripos($key, 'house_number') !== false ) {
+				$fields[ $key ][ 'placeholder' ] = cfw__( 'Nr.', 'woocommerce-postnl' );
+				$fields[ $key ][ 'class' ] = array();
+				$fields[ $key ][ 'autocomplete' ] = '';
+				$fields[ $key ][ 'input_class' ] = array( 'garlic-auto-save' );
+				$fields[ $key ][ 'priority' ] = 16;
+				$fields[ $key ][ 'wrap' ] = $cfw->get_form()->input_wrap( 'text', 2, 15 );
+				$fields[ $key ][ 'label_class' ] = 'cfw-input-label';
+				$fields[ $key ][ 'start' ] = false;
+				$fields[ $key ][ 'end' ] = false;
+				$fields[ $key ][ 'custom_attributes' ] = array(
+					'data-parsley-trigger' => 'change focusout',
+				);
+			}
+
+			if ( stripos($key, 'house_suffix') !== false ) {
+				$fields[ $key ][ 'placeholder' ] = cfw__( 'Suffix', 'woocommerce-postnl' );
+				$fields[ $key ][ 'class' ] = array();
+				$fields[ $key ][ 'autocomplete' ] = '';
+				$fields[ $key ][ 'input_class' ] = array( 'garlic-auto-save' );
+				$fields[ $key ][ 'priority' ] = 17;
+				$fields[ $key ][ 'wrap' ] = $cfw->get_form()->input_wrap( 'text', 2, 15 );
+				$fields[ $key ][ 'label_class' ] = 'cfw-input-label';
+				$fields[ $key ][ 'start' ] = false;
+				$fields[ $key ][ 'end' ] = true;
+				$fields[ $key ][ 'custom_attributes' ] = array(
+					'data-parsley-trigger' => 'change focusout',
+				);
+			}
+		}
 
 		return $fields;
 	}

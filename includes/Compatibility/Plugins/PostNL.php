@@ -119,59 +119,6 @@ class PostNL extends Base {
 		return $fields;
 	}
 
-	function fix_fields( $fields, $country ) {
-		$cfw = \Objectiv\Plugins\Checkout\Main::instance();
-
-		foreach( $fields as $key => $field ) {
-			if ( stripos($key, 'street_name') !== false ) {
-				$fields[ $key ][ 'placeholder' ] = __('Street name', 'woocommerce-postnl');
-				$fields[ $key ][ 'class' ] = array();
-				$fields[ $key ][ 'autocomplete' ] = '';
-				$fields[ $key ][ 'input_class' ] = array( 'garlic-auto-save' );
-				$fields[ $key ][ 'priority' ] = 15;
-				$fields[ $key ][ 'wrap' ] = $cfw->get_form()->input_wrap( 'text', 6, 15 );
-				$fields[ $key ][ 'label_class' ] = 'cfw-input-label';
-				$fields[ $key ][ 'start' ] = true;
-				$fields[ $key ][ 'end' ] = false;
-				$fields[ $key ][ 'custom_attributes' ] = array(
-					'data-parsley-trigger' => 'change focusout',
-				);
-			}
-
-			if ( stripos($key, 'house_number') !== false ) {
-				$fields[ $key ][ 'placeholder' ] = cfw__( 'Nr.', 'woocommerce-postnl' );
-				$fields[ $key ][ 'class' ] = array();
-				$fields[ $key ][ 'autocomplete' ] = '';
-				$fields[ $key ][ 'input_class' ] = array( 'garlic-auto-save' );
-				$fields[ $key ][ 'priority' ] = 16;
-				$fields[ $key ][ 'wrap' ] = $cfw->get_form()->input_wrap( 'text', 2, 15 );
-				$fields[ $key ][ 'label_class' ] = 'cfw-input-label';
-				$fields[ $key ][ 'start' ] = false;
-				$fields[ $key ][ 'end' ] = false;
-				$fields[ $key ][ 'custom_attributes' ] = array(
-					'data-parsley-trigger' => 'change focusout',
-				);
-			}
-
-			if ( stripos($key, 'house_suffix') !== false ) {
-				$fields[ $key ][ 'placeholder' ] = cfw__( 'Suffix', 'woocommerce-postnl' );
-				$fields[ $key ][ 'class' ] = array();
-				$fields[ $key ][ 'autocomplete' ] = '';
-				$fields[ $key ][ 'input_class' ] = array( 'garlic-auto-save' );
-				$fields[ $key ][ 'priority' ] = 17;
-				$fields[ $key ][ 'wrap' ] = $cfw->get_form()->input_wrap( 'text', 2, 15 );
-				$fields[ $key ][ 'label_class' ] = 'cfw-input-label';
-				$fields[ $key ][ 'start' ] = false;
-				$fields[ $key ][ 'end' ] = true;
-				$fields[ $key ][ 'custom_attributes' ] = array(
-					'data-parsley-trigger' => 'change focusout',
-				);
-			}
-		}
-
-		return $fields;
-	}
-
 	function sort_fields( $fields ) {
 		uasort($fields, function($a, $b) {
 			return $a['priority'] - $b['priority'];

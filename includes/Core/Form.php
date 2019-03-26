@@ -170,6 +170,7 @@ class Form {
 				'class'        => array( 'address-field', 'update_totals_on_change' ),
 				'autocomplete' => 'country',
 				'input_class'  => array( 'garlic-auto-save' ),
+				'placeholder'  => 'Country',
 				'priority'     => 6,
 				'wrap'         => $this->input_wrap( 'select', 4, 40 ),
 				'label_class'  => 'cfw-input-label',

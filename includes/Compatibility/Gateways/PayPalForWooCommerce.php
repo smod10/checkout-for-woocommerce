@@ -60,6 +60,9 @@ class PayPalForWooCommerce extends Base {
 	}
 
 	function add_paypal_express_to_checkout() {
+	    // This is required because it's used down below in anonymous functions
+		global $Angelleye_PayPal_Express_Checkout_Helper;
+
 		if ( Main::is_checkout() ) {
 
 			$gateways = \WC_Payment_Gateways::instance()->payment_gateways();
@@ -76,6 +79,7 @@ class PayPalForWooCommerce extends Base {
 				add_action(
 					'cfw_checkout_after_payment_methods', function () {
 					global $Angelleye_PayPal_Express_Checkout_Helper;
+
 					echo '<p class="paypal-cancel-wrapper">' . $Angelleye_PayPal_Express_Checkout_Helper->angelleye_woocommerce_order_button_html( '' ) . '</p>';
 				}
 				);

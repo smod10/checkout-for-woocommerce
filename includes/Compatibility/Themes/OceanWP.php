@@ -14,6 +14,18 @@ class OceanWP extends Base {
 	}
 
 	public function run() {
-		// silence is golden
+		add_filter( 'cfw_blocked_script_handles', array($this, 'allow_main_js'), 10, 1 );
+	}
+
+	public function allow_main_js( $blocked_handles ) {
+		$keys = array_keys( $blocked_handles, 'oceanwp-main' );
+
+		if ( ! empty($keys) ) {
+			foreach( $keys as $key ) {
+				unset( $blocked_handles[ $key ] );
+			}
+		}
+
+		return $blocked_handles;
 	}
 }

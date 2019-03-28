@@ -77,7 +77,7 @@ class NLPostcodeChecker extends Base {
 
 		// Add street name
 		$fields['street_name'] = array(
-			'label'             => cfw__( 'Street name', 'woocommerce-postnl' ),
+			'label'             => cfw__( 'Street name', 'wpo_wcnlpc' ),
 			'placeholder'       => cfw_esc_attr__( 'Street name', 'woocommerce-postnl' ),
 			'required'          => true,
 			'class'             => array(),

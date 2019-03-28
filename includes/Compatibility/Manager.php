@@ -44,6 +44,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Themes\Astra;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\BeaverBuilder;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\OceanWP;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Porto;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Savoy;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\TMOrganik;
@@ -205,6 +206,9 @@ class Manager {
 
 		// Savoy
 		new Savoy();
+
+		// OceanWP
+		new OceanWP();
 
 
 		/**

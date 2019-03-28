@@ -532,7 +532,7 @@ class Main extends Singleton {
 					'checkoutFormSelector' => apply_filters( 'cfw_checkout_form_selector', '.woocommerce-checkout' ),
 				),
 				'ajaxInfo'      => array(
-					'url'   => get_home_url(),
+					'url'   => trailingslashit( get_home_url() ),
 					'nonce' => wp_create_nonce( 'cfw_nonce' ),
 				),
 				'compatibility' => apply_filters( 'cfw_typescript_compatibility_classes_and_params', array() ),

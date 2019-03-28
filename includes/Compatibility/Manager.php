@@ -26,6 +26,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\NLPostcodeChecker;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OnePageCheckout;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\OrderDeliveryDate;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PostNL;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
@@ -143,6 +144,9 @@ class Manager {
 
 		// Smart Send
 		new SmartSend();
+
+		// Order Delivery Date
+		new OrderDeliveryDate();
 
 
 		/**

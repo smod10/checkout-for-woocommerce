@@ -914,6 +914,6 @@ class Main extends Singleton {
 	}
 
 	public static function is_checkout() {
-		return apply_filters('cfw_is_checkout', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() );
+		return apply_filters('cfw_is_checkout', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() && empty( $_GET['bypass-cfw'] ) );
 	}
 }

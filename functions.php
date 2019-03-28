@@ -290,17 +290,18 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 	function cfw_get_shipping_details( $checkout ) {
         return WC()->countries->get_formatted_address(
-	        array(
-		        'first_name' => $checkout->get_value( 'shipping_first_name' ),
-		        'last_name'  => $checkout->get_value( 'shipping_last_name' ),
-		        'company'    => $checkout->get_value( 'shipping_company' ),
-		        'address_1'  => $checkout->get_value( 'shipping_address_1' ),
-		        'address_2'  => $checkout->get_value( 'shipping_address_2' ),
-		        'city'       => $checkout->get_value( 'shipping_city' ),
-		        'state'      => $checkout->get_value( 'shipping_state' ),
-		        'postcode'   => $checkout->get_value( 'shipping_postcode' ),
-		        'country'    => $checkout->get_value( 'shipping_country' ),
-	        )
+            apply_filters( 'cfw_get_shipping_details_address', array(
+                    'first_name' => $checkout->get_value( 'shipping_first_name' ),
+                    'last_name'  => $checkout->get_value( 'shipping_last_name' ),
+                    'company'    => $checkout->get_value( 'shipping_company' ),
+                    'address_1'  => $checkout->get_value( 'shipping_address_1' ),
+                    'address_2'  => $checkout->get_value( 'shipping_address_2' ),
+                    'city'       => $checkout->get_value( 'shipping_city' ),
+                    'state'      => $checkout->get_value( 'shipping_state' ),
+                    'postcode'   => $checkout->get_value( 'shipping_postcode' ),
+                    'country'    => $checkout->get_value( 'shipping_country' ),
+                ), $checkout
+            )
         );
 	}
 

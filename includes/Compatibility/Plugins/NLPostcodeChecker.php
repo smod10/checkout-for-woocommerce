@@ -18,6 +18,9 @@ class NLPostcodeChecker extends Base {
 		add_action( 'wp_enqueue_scripts', array($this, 'adjust_deps'), 1000 );
 		add_filter( 'cfw_enable_zip_autocomplete', '__return_false' );
 
+		// Fix shipping preview
+		add_filter( 'cfw_get_shipping_details_address', array($this, 'fix_shipping_preview'), 10, 2 );
+
 		// Move form-row class to input container from row
 		add_filter( 'cfw_input_wrap_start', array($this, 'input_wrap_start') );
 		add_filter( 'cfw_input_row_wrap', array($this, 'input_row_wrap') );
@@ -171,5 +174,11 @@ class NLPostcodeChecker extends Base {
 		$input_row_wrap = str_replace( 'form-row', '', $input_row_wrap );
 
 		return $input_row_wrap;
+	}
+
+	function fix_shipping_preview( $address, $checkout ) {
+		$address['address_1'] = $checkout->get_value( 'shipping_street_name' ) . ' ' . $checkout->get_value( 'shipping_house_number' ) . ' ' . $checkout->get_value( 'shipping_house_number_suffix' );
+
+		return $address;
 	}
 }

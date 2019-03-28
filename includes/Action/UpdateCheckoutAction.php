@@ -11,8 +11,6 @@ class UpdateCheckoutAction extends Action {
 	}
 
 	public function action() {
-		check_ajax_referer( 'cfw_nonce', 'security' );
-
 		wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
 		do_action( 'woocommerce_checkout_update_order_review', $_POST['post_data'] );

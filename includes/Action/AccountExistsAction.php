@@ -32,8 +32,6 @@ class AccountExistsAction extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer( 'cfw_nonce', 'security' );
-
 		$email = $_POST['email'];
 
 		$this->out(

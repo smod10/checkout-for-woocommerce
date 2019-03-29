@@ -12,7 +12,7 @@ class NLPostcodeChecker extends Base {
 	function run() {
 		add_action('init', array($this, 'disable_nl_hooks'), 11 );
 		add_action('wp', array($this, 'wp') );
-		add_filter( 'woocommerce_default_address_fields', array( $this, 'add_new_fields' ), 100001, 1 ); // run after our normal hook
+		add_filter( 'woocommerce_default_address_fields', array( $this, 'modify_fields' ), 100001, 1 ); // run after our normal hook
 		add_filter( 'woocommerce_default_address_fields', array( $this, 'sort_fields' ), 200000, 1 ); // run after our normal hook
 		add_filter( 'woocommerce_get_country_locale', array($this, 'prevent_postcode_sort_change') );
 		add_action( 'wp_enqueue_scripts', array($this, 'adjust_deps'), 1000 );
@@ -70,7 +70,7 @@ class NLPostcodeChecker extends Base {
 		remove_filter( 'woocommerce_get_country_locale', array($cfw->get_form(), 'prevent_postcode_sort_change') );
 	}
 
-	function add_new_fields( $fields ) {
+	function modify_fields( $fields ) {
 		$cfw = \Objectiv\Plugins\Checkout\Main::instance();
 
 		// Adjust postcode field
@@ -132,8 +132,14 @@ class NLPostcodeChecker extends Base {
 			),
 		);
 
-		unset( $fields['address_1'] );
-		unset( $fields['address_2'] );
+		$fields['address_1']['type'] = 'hidden';
+		$fields['address_1']['start'] = false;
+		unset( $fields['address_1']['custom_attributes'] );
+		unset( $fields['address_1']['input_class'] );
+		$fields['address_2']['type'] = 'hidden';
+		$fields['address_2']['end'] = false;
+		unset( $fields['address_2']['custom_attributes'] );
+		unset( $fields['address_2']['input_class'] );
 
 		return $fields;
 	}
@@ -184,5 +190,15 @@ class NLPostcodeChecker extends Base {
 		}
 
 		return $address;
+	}
+
+
+	function typescript_class_and_params( $compatibility ) {
+		$compatibility[] = [
+			'class'  => 'NLPostcodeChecker',
+			'params' => [],
+		];
+
+		return $compatibility;
 	}
 }

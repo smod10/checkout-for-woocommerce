@@ -31,7 +31,6 @@ export class ApplyCouponAction extends Action {
     constructor(id: string, ajaxInfo: AjaxInfo, code: string, cart: Cart, fields: any) {
         let data: {} = {
             "wc-ajax": id,
-            security: ajaxInfo.nonce,
             coupon_code: code
         };
 

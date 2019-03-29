@@ -533,7 +533,6 @@ class Main extends Singleton {
 				),
 				'ajaxInfo'      => array(
 					'url'   => trailingslashit( get_home_url() ),
-					'nonce' => wp_create_nonce( 'cfw_nonce' ),
 				),
 				'compatibility' => apply_filters( 'cfw_typescript_compatibility_classes_and_params', array() ),
 				'settings'      => array(

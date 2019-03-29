@@ -28,7 +28,6 @@ export class LoginAction extends Action {
     constructor(id: string, ajaxInfo: AjaxInfo, email: string, password: string) {
         let data: LogInData = {
             "wc-ajax": id,
-            security: ajaxInfo.nonce,
             email: email,
             password: password
         };

@@ -177,7 +177,11 @@ class NLPostcodeChecker extends Base {
 	}
 
 	function fix_shipping_preview( $address, $checkout ) {
-		$address['address_1'] = $checkout->get_value( 'shipping_street_name' ) . ' ' . $checkout->get_value( 'shipping_house_number' ) . ' ' . $checkout->get_value( 'shipping_house_number_suffix' );
+		$address['address_1'] = $checkout->get_value( 'shipping_street_name' ) . ' ' . $checkout->get_value( 'shipping_house_number' );
+
+		if ( ! empty( $checkout->get_value( 'shipping_house_number_suffix' ) ) ) {
+			$address['address_1'] = $address['address_1'] . '-' . $checkout->get_value( 'shipping_house_number_suffix' );
+		}
 
 		return $address;
 	}

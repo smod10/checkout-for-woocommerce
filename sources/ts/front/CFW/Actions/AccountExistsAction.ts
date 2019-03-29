@@ -1,5 +1,4 @@
 import { Action }                       from "./Action";
-import { AccountExistsResponse }        from "../Types/Types";
 import { AccountExistsData }            from "../Types/Types";
 import { AjaxInfo }                     from "../Types/Types";
 
@@ -34,7 +33,6 @@ export class AccountExistsAction extends Action {
         // Object prep
         let data: AccountExistsData = {
             "wc-ajax": id,
-            security: ajaxInfo.nonce,
             email: email
         };
 

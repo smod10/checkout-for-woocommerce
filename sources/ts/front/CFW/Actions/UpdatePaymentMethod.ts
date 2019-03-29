@@ -16,7 +16,6 @@ export class UpdatePaymentMethod extends Action {
     constructor(id: string, ajaxInfo: AjaxInfo, payment_method: string) {
         let data: PaymentMethodData = {
             "wc-ajax": id,
-            security: ajaxInfo.nonce,
             payment_method: payment_method
         };
 

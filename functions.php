@@ -99,7 +99,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 		$field           = '';
 		$label_id        = $args['id'];
-		$sort            = $args['priority'] ? $args['priority'] : '';
 		$field_container_start = '';
 
 		if( isset($args['wrap']) && !empty($args['wrap']) ) {
@@ -132,7 +131,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 				/* Get Country */
 				$country_key = 'billing_state' === $key ? 'billing_country' : 'shipping_country';
-				$current_cc  = WC()->checkout->get_value( $country_key );
+				$current_cc  = WC()->checkout()->get_value( $country_key );
 				$states      = WC()->countries->get_states( $current_cc );
 
 				if ( is_array( $states ) && empty( $states ) ) {
@@ -173,6 +172,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 				break;
 			case 'password' :
 			case 'text' :
+			case 'hidden' :
 			case 'email' :
 			case 'tel' :
 			case 'number' :

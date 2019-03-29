@@ -532,8 +532,7 @@ class Main extends Singleton {
 					'checkoutFormSelector' => apply_filters( 'cfw_checkout_form_selector', '.woocommerce-checkout' ),
 				),
 				'ajaxInfo'      => array(
-					'url'   => get_home_url(),
-					'nonce' => wp_create_nonce( 'cfw_nonce' ),
+					'url'   => trailingslashit( get_home_url() ),
 				),
 				'compatibility' => apply_filters( 'cfw_typescript_compatibility_classes_and_params', array() ),
 				'settings'      => array(
@@ -914,6 +913,6 @@ class Main extends Singleton {
 	}
 
 	public static function is_checkout() {
-		return apply_filters('cfw_is_checkout', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() );
+		return apply_filters('cfw_is_checkout', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() && empty( $_GET['bypass-cfw'] ) );
 	}
 }

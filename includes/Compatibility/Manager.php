@@ -13,6 +13,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\Square;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\ToCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\ActiveCampaign;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\BlueCheck;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutFieldEditor;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutManager;
@@ -147,6 +148,9 @@ class Manager {
 
 		// Order Delivery Date
 		new OrderDeliveryDate();
+
+		// BlueCheck
+		new BlueCheck();
 
 
 		/**

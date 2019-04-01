@@ -116,8 +116,14 @@ class PostNL extends Base {
 			),
 		);
 
-		unset( $fields['address_1'] );
-		unset( $fields['address_2'] );
+		$fields['address_1']['type'] = 'hidden';
+		$fields['address_1']['start'] = false;
+		unset( $fields['address_1']['custom_attributes'] );
+		unset( $fields['address_1']['input_class'] );
+		$fields['address_2']['type'] = 'hidden';
+		$fields['address_2']['end'] = false;
+		unset( $fields['address_2']['custom_attributes'] );
+		unset( $fields['address_2']['input_class'] );
 
 		return $fields;
 	}

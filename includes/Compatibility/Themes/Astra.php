@@ -14,6 +14,13 @@ class Astra extends Base {
 		add_action( 'wp', array( $this, 'remove_astra_scripts' ) );
 	}
 
+	public function remove_scripts( $scripts ) {
+		// This prevents basically all Astra Add-on scripts from loading
+		$scripts['astra-addon-js'] = 'astra-addon-js';
+
+		return $scripts;
+	}
+
 	public function remove_astra_scripts() {
 		if ( Main::is_checkout() ) {
 			remove_all_actions( 'astra_get_js_files' );

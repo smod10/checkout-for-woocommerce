@@ -633,7 +633,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 		    <?php do_action('cfw_checkout_before_payment_methods'); ?>
 
-            <?php if ( WC()->cart->get_total( false ) > 0 ): ?>
+            <?php if ( WC()->cart->needs_payment() ): ?>
                 <div class="cfw-payment-method-information-wrap">
                     <div>
                         <span class="cfw-small secure-notice"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', 'checkout-wc' ); ?></span>

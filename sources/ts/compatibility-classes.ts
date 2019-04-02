@@ -1,5 +1,6 @@
 import { CompatibilityFactory } from "./front/CFW/Factories/CompatibilityFactory";
 import { AmazonPay } from "./front/CFW/Compatibility/AmazonPay";
+import { BlueCheck } from "./front/CFW/Compatibility/BlueCheck";
 import { Braintree } from "./front/CFW/Compatibility/Braintree";
 import { EUVatNumber } from "./front/CFW/Compatibility/EUVatNumber";
 import { KlarnaCheckout } from "./front/CFW/Compatibility/KlarnaCheckout";
@@ -13,6 +14,7 @@ export let CompatibilityClasses: any = {};
 
 CompatibilityClasses.CompatibilityFactory = CompatibilityFactory;
 CompatibilityClasses.AmazonPay = AmazonPay;
+CompatibilityClasses.BlueCheck = BlueCheck;
 CompatibilityClasses.Braintree = Braintree;
 CompatibilityClasses.EUVatNumber = EUVatNumber;
 CompatibilityClasses.KlarnaCheckout = KlarnaCheckout;

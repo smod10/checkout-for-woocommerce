@@ -14,6 +14,7 @@ class BlueCheck extends Base {
 	}
 
 	function add_shipping_different_checkbox() {
+	    if ( ! WC()->cart->needs_shipping_address() ) return;
 		?>
 		<div style="display:none;">
 			<input id="ship-to-different-address-checkbox" type="checkbox" name="ship_to_different_address" disabled="disabled" value="1" checked />

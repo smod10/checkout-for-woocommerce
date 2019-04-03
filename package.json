@@ -1,6 +1,6 @@
 {
   "name": "checkout-for-woocommerce",
-  "version": "2.13.6",
+  "version": "2.13.7",
   "description": "### Development installation instructions",
   "scripts": {
     "dev": "npx webpack --env development",
@@ -9,14 +9,15 @@
     "production-delete-minified": "cross-env CFW_DELETE_MIN=1 webpack -p",
     "watch": "npm run dev -- --watch",
     "test": "node tests/e2e-tests/cypress-runner.js",
-    "composer_install": "composer install"
+    "composer_install": "composer update --no-dev",
+    "composer_install_dev": "composer update"
   },
   "repository": {
     "type": "git",
     "url": "git+https://btassone@bitbucket.org/cgdinc/checkout-for-woocommerce.git"
   },
   "author": "Objectiv <clif@objectiv.co> (https://objectiv.co/)",
-  "license": "ISC",
+  "license": "GPLv2+",
   "homepage": "https://bitbucket.org/cgdinc/checkout-for-woocommerce#readme",
   "devDependencies": {
     "autoprefixer": "^9.4.2",

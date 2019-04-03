@@ -459,7 +459,9 @@ class StatCollection extends Singleton {
 			$start_date_interval = new DateInterval( $interval );
 			$start_date          = ( new DateTime() )->sub( $start_date_interval )->format( 'Y-m-d' );
 		} catch ( \Exception $exception ) {
-			d( $exception );
+		    if ( defined('CFW_DEV_MODE') && CFW_DEV_MODE ) {
+			    d( $exception );
+            }
 		}
 
 		$wc_path = WC()->plugin_path();

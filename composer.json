@@ -22,12 +22,14 @@
         },
         "files": ["constants.php", "functions.php"]
     },
+    "require-dev": {
+        "kint-php/kint": "^3.2",
+        "vlucas/phpdotenv": "^2.5"
+    },
     "require": {
-        "kint-php/kint": "2.*",
         "objectivco/wordpress-simple-settings": "^0.5.0",
         "objectivco/cgd_eddsl_magic": "^0.4.0",
         "objectivco/wp_tabbed_navigation": "^0.1.0",
-        "objectivco/booster-seat": "^1.0.10",
-        "vlucas/phpdotenv": "^2.5"
+        "objectivco/booster-seat": "^1.0.10"
     }
 }

@@ -17,7 +17,7 @@
     "url": "git+https://btassone@bitbucket.org/cgdinc/checkout-for-woocommerce.git"
   },
   "author": "Objectiv <clif@objectiv.co> (https://objectiv.co/)",
-  "license": "ISC",
+  "license": "GPLv2+",
   "homepage": "https://bitbucket.org/cgdinc/checkout-for-woocommerce#readme",
   "devDependencies": {
     "autoprefixer": "^9.4.2",

@@ -119,7 +119,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                 <div class="cfw-input-wrap cfw-check-input">
                                                     <?php if( ! WC()->checkout()->is_registration_required() && WC()->checkout()->is_registration_enabled() ): ?>
                                                         <input type="checkbox" id="createaccount" class="garlic-auto-save" name="createaccount" />
-                                                        <label class="cfw-small" for="createaccount"><?php printf( apply_filters('cfw_create_account_checkbox_label', esc_html__('Create %s shopping account.', 'checkout-wc') ), get_bloginfo('name') ); ?></label>
+                                                        <label class="cfw-small" for="createaccount"><?php printf( apply_filters('cfw_create_account_checkbox_label', esc_html__('Create %s shopping account.', 'checkout-wc') ), apply_filters( 'cfw_create_account_site_name', get_bloginfo('name') ) ); ?></label>
                                                     <?php elseif ( WC()->checkout()->is_registration_required() ): ?>
                                                         <span class="cfw-small"><?php esc_html_e('If you do not have an account, we will create one for you.', 'checkout-wc'); ?></span>
                                                     <?php endif; ?>

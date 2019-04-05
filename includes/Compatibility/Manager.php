@@ -42,6 +42,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommercePriceBasedOnCountry;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSmartCoupons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\YITHGiftCards;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Astra;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\BeaverBuilder;
@@ -151,6 +152,9 @@ class Manager {
 
 		// BlueCheck
 		new BlueCheck();
+
+		// YITH Gift Cards Premium
+		new YITHGiftCards();
 
 
 		/**

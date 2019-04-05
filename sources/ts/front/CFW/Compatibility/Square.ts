@@ -13,8 +13,16 @@ export class Square extends Compatibility {
     }
 
     load( main: Main ): void {
+        let easyTabsWrap: any = main.easyTabService.easyTabsWrap;
+
         jQuery(window).on('payment_method_selected cfw_updated_checkout', () => {
             jQuery.wc_square_payments.loadForm();
+        } );
+
+        easyTabsWrap.bind('easytabs:after', (event, clicked, target) => {
+            if ( jQuery(target).attr('id') == 'cfw-payment-method' ) {
+                jQuery.wc_square_payments.loadForm();
+            }
         } );
     }
 }

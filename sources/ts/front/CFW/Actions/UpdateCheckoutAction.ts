@@ -149,6 +149,16 @@ export class UpdateCheckoutAction extends Action {
         Cart.outputValues(main.cart, resp.new_totals);
 
         /**
+         * Update Fragments, if we get any from other plugins
+         */
+        // Always update the fragments
+        if ( resp.fragments ) {
+            jQuery.each( resp.fragments, function ( key, value ) {
+                jQuery( key ).replaceWith( value );
+            } );
+        }
+
+        /**
          * Re-init Payment Gateways
          */
         main.tabContainer.initSelectedPaymentGateway();

@@ -110,6 +110,7 @@ class UpdateCheckoutAction extends Action {
 				'updated_payment_methods'  => $updated_payment_methods,
 				'updated_place_order'      => cfw_get_place_order(),
 				'updated_cart'             => cfw_get_cart_html(),
+				'fragments'                => apply_filters( 'woocommerce_update_order_review_fragments', array() ),
 			)
 		);
 	}

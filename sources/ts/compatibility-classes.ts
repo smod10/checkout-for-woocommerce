@@ -9,6 +9,7 @@ import { PayPalCheckout } from "./front/CFW/Compatibility/PayPalCheckout";
 import { PayPalForWooCommerce } from "./front/CFW/Compatibility/PayPalForWooCommerce";
 import { Square } from "./front/CFW/Compatibility/Square";
 import { Webshipper } from "./front/CFW/Compatibility/Webshipper";
+import { WooFunnelsOrderBumps } from "./front/CFW/Compatibility/WooFunnelsOrderBumps";
 
 export let CompatibilityClasses: any = {};
 
@@ -23,3 +24,4 @@ CompatibilityClasses.PayPalCheckout = PayPalCheckout;
 CompatibilityClasses.PayPalForWooCommerce = PayPalForWooCommerce;
 CompatibilityClasses.Square = Square;
 CompatibilityClasses.Webshipper = Webshipper;
+CompatibilityClasses.WooFunnelsOrderBumps = WooFunnelsOrderBumps;

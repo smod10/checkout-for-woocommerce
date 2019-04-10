@@ -42,6 +42,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommercePriceBasedOnCountry;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSmartCoupons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooFunnelsOrderBumps;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\YITHGiftCards;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Astra;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
@@ -155,6 +156,9 @@ class Manager {
 
 		// YITH Gift Cards Premium
 		new YITHGiftCards();
+
+		// WooFunnels Order Bumps
+		new WooFunnelsOrderBumps();
 
 
 		/**

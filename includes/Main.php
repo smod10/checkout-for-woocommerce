@@ -679,7 +679,7 @@ class Main extends Singleton {
 					// Call Redirect
 					Redirect::checkout( $this->settings_manager, $this->path_manager, $this->template_manager, $this->version );
 				}
-			}
+			}, 11
 		);
 
 		// Admin toolbar

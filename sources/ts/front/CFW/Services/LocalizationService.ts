@@ -76,8 +76,20 @@ export class LocalizationService {
         this.layoutDefaultLabelsAndRequirements(shipping_country.val(), locale_data, "shipping", wc_address_i18n_params.add2_text);
         this.layoutDefaultLabelsAndRequirements(billing_country.val(), locale_data, "billing", wc_address_i18n_params.add2_text);
 
-        shipping_country.on('change', country_change).trigger('change');
-        billing_country.on('change', country_change).trigger('change');
+        shipping_country.on('change', country_change);
+        billing_country.on('change', country_change);
+
+        /**
+         * Required for WooCommerce 3.6
+         */
+        if ( ! shipping_state.is( ':visible' )  ) {
+            shipping_country.trigger( 'change' );
+        }
+
+        if ( ! billing_state.is( ':visible' )  ) {
+            billing_country.trigger( 'change' );
+        }
+
 
         shipping_postcode.attr("data-parsley-state-and-zip", shipping_country.val());
         billing_postcode.attr("data-parsley-state-and-zip", billing_country.val());

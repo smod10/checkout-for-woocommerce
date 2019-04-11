@@ -477,8 +477,6 @@ export class LocalizationService {
 
             Object.getOwnPropertyNames(state_list)
                 .forEach(state => select.append(`<option value="${state}">${state_list[state]}</option>`));
-
-            select.parents(".cfw-input-wrap").removeClass("cfw-floating-label");
         }
     }
 }

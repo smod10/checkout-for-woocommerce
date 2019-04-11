@@ -81,12 +81,14 @@ export class LocalizationService {
 
         /**
          * Required for WooCommerce 3.6
+         *
+         * TODO: Figure out why state resets on refresh
          */
-        if ( ! shipping_state.is( ':visible' )  ) {
+        if ( shipping_state.attr('type') == "hidden"  ) {
             shipping_country.trigger( 'change' );
         }
 
-        if ( ! billing_state.is( ':visible' )  ) {
+        if ( billing_state.attr('type') == "hidden"  ) {
             billing_country.trigger( 'change' );
         }
 

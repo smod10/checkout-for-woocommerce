@@ -276,7 +276,11 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	    $shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', $checkout->get_checkout_fields( 'shipping' ) );
 
 		foreach ( $shipping_checkout_fields as $key => $field ) {
-			cfw_form_field( $key, $field, $checkout->get_value( $key ) );
+			if ( isset( $field['wrap'] ) ) {
+				cfw_form_field( $key, $field, $checkout->get_value( $key ) );
+			} else {
+				woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
+			}
 		}
 	}
 
@@ -284,7 +288,11 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	    $billing_checkout_fields = apply_filters('cfw_get_billing_checkout_fields', $checkout->get_checkout_fields( 'billing' ) );
 
 		foreach ( $billing_checkout_fields as $key => $field ) {
-			cfw_form_field( $key, $field, $checkout->get_value( $key ) );
+			if ( isset( $field['wrap'] ) ) {
+				cfw_form_field( $key, $field, $checkout->get_value( $key ) );
+			} else if ( ! in_array( $key, array( 'billing_phone', 'billing_email' ) ) ) {
+				woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
+			}
 		}
 	}
 

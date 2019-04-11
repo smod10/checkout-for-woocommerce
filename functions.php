@@ -143,7 +143,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 				} elseif ( ! is_null( $current_cc ) && is_array( $states ) ) {
 
 					$field .= '<select field_key="' . $key_sans_type . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="state_select ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . $parsleyOut . ' data-placeholder="' . esc_attr( $args['placeholder'] ) . '">
-						<option value="">' . cfw_esc_html__( 'Select a state&hellip;', 'woocommerce' ) . '</option>';
+						<option disabled>' . cfw_esc_html__( 'Select a state&hellip;', 'woocommerce' ) . '</option>';
 
 					foreach ( $states as $ckey => $cvalue ) {
 						$field .= '<option value="' . esc_attr( $ckey ) . '" ' . selected( $value, $ckey, false ) . '>' . $cvalue . '</option>';

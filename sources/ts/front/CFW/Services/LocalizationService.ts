@@ -235,6 +235,10 @@ export class LocalizationService {
                         label = locale_data_for_field.label;
                     }
 
+                    if ( field_name == "state" ) {
+                        field.find('option:first').text( locale_data_for_field.label );
+                    }
+
                     let field_siblings = field.siblings(`.${label_class}`);
 
                     /**
@@ -382,7 +386,7 @@ export class LocalizationService {
             .tabContainerSectionBy("name", (info_type === "shipping") ? "customer_info" : "payment_method");
         let state_input_wrap = state_input.parent(".cfw-input-wrap");
 
-        if(state_input) {
+        if( ! state_input.is('select') ) {
             // Remove the old input
             state_input.remove();
         }
@@ -440,8 +444,8 @@ export class LocalizationService {
         }
 
         // Now that the state field is guaranteed to be a select, we need to populate it.
-        this.populateStates(current_state_field, state_list_for_country);
-        this.setCountryOnZipAndState(current_zip_field, current_state_field, target_country);
+        this.populateStates( current_state_field, state_list_for_country, target_country );
+        this.setCountryOnZipAndState( current_zip_field, current_state_field, target_country );
     }
 
     /**
@@ -460,15 +464,19 @@ export class LocalizationService {
      *
      * @param select
      * @param state_list
+     * @param target_country
      */
-    populateStates(select, state_list) {
-        if(select.is("select")) {
+    populateStates( select, state_list, target_country ) {
+        if( select.is("select") ) {
+            let locale_data = JSON.parse(wc_address_i18n_params.locale);
+            let state_label = locale_data[ target_country ].state.label;
+
             select.empty();
 
-            select.append(`<option value="">Select a state...</option>`);
+            select.append(`<option disabled>${state_label}</option>`);
 
             Object.getOwnPropertyNames(state_list)
-                .forEach(state => select.append(`<option value="${state}">${state_list[state]}</option>}`));
+                .forEach(state => select.append(`<option value="${state}">${state_list[state]}</option>`));
 
             select.parents(".cfw-input-wrap").removeClass("cfw-floating-label");
         }

@@ -68,6 +68,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             <?php echo apply_filters('cfw_customer_information_heading', __( 'Customer information', 'checkout-wc' ) ); ?>
                                         </h3>
 
+	                                    <?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
+
                                         <?php if( ! is_user_logged_in() ): ?>
 
                                             <?php if ( 'yes' === get_option( 'woocommerce_enable_checkout_login_reminder' ) ): ?>
@@ -169,6 +171,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <?php endif; ?>
                                     </div>
 
+	                                <?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
                                     <?php do_action('cfw_checkout_after_customer_info_tab'); ?>
                                 </div>
 

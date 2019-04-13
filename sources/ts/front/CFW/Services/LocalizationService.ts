@@ -92,6 +92,15 @@ export class LocalizationService {
             billing_country.trigger( 'change' );
         }
 
+        /**
+         * Make sure billing states load correctly when hidden on load
+         *
+         * TODO: We need to make this shit better
+         */
+        jQuery('[name=ship_to_different_address]').change( function() {
+            billing_country.trigger('change');
+        } );
+
 
         shipping_postcode.attr("data-parsley-state-and-zip", shipping_country.val());
         billing_postcode.attr("data-parsley-state-and-zip", billing_country.val());

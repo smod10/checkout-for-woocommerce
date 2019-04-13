@@ -98,7 +98,11 @@ export class LocalizationService {
          * TODO: We need to make this shit better
          */
         jQuery('[name=ship_to_different_address]').change( function() {
-            billing_country.trigger('change');
+            if ( jQuery(this).val() == "different_from_shipping" ) {
+                let billing_state_val = billing_state.val();
+                billing_country.trigger('change');
+                billing_state.val( billing_state_val );
+            }
         } );
 
 

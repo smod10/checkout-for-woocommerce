@@ -38,8 +38,31 @@ class PayPalForWooCommerce extends Base {
 			add_action( 'cfw_payment_request_buttons', array( $this, 'add_paypal_express_to_checkout' ) );
 
 			// Remove top of checkout message
-			remove_action('woocommerce_before_checkout_form', array($Angelleye_PayPal_Express_Checkout_Helper, 'checkout_message'), 5);
+			remove_action( 'woocommerce_before_checkout_form', array( $Angelleye_PayPal_Express_Checkout_Helper, 'checkout_message' ), 5 );
+
+			// Intercept PPE express process_checkout calls and clean up the post data
+			add_action( 'woocommerce_api_request', array( $this, 'maybe_shim_billing_fields' ), 1, 1 );
 		}
+	}
+
+	function maybe_shim_billing_fields( $api_request ) {
+		// Is this a request to PayPal for WooCommerce and is it from checkout?
+		if ( $api_request == strtolower( 'WC_Gateway_PayPal_Express_AngellEYE' ) && isset( $_POST['from_checkout'] ) && 'yes' === $_POST['from_checkout'] ) {
+
+			// Is the CFW flag present and is it set to use the shipping address as the billing address?
+			if ( isset( $_POST['ship_to_different_address'] ) && $_POST['ship_to_different_address'] == 'same_as_shipping' ) {
+				foreach ( $_POST as $key => $value ) {
+					// If this is a shipping field, create a duplicate billing field
+					if ( substr( $key, 0, 9 ) == 'shipping_' ) {
+						$billing_field_key = substr_replace( $key, 'billing_', 0, 9 );
+
+						$_POST[ $billing_field_key ] = $value;
+					}
+				}
+			}
+		}
+
+		// do nothing
 	}
 
 	function modify_payment_button_output( $button_output ) {
@@ -57,7 +80,7 @@ class PayPalForWooCommerce extends Base {
 	}
 
 	function add_paypal_express_to_checkout() {
-	    // This is required because it's used down below in anonymous functions
+		// This is required because it's used down below in anonymous functions
 		global $Angelleye_PayPal_Express_Checkout_Helper;
 
 		if ( Main::is_checkout() ) {
@@ -75,10 +98,10 @@ class PayPalForWooCommerce extends Base {
 			if ( ! empty( $Angelleye_PayPal_Express_Checkout_Helper ) && $Angelleye_PayPal_Express_Checkout_Helper->show_on_checkout == 'top' || $Angelleye_PayPal_Express_Checkout_Helper->show_on_checkout == 'both' ) {
 				add_action(
 					'cfw_checkout_after_payment_methods', function () {
-					global $Angelleye_PayPal_Express_Checkout_Helper;
+						global $Angelleye_PayPal_Express_Checkout_Helper;
 
-					echo '<p class="paypal-cancel-wrapper">' . $Angelleye_PayPal_Express_Checkout_Helper->angelleye_woocommerce_order_button_html( '' ) . '</p>';
-				}
+						echo '<p class="paypal-cancel-wrapper">' . $Angelleye_PayPal_Express_Checkout_Helper->angelleye_woocommerce_order_button_html( '' ) . '</p>';
+					}
 				);
 
 				$Angelleye_PayPal_Express_Checkout_Helper->checkout_message();

@@ -278,6 +278,11 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 		foreach ( $shipping_checkout_fields as $key => $field ) {
 			if ( isset( $field['wrap'] ) ) {
 				cfw_form_field( $key, $field, $checkout->get_value( $key ) );
+
+				$field_name = str_ireplace('shipping_', 'billing_', $key );
+				$field_value = $checkout->get_value( $key );
+
+				echo "<input type='hidden' name='{$field_name}' value='{$field_value}' />";
 			} else {
 				woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
 			}

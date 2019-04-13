@@ -57,6 +57,13 @@ export class Braintree extends Compatibility {
 				this.savedPaymentMethods();
 			} );
 
+			jQuery(document.body).on( 'payment_method_selected', () => {
+				if ( jQuery('iframe[name=braintree-hosted-field-number]').length == 0 ) {
+					this.creditCardRefresh();
+					this.savedPaymentMethods();
+				}
+			} );
+
 			window.addEventListener("cfw-payment-error-observer-ignore-list", () => {
 				(<any>window).errorObserverIgnoreList.push("Currently unavailable. Please try a different payment method.");
 			});

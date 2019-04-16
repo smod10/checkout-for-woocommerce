@@ -249,7 +249,8 @@ class Form {
 
 		foreach ( $fields as $index => $field ) {
 			// Add our wrap
-			$fields[ $index ]['wrap'] = $this->input_wrap( $field['type'], $field['columns'], $field['priority'] );
+			$fields[ $index ]['type'] = empty( $field['type'] ) ? 'text' : $field['type'];
+			$fields[ $index ]['wrap'] = $this->input_wrap( $fields[ $index ]['type'], $field['columns'], $field['priority'] );
 
 			// If we flagged this field in the last loop iteration to be
 			// the start of a row, or we are on the first iteration, set start to true
@@ -304,8 +305,6 @@ class Form {
 
 			$last_index = $index;
 		}
-
-		d($fields);
 
 		return $fields;
 	}

@@ -236,7 +236,7 @@ class Form {
 			);
 		}
 
-		$fields = apply_filters( 'cfw_calculate_field_rows', $fields );
+		$fields = apply_filters( 'cfw_default_address_fields', $fields );
 
 		return $fields;
 	}

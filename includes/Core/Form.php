@@ -248,19 +248,29 @@ class Form {
 		$last_index         = false;
 
 		foreach ( $fields as $index => $field ) {
+			// Convert to field types for wrap
+			if ( in_array( $field['type'], array( 'state', 'country' ) ) ) {
+				$wrap_type = 'select';
+			} elseif( empty( $field['type'] ) ) {
+				$wrap_type = 'text';
+			} else {
+				$wrap_type = $field['type'];
+			}
+
 			// Add our wrap
-			$fields[ $index ]['type'] = empty( $field['type'] ) ? 'text' : $field['type'];
-			$fields[ $index ]['wrap'] = $this->input_wrap( $fields[ $index ]['type'], $field['columns'], $field['priority'] );
+			$fields[ $index ]['wrap'] = $this->input_wrap( $wrap_type, $field['columns'], $field['priority'] );
 
 			// If we flagged this field in the last loop iteration to be
 			// the start of a row, or we are on the first iteration, set start to true
 			if ( $start === true ) {
-				$fields[ $index ]['start'] = $start;
+				$fields[ $index ]['start'] = true;
 
+				// Make sure the last field was an end, if this is a start
 				if ( $last_index !== false ) {
 					$fields[ $last_index ]['end'] = true;
 				}
 
+				// Set start to null
 				$start = null;
 			}
 
@@ -276,25 +286,39 @@ class Form {
 				$fields[ $index ]['start'] = true;
 				$fields[ $index ]['end'] = true;
 
+				// Next field should be start of row
 				$start = true;
 			} elseif ( $summed_column_size + $field['columns'] > $max_size  ) {
 				$fields[ $index ]['start'] = true;
 
+				// Since this is the start, last field should be the end
 				if ( $last_index !== false ) {
 					$fields[ $last_index ][ 'end' ] = true;
 				}
 
+				// Reset size counter
 				$summed_column_size = 0;
 			} elseif ( $summed_column_size + $field['columns'] < $max_size ) {
-				// Do nothing?
+				// Add to summed size
 				$summed_column_size = $summed_column_size + $field['columns'];
+
+				// Not the end, so set to false
 				$fields[ $index ]['end'] = false;
 			} elseif ( $summed_column_size + $field['columns'] === $max_size ) {
+				// Reset summed size to 0
 				$summed_column_size = 0;
+
+				// This is the end
 				$fields[ $index ]['end'] = true;
+
+				// So the next field is logically the beginning
 				$start = true;
 			}
 
+			/**
+			 * If for some reason neither start or end are set above,
+			 * Init both values to false
+			 */
 			if ( ! isset( $fields[ $index ]['start'] ) ) {
 				$fields[ $index ]['start'] = false;
 			}
@@ -303,6 +327,7 @@ class Form {
 				$fields[ $index ]['end'] = false;
 			}
 
+			// Store this index so we can use it for backwards lookups later
 			$last_index = $index;
 		}
 

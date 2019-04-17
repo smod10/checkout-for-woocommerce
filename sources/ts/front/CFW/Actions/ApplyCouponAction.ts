@@ -2,7 +2,6 @@ import { Action }                       from "./Action";
 import { AjaxInfo }                     from "../Types/Types";
 import { Cart }                         from "../Elements/Cart";
 import { Alert, AlertInfo }             from "../Elements/Alert";
-import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 import { Main }                         from "../Main";
 import {TabContainer}                   from "../Elements/TabContainer";
 
@@ -32,7 +31,6 @@ export class ApplyCouponAction extends Action {
     constructor(id: string, ajaxInfo: AjaxInfo, code: string, cart: Cart, fields: any) {
         let data: {} = {
             "wc-ajax": id,
-            security: ajaxInfo.nonce,
             coupon_code: code
         };
 
@@ -43,10 +41,14 @@ export class ApplyCouponAction extends Action {
     }
 
     /**
+     *
      * @param resp
      */
-    @ResponsePrep
-    public response(resp: any): void {
+    public response( resp: any ): void {
+        if ( typeof resp !== "object" ) {
+            resp = JSON.parse( resp );
+        }
+
         let alertInfo: AlertInfo;
         let tabContainer: TabContainer = Main.instance.tabContainer;
 
@@ -82,6 +84,22 @@ export class ApplyCouponAction extends Action {
         alert.addAlert();
 
         tabContainer.triggerUpdateCheckout();
+    }
+
+    /**
+     * @param xhr
+     * @param textStatus
+     * @param errorThrown
+     */
+    public error( xhr: any, textStatus: string, errorThrown: string ): void {
+        let alertInfo: AlertInfo = {
+            type: "warning",
+            message: `Failed to apply coupon. Error: ${errorThrown} (${textStatus})`,
+            cssClass: "cfw-alert-danger"
+        };
+
+        let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
+        alert.addAlert();
     }
 
     /**

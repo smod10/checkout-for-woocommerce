@@ -32,8 +32,6 @@ class AccountExistsAction extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer( 'some-seed-word', 'security' );
-
 		$email = $_POST['email'];
 
 		$this->out(

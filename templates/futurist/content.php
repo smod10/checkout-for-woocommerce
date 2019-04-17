@@ -22,7 +22,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	    <?php if ( ! WC()->cart->is_empty() ): ?>
 
-	    <?php do_action('cfw_checkout_before_form'); ?>
+	    <?php do_action( 'cfw_checkout_before_form' ); ?>
+
+        <div class="cfw-container">
+            <div class="cfw-column-12">
+                <?php do_action( 'woocommerce_before_checkout_form', WC()->checkout() ); ?>
+            </div>
+        </div>
 
 	    <?php if( ! apply_filters('cfw_replace_form', false) ): ?>
             <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
@@ -74,6 +80,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <?php echo apply_filters('cfw_customer_information_heading', __( 'Customer information', 'checkout-wc' ) ); ?>
                                     </h3>
 
+                                    <?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
+
                                     <?php if( ! is_user_logged_in() ): ?>
 
                                         <?php if ( 'yes' === get_option( 'woocommerce_enable_checkout_login_reminder' ) ): ?>
@@ -118,7 +126,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             <div class="cfw-input-wrap cfw-check-input">
                                                 <?php if( ! WC()->checkout()->is_registration_required() && WC()->checkout()->is_registration_enabled() ): ?>
                                                     <input type="checkbox" id="createaccount" class="garlic-auto-save" name="createaccount" />
-                                                    <label class="cfw-small" for="createaccount"><?php printf( apply_filters('cfw_create_account_checkbox_label', esc_html__('Create %s shopping account.', 'checkout-wc') ), get_bloginfo('name') ); ?></label>
+                                                    <label class="cfw-small" for="createaccount"><?php printf( apply_filters('cfw_create_account_checkbox_label', esc_html__('Create %s shopping account.', 'checkout-wc') ), apply_filters( 'cfw_create_account_site_name', get_bloginfo('name') ) ); ?></label>
                                                 <?php elseif ( WC()->checkout()->is_registration_required() ): ?>
                                                     <span class="cfw-small"><?php esc_html_e('If you do not have an account, we will create one for you.', 'checkout-wc'); ?></span>
                                                 <?php endif; ?>
@@ -175,7 +183,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <?php endif; ?>
                                 </div>
 
-                                <?php do_action('cfw_checkout_after_customer_info_tab'); ?>
+                                <?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
+                                <?php do_action( 'cfw_checkout_after_customer_info_tab' ); ?>
                             </div>
 
                             <!-- Shipping Method Panel -->
@@ -284,7 +293,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <div id="cfw-cart-details-review-bar" class="cfw-sg-container">
                             <div class="cfw-column-8">
                                 <a id="cfw-show-cart-details">
-                                    <span class="cfw-link"><?php esc_html_e( 'Show order summary', 'checkout-wc' ); ?></span>
+                                    <span class="cfw-link"><?php echo apply_filters( 'cfw_show_order_summary_link_text', esc_html__( 'Show order summary', 'checkout-wc' ) ); ?></span>
                                     <svg id="cfw-cart-details-arrow" height="512px" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 "/></svg>
                                 </a>
                             </div>

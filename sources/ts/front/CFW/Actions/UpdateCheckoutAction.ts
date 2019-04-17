@@ -2,7 +2,6 @@ import { Action }                           from "./Action";
 import { AjaxInfo, FieldTypeInfo }          from "../Types/Types";
 import { Main }                             from "../Main";
 import { Cart, UpdateCartTotalsData }       from "../Elements/Cart";
-import { ResponsePrep }                     from "../Decorators/ResponsePrep";;
 
 declare let jQuery: any;
 
@@ -50,10 +49,14 @@ export class UpdateCheckoutAction extends Action {
     }
 
     /**
+     *
      * @param resp
      */
-    @ResponsePrep
-    public response(resp: any): void {
+    public response( resp: any ): void {
+        if ( typeof resp !== "object" ) {
+            resp = JSON.parse( resp );
+        }
+
         let main: Main = Main.instance;
 
         if(resp.fees) {
@@ -146,12 +149,22 @@ export class UpdateCheckoutAction extends Action {
         Cart.outputValues(main.cart, resp.new_totals);
 
         /**
+         * Update Fragments, if we get any from other plugins
+         */
+        // Always update the fragments
+        if ( resp.fragments ) {
+            jQuery.each( resp.fragments, function ( key, value ) {
+                jQuery( key ).replaceWith( value );
+            } );
+        }
+
+        /**
          * Re-init Payment Gateways
          */
         main.tabContainer.initSelectedPaymentGateway();
 
         /**
-         * A custom event that runs every time, since we are supressing
+         * A custom event that runs every time, since we are suppressing
          * updated_checkout if the payment gateways haven't updated
          */
 		jQuery(document.body).trigger( 'cfw_updated_checkout' );
@@ -163,6 +176,15 @@ export class UpdateCheckoutAction extends Action {
 
         main.updating = false;
         updated_payment_methods_container.unblock();
+    }
+
+    /**
+     * @param xhr
+     * @param textStatus
+     * @param errorThrown
+     */
+    public error( xhr: any, textStatus: string, errorThrown: string ): void {
+        console.log(`Update Checkout Error: ${errorThrown} (${textStatus})`);
     }
 
     /**

@@ -9,9 +9,11 @@ use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\KlarnaPayment;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\PayPalForWooCommerce;
+use Objectiv\Plugins\Checkout\Compatibility\Gateways\Square;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\Stripe;
 use Objectiv\Plugins\Checkout\Compatibility\Gateways\ToCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\ActiveCampaign;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\BlueCheck;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutAddressAutoComplete;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutFieldEditor;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\CheckoutManager;
@@ -20,30 +22,35 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\DirectCheckout;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EUVATNumber;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\FacebookForWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
-use Objectiv\Plugins\Checkout\Compatibility\Plugins\KodiakGiftCards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MailChimpforWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\NLPostcodeChecker;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OnePageCheckout;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\OrderDeliveryDate;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PixelCaffeine;
-use Objectiv\Plugins\Checkout\Compatibility\Plugins\PointsRewards;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\PostNL;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeCheckoutAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\SkyVergeSocialLogin;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\SmartSend;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnalytics;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\UltimateRewardsPoints;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\Webshipper;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceCore;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommercePriceBasedOnCountry;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSmartCoupons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceSubscriptions;
-use Objectiv\Plugins\Checkout\Compatibility\Plugins\WPGensReferAFriend;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooFunnelsOrderBumps;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\YITHGiftCards;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\Astra;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Avada;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\BeaverBuilder;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\GeneratePress;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\OceanWP;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\Porto;
+use Objectiv\Plugins\Checkout\Compatibility\Themes\Savoy;
 use Objectiv\Plugins\Checkout\Compatibility\Themes\TMOrganik;
 
 /**
@@ -126,12 +133,6 @@ class Manager {
 		// EU VAT Number
 		new EUVATNumber();
 
-		// Kodiak Gift Cards
-		new KodiakGiftCards();
-
-		// WP Gens Refer a Friend
-		new WPGensReferAFriend();
-
 		// SkyVerge WooCommerce Social Login
 		new SkyVergeSocialLogin();
 
@@ -140,6 +141,24 @@ class Manager {
 
 		// Facebook for WooCommerce
 		new FacebookForWooCommerce();
+
+		// Webshipper
+		new Webshipper();
+
+		// Smart Send
+		new SmartSend();
+
+		// Order Delivery Date
+		new OrderDeliveryDate();
+
+		// BlueCheck
+		new BlueCheck();
+
+		// YITH Gift Cards Premium
+		new YITHGiftCards();
+
+		// WooFunnels Order Bumps
+		new WooFunnelsOrderBumps();
 
 
 		/**
@@ -154,9 +173,6 @@ class Manager {
 
 		// Enhanced Ecommerce Google Analytics
 		new EnhancedEcommerceGoogleAnalytics();
-
-		// Points and Rewards
-		new PointsRewards();
 
 		// PayPal for WooCommerce
 		new PayPalForWooCommerce( $this );
@@ -179,6 +195,9 @@ class Manager {
 		// ToCheckout
 		new ToCheckout();
 
+		// Square
+		new Square();
+
 
 		/**
 		 * Themes
@@ -197,6 +216,15 @@ class Manager {
 
 		// Beaver Builder Theme
 		new BeaverBuilder();
+
+		// Astra
+		new Astra();
+
+		// Savoy
+		new Savoy();
+
+		// OceanWP
+		new OceanWP();
 
 
 		/**

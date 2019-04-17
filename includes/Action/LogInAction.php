@@ -32,8 +32,6 @@ class LogInAction extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer( 'some-seed-word', 'security' );
-
 		$info                  = array();
 		$info['user_login']    = $_POST['email'];
 		$info['user_password'] = $_POST['password'];

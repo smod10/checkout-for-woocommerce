@@ -32,8 +32,6 @@ class UpdatePaymentMethod extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer( 'some-seed-word', 'security' );
-
 		WC()->session->set( 'chosen_payment_method', empty( $_POST['payment_method'] ) ? '' : $_POST['payment_method'] );
 
 		$this->out( array('payment_method' => WC()->session->get( 'chosen_payment_method' ) ) );

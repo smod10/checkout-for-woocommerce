@@ -12,11 +12,14 @@ class NLPostcodeChecker extends Base {
 	function run() {
 		add_action('init', array($this, 'disable_nl_hooks'), 11 );
 		add_action('wp', array($this, 'wp') );
-		add_filter( 'woocommerce_default_address_fields', array( $this, 'add_new_fields' ), 100001, 1 ); // run after our normal hook
+		add_filter( 'woocommerce_default_address_fields', array( $this, 'modify_fields' ), 100001, 1 ); // run after our normal hook
 		add_filter( 'woocommerce_default_address_fields', array( $this, 'sort_fields' ), 200000, 1 ); // run after our normal hook
 		add_filter( 'woocommerce_get_country_locale', array($this, 'prevent_postcode_sort_change') );
 		add_action( 'wp_enqueue_scripts', array($this, 'adjust_deps'), 1000 );
 		add_filter( 'cfw_enable_zip_autocomplete', '__return_false' );
+
+		// Fix shipping preview
+		add_filter( 'cfw_get_shipping_details_address', array($this, 'fix_shipping_preview'), 10, 2 );
 
 		// Move form-row class to input container from row
 		add_filter( 'cfw_input_wrap_start', array($this, 'input_wrap_start') );
@@ -67,13 +70,31 @@ class NLPostcodeChecker extends Base {
 		remove_filter( 'woocommerce_get_country_locale', array($cfw->get_form(), 'prevent_postcode_sort_change') );
 	}
 
-	function add_new_fields( $fields ) {
+	function modify_fields( $fields ) {
 		$cfw = \Objectiv\Plugins\Checkout\Main::instance();
 
 		// Adjust postcode field
 		$fields['postcode']['priority'] = 11;
 		$fields['postcode']['start'] = true;
 		$fields['postcode']['end'] = false;
+
+		// Add street name
+		$fields['street_name'] = array(
+			'label'             => cfw__( 'Street name', 'wpo_wcnlpc' ),
+			'placeholder'       => cfw_esc_attr__( 'Street name', 'wpo_wcnlpc' ),
+			'required'          => true,
+			'class'             => array(),
+			'autocomplete'      => '',
+			'input_class'       => array( 'garlic-auto-save' ),
+			'priority'          => 14,
+			'wrap'              => $cfw->get_form()->input_wrap( 'text', 12, 10 ),
+			'label_class'       => 'cfw-input-label',
+			'start'             => true,
+			'end'               => true,
+			'custom_attributes' => array(
+				'data-parsley-trigger' => 'change focusout',
+			),
+		);
 
 		// Then add house number
 		$fields['house_number'] = array(
@@ -110,6 +131,15 @@ class NLPostcodeChecker extends Base {
 				'data-parsley-trigger' => 'change focusout',
 			),
 		);
+
+		$fields['address_1']['type'] = 'hidden';
+		$fields['address_1']['start'] = false;
+		unset( $fields['address_1']['custom_attributes'] );
+		unset( $fields['address_1']['input_class'] );
+		$fields['address_2']['type'] = 'hidden';
+		$fields['address_2']['end'] = false;
+		unset( $fields['address_2']['custom_attributes'] );
+		unset( $fields['address_2']['input_class'] );
 
 		return $fields;
 	}
@@ -150,5 +180,25 @@ class NLPostcodeChecker extends Base {
 		$input_row_wrap = str_replace( 'form-row', '', $input_row_wrap );
 
 		return $input_row_wrap;
+	}
+
+	function fix_shipping_preview( $address, $checkout ) {
+		$address['address_1'] = $checkout->get_value( 'shipping_street_name' ) . ' ' . $checkout->get_value( 'shipping_house_number' );
+
+		if ( ! empty( $checkout->get_value( 'shipping_house_number_suffix' ) ) ) {
+			$address['address_1'] = $address['address_1'] . '-' . $checkout->get_value( 'shipping_house_number_suffix' );
+		}
+
+		return $address;
+	}
+
+
+	function typescript_class_and_params( $compatibility ) {
+		$compatibility[] = [
+			'class'  => 'NLPostcodeChecker',
+			'params' => [],
+		];
+
+		return $compatibility;
 	}
 }

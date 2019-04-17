@@ -2,12 +2,18 @@
     "name": "objectivco/checkout-for-woocommerce",
     "description": "A beautiful, responsive and conversion optimized checkout theme for WooCommerce.",
     "type": "wordpress-plugin",
-    "optimize-autoloader": true,
-    "classmap-authoritative": true,
+    "config": {
+        "optimize-autoloader": true,
+        "classmap-authoritative": true
+    },
     "authors": [
         {
+            "name": "Clifton Griffin",
+            "email": "clif@objectiv.co"
+        },
+        {
             "name": "Brandon Tassone",
-            "email": "brandontassone@gmail.com"
+            "email": "brandon@objectiv.co"
         }
     ],
     "autoload": {
@@ -16,13 +22,14 @@
         },
         "files": ["constants.php", "functions.php"]
     },
-    "require": {
-        "filp/whoops": "1.1.10",
-        "kint-php/kint": "2.*",
-        "objectivco/wordpress-simple-settings": "^0.5.0",
-        "objectivco/cgd_eddsl_magic": "^0.3.3",
-        "objectivco/wp_tabbed_navigation": "^0.1.0",
-        "objectivco/booster-seat": "^1.0.10",
+    "require-dev": {
+        "kint-php/kint": "^3.2",
         "vlucas/phpdotenv": "^2.5"
+    },
+    "require": {
+        "objectivco/wordpress-simple-settings": "^0.5.0",
+        "objectivco/cgd_eddsl_magic": "^0.4.0",
+        "objectivco/wp_tabbed_navigation": "^0.1.0",
+        "objectivco/booster-seat": "^1.0.10"
     }
 }

@@ -79,8 +79,10 @@ abstract class Base {
 	function remove_theme_styles( $styles ) {
 		global $wp_styles;
 
+		$theme_directory_uri = get_theme_root_uri();
+
 		foreach ( $wp_styles->registered as $wp_style ) {
-			if ( ! empty($wp_style->src) && stripos( $wp_style->src, '/themes/') !== false && stripos( $wp_style->src, '/checkout-wc/' ) === false ) {
+			if ( ! empty($wp_style->src) && stripos( $wp_style->src, $theme_directory_uri ) !== false && stripos( $wp_style->src, '/checkout-wc/' ) === false ) {
 				$styles[] = $wp_style->handle;
 			}
 		}
@@ -107,8 +109,10 @@ abstract class Base {
 	function remove_theme_scripts( $scripts ) {
 		global $wp_scripts;
 
+		$theme_directory_uri = get_theme_root_uri();
+
 		foreach ( $wp_scripts->registered as $wp_script ) {
-			if ( ! empty($wp_script->src) && stripos( $wp_script->src, '/themes/') !== false && stripos( $wp_script->src, '/checkout-wc/' ) === false ) {
+			if ( ! empty($wp_script->src) && stripos( $wp_script->src, $theme_directory_uri) !== false && stripos( $wp_script->src, '/checkout-wc/' ) === false ) {
 				$scripts[] = $wp_script->handle;
             }
 		}

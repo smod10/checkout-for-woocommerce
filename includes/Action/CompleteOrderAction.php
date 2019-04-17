@@ -32,8 +32,6 @@ class CompleteOrderAction extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer( 'some-seed-word', 'security' );
-
 		wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
 		// If the user is logged in don't try and get the user from the front end, just get it on the back before we checkout

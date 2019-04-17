@@ -10,7 +10,6 @@ class EUVATNumber extends Base {
 	}
 
 	public function run() {
-		add_action( 'cfw_checkout_after_payment_tab_billing_address', array( 'WC_EU_VAT_Number', 'vat_number_field' ) );
 		add_action( 'wp_enqueue_scripts', array($this, 'adjust_deps'), 1000 );
 	}
 
@@ -20,5 +19,14 @@ class EUVATNumber extends Base {
 		if ( ! empty($wp_scripts->registered['wc-eu-vat']) ) {
 			$wp_scripts->registered['wc-eu-vat']->deps = array('jquery');
 		}
+	}
+
+	function typescript_class_and_params( $compatibility ) {
+		$compatibility[] = [
+			'class'  => 'EUVatNumber',
+			'params' => [],
+		];
+
+		return $compatibility;
 	}
 }

@@ -11,8 +11,6 @@ class UpdateCheckoutAction extends Action {
 	}
 
 	public function action() {
-		check_ajax_referer( 'some-seed-word', 'security' );
-
 		wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
 		do_action( 'woocommerce_checkout_update_order_review', $_POST['post_data'] );
@@ -80,7 +78,7 @@ class UpdateCheckoutAction extends Action {
 		/**
 		 * If gateways haven't changed, set to false so that we don't replace
 		 */
-		if ( cfw_get_payment_methods_html_fingerprint( $payment_methods_html ) == $_POST['cfw_payment_methods_fingerprint'] && ( empty( $_POST['force_updated_checkout'] ) || $_POST['force_updated_checkout'] !== 'true' ) ) {
+		if ( WC()->cart->needs_payment() && cfw_get_payment_methods_html_fingerprint( $payment_methods_html ) == $_POST['cfw_payment_methods_fingerprint'] && ( empty( $_POST['force_updated_checkout'] ) || $_POST['force_updated_checkout'] !== 'true' ) ) {
 			$updated_payment_methods = false;
 		}
 
@@ -112,6 +110,7 @@ class UpdateCheckoutAction extends Action {
 				'updated_payment_methods'  => $updated_payment_methods,
 				'updated_place_order'      => cfw_get_place_order(),
 				'updated_cart'             => cfw_get_cart_html(),
+				'fragments'                => apply_filters( 'woocommerce_update_order_review_fragments', array() ),
 			)
 		);
 	}

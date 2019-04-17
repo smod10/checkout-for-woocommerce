@@ -48,7 +48,6 @@ export abstract class Action {
     public static prep(id: string, ajaxInfo: AjaxInfo, items: any) {
         let data: any = {
             "wc-ajax": id,
-            security: ajaxInfo.nonce,
         };
 
         (<any>Object).assign(data, items);
@@ -60,14 +59,29 @@ export abstract class Action {
      * Fire ze ajax
      */
     load(): void {
-        jQuery.post(this.url, this.data, this.response.bind(this));
+        jQuery.ajax({
+            type: "POST",
+            url: this.url,
+            data: this.data,
+            success: this.response.bind(this),
+            error: this.error.bind(this),
+            dataType: 'json'
+        });
     }
 
     /**
      * Our ajax response handler. Overridden in child classes
      * @param resp
      */
-    abstract response(resp: Object): void;
+    abstract response( resp: any ): void;
+
+    /**
+     * Our ajax error handler. Overridden in child classes
+     * @param xhr
+     * @param textStatus
+     * @param errorThrown
+     */
+    abstract error( xhr: any, textStatus: string, errorThrown: string ): void;
 
     /**
      * @returns {string}

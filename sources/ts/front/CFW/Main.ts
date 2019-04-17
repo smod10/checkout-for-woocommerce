@@ -118,6 +118,12 @@ export class Main {
 	private _errorObserver: MutationObserver;
 
 	/**
+	 * @type any
+	 * @private
+	 */
+	private _updateCheckoutTimer: any;
+
+	/**
 	 * @type {Main}
 	 * @private
 	 * @static
@@ -171,12 +177,6 @@ export class Main {
 
 		// Setup events and event listeners
 		this.eventSetup();
-
-		jQuery('#shipping_first_name').on('keyup', (e) => this.someFunc(e));
-	}
-
-	someFunc(e): void {
-		console.log(this, jQuery(e.currentTarget));
 	}
 
 	/**
@@ -592,6 +592,14 @@ export class Main {
 	 */
 	set force_updated_checkout(value: boolean) {
 		this._force_updated_checkout = value;
+	}
+
+	get updateCheckoutTimer(): any {
+		return this._updateCheckoutTimer;
+	}
+
+	set updateCheckoutTimer(value: any) {
+		this._updateCheckoutTimer = value;
 	}
 
 	/**

@@ -1,9 +1,7 @@
 import { Action }                       from "./Action";
-import { LogInResponse }                from "../Types/Types";
 import { LogInData }                    from "../Types/Types";
 import { AjaxInfo }                     from "../Types/Types";
 import { Alert, AlertInfo }             from "../Elements/Alert";
-import { ResponsePrep }                 from "../Decorators/ResponsePrep";
 import { Main }                         from "../Main";
 
 declare let jQuery: any;
@@ -30,7 +28,6 @@ export class LoginAction extends Action {
     constructor(id: string, ajaxInfo: AjaxInfo, email: string, password: string) {
         let data: LogInData = {
             "wc-ajax": id,
-            security: ajaxInfo.nonce,
             email: email,
             password: password
         };
@@ -42,10 +39,12 @@ export class LoginAction extends Action {
      *
      * @param resp
      */
-    @ResponsePrep
-    public response(resp: LogInResponse): void {
+    public response( resp: any ): void {
+        if ( typeof resp !== "object" ) {
+            resp = JSON.parse( resp );
+        }
 
-        if(resp.logged_in) {
+        if( resp.logged_in ) {
             location.reload();
         } else {
             let alertInfo: AlertInfo = {
@@ -57,5 +56,21 @@ export class LoginAction extends Action {
             let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
             alert.addAlert();
         }
+    }
+
+    /**
+     * @param xhr
+     * @param textStatus
+     * @param errorThrown
+     */
+    public error( xhr: any, textStatus: string, errorThrown: string ): void {
+        let alertInfo: AlertInfo = {
+            type: "warning",
+            message: `An error occurred during login. Error: ${errorThrown} (${textStatus})`,
+            cssClass: "cfw-alert-danger"
+        };
+
+        let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
+        alert.addAlert();
     }
 }

@@ -371,7 +371,6 @@ class Main extends Singleton {
 	/**
 	 * Enables libraries and functions for the specific task of aiding in development
 	 *
-	 * Whoops - Pretty Errors
 	 * Kint - Pretty Debug
 	 *
 	 * @since 1.0.0
@@ -533,8 +532,7 @@ class Main extends Singleton {
 					'checkoutFormSelector' => apply_filters( 'cfw_checkout_form_selector', '.woocommerce-checkout' ),
 				),
 				'ajaxInfo'      => array(
-					'url'   => get_home_url(),
-					'nonce' => wp_create_nonce( 'some-seed-word' ),
+					'url'   => trailingslashit( get_home_url() ),
 				),
 				'compatibility' => apply_filters( 'cfw_typescript_compatibility_classes_and_params', array() ),
 				'settings'      => array(
@@ -588,11 +586,15 @@ class Main extends Singleton {
 			)
 		);
 
+		// Get shipping fields so we can access correct address 2 label
+		// TODO: Why do we need add2_text?
+		$shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', WC()->checkout()->get_checkout_fields( 'shipping' ) );
+
 		wp_localize_script(
 			'cfw_front_js', 'wc_address_i18n_params', array(
 				'locale'             => json_encode( WC()->countries->get_country_locale() ),
 				'locale_fields'      => json_encode( WC()->countries->get_country_locale_field_selectors() ),
-				'add2_text'          => __( 'Apt, suite, etc. (optional)', 'checkout-wc' ),
+				'add2_text'          => $shipping_checkout_fields[ 'shipping_address_2' ][ 'label' ],
 				'i18n_required_text' => cfw_esc_attr__( 'required', 'woocommerce' ),
 			)
 		);
@@ -677,7 +679,7 @@ class Main extends Singleton {
 					// Call Redirect
 					Redirect::checkout( $this->settings_manager, $this->path_manager, $this->template_manager, $this->version );
 				}
-			}
+			}, 11
 		);
 
 		// Admin toolbar
@@ -911,6 +913,6 @@ class Main extends Singleton {
 	}
 
 	public static function is_checkout() {
-		return apply_filters('cfw_is_checkout', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() );
+		return apply_filters('cfw_is_checkout', function_exists('is_checkout') && is_checkout() && ! is_order_received_page() && ! is_checkout_pay_page() && empty( $_GET['bypass-cfw'] ) );
 	}
 }

@@ -15,6 +15,11 @@ class PostNL extends Base {
 		add_filter( 'woocommerce_default_address_fields', array( $this, 'add_new_fields' ), 100001, 1 ); // run after our normal hook
 		add_filter( 'woocommerce_default_address_fields', array( $this, 'sort_fields' ), 200000, 1 ); // run after our normal hook
 		add_filter( 'woocommerce_get_country_locale', array($this, 'prevent_postcode_sort_change') );
+		add_filter( 'cfw_enable_zip_autocomplete', '__return_false' );
+		add_action( 'wp_enqueue_scripts', array($this, 'adjust_deps'), 1000 );
+
+		// Fix shipping preview
+		add_filter( 'cfw_get_shipping_details_address', array($this, 'fix_shipping_preview'), 10, 2 );
 
 		// Move form-row class to input container from row
 		add_filter( 'cfw_input_wrap_start', array($this, 'input_wrap_start') );
@@ -40,8 +45,8 @@ class PostNL extends Base {
 
 		if ( empty($WC_NLPostcode_Fields) ) return;
 
-		remove_filter( 'woocommerce_billing_fields', array( $WC_NLPostcode_Fields, 'nl_billing_fields' ), $priority, 2 );
-		remove_filter( 'woocommerce_shipping_fields', array( $WC_NLPostcode_Fields, 'nl_shipping_fields' ),$priority, 2 );
+		remove_filter( 'woocommerce_billing_fields', array( $WC_NLPostcode_Fields, 'nl_billing_fields' ), $priority );
+		remove_filter( 'woocommerce_shipping_fields', array( $WC_NLPostcode_Fields, 'nl_shipping_fields' ),$priority );
 	}
 
 	function wp() {
@@ -56,6 +61,24 @@ class PostNL extends Base {
 		$fields['postcode']['priority'] = 11;
 		$fields['postcode']['start'] = true;
 		$fields['postcode']['end'] = false;
+
+		// Add street name
+		$fields['street_name'] = array(
+			'label'             => cfw__( 'Street name', 'woocommerce-postnl' ),
+			'placeholder'       => cfw_esc_attr__( 'Street name', 'woocommerce-postnl' ),
+			'required'          => true,
+			'class'             => array(),
+			'autocomplete'      => '',
+			'input_class'       => array( 'garlic-auto-save' ),
+			'priority'          => 14,
+			'wrap'              => $cfw->get_form()->input_wrap( 'text', 12, 10 ),
+			'label_class'       => 'cfw-input-label',
+			'start'             => true,
+			'end'               => true,
+			'custom_attributes' => array(
+				'data-parsley-trigger' => 'change focusout',
+			),
+		);
 
 		// Then add house number
 		$fields['house_number'] = array(
@@ -93,6 +116,9 @@ class PostNL extends Base {
 			),
 		);
 
+		unset( $fields['address_1'] );
+		unset( $fields['address_2'] );
+
 		return $fields;
 	}
 
@@ -124,5 +150,23 @@ class PostNL extends Base {
 		$input_row_wrap = str_replace( 'form-row', '', $input_row_wrap );
 
 		return $input_row_wrap;
+	}
+
+	function adjust_deps() {
+		global $wp_scripts;
+
+		if ( ! empty($wp_scripts->registered['wcmp-checkout-fields']) ) {
+			$wp_scripts->registered['wcmp-checkout-fields']->deps = array('jquery');
+		}
+	}
+
+	function fix_shipping_preview( $address, $checkout ) {
+		$address['address_1'] = $checkout->get_value( 'shipping_street_name' ) . ' ' . $checkout->get_value( 'shipping_house_number' );
+
+		if ( ! empty( $checkout->get_value( 'shipping_house_number_suffix' ) ) ) {
+			$address['address_1'] = $address['address_1'] . '-' . $checkout->get_value( 'shipping_house_number_suffix' );
+		}
+
+		return $address;
 	}
 }

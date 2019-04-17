@@ -40,6 +40,9 @@ class Form {
 		} else {
 			add_filter( 'woocommerce_billing_fields', array( $this, 'unrequire_billing_phone' ), 10, 1 );
 		}
+
+		// Calculate rows for our fields
+		add_filter( 'cfw_calculate_field_rows', array($this, 'calculate_rows'), 0, 1 );
 	}
 
 	/**
@@ -83,7 +86,7 @@ class Form {
 	 * @return array
 	 */
 	public function get_custom_default_address_fields() {
-		$defaults = array(
+		$fields = array(
 			'first_name' => array(
 				'label'             => __( 'First name', 'checkout-wc' ),
 				'placeholder'       => esc_attr__( 'First name', 'checkout-wc' ),
@@ -92,12 +95,9 @@ class Form {
 				'autocomplete'      => 'given-name',
 				'autofocus'         => false,
 				'input_class'       => array( 'garlic-auto-save' ),
-				'priority'          => 1,
-				'wrap'              => $this->input_wrap( 'text', 6, 05 ),
+				'priority'          => 05,
+				'columns'           => 6,
 				'label_class'       => 'cfw-input-label',
-				'input_type'        => 'text',
-				'start'             => true,
-				'end'               => false,
 				'custom_attributes' => array(
 					'data-parsley-trigger' => 'change focusout',
 				),
@@ -109,12 +109,9 @@ class Form {
 				'class'             => array(),
 				'autocomplete'      => 'family-name',
 				'input_class'       => array( 'garlic-auto-save' ),
-				'priority'          => 2,
-				'wrap'              => $this->input_wrap( 'text', 6, 10 ),
+				'priority'          => 10,
+				'columns'           => 6,
 				'label_class'       => 'cfw-input-label',
-				'input_type'        => 'text',
-				'start'             => false,
-				'end'               => true,
 				'custom_attributes' => array(
 					'data-parsley-trigger' => 'change focusout',
 				),
@@ -126,12 +123,9 @@ class Form {
 				'class'             => array( 'address-field' ),
 				'autocomplete'      => 'address-line1',
 				'input_class'       => array( 'garlic-auto-save' ),
-				'priority'          => 3,
-				'wrap'              => $this->input_wrap( 'text', 8, 15 ),
+				'priority'          => 15,
+				'columns'           => 8,
 				'label_class'       => 'cfw-input-label',
-				'input_type'        => 'text',
-				'start'             => true,
-				'end'               => false,
 				'custom_attributes' => array(
 					'data-parsley-trigger' => 'change focusout',
 				),
@@ -143,12 +137,9 @@ class Form {
 				'required'     => false,
 				'autocomplete' => 'address-line2',
 				'input_class'  => array( 'garlic-auto-save' ),
-				'priority'     => 4,
-				'wrap'         => $this->input_wrap( 'text', 4, 20 ),
+				'priority'     => 20,
+				'columns'      => 4,
 				'label_class'  => 'cfw-input-label',
-				'input_type'   => 'text',
-				'start'        => false,
-				'end'          => true,
 			),
 			'company'    => array(
 				'label'        => __( 'Company name', 'checkout-wc' ),
@@ -156,12 +147,9 @@ class Form {
 				'class'        => array(),
 				'autocomplete' => 'organization',
 				'input_class'  => array( 'garlic-auto-save' ),
-				'priority'     => 5,
-				'wrap'         => $this->input_wrap( 'text', 12, 30 ),
+				'priority'     => 30,
+				'columns'      => 12,
 				'label_class'  => 'cfw-input-label',
-				'input_type'   => 'text',
-				'start'        => true,
-				'end'          => true,
 			),
 			'country'    => array(
 				'type'         => 'country',
@@ -170,13 +158,9 @@ class Form {
 				'class'        => array( 'address-field', 'update_totals_on_change' ),
 				'autocomplete' => 'country',
 				'input_class'  => array( 'garlic-auto-save' ),
-				'placeholder'  => 'Country',
-				'priority'     => 6,
-				'wrap'         => $this->input_wrap( 'select', 4, 40 ),
+				'priority'     => 40,
+				'columns'      => 4,
 				'label_class'  => 'cfw-input-label',
-				'input_type'   => 'select',
-				'start'        => true,
-				'end'          => false,
 				'is_select'    => true,
 			),
 			'postcode'   => array(
@@ -187,18 +171,15 @@ class Form {
 				'validate'          => array( 'postcode' ),
 				'autocomplete'      => 'postal-code',
 				'input_class'       => array( 'garlic-auto-save' ),
-				'priority'          => 7,
-				'wrap'              => $this->input_wrap( 'text', 4, 45 ),
+				'priority'          => 45,
+				'columns'           => 4,
 				'label_class'       => 'cfw-input-label',
-				'input_type'        => 'text',
 				'custom_attributes' => array(
 					'data-parsley-state-and-zip'     => '',
 					'data-parsley-validate-if-empty' => '',
 					'data-parsley-length'            => '[2,12]',
 					'data-parsley-trigger'           => 'keyup change focusout',
 				),
-				'start'             => false,
-				'end'               => false,
 			),
 			'state'      => array(
 				'type'              => 'state',
@@ -208,18 +189,15 @@ class Form {
 				'class'             => array( 'address-field' ),
 				'validate'          => array( 'state' ),
 				'autocomplete'      => 'address-level1',
-				'priority'          => 8,
-				'wrap'              => $this->input_wrap( 'select', 4, 50 ),
+				'priority'          => 50,
+				'columns'           => 4,
 				'label_class'       => 'cfw-input-label',
 				'input_class'       => array( 'garlic-auto-save' ),
-				'input_type'        => 'select',
 				'custom_attributes' => array(
 					'data-parsley-state-and-zip'     => '',
 					'data-parsley-validate-if-empty' => '',
 					'data-parsley-trigger'           => 'keyup change focusout',
 				),
-				'start'             => false,
-				'end'               => true,
 				'is_select'         => true,
 			),
 			'city'       => array(
@@ -229,12 +207,9 @@ class Form {
 				'class'             => array( 'address-field' ),
 				'autocomplete'      => 'address-level2',
 				'input_class'       => array( 'garlic-auto-save' ),
-				'priority'          => 9,
-				'wrap'              => $this->input_wrap( 'text', 12, 60 ),
+				'priority'          => 60,
+				'columns'           => 12,
 				'label_class'       => 'cfw-input-label',
-				'input_type'        => 'text',
-				'start'             => true,
-				'end'               => true,
 				'custom_attributes' => array(
 					'data-parsley-trigger' => 'change focusout',
 				),
@@ -243,7 +218,7 @@ class Form {
 
 		// If the phone is enabled in the settings
 		if ( $this->phone_enabled ) {
-			$defaults['phone'] = array(
+			$fields['phone'] = array(
 				'type'         => 'tel',
 				'label'        => cfw__( 'Phone', 'woocommerce' ),
 				'required'     => true,
@@ -251,12 +226,9 @@ class Form {
 				'class'        => array( 'address-field' ),
 				'autocomplete' => 'tel',
 				'input_class'  => array( 'garlic-auto-save' ),
-				'priority'     => 10,
-				'wrap'         => $this->input_wrap( 'tel', 12, 70 ),
+				'priority'     => 70,
+				'columns'      => 12,
 				'label_class'  => 'cfw-input-label',
-				'input_type'   => 'tel',
-				'start'        => true,
-				'end'          => true,
 				'validate'     => array( 'phone' ),
 				'custom_attributes' => array(
 					'data-parsley-trigger' => 'change focusout',
@@ -264,7 +236,102 @@ class Form {
 			);
 		}
 
-		return $defaults;
+		$fields = apply_filters( 'cfw_default_address_fields', $fields );
+
+		return $fields;
+	}
+
+	function calculate_rows( $fields ) {
+		$start              = true;
+		$summed_column_size = 0;
+		$max_size           = 12;
+		$last_index         = false;
+
+		foreach ( $fields as $index => $field ) {
+			// Convert to field types for wrap
+			if ( in_array( $field['type'], array( 'state', 'country' ) ) ) {
+				$wrap_type = 'select';
+			} elseif( empty( $field['type'] ) ) {
+				$wrap_type = 'text';
+			} else {
+				$wrap_type = $field['type'];
+			}
+
+			// Add our wrap
+			$fields[ $index ]['wrap'] = $this->input_wrap( $wrap_type, $field['columns'], $field['priority'] );
+
+			// If we flagged this field in the last loop iteration to be
+			// the start of a row, or we are on the first iteration, set start to true
+			if ( $start === true ) {
+				$fields[ $index ]['start'] = true;
+
+				// Make sure the last field was an end, if this is a start
+				if ( $last_index !== false ) {
+					$fields[ $last_index ]['end'] = true;
+				}
+
+				// Set start to null
+				$start = null;
+			}
+
+			/**
+			 * If the field is the max possible size, it should be the start and end of the row
+			 *
+			 * OR if the summed column size + this field is over the max size, set to start of row
+			 * and set last item to end of row
+			 *
+			 * OR if summed column size + this field is under the max size, set end to false
+			 */
+			if ( $field['columns'] == $max_size ) {
+				$fields[ $index ]['start'] = true;
+				$fields[ $index ]['end'] = true;
+
+				// Next field should be start of row
+				$start = true;
+			} elseif ( $summed_column_size + $field['columns'] > $max_size  ) {
+				$fields[ $index ]['start'] = true;
+
+				// Since this is the start, last field should be the end
+				if ( $last_index !== false ) {
+					$fields[ $last_index ][ 'end' ] = true;
+				}
+
+				// Reset size counter
+				$summed_column_size = 0;
+			} elseif ( $summed_column_size + $field['columns'] < $max_size ) {
+				// Add to summed size
+				$summed_column_size = $summed_column_size + $field['columns'];
+
+				// Not the end, so set to false
+				$fields[ $index ]['end'] = false;
+			} elseif ( $summed_column_size + $field['columns'] === $max_size ) {
+				// Reset summed size to 0
+				$summed_column_size = 0;
+
+				// This is the end
+				$fields[ $index ]['end'] = true;
+
+				// So the next field is logically the beginning
+				$start = true;
+			}
+
+			/**
+			 * If for some reason neither start or end are set above,
+			 * Init both values to false
+			 */
+			if ( ! isset( $fields[ $index ]['start'] ) ) {
+				$fields[ $index ]['start'] = false;
+			}
+
+			if ( ! isset( $fields[ $index ]['end'] ) ) {
+				$fields[ $index ]['end'] = false;
+			}
+
+			// Store this index so we can use it for backwards lookups later
+			$last_index = $index;
+		}
+
+		return $fields;
 	}
 
 	/**

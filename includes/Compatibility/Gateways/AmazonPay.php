@@ -82,7 +82,15 @@ class AmazonPay extends Base {
 	function run() {
 		add_action( 'woocommerce_checkout_init', array( $this, 'checkout_init' ), 9 );
 		add_filter( 'woocommerce_pa_hijack_checkout_fields', '__return_false' );
+		add_action( 'woocommerce_checkout_init', array($this, 'remove_banners' ), 100 );
+
 		$this->get_amazon_gateway();
+	}
+
+	function remove_banners() {
+		// Remove before the form messages
+		remove_action( 'woocommerce_before_checkout_form', array( $this->amazon_payments, 'checkout_message' ), 5 );
+		remove_action( 'woocommerce_before_checkout_form', array( $this->amazon_payments, 'placeholder_checkout_message_container' ), 5 );
 	}
 
 	/**
@@ -101,7 +109,6 @@ class AmazonPay extends Base {
 		}
 
 		if ( ! WC()->cart->needs_payment() && ! $enable_login_app ) {
-			add_action( 'cfw_checkout_before_form', array( $this->amazon_payments, 'placeholder_checkout_message_container' ), 5 );
 			add_action( 'cfw_checkout_before_customer_info_tab', array( $this->amazon_payments, 'placeholder_widget_container' ) );
 		}
 
@@ -109,7 +116,6 @@ class AmazonPay extends Base {
 			add_action( 'cfw_payment_request_buttons', array( $this->amazon_payments, 'checkout_message' ) );
 			add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_separator' ), 10 );
 		} else {
-			add_action( 'cfw_checkout_before_form', array( $this->amazon_payments, 'checkout_message' ) );
 			remove_all_actions( 'cfw_payment_request_buttons' );
 		}
 

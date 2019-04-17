@@ -218,7 +218,7 @@ class Admin {
                             </label>
                         </td>
                     </tr>
-                    <?php if( false && CFW_DEV_MODE ): ?>
+                    <?php if( false && defined('CFW_DEV_MODE') && CFW_DEV_MODE ): ?>
                     <tr>
                         <th scope="row" valign="top">
                             <label for="#cfw-stat-collection-testing"><?php _e('Stat Collection Data Viewer', 'checkout-wc'); ?></label>

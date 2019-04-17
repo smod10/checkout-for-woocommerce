@@ -99,7 +99,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 		$field           = '';
 		$label_id        = $args['id'];
-		$sort            = $args['priority'] ? $args['priority'] : '';
 		$field_container_start = '';
 
 		if( isset($args['wrap']) && !empty($args['wrap']) ) {
@@ -132,7 +131,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 				/* Get Country */
 				$country_key = 'billing_state' === $key ? 'billing_country' : 'shipping_country';
-				$current_cc  = WC()->checkout->get_value( $country_key );
+				$current_cc  = WC()->checkout()->get_value( $country_key );
 				$states      = WC()->countries->get_states( $current_cc );
 
 				if ( is_array( $states ) && empty( $states ) ) {
@@ -144,7 +143,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 				} elseif ( ! is_null( $current_cc ) && is_array( $states ) ) {
 
 					$field .= '<select field_key="' . $key_sans_type . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="state_select ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . $parsleyOut . ' data-placeholder="' . esc_attr( $args['placeholder'] ) . '">
-						<option value="">' . cfw_esc_html__( 'Select a state&hellip;', 'woocommerce' ) . '</option>';
+						<option disabled>' . cfw_esc_html__( 'Select a state&hellip;', 'woocommerce' ) . '</option>';
 
 					foreach ( $states as $ckey => $cvalue ) {
 						$field .= '<option value="' . esc_attr( $ckey ) . '" ' . selected( $value, $ckey, false ) . '>' . $cvalue . '</option>';
@@ -173,6 +172,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 				break;
 			case 'password' :
 			case 'text' :
+			case 'hidden' :
 			case 'email' :
 			case 'tel' :
 			case 'number' :
@@ -233,10 +233,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
                 $field_html .= $field;
 
-    //			if ( $args['description'] ) {
-    //				$field_html .= '<span class="description">' . esc_html( $args['description'] ) . '</span>';
-    //			}
-
                 $container_class = esc_attr( implode( ' ', $args['class'] ) );
                 $container_id    = esc_attr( $args['id'] ) . '_field';
                 $row_wrap = '';
@@ -253,7 +249,6 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
                 if( isset($args['end']) && $args['end'] ) {
                     $field .= "</div>";
                 }
-
 			} else {
 				$field_html .= '<h3 class="cfw-module-title">' . $args['label'] . '</h3>';
 				$field_html .= $field;
@@ -281,7 +276,11 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	    $shipping_checkout_fields = apply_filters('cfw_get_shipping_checkout_fields', $checkout->get_checkout_fields( 'shipping' ) );
 
 		foreach ( $shipping_checkout_fields as $key => $field ) {
-			cfw_form_field( $key, $field, $checkout->get_value( $key ) );
+			if ( isset( $field['wrap'] ) ) {
+				cfw_form_field( $key, $field, $checkout->get_value( $key ) );
+			} else {
+				woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
+			}
 		}
 	}
 
@@ -289,23 +288,28 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	    $billing_checkout_fields = apply_filters('cfw_get_billing_checkout_fields', $checkout->get_checkout_fields( 'billing' ) );
 
 		foreach ( $billing_checkout_fields as $key => $field ) {
-			cfw_form_field( $key, $field, $checkout->get_value( $key ) );
+			if ( isset( $field['wrap'] ) ) {
+				cfw_form_field( $key, $field, $checkout->get_value( $key ) );
+			} else if ( ! in_array( $key, array( 'billing_phone', 'billing_email' ) ) ) {
+				woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
+			}
 		}
 	}
 
 	function cfw_get_shipping_details( $checkout ) {
         return WC()->countries->get_formatted_address(
-	        array(
-		        'first_name' => $checkout->get_value( 'shipping_first_name' ),
-		        'last_name'  => $checkout->get_value( 'shipping_last_name' ),
-		        'company'    => $checkout->get_value( 'shipping_company' ),
-		        'address_1'  => $checkout->get_value( 'shipping_address_1' ),
-		        'address_2'  => $checkout->get_value( 'shipping_address_2' ),
-		        'city'       => $checkout->get_value( 'shipping_city' ),
-		        'state'      => $checkout->get_value( 'shipping_state' ),
-		        'postcode'   => $checkout->get_value( 'shipping_postcode' ),
-		        'country'    => $checkout->get_value( 'shipping_country' ),
-	        )
+            apply_filters( 'cfw_get_shipping_details_address', array(
+                    'first_name' => $checkout->get_value( 'shipping_first_name' ),
+                    'last_name'  => $checkout->get_value( 'shipping_last_name' ),
+                    'company'    => $checkout->get_value( 'shipping_company' ),
+                    'address_1'  => $checkout->get_value( 'shipping_address_1' ),
+                    'address_2'  => $checkout->get_value( 'shipping_address_2' ),
+                    'city'       => $checkout->get_value( 'shipping_city' ),
+                    'state'      => $checkout->get_value( 'shipping_state' ),
+                    'postcode'   => $checkout->get_value( 'shipping_postcode' ),
+                    'country'    => $checkout->get_value( 'shipping_country' ),
+                ), $checkout
+            )
         );
 	}
 
@@ -637,7 +641,7 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 
 		    <?php do_action('cfw_checkout_before_payment_methods'); ?>
 
-            <?php if ( WC()->cart->get_total( false ) > 0 ): ?>
+            <?php if ( WC()->cart->needs_payment() ): ?>
                 <div class="cfw-payment-method-information-wrap">
                     <div>
                         <span class="cfw-small secure-notice"><?php esc_html_e( 'All transactions are secure and encrypted. Credit card information is never stored on our servers.', 'checkout-wc' ); ?></span>

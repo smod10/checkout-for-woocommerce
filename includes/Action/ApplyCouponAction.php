@@ -32,8 +32,6 @@ class ApplyCouponAction extends Action {
 	 * @access public
 	 */
 	public function action() {
-		check_ajax_referer( 'some-seed-word', 'security' );
-
 		wc_maybe_define_constant( 'WOOCOMMERCE_CART', true );
 
 		if ( ! empty( $_POST['coupon_code'] ) ) {

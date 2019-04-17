@@ -12,34 +12,11 @@ declare let jQuery: any;
 export class Braintree extends Compatibility {
 
 	/**
-	 * @type {any}
-	 * @private
-	 */
-
-	private _ccWrap: any;
-
-	/**
-	 * @type {string}
-	 * @private
-	 */
-	private _refreshingClass: string;
-
-	/**
-	 * @type {boolean}
-	 * @private
-	 */
-	private _runRefresh: boolean;
-
-	/**
 	 * @param params
 	 * @param load
 	 */
 	constructor(params: any[], load: boolean = true) {
 		super(params, load);
-
-		this.ccWrap = jQuery("#payment .wc-braintree-credit-card-new-payment-method-form");
-		this.runRefresh = true;
-		this.refreshingClass = "braintree-refreshing";
 	}
 
 	/**
@@ -52,7 +29,15 @@ export class Braintree extends Compatibility {
 		let easyTabsWrap: any = main.easyTabService.easyTabsWrap;
 
 		if(params.cc_gateway_available) {
-			jQuery(document.body).on( 'updated_checkout', () => {
+			// Bind to the easytabs after
+			this.easyTabsCreditCardAfterEvent(easyTabsWrap, main);
+
+			jQuery(document.body).on( 'updated_checkout payment_method_selected', () => {
+				this.creditCardRefresh();
+				this.savedPaymentMethods();
+			} );
+
+			jQuery(document.body).one( 'cfw_run_braintree_refresh', () => {
 				this.creditCardRefresh();
 				this.savedPaymentMethods();
 			} );
@@ -61,6 +46,14 @@ export class Braintree extends Compatibility {
 				(<any>window).errorObserverIgnoreList.push("Currently unavailable. Please try a different payment method.");
 			});
 		}
+	}
+
+	/**
+	 * @param easyTabsWrap
+	 * @param main
+	 */
+	easyTabsCreditCardAfterEvent(easyTabsWrap: any, main: Main): void {
+		easyTabsWrap.bind('easytabs:after', (event, clicked, target) => this.creditCardPaymentRefreshOnTabSwitch(main, event, clicked, target));
 	}
 
 	/**
@@ -76,9 +69,8 @@ export class Braintree extends Compatibility {
 		let easyTabID: string = EasyTabService.getTabId(easyTabDirection.target);
 		let paymentContainerId: string = main.tabContainer.tabContainerSectionBy("name", "payment_method").jel.attr("id");
 
-		if(paymentContainerId === easyTabID) {
-			this.creditCardRefresh();
-			this.savedPaymentMethods();
+		if( paymentContainerId === easyTabID ) {
+			jQuery(document.body).trigger( 'cfw_run_braintree_refresh' );
 		}
 	}
 
@@ -91,56 +83,5 @@ export class Braintree extends Compatibility {
 
 	savedPaymentMethods(): void {
 		jQuery(".wc-braintree-credit-card-new-payment-method-form .form-row").css("display", "block");
-	}
-
-	/**
-	 * @param {string} message
-	 *
-	 * @return {string}
-	 */
-	refreshingBoxNotification(message: string): string {
-		return `<div class='${this.refreshingClass}'>${message}</div>`;
-	}
-
-	/**
-	 * @return {any}
-	 */
-	get ccWrap(): any {
-		return this._ccWrap;
-	}
-
-	/**
-	 * @param {any} value
-	 */
-	set ccWrap(value: any) {
-		this._ccWrap = value;
-	}
-
-	/**
-	 * @return {string}
-	 */
-	get refreshingClass(): string {
-		return this._refreshingClass;
-	}
-
-	/**
-	 * @param {string} value
-	 */
-	set refreshingClass(value: string) {
-		this._refreshingClass = value;
-	}
-
-	/**
-	 * @return {boolean}
-	 */
-	get runRefresh(): boolean {
-		return this._runRefresh;
-	}
-
-	/**
-	 * @param {boolean} value
-	 */
-	set runRefresh(value: boolean) {
-		this._runRefresh = value;
 	}
 }

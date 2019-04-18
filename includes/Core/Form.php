@@ -405,6 +405,10 @@ class Form {
 				$inner_start = '<div class="cfw-input-wrap cfw-select-input">';
 				$inner_end   = '</div>';
 				break;
+			case 'textarea':
+				$inner_start = '<div class="cfw-input-wrap cfw-textarea-input">';
+				$inner_end   = '</div>';
+				break;
 			case 'tel':
 				$inner_start = '<div class="cfw-input-wrap cfw-tel-input">';
 				$inner_end   = '</div>';

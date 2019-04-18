@@ -47,7 +47,8 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 			'default'           => '',
 			'autofocus'         => '',
 			'priority'          => '',
-			'wrap'              => ''
+			'wrap'              => '',
+            'columns'           => 12,
 		);
 
 		$key_sans_type = cfw_strip_key_type($key);

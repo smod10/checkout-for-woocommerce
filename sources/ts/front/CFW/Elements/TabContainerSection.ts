@@ -4,6 +4,7 @@ import { LabelType }                from "../Enums/LabelType";
 import { InputLabelType }           from "../Types/Types";
 import { SelectLabelWrap }          from "./SelectLabelWrap";
 import { FormElement }              from "./FormElement";
+import {TextareaLabelWrap} from "./TextareaLabelWrap";
 
 declare let jQuery: any;
 
@@ -49,7 +50,8 @@ export class TabContainerSection extends Element {
         { type: LabelType.TEXT, cssClass: "cfw-text-input" },
         { type: LabelType.TEL, cssClass: "cfw-tel-input"},
         { type: LabelType.PASSWORD, cssClass: "cfw-password-input"},
-        { type: LabelType.SELECT, cssClass: "cfw-select-input"}
+        { type: LabelType.SELECT, cssClass: "cfw-select-input"},
+        { type: LabelType.TEXTAREA, cssClass: "cfw-textarea-input"},
     ];
 
     /**
@@ -115,15 +117,19 @@ export class TabContainerSection extends Element {
     setWraps(): void {
         let inputLabelWraps: Array<InputLabelWrap> = [];
         let selectLabelWraps: Array<SelectLabelWrap> = [];
+        let textareaLabelWraps: Array<TextareaLabelWrap> = [];
 
         let jLabelWrap: any = this.jel.find(this.getWrapSelector());
 
         jLabelWrap.each((index, wrap) => {
-
-            if(jQuery(wrap).hasClass("cfw-select-input") && jQuery(wrap).find("select").length > 0) {
+            if( jQuery(wrap).hasClass("cfw-select-input") && jQuery(wrap).find("select").length > 0 ) {
                 let slw: SelectLabelWrap = new SelectLabelWrap( jQuery(wrap) );
 
                 selectLabelWraps.push( slw );
+            } else if( jQuery(wrap).hasClass("cfw-textarea-input") && jQuery(wrap).find("textarea").length > 0 ) {
+                let tlw: TextareaLabelWrap = new TextareaLabelWrap( jQuery(wrap) );
+
+                textareaLabelWraps.push( tlw );
             } else {
                 let ilw: InputLabelWrap = new InputLabelWrap( jQuery(wrap) );
 

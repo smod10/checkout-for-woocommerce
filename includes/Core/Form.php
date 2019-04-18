@@ -236,18 +236,13 @@ class Form {
 			);
 		}
 
-		$fields = apply_filters( 'cfw_default_address_fields', $fields );
+		$fields = apply_filters( 'cfw_calculate_field_rows', $fields );
 
 		return $fields;
 	}
 
-	function calculate_rows( $fields ) {
-		$start              = true;
-		$summed_column_size = 0;
-		$max_size           = 12;
-		$last_index         = false;
-
-		foreach ( $fields as $index => $field ) {
+	function calculate_wrap( $field, $start_end = null ) {
+		if ( empty( $field['wrap']) ) {
 			// Convert to field types for wrap
 			if ( in_array( $field['type'], array( 'state', 'country' ) ) ) {
 				$wrap_type = 'select';
@@ -258,7 +253,39 @@ class Form {
 			}
 
 			// Add our wrap
-			$fields[ $index ]['wrap'] = $this->input_wrap( $wrap_type, $field['columns'], $field['priority'] );
+			$field['wrap'] = $this->input_wrap( $wrap_type, $field['columns'], $field['priority'] );
+
+			// Default these to false
+			$field['start'] = $start_end;
+			$field['end'] = $start_end;
+
+			/**
+			 * If neither start or end are set and $start_end is a boolean value,
+			 * init both values to passed in $start_end value
+			 */
+			if ( is_bool( $start_end ) ) {
+				if ( ! isset( $field['start'] ) ) {
+					$field['start'] = $start_end;
+				}
+
+				if ( ! isset( $field['end'] ) ) {
+					$field['end'] = $start_end;
+				}
+			}
+		}
+
+		return $field;
+	}
+
+	function calculate_rows( $fields ) {
+		$start              = true;
+		$summed_column_size = 0;
+		$max_size           = 12;
+		$last_index         = false;
+
+		foreach ( $fields as $index => $field ) {
+			// Set our wrap
+			$fields[ $index ] = $this->calculate_wrap( $field );
 
 			// If we flagged this field in the last loop iteration to be
 			// the start of a row, or we are on the first iteration, set start to true
@@ -282,13 +309,13 @@ class Form {
 			 *
 			 * OR if summed column size + this field is under the max size, set end to false
 			 */
-			if ( $field['columns'] == $max_size ) {
+			if ( $fields[ $index ]['columns'] == $max_size ) {
 				$fields[ $index ]['start'] = true;
 				$fields[ $index ]['end'] = true;
 
 				// Next field should be start of row
 				$start = true;
-			} elseif ( $summed_column_size + $field['columns'] > $max_size  ) {
+			} elseif ( $summed_column_size + $fields[ $index ]['columns'] > $max_size  ) {
 				$fields[ $index ]['start'] = true;
 
 				// Since this is the start, last field should be the end
@@ -298,13 +325,13 @@ class Form {
 
 				// Reset size counter
 				$summed_column_size = 0;
-			} elseif ( $summed_column_size + $field['columns'] < $max_size ) {
+			} elseif ( $summed_column_size + $fields[ $index ]['columns'] < $max_size ) {
 				// Add to summed size
 				$summed_column_size = $summed_column_size + $field['columns'];
 
 				// Not the end, so set to false
 				$fields[ $index ]['end'] = false;
-			} elseif ( $summed_column_size + $field['columns'] === $max_size ) {
+			} elseif ( $summed_column_size + $fields[ $index ]['columns'] === $max_size ) {
 				// Reset summed size to 0
 				$summed_column_size = 0;
 

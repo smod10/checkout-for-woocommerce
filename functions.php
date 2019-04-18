@@ -26,6 +26,8 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 	 * @return $field
 	 */
 	function cfw_form_field( $key, $args, $value = null ) {
+		$Main = \Objectiv\Plugins\Checkout\Main::instance();
+
 		$defaults = array(
 			'type'              => 'text',
 			'label'             => '',
@@ -47,12 +49,16 @@ if ( ! function_exists( 'woocommerce_form_field' ) ) {
 			'priority'          => '',
 			'wrap'              => ''
 		);
+
 		$key_sans_type = cfw_strip_key_type($key);
 		$ship_or_bill_key = explode("_", $key)[0];
 
 		$args = wp_parse_args( $args, $defaults );
 		$args = apply_filters( 'woocommerce_form_field_args', $args, $key, $value );
 		$args['custom_attributes']["data-parsley-group"] = $ship_or_bill_key;
+
+		// If we don't have a wrap, add one and set start and end to a presumed true
+		$args = $Main->get_form()->calculate_wrap( $args, true );
 
 		if ( $args['required'] ) {
 			$args['class'][] = 'validate-required';

@@ -119,7 +119,7 @@ class Admin {
 	    $current_tab_function = $this->get_current_tab() === false ? 'general_tab' : $this->get_current_tab() . "_tab";
 
 	    // Get the object to call the added tab on
-	    $callable = apply_filters('cfw_active_admin_settings_tab_function', array( $this, $current_tab_function) );
+	    $callable = apply_filters('cfw_active_admin_settings_tab_function', array( $this, $current_tab_function), $current_tab_function );
 
 		?>
         <script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script>

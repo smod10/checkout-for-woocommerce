@@ -2,7 +2,6 @@
 
 namespace Objectiv\Plugins\Checkout\Core;
 
-use Objectiv\Plugins\Checkout\Main;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 use Objectiv\Plugins\Checkout\Stats\StatCollection;
 
@@ -116,7 +115,14 @@ class Admin {
      * @access public
 	 */
 	public function admin_page() {
+	    // Get the current tab function
 	    $current_tab_function = $this->get_current_tab() === false ? 'general_tab' : $this->get_current_tab() . "_tab";
+
+	    // Get the object to call the added tab on
+	    $admin = apply_filters('cfw_active_admin_settings_tab', $current_tab_function);
+
+	    // If there is no object to call, assume this Admin object
+	    $admin = $admin != null ? $admin : $this;
 		?>
         <script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script>
         <script type="text/javascript">window.Beacon('init', '355a5a54-eb9d-4b64-ac5f-39c95644ad36')</script>
@@ -129,7 +135,7 @@ class Admin {
         <div class="wrap">
             <?php $this->tabs->display_tabs(); ?>
 
-            <?php $this->$current_tab_function(); ?>
+            <?php $admin->$current_tab_function(); ?>
 		</div>
 		<?php
 	}

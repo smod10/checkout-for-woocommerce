@@ -3,6 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 ?>
+<?php do_action( 'cfw_before_header' ) ;?>
 <header id="cfw-header">
     <div class="wrap">
         <div class="cfw-container cfw-column-12">
@@ -15,3 +16,4 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
     </div>
 </header>
+<?php do_action( 'cfw_after_header' ) ;?>

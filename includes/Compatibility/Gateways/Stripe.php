@@ -62,6 +62,12 @@ class Stripe extends Base {
 					$apple_pay_reg->payment_request
 				) {
 					add_filter( 'wc_stripe_show_payment_request_on_checkout', '__return_true' );
+
+					// Remove default stripe request placement
+					remove_action( 'woocommerce_checkout_before_customer_details', array( $stripe_payment_request, 'display_payment_request_button_html' ), 1 );
+					remove_action( 'woocommerce_checkout_before_customer_details', array( $stripe_payment_request, 'display_payment_request_button_separator_html' ), 2 );
+
+					// Add our own stripe requests
 					add_action( 'cfw_payment_request_buttons', array( $stripe_payment_request, 'display_payment_request_button_html' ), 1 );
 					add_action( 'cfw_checkout_before_customer_info_tab', array( $this, 'add_apple_pay_separator' ), 100 );
 				}

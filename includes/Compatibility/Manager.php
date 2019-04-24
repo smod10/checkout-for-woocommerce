@@ -23,6 +23,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\EUVATNumber;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\FacebookForWooCommerce;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\GoogleAnalyticsPro;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MailChimpforWooCommerce;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\MartfuryAddons;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\MixPanel;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\NLPostcodeChecker;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\OneClickUpsells;
@@ -159,6 +160,9 @@ class Manager {
 
 		// WooFunnels Order Bumps
 		new WooFunnelsOrderBumps();
+
+		// Martfury Addons
+		new MartfuryAddons();
 
 
 		/**

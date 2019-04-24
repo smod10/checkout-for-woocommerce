@@ -183,10 +183,12 @@ export class LocalizationService {
         let fields = [["postcode", $postcode], ["state", $state], ["city", $city], ["address_2", $address_2]];
 
         // Handle Address 2
-        $address_2.attr("required", default_add2_data.required);
-        $address_2.attr("placeholder", add2_text);
-        $address_2.attr("autocomplete", default_add2_data.autocomplete);
-        $address_2.siblings(`.${label_class}`).text(add2_text);
+        if ( typeof default_add2_data !== "undefined" ) {
+            $address_2.attr("required", default_add2_data.required);
+            $address_2.attr("placeholder", add2_text);
+            $address_2.attr("autocomplete", default_add2_data.autocomplete);
+            $address_2.siblings(`.${label_class}`).text(add2_text);
+        }
 
         // Handle Postcode
         $postcode.attr("required", default_postcode_data.required);
@@ -314,11 +316,13 @@ export class LocalizationService {
                          * TODO: Possibly refactor a lot of these default settings in this function. We may not have to do it.
                          */
                     } else {
-                        field.attr("required", defaultItem.required);
+                        if ( typeof defaultItem !== "undefined" ) {
+                            field.attr("required", defaultItem.required);
 
-                        // If the default item is required, append the asterisk.
-                        if(defaultItem.required == true) {
-                            field_siblings.append(asterisk);
+                            // If the default item is required, append the asterisk.
+                            if(defaultItem.required == true) {
+                                field_siblings.append(asterisk);
+                            }
                         }
                     }
                 }

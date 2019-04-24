@@ -29,7 +29,7 @@
     "require": {
         "objectivco/wordpress-simple-settings": "^0.5.0",
         "objectivco/cgd_eddsl_magic": "^0.4.0",
-        "objectivco/wp_tabbed_navigation": "^0.1.0",
+        "objectivco/wp_tabbed_navigation": "^0.2.0",
         "objectivco/booster-seat": "^1.0.10"
     }
 }

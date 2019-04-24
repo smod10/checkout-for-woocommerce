@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "508b45e480c4f060fef06a59ca8d34c1",
+    "content-hash": "3aa96e0eceb801cac570126c3f79133a",
     "packages": [
         {
             "name": "objectivco/booster-seat",
@@ -128,16 +128,16 @@
         },
         {
             "name": "objectivco/wp_tabbed_navigation",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Objectivco/WP_Tabbed_Navigation.git",
-                "reference": "56558a4de366a5e299738e040ad200bc31dedf37"
+                "reference": "932f0f2f94763ac10bdcd79549352d6bf047dddd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Objectivco/WP_Tabbed_Navigation/zipball/56558a4de366a5e299738e040ad200bc31dedf37",
-                "reference": "56558a4de366a5e299738e040ad200bc31dedf37",
+                "url": "https://api.github.com/repos/Objectivco/WP_Tabbed_Navigation/zipball/932f0f2f94763ac10bdcd79549352d6bf047dddd",
+                "reference": "932f0f2f94763ac10bdcd79549352d6bf047dddd",
                 "shasum": ""
             },
             "require": {
@@ -161,7 +161,7 @@
             ],
             "description": "Automate creating a tabbed navigation and maintaining tabbed states",
             "homepage": "https://github.com/Objectivco/WP_Tabbed_Navigation",
-            "time": "2017-10-13T15:42:14+00:00"
+            "time": "2019-04-24T19:52:48+00:00"
         }
     ],
     "packages-dev": [

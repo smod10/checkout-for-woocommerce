@@ -37,6 +37,7 @@ use Objectiv\Plugins\Checkout\Compatibility\Plugins\SmartSend;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Tickera;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\EnhancedEcommerceGoogleAnalytics;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\UltimateRewardsPoints;
+use Objectiv\Plugins\Checkout\Compatibility\Plugins\WCFieldFactory;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\Webshipper;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceCore;
 use Objectiv\Plugins\Checkout\Compatibility\Plugins\WooCommerceGermanized;
@@ -163,6 +164,9 @@ class Manager {
 
 		// Martfury Addons
 		new MartfuryAddons();
+
+		// WC Field Factory
+		new WCFieldFactory();
 
 
 		/**

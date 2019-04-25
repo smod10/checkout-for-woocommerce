@@ -244,7 +244,7 @@ class Form {
 	function calculate_wrap( $field, $start_end = null ) {
 		if ( empty( $field['wrap']) ) {
 			// Convert to field types for wrap
-			if ( in_array( $field['type'], array( 'state', 'country' ) ) ) {
+			if ( ! empty( $field['type'] ) && in_array( $field['type'], array( 'state', 'country' ) ) ) {
 				$wrap_type = 'select';
 			} elseif( empty( $field['type'] ) ) {
 				$wrap_type = 'text';

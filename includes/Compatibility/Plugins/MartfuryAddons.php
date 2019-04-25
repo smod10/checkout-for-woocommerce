@@ -15,8 +15,10 @@ class MartfuryAddons extends Base {
 	}
 
 	public function pre_init() {
-		remove_action( 'after_setup_theme', 'martfury_vc_addons_init', 30 );
-		add_action( 'wp', 'martfury_vc_addons_init', 1000 );
+		if ( is_callable( 'martfury_vc_addons_init' ) ) {
+			remove_action( 'after_setup_theme', 'martfury_vc_addons_init', 30 );
+			add_action( 'wp', 'martfury_vc_addons_init', 1000 );
+		}
 	}
 
 	function run() {

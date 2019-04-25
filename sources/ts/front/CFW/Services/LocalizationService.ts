@@ -79,18 +79,8 @@ export class LocalizationService {
         shipping_country.on('change', country_change);
         billing_country.on('change', country_change);
 
-        /**
-         * Required for WooCommerce 3.6
-         *
-         * TODO: Figure out why state resets on refresh
-         */
-        if ( shipping_state.attr('type') == "hidden"  ) {
-            shipping_country.trigger( 'change' );
-        }
-
-        if ( billing_state.attr('type') == "hidden"  ) {
-            billing_country.trigger( 'change' );
-        }
+        shipping_country.trigger( 'change' );
+        billing_country.trigger( 'change' );
 
         /**
          * Make sure billing states load correctly when hidden on load
@@ -183,10 +173,12 @@ export class LocalizationService {
         let fields = [["postcode", $postcode], ["state", $state], ["city", $city], ["address_2", $address_2]];
 
         // Handle Address 2
-        $address_2.attr("required", default_add2_data.required);
-        $address_2.attr("placeholder", add2_text);
-        $address_2.attr("autocomplete", default_add2_data.autocomplete);
-        $address_2.siblings(`.${label_class}`).text(add2_text);
+        if ( typeof default_add2_data !== "undefined" ) {
+            $address_2.attr("required", default_add2_data.required);
+            $address_2.attr("placeholder", add2_text);
+            $address_2.attr("autocomplete", default_add2_data.autocomplete);
+            $address_2.siblings(`.${label_class}`).text(add2_text);
+        }
 
         // Handle Postcode
         $postcode.attr("required", default_postcode_data.required);
@@ -314,11 +306,13 @@ export class LocalizationService {
                          * TODO: Possibly refactor a lot of these default settings in this function. We may not have to do it.
                          */
                     } else {
-                        field.attr("required", defaultItem.required);
+                        if ( typeof defaultItem !== "undefined" ) {
+                            field.attr("required", defaultItem.required);
 
-                        // If the default item is required, append the asterisk.
-                        if(defaultItem.required == true) {
-                            field_siblings.append(asterisk);
+                            // If the default item is required, append the asterisk.
+                            if(defaultItem.required == true) {
+                                field_siblings.append(asterisk);
+                            }
                         }
                     }
                 }
@@ -494,6 +488,8 @@ export class LocalizationService {
      * @param target_country
      */
     populateStates( select, state_list, target_country ) {
+        let saved_value = select.val();
+
         if( select.is("select") ) {
             let locale_data = JSON.parse(wc_address_i18n_params.locale);
             let state_label = locale_data[ target_country ].state.label;
@@ -504,6 +500,8 @@ export class LocalizationService {
 
             Object.getOwnPropertyNames(state_list)
                 .forEach(state => select.append(`<option value="${state}">${state_list[state]}</option>`));
+
+            select.val( saved_value );
         }
     }
 }

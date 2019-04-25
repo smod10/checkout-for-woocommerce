@@ -88,8 +88,20 @@ class AmazonPay extends Base {
 	}
 
 	function remove_banners() {
+		// Remove default locations
+		$apa = wc_apa();
+
+		remove_action( 'woocommerce_checkout_before_customer_details', array( $apa, 'payment_widget' ), 20 );
+		remove_action( 'woocommerce_checkout_before_customer_details', array( $apa, 'address_widget' ), 10 );
+
+		$reference_id = \WC_Amazon_Payments_Advanced_API::get_reference_id();
+		$access_token = \WC_Amazon_Payments_Advanced_API::get_access_token();
+
 		// Remove before the form messages
-		remove_action( 'woocommerce_before_checkout_form', array( $this->amazon_payments, 'checkout_message' ), 5 );
+		if ( empty( $reference_id ) && empty( $access_token ) ) {
+			remove_action( 'woocommerce_before_checkout_form', array( $this->amazon_payments, 'checkout_message' ), 5 );
+		}
+		
 		remove_action( 'woocommerce_before_checkout_form', array( $this->amazon_payments, 'placeholder_checkout_message_container' ), 5 );
 	}
 

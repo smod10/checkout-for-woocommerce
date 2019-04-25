@@ -87,6 +87,7 @@ class WooCommerceCore extends Base {
 
 	public function remove_styles( $styles ) {
 		$styles['woocommerce-general'] = 'woocommerce-general';
+		$styles['woocommerce-layout'] = 'woocommerce-layout';
 
 		return $styles;
 	}

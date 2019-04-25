@@ -78,7 +78,17 @@ export class CompleteOrderAction extends Action {
                 let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
                 alert.addAlert();
             } else {
-                Main.removeOverlay();
+                /**
+                 * If the payment gateway comes back with no message, show a generic error.
+                 */
+                let alertInfo: AlertInfo = {
+                    type: "error",
+                    message: 'An unknown error occurred. Response from payment gateway was empty.',
+                    cssClass: "cfw-alert-danger"
+                };
+
+                let alert: Alert = new Alert(Main.instance.alertContainer, alertInfo);
+                alert.addAlert();
             }
 
             CompleteOrderAction.initCompleteOrder = false;

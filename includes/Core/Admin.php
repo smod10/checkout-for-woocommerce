@@ -2,7 +2,6 @@
 
 namespace Objectiv\Plugins\Checkout\Core;
 
-use Objectiv\Plugins\Checkout\Main;
 use Objectiv\Plugins\Checkout\Managers\TemplateManager;
 use Objectiv\Plugins\Checkout\Stats\StatCollection;
 
@@ -99,12 +98,19 @@ class Admin {
 		// Initiate tab object
 		$this->tabs = new \WP_Tabbed_Navigation('');
 
-		add_options_page( __( 'Checkout for WooCommerce', 'checkout-wc' ), __( 'Checkout for WooCommerce', 'checkout-wc' ), "manage_options", "cfw-settings", array($this, "admin_page") );
+		do_action( 'cfw_admin_tabs', $this->tabs );
+
+		add_options_page( __( 'Checkout for WooCommerce', 'checkout-wc' ), __( 'Checkout for WooCommerce', 'checkout-wc' ), 'manage_options', 'cfw-settings', array($this, 'admin_page') );
 
 		// Setup tabs
         $this->tabs->add_tab( __( 'General', 'checkout-wc' ), menu_page_url('cfw-settings', false) );
 		$this->tabs->add_tab( __( 'Template', 'checkout-wc' ), add_query_arg( array('subpage' => 'templates'), menu_page_url('cfw-settings', false) ) );
 		$this->tabs->add_tab( __( 'Design', 'checkout-wc' ), add_query_arg( array('subpage' => 'design'), menu_page_url('cfw-settings', false) ) );
+
+		if ( has_filter( 'cfw_admin_addon_tabs') ) {
+			$this->tabs->add_tab( __( 'Addons', 'checkout-wc' ), add_query_arg( array('subpage' => 'addons'), menu_page_url('cfw-settings', false) ) );
+        }
+
 		$this->tabs->add_tab( __( 'License', 'checkout-wc' ), add_query_arg( array('subpage' => 'license'), menu_page_url('cfw-settings', false) ) );
 		$this->tabs->add_tab( __( 'Support', 'checkout-wc' ), add_query_arg( array('subpage' => 'support'), menu_page_url('cfw-settings', false) ) );
 	}
@@ -116,7 +122,12 @@ class Admin {
      * @access public
 	 */
 	public function admin_page() {
+	    // Get the current tab function
 	    $current_tab_function = $this->get_current_tab() === false ? 'general_tab' : $this->get_current_tab() . "_tab";
+
+	    // Get the object to call the added tab on
+	    $callable = apply_filters('cfw_active_admin_settings_tab_function', array( $this, $current_tab_function), $current_tab_function );
+
 		?>
         <script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script>
         <script type="text/javascript">window.Beacon('init', '355a5a54-eb9d-4b64-ac5f-39c95644ad36')</script>
@@ -129,7 +140,7 @@ class Admin {
         <div class="wrap">
             <?php $this->tabs->display_tabs(); ?>
 
-            <?php $this->$current_tab_function(); ?>
+            <?php is_callable( $callable ) ? call_user_func( $callable ) : null; ?>
 		</div>
 		<?php
 	}
@@ -473,6 +484,42 @@ class Admin {
         <?php
     }
 
+    function addons_tab() {
+	    /**
+	     * Return an array of addon tabs
+         *
+         * 'foo' => array(
+         *              'name'    => 'Foo',
+         *              'function => callable,
+         *          )
+	     */
+        $addon_tabs = apply_filters( 'cfw_admin_addon_tabs', array() );
+        $current_addon_tab = isset( $_GET['addontab'] ) ? esc_attr( $_GET['addontab'] ) : key( $addon_tabs );
+        $callable = $addon_tabs[ $current_addon_tab ][ 'function' ];
+
+	    $array_keys = array_keys( $addon_tabs );
+
+        if ( empty($addon_tabs) ) return;
+        ?>
+        <div class="wrap">
+            <ul class="subsubsub">
+                <?php foreach ( $addon_tabs as $id => $addon_tab ): ?>
+                    <li>
+                        <a href="<?php echo add_query_arg( array( 'addontab' => $id ) ); ?>" class="<?php if ( $id == $current_addon_tab ) echo 'current'; ?>" ><?php echo $addon_tab['name']; ?></a>
+                        <?php if ( $id !== end( $array_keys ) ): ?>
+                        |
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+
+            <br class="clear">
+
+	        <?php is_callable( $callable ) ? call_user_func( $callable ) : null; ?>
+		</div>
+        <?php
+    }
+
 	/**
 	 * The license tab
      *
@@ -515,6 +562,17 @@ class Admin {
 	public function get_current_tab() {
 	    return empty($_GET['subpage']) ? false : $_GET['subpage'];
     }
+
+	/**
+	 * Retrieves the current tab
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return bool
+	 */
+	public function get_current_addon_tab() {
+		return empty($_GET['addontab']) ? false : $_GET['addontab'];
+	}
 
 	/**
 	 * Adds a notification that nags about the license key

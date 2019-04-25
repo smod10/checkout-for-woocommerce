@@ -6,5 +6,6 @@ export enum LabelType {
     TEL,
     EMAIL,
     PASSWORD,
-    SELECT
+    SELECT,
+    TEXTAREA
 }

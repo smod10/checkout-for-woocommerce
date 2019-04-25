@@ -304,6 +304,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </div>
                         </div>
 
+                        <?php do_action( 'cfw_before_cart_summary' ); ?>
                         <div id="cfw-cart-details-collapse-wrap">
                             <h3 class="cfw-module-title">
                                 <?php _e('Your Cart', 'checkout-wc'); ?>
@@ -329,6 +330,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </div>
 
                             <div id="<?php echo apply_filters('cfw_template_cart_el', "cfw-totals-list"); ?>" class="cfw-module">
+	                            <?php do_action( 'cfw_before_cart_summary_totals' ); ?>
+
                                 <div class="cfw-totals-normal">
                                     <div id="cfw-cart-subtotal" class="cfw-flex-row cfw-flex-justify">
                                         <span class="type"><?php esc_html_e('Subtotal', 'checkout-wc'); ?></span>

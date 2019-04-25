@@ -674,7 +674,7 @@ p.cfw-input-wrap {
   position: relative;
 
   &.cfw-floating-label {
-    input[type="text"], input[type="email"], input[type="tel"], input[type="password"], select {
+    input[type="text"], input[type="email"], input[type="tel"], input[type="password"], select, textarea {
       padding: 1.35em 0.8em 0.28em 0.8em;
     }
 
@@ -702,7 +702,8 @@ input[type="email"],
 input[type="tel"],
 input[type="number"],
 input[type="password"],
-select {
+select,
+textarea {
 
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
@@ -940,16 +941,6 @@ div.variation-data-wrapper {
     padding: 0 1em;
     text-transform: none;
   }
-}
-
-textarea {
-  width: 100%;
-  height: 75px;
-  line-height: 1;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  padding: 10px;
-  box-sizing: border-box;
 }
 
 .cfw-additional-information {

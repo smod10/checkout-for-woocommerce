@@ -702,7 +702,7 @@ class StatCollection extends Singleton {
 	 */
 	public function updated_option( $key, $old_value, $value ) {
 		if ( $key == '_cfw__settings' ) {
-			if ( is_array( $value ) && $value[ $this->allow_tracking_key ] != null && $old_value[ $this->allow_tracking_key ] != $value[ $this->allow_tracking_key ] ) {
+			if ( is_array( $value ) && isset( $value[ $this->allow_tracking_key ] ) && $value[ $this->allow_tracking_key ] != null && $old_value[ $this->allow_tracking_key ] != $value[ $this->allow_tracking_key ] ) {
 				if ( $value[ $this->allow_tracking_key ] == '0' ) {
 					$this->settings_manager->delete_setting( $this->allow_tracking_key );
 					$this->settings_manager->update_setting( $this->tracking_notice_key, '0' );

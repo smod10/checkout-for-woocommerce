@@ -255,7 +255,6 @@ export class Main {
 		this.tabContainer.setUpdateCheckoutTriggers();
 		this.tabContainer.setAccountCheckListener();
 		this.tabContainer.setLogInListener();
-		this.tabContainer.setShippingMethodUpdate();
         this.tabContainer.setPaymentMethodUpdate();
 		this.tabContainer.setUpMobileCartDetailsReveal();
 		this.tabContainer.setCompleteOrderHandlers();

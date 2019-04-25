@@ -294,15 +294,6 @@ export class TabContainer extends Element {
     /**
      *
      */
-    setShippingMethodUpdate(): void {
-        jQuery(document.body).on('click', 'input[name^="shipping_method"][type="radio"]', () => {
-            new UpdateCheckoutAction("update_checkout", Main.instance.ajaxInfo, this.getFormObject()).load();
-        });
-    }
-
-    /**
-     *
-     */
     setPaymentMethodUpdate(): void {
         jQuery(document.body).on('click', 'input[name^="payment_method"][type="radio"]', function() {
             if ( jQuery( this ).data( 'order_button_text' ) ) {

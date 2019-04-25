@@ -10,7 +10,7 @@
 }
 
 #wp_footer {
-  & > *:not(#wpadminbar) {
+  & > *:not(#wpadminbar):not(.pakkelabels-modal) {
     display: none;
   }
 }

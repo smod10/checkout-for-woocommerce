@@ -79,18 +79,8 @@ export class LocalizationService {
         shipping_country.on('change', country_change);
         billing_country.on('change', country_change);
 
-        /**
-         * Required for WooCommerce 3.6
-         *
-         * TODO: Figure out why state resets on refresh
-         */
-        if ( shipping_state.attr('type') == "hidden"  ) {
-            shipping_country.trigger( 'change' );
-        }
-
-        if ( billing_state.attr('type') == "hidden"  ) {
-            billing_country.trigger( 'change' );
-        }
+        shipping_country.trigger( 'change' );
+        billing_country.trigger( 'change' );
 
         /**
          * Make sure billing states load correctly when hidden on load
@@ -498,6 +488,8 @@ export class LocalizationService {
      * @param target_country
      */
     populateStates( select, state_list, target_country ) {
+        let saved_value = select.val();
+
         if( select.is("select") ) {
             let locale_data = JSON.parse(wc_address_i18n_params.locale);
             let state_label = locale_data[ target_country ].state.label;
@@ -508,6 +500,8 @@ export class LocalizationService {
 
             Object.getOwnPropertyNames(state_list)
                 .forEach(state => select.append(`<option value="${state}">${state_list[state]}</option>`));
+
+            select.val( saved_value );
         }
     }
 }

@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
 
 	    <?php if( ! apply_filters('cfw_replace_form', false) ): ?>
-            <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" data-parsley-validate="">
+            <form id="checkout" name="checkout" class="woocommerce-checkout checkout" method="POST" formnovalidate="">
 
                 <div class="cfw-breadcrumb-container">
                     <ul id="cfw-breadcrumb" class="etabs">

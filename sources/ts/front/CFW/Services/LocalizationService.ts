@@ -3,7 +3,6 @@ import {InfoType} from "./ParsleyService";
 import {TabContainerSection} from "../Elements/TabContainerSection";
 import {InputLabelWrap} from "../Elements/InputLabelWrap";
 import {SelectLabelWrap} from "../Elements/SelectLabelWrap";
-import {EValidationSections, ValidationService} from "./ValidationService";
 
 declare let wc_address_i18n_params: any;
 declare let wc_country_select_params: any;
@@ -76,8 +75,8 @@ export class LocalizationService {
         this.layoutDefaultLabelsAndRequirements(shipping_country.val(), locale_data, "shipping", wc_address_i18n_params.add2_text);
         this.layoutDefaultLabelsAndRequirements(billing_country.val(), locale_data, "billing", wc_address_i18n_params.add2_text);
 
-        shipping_country.on('change', country_change);
-        billing_country.on('change', country_change);
+        shipping_country.on('change', country_change).trigger('change');
+        billing_country.on('change', country_change).trigger('change');
 
         /**
          * Make sure billing states load correctly when hidden on load

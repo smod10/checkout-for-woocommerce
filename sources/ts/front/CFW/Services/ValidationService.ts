@@ -22,12 +22,6 @@ export enum EValidationSections {
 export class ValidationService {
 
 	/**
-	 * @type {boolean}
-	 * @private
-	 */
-	private static _validateZip: boolean = true;
-
-	/**
 	 * @type {EValidationSections}
 	 * @private
 	 */
@@ -38,6 +32,7 @@ export class ValidationService {
 	 */
 	constructor(easyTabsWrap: any) {
 		this.validateSectionsBeforeSwitch(easyTabsWrap);
+		this.validateBillingFieldsBeforeSubmit();
 
 		ValidationService.validateShippingOnLoadIfNotCustomerTab();
 	}
@@ -56,7 +51,7 @@ export class ValidationService {
 			// If we are moving forward in the checkout process and we are currently on the customer tab
 			if ( easyTabDirection.current === EasyTab.CUSTOMER && easyTabDirection.target > easyTabDirection.current ) {
 
-				let validated: boolean = ValidationService.validateSectionsForCustomerTab(false);
+				let validated: boolean = ValidationService.validateSectionsForCustomerTab();
 				let tabId: string = EasyTabService.getTabId(easyTabDirection.current);
 
 				// Has to be done with the window.location.hash. Reason being is on false validation it somehow ignores
@@ -77,6 +72,27 @@ export class ValidationService {
 		}.bind(this));
 	}
 
+	validateBillingFieldsBeforeSubmit(): void {
+		let checkoutForm: any = Main.instance.checkoutForm;
+
+		checkoutForm.on( 'submit', function( e ) {
+			let validated = false;
+
+			if ( EasyTabService.isThereAShippingTab() ) {
+				validated = ValidationService.validate(EValidationSections.BILLING);
+			} else {
+				validated = true; // If digital only order, billing address was handled on customer info tab so set to true
+			}
+
+			if ( ! validated ) {
+				e.preventDefault();
+				e.stopPropagation();
+			}
+
+			return validated;
+		} );
+	}
+
 	/**
 	 * Kick off the order process and register it's event listener.
 	 *
@@ -91,13 +107,10 @@ export class ValidationService {
 
 	/**
 	 *
-	 * @param {boolean} validateZip
 	 * @returns {boolean}
 	 */
-	static validateSectionsForCustomerTab(validateZip: boolean = true): boolean {
+	static validateSectionsForCustomerTab(): boolean {
 		let validated = false;
-
-		ValidationService.validateZip = validateZip;
 
 		if ( ! EasyTabService.isThereAShippingTab() ) {
 			validated = ValidationService.validate(EValidationSections.ACCOUNT) && ValidationService.validate(EValidationSections.BILLING);
@@ -153,19 +166,6 @@ export class ValidationService {
 		}
 	}
 
-	/**
-	 * @returns {boolean}
-	 */
-	static get validateZip(): boolean {
-		return this._validateZip;
-	}
-
-	/**
-	 * @param {boolean} value
-	 */
-	static set validateZip(value: boolean) {
-		this._validateZip = value;
-	}
 
 	/**
 	 * @return {EValidationSections}

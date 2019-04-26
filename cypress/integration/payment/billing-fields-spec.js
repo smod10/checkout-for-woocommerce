@@ -29,7 +29,7 @@ describe( 'Billing Fields', function() {
 				cy.wrap($input).focus().blur().should( 'have.class', 'parsley-error' );
 			});
 
-			cy.wait(300);
+			cy.wait(500);
 
 			cy.get( general.placeOrderBtn ).click();
 

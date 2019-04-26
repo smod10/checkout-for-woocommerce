@@ -79,9 +79,6 @@ export class LocalizationService {
         shipping_country.on('change', country_change);
         billing_country.on('change', country_change);
 
-        shipping_country.trigger( 'change' );
-        billing_country.trigger( 'change' );
-
         /**
          * Make sure billing states load correctly when hidden on load
          *
@@ -488,6 +485,7 @@ export class LocalizationService {
      * @param target_country
      */
     populateStates( select, state_list, target_country ) {
+        // Get current value
         let saved_value = select.val();
 
         if( select.is("select") ) {
@@ -500,8 +498,9 @@ export class LocalizationService {
 
             Object.getOwnPropertyNames(state_list)
                 .forEach(state => select.append(`<option value="${state}">${state_list[state]}</option>`));
-
-            select.val( saved_value );
         }
+
+        // After emptying, restore value
+        select.val( saved_value );
     }
 }
